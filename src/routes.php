@@ -6,14 +6,38 @@ use Slim\Http\Response;
 
 return function (App $app) {
     $container = $app->getContainer();
-     //Merigister View
-    $app->get('/[{name}]', function (Request $request, Response $response, array $args) use ($container) {
-        // Sample log message
-        $container->get('logger')->info("Slim-Skeleton '/' route");
+    // login
+    $app->get('/login', function (Request $request, Response $response, array $args) use ($container) {
+        
 
         // Render index view
-        return $container->get('renderer')->render($response, 'index.phtml', $args);
+        $container->view->render($response, 'layout/log.html', $args);
     });
-    $container = $app->getContainer();
+
+    // Dashboard
+    $app->get('/teacher', function (Request $request, Response $response, array $args) use ($container) {
+        
+
+        // Render index view
+        $container->view->render($response, 'dashboard/teacher.html', $args);
+    });
+    $app->get('/student', function (Request $request, Response $response, array $args) use ($container) {
+       
+
+        // Render index view
+        $container->view->render($response, 'dashboard/student.html', $args);
+    });
+    $app->get('/parent', function (Request $request, Response $response, array $args) use ($container) {
+     
+
+        // Render index view
+        $container->view->render($response, 'dashboard/parent.html', $args);
+    });
+    $app->get('/', function (Request $request, Response $response, array $args) use ($container) {
+
+
+        // Render index view
+        $container->view->render($response, 'dashboard/index.html', $args);
+    });
    
 };
