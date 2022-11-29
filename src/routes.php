@@ -41,6 +41,7 @@ return function (App $app) {
         if ($verAwal != null) {
             // return var_dump($verAwal[0]['username']);
             $_SESSION['user'] = $verAwal[0]['username'];
+            $_SESSION['type'] = $verAwal[0]['type'];
             return $response->withRedirect('/');
         } //Else if not exist, can't login
         else {
@@ -64,22 +65,27 @@ return function (App $app) {
         $data = $request->getParsedBody();
         // select the user db 
         $verAwal = $container->db->select('tbl_users', '*', [
-            "username" => $data["user"],
-            "password" => $data["pass"]
+            "username" => $data["email"],
+            "email" => $data["email"],
+            "password" => $data["password"],
         ]);
-        // if not exist, can't register
+        // return var_dump($verAwal);
+        // if exist, can't register
         if ($verAwal != null) {
-            return var_dump($verAwal . "aaaa");
+            return $response->withJson(array('success'=>true));
         } //Else if not exist, register
         else {
             // return var_dump($verAwal);
             $insert = $container->db->insert('tbl_users', [
-                "username" => $data['user'],
-                "password" => $data['pass']
+                "username" => $data["email"],
+                "email" => $data["email"],
+                "password" => $data["password"],
+                "type"=>$data['type']
             ]);
             // $_SESSION['user'] = $data['user'];
             $_SESSION['isRegister'] = true;
-            return $response->withRedirect('/login');
+            return $response->withJson(array('success'=>true));
+            // return $response->withRedirect('/login');
         }
     });
     //end Register
@@ -271,8 +277,35 @@ return function (App $app) {
     });
     $app->get('/', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
-        $container->view->render($response, 'dashboard/index.html', [
-            'user' => $_SESSION['user']
-        ]);
+        $type = $_SESSION['type'];
+        // return var_dump($type);
+        if($type == 1){
+            $type = "Student";
+            $container->view->render($response, 'dashboard/student.html', [
+                'user' => $_SESSION['user'],
+                'type'=> $type
+            ]);
+        }
+        if($type == 2){
+            $type = "Teacher";
+            $container->view->render($response, 'dashboard/teacher.html', [
+                'user' => $_SESSION['user'],
+                'type'=> $type
+            ]);
+        }
+        if($type == 3){
+            $type = "Admin";
+            $container->view->render($response, 'dashboard/index.html', [
+                'user' => $_SESSION['user'],
+                'type'=> $type
+            ]);
+        }
+        if($type == 4){
+            $type = "Parent";
+            $container->view->render($response, 'dashboard/parent.html', [
+                'user' => $_SESSION['user'],
+                'type'=> $type
+            ]);
+        }
     })->add(new Auth());
 };

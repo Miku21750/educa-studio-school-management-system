@@ -3355,27 +3355,30 @@ ul {
   background-image: url('/img/figure/login-bg.jpg');
   background-repeat: no-repeat;
   background-position: top;
-  position: fixed;
+  /* position: fixed; */
   top: 0;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100%;
+  /* max-height: 100%; */
+  overflow-y: auto;
   width: 100%;
 }
 @media only screen and (max-width: 1024px) {
   .login-page-wrap {
     position: relative;
-    height: auto;
+    /* max-height: auto; */
+    overflow-y: auto;
   }
 }
 .login-page-content {
-  height: 100%;
-  width: 100%;
+  max-height: 100%;
+  /* width: 100%; */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  overflow-y: auto;
   padding: 50px;
 }
 @media only screen and (max-width: 575px) {

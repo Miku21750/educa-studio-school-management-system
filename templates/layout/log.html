@@ -1,152 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <title>AKKHOR | Login</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png" />
     <!-- Normalize CSS -->
-    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/normalize.css" />
     <!-- Main CSS -->
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/main.css" />
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
     <!-- Fontawesome CSS -->
-    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/all.min.css" />
     <!-- Flaticon CSS -->
-    <link rel="stylesheet" href="fonts/flaticon.css">
+    <link rel="stylesheet" href="fonts/flaticon.css" />
     <!-- Animate CSS -->
-    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/animate.min.css" />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" />
     <!-- Modernize js -->
     <script src="js/modernizr-3.6.0.min.js"></script>
+    <!-- jquery-->
+    <script src="js/jquery-3.3.1.min.js"></script>
 </head>
-<body>
+  <body>
     <!-- Preloader Start Here -->
     <div id="preloader"></div>
     <!-- Preloader End Here -->
-    {# if login #}
-    {% if login == true %}
+    {# if login #} {% if login == true %}
     <!-- Login Page Start Here -->
     <div class="login-page-wrap">
-        <div class="login-page-content">
-            <div class="login-box">
-                {% if notLogin == true %}
-                    <div class="alert alert-danger" role="alert">
-                        Login first, or <a href="/register">create an account</a> 
-                    </div>
-                {% elseif isRegister == true %}
-                    <div class="alert alert-success" role="alert">
-                        Success Register, now login through the app
-                    </div>
-                {% elseif logout == true %}
-                <div class="alert alert-primary" role="alert">
-                    Success Logout 
-                  </div>
-                {% endif %}
-                <div class="item-logo">
-                    <img src="img/logo2.png" alt="logo">
-                </div>
-                <form action="/login" class="login-form" method="post">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" name="user" placeholder="Enter usrename" class="form-control">
-                        <i class="far fa-envelope"></i>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" name="pass" placeholder="Enter password" class="form-control">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <div class="form-group d-flex align-items-center justify-content-between">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="remember-me">
-                            <label for="remember-me" class="form-check-label">Remember Me</label>
-                        </div>
-                        <a href="#" class="forgot-btn">Forgot Password?</a>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="login-btn">Login</button>
-                    </div>
-                </form>
-                <div class="login-social">
-                    <p>or sign in with</p>
-                    <ul>
-                        <li><a href="#" class="bg-fb"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#" class="bg-twitter"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#" class="bg-gplus"><i class="fab fa-google-plus-g"></i></a></li>
-                        <li><a href="#" class="bg-git"><i class="fab fa-github"></i></a></li>
-                    </ul>
-                </div><div class="sign-up">Don't have an account ? <a href="/register">Signup now!</a></div>
+      <div class="login-page-content">
+        <div class="login-box">
+          {% if notLogin == true %}
+          <div class="alert alert-danger" role="alert">
+            Login first, or <a href="/register">create an account</a>
+          </div>
+          {% elseif isRegister == true %}
+          <div class="alert alert-success" role="alert">
+            Success Register, now login through the app
+          </div>
+          {% elseif logout == true %}
+          <div class="alert alert-primary" role="alert">Success Logout</div>
+          {% endif %}
+          <div class="item-logo">
+            <img src="img/logo2.png" alt="logo" />
+          </div>
+          <form action="/login" class="login-form" method="post">
+            <div class="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                name="user"
+                placeholder="Enter usrename"
+                class="form-control"
+                autofocus
+              />
+              <i class="far fa-envelope"></i>
             </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="pass"
+                placeholder="Enter password"
+                class="form-control"
+              />
+              <i class="fas fa-lock"></i>
+            </div>
+            <div
+              class="form-group d-flex align-items-center justify-content-between"
+            >
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="remember-me"
+                />
+                <label for="remember-me" class="form-check-label"
+                  >Remember Me</label
+                >
+              </div>
+              <a href="#" class="forgot-btn">Forgot Password?</a>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="login-btn">Login</button>
+            </div>
+          </form>
+          <div class="login-social">
+            <p>or sign in with</p>
+            <ul>
+              <li>
+                <a href="#" class="bg-fb"><i class="fab fa-facebook-f"></i></a>
+              </li>
+              <li>
+                <a href="#" class="bg-twitter"
+                  ><i class="fab fa-twitter"></i
+                ></a>
+              </li>
+              <li>
+                <a href="#" class="bg-gplus"
+                  ><i class="fab fa-google-plus-g"></i
+                ></a>
+              </li>
+              <li>
+                <a href="#" class="bg-git"><i class="fab fa-github"></i></a>
+              </li>
+            </ul>
+          </div>
+          <div class="sign-up">
+            Don't have an account ? <a href="/register" style="text-decoration: underline!important;">Signup now!</a>
+          </div>
         </div>
+      </div>
     </div>
     <!-- Login Page End Here -->
     {% elseif register == true %}
-        <!-- register Page Start Here -->
+    <!-- register Page Start Here -->
     <div class="login-page-wrap">
-        <div class="login-page-content">
-            <div class="login-box">
-                <div class="item-logo">
-                    <img src="img/logo2.png" alt="logo">
-                </div>
-                <form action="/register" class="login-form" method="post">
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" name="user" placeholder="Enter usrename" class="form-control">
-                        <i class="far fa-envelope"></i>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" name="pass" id="pass" placeholder="Enter password" class="form-control">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" name="pass2" id="pass2" placeholder="Confirm password" class="form-control">
-                        <i class="fas fa-lock"></i>
-                        <span id="message"></span>
-                    </div>
-                    <div class="form-group d-flex align-items-center justify-content-between">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="remember-me">
-                            <label for="remember-me" class="form-check-label">Remember Me</label>
-                        </div>
-                        <a href="#" class="forgot-btn">Forgot Password?</a>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="login-btn">Register</button>
-                    </div>
-                </form>
-                <div class="login-social">
-                    <p>or sign in with</p>
-                    <ul>
-                        <li><a href="#" class="bg-fb"><i class="fab fa-facebook-f"></i></a></li>
-                        <li><a href="#" class="bg-twitter"><i class="fab fa-twitter"></i></a></li>
-                        <li><a href="#" class="bg-gplus"><i class="fab fa-google-plus-g"></i></a></li>
-                        <li><a href="#" class="bg-git"><i class="fab fa-github"></i></a></li>
-                    </ul>
-                </div><div class="sign-up">Have an account?<a href="/login"> Login now!</a></div>
+      <div class="login-page-content">
+        <div class="login-box">
+          <div class="item-logo">
+            <img src="img/logo2.png" alt="logo" />
+          </div>
+          <form class="login-form" id="signForm">
+            <div class="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                name="user"
+                placeholder="Enter usrename"
+                class="form-control"
+                id="user"
+                autofocus
+              />
+              <i class="far fa-envelope"></i>
             </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="pass"
+                id="pass"
+                placeholder="Enter password"
+                class="form-control"
+              />
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="form-group">
+              <label>Confirm Password</label>
+              <input
+                type="password"
+                name="pass2"
+                id="pass2"
+                placeholder="Confirm password"
+                class="form-control"
+              />
+              <i class="fas fa-lock"></i>
+              <span id="message"></span>
+            </div>
+            <div
+              class="form-group d-flex align-items-center justify-content-between"
+            >
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="remember-me"
+                />
+                <label for="remember-me" class="form-check-label"
+                  >Remember Me</label
+                >
+              </div>
+              <a href="#" class="forgot-btn">Forgot Password?</a>
+            </div>
+            <div class="form-group">
+              <button class="login-btn" id="regBtn">Register</button>
+            </div>
+          </form>
+          <div class="login-social">
+            <p>or sign in with</p>
+            <ul>
+              <li>
+                <a href="#" class="bg-fb"><i class="fab fa-facebook-f"></i></a>
+              </li>
+              <li>
+                <a href="#" class="bg-twitter"
+                  ><i class="fab fa-twitter"></i
+                ></a>
+              </li>
+              <li>
+                <a href="#" class="bg-gplus"
+                  ><i class="fab fa-google-plus-g"></i
+                ></a>
+              </li>
+              <li>
+                <a href="#" class="bg-git"><i class="fab fa-github"></i></a>
+              </li>
+            </ul>
+          </div>
+          <div class="sign-up">
+            Have an account?<a href="/login" style="text-decoration: underline!important;"> Login now!</a>
+            
+          </div>
         </div>
+      </div>
     </div>
     <!-- register Page End Here -->
     <!-- Add aditional script register confirm password  -->
     <script>
-        $('#pass2').on('keyup', function () {
-        if ($('#pass').val() == $('#pass2').val()) {
-            $('#message').html('Matching').css('color', 'green');
-        } else 
-            $('#message').html('Not Matching').css('color', 'red');
-        });
+      $(document).ready(function(){
+        $("#pass2").on("keyup", function () {
+            if ($("#pass").val() == $("#pass2").val()) {
+              $("#message").html("Matching").css("color", "green");
+            } else $("#message").html("Not Matching").css("color", "red");
+          });
+      })
     </script>
     {% endif %}
-    <!-- jquery-->
-    <script src="js/jquery-3.3.1.min.js"></script>
+    
+    <!-- Modal register start here -->
+    <!-- Sign Up Modal -->
+    {# <button type="button" class="modal-trigger text-center"  data-toggle="modal" data-target="#sign-up">aria-label</button> #}
+    <div class="modal sign-up-modal fade text-center"  id="sign-up" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">One more step</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h5>One more step</h5>
+              <p>Tell us Who Ar u</p>
+              <div class="row" >
+                <div class="col-4 text-center">
+                    <a href="" class="who-ar-u">
+                        <div class="item-icon bg-light-green ">
+                            <i class="flaticon-classmates text-green"></i>
+                            <br>
+                            <span id="1"> Students</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 text-center">
+                    <a href="" class="who-ar-u">
+                        <div class="item-icon bg-light-blue">
+                            <i class="flaticon-multiple-users-silhouette text-blue"></i>
+                            <br>
+                            <span id="2"> Teacher</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 text-center">
+                    <a href="" class="who-ar-u">
+                        <div class="item-icon bg-light-yellow">
+                            <i class="flaticon-couple text-orange"></i><br>
+                           <span id="4">Parent</span>
+                        </div>
+                    </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Modal register end here -->
+    <script>
+        //const who = document.getElementById('#signForm')
+        $(document).ready(function(){
+            $('#regBtn').on('click',function(e){
+                e.preventDefault();
+                $('#sign-up').modal('show')
+                const email = $('#user').val();
+                const pass = $('#pass').val();
+                
+                $('.who-ar-u').click(function(e){
+                    e.preventDefault();
+                    const whoElement = $(this).find('span').attr('id');
+                    console.log(whoElement)
+                    $.ajax({
+                        type: "POST",
+                        url: '/register',
+                        data: {
+                            email : email,
+                            password : pass,
+                            type : whoElement
+                        },
+                        success: function(response) {
+                            console.log(response)
+                            document.location.href = '/login'
+                        }
+                    })
+                    //console.log(whoElement);
+                })
+            })
+        })
+    </script>
     <!-- Plugins js -->
     <script src="js/plugins.js"></script>
     <!-- Popper js -->
@@ -157,5 +312,5 @@
     <script src="js/jquery.scrollUp.min.js"></script>
     <!-- Custom Js -->
     <script src="js/main.js"></script>
-</body>
+  </body>
 </html>
