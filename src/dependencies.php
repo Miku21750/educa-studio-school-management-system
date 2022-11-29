@@ -1,6 +1,7 @@
 <?php
 
 use Slim\App;
+use Medoo\Medoo;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -32,5 +33,15 @@ return function (App $app) {
         return $view;
     };
 
-    
+    // Konfigurasi Medoo 
+    $container['db'] = function($c){
+        $database = new Medoo([
+            'database_type' => 'mysql',
+            'server' => '127.0.0.1',
+            'database_name' => 'db_test_ta',
+            'username' => 'root',
+            'password' => '',
+        ]);
+        return $database;
+    };
 };
