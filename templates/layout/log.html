@@ -286,7 +286,7 @@
                     console.log(whoElement)
                     $.ajax({
                         type: "POST",
-                        url: '/register',
+                        url: '/api/register',
                         data: {
                             email : email,
                             password : pass,
@@ -294,7 +294,7 @@
                         },
                         success: function(response) {
                             console.log(response)
-                            document.location.href = '/login'
+                            document.location.href = '/api/login'
                         }
                     })
                     //console.log(whoElement);
