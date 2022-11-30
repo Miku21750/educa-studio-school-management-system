@@ -38,7 +38,7 @@ return function (App $app) {
         $database = new Medoo([
             'database_type' => 'mysql',
             'server' => '127.0.0.1',
-            'database_name' => 'db_test_ta',
+            'database_name' => 'educa_db',
             'username' => 'root',
             'password' => '',
         ]);
