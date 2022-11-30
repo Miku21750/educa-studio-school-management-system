@@ -253,6 +253,7 @@ return function (App $app) {
         // Render index view
         $type = $_SESSION['type'];
         // return var_dump($type);
+        // return var_dump($_COOKIE);
         if ($type == 1) {
             $type = "Student";
             $container->view->render($response, 'dashboard/student.html', [
