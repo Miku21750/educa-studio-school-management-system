@@ -8,6 +8,7 @@ use Slim\Http\Response;
 use Medoo\Medoo; //Pindahkan ke conroller nanti
 use App\middleware\Auth;
 use App\Controller\userViewController;
+use App\Controller\dashboardAdminController;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -63,7 +64,14 @@ return function (App $app) {
             $app->post('/account-setting', function (Request $request, Response $response, array $args) use ($app) {
                 return 0;
             });
-    
+        });
+
+
+        $app->group('/admin', function () use ($app) {
+
+            $app->get('/get-student', function (Request $request, Response $response, array $args) use ($app) {
+                return $response->withJson(dashboardAdminController::getStudent($this, $request, $response, $args));
+            });
         });
 
     });
