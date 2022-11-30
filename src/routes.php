@@ -1,121 +1,90 @@
 <?php
 
+use App\Controller\indexApiController;
+use App\Controller\indexViewController;
 use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Medoo\Medoo; //Pindahkan ke conroller nanti
 use App\middleware\Auth;
+use App\Controller\userViewController;
 
 return function (App $app) {
     $container = $app->getContainer();
-    // login
+
     $app->get('/login', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $notLogin = isset($_SESSION['notLogin']);
-        unset($_SESSION['notLogin']);
-        $logout = isset($_SESSION['logout']);
-        // return var_dump($_SESSION);
-        unset($_SESSION['logout']);
-        $isRegister = isset($_SESSION['isRegister']);
-        // unset($_SESSION['isRegister']);
-        $container->view->render($response, 'layout/log.html', [
-            'login' => true,
-            'notLogin' => $notLogin,
-            'logout' => $logout,
-            'isRegister' => $isRegister
-        ]);
+        return indexViewController::login($this, $request, $response, $args);
     });
-    $app->post('/login', function (Request $request, Response $response, array $args) use ($container) {
-        // 
-        // return var_dump($request->getParsedBody());
 
-        // get the requested data
-        $data = $request->getParsedBody();
-        // select the user db 
-        $verAwal = $container->db->select('tbl_users', '*', [
-            "username" => $data["user"],
-            "password" => $data["pass"]
-        ]);
-        // return var_dump($verAwal);
-        // if exist, login
-        if ($verAwal != null) {
-            // return var_dump($verAwal[0]['username']);
-            $_SESSION['user'] = $verAwal[0]['username'];
-            $_SESSION['type'] = $verAwal[0]['type'];
-            return $response->withRedirect('/');
-        } //Else if not exist, can't login
-        else {
-            return var_dump($verAwal . "aaaa");
-        }
-    });
-    //end login
-
-    //Register
     $app->get('/register', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'layout/log.html', [
-            'register' => true
-        ]);
+        return indexViewController::register($this, $request, $response, $args);
     });
-    $app->post('/register', function (Request $request, Response $response, array $args) use ($container) {
-        // 
-        // return var_dump($request->getParsedBody());
 
-        // get the requested data
-        $data = $request->getParsedBody();
-        // select the user db 
-        $verAwal = $container->db->select('tbl_users', '*', [
-            "username" => $data["email"],
-            "email" => $data["email"],
-            "password" => $data["password"],
-        ]);
-        // return var_dump($verAwal);
-        // if exist, can't register
-        if ($verAwal != null) {
-            return $response->withJson(array('success'=>true));
-        } //Else if not exist, register
-        else {
-            // return var_dump($verAwal);
-            $insert = $container->db->insert('tbl_users', [
-                "username" => $data["email"],
-                "email" => $data["email"],
-                "password" => $data["password"],
-                "type"=>$data['type']
-            ]);
-            // $_SESSION['user'] = $data['user'];
-            $_SESSION['isRegister'] = true;
-            return $response->withJson(array('success'=>true));
-            // return $response->withRedirect('/login');
-        }
-    });
-    //end Register
-
-    //logout
     $app->get('/logout', function (Request $request, Response $response, array $args) use ($container) {
-        session_destroy();
-        $_SESSION['logout'] = true;
-        return $response->withRedirect('/login');
+        return indexApiController::logout($this, $request, $response, $args);
     });
-    //end Logout 
 
-    //student
-    $app->get('/all-students', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'students/all-student.html', $args);
+
+    $app->get('/student', function (Request $request, Response $response, array $args) use ($container) {
+        return userViewController::dashboard($this, $request, $response, $args);
     });
-    $app->get('/student-details', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'students/student-details.html', $args);
+
+    $app->group('/student', function () use ($app) {
+
+        $app->get('/all-students', function (Request $request, Response $response, array $args) use ($app) {
+            return userViewController::allStudent($this, $request, $response, $args);
+        });
+
+        $app->get('/admit-form', function (Request $request, Response $response, array $args) use ($app) {
+            return userViewController::admitForm($this, $request, $response, $args);
+        });
+
+        $app->get('/student-details', function (Request $request, Response $response, array $args) use ($app) {
+            return userViewController::studentPromotion($this, $request, $response, $args);
+        });
+
+        $app->get('/student-promotion', function (Request $request, Response $response, array $args) use ($app) {
+            return userViewController::studentPromotion($this, $request, $response, $args);
+        });
     });
-    $app->get('/admit-form', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'students/admit-form.html', $args);
+
+    $app->group('/api', function () use ($app) {
+
+        $app->post('/login', function (Request $request, Response $response, array $args) use ($app) {
+            return indexApiController::Login($this, $request, $response, $args);
+        });
+
+        $app->post('/register', function (Request $request, Response $response, array $args) use ($app) {
+            return indexApiController::register($this, $request, $response, $args);
+        });
+
+        $app->group('/user', function () use ($app) {
+
+            $app->post('/account-setting', function (Request $request, Response $response, array $args) use ($app) {
+                return 0;
+            });
+    
+        });
+
     });
-    $app->get('/student-promotion', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'students/student-promotion.html', $args);
-    });
-    //end Student
+    
+    // //student
+    // $app->get('/all-students', function (Request $request, Response $response, array $args) use ($container) {
+    //     // Render index view
+    //     $container->view->render($response, 'students/all-student.html', $args);
+    // });
+    // $app->get('/student-details', function (Request $request, Response $response, array $args) use ($container) {
+    //     // Render index view
+    //     $container->view->render($response, 'students/student-details.html', $args);
+    // });
+    // $app->get('/admit-form', function (Request $request, Response $response, array $args) use ($container) {
+    //     // Render index view
+    //     $container->view->render($response, 'students/admit-form.html', $args);
+    // });
+    // $app->get('/student-promotion', function (Request $request, Response $response, array $args) use ($container) {
+    //     // Render index view
+    //     $container->view->render($response, 'students/student-promotion.html', $args);
+    // });
 
     //Teacher
     $app->get('/all-teacher', function (Request $request, Response $response, array $args) use ($container) {
@@ -267,10 +236,7 @@ return function (App $app) {
         // Render index view
         $container->view->render($response, 'dashboard/teacher.html', $args);
     });
-    $app->get('/student', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'dashboard/student.html', $args);
-    });
+
     $app->get('/parent', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
         $container->view->render($response, 'dashboard/parent.html', $args);
@@ -279,33 +245,42 @@ return function (App $app) {
         // Render index view
         $type = $_SESSION['type'];
         // return var_dump($type);
-        if($type == 1){
+        if ($type == 1) {
             $type = "Student";
             $container->view->render($response, 'dashboard/student.html', [
                 'user' => $_SESSION['user'],
-                'type'=> $type
+                'type' => $type
             ]);
+            // return $response->withRedirect('/student');
         }
-        if($type == 2){
+        if ($type == 2) {
             $type = "Teacher";
             $container->view->render($response, 'dashboard/teacher.html', [
                 'user' => $_SESSION['user'],
-                'type'=> $type
+                'type' => $type
             ]);
         }
-        if($type == 3){
+        if ($type == 3) {
             $type = "Admin";
             $container->view->render($response, 'dashboard/index.html', [
                 'user' => $_SESSION['user'],
-                'type'=> $type
+                'type' => $type
             ]);
         }
-        if($type == 4){
+        if ($type == 4) {
             $type = "Parent";
             $container->view->render($response, 'dashboard/parent.html', [
                 'user' => $_SESSION['user'],
-                'type'=> $type
+                'type' => $type
             ]);
-        }
-    })->add(new Auth());
+        } // else {
+        //     // Hapus ini
+        //     $type = "Student";
+        //     $container->view->render($response, 'dashboard/student.html', [
+        //         'user' => $_SESSION['user'],
+        //         'type' => $type
+        //     ]);
+        //     return $response->withRedirect('/student');
+        // }
+    })->add(new Auth()) ; // Auth Aku Nonaktifkan dulu
 };
