@@ -39,8 +39,8 @@ return function (App $app) {
             'database_type' => 'mysql',
             'server' => '127.0.0.1',
             'database_name' => 'educa_db',
-            'username' => 'root',
-            'password' => '',
+            'username' => 'educa_sms',
+            'password' => 'educa_sms',
         ]);
         return $database;
     };
