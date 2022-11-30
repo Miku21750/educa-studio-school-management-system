@@ -1,6 +1,6 @@
 {% extends "/layout/master.html" %}
-{% set title = 'Parent' %}
-{% set titleDashboard = "Parent" %}
+{% set title = 'Orang Tua' %}
+{% set titleDashboard = "Orang tua  " %}
 {% block content %}
     <!-- Dashboard summery Start Here -->
     <div class="row">
@@ -14,8 +14,8 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Due Fees</div>
-                            <div class="item-number"><span>$</span><span class="counter" data-num="4503">4,503</span></div>
+                            <div class="item-title">Biaya jatuh tempo</div>
+                            <div class="item-number"><span>Rp. </span><span class="counter" data-num="{{totaldata}}">Rp. 400.000 </span></div>
                         </div>
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Notifications</div>
+                            <div class="item-title">Notifikasi</div>
                             <div class="item-number"><span class="counter" data-num="12">12</span></div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Result</div>
+                            <div class="item-title">Hasil Ujian</div>
                             <div class="item-number"><span class="counter" data-num="16">16</span></div>
                         </div>
                     </div>
@@ -65,8 +65,8 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Expenses</div>
-                            <div class="item-number"><span>$</span><span class="counter" data-num="193000">1,93,000</span></div>
+                            <div class="item-title">Pembayaran</div>
+                            <div class="item-number"><span>Rp. </span><span class="counter" data-num="1000000000"></span></div>
                         </div>
                     </div>
                 </div>
@@ -81,7 +81,7 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>My Kids</h3>
+                            <h3>Anaku</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -108,31 +108,27 @@
                                         <table class="table text-nowrap">
                                             <tbody>
                                                 <tr>
-                                                    <td>Name:</td>
+                                                    <td>Nama:</td>
                                                     <td>Jessia Rose</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Gender:</td>
-                                                    <td>Female</td>
+                                                    <td>Jenis Kelamin:</td>
+                                                    <td>Perempuan</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Class:</td>
-                                                    <td>2</td>
+                                                    <td>Kelas:</td>
+                                                    <td>X-A</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Roll:</td>
-                                                    <td>#2225</td>
+                                                    <td>NISN:</td>
+                                                    <td>9876</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Section:</td>
-                                                    <td>A</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Admission Id:</td>
+                                                    <td>Id Masuk:</td>
                                                     <td>#0021</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Admission Date:</td>
+                                                    <td>Tanggal Masuk:</td>
                                                     <td>07.08.2017</td>
                                                 </tr>
                                             </tbody>
@@ -149,32 +145,28 @@
                                         <table class="table text-nowrap">
                                             <tbody>
                                                 <tr>
-                                                    <td>Name:</td>
-                                                    <td>Jack Steve</td>
+                                                    <td>Nama:</td>
+                                                    <td>Arman Rose</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Gender:</td>
-                                                    <td>Male</td>
+                                                    <td>Jenis Kelamin:</td>
+                                                    <td>Laki-laki</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Class:</td>
-                                                    <td>3</td>
+                                                    <td>Kelas:</td>
+                                                    <td>X1-A</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Roll:</td>
-                                                    <td>#2205</td>
+                                                    <td>NISN:</td>
+                                                    <td>9326</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Section:</td>
-                                                    <td>A</td>
+                                                    <td>Id Masuk:</td>
+                                                    <td>#0031</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Admission Id:</td>
-                                                    <td>#0045</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Admission Date:</td>
-                                                    <td>07.08.2017</td>
+                                                    <td>Tanggal Masuk:</td>
+                                                    <td>07.08.2016</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -191,7 +183,7 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>All Expenses</h3>
+                            <h3>Pembayaran</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -208,14 +200,14 @@
                         </div>
                     </div>
                     <div class="table-box-wrap">
-                        <form class="search-form-box">
+                        <form class="CARI-form-box">
                             <div class="row gutters-8">
                                 <div class="col-lg-4 col-md-3 form-group">
-                                    <input type="text" placeholder="Search by Exam ..."
+                                    <input type="text" placeholder="CARI by Exam ..."
                                         class="form-control">
                                 </div>
                                 <div class="col-lg-3 col-md-3 form-group">
-                                    <input type="text" placeholder="Search by Subject ..."
+                                    <input type="text" placeholder="CARI by Subject ..."
                                         class="form-control">
                                 </div>
                                 <div class="col-lg-3 col-md-3 form-group">
@@ -223,7 +215,7 @@
                                 </div>
                                 <div class="col-lg-2 col-md-3 form-group">
                                     <button type="submit"
-                                        class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                        class="fw-btn-fill btn-gradient-yellow">CARI</button>
                                 </div>
                             </div>
                         </form>
@@ -234,14 +226,14 @@
                                         <th>
                                             <div class="form-check">
                                                 <input type="checkbox" class="form-check-input checkAll">
-                                                <label class="form-check-label">ID</label>
+                                                <label class="form-check-label">NISN</label>
                                             </div>
                                         </th>
-                                        <th>Expanse</th>
-                                        <th>Amount</th>
+                                        <th>Jenis Pembayaran</th>
+                                        <th>Jumlah</th>
                                         <th>Status</th>
                                         <th>E-Mail</th>
-                                        <th>Date</th>
+                                        <th>Tanggal</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -254,8 +246,8 @@
                                             </div>
                                         </td>
                                         <td>Exam Fees</td>
-                                        <td>$150.00</td>
-                                        <td class="badge badge-pill badge-success d-block mg-t-8">Paid</td>
+                                        <td>Rp. 150.00</td>
+                                        <td class="badge badge-pill badge-success d-block mg-t-8">Dibayar</td>
                                         <td>akkhorschool@gmail.com</td>
                                         <td>22/02/2019</td>
                                         <td>
@@ -283,8 +275,8 @@
                                             </div>
                                         </td>
                                         <td>Semister Fees</td>
-                                        <td>$350.00</td>
-                                        <td class="badge badge-pill badge-danger d-block mg-t-8">Due</td>
+                                        <td>Rp. 350.00</td>
+                                        <td class="badge badge-pill badge-danger d-block mg-t-8">Belum Bayar</td>
                                         <td>akkhorschool@gmail.com</td>
                                         <td>22/02/2019</td>
                                         <td>
@@ -312,8 +304,8 @@
                                             </div>
                                         </td>
                                         <td>Exam Fees</td>
-                                        <td>$150.00</td>
-                                        <td class="badge badge-pill badge-success d-block mg-t-8">Paid</td>
+                                        <td>Rp. 150.00</td>
+                                        <td class="badge badge-pill badge-success d-block mg-t-8">Dibayar</td>
                                         <td>akkhorschool@gmail.com</td>
                                         <td>22/02/2019</td>
                                         <td>
@@ -341,8 +333,8 @@
                                             </div>
                                         </td>
                                         <td>Exam Fees</td>
-                                        <td>$150.00</td>
-                                        <td class="badge badge-pill badge-danger d-block mg-t-8">Due </td>
+                                        <td>Rp. 150.00</td>
+                                        <td class="badge badge-pill badge-danger d-block mg-t-8">Belum Bayar </td>
                                         <td>akkhorschool@gmail.com</td>
                                         <td>22/02/2019</td>
                                         <td>
@@ -370,8 +362,8 @@
                                             </div>
                                         </td>
                                         <td>Exam Fees</td>
-                                        <td>$150.00</td>
-                                        <td class="badge badge-pill badge-success d-block mg-t-8">Paid</td>
+                                        <td>Rp. 150.00</td>
+                                        <td class="badge badge-pill badge-success d-block mg-t-8">Dibayar</td>
                                         <td>akkhorschool@gmail.com</td>
                                         <td>22/02/2019</td>
                                         <td>
@@ -399,8 +391,8 @@
                                             </div>
                                         </td>
                                         <td>Semister Fees</td>
-                                        <td>$350.00</td>
-                                        <td class="badge badge-pill badge-danger d-block mg-t-8">Due</td>
+                                        <td>Rp. 350.00</td>
+                                        <td class="badge badge-pill badge-danger d-block mg-t-8">Belum Bayar</td>
                                         <td>akkhorschool@gmail.com</td>
                                         <td>22/02/2019</td>
                                         <td>
@@ -428,8 +420,8 @@
                                             </div>
                                         </td>
                                         <td>Exam Fees</td>
-                                        <td>$150.00</td>
-                                        <td class="badge badge-pill badge-success d-block mg-t-8">Paid</td>
+                                        <td>Rp. 150.00</td>
+                                        <td class="badge badge-pill badge-success d-block mg-t-8">Dibayar</td>
                                         <td>akkhorschool@gmail.com</td>
                                         <td>22/02/2019</td>
                                         <td>
@@ -463,7 +455,7 @@
                 <div class="card-body">
                     <div class="heading-layout1 mg-b-17">
                         <div class="item-title">
-                            <h3>Notifications</h3>
+                            <h3>Notifikasi</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -529,7 +521,7 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>All Exam Results</h3>
+                            <h3>Hasil Ujian</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -546,14 +538,14 @@
                         </div>
                     </div>
                     <div class="table-box-wrap">
-                        <form class="search-form-box">
+                        <form class="CARI-form-box">
                             <div class="row gutters-8">
                                 <div class="col-lg-4 col-md-3 form-group">
-                                    <input type="text" placeholder="Search by Exam ..."
+                                    <input type="text" placeholder="CARI by Exam ..."
                                         class="form-control">
                                 </div>
                                 <div class="col-lg-3 col-md-3 form-group">
-                                    <input type="text" placeholder="Search by Subject ..."
+                                    <input type="text" placeholder="CARI by Subject ..."
                                         class="form-control">
                                 </div>
                                 <div class="col-lg-3 col-md-3 form-group">
@@ -561,7 +553,7 @@
                                 </div>
                                 <div class="col-lg-2 col-md-3 form-group">
                                     <button type="submit"
-                                        class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                        class="fw-btn-fill btn-gradient-yellow">CARI</button>
                                 </div>
                             </div>
                         </form>
@@ -575,13 +567,13 @@
                                                 <label class="form-check-label">ID</label>
                                             </div>
                                         </th>
-                                        <th>Exam Name</th>
-                                        <th>Subject</th>
-                                        <th>Class</th>
-                                        <th>Roll</th>
+                                        <th>Nama Ujian</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Kelas</th>
+                                        <th>NISN</th>
                                         <th>Grade</th>
                                         <th>Percent</th>
-                                        <th>Date</th>
+                                        <th>Tanggal</th>
                                         <th></th>
                                     </tr>
                                 </thead>

@@ -8,6 +8,7 @@ use Slim\Http\Response;
 use Medoo\Medoo; //Pindahkan ke conroller nanti
 use App\middleware\Auth;
 use App\Controller\userViewController;
+use App\Controller\DashbordParentConroller;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -269,10 +270,14 @@ return function (App $app) {
         }
         if ($type == 4) {
             $type = "Parent";
-            $container->view->render($response, 'dashboard/parent.html', [
+            $id_parent = $_SESSION['id_parent'];
+            
+            return DashbordParentConroller::index($this, $request, $response, [
                 'user' => $_SESSION['user'],
-                'type' => $type
+                'type' => $type,
+                'id_parent' => $id_parent,
             ]);
+            
         } // else {
         //     // Hapus ini
         //     $type = "Student";

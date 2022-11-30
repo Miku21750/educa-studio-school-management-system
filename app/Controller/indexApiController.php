@@ -24,6 +24,7 @@ class indexApiController
             // return var_dump($verAwal[0]['username']);
             $_SESSION['user'] = $verAwal[0]['username'];
             $_SESSION['type'] = $verAwal[0]['id_user_type'];
+            $_SESSION['id_parent'] = $verAwal[0]['id_user'];
             return $response->withRedirect('/');
         } //Else if not exist, can't login
         else {
