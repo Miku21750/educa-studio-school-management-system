@@ -13,8 +13,11 @@ class indexViewController
         unset($_SESSION['notLogin']);
         $logout = isset($_SESSION['logout']);
         // return var_dump($_SESSION);
-        unset($_SESSION['logout']);
+        // return var_dump($_SESSION);
+        // unset($_SESSION['logout']);
         $isRegister = isset($_SESSION['isRegister']);
+        
+        session_destroy();
         // unset($_SESSION['isRegister']);
         $app->view->render($response, 'layout/log.html', [
             'login' => true,

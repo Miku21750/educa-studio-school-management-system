@@ -50,7 +50,7 @@
           <div class="item-logo">
             <img src="img/logo2.png" alt="logo" />
           </div>
-          <form action="/login" class="login-form" method="post">
+          <form action="/api/login" class="login-form" method="post">
             <div class="form-group">
               <label>Username</label>
               <input
@@ -294,7 +294,7 @@
                         },
                         success: function(response) {
                             console.log(response)
-                            document.location.href = '/api/login'
+                            document.location.href = '/login'
                         }
                     })
                     //console.log(whoElement);

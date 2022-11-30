@@ -4,6 +4,8 @@
     
 <div class="row">
     <!-- Exam Grade Add Area Start Here -->
+    {# if admin start here #}
+    {% if type == "Admin" %}
     <div class="col-4-xxxl col-12">
         <div class="card height-auto">
             <div class="card-body">
@@ -64,6 +66,9 @@
             </div>
         </div>
     </div>
+    
+    {% endif %}
+    {# if end here #}
     <!-- Exam Grade Add Area End Here -->
     <!-- Exam Grade List Area Start Here -->
     <div class="col-8-xxxl col-12">
