@@ -9,6 +9,9 @@ use Medoo\Medoo; //Pindahkan ke conroller nanti
 use App\middleware\Auth;
 use App\Controller\userViewController;
 use App\Controller\DashbordParentConroller;
+use App\Controller\dashboardAdminController;
+
+
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -64,7 +67,14 @@ return function (App $app) {
             $app->post('/account-setting', function (Request $request, Response $response, array $args) use ($app) {
                 return 0;
             });
-    
+        });
+
+
+        $app->group('/admin', function () use ($app) {
+
+            $app->get('/get-student', function (Request $request, Response $response, array $args) use ($app) {
+                return $response->withJson(dashboardAdminController::getStudent($this, $request, $response, $args));
+            });
         });
 
     });
@@ -246,6 +256,7 @@ return function (App $app) {
         // Render index view
         $type = $_SESSION['type'];
         // return var_dump($type);
+        // return var_dump($_COOKIE);
         if ($type == 1) {
             $type = "Student";
             $container->view->render($response, 'dashboard/student.html', [
@@ -271,7 +282,7 @@ return function (App $app) {
         if ($type == 4) {
             $type = "Parent";
             $id_parent = $_SESSION['id_parent'];
-            
+
             return DashbordParentConroller::index($this, $request, $response, [
                 'user' => $_SESSION['user'],
                 'type' => $type,

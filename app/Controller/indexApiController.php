@@ -10,25 +10,45 @@ class indexApiController
     {
         // 
         // return var_dump($request->getParsedBody());
-
         // get the requested data
         $data = $request->getParsedBody();
-        // select the user db 
-        $verAwal = $app->db->select('tbl_users', '*', [
-            "username" => $data["user"],
-            "password" => $data["pass"]
+        // if(isset($_COOKIE['user'])&&isset($_COOKIE['pass'])){
+            //     $data =[
+                //         $_COOKIE['user'],
+                //         $_COOKIE['pass']
+                //     ];
+                // }
+                // return var_dump($_COOKIE);
+            // select the user db 
+            $verAwal = $app->db->select('tbl_users','*',[
+            "AND"=>[
+                "OR"=>[
+                    "username" => $data["user"],
+                    "email" => $data["user"]
+                ],
+                "password" => $data["pass"]
+            ]
         ]);
         // return var_dump($verAwal);
         // if exist, login
         if ($verAwal != null) {
             // return var_dump($verAwal[0]['username']);
-            $_SESSION['user'] = $verAwal[0]['username'];
+            $_SESSION['user'] = $verAwal[0]['first_name'].' '.$verAwal[0]['last_name'];
             $_SESSION['type'] = $verAwal[0]['id_user_type'];
             $_SESSION['id_parent'] = $verAwal[0]['id_user'];
+
+            $_SESSION['isLogin'] = true;
+            if(isset($data['remember-me'])){
+                //create cookie
+                setcookie("user",$data['user'],time()+ (86400 * 30), "/");
+                setcookie("pass",$data['pass'],time()+ (86400 * 30), "/");
+            }
+
             return $response->withRedirect('/');
         } //Else if not exist, can't login
         else {
-            return var_dump($verAwal . "aaaa");
+            $_SESSION['notValidate'] = true;
+            return $response->withRedirect('/login');
         }
     }
 
@@ -41,14 +61,17 @@ class indexApiController
         $data = $request->getParsedBody();
         // select the user db 
         $verAwal = $app->db->select('tbl_users', '*', [
-            "username" => $data["email"],
-            "email" => $data["email"],
-            "password" => $data["password"],
+            "OR"=>[
+                "username" => $data["user"],
+                "email" => $data["email"],
+            ]
         ]);
         // return var_dump($verAwal);
         // if exist, can't register
         if ($verAwal != null) {
-            return $response->withJson(array('success' => true));
+            $_SESSION['hasData'] = true;
+            return $response->withJson(array('success' => true,'hasData'=>true));
+
         } //Else if not exist, register
         else {
             // return var_dump($verAwal);
@@ -59,6 +82,7 @@ class indexApiController
                 "type" => $data['type']
             ]);
             // $_SESSION['user'] = $data['user'];
+            $_SESSION['hasData'] = false;
             $_SESSION['isRegister'] = true;
             return $response->withJson(array('success' => true));
             // return $response->withRedirect('/login');
