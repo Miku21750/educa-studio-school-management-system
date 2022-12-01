@@ -31,6 +31,14 @@ class indexViewController
         // unset($_SESSION['logout']);
         //check if register mode success
         $isRegister = isset($_SESSION['isRegister']);
+        unset($_SESSION['isRegister']);
+        $isValidatingEmail = isset($_SESSION['isValidatingEmail']);
+        unset($_SESSION['isValidatingEmail']);
+        $changedPass = isset($_SESSION['changedPass']);
+        unset($_SESSION['changedPass']);
+        $forgotPassSend = isset($_SESSION['forgotPassSend']);
+        unset($_SESSION['forgotPassSend']);
+
         
         session_destroy();
         // unset($_SESSION['isRegister']);
@@ -40,6 +48,9 @@ class indexViewController
             'logout' => $logout,
             'isRegister' => $isRegister,
             'notValidate' => $notValidate,
+            'isValidatingEmail' => $isValidatingEmail,
+            'changedPass' => $changedPass,
+            'forgotPassSend'=> $forgotPassSend,
             'cookpie' => $cookpie
         ]);
     }
