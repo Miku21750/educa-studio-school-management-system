@@ -1,13 +1,13 @@
 <?php
 
+use App\Controller\DashboardTeacherController;
 use App\Controller\indexApiController;
 use App\Controller\indexViewController;
-use Slim\App;
+use App\Controller\userViewController;
+use App\middleware\Auth;
+use Slim\App; //Pindahkan ke conroller nanti
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Medoo\Medoo; //Pindahkan ke conroller nanti
-use App\middleware\Auth;
-use App\Controller\userViewController;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -23,7 +23,6 @@ return function (App $app) {
     $app->get('/logout', function (Request $request, Response $response, array $args) use ($container) {
         return indexApiController::logout($this, $request, $response, $args);
     });
-
 
     $app->get('/student', function (Request $request, Response $response, array $args) use ($container) {
         return userViewController::dashboard($this, $request, $response, $args);
@@ -63,11 +62,19 @@ return function (App $app) {
             $app->post('/account-setting', function (Request $request, Response $response, array $args) use ($app) {
                 return 0;
             });
-    
+
+        });
+        
+        $app->group('/teacher', function () use ($app) {
+
+            $app->get('/getdatasiswa', function (Request $request, Response $response, array $args) use ($app) {
+                return $response->withJson(DashboardTeacherController::tableSiswa($this, $request, $response, $args));
+            });
+
         });
 
     });
-    
+
     // //student
     // $app->get('/all-students', function (Request $request, Response $response, array $args) use ($container) {
     //     // Render index view
@@ -103,7 +110,7 @@ return function (App $app) {
         // Render index view
         $container->view->render($response, 'teacher/teacher-payment.html', $args);
     });
-    //end Teacher 
+    //end Teacher
 
     //Parent
     $app->get('/all-parents', function (Request $request, Response $response, array $args) use ($container) {
@@ -157,7 +164,7 @@ return function (App $app) {
     });
     //end Class
 
-    //Subject 
+    //Subject
     $app->get('/all-subject', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
         $container->view->render($response, 'others/all-subject.html', $args);
@@ -189,7 +196,7 @@ return function (App $app) {
     });
     //End Exam
 
-    //Transport 
+    //Transport
     $app->get('/transport', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
         $container->view->render($response, 'others/transport.html', $args);
@@ -249,31 +256,25 @@ return function (App $app) {
             $type = "Student";
             $container->view->render($response, 'dashboard/student.html', [
                 'user' => $_SESSION['user'],
-                'type' => $type
+                'type' => $type,
             ]);
             // return $response->withRedirect('/student');
         }
         if ($type == 2) {
-            $type = "Teacher";
-            $totalGuru = "88888";
-            $container->view->render($response, 'dashboard/teacher.html', [
-                'user' => $_SESSION['user'],
-                'type' => $type,
-                'totalGuru' => $totalGuru
-            ]);
+            return DashboardTeacherController::index($this, $request, $response, $args);
         }
         if ($type == 3) {
             $type = "Admin";
             $container->view->render($response, 'dashboard/index.html', [
                 'user' => $_SESSION['user'],
-                'type' => $type
+                'type' => $type,
             ]);
         }
         if ($type == 4) {
             $type = "Parent";
             $container->view->render($response, 'dashboard/parent.html', [
                 'user' => $_SESSION['user'],
-                'type' => $type
+                'type' => $type,
             ]);
         } // else {
         //     // Hapus ini
@@ -284,5 +285,5 @@ return function (App $app) {
         //     ]);
         //     return $response->withRedirect('/student');
         // }
-    })->add(new Auth()) ; // Auth Aku Nonaktifkan dulu
+    })->add(new Auth()); // Auth Aku Nonaktifkan dulu
 };
