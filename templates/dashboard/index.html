@@ -17,7 +17,7 @@
                     <div class="col-6">
                         <div class="item-content">
                             <div class="item-title">Siswa</div>
-                            <div class="item-number"><span class="counter" data-num="150000">1,50,000</span></div>
+                            <div class="item-number"><span class="counter" data-num="{{totalSiswa}}">1,50,000</span></div>
                         </div>
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                     <div class="col-6">
                         <div class="item-content">
                             <div class="item-title">Guru</div>
-                            <div class="item-number"><span class="counter" data-num="2250">2,250</span></div>
+                            <div class="item-number"><span class="counter" data-num="{{totalTeacher}}">2,250</span></div>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     <div class="col-6">
                         <div class="item-content">
                             <div class="item-title">Orang Tua</div>
-                            <div class="item-number"><span class="counter" data-num="5690">5,690</span></div>
+                            <div class="item-number"><span class="counter" data-num="{{totalParent}}">5,690</span></div>
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
                     <div class="col-6">
                         <div class="item-content">
                             <div class="item-title">Keuangan</div>
-                            <div class="item-number"><span>$</span><span class="counter" data-num="193000">1,93,000</span></div>
+                            <div class="item-number"><span>Rp</span><span class="counter" data-num="{{totalDana}}">1,93,000</span></div>
                         </div>
                     </div>
                 </div>
@@ -102,21 +102,21 @@
                     <div class="earning-report">
                         <div class="item-content">
                             <div class="single-item pseudo-bg-blue">
-                                <h4>Dana Sekolah</h4>
-                                <span>75,000</span>
+                                <h4>Dana BOS</h4>
+                                <span class="item-number" data-num="{{danaBOS}}"> {{danaBOS}}</span>
                             </div>
                             <div class="single-item pseudo-bg-red">
                                 <h4>SPP Siswa</h4>
-                                <span>15,000</span>
+                                <span class="item-number" data-num="{{sppSiswa}}"> {{sppSiswa}}</span>
                             </div>
                         </div>
                         <div class="dropdown">
                             <a class="date-dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                aria-expanded="false">Jan 20, 2019</a>
+                                aria-expanded="false">2019</a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Jan 20, 2019</a>
-                                <a class="dropdown-item" href="#">Jan 20, 2021</a>
-                                <a class="dropdown-item" href="#">Jan 20, 2020</a>
+                                <a class="dropdown-item" href="#">2020</a>
+                                <a class="dropdown-item" href="#">2021</a>
+                                <a class="dropdown-item" href="#">2022</a>
                             </div>
                         </div>
                     </div>
@@ -193,12 +193,12 @@
                     </div>
                     <div class="student-report">
                         <div class="student-count pseudo-bg-blue">
-                            <h4 class="item-title">Perempuan Siswa</h4>
-                            <div class="item-number">45,000</div>
+                            <h4 class="item-title">Perempuan</h4>
+                            <div class="item-number" data-num="{{totalSiswaFemale}}">{{totalSiswaFemale}}</div>
                         </div>
                         <div class="student-count pseudo-bg-yellow">
-                            <h4 class="item-title">Laki-laki Siswa</h4>
-                            <div class="item-number">1,05,000</div>
+                            <h4 class="item-title">Laki-laki</h4>
+                            <div class="item-number" data-num="{{totalSiswaMale}}">{{totalSiswaMale}}</div>
                         </div>
                     </div>
                 </div>

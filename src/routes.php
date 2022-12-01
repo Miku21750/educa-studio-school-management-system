@@ -9,7 +9,7 @@ use Medoo\Medoo; //Pindahkan ke conroller nanti
 use App\middleware\Auth;
 use App\Controller\userViewController;
 use App\Controller\DashbordParentConroller;
-use App\Controller\dashboardAdminController;
+use App\Controller\DashboardAdminController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -103,7 +103,6 @@ return function (App $app) {
             $app->group(
                 '/user',
                 function () use ($app) {
-
                         $app->post(
                             '/account-setting',
                             function (Request $request, Response $response, array $args) use ($app) {
@@ -118,11 +117,10 @@ return function (App $app) {
                 '/admin',
                 function () use ($app) {
 
-                        $app->get(
-                            '/get-student',
-                            function (Request $request, Response $response, array $args) use ($app) {
-                                            return $response->withJson(dashboardAdminController::getStudent($this, $request, $response, $args));
-                                        }
+                        $app->get('/apidata', function (Request $request, Response $response, array $args) use ($app) {
+                            return DashboardAdminController::apiData($this, $request, $response, $args);
+                            ;
+                        }
                         );
                     }
             );
@@ -131,22 +129,24 @@ return function (App $app) {
     );
 
     // verification email start here
-    $app->get('/verifEmail', function (Request $request, Response $response, array $args) use ($container) {
-        // return var_dump($request->getParams());
-        $data = $request->getParams();
-        // return var_dump($data);
-        $container->db->update('tbl_users', [
-            "status" => 1
-        ], [
-                "id_user" => $data['key']
-            ]);
-        unset($_SESSION['isRegistered']);
-        $_SESSION['isValidatingEmail'] = true;
-        return $response->withRedirect('/login');
-        // echo "<p>Sukses verifikasi, <a href='/login'>Silahkan Login</a></p>";
-        // $data = $request->getParams();
-
-    }
+    $app->get(
+        '/verifEmail',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // return var_dump($request->getParams());
+            $data = $request->getParams();
+            // return var_dump($data);
+            $container->db->update('tbl_users', [
+                "status" => 1
+            ], [
+                    "id_user" => $data['key']
+                ]);
+            unset($_SESSION['isRegistered']);
+            $_SESSION['isValidatingEmail'] = true;
+            return $response->withRedirect('/login');
+            // echo "<p>Sukses verifikasi, <a href='/login'>Silahkan Login</a></p>";
+            // $data = $request->getParams();
+    
+        }
     );
     // verification email end here
 
@@ -214,46 +214,49 @@ return function (App $app) {
 
         }
     );
-    $app->get('/changePass', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        // return var_dump($request->getParams());
-        $data = $request->getParams();
-        $container->view->render($response, 'layout/log.html', [
-            'key' => $data['key'],
-            'isReset' => true
-        ]);
-    }
-    );
-    $app->post('/changePass', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $data = $request->getParsedBody();
-        // return var_dump($data);
-        if ($data['pass'] == $data['pass2']) {
-            $changePass = $container->db->update('tbl_users', [
-                'password' => $data['pass']
-            ], [
-                    'id_user' => $data['id_user']
-                ]);
-            $_SESSION['changedPass'] = true;
-            // return var_dump(true);
-            return $response->withRedirect('/login');
-
-        } else {
-            return $container->view->render($response, 'layout/log.html', [
+    $app->get(
+        '/changePass',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            // return var_dump($request->getParams());
+            $data = $request->getParams();
+            $container->view->render($response, 'layout/log.html', [
                 'key' => $data['key'],
-                'isReset' => true,
-                'notValidChanged' => true
+                'isReset' => true
             ]);
-            // return var_dump(false);
         }
-        // $container->view->render($response, 'layout/log.html', [
-        //     'key'=>$data['key'],
-        //     'isReset'=> true
-        // ]);
-    }
+    );
+    $app->post(
+        '/changePass',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            if ($data['pass'] == $data['pass2']) {
+                $changePass = $container->db->update('tbl_users', [
+                    'password' => $data['pass']
+                ], [
+                        'id_user' => $data['id_user']
+                    ]);
+                $_SESSION['changedPass'] = true;
+                // return var_dump(true);
+                return $response->withRedirect('/login');
+
+            } else {
+                return $container->view->render($response, 'layout/log.html', [
+                    'key' => $data['key'],
+                    'isReset' => true,
+                    'notValidChanged' => true
+                ]);
+                // return var_dump(false);
+            }
+            // $container->view->render($response, 'layout/log.html', [
+            //     'key'=>$data['key'],
+            //     'isReset'=> true
+            // ]);
+        }
     );
     // Forgot Password end here
-
     // //student
     // $app->get('/all-students', function (Request $request, Response $response, array $args) use ($container) {
     //     // Render index view
@@ -532,9 +535,9 @@ return function (App $app) {
             }
             if ($type == 3) {
                 $type = "Admin";
-                $container->view->render($response, 'dashboard/index.html', [
+                return DashboardAdminController::getData($this, $request, $response, [
                     'user' => $_SESSION['user'],
-                    'type' => $type
+                    'type' => $type,
                 ]);
             }
             if ($type == 4) {

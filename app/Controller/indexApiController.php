@@ -40,7 +40,7 @@ class indexApiController
             // return var_dump($verAwal[0]['username']);
             $_SESSION['user'] = $verAwal[0]['first_name'] . ' ' . $verAwal[0]['last_name'];
             $_SESSION['type'] = $verAwal[0]['id_user_type'];
-            $_SESSION['id_parent'] = $verAwal[0]['id_user'];
+            $_SESSION['id_user'] = $verAwal[0]['id_user'];
 
             $_SESSION['isLogin'] = true;
             if (isset($data['remember-me'])) {
