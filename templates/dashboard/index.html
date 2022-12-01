@@ -16,8 +16,8 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Students</div>
-                            <div class="item-number"><span class="counter" data-num="150000">1,50,000</span></div>
+                            <div class="item-title">Siswa</div>
+                            <div class="item-number"><span class="counter" data-num="{{totalSiswa}}">1,50,000</span></div>
                         </div>
                     </div>
                 </div>
@@ -33,8 +33,8 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Teachers</div>
-                            <div class="item-number"><span class="counter" data-num="2250">2,250</span></div>
+                            <div class="item-title">Guru</div>
+                            <div class="item-number"><span class="counter" data-num="{{totalTeacher}}">2,250</span></div>
                         </div>
                     </div>
                 </div>
@@ -50,8 +50,8 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Parents</div>
-                            <div class="item-number"><span class="counter" data-num="5690">5,690</span></div>
+                            <div class="item-title">Orang Tua</div>
+                            <div class="item-number"><span class="counter" data-num="{{totalParent}}">5,690</span></div>
                         </div>
                     </div>
                 </div>
@@ -67,8 +67,8 @@
                     </div>
                     <div class="col-6">
                         <div class="item-content">
-                            <div class="item-title">Earnings</div>
-                            <div class="item-number"><span>$</span><span class="counter" data-num="193000">1,93,000</span></div>
+                            <div class="item-title">Keuangan</div>
+                            <div class="item-number"><span>Rp</span><span class="counter" data-num="{{totalDana}}">1,93,000</span></div>
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>Earnings</h3>
+                            <h3>Pemasukan</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -91,9 +91,9 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                        class="fas fa-times text-orange-red"></i>Tutup</a>
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
                                 <a class="dropdown-item" href="#"><i
                                         class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                             </div>
@@ -102,21 +102,21 @@
                     <div class="earning-report">
                         <div class="item-content">
                             <div class="single-item pseudo-bg-blue">
-                                <h4>Total Collections</h4>
-                                <span>75,000</span>
+                                <h4>Dana BOS</h4>
+                                <span class="item-number" data-num="{{danaBOS}}"> {{danaBOS}}</span>
                             </div>
                             <div class="single-item pseudo-bg-red">
-                                <h4>Fees Collection</h4>
-                                <span>15,000</span>
+                                <h4>SPP Siswa</h4>
+                                <span class="item-number" data-num="{{sppSiswa}}"> {{sppSiswa}}</span>
                             </div>
                         </div>
                         <div class="dropdown">
                             <a class="date-dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                aria-expanded="false">Jan 20, 2019</a>
+                                aria-expanded="false">2019</a>
                             <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Jan 20, 2019</a>
-                                <a class="dropdown-item" href="#">Jan 20, 2021</a>
-                                <a class="dropdown-item" href="#">Jan 20, 2020</a>
+                                <a class="dropdown-item" href="#">2020</a>
+                                <a class="dropdown-item" href="#">2021</a>
+                                <a class="dropdown-item" href="#">2022</a>
                             </div>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>Expenses</h3>
+                            <h3>Pengeluaran</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -139,9 +139,9 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                        class="fas fa-times text-orange-red"></i>Tutup</a>
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
                                 <a class="dropdown-item" href="#"><i
                                         class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                             </div>
@@ -172,7 +172,7 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>Students</h3>
+                            <h3>Siswa</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -180,9 +180,9 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                        class="fas fa-times text-orange-red"></i>Tutup</a>
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
                                 <a class="dropdown-item" href="#"><i
                                         class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                             </div>
@@ -193,23 +193,23 @@
                     </div>
                     <div class="student-report">
                         <div class="student-count pseudo-bg-blue">
-                            <h4 class="item-title">Female Students</h4>
-                            <div class="item-number">45,000</div>
+                            <h4 class="item-title">Perempuan</h4>
+                            <div class="item-number" data-num="{{totalSiswaFemale}}">{{totalSiswaFemale}}</div>
                         </div>
                         <div class="student-count pseudo-bg-yellow">
-                            <h4 class="item-title">Male Students</h4>
-                            <div class="item-number">1,05,000</div>
+                            <h4 class="item-title">Laki-laki</h4>
+                            <div class="item-number" data-num="{{totalSiswaMale}}">{{totalSiswaMale}}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-xl-6 col-4-xxxl">
+        <div class="col-12 col-xl-6 col-6-xxxl">
             <div class="card dashboard-card-four pd-b-20">
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>Event Calender</h3>
+                            <h3>Kalender</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -217,9 +217,9 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                        class="fas fa-times text-orange-red"></i>Tutup</a>
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
                                 <a class="dropdown-item" href="#"><i
                                         class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                             </div>
@@ -231,7 +231,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 col-xl-6 col-4-xxxl">
+        <!-- <div class="col-lg-6 col-xl-6 col-4-xxxl">
             <div class="card dashboard-card-five pd-b-20">
                 <div class="card-body pd-b-14">
                     <div class="heading-layout1">
@@ -244,9 +244,9 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                        class="fas fa-times text-orange-red"></i>Tutup</a>
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
                                 <a class="dropdown-item" href="#"><i
                                         class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                             </div>
@@ -292,13 +292,13 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-lg-6 col-xl-6 col-4-xxxl">
+        </div> -->
+        <div class="col-lg-6 col-xl-6 col-6-xxxl">
             <div class="card dashboard-card-six pd-b-20">
                 <div class="card-body">
                     <div class="heading-layout1 mg-b-17">
                         <div class="item-title">
-                            <h3>Notice Board</h3>
+                            <h3>Notifikasi</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -306,9 +306,9 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                        class="fas fa-times text-orange-red"></i>Tutup</a>
                                 <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
                                 <a class="dropdown-item" href="#"><i
                                         class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                             </div>
@@ -363,7 +363,7 @@
                             <i class="fab fa-facebook-f"></i>
                         </div>
                         <div class="media-body space-sm">
-                            <h6 class="item-title">Like us on facebook</h6>
+                            <h6 class="item-title">Like halaman facebook</h6>
                         </div>
                     </div>
                     <div class="social-like">30,000</div>
@@ -378,7 +378,7 @@
                             <i class="fab fa-twitter"></i>
                             </div>
                             <div class="media-body space-sm">
-                                <h6 class="item-title">Follow us on twitter</h6>
+                                <h6 class="item-title">Followers twitter</h6>
                             </div>
                     </div>
                     <div class="social-like">1,11,000</div>
@@ -393,7 +393,7 @@
                             <i class="fab fa-google-plus-g"></i>
                         </div>
                         <div class="media-body space-sm">
-                            <h6 class="item-title">Follow us on googleplus</h6>
+                            <h6 class="item-title">Followers googleplus</h6>
                         </div>
                     </div>
                     <div class="social-like">19,000</div>
@@ -408,7 +408,7 @@
                         <i class="fab fa-linkedin-in"></i>
                         </div>
                         <div class="media-body space-sm">
-                            <h6 class="item-title">Follow us on linked</h6>
+                            <h6 class="item-title">Followers LinkedIn</h6>
                         </div>
                     </div>
                     <div class="social-like">45,000</div>
