@@ -267,16 +267,16 @@
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form id="forgotForm">
             <div class="form-group">
-              <label for="email" class="col-form-label">Email</label>
-              <input type="text" class="form-control" id="email" name="email" placeholder="Masskan Email kamu">
+              <label for="emailForgot" class="col-form-label">Email</label>
+              <input type="text" class="form-control" id="emailForgot" name="emailForgot" placeholder="Masukan Email kamu">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             <button type="button" class="btn btn-primary" id="sendEmail">Kirim Email</button>
-            <button type="button" class="btn btn-warning">Saya tidak memiliki akses ke email</button>
+            <button type="button" class="btn btn-warning" id="notEmail">Saya tidak memiliki akses ke email</button>
           </div>
           </form>
       </div>
@@ -290,6 +290,20 @@
       $('#forgotBtn').on('click',function(e){
         e.preventDefault();
         $('#forgotPassword').modal('show')
+        $('#sendEmail').on('click',function(e){
+          const email = $('#emailForgot').val();
+          console.log(email);
+          $.ajax({
+            type: "POST",
+            url: '/forgotPass',
+            data: {
+              email: email,
+            },
+            success: function (response) {
+              console.log(response)
+            }
+          })
+        })
       })
       $('#regBtn').on('click', function (e) {
         e.preventDefault();

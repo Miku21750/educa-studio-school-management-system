@@ -10,6 +10,8 @@ use App\middleware\Auth;
 use App\Controller\userViewController;
 use App\Controller\DashbordParentConroller;
 use App\Controller\dashboardAdminController;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 
 
@@ -79,6 +81,13 @@ return function (App $app) {
 
     });
     
+    // Forgot Password start here
+    $app->post('/forgotPass', function (Request $request, Response $response, array $args) use ($app) {
+        // return var_dump($request->getParsedBody());
+        $isValid = $app->db->select('tbl_users',[]);
+    });
+    // Forgot Password end here
+
     // //student
     // $app->get('/all-students', function (Request $request, Response $response, array $args) use ($container) {
     //     // Render index view
