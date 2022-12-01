@@ -8,7 +8,7 @@ use Slim\Http\Response;
 use Medoo\Medoo; //Pindahkan ke conroller nanti
 use App\middleware\Auth;
 use App\Controller\userViewController;
-use App\Controller\DashbordParentConroller;
+use App\Controller\DashbordParentController;
 use App\Controller\dashboardAdminController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -77,6 +77,19 @@ return function (App $app) {
             $app->get('/get-student', function (Request $request, Response $response, array $args) use ($app) {
                 return $response->withJson(dashboardAdminController::getStudent($this, $request, $response, $args));
             });
+        });
+
+        $app->get('/{id}/select', function (Request $request, Response $response, array $args) use ($app) {
+            $data = $args['id'];
+            return DashbordParentController::tampil_data($this, $request, $response, [
+                'data' => $data
+            ]);
+        });
+        $app->get('/{id}/result', function (Request $request, Response $response, array $args) use ($app) {
+            $data = $args['id'];
+            return DashbordParentController::tampil_data_result($this, $request, $response, [
+                'data' => $data
+            ]);
         });
 
     });
@@ -292,7 +305,7 @@ return function (App $app) {
             $type = "Parent";
             $id_parent = $_SESSION['id_user'];
 
-            return DashbordParentConroller::index($this, $request, $response, [
+            return DashbordParentController::index($this, $request, $response, [
                 'user' => $_SESSION['user'],
                 'type' => $type,
                 'id_parent' => $id_parent,

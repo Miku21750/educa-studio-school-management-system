@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>AKKHOR | {{title}} </title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon -->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>AKKHOR | {{title}} </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- jquery-->
+        <script src="/js/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.13/js/jquery.dataTables.js"></script>
+        <!-- Favicon -->
+    <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.css">
+    
+    
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.png">
     <!-- Normalize CSS -->
     <link rel="stylesheet" href="/css/normalize.css">
@@ -28,6 +34,7 @@
     <link rel="stylesheet" href="/css/datepicker.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/style.css">
+    
     <!-- Modernize js -->
     <script src="/js/modernizr-3.6.0.min.js"></script>
     <!-- Google translate -->
@@ -38,23 +45,23 @@
     <div id="preloader"></div>
     <!-- Preloader End Here -->
     <div id="wrapper" class="wrapper bg-ash">
-       {% include "layout/nav.html" %}
-       {% block nav %}
+        {% include "layout/nav.html" %}
+        {% block nav %}
         
-       {% endblock nav %}
+        {% endblock nav %}
         <!-- Page Area Start Here -->
         <div class="dashboard-page-one">
             {% include "/layout/sidebar.html" %}
             {% block sidebar %}
-                
+            
             {% endblock sidebar %}
             <div class="dashboard-content-one">
                 {% include "/layout/Breadcubs.html" %}
                 {% block Breadcubs %}
-                    
+                
                 {% endblock Breadcubs %}
                 {% block content %}
-                    
+                
                 {% endblock content %}
                 {% include "/layout/footer.html" %}
                 {% block footer %}
@@ -64,8 +71,6 @@
         </div>
         <!-- Page Area End Here -->
     </div>
-     <!-- jquery-->
-     <script src="/js/jquery-3.3.1.min.js"></script>
      <!-- Plugins js -->
      <script src="/js/plugins.js"></script>
      <!-- Popper js -->
@@ -81,9 +86,9 @@
      <!-- Waypoints Js -->
      <script src="/js/jquery.waypoints.min.js"></script>
      <!-- Date Picker Js -->
-    <script src="/js/datepicker.min.js"></script>
-    <!-- Smoothscroll Js -->
-    <script src="/js/jquery.smoothscroll.min.js"></script>
+     <script src="/js/datepicker.min.js"></script>
+     <!-- Smoothscroll Js -->
+     <script src="/js/jquery.smoothscroll.min.js"></script>
      <!-- Scroll Up Js -->
      <script src="/js/jquery.scrollUp.min.js"></script>
      <!-- Full Calender Js -->
@@ -96,5 +101,5 @@
      <script src="/js/Chart.min.js"></script>
      <!-- Custom Js -->
      <script src="/js/main.js"></script>
-</body>
-</html>
+    </body>
+    </html>
