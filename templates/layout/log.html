@@ -47,10 +47,20 @@
         </div>
         {% elseif isRegister == true %}
         <div class="alert alert-success" role="alert">
-          Success Register, now login through the app
+          Berhasil Daftar, mohon untuk verifikasi email terlebih dahulu
+        </div>
+        {% elseif isValidatingEmail == true %}
+        <div class="alert alert-success" role="alert">
+          Berhasil Verifikasi, silahkan Login
         </div>
         {% elseif logout == true %}
         <div class="alert alert-primary" role="alert">Success Logout</div>
+        {% elseif changedPass == true %}
+        <div class="alert alert-success" role="alert">
+          Berhasil Ganti Password, silahkan Login
+        </div>
+        {% elseif forgotPassSend == true %}
+        <div class="alert alert-primary" role="alert">Silahkan cek email kamu untuk ganti password</div>
         {% elseif notValidate == true %}
         {# <div class="alert alert-danger" role="alert">
             Wrong user or password. Don't have an account? <a href="/register">create an account</a>
@@ -92,7 +102,7 @@
               <input type="checkbox" name="remember-me" class="form-check-input" id="remember-me" />
               <label for="remember-me"  class="form-check-label">Ingat saya</label>
             </div>
-            <button class="btn btn-danger" id="forgotBtn">Lupa Password?</button>
+            <a class="forgot-btn" id="forgotBtn">Lupa Password?</a>
           </div>
           <div class="form-group">
             <button type="submit" class="login-btn">Login</button>
@@ -194,7 +204,6 @@
       </div>
     </div>
   </div>
-  <!-- register Page End Here -->
   <!-- Add aditional script register confirm password  -->
   <script>
     $(document).ready(function () {
@@ -205,9 +214,56 @@
       });
     })
   </script>
+  <!-- register Page End Here -->
+  <!-- Reset Pass start Here -->
+  {% elseif isReset is not null %}
+  <div class="login-page-wrap">
+    <div class="login-page-content">
+      <div class="login-box">
+        <div class="item-logo">
+          <img src="img/logo2.png" alt="logo" />
+        </div>
+        <form class="login-form" id="resetForm" action="/changePass" method="post">
+          <input type="text" name="id_user" value="{{ key }}" hidden>
+          <div class="form-group">
+            <label>Password Baru</label>
+            <input type="password" name="pass" id="pass" placeholder="Masukan password" class="form-control" required/>
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="form-group">
+            <label>Konfirmasi Password Baru</label>
+            <input type="password" name="pass2" id="pass2" placeholder="Konfirmasi password" class="form-control" required/>
+            <i class="fas fa-lock"></i>
+            <span id="message"></span>
+          </div>
+          <div class="form-group">
+            <button class="login-btn" id="changePass">Change Pass</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Add aditional script register confirm password  -->
+  <script>
+    $(document).ready(function () {
+      $("#pass2").on("keyup", function () {
+        if ($("#pass").val() == $("#pass2").val()) {
+          $("#message").html("Sama").css("color", "green").attr("data-valid", true);
+        } else $("#message").html("Tidak Sama").css("color", "red").attr("data-valid", false);
+      });
+    })
+  </script>
+  {% if notValidChanged is not null %}
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Password tidak sama',
+        text: 'Silahkan isi ulang'
+      })
+    </script>
   {% endif %}
-
-  <!-- Modal register start here -->
+  <!-- Reset Pass end Here -->
+  {% endif %}
   <!-- Sign Up Modal -->
   {# <button type="button" class="modal-trigger text-center"  data-toggle="modal" data-target="#sign-up">aria-label</button> #}
   <div class="modal sign-up-modal fade text-center" id="sign-up" tabindex="-1" role="dialog"
