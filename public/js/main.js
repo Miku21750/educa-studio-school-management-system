@@ -180,33 +180,33 @@
     if ($("#earning-line-chart").length) {
 
       var lineChartData = {
-        labels: ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", ""],
+        labels: ["", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
         datasets: [{
-            data: [0, 5e4, 1e4, 5e4, 14e3, 7e4, 5e4, 75e3, 5e4],
-            backgroundColor: '#ff0000',
-            borderColor: '#ff0000',
-            borderWidth: 1,
-            pointRadius: 0,
-            pointBackgroundColor: '#ff0000',
-            pointBorderColor: '#ffffff',
-            pointHoverRadius: 6,
-            pointHoverBorderWidth: 3,
-            fill: 'origin',
-            label: "Total Collection"
-          },
-          {
-            data: [0, 3e4, 2e4, 6e4, 7e4, 5e4, 5e4, 9e4, 8e4],
-            backgroundColor: '#417dfc',
-            borderColor: '#417dfc',
-            borderWidth: 1,
-            pointRadius: 0,
-            pointBackgroundColor: '#304ffe',
-            pointBorderColor: '#ffffff',
-            pointHoverRadius: 6,
-            pointHoverBorderWidth: 3,
-            fill: 'origin',
-            label: "Fees Collection"
-          }
+          data: [0, 50000,20000, 30000, 70000,80000,40000,60000,30000,60000,70000,40000,30000],
+          backgroundColor: '#ff0000',
+          borderColor: '#ff0000',
+          borderWidth: 1,
+          pointRadius: 0,
+          pointBackgroundColor: '#ff0000',
+          pointBorderColor: '#ffffff',
+          pointHoverRadius: 6,
+          pointHoverBorderWidth: 3,
+          fill: 'origin',
+          label: "Total Collection"
+        },
+        {
+          data: [0,  50000,20000, 30000, 70000,80000,40000,60000,30000,60000,70000,40000,30000],
+          backgroundColor: '#417dfc',
+          borderColor: '#417dfc',
+          borderWidth: 1,
+          pointRadius: 0,
+          pointBackgroundColor: '#304ffe',
+          pointBorderColor: '#ffffff',
+          pointHoverRadius: 6,
+          pointHoverBorderWidth: 3,
+          fill: 'origin',
+          label: "Fees Collection"
+        }
         ]
       };
       var lineChartOptions = {
@@ -222,7 +222,7 @@
             ticks: {
               display: true,
               fontColor: "#222222",
-              fontSize: 16,
+              fontSize: 14,
               padding: 20
             },
             gridLines: {
@@ -239,18 +239,18 @@
               autoSkip: true,
               maxRotation: 0,
               fontColor: "#646464",
-              fontSize: 16,
-              stepSize: 25000,
+              fontSize: 12,
+              stepSize: 5000,
               padding: 20,
               callback: function (value) {
                 var ranges = [{
-                    divider: 1e6,
-                    suffix: 'M'
-                  },
-                  {
-                    divider: 1e3,
-                    suffix: 'k'
-                  }
+                  divider: 5,
+                  suffix: 'k'
+                },
+                {
+                  divider: 5,
+                  suffix: 'k'
+                }
                 ];
 
                 function formatNumber(n) {
@@ -283,7 +283,7 @@
         },
         elements: {
           line: {
-            tension: .35
+            tension: 0.15
           },
           point: {
             pointStyle: 'circle'
@@ -309,7 +309,7 @@
           backgroundColor: ["#40dfcd", "#417dfc", "#ffaa01"],
           data: [125000, 100000, 75000, 50000, 150000],
           label: "Expenses (millions)"
-        }, ]
+        },]
       };
       var barChartOptions = {
         responsive: true,
@@ -345,13 +345,13 @@
               beginAtZero: true,
               callback: function (value) {
                 var ranges = [{
-                    divider: 1e6,
-                    suffix: 'M'
-                  },
-                  {
-                    divider: 1e3,
-                    suffix: 'k'
-                  }
+                  divider: 1e6,
+                  suffix: 'M'
+                },
+                {
+                  divider: 1e3,
+                  suffix: 'k'
+                }
                 ];
 
                 function formatNumber(n) {
@@ -393,37 +393,54 @@
     /*-------------------------------------
           Doughnut Chart 
       -------------------------------------*/
-    if ($("#student-doughnut-chart").length) {
 
-      var doughnutChartData = {
-        labels: ["Female Students", "Male Students"],
-        datasets: [{
-          backgroundColor: ["#304ffe", "#ffa601"],
-          data: [45000, 105000],
-          label: "Total Students"
-        }, ]
-      };
-      var doughnutChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutoutPercentage: 65,
-        rotation: -9.4,
-        animation: {
-          duration: 2000
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: true
-        },
-      };
-      var studentCanvas = $("#student-doughnut-chart").get(0).getContext("2d");
-      var studentChart = new Chart(studentCanvas, {
-        type: 'doughnut',
-        data: doughnutChartData,
-        options: doughnutChartOptions
-      });
+    if ($("#student-doughnut-chart").length) {
+      var siswaPerempuan;
+      var siswaLaki;
+      $(document).ready(function () {
+        $.ajax({
+          type: "GET",
+          url: "/api/admin/apidata",
+          dataType: "JSON",
+          success: function (total) {
+            let a = total;
+            // console.log(a['totalSiswaFemale'])
+            siswaPerempuan = a['totalSiswaFemale']
+            siswaLaki = a['totalSiswaMale']
+
+            console.log(siswaPerempuan)
+            var doughnutChartData = {
+              labels: ["Siswa Perempuan", "Siswa Laki-laki"],
+              datasets: [{
+                backgroundColor: ["#304ffe", "#ffa601"],
+                data: [siswaPerempuan, siswaLaki],
+                label: "Total Siswa"
+              },]
+            };
+            var doughnutChartOptions = {
+              responsive: true,
+              maintainAspectRatio: false,
+              cutoutPercentage: 65,
+              rotation: -9.4,
+              animation: {
+                duration: 2000
+              },
+              legend: {
+                display: false
+              },
+              tooltips: {
+                enabled: true
+              },
+            };
+            var studentCanvas = $("#student-doughnut-chart").get(0).getContext("2d");
+            var studentChart = new Chart(studentCanvas, {
+              type: 'doughnut',
+              data: doughnutChartData,
+              options: doughnutChartOptions
+            });
+          }
+        });
+      })
     }
 
     /*-------------------------------------
@@ -442,22 +459,22 @@
         eventLimit: true, // allow "more" link when too many events
         aspectRatio: 1.8,
         events: [{
-            title: 'All Day Event',
-            start: '2019-04-01'
-          },
+          title: 'All Day Event',
+          start: '2019-04-01'
+        },
 
-          {
-            title: 'Meeting',
-            start: '2019-04-12T14:30:00'
-          },
-          {
-            title: 'Happy Hour',
-            start: '2019-04-15T17:30:00'
-          },
-          {
-            title: 'Birthday Party',
-            start: '2019-04-20T07:00:00'
-          }
+        {
+          title: 'Meeting',
+          start: '2019-04-12T14:30:00'
+        },
+        {
+          title: 'Happy Hour',
+          start: '2019-04-15T17:30:00'
+        },
+        {
+          title: 'Birthday Party',
+          start: '2019-04-20T07:00:00'
+        }
         ]
       });
     }
@@ -466,48 +483,48 @@
 })(jQuery);
 
 
-    /*-------------------------------------
-          Google Translate 
-      -------------------------------------*/
+/*-------------------------------------
+      Google Translate 
+  -------------------------------------*/
 // function googleTranslateElementInit(){
 //   new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element')
 // }
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({
-      pageLanguage: 'en', 
-      // includedLanguages: 'en,es,pl,pt,zh-CN,zh-TW,ar,so,ru,hy,ko,vi',
-      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    pageLanguage: 'en',
+    // includedLanguages: 'en,es,pl,pt,zh-CN,zh-TW,ar,so,ru,hy,ko,vi',
+    layout: google.translate.TranslateElement.InlineLayout.SIMPLE
   }, 'google_translate_element');
 }
 // JQUERY
 $('document').ready(function () {
   $('#google_translate_element').on("click", function () {
 
-      // Change font family and color
-      $("iframe").contents().find(".goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div") //, .goog-te-menu2 *
+    // Change font family and color
+    $("iframe").contents().find(".goog-te-menu2-item div, .goog-te-menu2-item:link div, .goog-te-menu2-item:visited div, .goog-te-menu2-item:active div") //, .goog-te-menu2 *
       .css({
-          'color': '#544F4B',
-          'background-color': '#e3e3ff',
-          'font-family': '"Open Sans",Helvetica,Arial,sans-serif'
+        'color': '#544F4B',
+        'background-color': '#e3e3ff',
+        'font-family': '"Open Sans",Helvetica,Arial,sans-serif'
       });
 
-      // Change hover effects  #e3e3ff = white
-      $("iframe").contents().find(".goog-te-menu2-item div").hover(function () {
-          $(this).css('background-color', '#17548d').find('span.text').css('color', '#e3e3ff');
-      }, function () {
-          $(this).css('background-color', '#e3e3ff').find('span.text').css('color', '#544F4B');
-      });
+    // Change hover effects  #e3e3ff = white
+    $("iframe").contents().find(".goog-te-menu2-item div").hover(function () {
+      $(this).css('background-color', '#17548d').find('span.text').css('color', '#e3e3ff');
+    }, function () {
+      $(this).css('background-color', '#e3e3ff').find('span.text').css('color', '#544F4B');
+    });
 
-      // Change Google's default blue border
-      $("iframe").contents().find('.goog-te-menu2').css('border', '1px solid #17548d');
+    // Change Google's default blue border
+    $("iframe").contents().find('.goog-te-menu2').css('border', '1px solid #17548d');
 
-      $("iframe").contents().find('.goog-te-menu2').css('background-color', '#e3e3ff');
+    $("iframe").contents().find('.goog-te-menu2').css('background-color', '#e3e3ff');
 
-      // Change the iframe's box shadow
-      $(".goog-te-menu-frame").css({
-          '-moz-box-shadow': '0 3px 8px 2px #666666',
-          '-webkit-box-shadow': '0 3px 8px 2px #666',
-          'box-shadow': '0 3px 8px 2px #666'
-      });
+    // Change the iframe's box shadow
+    $(".goog-te-menu-frame").css({
+      '-moz-box-shadow': '0 3px 8px 2px #666666',
+      '-webkit-box-shadow': '0 3px 8px 2px #666',
+      'box-shadow': '0 3px 8px 2px #666'
+    });
   });
 });

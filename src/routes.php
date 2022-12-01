@@ -9,7 +9,7 @@ use Medoo\Medoo; //Pindahkan ke conroller nanti
 use App\middleware\Auth;
 use App\Controller\userViewController;
 use App\Controller\DashbordParentConroller;
-use App\Controller\dashboardAdminController;
+use App\Controller\DashboardAdminController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -70,15 +70,13 @@ return function (App $app) {
                 return 0;
             });
         });
-
-
+        
         $app->group('/admin', function () use ($app) {
 
-            $app->get('/get-student', function (Request $request, Response $response, array $args) use ($app) {
-                return $response->withJson(dashboardAdminController::getStudent($this, $request, $response, $args));
+            $app->get('/apidata', function (Request $request, Response $response, array $args) use ($app) {
+                return DashboardAdminController::apiData($this, $request, $response, $args);;
             });
         });
-
     });
     
     // Forgot Password start here
@@ -87,7 +85,6 @@ return function (App $app) {
         $isValid = $app->db->select('tbl_users',[]);
     });
     // Forgot Password end here
-
     // //student
     // $app->get('/all-students', function (Request $request, Response $response, array $args) use ($container) {
     //     // Render index view
@@ -283,10 +280,16 @@ return function (App $app) {
         }
         if ($type == 3) {
             $type = "Admin";
-            $container->view->render($response, 'dashboard/index.html', [
+
+            return DashboardAdminController::getData($this, $request, $response, [
                 'user' => $_SESSION['user'],
-                'type' => $type
+                'type' => $type,
             ]);
+
+            // $container->view->render($response, 'dashboard/index.html', [
+            //     'user' => $_SESSION['user'],
+            //     'type' => $type,
+            // ]);
         }
         if ($type == 4) {
             $type = "Parent";
