@@ -1,5 +1,6 @@
 <?php
 
+use App\Controller\DashboardStudentController;
 use App\Controller\indexApiController;
 use App\Controller\indexViewController;
 use Slim\App;
@@ -247,11 +248,19 @@ return function (App $app) {
         // return var_dump($type);
         if ($type == 1) {
             $type = "Student";
-            $container->view->render($response, 'dashboard/student.html', [
+            // $id_student = $_SESSION['id_student'];
+            // $id_student = 'id_user';
+            // $container->view->render($response, 'dashboard/student.html', [
+            //     'user' => $_SESSION['user'],
+            //     'type' => $type
+            // ]);
+            // return $response->withRedirect('/student');
+            return DashboardStudentController::view_data_student($this, $request, $response,[
                 'user' => $_SESSION['user'],
                 'type' => $type
+                // 'id_student' => $id_student
             ]);
-            // return $response->withRedirect('/student');
+
         }
         if ($type == 2) {
             $type = "Teacher";
@@ -282,5 +291,6 @@ return function (App $app) {
         //     ]);
         //     return $response->withRedirect('/student');
         // }
+        
     })->add(new Auth()) ; // Auth Aku Nonaktifkan dulu
 };
