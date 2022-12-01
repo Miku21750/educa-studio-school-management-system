@@ -255,9 +255,11 @@ return function (App $app) {
         }
         if ($type == 2) {
             $type = "Teacher";
+            $totalGuru = "88888";
             $container->view->render($response, 'dashboard/teacher.html', [
                 'user' => $_SESSION['user'],
-                'type' => $type
+                'type' => $type,
+                'totalGuru' => $totalGuru
             ]);
         }
         if ($type == 3) {
