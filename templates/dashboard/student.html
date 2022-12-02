@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>About Me</h3>
+                        <h3>Tentang Saya</h3>
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -25,81 +25,81 @@
                         </div>
                     </div>
                 </div>
+                {% for student in data_student %}
                 <div class="student-info">
                     <div class="media media-none--xs">
                         <div class="item-img">
                             <img src="img/figure/student.png" class="media-img-auto" alt="student">
                         </div>
                         <div class="media-body">
-                            <h3 class="item-title">Jessia Rose</h3>
-                            <p>Aliquam erat volutpat. Curabiene natis massa
-                                sedde lacustiquen sodale word moun taiery.</p>
+                            <h3 class="item-title">{{student.first_name}} {{student.last_name}}</h3>
+                            <p>{{student.short_bio}}</p>
                         </div>
                     </div>
                     <div class="table-responsive info-table">
                         <table class="table text-nowrap">
                             <tbody>
                                 <tr>
-                                    <td>Name:</td>
-                                    <td class="font-medium text-dark-medium">Jessia Rose</td>
+                                    <td>Nama :</td>
+                                    <td class="font-medium text-dark-medium">{{student.first_name}} {{student.last_name}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Gender:</td>
-                                    <td class="font-medium text-dark-medium">Female</td>
+                                    <td>Jenis Kelamin :</td>
+                                    <td class="font-medium text-dark-medium">{{student.gender}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Father Name:</td>
-                                    <td class="font-medium text-dark-medium">Fahim Rahman</td>
+                                    <td>Nama Ayah :</td>
+                                    <td class="font-medium text-dark-medium">Nama Ayah Murid(belum)</td>
                                 </tr>
                                 <tr>
-                                    <td>Mother Name:</td>
-                                    <td class="font-medium text-dark-medium">Jannatul Kazi</td>
+                                    <td>Nama Ibu :</td>
+                                    <td class="font-medium text-dark-medium">Nama Ibu Murid(belum)</td>
                                 </tr>
                                 <tr>
-                                    <td>Date Of Birth:</td>
-                                    <td class="font-medium text-dark-medium">07.08.2006</td>
+                                    <td>Tanggal Lahir :</td>
+                                    <td class="font-medium text-dark-medium">{{student.date_of_birth|date("d M Y")}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Religion:</td>
-                                    <td class="font-medium text-dark-medium">Islam</td>
+                                    <td>Agama :</td>
+                                    <td class="font-medium text-dark-medium">{{student.religion}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Father Occupation:</td>
-                                    <td class="font-medium text-dark-medium">Graphic Designer</td>
+                                    <td>Pekerjaan Ayah :</td>
+                                    <td class="font-medium text-dark-medium">Pekerjaan Ayah Murid(belum)</td>
                                 </tr>
                                 <tr>
-                                    <td>E-Mail:</td>
-                                    <td class="font-medium text-dark-medium">jessiarose@gmail.com</td>
+                                    <td>E-mail :</td>
+                                    <td class="font-medium text-dark-medium">{{student.email}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Admission Date:</td>
-                                    <td class="font-medium text-dark-medium">05.01.2019</td>
+                                    <td>Tanggal Penerimaan :</td>
+                                    <td class="font-medium text-dark-medium">{{student.admission_date|date("d M Y")}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Class:</td>
-                                    <td class="font-medium text-dark-medium">2</td>
+                                    <td>Kelas :</td>
+                                    <td class="font-medium text-dark-medium">{{student.class}}</td>
                                 </tr>
                                 <tr>
                                     <td>Section:</td>
-                                    <td class="font-medium text-dark-medium">Pink</td>
+                                    <td class="font-medium text-dark-medium">Pink(belum)</td>
                                 </tr>
                                 <tr>
                                     <td>Roll:</td>
-                                    <td class="font-medium text-dark-medium">10005</td>
+                                    <td class="font-medium text-dark-medium">10005(belum)</td>
                                 </tr>
                                 <tr>
-                                    <td>Adress:</td>
-                                    <td class="font-medium text-dark-medium">House #10, Road #6,
-                                        Australia</td>
+                                    <td>Alamat :</td>
+                                    <td class="font-medium text-dark-medium">{{student.address_user}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Phone:</td>
-                                    <td class="font-medium text-dark-medium">+ 88 9856418</td>
+                                    <td>Telepon :</td>
+                                    <td class="font-medium text-dark-medium">{{student.phone_user}}</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -117,8 +117,8 @@
                         </div>
                         <div class="col-6">
                             <div class="item-content">
-                                <div class="item-title">Notification</div>
-                                <div class="item-number"><span class="counter" data-num="12">12</span></div>
+                                <div class="item-title">Pemberitahuan</div>
+                                <div class="item-number"><span class="counter" data-num="{{data_student_notification}}">12</span></div>
                             </div>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="col-6">
                             <div class="item-content">
-                                <div class="item-title">Events</div>
+                                <div class="item-title">Acara</div>
                                 <div class="item-number"><span class="counter" data-num="06">06</span></div>
                             </div>
                         </div>
@@ -151,8 +151,8 @@
                         </div>
                         <div class="col-6">
                             <div class="item-content">
-                                <div class="item-title">Attendance</div>
-                                <div class="item-number"><span class="counter" data-num="94">94</span><span>%</span></div>
+                                <div class="item-title">Kehadiran</div>
+                                <div class="item-number"><span class="counter" data-num="">94</span><span>%(belum)</span></div>
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                     <div class="card-body">
                         <div class="heading-layout1">
                             <div class="item-title">
-                                <h3>All Exam Results</h3>
+                                <h3>Semua Hasil Ujian</h3>
                             </div>
                             <div class="dropdown">
                                 <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -193,12 +193,12 @@
                                             class="form-control">
                                     </div>
                                     <div class="col-lg-3 col-12 form-group">
-                                        <input type="text" placeholder="dd/mm/yyyy"
+                                        <input type="text" placeholder="dd MM YYYY"
                                             class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-12 form-group">
                                         <button type="submit"
-                                            class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                            class="fw-btn-fill btn-gradient-yellow">CARI</button>
                                     </div>
                                 </div>
                             </form>
@@ -210,19 +210,60 @@
                                                 <div class="form-check">
                                                     <input type="checkbox"
                                                         class="form-check-input checkAll">
-                                                    <label class="form-check-label">ID</label>
+                                                    <label class="form-check-label">PENGENAL</label>
                                                 </div>
                                             </th>
                                             <th>Exam Name</th>
-                                            <th>Subject</th>
-                                            <th>Grade</th>
-                                            <th>Percent</th>
-                                            <th>Date</th>
+                                            <th>Subjek</th>
+                                            <th>Nilai</th>
+                                            <th>Persen</th>
+                                            <th>Tanggal</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        {% for exam in data_student_exam %}
                                         <tr>
+                                            <td>
+                                                <div class="form-check">
+                                                    <input type="checkbox" class="form-check-input">
+                                                    <label class="form-check-label">#{{id_user}}</label>
+                                                </div>
+                                            </td>
+                                            <td>{{exam.exam_name}}</td>
+                                            <td>{{exam.id_subject}}</td>
+                                            <td>
+                                                {% if exam.score >= 90 %}
+                                                A
+                                                {% elseif exam.score >= 80 %}
+                                                B
+                                                {% elseif exam.score >= 70 %}
+                                                C
+                                                {% else %}
+                                                D
+                                                {% endif %}
+                                            </td>
+                                            <td>{{exam.score}}.00 > 100</td>
+                                            <td>{{exam.exam_date|date("d M Y")}}</td>
+                                            <td>
+                                                <div class="dropdown">
+                                                    <a href="#" class="dropdown-toggle"
+                                                        data-toggle="dropdown" aria-expanded="false">
+                                                        <span
+                                                            class="flaticon-more-button-of-three-dots"></span>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="#"><i
+                                                                class="fas fa-times text-orange-red"></i>Close</a>
+                                                        <a class="dropdown-item" href="#"><i
+                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                                        <a class="dropdown-item" href="#"><i
+                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
                                             <td>
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input">
@@ -491,7 +532,8 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr>
+                                        </tr> -->
+                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -503,13 +545,14 @@
         </div>
     </div>
 </div>
+<!-- ADMISSION -->
 <div class="row">
     <div class="col-4-xxxl col-xl-6 col-12">
         <div class="card dashboard-card-three">
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Attendence</h3>
+                        <h3>Kehadiran</h3>
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -530,23 +573,24 @@
                 </div>
                 <div class="student-report">
                     <div class="student-count pseudo-bg-blue">
-                        <h4 class="item-title">Absent</h4>
+                        <h4 class="item-title">Absen</h4>
                         <div class="item-number">28.2%</div>
                     </div>
                     <div class="student-count pseudo-bg-yellow">
-                        <h4 class="item-title">Present</h4>
+                        <h4 class="item-title">Hadiah</h4>
                         <div class="item-number">65.8%</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- CALENDER -->
     <div class="col-4-xxxl col-xl-6 col-12">
         <div class="card dashboard-card-thirteen">
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Event Calender</h3>
+                        <h3>Kalender acara</h3>
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -568,6 +612,7 @@
             </div>
         </div>
     </div>
+    <!-- NOTIFICATION -->
     <div class="col-4-xxxl col-12">
         <div class="card dashboard-card-six">
             <div class="card-body">
@@ -590,6 +635,16 @@
                     </div>
                 </div>
                 <div class="notice-box-wrap">
+                    <h3>Menampilkan dari database</h3>
+                    {% for view_notification in view_student_notification %}
+                    <div class="notice-list">
+                        <div class="post-date bg-skyblue">{{view_notification.date_notice|date("d M Y")}}</div>
+                        <h6 class="notice-title"><a href="#">{{view_notification.title}}</a></h6>
+                        <div class="entry-meta"> {{view_notification.posted_by}} / <span>5 min ago</span></div>
+                    </div>
+                    {% endfor %}
+                    <hr>
+
                     <div class="notice-list">
                         <div class="post-date bg-skyblue">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag mene esom tus eleifend
@@ -609,7 +664,7 @@
                                 us mi faucibus id. Mauris vestibulum non purus lobortismenearea</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
                     </div>
-                    <div class="notice-list">
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-skyblue">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag mene esom text of the
                                 printing.</a></h6>
@@ -624,7 +679,7 @@
                         <div class="post-date bg-pink">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

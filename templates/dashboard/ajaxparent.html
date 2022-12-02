@@ -1,0 +1,129 @@
+{% block ajaxparent %}
+{# {{Tabel}} #}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var id = $('#id').attr('data-id');
+        console.log(id)
+        initTable = function () {
+            
+            table = $("#data_v2").on('preXhr.dt', function (e, settings, data) {
+                
+                console.log('loading ....');
+                
+            }).on('draw.dt', function () {
+                console.log(id);
+                
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+                    { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 4, className: "text-center", "orderable": false },
+                    { "width": "10%", "targets": 5, className: "text-end", "orderable": false },
+                    { "width": "15%", "targets": 6, className: "text-end", "orderable": false }
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api"+"/"+ id + "/select",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'NISN' },
+                    { 'data': 'Nama' },
+                    { 'data': 'payment_type_name' },
+                    { 'data': 'amount_payment' },
+                    { 'data': 'status' },
+                    { 'data': 'email' },
+                    { 'data': 'date_payment' }
+
+                ]
+                
+        
+            });
+            //table.draw(false)
+
+        }
+
+        initTable();
+
+        
+
+    });
+
+    $(document).ready(function () {
+        var id = $('#id').attr('data-id');
+        console.log(id)
+        initTable = function () {
+            
+            table = $("#Data_Ujian_Parent").on('preXhr.dt', function (e, settings, data) {
+                
+                console.log('loading ....');
+                
+            }).on('draw.dt', function () {
+                console.log(id);
+                
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+                    { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 4, className: "text-center", "orderable": false },
+                    { "width": "10%", "targets": 5, className: "text-end", "orderable": false },
+                    { "width": "10%", "targets": 6, className: "text-end", "orderable": false },
+                    { "width": "15%", "targets": 7, className: "text-end", "orderable": false }
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api"+"/"+ id + "/result",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'nisn' },
+                    { 'data': 'nama' },
+                    { 'data': 'ujian' },
+                    { 'data': 'mapel' },
+                    { 'data': 'kelas' },
+                    { 'data': 'grade' },
+                    { 'data': 'nilai' },
+                    { 'data': 'tanggal' }
+
+                ]
+                
+        
+            });
+
+        }
+
+        initTable();
+
+        
+
+    });
+
+</script>
+{% endblock ajaxparent %}
