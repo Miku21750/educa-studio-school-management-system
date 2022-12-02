@@ -55,7 +55,6 @@ class DashbordParentController
             'totalpembayaran' => $totalpembayaran,
             'user' => $user,
             'type' => $type,
-            'user' => $user,
             'id_parent' => $id_parent
 
         ]);

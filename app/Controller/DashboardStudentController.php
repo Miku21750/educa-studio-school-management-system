@@ -17,7 +17,7 @@ class DashboardStudentController {
         $data_student = $app->db->select('tbl_users', [
             "[><]tbl_admissions" => ["id_user" => "id_user"]
         ], '*', [
-            "username" => $args["user"]
+            "username" => $args["username"]
         ]);
         // return var_dump($data_student);
         $student_array = $data_student[0];
@@ -57,6 +57,36 @@ class DashboardStudentController {
         
     }
 
+
+
+    
+    public static function dashboard($app, $request, $response, $args)
+    {
+        $app->view->render($response, 'dashboard/student.html', $args);
+    }
+
+    public static function allStudent($app, $request, $response, $args)
+    {
+        $app->view->render($response, 'students/all-student.html', $args);
+    }
+
+    public static function studentDetails($app, $request, $response, $args)
+    {
+        $app->view->render($response, 'students/student-details.html', $args);
+    }
+
+    public static function admitForm($app, $request, $response, $args)
+    {
+        $app->view->render($response, 'students/admit-form.html', $args);
+    }
+
+    public static function studentPromotion($app, $request, $response, $args)
+    {
+        $app->view->render($response, 'students/student-promotion.html', $args);
+    }
+
 }
+
+
 
 ?>

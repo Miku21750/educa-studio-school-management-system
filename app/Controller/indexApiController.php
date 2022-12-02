@@ -39,6 +39,7 @@ class indexApiController
         if ($verAwal != null) {
             // return var_dump($verAwal[0]['username']);
             $_SESSION['user'] = $verAwal[0]['first_name'] . ' ' . $verAwal[0]['last_name'];
+            $_SESSION['username'] = $verAwal[0]['username'];
             $_SESSION['type'] = $verAwal[0]['id_user_type'];
             $_SESSION['id_user'] = $verAwal[0]['id_user'];
 
