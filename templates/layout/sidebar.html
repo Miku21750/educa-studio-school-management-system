@@ -3,7 +3,7 @@
 <div class="sidebar-main sidebar-menu-one sidebar-expand-md sidebar-color">
   <div class="mobile-sidebar-header d-md-none">
     <div class="header-logo">
-      <a href="/"><img src="{{baseRoute}}/img/logo1.png" alt="logo" /></a>
+      <a href="/"><img src="/img/logo1.png" alt="logo" /></a>
     </div>
   </div>
   <div class="sidebar-menu-content">
@@ -21,30 +21,30 @@
         <ul class="nav sub-group-menu">
           {% if type == "Parent" %}
           <li class="nav-item">
-            <a href="{{baseRoute}}/student/student-details" class="nav-link"
+            <a href="/student-details" class="nav-link"
               ><i class="fas fa-angle-right"></i>Student Details</a
             >
           </li>
           {% else %}
           <li class="nav-item">
-            <a href="{{baseRoute}}/student/all-students" class="nav-link"
+            <a href="/all-students" class="nav-link"
               ><i class="fas fa-angle-right"></i>All Students</a
             >
           </li>
           <li class="nav-item">
-            <a href="{{baseRoute}}/student/student-details" class="nav-link"
+            <a href="/student-details" class="nav-link"
               ><i class="fas fa-angle-right"></i>Student Details</a
             >
           </li>
           {% if type == "Admin" %}
           <li class="nav-item">
-            <a href="{{baseRoute}}/student/admit-form" class="nav-link"
+            <a href="/admit-form" class="nav-link"
               ><i class="fas fa-angle-right"></i>Admission Form</a
             >
           </li>
           {% endif %}
           <li class="nav-item">
-            <a href="{{baseRoute}}/student/student-promotion" class="nav-link"
+            <a href="/student-promotion" class="nav-link"
               ><i class="fas fa-angle-right"></i>Student Promotion</a
             >
           </li>
