@@ -178,6 +178,19 @@
           Line Chart 
       -------------------------------------*/
     if ($("#earning-line-chart").length) {
+      $(document).ready(function () {
+        $.ajax({
+          type: "GET",
+          url: "/api/admin/apidata",
+          dataType: "JSON",
+          success: function (dana) {
+            console.log(dana.sppSiswa)
+            // $.each(dana.sppSiswa, function (i, data) {
+            //   console
+            // });
+          }
+        });
+      })
 
       var lineChartData = {
         labels: ["", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
@@ -195,7 +208,7 @@
           label: "Total Collection"
         },
         {
-          data: [0,  50000,20000, 30000, 70000,80000,40000,60000,30000,60000,70000,40000,30000],
+          data: [0,  50000,20000, 30000, 70000,100000,40000,60000,30000,60000,70000,40000,30000],
           backgroundColor: '#417dfc',
           borderColor: '#417dfc',
           borderWidth: 1,
@@ -240,23 +253,23 @@
               maxRotation: 0,
               fontColor: "#646464",
               fontSize: 12,
-              stepSize: 5000,
+              stepSize: 10000,
               padding: 20,
               callback: function (value) {
                 var ranges = [{
-                  divider: 5,
-                  suffix: 'k'
+                  divider: 1,
+                  suffix: 'Rp '
                 },
                 {
-                  divider: 5,
-                  suffix: 'k'
+                  divider: 1,
+                  suffix: 'Rp '
                 }
                 ];
 
                 function formatNumber(n) {
                   for (var i = 0; i < ranges.length; i++) {
                     if (n >= ranges[i].divider) {
-                      return (n / ranges[i].divider).toString() + ranges[i].suffix;
+                      return ranges[i].suffix + (n / ranges[i].divider).toString();
                     }
                   }
                   return n;
@@ -408,7 +421,7 @@
             siswaPerempuan = a['totalSiswaFemale']
             siswaLaki = a['totalSiswaMale']
 
-            console.log(siswaPerempuan)
+            // console.log(siswaPerempuan)
             var doughnutChartData = {
               labels: ["Siswa Perempuan", "Siswa Laki-laki"],
               datasets: [{
@@ -481,6 +494,11 @@
   });
 
 })(jQuery);
+
+/*-------------------------------------
+    Others Query for Code
+-------------------------------------*/
+
 
 
 /*-------------------------------------

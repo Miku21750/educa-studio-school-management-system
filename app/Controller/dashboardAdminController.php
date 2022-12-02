@@ -1,5 +1,6 @@
 <?php
 namespace App\Controller;
+use Medoo\medoo;
 
 class DashboardAdminController
 {
@@ -32,11 +33,14 @@ class DashboardAdminController
             "id_user_type" => "4",
         ]);
         
-        $sppSiswa = $app->db->sum("tbl_finances", "amount_payment", [
-            "id_payment_type" => "1",
+        $totalSppSiswa = $app->db->sum("tbl_finances", "amount_payment", [
+            "AND"=>[
+                "id_payment_type" => "1",
+                "status" => "Dibayar",
+            ]
         ]);
 
-        $danaBOS = $app->db->sum("tbl_finances", "amount_payment", [
+        $totalDanaBOS = $app->db->sum("tbl_finances", "amount_payment", [
             "id_payment_type" => "2",
         ]);
     
@@ -48,7 +52,10 @@ class DashboardAdminController
         ]);
 
         $danaKeluar = $app->db->sum("tbl_finances", "amount_payment", [
-            "id_payment_type" => "3",
+            "AND"=>[
+                "id_payment_type" => "3",
+                "status" => "Dibayar",
+            ]
         ]);
         
         $totalDana = $danaMasuk - $danaKeluar;
@@ -62,8 +69,8 @@ class DashboardAdminController
             'totalTeacher' => $totalTeacher,
             'totalParent' => $totalParent,
             'totalDana' => $totalDana,
-            'danaBOS' => $danaBOS,
-            'sppSiswa' => $sppSiswa,
+            'totalDanaBOS' => $totalDanaBOS,
+            'totalSppSiswa' => $totalSppSiswa,
             'user' => $args['user'],
             'type' => $args['type'],
         ]);
@@ -93,12 +100,25 @@ class DashboardAdminController
             "gender" => "Perempuan",
         ]);
 
+        // $sppSiswa = $app->db->debug()->select('tbl_finances','amount_payment',
+        //     // "AND"=>[
+        //     //     "id_payment_type" => "1",
+        //     //     "status" => "Dibayar",
+        //     //     Medoo::raw('YEAR(date_payment) = 2020')
+        //     // ]
+        //     Medoo::raw('WHERE
+        //     YEAR(date_payment) = 2020 AND <id_payment_type> = 1 AND <status> = "Dibayar"')
+        // );
+        $sppSiswa = $app->db->query("
+        SELECT `amount_payment` FROM `tbl_finances` WHERE YEAR(date_payment) = 2020 AND `id_payment_type` = 1 AND `status` = 'Dibayar'")->fetchAll();
+
         return $res->withJson(array(
             // "siswa" => $siswa,
             // "teacher" => $teacher,
             // "parent" => $parent,
             "totalSiswaMale" => $totalSiswaMale,
             "totalSiswaFemale" => $totalSiswaFemale,
+            "sppSiswa" => $sppSiswa,
         ));
     }
 
