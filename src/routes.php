@@ -1,9 +1,10 @@
 <?php
 
+use App\Controller\DashboardTeacherController;
 use App\Controller\DashboardStudentController;
 use App\Controller\indexApiController;
 use App\Controller\indexViewController;
-use Slim\App;
+use Slim\App; //Pindahkan ke conroller nanti
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Medoo\Medoo; //Pindahkan ke conroller nanti
@@ -613,11 +614,7 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
             }
             if ($type == 2) {
-                $type = "Teacher";
-                $container->view->render($response, 'dashboard/teacher.html', [
-                    'user' => $_SESSION['user'],
-                    'type' => $type
-                ]);
+                return DashboardTeacherController::index($this, $request, $response,$args);
             }
             if ($type == 3) {
                 $type = "Admin";
