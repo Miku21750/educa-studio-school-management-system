@@ -536,11 +536,7 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
             }
             if ($type == 2) {
-                $type = "Teacher";
-                $container->view->render($response, 'dashboard/teacher.html', [
-                    'user' => $_SESSION['user'],
-                    'type' => $type
-                ]);
+                return DashboardTeacherController::index($this, $request, $response,$args);
             }
             if ($type == 3) {
                 $type = "Admin";
