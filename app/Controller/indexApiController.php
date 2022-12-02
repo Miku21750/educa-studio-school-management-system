@@ -45,7 +45,7 @@ class indexApiController
             $_SESSION['type'] = $verAwal[0]['id_user_type'];
             $_SESSION['type_user'] = $verAwal[0]['user_type'];
             $_SESSION['id_user'] = $verAwal[0]['id_user'];
-            
+            $_SESSION['photo_user'] = $verAwal[0]['photo_user'];
             $_SESSION['isLogin'] = true;
             if (isset($data['remember-me'])) {
                 //create cookie

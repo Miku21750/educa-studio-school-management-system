@@ -48,13 +48,13 @@
                                     <td class="font-medium text-dark-medium">{{student.gender}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Nama Ayah :</td>
-                                    <td class="font-medium text-dark-medium">Nama Ayah Murid(belum)</td>
+                                    <td>Nama Orang Tua :</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.ortu}}</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>Nama Ibu :</td>
                                     <td class="font-medium text-dark-medium">Nama Ibu Murid(belum)</td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td>Tanggal Lahir :</td>
                                     <td class="font-medium text-dark-medium">{{student.date_of_birth|date("d M Y")}}</td>
@@ -65,7 +65,7 @@
                                 </tr>
                                 <tr>
                                     <td>Pekerjaan Ayah :</td>
-                                    <td class="font-medium text-dark-medium">Pekerjaan Ayah Murid(belum)</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.occupation}}</td>
                                 </tr>
                                 <tr>
                                     <td>E-mail :</td>
@@ -77,15 +77,15 @@
                                 </tr>
                                 <tr>
                                     <td>Kelas :</td>
-                                    <td class="font-medium text-dark-medium">{{student.class}}</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.kelas}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Section:</td>
-                                    <td class="font-medium text-dark-medium">Pink(belum)</td>
+                                    <td>Section :</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.bagian}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Roll:</td>
-                                    <td class="font-medium text-dark-medium">10005(belum)</td>
+                                    <td>NISN :</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.NISN}}</td>
                                 </tr>
                                 <tr>
                                     <td>Alamat :</td>
@@ -135,7 +135,7 @@
                         <div class="col-6">
                             <div class="item-content">
                                 <div class="item-title">Acara</div>
-                                <div class="item-number"><span class="counter" data-num="06">06</span></div>
+                                <div class="item-number"><span class="counter" data-num="">06</span></div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                         <div class="col-6">
                             <div class="item-content">
                                 <div class="item-title">Kehadiran</div>
-                                <div class="item-number"><span class="counter" data-num="">94</span><span>%(belum)</span></div>
+                                <div class="item-number"><span class="counter" data-num="{{data_student_attendance}}">94</span><span>%</span></div>
                             </div>
                         </div>
                     </div>
@@ -222,29 +222,28 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for exam in data_student_exam %}
                                         <tr>
                                             <td>
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#{{id_user}}</label>
+                                                    <label class="form-check-label">#{{dataExam.id_user}}</label>
                                                 </div>
                                             </td>
-                                            <td>{{exam.exam_name}}</td>
-                                            <td>{{exam.id_subject}}</td>
+                                            <td>{{dataExam.exam_name}}</td>
+                                            <td>{{dataExam.id_subject}}</td>
                                             <td>
-                                                {% if exam.score >= 90 %}
+                                                {% if dataExam.score >= 90 %}
                                                 A
-                                                {% elseif exam.score >= 80 %}
+                                                {% elseif dataExam.score >= 80 %}
                                                 B
-                                                {% elseif exam.score >= 70 %}
+                                                {% elseif dataExam.score >= 60 %}
                                                 C
                                                 {% else %}
                                                 D
                                                 {% endif %}
                                             </td>
-                                            <td>{{exam.score}}.00 > 100</td>
-                                            <td>{{exam.exam_date|date("d M Y")}}</td>
+                                            <td>{{dataExam.score}}.00 > 100</td>
+                                            <td>{{dataExam.exam_date|date("d M Y")}}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <a href="#" class="dropdown-toggle"
@@ -533,7 +532,6 @@
                                                 </div>
                                             </td>
                                         </tr> -->
-                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -569,16 +567,16 @@
                     </div>
                 </div>
                 <div class="doughnut-chart-wrap">
-                    <canvas id="student-doughnut-chart" width="100" height="270"></canvas>
+                    <canvas id="absen-student-doughnut-chart" width="100" height="270"></canvas>
                 </div>
                 <div class="student-report">
                     <div class="student-count pseudo-bg-blue">
                         <h4 class="item-title">Absen</h4>
-                        <div class="item-number">28.2%</div>
+                        <div class="item-number">0</div>
                     </div>
                     <div class="student-count pseudo-bg-yellow">
-                        <h4 class="item-title">Hadiah</h4>
-                        <div class="item-number">65.8%</div>
+                        <h4 class="item-title">Hadir</h4>
+                        <div class="item-number">{{data_student_attendance}}</div>
                     </div>
                 </div>
             </div>
@@ -643,39 +641,38 @@
                         <div class="entry-meta"> {{view_notification.posted_by}} / <span>5 min ago</span></div>
                     </div>
                     {% endfor %}
-                    <hr>
 
-                    <div class="notice-list">
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-skyblue">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag mene esom tus eleifend
                                 lectus
                                 sed maximus mi faucibusnting.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
+                    </div> -->
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-yellow">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
+                    </div> -->
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-pink">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag Nulla rhoncus eleifensed
                                 mim
                                 us mi faucibus id. Mauris vestibulum non purus lobortismenearea</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
+                    </div> -->
                     <!-- <div class="notice-list">
                         <div class="post-date bg-skyblue">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag mene esom text of the
                                 printing.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
+                    </div> -->
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-yellow">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
+                    </div> -->
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-pink">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
