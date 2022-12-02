@@ -1,6 +1,18 @@
 # Educa Studio School Management System
 
+Ini adalah dokumentasi Singkat Educa Studio School Management System 
 
+
+Route Documentation
+
+/ = untuk dashboard Admin, Teacher, User, dan Parent menggunakan kondisi if else.  
+
+
+
+
+
+
+-- --------------------------------------------------------------------------------------------------
 
 ## Getting started
 
