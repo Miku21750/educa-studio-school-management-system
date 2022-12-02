@@ -542,8 +542,8 @@ return function (App $app) {
             // return var_dump($_COOKIE);
             if ($type == 1) {
                 $type = "Student";
-                // $id_student = $_SESSION['id_student'];
-                // $id_student = 'id_user';
+                $id_student = $_SESSION['id_user'];
+                $id_student = 'id_user';
                 // $container->view->render($response, 'dashboard/student.html', [
                 //     'user' => $_SESSION['user'],
                 //     'type' => $type
@@ -551,8 +551,9 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
                 return DashboardStudentController::view_data_student($this, $request, $response, [
                     'user' => $_SESSION['user'],
-                    'type' => $type
-                    // 'id_student' => $id_student
+                    'username' => $_SESSION['username'],
+                    'type' => $type,
+                    'id_student' => $id_student
                 ]);
                 // return $response->withRedirect('/student');
             }
