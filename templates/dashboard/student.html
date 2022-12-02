@@ -48,13 +48,13 @@
                                     <td class="font-medium text-dark-medium">{{student.gender}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Nama Ayah :</td>
-                                    <td class="font-medium text-dark-medium">Nama Ayah Murid(belum)</td>
+                                    <td>Nama Orang Tua :</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.ortu}}</td>
                                 </tr>
-                                <tr>
+                                <!-- <tr>
                                     <td>Nama Ibu :</td>
                                     <td class="font-medium text-dark-medium">Nama Ibu Murid(belum)</td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <td>Tanggal Lahir :</td>
                                     <td class="font-medium text-dark-medium">{{student.date_of_birth|date("d M Y")}}</td>
@@ -65,7 +65,7 @@
                                 </tr>
                                 <tr>
                                     <td>Pekerjaan Ayah :</td>
-                                    <td class="font-medium text-dark-medium">Pekerjaan Ayah Murid(belum)</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.occupation}}</td>
                                 </tr>
                                 <tr>
                                     <td>E-mail :</td>
@@ -77,15 +77,15 @@
                                 </tr>
                                 <tr>
                                     <td>Kelas :</td>
-                                    <td class="font-medium text-dark-medium">{{student.class}}</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.kelas}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Section:</td>
-                                    <td class="font-medium text-dark-medium">Pink(belum)</td>
+                                    <td>Section :</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.bagian}}</td>
                                 </tr>
                                 <tr>
-                                    <td>Roll:</td>
-                                    <td class="font-medium text-dark-medium">10005(belum)</td>
+                                    <td>NISN :</td>
+                                    <td class="font-medium text-dark-medium">{{data_parentS.NISN}}</td>
                                 </tr>
                                 <tr>
                                     <td>Alamat :</td>
@@ -222,29 +222,28 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for exam in data_student_examR %}
                                         <tr>
                                             <td>
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#{{id_user}}</label>
+                                                    <label class="form-check-label">#{{dataExam.id_user}}</label>
                                                 </div>
                                             </td>
-                                            <td>{{exam.exam_name}}</td>
-                                            <td>{{exam.id_subject}}</td>
+                                            <td>{{dataExam.exam_name}}</td>
+                                            <td>{{dataExam.id_subject}}</td>
                                             <td>
-                                                {% if exam.score >= 90 %}
+                                                {% if dataExam.score >= 90 %}
                                                 A
-                                                {% elseif exam.score >= 80 %}
+                                                {% elseif dataExam.score >= 80 %}
                                                 B
-                                                {% elseif exam.score >= 70 %}
+                                                {% elseif dataExam.score >= 60 %}
                                                 C
                                                 {% else %}
                                                 D
                                                 {% endif %}
                                             </td>
-                                            <td>{{exam.score}}.00 > 100</td>
-                                            <td>{{exam.exam_date|date("d M Y")}}</td>
+                                            <td>{{dataExam.score}}.00 > 100</td>
+                                            <td>{{dataExam.exam_date|date("d M Y")}}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <a href="#" class="dropdown-toggle"
@@ -533,7 +532,6 @@
                                                 </div>
                                             </td>
                                         </tr> -->
-                                    {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -569,7 +567,7 @@
                     </div>
                 </div>
                 <div class="doughnut-chart-wrap">
-                    <canvas id="student-doughnut-chart" width="100" height="270"></canvas>
+                    <canvas id="absen-student-doughnut-chart" width="100" height="270"></canvas>
                 </div>
                 <div class="student-report">
                     <div class="student-count pseudo-bg-blue">
