@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use LDAP\Result;
-use Medoo\Medoo;
+
 
 class DashbordParentController
 {
@@ -55,7 +54,9 @@ class DashbordParentController
             'totalpembayaran' => $totalpembayaran,
             'user' => $user,
             'type' => $type,
-            'id_parent' => $id_parent
+            'id_parent' => $id_parent,
+            'type_user' => $_SESSION['type_user'],
+
 
         ]);
     }
@@ -96,7 +97,8 @@ class DashbordParentController
         if (!empty($req->getParam('search')['value'])) {
             $search = $req->getParam('search')['value'];
             $limit = [
-                "LIMIT" => [$start, $limit]
+                "LIMIT" => [$start, $limit],
+                'id_parent' => $id_parent
             ];
             $conditions['OR'] = [
                 'tbl_users.NISN[~]' => '%' . $search . '%',
@@ -107,9 +109,7 @@ class DashbordParentController
             $payment = $app->db->select('tbl_finances',[
                 '[><]tbl_users' => 'id_user',
                 '[><]tbl_payment_types' => 'id_payment_type'
-            ],'*',[
-                'id_parent' => $id_parent
-            ],
+            ],'*',
                 $limit
             );
             $totaldata = count($payment);
@@ -191,7 +191,9 @@ class DashbordParentController
         if (!empty($req->getParam('search')['value'])) {
             $search = $req->getParam('search')['value'];
             $limit = [
-                "LIMIT" => [$start, $limit]
+                "LIMIT" => [$start, $limit],
+                "id_parent" => $id_parent
+
             ];
             $conditions['OR'] = [
                 'tbl_users.NISN[~]' => '%' . $search . '%',
@@ -205,9 +207,7 @@ class DashbordParentController
                 '[><]tbl_subjects' => 'id_subject',
                 '[><]tbl_exams' => 'id_exam'
 
-            ],'*', [
-                "id_parent" => $id_parent,
-            ],
+            ],'*',
                 $limit
             );
             $totaldata = count($result);
@@ -233,7 +233,6 @@ class DashbordParentController
                 $datas['ujian'] = $m['exam_name'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'].' '.$m['section'];
-                $datas['grade'] = 'A';
                 $datas['nilai'] = $m['score'];
                 $datas['tanggal'] = $m['date_result'];
                 

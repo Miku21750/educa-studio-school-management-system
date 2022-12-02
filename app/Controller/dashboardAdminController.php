@@ -64,6 +64,7 @@ class DashboardAdminController
             'totalDana' => $totalDana,
             'danaBOS' => $danaBOS,
             'sppSiswa' => $sppSiswa,
+            'type_user' => $_SESSION['type_user'],
             'user' => $args['user'],
             'type' => $args['type'],
         ]);

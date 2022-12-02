@@ -52,7 +52,9 @@ class DashboardStudentController {
             "data_student_exam" => $data_student_exam,
             "user" => $user,
             "type" => $type,
-            "id_user" => $student_array['id_user']
+            "id_user" => $student_array['id_user'],
+            'type_user' => $_SESSION['type_user']
+
         ));
         
     }

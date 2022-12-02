@@ -25,7 +25,9 @@ class indexApiController
         // }
         // return var_dump($_COOKIE);
         // select the user db 
-        $verAwal = $app->db->select('tbl_users', '*', [
+        $verAwal = $app->db->select('tbl_users',[
+            "[><]tbl_user_types" => "id_user_type"
+        ], '*', [
             "AND" => [
                 "OR" => [
                     "username" => $data["user"],
@@ -41,8 +43,9 @@ class indexApiController
             $_SESSION['user'] = $verAwal[0]['first_name'] . ' ' . $verAwal[0]['last_name'];
             $_SESSION['username'] = $verAwal[0]['username'];
             $_SESSION['type'] = $verAwal[0]['id_user_type'];
+            $_SESSION['type_user'] = $verAwal[0]['user_type'];
             $_SESSION['id_user'] = $verAwal[0]['id_user'];
-
+            
             $_SESSION['isLogin'] = true;
             if (isset($data['remember-me'])) {
                 //create cookie

@@ -10,6 +10,7 @@ use Medoo\Medoo; //Pindahkan ke conroller nanti
 use App\middleware\Auth;
 use App\Controller\DashbordParentController;
 use App\Controller\DashboardAdminController;
+use App\Controller\ParentController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -114,6 +115,10 @@ return function (App $app) {
                 return DashbordParentController::tampil_data_result($this, $request, $response, [
                     'data' => $data
                 ]);
+            }
+            );
+            $app->get('/allparents', function (Request $request, Response $response, array $args) use ($app) {
+                return ParentController::tampil_data($this, $request, $response,$args);
             }
             );
         }
@@ -299,9 +304,13 @@ return function (App $app) {
     //Parent
     $app->get(
         '/all-parents',
-        function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'parents/all-parents.html', $args);
+        function (Request $request, Response $response, array $args) use ($container) {        
+            return ParentController::index($this, $request, $response, [
+                'user' => $_SESSION['username'],
+                'id_parent' => $_SESSION['id_user'],
+                'type' =>  $_SESSION['type'],
+                'type_user' =>  $_SESSION['type_user']
+            ]);
         }
     )->add(new Auth());
     $app->get(
@@ -515,7 +524,8 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $type = $_SESSION['type'];
-            // return var_dump($type);
+            $type_user = $_SESSION['type_user'];
+            // return var_dump($_SESSION);
             // return var_dump($_COOKIE);
             if ($type == 1) {
                 $type = "Student";
@@ -530,7 +540,8 @@ return function (App $app) {
                     'user' => $_SESSION['user'],
                     'username' => $_SESSION['username'],
                     'type' => $type,
-                    'id_student' => $id_student
+                    'id_student' => $id_student,
+                    'type_user' => $type_user
                 ]);
                 // return $response->withRedirect('/student');
             }
@@ -538,14 +549,17 @@ return function (App $app) {
                 $type = "Teacher";
                 $container->view->render($response, 'dashboard/teacher.html', [
                     'user' => $_SESSION['user'],
-                    'type' => $type
+                    'type' => $type,
+                    'type_user' => $type_user
                 ]);
             }
             if ($type == 3) {
-                $type = "Admin";
+                // $type = "Admin";
+                // return var_dump($type_user);
                 return DashboardAdminController::getData($this, $request, $response, [
                     'user' => $_SESSION['user'],
                     'type' => $type,
+                    'nama_user' => $type_user
                 ]);
             }
             if ($type == 4) {
@@ -556,6 +570,7 @@ return function (App $app) {
                     'user' => $_SESSION['user'],
                     'type' => $type,
                     'id_parent' => $id_parent,
+                    'type_user' => $type_user
                 ]);
             } // else {
             //     // Hapus ini
