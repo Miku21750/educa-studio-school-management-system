@@ -21,6 +21,9 @@ return function (App $app) {
         return $logger;
     };
     
+    // add upload dir
+    $container['upload_directory'] = getcwd() . '/uploads/Profile';
+
     $container['view'] = function ($container) {
         $view = new \Slim\Views\Twig('../templates', [
             'cache' => false
