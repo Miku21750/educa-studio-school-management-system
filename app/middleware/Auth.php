@@ -5,6 +5,7 @@
     class Auth {
         public function __invoke($req,$res,$next){
             if(!isset($_SESSION['user'])){
+                // if($_SESSION['verif'] = 1)
                 $_SESSION['notLogin'] = true;
                 return $res->withRedirect('\login');
 

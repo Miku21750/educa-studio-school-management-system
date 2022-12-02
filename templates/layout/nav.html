@@ -46,11 +46,15 @@
                     <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                         aria-expanded="false">
                         <div class="admin-title">
-                            <h5 class="item-title">{{ user }}</h5>
+                            <h5 class="item-title">{% if user == ' ' %}
+                                {{ username }}
+                                {% else %}
+                                {{ user }}
+                            {% endif %}</h5>
                             <span>{{ type }}</span>
                         </div>
                         <div class="admin-img">
-                            <img src="/img/figure/admin.jpg" alt="Admin">
+                            <img src="/uploads/Profile/{{photo_user}}" style="width: 40px;" alt="Admin">
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
@@ -59,7 +63,7 @@
                         </div>
                         <div class="item-content">
                             <ul class="settings-list">
-                                <li><a href="#"><i class="flaticon-user"></i>My Profile</a></li>
+                                <li><a href="/profile-setting"><i class="flaticon-user"></i>My Profile</a></li>
                                 <li><a href="#"><i class="flaticon-list"></i>Task</a></li>
                                 <li><a href="/messaging"><i class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"></i>Message</a></li>
                                 <li><a href="/account-settings"><i class="flaticon-gear-loading"></i>Account Settings</a></li>

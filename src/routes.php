@@ -1,9 +1,10 @@
 <?php
 
+use App\Controller\DashboardTeacherController;
 use App\Controller\DashboardStudentController;
 use App\Controller\indexApiController;
 use App\Controller\indexViewController;
-use Slim\App;
+use Slim\App; //Pindahkan ke conroller nanti
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Medoo\Medoo; //Pindahkan ke conroller nanti
@@ -13,6 +14,7 @@ use App\Controller\DashboardAdminController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
+use Slim\Http\UploadedFile;
 
 
 
@@ -485,6 +487,81 @@ return function (App $app) {
     )->add(new Auth());
     // End Account
 
+    // Set profile setting
+    $app->get(
+        '/profile-setting',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $container->db->select('tbl_users',[
+                "[>]tbl_classes" => "id_class",
+                "[>]tbl_hostels" => "id_hostel",
+                "[>]tbl_transports"=> ["id_trans"=>"id_transport"],
+                "[>]tbl_user_types" => "id_user_type"
+            ],[
+                "tbl_users.id_user",
+                "tbl_classes.class",
+                "tbl_hostels.hostel_name",
+                "id_user_type",
+                "first_name",
+                "last_name",
+                "gender",
+                "date_of_birth",
+                "religion",
+                "username",
+                "email",
+                "password",
+                "photo_user",
+                "blood_group",
+                "occupation",
+                "phone_user",
+                "address_user",
+                "short_bio"
+            ],[
+                'id_user' => $_SESSION['id_user']
+            ]);
+            // return var_dump($data);
+            $container->view->render($response, 'others/profile-setting.html', [
+                'data' => $data[0]
+            ]);
+        }
+    )->add(new Auth());
+
+    $app->post(
+        '/editDataProfile',
+        function (Request $request, Response $response, array $args) use ($container){
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            // get image
+            $directory = $container->get('upload_directory');
+            $uploadedFiles = $request->getUploadedFiles();
+            // handle single input with single file upload
+            $uploadedFile = $uploadedFiles['profileImage'];
+            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $filename = moveUploadedFile($directory, $uploadedFile);
+                $response->write('uploaded ' . $filename . '<br/>');
+            }   
+            // return var_dump($uploadedFiles);
+            $update = $container->db->update('tbl_users',[
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
+                "photo_user" => $filename,
+                "blood_group" => $data['blood_group'],
+                "occupation" => $data['occupation'],
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "short_bio" => $data['data_short_bio']
+            ],[
+                "id_user"=> $data['id_user']
+            ]);
+            // return var_dump($update);
+            return $response->withRedirect('/profile-setting');
+
+        });
+    // End profile setting
+
     // Dashboard
     // $app->get(
     //     '/teacher',
@@ -515,6 +592,8 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $type = $_SESSION['type'];
+            $id_student = $_SESSION['id_user'];
+            // $photo_student = $_SESSION['photo_user'];
             // return var_dump($type);
             // return var_dump($_COOKIE);
             if ($type == 1) {
@@ -535,22 +614,19 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
             }
             if ($type == 2) {
-                $type = "Teacher";
-                $container->view->render($response, 'dashboard/teacher.html', [
-                    'user' => $_SESSION['user'],
-                    'type' => $type
-                ]);
+                return DashboardTeacherController::index($this, $request, $response,$args);
             }
             if ($type == 3) {
                 $type = "Admin";
                 return DashboardAdminController::getData($this, $request, $response, [
                     'user' => $_SESSION['user'],
                     'type' => $type,
+                    'username' => $_SESSION['username'] 
                 ]);
             }
             if ($type == 4) {
                 $type = "Parent";
-                $id_parent = $_SESSION['id_parent'];
+                $id_parent = $_SESSION['id_user'];
 
                 return DashbordParentController::index($this, $request, $response, [
                     'user' => $_SESSION['user'],
@@ -569,3 +645,15 @@ return function (App $app) {
         }
     )->add(new Auth()); // Auth Aku Nonaktifkan dulu
 };
+function moveUploadedFile($directory, UploadedFile $uploadedFile)
+{
+    $oriname = $uploadedFile->getClientFilename();
+    // $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
+    $filename = Date('YmdHis') . '-'  . $oriname;
+
+    $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
+
+    return $filename;
+
+    // return $filename;
+}
