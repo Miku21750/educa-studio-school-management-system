@@ -572,7 +572,7 @@ return function (App $app) {
             }
             if ($type == 4) {
                 $type = "Parent";
-                $id_parent = $_SESSION['id_parent'];
+                $id_parent = $_SESSION['id_user'];
 
                 return DashbordParentController::index($this, $request, $response, [
                     'user' => $_SESSION['user'],

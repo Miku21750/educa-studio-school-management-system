@@ -4,10 +4,9 @@
 
     $(document).ready(function () {
         var id = $('#id').attr('data-id');
-        console.log(id)
-        initTable = function () {
-            
-            table = $("#data_v2").on('preXhr.dt', function (e, settings, data) {
+        Tabel1Show = function () {
+
+            table1 = $("#data_v2").on('preXhr.dt', function (e, settings, data) {
                 
                 console.log('loading ....');
                 
@@ -53,27 +52,17 @@
                 
         
             });
-            //table.draw(false)
 
         }
 
-        initTable();
 
-        
-
-    });
-
-    $(document).ready(function () {
-        var id = $('#id').attr('data-id');
-        console.log(id)
-        initTable = function () {
+        var id = $('#idd').attr('data-result');
+        Tabel2Show = function () {
             
-            table = $("#Data_Ujian_Parent").on('preXhr.dt', function (e, settings, data) {
+            table2 = $("#Result").on('preXhr.dt', function (e, settings, data) {
                 
-                console.log('loading ....');
                 
             }).on('draw.dt', function () {
-                console.log(id);
                 
             }).DataTable({
                 responsive: {
@@ -111,19 +100,28 @@
                     { 'data': 'grade' },
                     { 'data': 'nilai' },
                     { 'data': 'tanggal' }
-
                 ]
                 
         
             });
-
         }
 
-        initTable();
-
+        
+        function TabelShow () {
+            Tabel1Show(false);
+            Tabel2Show(false);
+           
+          }
+        
+        TabelShow (false)
         
 
     });
 
-</script>
+    
+
+    </script>
+    
+  
+
 {% endblock ajaxparent %}
