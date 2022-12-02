@@ -42,12 +42,12 @@ return function (App $app) {
     );
 
 
-    $app->get(
-        '/student',
-        function (Request $request, Response $response, array $args) use ($container) {
-            return userViewController::dashboard($this, $request, $response, $args);
-        }
-    );
+    // $app->get(
+    //     '/student',
+    //     function (Request $request, Response $response, array $args) use ($container) {
+    //         return userViewController::dashboard($this, $request, $response, $args);
+    //     }
+    // );
 
     $app->group(
         '/student',
@@ -509,25 +509,37 @@ return function (App $app) {
     // End Account
 
     // Dashboard
-    $app->get(
-        '/teacher',
-        function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'dashboard/teacher.html', $args);
-        }
-    );
+    // $app->get(
+    //     '/teacher',
+    //     function (Request $request, Response $response, array $args) use ($container) {
+    //         // Render index view
+    //         $container->view->render($response, 'dashboard/teacher.html', $args);
+    //     }
+    // );
 
 
-    $app->get('/parent', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'dashboard/parent.html', $args);
-    });
+    // $app->get('/parent', function (Request $request, Response $response, array $args) use ($container) {
+    //     // Render index view
+    //     $container->view->render($response, 'dashboard/parent.html', $args);
+    // });
+    // $app->get(
+    //     '/',
+    //     function (Request $request, Response $response, array $args) use ($container) {
+    //         // Render index view
+    //         $type = $_SESSION['type'];
+    //         // return var_dump($type);
+    //         if ($type == 1) {
+                
+    //         }
+    //     }
+    // );
     $app->get(
         '/',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $type = $_SESSION['type'];
             // return var_dump($type);
+            // return var_dump($_COOKIE);
             if ($type == 1) {
                 $type = "Student";
                 // $id_student = $_SESSION['id_student'];
@@ -541,22 +553,6 @@ return function (App $app) {
                     'user' => $_SESSION['user'],
                     'type' => $type
                     // 'id_student' => $id_student
-                ]);
-            }
-        }
-    );
-    $app->get(
-        '/',
-        function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $type = $_SESSION['type'];
-            // return var_dump($type);
-            // return var_dump($_COOKIE);
-            if ($type == 1) {
-                $type = "Student";
-                $container->view->render($response, 'dashboard/student.html', [
-                    'user' => $_SESSION['user'],
-                    'type' => $type
                 ]);
                 // return $response->withRedirect('/student');
             }
