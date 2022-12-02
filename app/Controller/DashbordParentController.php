@@ -13,6 +13,7 @@ class DashbordParentController
         $user = $args['user'];
         $type = $args['type'];
         $id_parent = $args['id_parent'];
+        // return var_dump($id_parent);
 
         
         $data = $app->db->query("SELECT * FROM (tbl_users INNER JOIN tbl_admissions USING(id_user)) INNER JOIN (tbl_classes INNER JOIN tbl_sections USING(id_section)) USING(id_class) WHERE id_parent=".$id_parent)->fetchAll();
@@ -151,7 +152,8 @@ class DashbordParentController
         );
         // return var_dump($data);
         echo json_encode($json_data);
-    }       
+    }    
+
     public static function tampil_data_result($app, $req, $rsp, $args)
     {
         $id_parent = $args['data'];
@@ -159,12 +161,12 @@ class DashbordParentController
 
         $result = $app->db->select('tbl_exam_results', [
             '[><]tbl_classes' => 'id_class',
-            "[><]tbl_users" => "id_user",
+            '[><]tbl_users' => 'id_user',
             '[><]tbl_subjects' => 'id_subject'
         ],'*', [
             "id_parent" => $id_parent,
         ]);
-        // var_dump($result);
+        // return var_dump($result);
 
 
         $columns = array(
@@ -199,7 +201,7 @@ class DashbordParentController
             ];
             $result = $app->db->select('tbl_exam_results', [
                 '[><]tbl_classes' => 'id_class',
-                "[><]tbl_users" => "id_user",
+                '[><]tbl_users' => 'id_user',
                 '[><]tbl_subjects' => 'id_subject',
                 '[><]tbl_exams' => 'id_exam'
 
@@ -212,8 +214,9 @@ class DashbordParentController
             $totalfiltered = $totaldata;
         }
 
-        $result = $app->db->select('tbl_finances',[
-            '[><]tbl_classes' => 'id_class',
+        $result = $app->db->select('tbl_exam_results',[
+                '[><]tbl_sections' => 'id_section',
+                '[><]tbl_classes' => 'id_class',
                 '[><]tbl_users' => 'id_user',
                 '[><]tbl_subjects' => 'id_subject',
                 '[><]tbl_exams' => 'id_exam'
@@ -228,10 +231,10 @@ class DashbordParentController
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'].' '.$m['last_name'];
                 $datas['ujian'] = $m['exam_name'];
-                $datas['mapel'] = $m['subcject_name'];
-                $datas['kelas'] = $m['class'];
+                $datas['mapel'] = $m['subject_name'];
+                $datas['kelas'] = $m['class'].' '.$m['section'];
                 $datas['grade'] = 'A';
-                $datas['nlai'] = $m['score'];
+                $datas['nilai'] = $m['score'];
                 $datas['tanggal'] = $m['date_result'];
                 
 
@@ -239,7 +242,7 @@ class DashbordParentController
                 $data[] = $datas;
             }
         }
-
+        // return var_dump($result);
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
             "recordsTotal"    => intval($totaldata),
