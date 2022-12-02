@@ -41,7 +41,10 @@ class DashboardAdminController
         ]);
     
         $danaMasuk = $app->db->sum("tbl_finances", "amount_payment", [
+            "AND"=>[
             "id_payment_type" => [1, 2],
+            "status" => "Dibayar",
+            ]
         ]);
 
         $danaKeluar = $app->db->sum("tbl_finances", "amount_payment", [
