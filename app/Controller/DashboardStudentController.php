@@ -7,6 +7,7 @@ class DashboardStudentController {
 
     public static function view_data_student($app, $request, $response, $args) {
         $user = $args['user'];
+        // $username = $args['username'];
         $type = $args['type'];
         // $id_student = $args['id_student'];
 
@@ -15,7 +16,7 @@ class DashboardStudentController {
         //     "username" => $args["user"]
         // ]);
         $data_student = $app->db->select('tbl_users', [
-            "[><]tbl_admissions" => ["id_user" => "id_user"]
+            "[>]tbl_admissions" => ["id_user" => "id_user"]
         ], '*', [
             "username" => $args["username"]
         ]);
@@ -26,11 +27,19 @@ class DashboardStudentController {
             "id_user" => $student_array['id_user']
         ]);
 
-        $view_student_notification = $app->db->select('tbl_notifications', '*', [
-            "id_user" => $student_array['id_user']
-        ]);
+        // $view_student_notification = $app->db->select('tbl_notifications', '*', [
+        //     "id_user" => $student_array['id_user']
+        // ]);
 
-        $data_student_admission = $app->db->count('tbl_admissions', [
+        // JOIN
+        $view_student_notification = $app->db->select('tbl_users', [
+            "[><]tbl_notifications" => ["id_user" => "id_user"]
+        ], '*', [
+        // "id_user" => $student_array['id_user'],
+        "username" => $args["username"]
+    ]);
+
+        $data_student_attendance = $app->db->count('tbl_attendances', [
             "id_user" => $student_array['id_user']
         ]);
 
@@ -42,14 +51,23 @@ class DashboardStudentController {
             "tbl_exams.exam_date",
             "tbl_exam_results.id_subject",
             "tbl_exam_results.score"
-        ],["id_user" => $student_array['id_user']]);
+        ],[
+            "id_user[><]" => $student_array['id_user'], $args['username']
+        ]);
+
+        $data_student_exam_result = $app->db->select('tbl_users', [
+            "[>]tbl_exam_results" => ["tbl_users.id_user" => "id_user"],
+        ],'*', [
+            "username" => $args["username"]
+        ]);
 
         return $app->get('view')->render($response, 'dashboard/student.html', array(
             "data_student" => $data_student,
             "data_student_notification" => $data_student_notification,
             "view_student_notification" => $view_student_notification,
-            "data_student_admission" => $data_student_admission,
+            "data_student_attendance" => $data_student_attendance,
             "data_student_exam" => $data_student_exam,
+            "data_student_examR" => $data_student_exam_result,
             "user" => $user,
             "type" => $type,
             "id_user" => $student_array['id_user']
@@ -86,7 +104,3 @@ class DashboardStudentController {
     }
 
 }
-
-
-
-?>

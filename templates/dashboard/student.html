@@ -135,7 +135,7 @@
                         <div class="col-6">
                             <div class="item-content">
                                 <div class="item-title">Acara</div>
-                                <div class="item-number"><span class="counter" data-num="06">06</span></div>
+                                <div class="item-number"><span class="counter" data-num="">06</span></div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                         <div class="col-6">
                             <div class="item-content">
                                 <div class="item-title">Kehadiran</div>
-                                <div class="item-number"><span class="counter" data-num="">94</span><span>%(belum)</span></div>
+                                <div class="item-number"><span class="counter" data-num="{{data_student_attendance}}">94</span><span>%</span></div>
                             </div>
                         </div>
                     </div>
@@ -222,7 +222,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for exam in data_student_exam %}
+                                        {% for exam in data_student_examR %}
                                         <tr>
                                             <td>
                                                 <div class="form-check">
@@ -574,11 +574,11 @@
                 <div class="student-report">
                     <div class="student-count pseudo-bg-blue">
                         <h4 class="item-title">Absen</h4>
-                        <div class="item-number">28.2%</div>
+                        <div class="item-number">0</div>
                     </div>
                     <div class="student-count pseudo-bg-yellow">
-                        <h4 class="item-title">Hadiah</h4>
-                        <div class="item-number">65.8%</div>
+                        <h4 class="item-title">Hadir</h4>
+                        <div class="item-number">{{data_student_attendance}}</div>
                     </div>
                 </div>
             </div>
@@ -643,39 +643,38 @@
                         <div class="entry-meta"> {{view_notification.posted_by}} / <span>5 min ago</span></div>
                     </div>
                     {% endfor %}
-                    <hr>
 
-                    <div class="notice-list">
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-skyblue">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag mene esom tus eleifend
                                 lectus
                                 sed maximus mi faucibusnting.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
+                    </div> -->
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-yellow">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
+                    </div> -->
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-pink">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag Nulla rhoncus eleifensed
                                 mim
                                 us mi faucibus id. Mauris vestibulum non purus lobortismenearea</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
+                    </div> -->
                     <!-- <div class="notice-list">
                         <div class="post-date bg-skyblue">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag mene esom text of the
                                 printing.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
+                    </div> -->
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-yellow">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
+                    </div> -->
+                    <!-- <div class="notice-list">
                         <div class="post-date bg-pink">16 June, 2019</div>
                         <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
                         <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
