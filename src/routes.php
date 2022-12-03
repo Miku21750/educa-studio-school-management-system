@@ -626,7 +626,7 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
             }
             if ($type == 2) {
-                return DashboardTeacherController::index($this, $request, $response,$args);
+                return DashboardTeacherController::view($this, $request, $response,$args);
             }
             if ($type == 3) {
                 // $type = "Admin";
