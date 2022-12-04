@@ -1,30 +1,267 @@
 {% block modal %}
 
-  <!-- Confirmation Modal -->
-  <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog"
-  aria-hidden="true">
-  <div class="modal-dialog success-modal-content" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"
-                  aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <div class="success-message">
-                  <div class="item-icon">
-                      <i class="fas fa-exclamation text-orange-red"></i>
-                  </div>
-                  <h3 class="item-title">You want to delete this file ?</h3>
-              </div>
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="footer-btn bg-linkedin">Ok</button>
-              <button type="button" class="footer-btn bg-dark-low"
-                  data-dismiss="modal">Cancel</button>
-          </div>
-      </div>
-  </div>
+<!-- Confirmation Hapus Modal -->
+<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog success-modal-content" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="footer-btn bg-linkedin">Ok</button>
+                <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
 </div>
-  {% endblock modal %}
+
+<!-- Large Modal -->
+<div class="modal fade" id="large-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Parent</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card ui-tab-card">
+                <div class="card-body">
+
+                    <div class="basic-tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab"
+                                    aria-selected="true">Detail</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tab2" role="tab"
+                                    aria-selected="false">Edit</a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="tab1" role="tabpanel">
+                                <div class="single-info-details">
+                                    <div class="item-img">
+                                        <img src="https://mycipongkor.com/wp-content/uploads/2022/05/Foto-profil-WA-kosong-senyum-min.jpg "
+                                            style="width: 280px;" alt="student" />
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="header-inline item-header">
+                                            <h3 class="text-dark-medium font-medium" name="first_name"></h3>
+
+                                        </div>
+
+
+                                        <p> Bio : <br>
+                                            <a name="bio"> </a>
+                                        </p>
+                                        <div class="info-table table-responsive">
+                                            <table class="table text-nowrap">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Name:</td>
+                                                        <td class="font-medium text-dark-medium" name="first_name">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Gender:</td>
+                                                        <td class="font-medium text-dark-medium" name="gender"></td>
+                                                    </tr>
+                                                    {# <tr>
+                                                        <td>Father Name:</td>
+                                                        <td class="font-medium text-dark-medium">Steve Jones</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Mother Name:</td>
+                                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                                    </tr> #}
+                                                    <tr>
+                                                        <td>Tanggal Lahir:</td>
+                                                        <td class="font-medium text-dark-medium" name="date_of_birth">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Religion:</td>
+                                                        <td class="font-medium text-dark-medium" name="religion"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Username:</td>
+                                                        <td class="font-medium text-dark-medium" name="username"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>E-mail:</td>
+                                                        <td class=" font-medium text-dark-medium" name="email">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Blood Group:</td>
+                                                        <td class="font-medium text-dark-medium" name="blood_group">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Occupation:</td>
+                                                        <td class="font-medium text-dark-medium" name="occupation">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Address:</td>
+                                                        <td class="font-medium text-dark-medium" name="address_user">
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phone:</td>
+                                                        <td class="font-medium text-dark-medium" name="phone_user">
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab2" role="tabpanel">
+                                <div class="single-info-details">
+                                    <form action="/editDataProfile" method="post" class="new-added-form"
+                                        enctype="multipart/form-data">
+                                        <div class="item-img">
+                                            {# <img src="img/figure/student1.jpg" alt="student" /> #}
+                                            <div class="avatar-upload">
+                                                <div class="avatar-edit">
+                                                    <input type='file' name="profileImage" id="imageUpload"
+                                                        accept=".png, .jpg, .jpeg" />
+                                                    <label for="imageUpload"></label>
+                                                </div>
+                                                <div class="avatar-preview">
+                                                    <div id="imagePreview"
+                                                        style="background-image: url('https://mycipongkor.com/wp-content/uploads/2022/05/Foto-profil-WA-kosong-senyum-min.jpg    ');">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <script>
+                                                function readURL(input) {
+                                                    if (input.files && input.files[0]) {
+                                                        var reader = new FileReader();
+                                                        reader.onload = function (e) {
+                                                            $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+                                                            $('#imagePreview').hide();
+                                                            $('#imagePreview').fadeIn(650);
+                                                        }
+                                                        reader.readAsDataURL(input.files[0]);
+
+                                                    }
+                                                }
+                                                $("#imageUpload").change(function () {
+                                                    readURL(this);
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="item-content">
+                                            <div class="header-inline item-header">
+                                                <h3 class="text-dark-medium font-medium" name="first_name"></h3>
+
+                                            </div>
+                                            <p>Bio : <br>
+                                                <textarea name="ebio" cols="120" rows="5"
+                                                    class="form-control"></textarea>
+
+                                            </p>
+                                            <div class="info-table table-responsive">
+                                                <table class="table text-nowrap">
+                                                    <tbody>
+                                                        <input type="text" name="id_user" value="{{ data.id_user }}"
+                                                            hidden>
+                                                        <tr class="form-group">
+                                                            <label for="first_name">Nama Depan:</label>
+                                                            <input name="efirst_name" type="text"
+                                                                placeholder="Masukan nama depan" class="form-control">
+                                                        </tr>
+                                                        <tr class="form-group">
+                                                            <label for="last_name">Nama Belakang:</label>
+                                                            <input name="elast_name" type="text"
+                                                                placeholder="Masukan nama belakang"
+                                                                class="form-control">
+                                                        </tr>
+                                                        {# <tr>
+                                                            <td>Father Name:</td>
+                                                            <td class="font-medium text-dark-medium">Steve Jones</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Mother Name:</td>
+                                                            <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                                        </tr> #}
+                                                        <tr class="form-group">
+                                                            <label>Tanggal Lahir:</label>
+                                                            <input name="edate_of_birth" type="date"
+                                                                class="form-control">
+                                                        </tr>
+                                                        <tr>
+                                                            <label>Agama:</label>
+                                                            <input name="ereligion" type="text"
+                                                                placeholder="Masukan Agamamu" class="form-control">
+                                                        </tr>
+                                                        <tr>
+                                                            <label>Username:</label>
+                                                            <input name="eusername" type="text" placeholder="username"
+                                                                class="form-control bg-light" readonly>
+                                                        </tr>
+                                                        <tr>
+                                                            <label>E-mail:</label>
+                                                            <input name="eemail" type="email"
+                                                                class="form-control bg-light" readonly>
+                                                        </tr>
+                                                        <tr>
+                                                            <label>Golongan Darah:</label>
+                                                            <select name="eblood_group" class="form-control">
+                                                                <option value="">Pilih Golongan darah</option>
+                                                                <option value="A">A</option>
+                                                                <option value="B">B</option>
+                                                                <option value="AB">AB</option>
+                                                                <option value="O">O</option>
+                                                            </select>
+                                                        </tr>
+                                                        <tr>
+                                                            <label>Pekerjaan:</label>
+                                                            <input name="eoccupation" type="text"
+                                                                placeholder="Masukan Pekerjaan Kamu"
+                                                                class="form-control">
+                                                        </tr>
+                                                        <tr>
+                                                            <label>Alamat:</label>
+                                                            <input name="eaddress_user" type="text"
+                                                                placeholder="Masukan Alamat" class="form-control">
+                                                        </tr>
+                                                        <tr>
+                                                            <label>No Telepon:</label>
+                                                            <input name="ephone_user" type="text"
+                                                                placeholder="Masukan No Telepon (62-888-8888-8888)"
+                                                                class="form-control">
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <input type="submit" value="Edit Profil" class="btn btn-warning">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+{% endblock modal %}
