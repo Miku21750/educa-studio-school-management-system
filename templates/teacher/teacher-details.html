@@ -1,120 +1,115 @@
 {% extends "/layout/master.html" %}
 {% set title = "Teacher Details" %}
 {% block content %}
-    <!-- Student Table Area Start Here -->
+<!-- Student Table Area Start Here -->
 <div class="card height-auto">
-    <div class="card-body">
-      <div class="heading-layout1">
-        <div class="item-title">
-          <h3>Tentang Saya</h3>
-        </div>
-        <div class="dropdown">
-          <a
-            class="dropdown-toggle"
-            href="#"
-            role="button"
-            data-toggle="dropdown"
-            aria-expanded="false"
-            >...</a
-          >
-  
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-times text-orange-red"></i>Tutup</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a
-            >
-          </div>
+  <div class="card-body">
+    <div class="heading-layout1">
+      <div class="item-title">
+        <h3>Tentang Saya</h3>
+      </div>
+      <div class="dropdown">
+        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Tutup</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
         </div>
       </div>
-      <div class="single-info-details">
-        <div class="item-img">
-          <img src="img/figure/teacher.jpg" alt="teacher" />
+    </div>
+    <div class="single-info-details">
+      <div class="item-img">
+        <img src="/teacher.jpg" alt="teacher" />
+      </div>
+      <div class="item-content">
+        <div class="header-inline item-header">
+          <h3 class="text-dark-medium font-medium">{{namaDepanGuru}} {{namaBelakangGuru}}</h3>
+          <div class="header-elements">
+            <ul>
+              <li>
+                <a href="#"><i class="far fa-edit"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-print"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-download"></i></a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="item-content">
-          <div class="header-inline item-header">
-            <h3 class="text-dark-medium font-medium">Steven Johnson</h3>
-            <div class="header-elements">
-              <ul>
-                <li>
-                  <a href="#"><i class="far fa-edit"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fas fa-print"></i></a>
-                </li>
-                <li>
-                  <a href="#"><i class="fas fa-download"></i></a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <p>
-            Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
-            word moun taiery.Aliquam erat volutpaturabiene natis massa sedde
-            sodale word moun taiery.
-          </p>
-          <div class="info-table table-responsive">
-            <table class="table text-nowrap">
-              <tbody>
-                <tr>
-                  <td>Nama :</td>
-                  <td class="font-medium text-dark-medium">Steven Johnson</td>
-                </tr>
-                <tr>
-                  <td>Jenis Kelamin :</td>
-                  <td class="font-medium text-dark-medium">Male</td>
-                </tr>
-                <tr>
-                  <td>Agama :</td>
-                  <td class="font-medium text-dark-medium">Islam</td>
-                </tr>
-                <tr>
-                  <td>Tanggal Bergabung :</td>
-                  <td class="font-medium text-dark-medium">07.08.2016</td>
-                </tr>
-                <tr>
-                  <td>E-mail :</td>
-                  <td class="font-medium text-dark-medium">
-                    stevenjohnson@gmail.com
-                  </td>
-                </tr>
-                <tr>
-                  <td>Mata Pelajaran :</td>
-                  <td class="font-medium text-dark-medium">English</td>
-                </tr>
-                <tr>
-                  <td>Kelas :</td>
-                  <td class="font-medium text-dark-medium">2</td>
-                </tr>
-                <tr>
-                  <td>Bagian :</td>
-                  <td class="font-medium text-dark-medium">Pink</td>
-                </tr>
-                <tr>
-                  <td>NIP :</td>
-                  <td class="font-medium text-dark-medium">10005</td>
-                </tr>
-                <tr>
-                  <td>Alamat :</td>
-                  <td class="font-medium text-dark-medium">
-                    House #10, Road #6, Australia
-                  </td>
-                </tr>
-                <tr>
-                  <td>No. Handpone :</td>
-                  <td class="font-medium text-dark-medium">+ 88 98568888418</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <p>
+          {{shortbioGuru}}
+        </p>
+        <div class="info-table table-responsive">
+          <table class="table text-nowrap">
+            <tbody>
+              <tr>
+                <td>Nama :</td>
+                <td class="font-medium text-dark-medium">{{namaDepanGuru}} {{namaBelakangGuru}}</td>
+              </tr>
+              <tr>
+                <td>Jenis Kelamin :</td>
+                <td class="font-medium text-dark-medium">{{jenisKelamin}}</td>
+              </tr>
+              <tr>
+                <td>Agama :</td>
+                <td class="font-medium text-dark-medium">{{relegion}}</td>
+              </tr>
+              <tr>
+                <!-- 'namaDepanGuru' => $namaDepanGuru[0],
+                'namaBelakangGuru' => $namaBelakangGuru[0],
+                'shortbioGuru' => $shortbioGuru[0],
+                'jenisKelamin' => $jenisKelamin[0],
+                'admissionDate' => $admissionDate[0],
+                'email' => $email[0],
+                'NIP' => $NIP[0],
+                'addressUser' => $addressUser[0],
+                'phoneUser' => $phoneUser[0],
+                'shortbioGuru' => $shortbioGuru[0],
+                'agama' => $agama[0], -->
+                <td>Tanggal Bergabung :</td>
+                <td class="font-medium text-dark-medium">{{admissionDate}}</td>
+              </tr>
+              <tr>
+                <td>E-mail :</td>
+                <td class="font-medium text-dark-medium">{{email}}
+                </td>
+              </tr>
+              <tr>
+                <td>Mata Pelajaran :</td>
+                <td class="font-medium text-dark-medium"></td>
+              </tr>
+
+              <tr>
+                <td>Kelas :</td>
+                <td class="font-medium text-dark-medium">{{kelas.0.kelas}} {{kelas.0.section}}</td>
+              </tr>
+              <tr>
+                <td>Mapel :</td>
+                <td class="font-medium text-dark-medium">{{kelas.0.subject}}</td>
+              </tr>
+
+              <tr>
+                <td>NIP :</td>
+                <td class="font-medium text-dark-medium">{{NIP}}</td>
+              </tr>
+              <tr>
+                <td>Alamat :</td>
+                <td class="font-medium text-dark-medium">{{addressUser}}</td>
+              </tr>
+              <tr>
+                <td>No. Handpone :</td>
+                <td class="font-medium text-dark-medium">{{phoneUser}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-  <!-- Student Table Area End Here -->
-  
+</div>
+<!-- Student Table Area End Here -->
+
 {% endblock content %}
