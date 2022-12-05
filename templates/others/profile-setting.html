@@ -20,7 +20,7 @@
         </div>
         <div class="single-info-details">
             <div class="item-img">
-                <img src="/uploads/Profile/{{data.photo_user}}" style="width: 280px;" alt="student" />
+                <img src="uploads/Profile/{{data.photo_user}}" style="width: 280px;" alt="student" />
             </div>
             <div class="item-content">
                 <div class="header-inline item-header">
@@ -133,13 +133,14 @@
             <form action="/editDataProfile" method="post" class="new-added-form" enctype="multipart/form-data">
             <div class="item-img">
                 {# <img src="img/figure/student1.jpg" alt="student" /> #}
+                <input type="text" value="{{data.photo_user}}" name ="imageDefault" hidden >
                     <div class="avatar-upload">
                         <div class="avatar-edit">
-                            <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                            <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg"/>
                             <label for="imageUpload"></label>
                         </div>
                         <div class="avatar-preview">
-                            <div id="imagePreview" style="background-image: url('https://mycipongkor.com/wp-content/uploads/2022/05/Foto-profil-WA-kosong-senyum-min.jpg    ');">
+                            <div id="imagePreview" style="background-image: url(uploads/Profile/{{data.photo_user}});">
                             </div>
                         </div>
                 </div>
@@ -171,7 +172,7 @@
                     <div class="header-elements">
                         <ul>
                             <li>
-                                <a href="" id="editButton"><i class="far fa-edit"></i></a>
+                                <a href="" id="viewButton"><i class="far fa-edit"></i></a>
                             </li>
                             <li>
                                 <a href="#"><i class="fas fa-print"></i></a>
@@ -200,6 +201,19 @@
                                 <label for="last_name">Nama Belakang:</label>
                                 <input type="text" placeholder="Masukan nama belakang" name="last_name" class="form-control" value="{{ data.last_name }}">
                             </tr>
+                            <tr class="form-group">
+                                <label for="gender">Gender:</label>
+                                <select name="gender" id="selectGenderEditProfile" class="form-control">
+                                    <option value="">Pilih gender</option>
+                                    <option value="Laki-Laki">Laki-Laki</option>
+                                    <option value="Prempuan">Perempuan</option>
+                                </select>
+                                {# <input type="text" name="gender" id="genderProfile_Edit" list="gender">
+                                <datalist id="gender">
+                                    <option value="Male">Laki-Laki</option>
+                                    <option value="Female">Perempuan</option>
+                                </datalist> #}
+                            </tr>
                             {# <tr>
                                 <td>Father Name:</td>
                                 <td class="font-medium text-dark-medium">Steve Jones</td>
@@ -225,8 +239,9 @@
                                 <input type="email" name="email" class="form-control bg-light" value="{{ data.email }}" readonly>
                             </tr>
                             <tr>
+                                
                                 <label>Golongan Darah:</label>
-                                <select name="blood_group" class="form-control" value="{{ data.blood_group}}">
+                                <select id="selectBloodGroupEditProfile" name="blood_group" class="form-control" >
                                     <option value="">Pilih Golongan darah</option>
                                     <option value="A">A</option>
                                     <option value="B">B</option>
@@ -244,7 +259,7 @@
                             </tr>
                             <tr>
                                 <label>No Telepon:</label>
-                                <input type="text" name="phone_user" placeholder="Masukan No Telepon (62-888-8888-8888)" class="form-control" value="{{ data.phone_no }}">
+                                <input type="text" name="phone_user" placeholder="Masukan No Telepon (62-888-8888-8888)" class="form-control" value="{{ data.phone_user }}">
                             </tr>
                         </tbody>
                     </table>
@@ -260,7 +275,6 @@
 <!-- Script for jquery Edit Form -->
 <script>
     $(document).ready(function () {
-        
         $('#editDataDetailAccountSetting').toggle();
         $('#editButton').click(function (e) { 
             e.preventDefault();
@@ -268,6 +282,17 @@
             $('#showDataDetailAccountSetting').toggle();
             $('#editDataDetailAccountSetting').toggle();
         });
+        $('#viewButton').click(function (e) { 
+            e.preventDefault();
+            //console.log(data)
+            $('#showDataDetailAccountSetting').toggle();
+            $('#editDataDetailAccountSetting').toggle();
+        });
+        var gend = "{{ data.gender }}";
+        var BlGroup = "{{ data.blood_group }}";
+
+        $('#selectGenderEditProfile').val(gend).change();
+        $('#selectBloodGroupEditProfile').val(BlGroup).change();
     });
 </script>
 {% endblock content %}

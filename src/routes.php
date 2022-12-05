@@ -574,19 +574,25 @@ return function (App $app) {
                 $filename = moveUploadedFile($directory, $uploadedFile);
                 $response->write('uploaded ' . $filename . '<br/>');
             }
+            // return var_dump(isset($filename));
+            $addUpdate = $filename;
+            if(!isset($filename)){
+                $addUpdate = $data['imageDefault'];
+            }
+            
             // return var_dump($uploadedFiles);
-            $update = $container->db->update('tbl_users', [
+            $update = $container->db->debug()->update('tbl_users', [
                 "first_name" => $data['first_name'],
                 "last_name" => $data['last_name'],
                 "gender" => $data['gender'],
                 "date_of_birth" => $data['date_of_birth'],
                 "religion" => $data['religion'],
-                "photo_user" => $filename,
                 "blood_group" => $data['blood_group'],
                 "occupation" => $data['occupation'],
                 "phone_user" => $data['phone_user'],
                 "address_user" => $data['address_user'],
-                "short_bio" => $data['data_short_bio']
+                "short_bio" => $data['data_short_bio'],
+                "photo_user" => $addUpdate
             ], [
                 "id_user" => $data['id_user']
             ]);
