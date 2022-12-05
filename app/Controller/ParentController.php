@@ -89,7 +89,7 @@ class ParentController
             foreach ($parent as $m) {
 
                 $datas['no'] = $no . '.';
-                $datas['foto'] = '<img src="img/figure/'.$m['photo_user'].'" style="width:30px;"  alt="student">';
+                $datas['foto'] = '<img src="/uploads/Profile/'.$m['photo_user'].'" style="width:30px;"  alt="student">';
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
                 $datas['gender'] = $m['gender'];
                 $datas['pekerjaan'] = $m['occupation'];
@@ -103,8 +103,7 @@ class ParentController
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                            data-target="#confirmation-modal" data="' . $m['id_user'] . '"">
+                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
                             Hapus
                         </button></a>
                     <a class="dropdown-item"  ><i
@@ -221,6 +220,23 @@ class ParentController
 
         // return var_dump($json_data);
         // echo json_encode($json_data);
+    }
+
+    public static function delete($app, $req, $rsp, $args)
+    {
+        $id = $args['data'];
+
+
+        $del = $app->db->delete('tbl_users', [
+            "id_user" => $id
+        ]);
+
+        // return $rsp->withJson($del);
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
     }
 
     public static function update_parent_detail($app, $request, $response, $args)

@@ -45,9 +45,7 @@
                 {% endif %}</h3>
               <div class="header-elements">
                 <ul>
-                  <li>
-                    <a href="" id="editButton"><i class="far fa-edit"></i></a>
-                  </li>
+                  
                   <li>
                     <a href="#"><i class="fas fa-print"></i></a>
                   </li>
@@ -67,11 +65,11 @@
               <table class="table text-nowrap">
                 <tbody>
                   <tr>
-                    <td>Name:</td>
+                    <td>Nama:</td>
                     <td class="font-medium text-dark-medium">{{ data.first_name ~' '~ data.last_name }}</td>
                   </tr>
                   <tr>
-                    <td>Gender:</td>
+                    <td>Jenis Kelamin:</td>
                     <td class="font-medium text-dark-medium">{{data.gender}}</td>
                   </tr>
                   {# <tr>
@@ -87,7 +85,7 @@
                     <td class="font-medium text-dark-medium">{{data.date_of_birth}}</td>
                   </tr>
                   <tr>
-                    <td>Religion:</td>
+                    <td>Agama:</td>
                     <td class="font-medium text-dark-medium">{{data.religion}}</td>
                   </tr>
                   <tr>
@@ -101,15 +99,15 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Blood Group:</td>
+                    <td>Golongan Darah:</td>
                     <td class="font-medium text-dark-medium">{{ data.blood_group }}</td>
                   </tr>
                   <tr>
-                    <td>Occupation:</td>
+                    <td>Pekerjaan:</td>
                     <td class="font-medium text-dark-medium">{{data.occupation}}</td>
                   </tr>
                   <tr>
-                    <td>Address:</td>
+                    <td>Alamat:</td>
                     <td class="font-medium text-dark-medium">
                       {{data.address_user}}
                     </td>
@@ -185,9 +183,7 @@
                     {% endif %}</h3>
                     <div class="header-elements">
                         <ul>
-                            <li>
-                                <a href="" id="viewButton"><i class="far fa-edit"></i></a>
-                            </li>
+                            
                             <li>
                                 <a href="#"><i class="fas fa-print"></i></a>
                             </li>
@@ -216,7 +212,7 @@
                                 <input type="text" placeholder="Masukan nama belakang" name="last_name" class="form-control" value="{{ data.last_name }}">
                             </tr>
                             <tr class="form-group">
-                                <label for="gender">Gender:</label>
+                                <label for="gender">Jenis Kelamin:</label>
                                 <select name="gender" id="selectGenderEditProfile" class="form-control">
                                     <option value="">Pilih gender</option>
                                     <option value="Laki-Laki">Laki-Laki</option>

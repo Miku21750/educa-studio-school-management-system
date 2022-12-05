@@ -158,6 +158,16 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->post(
+                '/delete-parent',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ParentController::delete($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 
