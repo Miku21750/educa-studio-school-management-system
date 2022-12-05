@@ -68,27 +68,27 @@ return function (App $app) {
             $app->post(
                 '/login',
                 function (Request $request, Response $response, array $args) use ($app) {
-                        return indexApiController::Login($this, $request, $response, $args);
-                    }
+                    return indexApiController::Login($this, $request, $response, $args);
+                }
             );
 
             $app->post(
                 '/register',
                 function (Request $request, Response $response, array $args) use ($app) {
-                        return indexApiController::register($this, $request, $response, $args);
-                    }
+                    return indexApiController::register($this, $request, $response, $args);
+                }
             );
 
             $app->group(
                 '/user',
                 function () use ($app) {
-                        $app->post(
-                            '/account-setting',
-                            function (Request $request, Response $response, array $args) use ($app) {
-                                            return 0;
-                                        }
-                        );
-                    }
+                    $app->post(
+                        '/account-setting',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return 0;
+                        }
+                    );
+                }
             );
 
 
@@ -96,33 +96,78 @@ return function (App $app) {
                 '/admin',
                 function () use ($app) {
 
-                        $app->get(
-                            '/apidata',
-                            function (Request $request, Response $response, array $args) use ($app) {
-                                            return DashboardAdminController::apiData($this, $request, $response, $args);
-                                            ;
-                                        }
-                        );
-                    }
+                    $app->get(
+                        '/apidata',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return DashboardAdminController::apiData($this, $request, $response, $args);;
+                        }
+                    );
+                }
             );
 
-            $app->get('/{id}/select', function (Request $request, Response $response, array $args) use ($app) {
-                $data = $args['id'];
-                return DashbordParentController::tampil_data($this, $request, $response, [
-                    'data' => $data
-                ]);
-            }
+            $app->get(
+                '/{id}/select',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    return DashbordParentController::tampil_data($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
             );
-            $app->get('/{id}/result', function (Request $request, Response $response, array $args) use ($app) {
-                $data = $args['id'];
-                return DashbordParentController::tampil_data_result($this, $request, $response, [
-                    'data' => $data
-                ]);
-            }
+            $app->get(
+                '/{id}/result',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    return DashbordParentController::tampil_data_result($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
             );
-            $app->get('/allparents', function (Request $request, Response $response, array $args) use ($app) {
-                return ParentController::tampil_data($this, $request, $response,$args);
-            }
+            $app->get(
+                '/allparents',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return ParentController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/{id}/detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return ParentController::detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/parent-detail/{id}',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return ParentController::parent_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/update-parent-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ParentController::update_parent_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/delete-parent',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ParentController::delete($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
             );
         }
     );
@@ -138,14 +183,14 @@ return function (App $app) {
             $container->db->update('tbl_users', [
                 "status" => 1
             ], [
-                    "id_user" => $data['key']
-                ]);
+                "id_user" => $data['key']
+            ]);
             unset($_SESSION['isRegistered']);
             $_SESSION['isValidatingEmail'] = true;
             return $response->withRedirect('/login');
             // echo "<p>Sukses verifikasi, <a href='/login'>Silahkan Login</a></p>";
             // $data = $request->getParams();
-    
+
         }
     );
     // verification email end here
@@ -203,7 +248,7 @@ return function (App $app) {
             //Attach file gambar
             //  $mail->addAttachment('images/phpmailer_mini.png');
             //mengirim pesan, mengecek error
-    
+
             if (!$mail->send()) {
                 echo "Email Error: " . $mail->ErrorInfo;
             } else {
@@ -235,8 +280,8 @@ return function (App $app) {
                 $changePass = $container->db->update('tbl_users', [
                     'password' => $data['pass']
                 ], [
-                        'id_user' => $data['id_user']
-                    ]);
+                    'id_user' => $data['id_user']
+                ]);
                 $_SESSION['changedPass'] = true;
                 // return var_dump(true);
                 return $response->withRedirect('/login');
@@ -306,7 +351,7 @@ return function (App $app) {
     //Parent
     $app->get(
         '/all-parents',
-        function (Request $request, Response $response, array $args) use ($container) {        
+        function (Request $request, Response $response, array $args) use ($container) {
             return ParentController::index($this, $request, $response, [
                 'user' => $_SESSION['username'],
                 'id_parent' => $_SESSION['id_user'],
@@ -487,26 +532,17 @@ return function (App $app) {
     // End Map
 
     // Account
-    $app->get(
-        '/account-settings',
-        function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'others/account-settings.html', $args);
-        }
-    )->add(new Auth());
-    // End Account
-
     // Set profile setting
     $app->get(
         '/profile-setting',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $data = $container->db->select('tbl_users',[
+            $data = $container->db->select('tbl_users', [
                 "[>]tbl_classes" => "id_class",
                 "[>]tbl_hostels" => "id_hostel",
-                "[>]tbl_transports"=> ["id_trans"=>"id_transport"],
+                "[>]tbl_transports" => ["id_trans" => "id_transport"],
                 "[>]tbl_user_types" => "id_user_type"
-            ],[
+            ], [
                 "tbl_users.id_user",
                 "tbl_classes.class",
                 "tbl_hostels.hostel_name",
@@ -525,7 +561,7 @@ return function (App $app) {
                 "phone_user",
                 "address_user",
                 "short_bio"
-            ],[
+            ], [
                 'id_user' => $_SESSION['id_user']
             ]);
             // return var_dump($data);
@@ -535,9 +571,70 @@ return function (App $app) {
         }
     )->add(new Auth());
 
+    $app->get(
+        '/add-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $isAddAccount = isset($_SESSION['successAddingAccount']);
+            unset($_SESSION['successAddingAccount']);
+            $container->view->render($response, 'others/account/add-account.html', [
+                'isAddAccount' => $isAddAccount
+            ]);
+        }
+    )->add(new Auth());
     $app->post(
-        '/editDataProfile',
-        function (Request $request, Response $response, array $args) use ($container){
+        '/add-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            $addPhoto = '20221205040116-20220929-133008.jpg';
+            // return var_dump($data);
+
+            $insert = $container->db->insert('tbl_users',[
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "id_user_type"=>3,
+                "status"=>1,
+                "photo_user" => $addPhoto
+            ]);
+            $_SESSION['successAddingAccount'] = true;
+            return $response->withRedirect('/add-account');
+            // $container->view->render($response, 'others/account/add-account.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/all-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $container->db->select('tbl_users','*',[
+                'id_user_type'=>3
+            ]);
+            // return var_dump($data);
+            // Render index view
+            $container->view->render($response, 'others/account/all-account.html', [
+                'data'=>$data
+            ]);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/account-data',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // return var_dump($request->getParams());
+            $id = $request->getParam('id_user');
+            $data = $container->db->select('tbl_users','*',[
+                'id_user'=>$id
+            ]);
+            // return var_dump($data);
+            return $response->withJson($data[0]);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/editAccount',
+        function (Request $request, Response $response, array $args) use ($container) {
             $data = $request->getParsedBody();
             // return var_dump($data);
             // get image
@@ -548,28 +645,88 @@ return function (App $app) {
             if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
                 $filename = moveUploadedFile($directory, $uploadedFile);
                 $response->write('uploaded ' . $filename . '<br/>');
-            }   
+            }
+            // return var_dump(isset($filename));
+            $addUpdate = $filename;
+            if(!isset($filename)){
+                $addUpdate = $data['imageDefault'];
+            }
+            
             // return var_dump($uploadedFiles);
-            $update = $container->db->update('tbl_users',[
+            $update = $container->db->update('tbl_users', [
                 "first_name" => $data['first_name'],
                 "last_name" => $data['last_name'],
                 "gender" => $data['gender'],
                 "date_of_birth" => $data['date_of_birth'],
                 "religion" => $data['religion'],
-                "photo_user" => $filename,
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "short_bio" => $data['data_short_bio'],
+                "photo_user" => $addUpdate
+            ], [
+                "id_user" => $data['id_user']
+            ]);
+            // return var_dump($update);
+            return $response->withRedirect('/all-account');
+        }
+    );
+    $app->post(
+        '/account-delete-data',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $delete = $container->db->delete('tbl_users', [
+                'id_user' => $data['id']
+            ]);
+            return $response->withJson(array("success"));
+            
+            // return var_dump($data);
+        }
+    )->add(new Auth());
+
+    $app->post(
+        '/editDataProfile',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            // get image
+            $directory = $container->get('upload_directory');
+            $uploadedFiles = $request->getUploadedFiles();
+            // handle single input with single file upload
+            $uploadedFile = $uploadedFiles['profileImage'];
+            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $filename = moveUploadedFile($directory, $uploadedFile);
+                $response->write('uploaded ' . $filename . '<br/>');
+            }
+            // return var_dump(isset($filename));
+            $addUpdate = $filename;
+            if(!isset($filename)){
+                $addUpdate = $data['imageDefault'];
+            }
+            
+            // return var_dump($uploadedFiles);
+            $update = $container->db->update('tbl_users', [
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
                 "blood_group" => $data['blood_group'],
                 "occupation" => $data['occupation'],
                 "phone_user" => $data['phone_user'],
                 "address_user" => $data['address_user'],
-                "short_bio" => $data['data_short_bio']
-            ],[
-                "id_user"=> $data['id_user']
+                "short_bio" => $data['data_short_bio'],
+                "photo_user" => $addUpdate
+            ], [
+                "id_user" => $data['id_user']
             ]);
             // return var_dump($update);
             return $response->withRedirect('/profile-setting');
+        }
+    );
 
-        });
     // End profile setting
+
 
     // Dashboard
     // $app->get(
@@ -635,7 +792,7 @@ return function (App $app) {
                     'user' => $_SESSION['user'],
                     'type' => $type,
                     'nama_user' => $type_user,
-                    'username' => $_SESSION['username'] 
+                    'username' => $_SESSION['username']
                 ]);
             }
             if ($type == 4) {
