@@ -33,7 +33,8 @@
         </div>
         <div class="single-info-details">
           <div class="item-img">
-            <img src="uploads/Profile/{{data.photo_user}}" style="width: 280px;" alt="student" />
+            {# <p>{{data.photo_user}}</p>  #}
+            <img src="/uploads/Profile/{{data.photo_user}}" style="width: 280px;" alt="student" />
           </div>
           <div class="item-content">
             <div class="header-inline item-header">
@@ -44,9 +45,7 @@
                 {% endif %}</h3>
               <div class="header-elements">
                 <ul>
-                  <li>
-                    <a href="" id="editButton"><i class="far fa-edit"></i></a>
-                  </li>
+                  
                   <li>
                     <a href="#"><i class="fas fa-print"></i></a>
                   </li>
@@ -66,11 +65,11 @@
               <table class="table text-nowrap">
                 <tbody>
                   <tr>
-                    <td>Name:</td>
+                    <td>Nama:</td>
                     <td class="font-medium text-dark-medium">{{ data.first_name ~' '~ data.last_name }}</td>
                   </tr>
                   <tr>
-                    <td>Gender:</td>
+                    <td>Jenis Kelamin:</td>
                     <td class="font-medium text-dark-medium">{{data.gender}}</td>
                   </tr>
                   {# <tr>
@@ -86,7 +85,7 @@
                     <td class="font-medium text-dark-medium">{{data.date_of_birth}}</td>
                   </tr>
                   <tr>
-                    <td>Religion:</td>
+                    <td>Agama:</td>
                     <td class="font-medium text-dark-medium">{{data.religion}}</td>
                   </tr>
                   <tr>
@@ -100,15 +99,15 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Blood Group:</td>
+                    <td>Golongan Darah:</td>
                     <td class="font-medium text-dark-medium">{{ data.blood_group }}</td>
                   </tr>
                   <tr>
-                    <td>Occupation:</td>
+                    <td>Pekerjaan:</td>
                     <td class="font-medium text-dark-medium">{{data.occupation}}</td>
                   </tr>
                   <tr>
-                    <td>Address:</td>
+                    <td>Alamat:</td>
                     <td class="font-medium text-dark-medium">
                       {{data.address_user}}
                     </td>
@@ -143,7 +142,7 @@
             </div>
         </div>
         <div class="single-info-details">
-            <form action="/editDataProfile" method="post" class="new-added-form" enctype="multipart/form-data">
+            <form action="/api/update-parent-detail" method="post" class="new-added-form" enctype="multipart/form-data">
             <div class="item-img">
                 {# <img src="img/figure/student1.jpg" alt="student" /> #}
                 <input type="text" value="{{data.photo_user}}" name ="imageDefault" hidden >
@@ -153,7 +152,7 @@
                             <label for="imageUpload"></label>
                         </div>
                         <div class="avatar-preview">
-                            <div id="imagePreview" style="background-image: url(uploads/Profile/{{data.photo_user}});">
+                            <div id="imagePreview" style="background-image: url(/uploads/Profile/{{data.photo_user}});">
                             </div>
                         </div>
                 </div>
@@ -184,9 +183,7 @@
                     {% endif %}</h3>
                     <div class="header-elements">
                         <ul>
-                            <li>
-                                <a href="" id="viewButton"><i class="far fa-edit"></i></a>
-                            </li>
+                            
                             <li>
                                 <a href="#"><i class="fas fa-print"></i></a>
                             </li>
@@ -215,11 +212,11 @@
                                 <input type="text" placeholder="Masukan nama belakang" name="last_name" class="form-control" value="{{ data.last_name }}">
                             </tr>
                             <tr class="form-group">
-                                <label for="gender">Gender:</label>
+                                <label for="gender">Jenis Kelamin:</label>
                                 <select name="gender" id="selectGenderEditProfile" class="form-control">
                                     <option value="">Pilih gender</option>
                                     <option value="Laki-Laki">Laki-Laki</option>
-                                    <option value="Prempuan">Perempuan</option>
+                                    <option value="Perempuan">Perempuan</option>
                                 </select>
                                 {# <input type="text" name="gender" id="genderProfile_Edit" list="gender">
                                 <datalist id="gender">
@@ -299,6 +296,12 @@
       $('#showDataDetailAccountSetting').toggle();
       $('#editDataDetailAccountSetting').toggle();
     });
+
+    var gend = "{{ data.gender }}";
+    var BlGroup = "{{ data.blood_group }}";
+
+    $('#selectGenderEditProfile').val(gend).change();
+    $('#selectBloodGroupEditProfile').val(BlGroup).change();
   });
 </script>
 {% endblock content %}
