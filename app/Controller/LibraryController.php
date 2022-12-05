@@ -98,8 +98,8 @@ class LibraryController{
                             data-target="#confirmation-modal" data="' . $m['id_book'] . '"">
                             Hapus
                         </button></a>
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-edit text-dark-pastel-green"></i><button type="button"  class="btn btn-light item_detail"  data="' . $m['id_book'] . '"">
+                    <a class="btn dropdown-item book_detail" data="' . $m['id_book'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
+                            class="fas fa-edit text-dark-pastel-green"></i>
                             Ubah
                         </button></a>
                 </div>
@@ -122,11 +122,12 @@ class LibraryController{
         echo json_encode($json_data);
     }
 
-    public static function detail($app, $request, $response, $args)
+    public static function detail($app, $request, $response, $id_book)
     {
-        $id_book = $args['data'];
+        // $id_book = $data;
+        // var_dump($id_book);
 
-        $data = $app->db->select('tbl_books', [
+        $data = $app->db->get('tbl_books', [
             "id_book",
             "name_book",
             "category_book",
@@ -139,12 +140,47 @@ class LibraryController{
         ]);
         // return var_dump($data);
         $json_data = array(
-            'data' => $data[0]
+            'data' => $data
         );
 
         return $response->withJson($data);
 
         // return var_dump($json_data);
         // echo json_encode($json_data);
+    }
+
+    public static function delete($app, $req, $rsp, $args)
+    {
+        $id = $args['data'];
+
+
+        $del = $app->db->delete('tbl_books', [
+            "id_book" => $id
+        ]);
+
+        // return $rsp->withJson($del);
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
+    }
+
+    public static function update_book_detail($app, $request, $response, $args)
+    {
+        $data = $args['data'];
+        
+        $update = $app->db->update('tbl_books', [
+            "name_book" => $data['name_book'],
+            "category_book" => $data['category_book'],
+            "writer_book" => $data['writer_book'],
+            "class" => $data['class'],
+            "publish_date" => $data['publish_date'],
+            "upload_date" => $data['upload_date']
+        ], [
+            "id_book" => $data['id_book']
+        ]);
+        // return var_dump($update);
+        return $response->withRedirect('/api/library/getBook');
     }
 }

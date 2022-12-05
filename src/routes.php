@@ -121,11 +121,51 @@ return function (App $app) {
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
                             // return var_dump($data);
-                            return LibraryController::detail($this, $request, $response, [
+                            return LibraryController::detail($this, $request, $response, $data);
+                        }
+                    );
+
+                    $app->post(
+                        '/update-book-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return LibraryController::update_book_detail($this, $request, $response, [
                                 'data' => $data
                             ]);
                         }
                     );
+
+                    $app->post(
+                        '/delete-book',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return LibraryController::delete($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    // $app->post(
+                    //     '/edit-book',
+                    //     function (Request $request, Response $response, array $args) use ($container) {
+                    //         $data = $request->getParsedBody();
+                    //         // return var_dump($data);
+                    //         $update = $container->db->debug()->update('tbl_books', [
+                    //             "name_book" => $data['name_book'],
+                    //             "category_book" => $data['category_book'],
+                    //             "writer_book" => $data['writer_book'],
+                    //             "class" => $data['class'],
+                    //             "publish_date" => $data['publish_date'],
+                    //             "upload_date" => $data['upload_date']
+                    //         ], [
+                    //             "id_book" => $data['id_book']
+                    //         ]);
+                    //         // return var_dump($update);
+                    //         return $response->withRedirect('/getBook');
+                    //     }
+                    // );
                 }
             );
 
