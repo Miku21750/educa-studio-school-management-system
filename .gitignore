@@ -1,4 +1,4 @@
-js
+/public/uploads/profile/*
 .vscode
 /logs/*
 !/logs/README.md
