@@ -148,6 +148,16 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->post(
+                '/update-parent-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ParentController::update_parent_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 

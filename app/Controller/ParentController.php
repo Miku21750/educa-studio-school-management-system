@@ -222,4 +222,47 @@ class ParentController
         // return var_dump($json_data);
         // echo json_encode($json_data);
     }
+
+    public static function update_parent_detail($app, $request, $response, $args)
+    {
+        $data = $args['data'];
+
+            // return var_dump($data);
+            // get image
+            $directory = $app->get('upload_directory');
+            $uploadedFiles = $request->getUploadedFiles();
+            // handle single input with single file upload
+            $uploadedFile = $uploadedFiles['profileImage'];
+            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $filename = moveUploadedFile($directory, $uploadedFile);
+                $response->write('uploaded ' . $filename . '<br/>');
+            }
+            // return var_dump(isset($filename));
+            $addUpdate = $filename;
+            if(!isset($filename)){
+                $addUpdate = $data['imageDefault'];
+            }
+            
+            // return var_dump($uploadedFiles);
+            $update = $app->db->update('tbl_users', [
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
+                "blood_group" => $data['blood_group'],
+                "occupation" => $data['occupation'],
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "short_bio" => $data['data_short_bio'],
+                "photo_user" => $addUpdate
+            ], [
+                "id_user" => $data['id_user']
+            ]);
+            // return var_dump($update);
+            return $response->withRedirect('/api/parent-detail/'. $data['id_user']);
+    }
+
+
+
 }
