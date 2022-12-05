@@ -1,0 +1,447 @@
+{% extends "/layout/master.html" %}
+{% set title = "All Account" %}
+{% block content %}
+<!-- All Account Area Start Here -->
+<div class="row">
+    <div class="col-4-xxxl col-xl-5" >
+        <div class="card account-settings-box height-auto" >
+            <div class="card-body">
+                <div class="heading-layout1 mg-b-20">
+                    <div class="item-title">
+                        <h3>All User</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="all-user-box" id="userBoxAllAccount">
+                    {% set idataProfile = 0 %}
+                    {% for data in data %}
+                    <div class="media media-none--xs" data-id="{{ data.id_user }}">
+                        {# if selected, class + active #}
+                        <div class="item-img">
+                            <img src="uploads/Profile/{{data.photo_user}}" class="media-img-auto" style="width: 80px;" alt="user">
+                        </div>
+                        <div class="media-body space-md" id="idAllUser1">
+                            <h5 class="item-title">
+                                {% if data.first_name == '' %}
+                                {{ data.username }}
+                                {% else %}
+                                {{ data.first_name ~" "~ data.last_name }}
+                                {% endif %}
+                            </h5>
+                            <div class="item-subtitle">Super Admin</div>
+                        </div>
+                    </div>
+                    {% set idataProfile = idataProfile + 1 %}
+                    
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- All Account Area End Here -->
+    <!-- View Account Selected Area Start Here -->
+    
+    <div class="col-8-xxxl col-xl-7" id="dataDetailsAccount">
+        <div class="card account-settings-box">
+            <div class="card-body">
+                <div class="heading-layout1 mg-b-20">
+                    <div class="item-title">
+                        <h3>User Details</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" id="closeView"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#" id="editButtonAccount"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#" id="deleteUserAccount"><i
+                                    class="fas fa-trash-alt text-danger"></i>Delete</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-details-box">
+                    <div class="item-img">
+                        <img src="" id="photoUserAccount" style="width: 250px;" alt="user">
+                    </div>
+                    <div class="item-content">
+                        <div class="info-table table-responsive">
+                            <table class="table ">
+                                <tbody>
+                                    <tr>
+                                        <td>Bio:</td>
+                                        <td id="bioUserAccount" class="font-medium text-dark-medium" ></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">Name:</td>
+                                        <td class="font-medium text-dark-medium" id="fullNameUserAccount">Steven Johnson</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">User Type:</td>
+                                        <td class="font-medium text-dark-medium" id="typeUserAccount">Super Admin</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">Username:</td>
+                                        <td class="font-medium text-dark-medium" id="usernameUserAccount">Super Admin</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">Gender:</td>
+                                        <td class="font-medium text-dark-medium" id="genderUserAccount">Male</td>
+                                    </tr>
+                                    {# <tr>
+                                        <td>Father Name:</td>
+                                        <td class="font-medium text-dark-medium">Steve Jones</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mother Name:</td>
+                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                    </tr> #}
+                                    <tr>
+                                        <td class="text-nowrap">Date Of Birth:</td>
+                                        <td class="font-medium text-dark-medium" id="dateBirthUserAccount">07.08.2016</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">Religion:</td>
+                                        <td class="font-medium text-dark-medium" id="religionUserAccount">Islam</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">E-mail:</td>
+                                        <td class="font-medium text-dark-medium" id="emailUserAccount">stevenjohnson@gmail.com</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">Address:</td>
+                                        <td class="font-medium text-dark-medium" id="addressUserAccount">House #10, Road #6, Australia</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-nowrap">Phone:</td>
+                                        <td class="font-medium text-dark-medium" id="phoneUserAccount">+ 88 98568888418</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- View Account Selected Area End Here -->
+    <!-- Edit Account Selected Area Start Here -->
+    <div class="col-8-xxxl col-xl-7" id="dataEditAccount">
+        <div class="card account-settings-box">
+            <div class="card-body">
+                <div class="heading-layout1 mg-b-20">
+                    <div class="item-title">
+                        <h3>Edit User Details</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#" id="viewButtonAccount"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#" id="viewButtonAccount"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="user-details-box">
+                    <form action="/editAccount" class="new-added-form" enctype="multipart/form-data" method="post">
+                        <input type="text" name ="imageDefaultEdit" hidden >
+                        <div class="item-img">
+                            <input type="text" name ="imageDefault" hidden >
+                                <div class="avatar-upload">
+                                    <div class="avatar-edit">
+                                        <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg"/>
+                                        <label for="imageUpload"></label>
+                                    </div>
+                                    <div class="avatar-preview">
+                                        <div id="imagePreviewAccount" style="background-image: url(/uploads/Profile/{{data.photo_user}});">
+                                        </div>
+                                    </div>
+                            </div>
+                            <script>
+                                function readURL(input) {
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            $('#imagePreviewAccount').css('background-image', 'url('+e.target.result +')');
+                                            $('#imagePreviewAccount').hide();
+                                            $('#imagePreviewAccount').fadeIn(650);
+                                        }
+                                        reader.readAsDataURL(input.files[0]);
+                                        
+                                    }
+                                }
+                                $("#imageUpload").change(function() {
+                                    readURL(this);
+                                });
+                            </script>
+                    <div class="item-content">
+                        <div class="info-table table-responsive">
+                            <table class="table ">
+                                <tbody>
+                                    <input type="text" name="id_user" id="idUserEditAccount" hidden>
+                                    <tr class="form-group">
+                                        <label>Bio:</label>
+                                        <textarea id="bioUserEditAccount" name="data_short_bio" cols="120" rows="5" class="form-control"></textarea>
+                                    </tr>
+                                    <tr class="form-group">
+                                        <label for="first_name">Nama Depan:</label>
+                                        <input type="text" id="firstNameUserEditAccount" placeholder="Masukan nama depan" name="first_name" class="form-control">
+                                    </tr>
+                                    <tr class="form-group">
+                                        <label for="last_name">Nama Belakang:</label>
+                                        <input type="text" id="lastNameUserEditAccount" placeholder="Masukan nama belakang" name="last_name" class="form-control">
+                                    </tr>
+                                    <tr class="form-group">
+                                        <label for="gender">Gender:</label>
+                                        <select name="gender" id="selectGenderUserEditAccount" class="form-control">
+                                            <option value="">Pilih gender</option>
+                                            <option value="Laki-Laki">Laki-Laki</option>
+                                            <option value="Prempuan">Perempuan</option>
+                                        </select>
+                                        {# <input type="text" name="gender" id="genderProfile_Edit" list="gender">
+                                        <datalist id="gender">
+                                            <option value="Male">Laki-Laki</option>
+                                            <option value="Female">Perempuan</option>
+                                        </datalist> #}
+                                    </tr>
+                                    <tr>
+                                        <label>User Type:</label>
+                                        <input type="text" id="userTypeEditAccount" placeholder="User_Type" name="User_Type" class="form-control" readonly >
+                                    </tr>
+                                    {# <tr>
+                                        <td>Father Name:</td>
+                                        <td class="font-medium text-dark-medium">Steve Jones</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mother Name:</td>
+                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                    </tr> #}
+                                    <tr class="form-group">
+                                        <label>Tanggal Lahir:</label>
+                                        <input type="date" id="dateBirthUserEditAccount" name="date_of_birth" class="form-control" >
+                                    </tr>
+                                    <tr>
+                                        <label>Agama:</label>
+                                        <input type="text" id="religionUserEditAccount" placeholder="Masukan Agamamu" name="religion" class="form-control" >
+                                    </tr>
+                                    <tr>
+                                        <label>Username:</label>
+                                        <input type="text" id="usernameUserEditAccount" placeholder="username" name="username" class="form-control bg-light" value="{{ data.username }}" readonly>
+                                    </tr>
+                                    <tr>
+                                        <label>E-mail:</label>
+                                        <input type="email" id="emailUserEditAccount" name="email" class="form-control bg-light" value="{{ data.email }}" readonly>
+                                    </tr>
+                                    {# <tr>
+                                        <td>Father Name:</td>
+                                        <td class="font-medium text-dark-medium">Steve Jones</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mother Name:</td>
+                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                    </tr> #}
+                                    <tr>
+                                        <label>Alamat:</label>
+                                        <input type="text" name="address_user" id="addressUserEditAccount" placeholder="Masukan Alamat" class="form-control" value="{{ data.address_user }}">
+                                    </tr>
+                                    <tr>
+                                        <label>No Telepon:</label>
+                                        <input type="text" name="phone_user" id="phoneUserEditAccount" placeholder="Masukan No Telepon (62-888-8888-8888)" class="form-control" value="{{ data.phone_user }}">
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <input type="submit" value="Edit Account" class="btn btn-warning">
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Account Selected Area End Here -->
+</div>
+<!-- Account Edit Area Start Here -->
+
+<!-- Account Edit Area End Here -->
+<!-- Some Jquery Here -->
+<script>
+    $(document).ready(function () {
+        $('#dataDetailsAccount').hide();
+        $('#dataEditAccount').hide();
+        $('#editButtonAccount').click(function (e) { 
+            e.preventDefault();
+            console.log(this)
+            $('#dataDetailsAccount').hide();
+            $('#dataEditAccount').show();
+        });
+        $('#closeView').click(function (e) { 
+            e.preventDefault();
+            console.log(this)
+            $('#dataDetailsAccount').hide();
+            $('#dataEditAccount').hide();
+        });
+        $('#viewButtonAccount').click(function (e) { 
+            e.preventDefault();
+            console.log(this)
+            $('#dataDetailsAccount').show();
+            $('#dataEditAccount').edit();
+        });
+        var id_userAccount;
+        $('#deleteUserAccount').click(function (e) { 
+            e.preventDefault();
+            console.log(id_userAccount)
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                  cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+              })
+              
+              swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/account-delete-data",
+                        data:{
+                            id: id_userAccount
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            console.log(response)
+                            swalWithBootstrapButtons.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            ).then((result)=>{
+                                if(true){
+                                    window.location.reload()
+                                }
+                            })
+                            
+                        }
+                    });
+                  
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                  )
+                }
+              })
+        });
+        $('#userBoxAllAccount .media').on('click',function (e) { 
+            e.preventDefault();
+            //console.log($(this).attr('data-id'))
+            $('.active').removeClass('active');
+            $(this).addClass('active');
+            var idProfile = $(this).attr('data-id')
+            $.ajax({
+                type: "GET",
+                url: "/account-data",
+                data:{
+                    id_user: idProfile
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    //console.log(response)
+                    id_userAccount = response.id_user
+                    $('html, body').animate({ scrollTop: $('#dataDetailsAccount').offset().top }, 'fast');
+                    $('#dataDetailsAccount').show()
+                    $('#dataEditAccount').hide()
+                    $('#photoUserAccount').attr('src','/uploads/Profile/'+response.photo_user)
+                    $('#bioUserAccount').html(response.short_bio)
+                    if(response.first_name === ''){
+                        $('#fullNameUserAccount').html(response.username)
+                    }else{
+                        $('#fullNameUserAccount').html(response.first_name + ' ' + response.last_name)
+                    }
+                    $('#usernameUserAccount').html(response.username)
+                    var type = '';
+                    switch(response.id_user_type){
+                        case '1': 
+                            type = 'Student';
+                        break;
+                        case '2': 
+                            type = 'Teacher';
+                        break;
+                        case '3': 
+                            type = 'Admin';
+                        break;
+                        case '4': 
+                            type = 'Parent'
+                        break;
+                        default:
+                        break;
+                    }
+                    $('#typeUserAccount').html(type)
+                    $('#genderUserAccount').html(response.gender)
+                    $('#dateBirthUserAccount').html(response.date_of_birth)
+                    $('#religionUserAccount').html(response.religion)
+                    $('#emailUserAccount').html(response.email)
+                    $('#addressUserAccount').html(response.address_user)
+                    $('#phoneUserAccount').html(response.phone_user)
+                    
+                    // Edit Section
+                    //$('#dataEditAccount').removeAttr('hidden')
+                    $('#idUserEditAccount').val(response.id_user)
+                    $('#imagePreviewAccount').attr('style','background-image: url(/uploads/Profile/'+response.photo_user+');')
+                    $('#bioUserEditAccount').val(response.short_bio)
+                    $('#firstNameUserEditAccount').val(response.first_name)
+                    $('#lastNameUserEditAccount').val(response.last_name)
+                    $('#usernameUserEditAccount').val(response.username)
+                    var type = '';
+                    switch(response.id_user_type){
+                        case '1': 
+                            type = 'Student';
+                        break;
+                        case '2': 
+                            type = 'Teacher';
+                        break;
+                        case '3': 
+                            type = 'Admin';
+                        break;
+                        case '4': 
+                            type = 'Parent'
+                        break;
+                        default:
+                        break;
+                    }
+                    $('#userTypeEditAccount').val(type)
+                    $('#selectGenderUserEditAccount').val(response.gender)
+                    $('#dateBirthUserEditAccount').val(response.date_of_birth)
+                    $('#religionUserEditAccount').val(response.religion)
+                    $('#emailUserEditAccount').val(response.email)
+                    $('#addressUserEditAccount').val(response.address_user)
+                    $('#phoneUserEditAccount').val(response.phone_user)
+                }
+            });
+        });
+    });
+</script>
+{% endblock content %}

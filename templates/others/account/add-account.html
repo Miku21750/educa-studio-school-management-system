@@ -1,0 +1,102 @@
+{% extends "/layout/master.html" %}
+{% set title = "All Account" %}
+{% block content %}
+<!-- Add Account Area Start Here -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Add New User</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <form class="new-added-form" action="/add-account" method="post">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>First Name *</label>
+                            <input type="text" placeholder="Masukan Nama Depan" name="first_name" class="form-control">
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Last Name *</label>
+                            <input type="text" placeholder="Masukan Nama Belakang" name="last_name" class="form-control">
+                        </div>
+                        {# <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>User Type *</label>
+                            <select class="select2">
+                                <option value="">Please Select*</option>
+                                <option value="1">Super Admin</option>
+                                <option value="2">Admin</option>
+                                <option value="3">User</option>
+                            </select>
+                        </div> #}
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Gender *</label>
+                            <select class="select2" name="gender">
+                                <option value="">Please Select Gender *</option>
+                                <option value="Laki-Laki">Male</option>
+                                <option value="Perempuan">Female</option>
+                                {# <option value="3">Others</option> #}
+                            </select>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Date Of Birth *</label>
+                            <input type="text" placeholder="dd/mm/yyyy" name="date_of_birth" class="form-control air-datepicker"
+                                data-position='bottom right'>
+                            <i class="far fa-calendar-alt"></i>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Religion *</label>
+                            <input type="text" placeholder="" name="religion" class="form-control">
+                            {# <select class="select2">
+                                <option value="">Please Select *</option>
+                                <option value="1">Islam</option>
+                                <option value="2">Christian</option>
+                                <option value="3">Hindu</option>
+                                <option value="4">Buddhish</option>
+                                <option value="5">Others</option>
+                            </select> #}
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>E-Mail</label>
+                            <input type="email" placeholder="" name="email" class="form-control">
+                        </div>                         
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Phone</label>
+                            <input type="text" placeholder="" name="phone_user" class="form-control">
+                        </div>
+                        <div class="col-lg-6 col-12 form-group">
+                            <label>Adress *</label>
+                            <textarea class="textarea form-control" name="address_user" id="form-message" cols="10"
+                                rows="4"></textarea>
+                        </div> 
+                        <div class="col-12 form-group mg-t-8">
+                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% if isAddAccount == true %}
+    <script>
+        Swal.fire('Saved!', '', 'success')
+    </script>
+{% endif %}
+<!-- Add Account Area End Here -->
+{% endblock content %}
