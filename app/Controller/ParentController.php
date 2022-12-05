@@ -89,7 +89,7 @@ class ParentController
             foreach ($parent as $m) {
 
                 $datas['no'] = $no . '.';
-                $datas['foto'] = '<img src="img/figure/student3.png" alt="student">';
+                $datas['foto'] = '<img src="img/figure/'.$m['photo_user'].'" style="width:30px;"  alt="student">';
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
                 $datas['gender'] = $m['gender'];
                 $datas['pekerjaan'] = $m['occupation'];
@@ -111,7 +111,7 @@ class ParentController
                             class="fas fa-edit text-dark-pastel-green"></i><button type="button"  class="btn btn-light item_detail"  data="' . $m['id_user'] . '"">
                             Ubah
                         </button></a>
-                    <a class="dropdown-item" href="' . 'api' . '/' . $m['id_user'] . '/' . 'detail' . '"><i
+                    <a class="dropdown-item" href="' . 'api' . '/' . 'parent-detail' . '/' . $m['id_user']  . '"><i
                             class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
                             data-target="#large-modal" data="' . $m['id_user'] . '"">
                             Detail
@@ -171,6 +171,53 @@ class ParentController
         );
 
         return $response->withJson($data);
+
+        // return var_dump($json_data);
+        // echo json_encode($json_data);
+    }
+    public static function parent_detail($app, $request, $response, $args)
+    {
+        $id_parent = $args['data'];
+
+        $data = $app->db->select('tbl_users', [
+            "[>]tbl_classes" => "id_class",
+            "[>]tbl_hostels" => "id_hostel",
+            "[>]tbl_transports" => ["id_trans" => "id_transport"],
+            "[>]tbl_user_types" => "id_user_type"
+        ], [
+            "tbl_users.id_user",
+            "tbl_classes.class",
+            "tbl_hostels.hostel_name",
+            "id_user_type",
+            "first_name",
+            "last_name",
+            "gender",
+            "date_of_birth",
+            "religion",
+            "username",
+            "email",
+            "password",
+            "photo_user",
+            "blood_group",
+            "occupation",
+            "phone_user",
+            "address_user",
+            "short_bio"
+        ], [
+            'id_user' => $id_parent
+        ]);
+
+        $app->view->render($response, 'parents/parents-details.html', [
+            'data' =>  $data[0],
+            'type' => $_SESSION['type']
+           
+        ]);
+        // // return var_dump($data);
+        // $json_data = array(
+        //     'data' => $data[0]
+        // );
+
+        // return $response->withJson($data);
 
         // return var_dump($json_data);
         // echo json_encode($json_data);

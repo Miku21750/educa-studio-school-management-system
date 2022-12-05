@@ -138,6 +138,16 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->get(
+                '/parent-detail/{id}',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return ParentController::parent_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 
