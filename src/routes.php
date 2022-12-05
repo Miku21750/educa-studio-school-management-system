@@ -12,6 +12,7 @@ use App\middleware\Auth;
 use App\Controller\DashbordParentController;
 use App\Controller\DashboardAdminController;
 use App\Controller\ParentController;
+use App\Controller\TeacherController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -328,8 +329,7 @@ return function (App $app) {
     $app->get(
         '/teacher-details',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'teacher/teacher-details.html', $args);
+            return TeacherController::viewTeacherDetails($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(
@@ -783,7 +783,7 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
             }
             if ($type == 2) {
-                return DashboardTeacherController::index($this, $request, $response, $args);
+                return DashboardTeacherController::view($this, $request, $response,$args);
             }
             if ($type == 3) {
                 // $type = "Admin";
