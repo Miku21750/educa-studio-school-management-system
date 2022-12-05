@@ -496,9 +496,60 @@
 })(jQuery);
 
 /*-------------------------------------
-    Others Query for Code
+    DataTable Library
 -------------------------------------*/
+$(document).ready(function () {
+  libary = function () {
+      Libtable = $("#data_book").on('preXhr.dt', function (e, settings, data) {
+          
+          console.log('loading ....');
+          
+      }).on('draw.dt', function () {
+          console.log('dapat data ....');
+          
+      }).DataTable({
+          responsive: {
+              details: {
+                  type: 'column'
+              }
+          },
+          "columnDefs": [
+              { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+              { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+              { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
+              { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+              { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+              { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+              { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
 
+          ],
+          'pageLength': 10,
+          'responsive': true,
+          'processing': true,
+          'serverSide': true,
+          'ajax': {
+              'url': "/api/library/getBook",
+              'dataType:': 'json',
+              'type': 'get',
+          },
+          'columns': [
+              { 'data': 'No' },
+              { 'data': 'book_name' },
+              { 'data': 'subject' },
+              { 'data': 'writer' },
+              { 'data': 'class' },
+              { 'data': 'published' },
+              { 'data': 'creating_date' }
+
+          ]
+          
+  
+      });
+
+  }
+  libary();
+
+});
 
 
 /*-------------------------------------

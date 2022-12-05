@@ -12,6 +12,7 @@ use App\middleware\Auth;
 use App\Controller\DashbordParentController;
 use App\Controller\DashboardAdminController;
 use App\Controller\ParentController;
+use App\Controller\LibraryController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -99,6 +100,19 @@ return function (App $app) {
                         '/apidata',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return DashboardAdminController::apiData($this, $request, $response, $args);;
+                        }
+                    );
+                }
+            );
+            
+            $app->group(
+                '/library',
+                function () use ($app) {
+
+                    $app->get(
+                        '/getBook',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return LibraryController::tampil_data($this, $request, $response, $args);
                         }
                     );
                 }
