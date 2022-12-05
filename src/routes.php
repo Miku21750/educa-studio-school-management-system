@@ -115,6 +115,17 @@ return function (App $app) {
                             return LibraryController::tampil_data($this, $request, $response, $args);
                         }
                     );
+                    
+                    $app->get(
+                        '/{id}/book-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return LibraryController::detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
                 }
             );
 

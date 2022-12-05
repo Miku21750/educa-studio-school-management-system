@@ -43,6 +43,7 @@
               <th>Class</th>
               <th>Published</th>
               <th>Creating Date</th>
+              <th></th>
             </tr>
           </thead>
           <tbody >
@@ -88,6 +89,9 @@
       </div>
     </div>
   </div>
-  <!-- Teacher Table Area End Here -->
-  
+
+{% include "library/modal-edit-book.html" %}
+{% block modal %}
+
+{% endblock modal %}
 {% endblock content %}

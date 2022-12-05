@@ -87,6 +87,23 @@ class LibraryController{
                 $datas['class'] = $m['class'];
                 $datas['published'] = $m['publish_date'];
                 $datas['creating_date'] = $m['upload_date'];
+                $datas['aksi'] = '<div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item"  ><i
+                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+                            data-target="#confirmation-modal" data="' . $m['id_book'] . '"">
+                            Hapus
+                        </button></a>
+                    <a class="dropdown-item"  ><i
+                            class="fas fa-edit text-dark-pastel-green"></i><button type="button"  class="btn btn-light item_detail"  data="' . $m['id_book'] . '"">
+                            Ubah
+                        </button></a>
+                </div>
+            </div>';
                 $data[] = $datas;
                 $no++;
             }
@@ -105,45 +122,29 @@ class LibraryController{
         echo json_encode($json_data);
     }
 
-    // public static function detail($app, $request, $response, $args)
-    // {
-    //     $id_books = $args['data'];
+    public static function detail($app, $request, $response, $args)
+    {
+        $id_book = $args['data'];
 
-    //     $data = $app->db->select('tbl_books', [
-    //         "[>]tbl_classes" => "id_class",
-    //         "[>]tbl_hostels" => "id_hostel",
-    //         "[>]tbl_transports" => ["id_trans" => "id_transport"],
-    //         "[>]tbl_user_types" => "id_book_type"
-    //     ], [
-    //         "tbl_books.id_book",
-    //         "tbl_classes.class",
-    //         "tbl_hostels.hostel_name",
-    //         "id_book_type",
-    //         "first_name",
-    //         "last_name",
-    //         "gender",
-    //         "date_of_birth",
-    //         "religion",
-    //         "username",
-    //         "email",
-    //         "password",
-    //         "photo_user",
-    //         "blood_group",
-    //         "occupation",
-    //         "phone_user",
-    //         "address_user",
-    //         "short_bio"
-    //     ], [
-    //         'id_book' => $id_book
-    //     ]);
-    //     // return var_dump($data);
-    //     $json_data = array(
-    //         'data' => $data[0]
-    //     );
+        $data = $app->db->select('tbl_books', [
+            "id_book",
+            "name_book",
+            "category_book",
+            "writer_book",
+            "class",
+            "publish_date",
+            "upload_date",
+        ], [
+            'id_book' => $id_book
+        ]);
+        // return var_dump($data);
+        $json_data = array(
+            'data' => $data[0]
+        );
 
-    //     return $response->withJson($data);
+        return $response->withJson($data);
 
-    //     // return var_dump($json_data);
-    //     // echo json_encode($json_data);
-    // }
+        // return var_dump($json_data);
+        // echo json_encode($json_data);
+    }
 }
