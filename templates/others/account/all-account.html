@@ -371,6 +371,7 @@
                 success: function (response) {
                     //console.log(response)
                     id_userAccount = response.id_user
+                    $('html, body').animate({ scrollTop: $('#dataDetailsAccount').offset().top }, 'fast');
                     $('#dataDetailsAccount').show()
                     $('#dataEditAccount').hide()
                     $('#photoUserAccount').attr('src','/uploads/Profile/'+response.photo_user)
