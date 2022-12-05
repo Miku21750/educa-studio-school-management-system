@@ -96,8 +96,10 @@
             data: { id: id },
             success: function (data) {
                 $.each(data, function (id_user, first_name, email, last_name, short_bio, gender, date_of_birth,
-                    religion) {
+                    religion,photo_user) {
+                        console.log(data[0]);
                     $('#large-modal').modal('show');
+                    $('[name="photo"]').attr("src","/img/figure/"+data[0].photo_user);
                     $('[name="bio"]').html(data[0].short_bio);
                     $('[name="first_name"]').html(data[0].first_name + ' ' + data[0].last_name);
                     $('[name="email"]').html(data[0].email);
