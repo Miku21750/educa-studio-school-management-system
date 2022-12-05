@@ -57,7 +57,69 @@
 
         }
         Tabel1Show();
+        //GET HAPUS
+        $('#show_data').on('click', '.item_hapus', function () {
+            var id = $(this).attr('data');
+            $('#confirmation-modal').modal('show');
+            $('[name="kode"]').val(id);
+        });
 
+        //Hapus Data
+        $('#btn_hapus').on('click', function () {
+            var kode = $('#textkode').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/delete-parent",
+                dataType: "JSON",
+                data: { kode: kode },
+                success: function (data) {
+                    if (data) {
+                        $('#confirmation-modal').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah dihapus.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
+
+                            )
+                        })
+                        table.draw(false)
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+
+
+                    //tampil_data_barang();
+                }
+            });
+            return false;
+        });
 
     });
 
@@ -96,8 +158,10 @@
             data: { id: id },
             success: function (data) {
                 $.each(data, function (id_user, first_name, email, last_name, short_bio, gender, date_of_birth,
-                    religion) {
+                    religion,photo_user) {
+                        console.log(data[0]);
                     $('#large-modal').modal('show');
+                    $('[name="photo"]').attr("src","/img/figure/"+data[0].photo_user);
                     $('[name="bio"]').html(data[0].short_bio);
                     $('[name="first_name"]').html(data[0].first_name + ' ' + data[0].last_name);
                     $('[name="email"]').html(data[0].email);
