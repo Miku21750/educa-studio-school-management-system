@@ -121,6 +121,62 @@
             return false;
         });
 
+        //tambah Data
+        $('#btn_simpan').on('click', function () {
+            var first_name = $('#first_name').val();
+            var last_name = $('#last_name').val();
+            var gender = $('#gender').val();
+           
+            $.ajax({
+                type: "POST",
+                url: "/api/add-parent",
+                dataType: "JSON",
+                data: { first_name: first_name, last_name: last_name, gender: gender, id_jurusan: id_jurusan },
+                success: function (data) {
+                    if (data) {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah ditambahkan.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
+
+                            )
+                     
+                        })
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+                }
+            });
+            return false;
+        });
+
     });
 
     //GET Details

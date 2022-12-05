@@ -168,6 +168,16 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->post(
+                '/add-parent',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ParentController::add_parent($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 
@@ -371,7 +381,7 @@ return function (App $app) {
         '/add-parents',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'parents/add-parents.html', $args);
+            return ParentController::page_add_parent($this, $request, $response, $args  );
         }
     )->add(new Auth());
     //end Parent

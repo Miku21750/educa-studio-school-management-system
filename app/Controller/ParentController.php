@@ -278,6 +278,65 @@ class ParentController
             // return var_dump($update);
             return $response->withRedirect('/api/parent-detail/'. $data['id_user']);
     }
+    public static function page_add_parent($app, $req, $rsp, $args)
+    {
+        
+        $type = 1;
+        $student = $app->db->select('tbl_users', '*', [
+            'id_user_type' => $type,
+            'NISN[!]' => 0,
+        ]);
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
+        // return var_dump($berhasil);
+        $app->view->render($rsp, 'parents/add-parents.html', [
+            'student' =>  $student,
+            'type' => $_SESSION['type'],
+            'berhasil' => $berhasil
+        ]);
+    }
+    public static function add_parent($app, $req, $rsp, $args)
+    {
+        $data = $args['data'];
+        // return var_dump($data);
+
+        $directory = $app->get('upload_directory');
+        $uploadedFiles = $req->getUploadedFiles();
+        // handle single input with single file upload
+        $uploadedFile = $uploadedFiles['imageUpload'];
+        if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+            $filename = moveUploadedFile($directory, $uploadedFile);
+            $rsp->write('uploaded ' . $filename . '<br/>');
+        }
+        // return var_dump(isset($filename));
+        $addUpdate = $filename;
+        if(!isset($filename)){
+            $addUpdate = '20221205040116-20220929-133008.jpg';
+        }
+        
+        // return var_dump($uploadedFiles);
+        $data = $app->db->insert('tbl_users', [
+            "first_name" => $data['first_name'],
+            "last_name" => $data['last_name'],
+            "gender" => $data['gender'],
+            "username" => $data['nisn_student'],
+            "password" => $data['nisn_student'],
+            "date_of_birth" => $data['date_of_birth'],
+            "religion" => $data['religion'],
+            "blood_group" => $data['blood_group'],
+            "email" => $data['email'],
+            "occupation" => $data['occupation'],
+            "phone_user" => $data['phone_user'],
+            "address_user" => $data['address_user'],
+            "short_bio" => $data['data_short_bio'],
+            "photo_user" => $addUpdate,
+            "id_user_type" => 4,
+            "status" => 1,
+        ]);
+        // return var_dump($data);
+        $_SESSION['berhasil'] = true;
+        return $rsp->withRedirect('/add-parents');
+    }
 
 
 

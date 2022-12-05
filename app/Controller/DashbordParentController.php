@@ -35,13 +35,13 @@ class DashbordParentController
             "[><]tbl_finances" => "id_user"
         ], 'amount_payment',[
             "id_parent" => $id_parent,
-            'status' => "BELUM BAYAR"
+            'status_pembayaran' => "BELUM BAYAR"
         ]);
         $totalpembayaran = $app->db->sum('tbl_users', [
             "[><]tbl_finances" => "id_user"
         ], 'amount_payment',[
             "id_parent" => $id_parent,
-            'status' => "DIBAYAR"
+            'status_pembayaran' => "DIBAYAR"
         ]);
         // var_dump($data);
 
@@ -130,11 +130,11 @@ class DashbordParentController
                 $datas['Nama'] = $m['first_name'].' '.$m['last_name'];
                 $datas['payment_type_name'] = $m['payment_type_name'];
                 $datas['amount_payment'] = $m['amount_payment'];
-                // $datas['status'] = $m['status'];
-                if($m['status'] == "Belum Bayar"){
-                    $datas['status'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status'].'</p>';
+                // $datas['status_pembayaran'] = $m['status_pembayaran'];
+                if($m['status_pembayaran'] == "Belum Bayar"){
+                    $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
                 }else{
-                    $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">'.$m['status'].'</p>';
+                    $datas['status_pembayaran'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
                 }
                 $datas['email'] = $m['email'];
                 $datas['date_payment'] = $m['date_payment'];
