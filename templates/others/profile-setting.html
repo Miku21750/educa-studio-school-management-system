@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-        <div class="single-info-details">
+        <div class="single-info-details" id="myProfilePrintableArea">
             <div class="item-img">
                 <img src="uploads/Profile/{{data.photo_user}}" style="width: 280px;" alt="student" />
             </div>
@@ -35,7 +35,7 @@
                                 <a href="" id="editButton"><i class="far fa-edit"></i></a>
                             </li>
                             <li>
-                                <a href="#"><i class="fas fa-print"></i></a>
+                                <a href="#" id="printPdfMyProfile"><i class="fas fa-print"></i></a>
                             </li>
                             <li>
                                 <a href="#"><i class="fas fa-download"></i></a>
@@ -272,6 +272,20 @@
 </div>
 <!-- Profile Settings Edit Area End Here -->
 
+
+<style>
+    @media print {
+        /* Hide everything in the body when printing... */
+        body.printing * { display: none!important; }
+        /* ...except our special div. */
+        body.printing #print-me { display: block!important; }
+    }
+    
+    @media screen {
+        /* Hide the special layer from the screen. */
+        #print-me { display: none; }
+    }
+</style>
 <!-- Script for jquery Edit Form -->
 <script>
     $(document).ready(function () {
@@ -293,6 +307,23 @@
 
         $('#selectGenderEditProfile').val(gend).change();
         $('#selectBloodGroupEditProfile').val(BlGroup).change();
+        $('#printPdfMyProfile').click(function (e) { 
+            
+            $('#myProfilePrintableArea').clone().appendTo("#print-me");
+
+            console.log($('#print-me').html())
+            //Print the window.
+            window.print();
+            //Restore the styles.
+            $("body").removeClass("printing");
+            //Clear up the div.
+            $("#print-me").empty();
+          //  e.preventDefault();
+           // w=window.open();
+            //w.document.write($('#showDataDetailAccountSetting').html());
+            //w.print();
+            //w.close();
+        });
     });
 </script>
 {% endblock content %}

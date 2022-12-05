@@ -502,15 +502,6 @@ return function (App $app) {
     // End Map
 
     // Account
-    $app->get(
-        '/account-settings',
-        function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'others/account-settings.html', $args);
-        }
-    )->add(new Auth());
-    // End Account
-
     // Set profile setting
     $app->get(
         '/profile-setting',
@@ -550,6 +541,119 @@ return function (App $app) {
         }
     )->add(new Auth());
 
+    $app->get(
+        '/add-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $isAddAccount = isset($_SESSION['successAddingAccount']);
+            unset($_SESSION['successAddingAccount']);
+            $container->view->render($response, 'others/account/add-account.html', [
+                'isAddAccount' => $isAddAccount
+            ]);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/add-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            $addPhoto = '20221205040116-20220929-133008.jpg';
+            // return var_dump($data);
+
+            $insert = $container->db->insert('tbl_users',[
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "id_user_type"=>3,
+                "status"=>1,
+                "photo_user" => $addPhoto
+            ]);
+            $_SESSION['successAddingAccount'] = true;
+            return $response->withRedirect('/add-account');
+            // $container->view->render($response, 'others/account/add-account.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/all-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $container->db->select('tbl_users','*',[
+                'id_user_type'=>3
+            ]);
+            // return var_dump($data);
+            // Render index view
+            $container->view->render($response, 'others/account/all-account.html', [
+                'data'=>$data
+            ]);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/account-data',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // return var_dump($request->getParams());
+            $id = $request->getParam('id_user');
+            $data = $container->db->select('tbl_users','*',[
+                'id_user'=>$id
+            ]);
+            // return var_dump($data);
+            return $response->withJson($data[0]);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/editAccount',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            // get image
+            $directory = $container->get('upload_directory');
+            $uploadedFiles = $request->getUploadedFiles();
+            // handle single input with single file upload
+            $uploadedFile = $uploadedFiles['profileImage'];
+            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $filename = moveUploadedFile($directory, $uploadedFile);
+                $response->write('uploaded ' . $filename . '<br/>');
+            }
+            // return var_dump(isset($filename));
+            $addUpdate = $filename;
+            if(!isset($filename)){
+                $addUpdate = $data['imageDefault'];
+            }
+            
+            // return var_dump($uploadedFiles);
+            $update = $container->db->update('tbl_users', [
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "short_bio" => $data['data_short_bio'],
+                "photo_user" => $addUpdate
+            ], [
+                "id_user" => $data['id_user']
+            ]);
+            // return var_dump($update);
+            return $response->withRedirect('/all-account');
+        }
+    );
+    $app->post(
+        '/account-delete-data',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $delete = $container->db->delete('tbl_users', [
+                'id_user' => $data['id']
+            ]);
+            return $response->withJson(array("success"));
+            
+            // return var_dump($data);
+        }
+    )->add(new Auth());
+
     $app->post(
         '/editDataProfile',
         function (Request $request, Response $response, array $args) use ($container) {
@@ -571,7 +675,7 @@ return function (App $app) {
             }
             
             // return var_dump($uploadedFiles);
-            $update = $container->db->debug()->update('tbl_users', [
+            $update = $container->db->update('tbl_users', [
                 "first_name" => $data['first_name'],
                 "last_name" => $data['last_name'],
                 "gender" => $data['gender'],
@@ -590,7 +694,9 @@ return function (App $app) {
             return $response->withRedirect('/profile-setting');
         }
     );
+
     // End profile setting
+
 
     // Dashboard
     // $app->get(
