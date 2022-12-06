@@ -12,6 +12,7 @@ use App\middleware\Auth;
 use App\Controller\DashbordParentController;
 use App\Controller\DashboardAdminController;
 use App\Controller\ParentController;
+use App\Controller\SubjectController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -104,6 +105,27 @@ return function (App $app) {
                 }
             );
 
+            $app->group(
+                '/student',
+                function () use ($app) {
+                    $app->get(
+                        '/apidata',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return DashboardStudentController::apiDataM($this, $request, $response, $args);
+                        }
+                    );
+                }
+            );
+            $app->get(
+                '/{id}/examResult',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    return DashboardStudentController::view_data_exam($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+
             $app->get(
                 '/{id}/select',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -126,6 +148,12 @@ return function (App $app) {
                 '/allparents',
                 function (Request $request, Response $response, array $args) use ($app) {
                     return ParentController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/allsubject',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return SubjectController::view_data_subject($this, $request, $response, $args);
                 }
             );
             $app->get(
@@ -409,7 +437,7 @@ return function (App $app) {
         '/all-subject',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/all-subject.html', $args);
+            return SubjectController::index($this, $response, $request, $args);
         }
     );
     //End Subject
