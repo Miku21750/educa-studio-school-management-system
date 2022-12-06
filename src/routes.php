@@ -1,5 +1,6 @@
 <?php
 
+use App\Controller\ClassController;
 use App\Controller\DashboardTeacherController;
 use App\Controller\DashboardStudentController;
 use App\Controller\indexApiController;
@@ -504,7 +505,7 @@ return function (App $app) {
         '/add-class',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'class/add-class.html', $args);
+            return ClassController::viewAddClass($this, $request, $response, $args);
         }
     )->add(new Auth());
     //end Class
