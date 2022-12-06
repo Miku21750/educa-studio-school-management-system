@@ -18,6 +18,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 use Slim\Http\UploadedFile;
+use App\Controller\StudentController;
 
 
 
@@ -244,6 +245,52 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->get(
+                '/allstudents',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return StudentController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->post(
+                '/delete-student',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return StudentController::delete($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/student-detail/{id}',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return StudentController::student_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/update-student-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return StudentController::update_student_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/add-student',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return StudentController::add_student($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 
@@ -376,17 +423,28 @@ return function (App $app) {
     );
     // Forgot Password end here
     // //student
-    $app->get('/all-students', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'students/all-student.html', $args);
-    });
+    $app->get(
+        '/all-students',
+        function (Request $request, Response $response, array $args) use ($container) {
+
+
+            return StudentController::index($this, $request, $response, [
+                'user' => $_SESSION['username'],
+                'id_user' => $_SESSION['id_user'],
+                'type' =>  $_SESSION['type'],
+                'type_user' =>  $_SESSION['type_user']
+            ]);
+        }
+    )->add(new Auth());
     $app->get('/student-details', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
         $container->view->render($response, 'students/student-details.html', $args);
     });
     $app->get('/admit-form', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
-        $container->view->render($response, 'students/admit-form.html', $args);
+
+        return StudentController::page_add_student($this, $request, $response, $args);
+
     });
     $app->get('/student-promotion', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view

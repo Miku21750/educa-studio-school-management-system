@@ -1,17 +1,18 @@
 <?php
 
 namespace App\Controller;
+use Medoo\Medoo;
 
 
 
-class ParentController
+class StudentController
 {
 
     public static function index($app, $request, $response, $args)
     {
         $user = $args['user'];
         $type = $args['type'];
-        $id_parent = $args['id_parent'];
+        $id_user = $args['id_user'];
         // return var_dump($id_parent);
 
 
@@ -20,11 +21,11 @@ class ParentController
 
         // var_dump($data);
 
-        $app->view->render($response, 'parents/all-parents.html', [
+        $app->view->render($response, 'students/all-student.html', [
             'data' =>  $data,
             'user' => $user,
             'type' => $type,
-            'id_parent' => $id_parent,
+            'id_user' => $id_user,
             'type_user' => $_SESSION['type_user'],
         ]);
     }
@@ -32,10 +33,32 @@ class ParentController
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
-        $type = 4;
-        $parent = $app->db->select('tbl_users', '*', [
-            'id_user_type' => $type,
+        $type = 1;
+        $parent = $app->db->select('tbl_users(a)',[
+            '[><]tbl_sections' => 'id_section',
+            '[><]tbl_classes' => 'id_class',
+            '[><]tbl_users(b)'=> ['a.id_parent'=>'id_user']
+        ],[
+            'a.id_user(id_user)',
+            'a.NISN(nisn)',
+            'a.photo_user(foto)',
+            'a.first_name(first_name_student)',
+            'a.last_name(last_name_student)',
+            'a.gender(gender)',
+            'class(class)',
+            'section(section)',
+            'a.address_user(alamat)',
+            'a.date_of_birth(tanggal_lahir)',
+            'a.phone_user(telepon)',
+            'a.email(email)',
+            'b.first_name(first_name_parent)',
+            'b.last_name(last_name_parent)',
         ]);
+            // return var_dump($parent);
+            // die();
+        // $parent = $app->db->select('tbl_users', '*', [
+        //     'id_user_type' => $type,
+        // ]);
 
 
         $columns = array(
@@ -54,7 +77,6 @@ class ParentController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            "id_user_type" => $type
 
         ];
 
@@ -66,13 +88,30 @@ class ParentController
 
             ];
             $conditions['OR'] = [
-                'tbl_users.first_name[~]' => '%' . $search . '%',
-                'tbl_users.last_name[~]' => '%' . $search . '%',
+                'a.first_name[~]' => '%' . $search . '%',
+                'a.last_name[~]' => '%' . $search . '%',
 
             ];
-            $parent = $app->db->select(
-                'tbl_users',
-                '*',
+            $parent = $app->db->select('tbl_users(a)',[
+                '[><]tbl_sections' => 'id_section',
+                '[><]tbl_classes' => 'id_class',
+                '[><]tbl_users(b)'=> ['a.id_parent'=>'id_user']
+            ],[
+                'a.id_user(id_user)',
+                'a.NISN(nisn)',
+                'a.photo_user(foto)',
+                'a.first_name(first_name_student)',
+                'a.last_name(last_name_student)',
+                'a.gender(gender)',
+                'class(class)',
+                'section(section)',
+                'a.address_user(alamat)',
+                'a.date_of_birth(tanggal_lahir)',
+                'a.phone_user(telepon)',
+                'a.email(email)',
+                'b.first_name(first_name_parent)',
+                'b.last_name(last_name_parent)',
+            ],
                 $limit
             );
             $totaldata = count($parent);
@@ -80,7 +119,26 @@ class ParentController
             // return var_dump($totaldata);
         }
 
-        $parent = $app->db->select('tbl_users', '*', $conditions);
+        $parent = $app->db->select('tbl_users(a)',[
+            '[><]tbl_sections' => 'id_section',
+            '[><]tbl_classes' => 'id_class',
+            '[><]tbl_users(b)'=> ['a.id_parent'=>'id_user']
+        ],[
+            'a.id_user(id_user)',
+            'a.NISN(nisn)',
+            'a.photo_user(foto)',
+            'a.first_name(first_name_student)',
+            'a.last_name(last_name_student)',
+            'a.gender(gender)',
+            'class(class)',
+            'section(section)',
+            'a.address_user(alamat)',
+            'a.date_of_birth(tanggal_lahir)',
+            'a.phone_user(telepon)',
+            'a.email(email)',
+            'b.first_name(first_name_parent)',
+            'b.last_name(last_name_parent)',
+        ], $conditions);
 
         $data = array();
 
@@ -89,12 +147,16 @@ class ParentController
             foreach ($parent as $m) {
 
                 $datas['no'] = $no . '.';
-                $datas['foto'] = '<img src="/uploads/Profile/'.$m['photo_user'].'" style="width:30px;"  alt="student">';
-                $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
+                $datas['nisn'] = $m['nisn'];
+                $datas['foto'] = '<img src="/uploads/Profile/'.$m['foto'].'" style="width:30px;"  alt="student">';
+                $datas['nama'] = $m['first_name_student'] . ' ' . $m['last_name_student'];
                 $datas['gender'] = $m['gender'];
-                $datas['pekerjaan'] = $m['occupation'];
-                $datas['alamat'] = $m['address_user'];
-                $datas['telepon'] = $m['phone_user'];
+                $datas['class'] = $m['class'];
+                $datas['section'] = $m['section'];
+                $datas['parent'] = $m['first_name_parent'] . ' ' . $m['last_name_parent'];
+                $datas['alamat'] = $m['alamat'];
+                $datas['tanggal_lahir'] = $m['tanggal_lahir'];
+                $datas['telepon'] = $m['telepon'];
                 $datas['email'] = $m['email'];
                 $datas['aksi'] = '<div class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -106,8 +168,7 @@ class ParentController
                             class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
                             Hapus
                         </button></a>
-                   
-                    <a class="dropdown-item" href="' . 'api' . '/' . 'parent-detail' . '/' . $m['id_user']  . '"><i
+                    <a class="dropdown-item" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '"><i
                             class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
                             data-target="#large-modal" data="' . $m['id_user'] . '"">
                             Detail
@@ -171,42 +232,53 @@ class ParentController
         // return var_dump($json_data);
         // echo json_encode($json_data);
     }
-    public static function parent_detail($app, $request, $response, $args)
+    public static function student_detail($app, $request, $response, $args)
     {
-        $id_parent = $args['data'];
+        $id = $args['data'];
 
-        $data = $app->db->select('tbl_users', [
-            "[>]tbl_classes" => "id_class",
-            "[>]tbl_hostels" => "id_hostel",
-            "[>]tbl_transports" => ["id_trans" => "id_transport"],
-            "[>]tbl_user_types" => "id_user_type"
-        ], [
-            "tbl_users.id_user",
-            "tbl_classes.class",
-            "tbl_hostels.hostel_name",
-            "id_user_type",
-            "first_name",
-            "last_name",
-            "gender",
-            "date_of_birth",
-            "religion",
-            "username",
-            "email",
-            "password",
-            "photo_user",
-            "blood_group",
-            "occupation",
-            "phone_user",
-            "address_user",
-            "short_bio"
-        ], [
-            'id_user' => $id_parent
+        $data = $app->db->select('tbl_users(a)',[
+            '[><]tbl_sections' => 'id_section',
+            '[><]tbl_classes' => 'id_class',
+            '[><]tbl_users(b)'=> ['a.id_parent'=>'id_user']
+        ],[
+            'a.id_user(id_user)',
+            'a.NISN(nisn)',
+            'a.photo_user(foto)',
+            'a.first_name(first_name_student)',
+            'a.last_name(last_name_student)',
+            'a.gender(gender)',
+            'class(class)',
+            'section(section)',
+            'a.address_user(alamat)',
+            'a.blood_group(blood_group)',
+            'a.username(username)',
+            'a.email(email)',
+            'a.religion(religion)',
+            'a.short_bio(short_bio)',
+            'a.date_of_birth(tanggal_lahir)',
+            'a.phone_user(telepon)',
+            'a.email(email)',
+            'b.first_name(first_name_parent)',
+            'b.last_name(last_name_parent)',
+        ],[
+            'a.id_user' => $id
+
         ]);
+
+        $all = $app->db->select('tbl_users', '*',[
+            'id_user_type' => 4
+        ]);
+        $class = $app->db->select('tbl_classes', '*');
+        $section = $app->db->select('tbl_sections', '*');
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
+        // return var_dump($data);
 
-        $app->view->render($response, 'parents/parents-details.html', [
+        $app->view->render($response, 'students/student-details.html', [
             'data' =>  $data[0],
+            'all' =>  $all,
+            'class' =>  $class,
+            'section' =>  $section,
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
 
@@ -224,7 +296,7 @@ class ParentController
             "id_user" => $id
         ]);
 
-        // return $rsp->withJson($del);
+        // return var_dump($del);
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
         );
@@ -232,7 +304,7 @@ class ParentController
         echo json_encode($json_data);
     }
 
-    public static function update_parent_detail($app, $request, $response, $args)
+    public static function update_student_detail($app, $request, $response, $args)
     {
         $data = $args['data'];
 
@@ -266,6 +338,9 @@ class ParentController
                 "first_name" => $data['first_name'],
                 "last_name" => $data['last_name'],
                 "gender" => $data['gender'],
+                "id_class" => $data['id_class'],
+                "id_section" => $data['id_section'],
+                "id_parent" => $data['id_parent'],
                 "date_of_birth" => $data['date_of_birth'],
                 "religion" => $data['religion'],
                 "blood_group" => $data['blood_group'],
@@ -279,32 +354,35 @@ class ParentController
             ]);
             // return var_dump($update);
             $_SESSION['berhasil'] = true;
-
-            return $response->withRedirect('/api/parent-detail/'. $data['id_user']);
+            return $response->withRedirect('/api/student-detail/'. $data['id_user']);
     }
-    public static function page_add_parent($app, $req, $rsp, $args)
+    public static function page_add_student($app, $req, $rsp, $args)
     {
         
-        $type = 1;
-        $student = $app->db->select('tbl_users', '*', [
+        $type = 4;
+        $parent = $app->db->select('tbl_users', '*', [
             'id_user_type' => $type,
-            'NISN[!]' => 0,
+            
         ]);
+        $class = $app->db->select('tbl_classes', '*');
+        $section = $app->db->select('tbl_sections', '*');
+        // return var_dump($class);
+
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
-        // return var_dump($berhasil);
-        $app->view->render($rsp, 'parents/add-parents.html', [
-            'student' =>  $student,
+        $app->view->render($rsp, 'students/admit-form.html', [
+            'parent' =>  $parent,
+            'class' =>  $class,
+            'section' =>  $section,
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
         ]);
     }
-    public static function add_parent($app, $req, $rsp, $args)
+    public static function add_student($app, $req, $rsp, $args)
     {
         $data = $args['data'];
-        $id_student = $data['id_student'];
-       
         // return var_dump($data);
+
 
         $directory = $app->get('upload_directory');
         $uploadedFiles = $req->getUploadedFiles();
@@ -334,29 +412,29 @@ class ParentController
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
-            "username" => $data['nisn_student'],
-            "password" => $data['nisn_student'],
+            "username" => $data['first_name'],
+            "password" => $data['last_name'],
+            "id_section" => $data['id_section'],
+            "id_class" => $data['id_class'],
+            "id_parent" => $data['id_parent'],
             "date_of_birth" => $data['date_of_birth'],
             "religion" => $data['religion'],
             "blood_group" => $data['blood_group'],
             "email" => $data['email'],
-            "occupation" => $data['occupation'],
             "phone_user" => $data['phone_user'],
             "address_user" => $data['address_user'],
             "short_bio" => $data['data_short_bio'],
             "photo_user" => $addUpdate,
-            "id_user_type" => 4,
+            "id_user_type" => 1,
             "status" => 1,
         ]);
-        $last_id = $app->db->id();
-        $parent = $app->db->update('tbl_users', [
-            "id_parent" => $last_id,
-        ],[
-            'id_user' => $id_student
-        ]);
-
-        // return var_dump($last_id);
-             
+        // $last_id = $app->db->id();
+        
+        // $student = $app->db->update('tbl_users', [
+        //     "id_parent" => $id_parent,
+        // ],[
+        //     'id_user' => $last_id
+        // ]);
 
         // return var_dump($data);
         $_SESSION['berhasil'] = true;

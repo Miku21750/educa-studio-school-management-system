@@ -2,9 +2,9 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        Tabel1Show = function () {
+        student = function () {
 
-            table = $("#parent").on('preXhr.dt', function (e, settings, data) {
+            table = $("#student").on('preXhr.dt', function (e, settings, data) {
 
                 console.log('loading ....');
 
@@ -26,7 +26,11 @@
                     {  "targets": 5, className: "text-start", "orderable": false },
                     {  "targets": 6, className: "text-start", "orderable": false },
                     {  "targets": 7, className: "text-start", "orderable": false },
-                    {  "targets": 8, className: "text-end", "orderable": false }
+                    {  "targets": 8, className: "text-end", "orderable": false },
+                    {  "targets": 9, className: "text-end", "orderable": false },
+                    {  "targets": 10, className: "text-end", "orderable": false },
+                    {  "targets": 11, className: "text-end", "orderable": false },
+                    {  "targets": 12, className: "text-end", "orderable": false }
 
                 ],
                 'pageLength': 10,
@@ -34,18 +38,22 @@
                 'processing': true,
                 'serverSide': true,
                 'ajax': {
-                    'url': "/api/allparents",
+                    'url': "/api/allstudents",
                     'dataType:': 'json',
                     'type': 'get',
 
                 },
                 'columns': [
                     { 'data': 'no' },
+                    { 'data': 'nisn' },
                     { 'data': 'foto' },
                     { 'data': 'nama' },
                     { 'data': 'gender' },
-                    { 'data': 'pekerjaan' },
+                    { 'data': 'class' },
+                    { 'data': 'section' },
+                    { 'data': 'parent' },
                     { 'data': 'alamat' },
+                    { 'data': 'tanggal_lahir' },
                     { 'data': 'telepon' },
                     { 'data': 'email' },
                     { 'data': 'aksi' }
@@ -56,7 +64,8 @@
             });
 
         }
-        Tabel1Show();
+        student();
+
         //GET HAPUS
         $('#show_data').on('click', '.item_hapus', function () {
             var id = $(this).attr('data');
@@ -69,7 +78,7 @@
             var kode = $('#textkode').val();
             $.ajax({
                 type: "POST",
-                url: "/api/delete-parent",
+                url: "/api/delete-student",
                 dataType: "JSON",
                 data: { kode: kode },
                 success: function (data) {
@@ -121,67 +130,10 @@
             return false;
         });
 
-        //tambah Data
-        $('#btn_simpan').on('click', function () {
-            var first_name = $('#first_name').val();
-            var last_name = $('#last_name').val();
-            var gender = $('#gender').val();
-           
-            $.ajax({
-                type: "POST",
-                url: "/api/add-parent",
-                dataType: "JSON",
-                data: { first_name: first_name, last_name: last_name, gender: gender, id_jurusan: id_jurusan },
-                success: function (data) {
-                    if (data) {
-                        let timerInterval
-                        Swal.fire({
-                            title: 'Memuat Data...',
-                            html: 'Tunggu  <b></b>  Detik.',
-                            timer: 300,
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                Swal.showLoading()
-                                const b = Swal.getHtmlContainer().querySelector('b')
-                                timerInterval = setInterval(() => {
-                                    b.textContent = Swal.getTimerLeft()
-                                }, 100)
-                            },
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        }).then((result) => {
-                            Swal.fire(
-                                {
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: 'Data telah ditambahkan.',
-                                    //footer: '<a href="">Why do I have this issue?</a>'
-                                }
-
-                            )
-                     
-                        })
-
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Ada yang eror!',
-                            //footer: '<a href="">Why do I have this issue?</a>'
-                        })
-                    }
-
-                }
-            });
-            return false;
-        });
-
+       
     });
 
-    
-    
-
+   
 
 
 </script>
