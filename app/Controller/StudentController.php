@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use Medoo\Medoo;
 
 
@@ -34,11 +35,11 @@ class StudentController
     public static function tampil_data($app, $req, $rsp, $args)
     {
         $type = 1;
-        $parent = $app->db->select('tbl_users(a)',[
+        $parent = $app->db->select('tbl_users(a)', [
             '[><]tbl_sections' => 'id_section',
             '[><]tbl_classes' => 'id_class',
-            '[><]tbl_users(b)'=> ['a.id_parent'=>'id_user']
-        ],[
+            '[><]tbl_users(b)' => ['a.id_parent' => 'id_user']
+        ], [
             'a.id_user(id_user)',
             'a.NISN(nisn)',
             'a.photo_user(foto)',
@@ -54,8 +55,8 @@ class StudentController
             'b.first_name(first_name_parent)',
             'b.last_name(last_name_parent)',
         ]);
-            // return var_dump($parent);
-            // die();
+        // return var_dump($parent);
+        // die();
         // $parent = $app->db->select('tbl_users', '*', [
         //     'id_user_type' => $type,
         // ]);
@@ -92,26 +93,29 @@ class StudentController
                 'a.last_name[~]' => '%' . $search . '%',
 
             ];
-            $parent = $app->db->select('tbl_users(a)',[
-                '[><]tbl_sections' => 'id_section',
-                '[><]tbl_classes' => 'id_class',
-                '[><]tbl_users(b)'=> ['a.id_parent'=>'id_user']
-            ],[
-                'a.id_user(id_user)',
-                'a.NISN(nisn)',
-                'a.photo_user(foto)',
-                'a.first_name(first_name_student)',
-                'a.last_name(last_name_student)',
-                'a.gender(gender)',
-                'class(class)',
-                'section(section)',
-                'a.address_user(alamat)',
-                'a.date_of_birth(tanggal_lahir)',
-                'a.phone_user(telepon)',
-                'a.email(email)',
-                'b.first_name(first_name_parent)',
-                'b.last_name(last_name_parent)',
-            ],
+            $parent = $app->db->select(
+                'tbl_users(a)',
+                [
+                    '[><]tbl_sections' => 'id_section',
+                    '[><]tbl_classes' => 'id_class',
+                    '[><]tbl_users(b)' => ['a.id_parent' => 'id_user']
+                ],
+                [
+                    'a.id_user(id_user)',
+                    'a.NISN(nisn)',
+                    'a.photo_user(foto)',
+                    'a.first_name(first_name_student)',
+                    'a.last_name(last_name_student)',
+                    'a.gender(gender)',
+                    'class(class)',
+                    'section(section)',
+                    'a.address_user(alamat)',
+                    'a.date_of_birth(tanggal_lahir)',
+                    'a.phone_user(telepon)',
+                    'a.email(email)',
+                    'b.first_name(first_name_parent)',
+                    'b.last_name(last_name_parent)',
+                ],
                 $limit
             );
             $totaldata = count($parent);
@@ -119,11 +123,11 @@ class StudentController
             // return var_dump($totaldata);
         }
 
-        $parent = $app->db->select('tbl_users(a)',[
+        $parent = $app->db->select('tbl_users(a)', [
             '[><]tbl_sections' => 'id_section',
             '[><]tbl_classes' => 'id_class',
-            '[><]tbl_users(b)'=> ['a.id_parent'=>'id_user']
-        ],[
+            '[><]tbl_users(b)' => ['a.id_parent' => 'id_user']
+        ], [
             'a.id_user(id_user)',
             'a.NISN(nisn)',
             'a.photo_user(foto)',
@@ -148,7 +152,7 @@ class StudentController
 
                 $datas['no'] = $no . '.';
                 $datas['nisn'] = $m['nisn'];
-                $datas['foto'] = '<img src="/uploads/Profile/'.$m['foto'].'" style="width:30px;"  alt="student">';
+                $datas['foto'] = '<img src="/uploads/Profile/' . $m['foto'] . '" style="width:30px;"  alt="student">';
                 $datas['nama'] = $m['first_name_student'] . ' ' . $m['last_name_student'];
                 $datas['gender'] = $m['gender'];
                 $datas['class'] = $m['class'];
@@ -191,56 +195,16 @@ class StudentController
         echo json_encode($json_data);
     }
 
-    public static function detail($app, $request, $response, $args)
-    {
-        $id_parent = $args['data'];
 
-        $data = $app->db->select('tbl_users', [
-            "[>]tbl_classes" => "id_class",
-            "[>]tbl_hostels" => "id_hostel",
-            "[>]tbl_transports" => ["id_trans" => "id_transport"],
-            "[>]tbl_user_types" => "id_user_type"
-        ], [
-            "tbl_users.id_user",
-            "tbl_classes.class",
-            "tbl_hostels.hostel_name",
-            "id_user_type",
-            "first_name",
-            "last_name",
-            "gender",
-            "date_of_birth",
-            "religion",
-            "username",
-            "email",
-            "password",
-            "photo_user",
-            "blood_group",
-            "occupation",
-            "phone_user",
-            "address_user",
-            "short_bio"
-        ], [
-            'id_user' => $id_parent
-        ]);
-        // return var_dump($data);
-        $json_data = array(
-            'data' => $data[0]
-        );
-
-        return $response->withJson($data);
-
-        // return var_dump($json_data);
-        // echo json_encode($json_data);
-    }
     public static function student_detail($app, $request, $response, $args)
     {
         $id = $args['data'];
 
-        $data = $app->db->select('tbl_users(a)',[
+        $data = $app->db->select('tbl_users(a)', [
             '[><]tbl_sections' => 'id_section',
             '[><]tbl_classes' => 'id_class',
-            '[><]tbl_users(b)'=> ['a.id_parent'=>'id_user']
-        ],[
+            '[><]tbl_users(b)' => ['a.id_parent' => 'id_user']
+        ], [
             'a.id_user(id_user)',
             'a.NISN(nisn)',
             'a.photo_user(foto)',
@@ -260,12 +224,12 @@ class StudentController
             'a.email(email)',
             'b.first_name(first_name_parent)',
             'b.last_name(last_name_parent)',
-        ],[
+        ], [
             'a.id_user' => $id
 
         ]);
 
-        $all = $app->db->select('tbl_users', '*',[
+        $all = $app->db->select('tbl_users', '*', [
             'id_user_type' => 4
         ]);
         $class = $app->db->select('tbl_classes', '*');
@@ -282,9 +246,8 @@ class StudentController
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
 
-           
+
         ]);
-       
     }
 
     public static function delete($app, $req, $rsp, $args)
@@ -308,61 +271,61 @@ class StudentController
     {
         $data = $args['data'];
 
-            // return var_dump($data);
-            // get image
-            $directory = $app->get('upload_directory');
-            $uploadedFiles = $request->getUploadedFiles();
-            // handle single input with single file upload
-            $uploadedFile = $uploadedFiles['profileImage'];
-            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-                $filename = moveUploadedFile($directory, $uploadedFile);
-                $response->write('uploaded ' . $filename . '<br/>');
+        // return var_dump($data);
+        // get image
+        $directory = $app->get('upload_directory');
+        $uploadedFiles = $request->getUploadedFiles();
+        // handle single input with single file upload
+        $uploadedFile = $uploadedFiles['profileImage'];
+        if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+            $filename = moveUploadedFile($directory, $uploadedFile);
+            $response->write('uploaded ' . $filename . '<br/>');
+        }
+        // return var_dump(isset($filename));
+        $addUpdate = $filename;
+        if (!isset($filename)) {
+            $addUpdate = $data['imageDefault'];
+        } else {
+            $fileDefault = $data['imageDefault'];
+            // if default? return'
+            if ($fileDefault == 'default.png') {
+            } else {
+                // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
+                unlink('../public/uploads/Profile/' . $fileDefault);
             }
-            // return var_dump(isset($filename));
-            $addUpdate = $filename;
-            if(!isset($filename)){
-                $addUpdate = $data['imageDefault'];
-            }else{
-                $fileDefault = $data['imageDefault'];
-                // if default? return'
-                if($fileDefault == 'default.png'){
-                    
-                }else{   
-                    // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
-                    unlink('../public/uploads/Profile/'.$fileDefault);
-                }
-            }
-            
-            // return var_dump($uploadedFiles);
-            $update = $app->db->update('tbl_users', [
-                "first_name" => $data['first_name'],
-                "last_name" => $data['last_name'],
-                "gender" => $data['gender'],
-                "id_class" => $data['id_class'],
-                "id_section" => $data['id_section'],
-                "id_parent" => $data['id_parent'],
-                "date_of_birth" => $data['date_of_birth'],
-                "religion" => $data['religion'],
-                "blood_group" => $data['blood_group'],
-                "occupation" => $data['occupation'],
-                "phone_user" => $data['phone_user'],
-                "address_user" => $data['address_user'],
-                "short_bio" => $data['data_short_bio'],
-                "photo_user" => $addUpdate
-            ], [
-                "id_user" => $data['id_user']
-            ]);
-            // return var_dump($update);
-            $_SESSION['berhasil'] = true;
-            return $response->withRedirect('/api/student-detail/'. $data['id_user']);
+        }
+
+        // return var_dump($uploadedFiles);
+        $update = $app->db->update('tbl_users', [
+            "first_name" => $data['first_name'],
+            "last_name" => $data['last_name'],
+            "gender" => $data['gender'],
+            "id_class" => $data['id_class'],
+            "id_section" => $data['id_section'],
+            "id_parent" => $data['id_parent'],
+            "NISN" => $data['NISN'],
+            "date_of_birth" => $data['date_of_birth'],
+            "religion" => $data['religion'],
+            "blood_group" => $data['blood_group'],
+            "occupation" => $data['occupation'],
+            "phone_user" => $data['phone_user'],
+            "address_user" => $data['address_user'],
+            "short_bio" => $data['data_short_bio'],
+            "photo_user" => $addUpdate
+        ], [
+            "id_user" => $data['id_user']
+        ]);
+        // return var_dump($update);
+        $_SESSION['berhasil'] = true;
+        return $response->withRedirect('/api/student-detail/' . $data['id_user']);
     }
     public static function page_add_student($app, $req, $rsp, $args)
     {
-        
+
         $type = 4;
         $parent = $app->db->select('tbl_users', '*', [
             'id_user_type' => $type,
-            
+
         ]);
         $class = $app->db->select('tbl_classes', '*');
         $section = $app->db->select('tbl_sections', '*');
@@ -394,21 +357,20 @@ class StudentController
         }
         // return var_dump(isset($filename));
         $addUpdate = $filename;
-        if(!isset($filename)){
+        if (!isset($filename)) {
             $addUpdate = $data['imageDefault'];
-        }else{
+        } else {
             $fileDefault = $data['imageDefault'];
             // if default? return'
-            if($fileDefault == 'default.png'){
-                
-            }else{   
+            if ($fileDefault == 'default.png') {
+            } else {
                 // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
-                unlink('../public/uploads/Profile/'.$fileDefault);
+                unlink('../public/uploads/Profile/' . $fileDefault);
             }
         }
-        
+
         // return var_dump($uploadedFiles);
-        $data = $app->db->insert('tbl_users', [
+        $student = $app->db->insert('tbl_users', [
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
@@ -417,6 +379,7 @@ class StudentController
             "id_section" => $data['id_section'],
             "id_class" => $data['id_class'],
             "id_parent" => $data['id_parent'],
+            "NISN" => $data['nisn'],
             "date_of_birth" => $data['date_of_birth'],
             "religion" => $data['religion'],
             "blood_group" => $data['blood_group'],
@@ -428,19 +391,16 @@ class StudentController
             "id_user_type" => 1,
             "status" => 1,
         ]);
-        // $last_id = $app->db->id();
-        
-        // $student = $app->db->update('tbl_users', [
-        //     "id_parent" => $id_parent,
-        // ],[
-        //     'id_user' => $last_id
-        // ]);
+        $last_id = $app->db->id();
+        $tanggal = date("Y-m-d ");
 
-        // return var_dump($data);
+        $id_masuk = $app->db->insert('tbl_admissions', [
+            "id_user" => $last_id,
+            "admission_date" => $tanggal
+        ]);
+
+        // return var_dump($tanggal);
         $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/add-parents');
+        return $rsp->withRedirect('/admit-form');
     }
-
-
-
 }

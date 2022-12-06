@@ -2,44 +2,44 @@
 {% set title = "All Student" %}
 {% set baseRoute = ".." %}
 {% block content %}
-    <!-- Student Table Area Start Here -->
+<!-- Student Table Area Start Here -->
 <div class="card height-auto">
-    <div class="card-body">
-      <div class="heading-layout1">
-        <div class="item-title">
-          <h3>All Students Data</h3>
-        </div>
-       
+  <div class="card-body">
+    <div class="heading-layout1">
+      <div class="item-title">
+        <h3>All Students Data</h3>
       </div>
-      
-      <div class="table-responsive expenses-table-box">
-        <table class="table text-nowrap" id="student">
-          <thead>
-            <tr>
-              
-              <th>No</th>
-              <th>NISN</th>
-              <th>Foto</th>
-              <th>Nama</th>
-              <th>Jenis Kelamin</th>
-              <th>kelas</th>
-              <th>Bagian</th>
-              <th>Orang tua</th>
-              <th>Alamat</th>
-              <th>Tanggal Lahir</th>
-              <th>Telepon</th>
-              <th>E-mail</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="show_data">
-          </tbody>
-        </table>
-      </div>
+
+    </div>
+
+    <div class="table-responsive expenses-table-box">
+      <table class="table text-nowrap" id="student">
+        <thead>
+          <tr>
+
+            <th>No</th>
+            <th>NISN</th>
+            <th>Foto</th>
+            <th>Nama</th>
+            <th>Jenis Kelamin</th>
+            <th>kelas</th>
+            <th>Bagian</th>
+            <th>Orang tua</th>
+            <th>Alamat</th>
+            <th>Tanggal Lahir</th>
+            <th>Telepon</th>
+            <th>E-mail</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="show_data">
+        </tbody>
+      </table>
     </div>
   </div>
-  <!-- Student Table Area End Here -->
-  <!-- Teacher Table Area End Here -->
+</div>
+<!-- Student Table Area End Here -->
+<!-- Teacher Table Area End Here -->
 {% include "students/modal.html" %}
 {% block modal %}
 
