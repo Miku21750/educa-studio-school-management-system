@@ -60,6 +60,34 @@ class DashboardAdminController
         
         $totalDana = $danaMasuk - $danaKeluar;
 
+        // Add message for navbar
+        $message = $app->db->select('tbl_messages(m)', [
+            '[>]tbl_users' => 'id_user'
+        ], [
+            'id_message',
+            'id_user',
+            'receiver_email',
+            'sender_email',
+            'title',
+            'message',
+            'readed',
+            'photo_sender'=>Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
+            'first_name_sender'=>Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
+            'last_name_sender'=>Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
+            'time_sended'
+        ], [
+            'username' => $args['username']
+        ]);
+        // return var_dump($_SESSION);
+
+        //countMessage
+        $countMessage = $app->db->count('tbl_messages',[
+            '[>]tbl_users' => 'id_user'
+        ],'id_message', [
+            'username' => $args['username']
+        ]);
+        // return var_dump($countMessage);
+
         // return $count;
         // return var_dump($args);
         return $app->view->render($res, 'dashboard/index.html', [
@@ -76,6 +104,8 @@ class DashboardAdminController
             'totalSppSiswa' => $totalSppSiswa,
             'username' => $args['username'],
             'photo_user' => $_SESSION['photo_user'],
+            'message' => $message,
+            'countMessage'=> $countMessage,
             'user' => $args['user'],
             'type' => $args['type'],
         ]);
