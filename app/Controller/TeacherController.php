@@ -5,6 +5,32 @@ namespace App\Controller;
 class TeacherController
 {
 
+    public static function formatTanggal($tanggal)
+    {
+        $bulan = array(
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        );
+
+        $pecahkan = explode('-', $tanggal);
+
+        // variabel pecahkan 0 = tanggal
+        // variabel pecahkan 1 = bulan
+        // variabel pecahkan 2 = tahun
+
+        return $pecahkan[2] . ' ' . $bulan[(int) $pecahkan[1]] . ' ' . $pecahkan[0];
+    }
+
     public static function getTeacherData($app, $request, $response, $args, $namaKolom)
     {
 
@@ -13,7 +39,7 @@ class TeacherController
         // blood_group occupation phone_user address_user class short_bio
 
         if ($namaKolom == null) {
-            $namaKolom = "'*'";
+            $namaKolom = '*';
         } else {
             $namaKolom = $namaKolom;
         }
@@ -39,50 +65,31 @@ class TeacherController
     public static function viewTeacherDetails($app, $request, $response, $args)
     {
 
-        // Steven Johnson
-        // Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
-        // word moun taiery.Aliquam erat volutpaturabiene natis massa sedde sodale word moun taiery.
+        // id_user id_class id_hostel id_trans id_user_type id_parent first_name last_name
+        // gender date_of_birth username password religion email NISN photo_user
+        // blood_group occupation phone_user address_user class short_bio admission_date
 
-        // Nama :    Steven Johnson
-        // Jenis Kelamin :    Male
-        // Agama :    Islam
-        // Tanggal Bergabung :    07.08.2016
-        // E-mail :    stevenjohnson@gmail.com
-        // Mata Pelajaran :    English
-        // Kelas :    2
-        // Bagian :    Pink
-        // NIP :    10005
-        // Alamat :    House #10, Road #6, Australia
-        // No. Handpone :    + 88 98568888418
+        $dataGuru = TeacherController::getTeacherData($app, $request, $response, $args, null);
+        $dataSubject = TeacherController::getTeacherSubject($app, $request, $response, $args);
 
-        $namaDepanGuru = TeacherController::getTeacherData($app, $request, $response, $args, "first_name");
-        $namaBelakangGuru = TeacherController::getTeacherData($app, $request, $response, $args, "last_name");
-        $shortbioGuru = TeacherController::getTeacherData($app, $request, $response, $args, "gender");
-        $jenisKelamin = TeacherController::getTeacherData($app, $request, $response, $args, "gender");
-        $agama = TeacherController::getTeacherData($app, $request, $response, $args, "religion");
-        $admissionDate = TeacherController::getTeacherData($app, $request, $response, $args, "admission_date");
-        $email = TeacherController::getTeacherData($app, $request, $response, $args, "email");
-        $NIP = TeacherController::getTeacherData($app, $request, $response, $args, "NISN");
-        $addressUser = TeacherController::getTeacherData($app, $request, $response, $args, "address_user");
-        $phoneUser = TeacherController::getTeacherData($app, $request, $response, $args, "phone_user");
-        $shortbioGuru = TeacherController::getTeacherData($app, $request, $response, $args, "short_bio");
-        $kelas = TeacherController::getTeacherSubject($app, $request, $response, $args);
-
-        // return var_dump($kelas);
+        // $date = date_create($admissionDate[0]);
+        // return var_dump( TeacherController::formatTanggal($date));
 
         $app->view->render($response, 'teacher/teacher-details.html', [
-            'namaDepanGuru' => $namaDepanGuru[0],
-            'namaBelakangGuru' => $namaBelakangGuru[0],
-            'shortbioGuru' => $shortbioGuru[0],
-            'jenisKelamin' => $jenisKelamin[0],
-            'admissionDate' => $admissionDate[0],
-            'email' => $email[0],
-            'NIP' => $NIP[0],
-            'addressUser' => $addressUser[0],
-            'phoneUser' => $phoneUser[0],
-            'shortbioGuru' => $shortbioGuru[0],
-            'agama' => $agama[0],
-            'kelas' => $kelas,
+            'photo' => $dataGuru[0]['photo_user'],
+            'namaDepanGuru' => $dataGuru[0]['first_name'],
+            'namaBelakangGuru' => $dataGuru[0]['last_name'],
+            'shortbioGuru' => $dataGuru[0]['short_bio'],
+            'jenisKelamin' => $dataGuru[0]['gender'],
+            'admissionDate' => $dataGuru[0]['admission_date'],
+            'email' => $dataGuru[0]['email'],
+            'NIP' => $dataGuru[0]['NISN'],
+            'addressUser' => $dataGuru[0]['address_user'],
+            'phoneUser' => $dataGuru[0]['phone_user'],
+            'shortbioGuru' => $dataGuru[0]['short_bio'],
+            'agama' => $dataGuru[0]['religion'],
+            'teacherSubject' => $dataSubject[0],
+            'admissionDate' => $dataGuru[0]['admission_date'],
         ]);
 
         // return var_dump($namaDepanGuru[0]);
