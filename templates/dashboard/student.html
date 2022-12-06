@@ -16,10 +16,8 @@
                             aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
@@ -41,7 +39,8 @@
                             <tbody>
                                 <tr>
                                     <td>Nama :</td>
-                                    <td class="font-medium text-dark-medium">{{student.first_name}} {{student.last_name}}</td>
+                                    <td class="font-medium text-dark-medium">{{student.first_name}}
+                                        {{student.last_name}}</td>
                                 </tr>
                                 <tr>
                                     <td>Jenis Kelamin :</td>
@@ -57,7 +56,8 @@
                                 </tr> -->
                                 <tr>
                                     <td>Tanggal Lahir :</td>
-                                    <td class="font-medium text-dark-medium">{{student.date_of_birth|date("d M Y")}}</td>
+                                    <td class="font-medium text-dark-medium">{{student.date_of_birth|date("d M Y")}}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Agama :</td>
@@ -73,7 +73,8 @@
                                 </tr>
                                 <tr>
                                     <td>Tanggal Penerimaan :</td>
-                                    <td class="font-medium text-dark-medium">{{student.admission_date|date("d M Y")}}</td>
+                                    <td class="font-medium text-dark-medium">{{student.admission_date|date("d M Y")}}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Kelas :</td>
@@ -118,7 +119,8 @@
                         <div class="col-6">
                             <div class="item-content">
                                 <div class="item-title">Pemberitahuan</div>
-                                <div class="item-number"><span class="counter" data-num="{{data_student_notification}}">12</span></div>
+                                <div class="item-number"><span class="counter"
+                                        data-num="{{data_student_notification}}">12</span></div>
                             </div>
                         </div>
                     </div>
@@ -152,7 +154,8 @@
                         <div class="col-6">
                             <div class="item-content">
                                 <div class="item-title">Kehadiran</div>
-                                <div class="item-number"><span class="counter" data-num="{{data_student_attendance}}">94</span><span>%</span></div>
+                                <div class="item-number"><span class="counter"
+                                        data-num="{{presentaseKehadiran1}}"></span><span>%</span></div>
                             </div>
                         </div>
                     </div>
@@ -181,69 +184,81 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="table-box-wrap">
+                            <table id="examResult" class="display">
+                                <thead>
+                                    <tr>
+                                        <th>NISN</th>
+                                        <th>Nama</th>
+                                        <th>Nama Ujian</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Kelas</th>
+                                        <th>Nilai</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- <div class="table-box-wrap">
                             <form class="search-form-box">
                                 <div class="row gutters-8">
                                     <div class="col-lg-4 col-12 form-group">
-                                        <input type="text" placeholder="Search by Exam ..."
-                                            class="form-control">
+                                        <input type="text" placeholder="Search by Exam ..." class="form-control">
                                     </div>
                                     <div class="col-lg-3 col-12 form-group">
-                                        <input type="text" placeholder="Search by Subject ..."
-                                            class="form-control">
+                                        <input type="text" placeholder="Search by Subject ..." class="form-control">
                                     </div>
                                     <div class="col-lg-3 col-12 form-group">
-                                        <input type="text" placeholder="dd MM YYYY"
-                                            class="form-control">
+                                        <input type="text" placeholder="dd MM YYYY" class="form-control">
                                     </div>
                                     <div class="col-lg-2 col-12 form-group">
-                                        <button type="submit"
-                                            class="fw-btn-fill btn-gradient-yellow">CARI</button>
+                                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">CARI</button>
                                     </div>
                                 </div>
                             </form>
                             <div class="table-responsive result-table-box">
-                                <table class="table display data-table text-nowrap">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                <div class="form-check">
-                                                    <input type="checkbox"
-                                                        class="form-check-input checkAll">
-                                                    <label class="form-check-label">PENGENAL</label>
-                                                </div>
-                                            </th>
-                                            <th>Exam Name</th>
-                                            <th>Subjek</th>
-                                            <th>Nilai</th>
-                                            <th>Persen</th>
-                                            <th>Tanggal</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                <input type="text" class="form-control " id="id" data-result="{{id_user}}"
+                                    value="{{id_user}}" hidden>
+                                <table class="table text-nowrap" id="x"></table>
+                                <thead>
+                                    <tr>
+                                        <th>NISN</th>
+                                        <th>Nama</th>
+                                        <th>Nama Ujian</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Kelas</th>
+                                        <th>Nilai</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for data_student_exam in data_student_exam %}
                                         <tr>
                                             <td>
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#{{dataExam.id_user}}</label>
+                                                    <label class="form-check-label">#{{id_user}}</label>
                                                 </div>
                                             </td>
-                                            <td>{{dataExam.exam_name}}</td>
-                                            <td>{{dataExam.id_subject}}</td>
+                                            <td>{{data_student_exam.exam_name}}</td>
+                                            <td>{{data_student_exam.id_subject}}</td>
                                             <td>
-                                                {% if dataExam.score >= 90 %}
+                                                {% if data_student_exam.score >= 90 %}
                                                 A
-                                                {% elseif dataExam.score >= 80 %}
+                                                {% elseif data_student_exam.score >= 80 %}
                                                 B
-                                                {% elseif dataExam.score >= 60 %}
+                                                {% elseif data_student_exam.score >= 60 %}
                                                 C
                                                 {% else %}
                                                 D
                                                 {% endif %}
                                             </td>
-                                            <td>{{dataExam.score}}.00 > 100</td>
-                                            <td>{{dataExam.exam_date|date("d M Y")}}</td>
+                                            <td>{{data_student_exam.score}}.00 > 100</td>
+                                            <td>{{data_student_exam.exam_date|date("d M Y")}}</td>
                                             <td>
                                                 <div class="dropdown">
                                                     <a href="#" class="dropdown-toggle"
@@ -262,7 +277,8 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <!-- <tr>
+                                        {% endfor %}
+                                    <tr>
                                             <td>
                                                 <div class="form-check">
                                                     <input type="checkbox" class="form-check-input">
@@ -531,11 +547,11 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                        </tr> -->
-                                    </tbody>
+                                        </tr>
+                                </tbody>
                                 </table>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -557,26 +573,24 @@
                             aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
                 <div class="doughnut-chart-wrap">
-                    <canvas id="absen-student-doughnut-chart" width="100" height="270"></canvas>
+                    <canvas id="absent-student-doughnut-chart" width="100" height="270"></canvas>
                 </div>
                 <div class="student-report">
                     <div class="student-count pseudo-bg-blue">
-                        <h4 class="item-title">Absen</h4>
-                        <div class="item-number">0</div>
+                        <h4 class="item-title">Tidak Hadir</h4>
+                        <div class="item-number">{{presentaseAbsen}}%</div>
                     </div>
                     <div class="student-count pseudo-bg-yellow">
                         <h4 class="item-title">Hadir</h4>
-                        <div class="item-number">{{data_student_attendance}}</div>
+                        <div class="item-number">{{presentaseKehadiran}}%</div>
                     </div>
                 </div>
             </div>
@@ -595,10 +609,8 @@
                             aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
@@ -623,22 +635,22 @@
                             aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
                 <div class="notice-box-wrap">
-                    <h3>Menampilkan dari database</h3>
+                    <h3>Notifications</h3>
                     {% for view_notification in view_student_notification %}
                     <div class="notice-list">
                         <div class="post-date bg-skyblue">{{view_notification.date_notice|date("d M Y")}}</div>
                         <h6 class="notice-title"><a href="#">{{view_notification.title}}</a></h6>
-                        <div class="entry-meta"> {{view_notification.posted_by}} / <span>5 min ago</span></div>
+                        <div class="entry-meta"> {{view_notification.posted_by}} /
+                            <span>{{view_notification.date_notice|date("g:ia")}}</span>
+                        </div>
                     </div>
                     {% endfor %}
 
@@ -682,4 +694,169 @@
         </div>
     </div>
 </div>
+
+<script>
+
+    initTable = function () {
+
+        table = $("#examResult").on('preXhr.dt', function (e, settings, data) {
+
+            console.log('loading ....');
+
+        }).on('draw.dt', function () {
+            console.log('dapat data ....');
+
+        }).DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            "columnDefs": [
+                { "targets": 0, className: "text-center", "orderable": false },
+                { "targets": 1, className: "text-start", "orderable": false },
+                { "targets": 2, className: "text-start", "orderable": false },
+                { "targets": 3, className: "text-start", "orderable": false },
+                { "targets": 4, className: "text-start", "orderable": false },
+                { "targets": 5, className: "text-start", "orderable": false },
+                { "targets": 6, className: "text-start", "orderable": false },
+
+
+            ],
+            'pageLength': 10,
+            'processing': true,
+            'serverSide': true,
+            'select': true,
+            'responsive': true,
+            'ajax': {
+                url: "/api/" + "{{id_user}}" + "/examResult",
+                type: 'GET',
+            },
+            'columns': [
+                { 'data': 'nisn' },
+                { 'data': 'nama' },
+                { 'data': 'ujian' },
+                { 'data': 'mapel' },
+                { 'data': 'kelas' },
+                { 'data': 'nilai' },
+                { 'data': 'tanggal' }
+            ],
+        });
+
+    }
+
+    initTable();
+
+
+</script>
+
+
+<script type="text/javascript">
+
+    // $(document).ready(function () {
+
+    //     initTable = function () {
+
+    //         table = $("#examResult").on('preXhr.dt', function (e, settings, data) {
+
+    //         }).on('draw.dt', function () {
+
+    //         }).DataTable({
+    //             responsive: {
+    //                 details: {
+    //                     type: 'column'
+    //                 }
+    //             },
+    //             "columnDefs": [
+    //                 { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+    //                 { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+    //                 { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
+    //                 { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+    //                 { "width": "10%", "targets": 4, className: "text-center", "orderable": false },
+    //                 { "width": "10%", "targets": 5, className: "text-end", "orderable": false },
+    //                 { "width": "10%", "targets": 6, className: "text-end", "orderable": false },
+
+    //             ],
+    //             'pageLength': 10,
+    //             'responsive': true,
+    //             'processing': true,
+    //             'serverSide': true,
+    //             'serverMethod': 'get',
+    //             'ajax': {
+    //                 'url': "/api/" + "{{id_user}}" + "/examResult",
+    //                 'dataType:': 'json',
+    //                 'type': 'get',
+
+    //             },
+    //             'columns': [
+    //                 { 'data': 'nisn' },
+    //                 { 'data': 'nama' },
+    //                 { 'data': 'ujian' },
+    //                 { 'data': 'mapel' },
+    //                 { 'data': 'kelas' },
+    //                 { 'data': 'nilai' },
+    //                 { 'data': 'tanggal' }
+    //             ]
+
+
+    //         });
+
+    //         initTable();
+    //     }
+
+    // });
+
+
+    if ($("#absent-student-doughnut-chart").length) {
+        var absen;
+        var kehadiran;
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/student/apidata",
+                dataType: "JSON",
+                data: { id_user: '{{id_user}}' },
+                success: function (total) {
+                    let a = total;
+                    // console.log(a['totalSiswaFemale'])
+                    absen = a['presentaseAbsenM']
+                    kehadiran = a['presentaseKehadiranM']
+
+                    // console.log(absen);
+                    var doughnutChartData = {
+                        labels: ["Tidak Hadir", "Hadir"],
+                        datasets: [{
+                            backgroundColor: ["#d9534f", "#5cb85c"],
+                            data: [absen, kehadiran],
+                            label: "Total Absensi"
+                        },]
+                    };
+                    var doughnutChartOptions = {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutoutPercentage: 65,
+                        rotation: -9.4,
+                        animation: {
+                            duration: 2000
+                        },
+                        legend: {
+                            display: false
+                        },
+                        tooltips: {
+                            enabled: true
+                        },
+                    };
+                    var studentCanvas = $("#absent-student-doughnut-chart").get(0).getContext("2d");
+                    var studentChart = new Chart(studentCanvas, {
+                        type: 'doughnut',
+                        data: doughnutChartData,
+                        options: doughnutChartOptions
+                    });
+                }
+            });
+        });
+    }
+
+
+</script>
 {% endblock content %}

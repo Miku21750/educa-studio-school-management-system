@@ -19,8 +19,8 @@
       </div>
     </div>
     <div class="single-info-details">
-      <div class="item-img">
-        <img src="/teacher.jpg" alt="teacher" />
+      <div class="item-img" >
+        <img src="/uploads/Profile/{{photo}}"  alt="teacher" style="max-width: 280px !important;" />
       </div>
       <div class="item-content">
         <div class="header-inline item-header">
@@ -55,22 +55,11 @@
               </tr>
               <tr>
                 <td>Agama :</td>
-                <td class="font-medium text-dark-medium">{{relegion}}</td>
+                <td class="font-medium text-dark-medium">{{agama}}</td>
               </tr>
               <tr>
-                <!-- 'namaDepanGuru' => $namaDepanGuru[0],
-                'namaBelakangGuru' => $namaBelakangGuru[0],
-                'shortbioGuru' => $shortbioGuru[0],
-                'jenisKelamin' => $jenisKelamin[0],
-                'admissionDate' => $admissionDate[0],
-                'email' => $email[0],
-                'NIP' => $NIP[0],
-                'addressUser' => $addressUser[0],
-                'phoneUser' => $phoneUser[0],
-                'shortbioGuru' => $shortbioGuru[0],
-                'agama' => $agama[0], -->
                 <td>Tanggal Bergabung :</td>
-                <td class="font-medium text-dark-medium">{{admissionDate}}</td>
+                <td class="font-medium text-dark-medium"> {{admissionDate}}  </td>
               </tr>
               <tr>
                 <td>E-mail :</td>
@@ -79,16 +68,12 @@
               </tr>
               <tr>
                 <td>Mata Pelajaran :</td>
-                <td class="font-medium text-dark-medium"></td>
+                <td class="font-medium text-dark-medium">{{teacherSubject.subject}}</td>
               </tr>
 
               <tr>
                 <td>Kelas :</td>
-                <td class="font-medium text-dark-medium">{{kelas.0.kelas}} {{kelas.0.section}}</td>
-              </tr>
-              <tr>
-                <td>Mapel :</td>
-                <td class="font-medium text-dark-medium">{{kelas.0.subject}}</td>
+                <td class="font-medium text-dark-medium">{{teacherSubject.kelas}} {{teacherSubject.section}}</td>
               </tr>
 
               <tr>
@@ -111,5 +96,29 @@
   </div>
 </div>
 <!-- Student Table Area End Here -->
+
+
+<script>
+      function dateFormatter(iso, useDay) {
+          if (typeof useDay === typeof undefined) {
+            useDay = true;
+          }
+
+          if (iso == "0000-00-00 00:00:00") {
+            return '-';
+          }
+
+          var dt = new Date(iso.replace(/-/g, "/"));
+          var dId = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+          var mId = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+          var d = dt.getDate(); if (d < 10) { d = "0" + d; }
+          var dstr = dId[dt.getDay()];
+          var m = mId[dt.getMonth()];
+          var y = dt.getFullYear();
+
+          var str = d + " " + m + " " + y;
+          return useDay ? dstr + ", " + str : str;
+        }
+</script>
 
 {% endblock content %}

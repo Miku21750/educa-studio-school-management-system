@@ -133,14 +133,14 @@
             <form action="/editDataProfile" method="post" class="new-added-form" enctype="multipart/form-data">
             <div class="item-img">
                 {# <img src="img/figure/student1.jpg" alt="student" /> #}
-                <input type="text" value="{{data.photo_user}}" name ="imageDefault" hidden >
+                <input type="text" value="{{data.photo_user}}" name ="imageDefault" >
                     <div class="avatar-upload">
                         <div class="avatar-edit">
                             <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg"/>
                             <label for="imageUpload"></label>
                         </div>
                         <div class="avatar-preview">
-                            <div id="imagePreview" style="background-image: url(uploads/Profile/{{data.photo_user}});">
+                            <div id="imagePreview" style="background-image: url(uploads/Profile/{{data.photo_user|replace({' ' : '%20'})}});">
                             </div>
                         </div>
                 </div>
@@ -194,7 +194,7 @@
                         <tbody>
                             <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
                             <tr class="form-group">
-                                <label for="first_name">Nama Depan:</label>
+                                <label for="first_name">Nama Depan: </label>
                                 <input type="text" placeholder="Masukan nama depan" name="first_name" class="form-control" value="{{ data.first_name }}">
                             </tr>
                             <tr class="form-group">

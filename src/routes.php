@@ -12,6 +12,7 @@ use App\middleware\Auth;
 use App\Controller\DashbordParentController;
 use App\Controller\DashboardAdminController;
 use App\Controller\ParentController;
+use App\Controller\SubjectController;
 use App\Controller\LibraryController;
 use App\Controller\TransportController;
 use App\Controller\TeacherController;
@@ -217,6 +218,27 @@ return function (App $app) {
                 }
             );
 
+            $app->group(
+                '/student',
+                function () use ($app) {
+                    $app->get(
+                        '/apidata',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return DashboardStudentController::apiDataM($this, $request, $response, $args);
+                        }
+                    );
+                }
+            );
+            $app->get(
+                '/{id}/examResult',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    return DashboardStudentController::view_data_exam($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+
             $app->get(
                 '/{id}/select',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -239,6 +261,12 @@ return function (App $app) {
                 '/allparents',
                 function (Request $request, Response $response, array $args) use ($app) {
                     return ParentController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/allsubject',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return SubjectController::view_data_subject($this, $request, $response, $args);
                 }
             );
             $app->get(
@@ -561,7 +589,7 @@ return function (App $app) {
         '/all-subject',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/all-subject.html', $args);
+            return SubjectController::index($this, $response, $request, $args);
         }
     );
     //End Subject
@@ -638,7 +666,92 @@ return function (App $app) {
         '/messaging',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/messaging.html', $args);
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+                'first_name',
+                'last_name',
+                'username'
+            ]);
+            // return var_dump($data);
+            $container->view->render($response, 'others/messaging.html', [
+                'data'=>$data,
+                'idSenderDefault'=>$_SESSION['id_user']
+            ]);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getNameMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'first_name',
+                'last_name',
+            ], [
+                    "id_user" => $id
+                ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getEmailMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+            ], [
+                    "id_user" => $id
+                ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/messageSend',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $dataSender = $container->db->select('tbl_users', 'email', [
+                'id_user' => $data['id_sender']
+            ]);
+            $dataReceipent = $container->db->select('tbl_users', 'email', [
+                'id_user' => $data['id_user']
+            ]);
+            // return var_dump($dataSender[0]);
+            $insert = $container->db->insert('tbl_messages',[
+                'id_user'=>$data['id_user'],
+                'receiver_email'=>$dataReceipent[0],
+                'sender_email'=>$dataSender[0],
+                'title'=>$data['title'],
+                'message'=>$data['message'],
+                'readed'=>0
+            ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson(array('success' => true));
+        }
+    )->add(new Auth());
+    $app->post(
+        '/readedMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $dataSender = $container->db->update('tbl_messages', [
+                'readed'=>1
+            ], [
+                'id_message' => $data['id_message']
+            ]);
+            // return var_dump($dataSender);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson(array('success' => true));
         }
     )->add(new Auth());
     // End Message
@@ -813,17 +926,29 @@ return function (App $app) {
             // return var_dump($data);
             // get image
             $directory = $container->get('upload_directory');
+            
             $uploadedFiles = $request->getUploadedFiles();
             // handle single input with single file upload
             $uploadedFile = $uploadedFiles['profileImage'];
             if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
                 $filename = moveUploadedFile($directory, $uploadedFile);
+                // $filename = move_uploaded_file($uploadedFile, '' . $directory . 'ProfileId' . $data['id_user'] . '');
+                // return var_dump($filename);
                 $response->write('uploaded ' . $filename . '<br/>');
             }
             // return var_dump(isset($filename));
             $addUpdate = $filename;
             if(!isset($filename)){
                 $addUpdate = $data['imageDefault'];
+            }else{
+                $fileDefault = $data['imageDefault'];
+                // if default? return'
+                if($fileDefault == 'default.png'){
+                    
+                }else{   
+                    // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
+                    unlink('../public/uploads/Profile/'.$fileDefault);
+                }
             }
             
             // return var_dump($uploadedFiles);

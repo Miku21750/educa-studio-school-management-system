@@ -89,6 +89,7 @@ class indexApiController
                 "email" => $data["email"],
                 "password" => $data["password"],
                 "id_user_type" => $data['type'],
+                "photo_user"=> 'default.png',
                 "status" => 0
             ]);
             $id_inserted = $app->db->id();
