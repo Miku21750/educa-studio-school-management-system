@@ -13,6 +13,8 @@ use App\Controller\DashbordParentController;
 use App\Controller\DashboardAdminController;
 use App\Controller\ParentController;
 use App\Controller\SubjectController;
+use App\Controller\LibraryController;
+use App\Controller\TeacherController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -104,6 +106,70 @@ return function (App $app) {
                     );
                 }
             );
+            
+            $app->group(
+                '/library',
+                function () use ($app) {
+
+                    $app->get(
+                        '/getBook',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return LibraryController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/book-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return LibraryController::detail($this, $request, $response, $data);
+                        }
+                    );
+
+                    $app->post(
+                        '/update-book-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return LibraryController::update_book_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/delete-book',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return LibraryController::delete($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    // $app->post(
+                    //     '/edit-book',
+                    //     function (Request $request, Response $response, array $args) use ($container) {
+                    //         $data = $request->getParsedBody();
+                    //         // return var_dump($data);
+                    //         $update = $container->db->debug()->update('tbl_books', [
+                    //             "name_book" => $data['name_book'],
+                    //             "category_book" => $data['category_book'],
+                    //             "writer_book" => $data['writer_book'],
+                    //             "class" => $data['class'],
+                    //             "publish_date" => $data['publish_date'],
+                    //             "upload_date" => $data['upload_date']
+                    //         ], [
+                    //             "id_book" => $data['id_book']
+                    //         ]);
+                    //         // return var_dump($update);
+                    //         return $response->withRedirect('/getBook');
+                    //     }
+                    // );
+                }
+            );
 
             $app->group(
                 '/student',
@@ -162,6 +228,46 @@ return function (App $app) {
                     $data = $args['id'];
                     // return var_dump($data);
                     return ParentController::detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/parent-detail/{id}',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return ParentController::parent_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/update-parent-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ParentController::update_parent_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/delete-parent',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ParentController::delete($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/add-parent',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ParentController::add_parent($this, $request, $response, [
                         'data' => $data
                     ]);
                 }
@@ -326,8 +432,7 @@ return function (App $app) {
     $app->get(
         '/teacher-details',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'teacher/teacher-details.html', $args);
+            return TeacherController::viewTeacherDetails($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(
@@ -369,7 +474,7 @@ return function (App $app) {
         '/add-parents',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'parents/add-parents.html', $args);
+            return ParentController::page_add_parent($this, $request, $response, $args  );
         }
     )->add(new Auth());
     //end Parent
@@ -514,7 +619,92 @@ return function (App $app) {
         '/messaging',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/messaging.html', $args);
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+                'first_name',
+                'last_name',
+                'username'
+            ]);
+            // return var_dump($data);
+            $container->view->render($response, 'others/messaging.html', [
+                'data'=>$data,
+                'idSenderDefault'=>$_SESSION['id_user']
+            ]);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getNameMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'first_name',
+                'last_name',
+            ], [
+                    "id_user" => $id
+                ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getEmailMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+            ], [
+                    "id_user" => $id
+                ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/messageSend',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $dataSender = $container->db->select('tbl_users', 'email', [
+                'id_user' => $data['id_sender']
+            ]);
+            $dataReceipent = $container->db->select('tbl_users', 'email', [
+                'id_user' => $data['id_user']
+            ]);
+            // return var_dump($dataSender[0]);
+            $insert = $container->db->insert('tbl_messages',[
+                'id_user'=>$data['id_user'],
+                'receiver_email'=>$dataReceipent[0],
+                'sender_email'=>$dataSender[0],
+                'title'=>$data['title'],
+                'message'=>$data['message'],
+                'readed'=>0
+            ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson(array('success' => true));
+        }
+    )->add(new Auth());
+    $app->post(
+        '/readedMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $dataSender = $container->db->update('tbl_messages', [
+                'readed'=>1
+            ], [
+                'id_message' => $data['id_message']
+            ]);
+            // return var_dump($dataSender);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson(array('success' => true));
         }
     )->add(new Auth());
     // End Message
@@ -530,15 +720,6 @@ return function (App $app) {
     // End Map
 
     // Account
-    $app->get(
-        '/account-settings',
-        function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'others/account-settings.html', $args);
-        }
-    )->add(new Auth());
-    // End Account
-
     // Set profile setting
     $app->get(
         '/profile-setting',
@@ -578,8 +759,69 @@ return function (App $app) {
         }
     )->add(new Auth());
 
+    $app->get(
+        '/add-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $isAddAccount = isset($_SESSION['successAddingAccount']);
+            unset($_SESSION['successAddingAccount']);
+            $container->view->render($response, 'others/account/add-account.html', [
+                'isAddAccount' => $isAddAccount
+            ]);
+        }
+    )->add(new Auth());
     $app->post(
-        '/editDataProfile',
+        '/add-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            $addPhoto = '20221205040116-20220929-133008.jpg';
+            // return var_dump($data);
+
+            $insert = $container->db->insert('tbl_users',[
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "id_user_type"=>3,
+                "status"=>1,
+                "photo_user" => $addPhoto
+            ]);
+            $_SESSION['successAddingAccount'] = true;
+            return $response->withRedirect('/add-account');
+            // $container->view->render($response, 'others/account/add-account.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/all-account',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $container->db->select('tbl_users','*',[
+                'id_user_type'=>3
+            ]);
+            // return var_dump($data);
+            // Render index view
+            $container->view->render($response, 'others/account/all-account.html', [
+                'data'=>$data
+            ]);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/account-data',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // return var_dump($request->getParams());
+            $id = $request->getParam('id_user');
+            $data = $container->db->select('tbl_users','*',[
+                'id_user'=>$id
+            ]);
+            // return var_dump($data);
+            return $response->withJson($data[0]);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/editAccount',
         function (Request $request, Response $response, array $args) use ($container) {
             $data = $request->getParsedBody();
             // return var_dump($data);
@@ -592,6 +834,12 @@ return function (App $app) {
                 $filename = moveUploadedFile($directory, $uploadedFile);
                 $response->write('uploaded ' . $filename . '<br/>');
             }
+            // return var_dump(isset($filename));
+            $addUpdate = $filename;
+            if(!isset($filename)){
+                $addUpdate = $data['imageDefault'];
+            }
+            
             // return var_dump($uploadedFiles);
             $update = $container->db->update('tbl_users', [
                 "first_name" => $data['first_name'],
@@ -599,12 +847,76 @@ return function (App $app) {
                 "gender" => $data['gender'],
                 "date_of_birth" => $data['date_of_birth'],
                 "religion" => $data['religion'],
-                "photo_user" => $filename,
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "short_bio" => $data['data_short_bio'],
+                "photo_user" => $addUpdate
+            ], [
+                "id_user" => $data['id_user']
+            ]);
+            // return var_dump($update);
+            return $response->withRedirect('/all-account');
+        }
+    );
+    $app->post(
+        '/account-delete-data',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $delete = $container->db->delete('tbl_users', [
+                'id_user' => $data['id']
+            ]);
+            return $response->withJson(array("success"));
+            
+            // return var_dump($data);
+        }
+    )->add(new Auth());
+
+    $app->post(
+        '/editDataProfile',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            // get image
+            $directory = $container->get('upload_directory');
+            
+            $uploadedFiles = $request->getUploadedFiles();
+            // handle single input with single file upload
+            $uploadedFile = $uploadedFiles['profileImage'];
+            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+                $filename = moveUploadedFile($directory, $uploadedFile);
+                // $filename = move_uploaded_file($uploadedFile, '' . $directory . 'ProfileId' . $data['id_user'] . '');
+                // return var_dump($filename);
+                $response->write('uploaded ' . $filename . '<br/>');
+            }
+            // return var_dump(isset($filename));
+            $addUpdate = $filename;
+            if(!isset($filename)){
+                $addUpdate = $data['imageDefault'];
+            }else{
+                $fileDefault = $data['imageDefault'];
+                // if default? return'
+                if($fileDefault == 'default.png'){
+                    
+                }else{   
+                    // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
+                    unlink('../public/uploads/Profile/'.$fileDefault);
+                }
+            }
+            
+            // return var_dump($uploadedFiles);
+            $update = $container->db->update('tbl_users', [
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
                 "blood_group" => $data['blood_group'],
                 "occupation" => $data['occupation'],
                 "phone_user" => $data['phone_user'],
                 "address_user" => $data['address_user'],
-                "short_bio" => $data['data_short_bio']
+                "short_bio" => $data['data_short_bio'],
+                "photo_user" => $addUpdate
             ], [
                 "id_user" => $data['id_user']
             ]);
@@ -612,7 +924,9 @@ return function (App $app) {
             return $response->withRedirect('/profile-setting');
         }
     );
+
     // End profile setting
+
 
     // Dashboard
     // $app->get(
@@ -669,7 +983,7 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
             }
             if ($type == 2) {
-                return DashboardTeacherController::index($this, $request, $response, $args);
+                return DashboardTeacherController::view($this, $request, $response,$args);
             }
             if ($type == 3) {
                 // $type = "Admin";

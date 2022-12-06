@@ -60,14 +60,14 @@
         >
           <div class="admin-title">
             <h5 class="item-title">
-              {% if user == ' ' %} {{ username }} {% else %} {{ user }} {% endif
+              {% if session.user == ' ' %} {{ session.username }} {% else %} {{ session.user }} {% endif
               %}
             </h5>
-            <span>{{ type }}</span>
+            <span>{{ session.type_user }}</span>
           </div>
           <div class="admin-img">
             <img
-              src="/uploads/Profile/{{photo_user}}"
+              src="/uploads/Profile/{{session.photo_user}}"
               style="width: 40px"
               alt="Admin"
             />
@@ -117,15 +117,18 @@
         >
           <i class="far fa-envelope"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Message</div>
-          <span>5</span>
+          {# Jumlah total message #}
+          <span>{{countMessage}}</span>
         </a>
 
         <div class="dropdown-menu dropdown-menu-right">
           <div class="item-header">
-            <h6 class="item-title">05 Message</h6>
+            {# Jumlah total message #}
+            <h6 class="item-title">{{countMessage}} Message</h6>
           </div>
           <div class="item-content">
-            <div class="media">
+            {# message start here #}
+            {# <div class="media">
               <div class="item-img bg-skyblue author-online">
                 <img src="/img/figure/student11.png" alt="img" />
               </div>
@@ -140,55 +143,31 @@
                   What is the reason of buy this item. Is it usefull for me.....
                 </p>
               </div>
-            </div>
-            <div class="media">
-              <div class="item-img bg-yellow author-online">
-                <img src="img/figure/student12.png" alt="img" />
+            </div> #}
+            {% for message in message %}
+            {% if message.readed == 1 %}
+            <div class="media message_Class" data-idMessage="{{message.id_message}}">
+              {% else %}
+              <div class="media message_Class" data-idMessage="{{message.id_message}}">
+            {% endif %}
+              <div class="item-img bg-skyblue">
+                <img src="/uploads/Profile/{{message.photo_sender}}" style="width: 40px;" alt="img"/>
               </div>
               <div class="media-body space-sm">
                 <div class="item-title">
                   <a href="#">
-                    <span class="item-name">Benny Roy</span>
-                    <span class="item-time">10:35</span>
+                    <span class="item-name">{{message.first_name_sender}} {{message.last_name_sender}}</span>
+                    <span class="item-time">{{message.time_sender|date("m/d/Y")}}</span>
                   </a>
                 </div>
+                <h3>{{message.title}}</h3>
                 <p>
-                  What is the reason of buy this item. Is it usefull for me.....
+                 {{message.message}}
                 </p>
               </div>
             </div>
-            <div class="media">
-              <div class="item-img bg-pink">
-                <img src="/img/figure/student13.png" alt="img" />
-              </div>
-              <div class="media-body space-sm">
-                <div class="item-title">
-                  <a href="#">
-                    <span class="item-name">Steven</span>
-                    <span class="item-time">02:35</span>
-                  </a>
-                </div>
-                <p>
-                  What is the reason of buy this item. Is it usefull for me.....
-                </p>
-              </div>
-            </div>
-            <div class="media">
-              <div class="item-img bg-violet-blue">
-                <img src="/img/figure/student11.png" alt="img" />
-              </div>
-              <div class="media-body space-sm">
-                <div class="item-title">
-                  <a href="#">
-                    <span class="item-name">Joshep Joe</span>
-                    <span class="item-time">12:35</span>
-                  </a>
-                </div>
-                <p>
-                  What is the reason of buy this item. Is it usefull for me.....
-                </p>
-              </div>
-            </div>
+            {% endfor %}
+            {# message end here #}
           </div>
         </div>
       </li>
@@ -264,4 +243,25 @@
   </div>
 </div>
 <!-- Header Menu Area End Here -->
+<script>
+  $(document).ready(function () {        
+    $('.message_Class').click(function (e) { 
+        e.preventDefault();
+        var id = $(this).attr('data-idMessage');
+        //console.log($id)
+        $.ajax({
+          type: "POST",
+          url: "/readedMessage",
+          data: {
+              id_message : id
+          },
+          dataType: "JSON",
+          success: function (response) {
+              console.log(response)
+              //  $('.message_Class').addClass('bg-secondary')
+          }
+      });
+    });
+});
+</script>
 {% endblock nav %}

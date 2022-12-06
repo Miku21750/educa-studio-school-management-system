@@ -1,0 +1,101 @@
+{% block modal %}
+
+<!-- Confirmation Hapus Modal -->
+<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog success-modal-content" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="footer-btn bg-linkedin">Ok</button>
+                <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Large Modal -->
+<div class="modal fade" id="detail-book" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Book</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card ui-tab-card">
+                <div class="card-body">
+                    <div class="single-info-details">
+                        <form action="/edit-book" method="post" class="new-added-form"
+                            enctype="multipart/form-data">
+                            <div class="item-content">
+                                <div class="header-inline item-header">
+                                    <h3 class="text-dark-medium font-medium" name="first_name"></h3>
+
+                                </div>
+                                <div class="info-table table-responsive">
+                                    <table class="table text-nowrap">
+                                        <tbody>
+                                            <input type="text" name="id_book" value="{{ data.id_book }}" hidden>
+                                            <tr class="form-group">
+                                                <label for="book_name">Nama Buku:</label>
+                                                <input name="ebook_name" type="text"
+                                                placeholder="Masukan Nama Buku" class="form-control">
+                                            </tr>
+
+                                            <tr>
+                                                <label>Kategori Buku:</label>
+                                                <select name="ecategory_book" class="form-control">
+                                                    <option value="">Pilih Kategori Buku</option>
+                                                    <option value="sejarah">Sejarah</option>
+                                                    <option value="Mesin">Mesin</option>
+                                                    <option value="Bisnis">Bisnis</option>
+                                                </select>
+                                            </tr>
+
+                                            <tr class="form-group">
+                                                <label for="writer_book">Penulis Buku:</label>
+                                                <input name="ewriter_book" type="text"
+                                                placeholder="Masukan Penulis Buku" class="form-control">
+                                            </tr>
+                                            
+                                            <tr class="form-group">
+                                                <label for="class">Kelas:</label>
+                                                <input name="eclass" type="text"
+                                                placeholder="Masukan Kelas" class="form-control">
+                                            </tr>
+                                            
+                                            <tr class="form-group">
+                                                <label>Tanggal diPublish:</label>
+                                                <input name="epublish_date" type="date"
+                                                    class="form-control">
+                                            </tr>
+                                            
+                                            <tr class="form-group">
+                                                <label>Tanggal diupload:</label>
+                                                <input name="eupload_date" type="date"
+                                                    class="form-control">
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <input type="submit" value="Edit Buku" class="btn btn-warning">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+{% endblock modal %}

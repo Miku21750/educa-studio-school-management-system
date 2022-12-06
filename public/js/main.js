@@ -195,7 +195,7 @@
       var lineChartData = {
         labels: ["", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
         datasets: [{
-          data: [0, 50000,20000, 30000, 70000,80000,40000,60000,30000,60000,70000,40000,30000],
+          data: [0, 50000, 20000, 30000, 70000, 80000, 40000, 60000, 30000, 60000, 70000, 40000, 30000],
           backgroundColor: '#ff0000',
           borderColor: '#ff0000',
           borderWidth: 1,
@@ -208,7 +208,7 @@
           label: "Total Collection"
         },
         {
-          data: [0,  50000,20000, 30000, 70000,100000,40000,60000,30000,60000,70000,40000,30000],
+          data: [0, 50000, 20000, 30000, 70000, 100000, 40000, 60000, 30000, 60000, 70000, 40000, 30000],
           backgroundColor: '#417dfc',
           borderColor: '#417dfc',
           borderWidth: 1,
@@ -496,9 +496,175 @@
 })(jQuery);
 
 /*-------------------------------------
-    Others Query for Code
+    DataTable Library
 -------------------------------------*/
+$(document).ready(function () {
+  libary = function () {
+    Libtable = $("#data_book").on('preXhr.dt', function (e, settings, data) {
 
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 7, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/library/getBook",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'book_name' },
+        { 'data': 'subject' },
+        { 'data': 'writer' },
+        { 'data': 'class' },
+        { 'data': 'published' },
+        { 'data': 'creating_date' },
+        { 'data': 'aksi' }
+
+      ]
+
+
+    });
+
+  }
+  libary();
+
+  //GET HAPUS
+  $('#show_book').on('click', '.item_hapus', function () {
+    var id = $(this).attr('data');
+    $('#confirmation-modal').modal('show');
+    $('[name="kode"]').val(id);
+  });
+
+  //Hapus Data
+  $('#btn_hapus').on('click', function () {
+    var kode = $('#textkode').val();
+    $.ajax({
+      type: "POST",
+      url: "/api/delete-book",
+      dataType: "JSON",
+      data: { kode: kode },
+      success: function (data) {
+        if (data) {
+          $('#confirmation-modal').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah dihapus.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+          })
+          table.draw(false)
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+
+
+
+        //tampil_data_barang();
+      }
+    });
+    return false;
+  });
+
+});
+
+$('#show_book').on('click', '.book_detail', function () {
+  var id = $(this).attr('data');
+  $('#detail-book').modal('show');
+  $.ajax({
+    type: "GET",
+    url: "/" + "api" + "/" + "library" + "/" + id + "/book-detail",
+    dataType: "JSON",
+    data: { id: id },
+    success: function (data) {
+      $.each(data, function (key, val) {
+        console.log(data[0]);
+        $('#detail-book').modal('show');
+        $('[name="book_name"]').val(val);
+      });
+    }
+  });
+  return false;
+});
+
+
+/*-------------------------------------
+      Date Format
+  -------------------------------------*/
+//GET Details
+function dateFormat(inputDate, format) {
+  //parse the input date
+  const date = new Date(inputDate);
+
+  //extract the parts of the date
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  //replace the month
+  format = format.replace("MM", month.toString().padStart(2, "0"));
+
+  //replace the year
+  if (format.indexOf("yyyy") > -1) {
+    format = format.replace("yyyy", year.toString());
+  } else if (format.indexOf("yy") > -1) {
+    format = format.replace("yy", year.toString().substr(2, 2));
+  }
+
+  //replace the day
+  format = format.replace("dd", day.toString().padStart(2, "0"));
+
+  return format;
+}
 
 
 /*-------------------------------------
