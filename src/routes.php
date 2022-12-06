@@ -766,17 +766,29 @@ return function (App $app) {
             // return var_dump($data);
             // get image
             $directory = $container->get('upload_directory');
+            
             $uploadedFiles = $request->getUploadedFiles();
             // handle single input with single file upload
             $uploadedFile = $uploadedFiles['profileImage'];
             if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
                 $filename = moveUploadedFile($directory, $uploadedFile);
+                // $filename = move_uploaded_file($uploadedFile, '' . $directory . 'ProfileId' . $data['id_user'] . '');
+                // return var_dump($filename);
                 $response->write('uploaded ' . $filename . '<br/>');
             }
             // return var_dump(isset($filename));
             $addUpdate = $filename;
             if(!isset($filename)){
                 $addUpdate = $data['imageDefault'];
+            }else{
+                $fileDefault = $data['imageDefault'];
+                // if default? return'
+                if($fileDefault == 'default.png'){
+                    
+                }else{   
+                    // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
+                    unlink('../public/uploads/Profile/'.$fileDefault);
+                }
             }
             
             // return var_dump($uploadedFiles);
