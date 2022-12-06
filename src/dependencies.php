@@ -23,11 +23,13 @@ return function (App $app) {
     
     // add upload dir
     $container['upload_directory'] = getcwd() . '/uploads/Profile';
-
     $container['view'] = function ($container) {
         $view = new \Slim\Views\Twig('../templates', [
             'cache' => false
         ]);
+        //add global session
+        $environment = $view->getEnvironment();
+        $environment->addGlobal('session', $_SESSION);
 
         $router = $container->get('router');
         $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));

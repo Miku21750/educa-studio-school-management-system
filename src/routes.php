@@ -12,7 +12,9 @@ use App\middleware\Auth;
 use App\Controller\DashbordParentController;
 use App\Controller\DashboardAdminController;
 use App\Controller\ParentController;
+use App\Controller\SubjectController;
 use App\Controller\LibraryController;
+use App\Controller\TransportController;
 use App\Controller\TeacherController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -149,25 +151,92 @@ return function (App $app) {
                         }
                     );
 
-                    // $app->post(
-                    //     '/edit-book',
-                    //     function (Request $request, Response $response, array $args) use ($container) {
-                    //         $data = $request->getParsedBody();
-                    //         // return var_dump($data);
-                    //         $update = $container->db->debug()->update('tbl_books', [
-                    //             "name_book" => $data['name_book'],
-                    //             "category_book" => $data['category_book'],
-                    //             "writer_book" => $data['writer_book'],
-                    //             "class" => $data['class'],
-                    //             "publish_date" => $data['publish_date'],
-                    //             "upload_date" => $data['upload_date']
-                    //         ], [
-                    //             "id_book" => $data['id_book']
-                    //         ]);
-                    //         // return var_dump($update);
-                    //         return $response->withRedirect('/getBook');
-                    //     }
-                    // );
+                    $app->post(
+                        '/add-book',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return LibraryController::add_book($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                }
+            );
+            
+            $app->group(
+                '/transport',
+                function () use ($app) {
+
+                    $app->get(
+                        '/getTransport',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return TransportController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/transport-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return TransportController::detail($this, $request, $response, $data);
+                        }
+                    );
+
+                    $app->post(
+                        '/update-transport-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return TransportController::update_transport_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/delete-transport',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return TransportController::delete($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/add-transport',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return TransportController::add_transport($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                }
+            );
+
+            $app->group(
+                '/student',
+                function () use ($app) {
+                    $app->get(
+                        '/apidata',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return DashboardStudentController::apiDataM($this, $request, $response, $args);
+                        }
+                    );
+                }
+            );
+            $app->get(
+                '/{id}/examResult',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    return DashboardStudentController::view_data_exam($this, $request, $response, [
+                        'data' => $data
+                    ]);
                 }
             );
 
@@ -193,6 +262,12 @@ return function (App $app) {
                 '/allparents',
                 function (Request $request, Response $response, array $args) use ($app) {
                     return ParentController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/allsubject',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return SubjectController::view_data_subject($this, $request, $response, $args);
                 }
             );
             $app->get(
@@ -572,7 +647,7 @@ return function (App $app) {
         '/all-subject',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/all-subject.html', $args);
+            return SubjectController::index($this, $response, $request, $args);
         }
     );
     //End Subject
@@ -619,7 +694,7 @@ return function (App $app) {
         '/transport',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/transport.html', $args);
+            $container->view->render($response, 'transport/transport.html', $args);
         }
     )->add(new Auth());
     //End Transport
@@ -649,7 +724,92 @@ return function (App $app) {
         '/messaging',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/messaging.html', $args);
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+                'first_name',
+                'last_name',
+                'username'
+            ]);
+            // return var_dump($data);
+            $container->view->render($response, 'others/messaging.html', [
+                'data'=>$data,
+                'idSenderDefault'=>$_SESSION['id_user']
+            ]);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getNameMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'first_name',
+                'last_name',
+            ], [
+                    "id_user" => $id
+                ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getEmailMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+            ], [
+                    "id_user" => $id
+                ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/messageSend',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $dataSender = $container->db->select('tbl_users', 'email', [
+                'id_user' => $data['id_sender']
+            ]);
+            $dataReceipent = $container->db->select('tbl_users', 'email', [
+                'id_user' => $data['id_user']
+            ]);
+            // return var_dump($dataSender[0]);
+            $insert = $container->db->insert('tbl_messages',[
+                'id_user'=>$data['id_user'],
+                'receiver_email'=>$dataReceipent[0],
+                'sender_email'=>$dataSender[0],
+                'title'=>$data['title'],
+                'message'=>$data['message'],
+                'readed'=>0
+            ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson(array('success' => true));
+        }
+    )->add(new Auth());
+    $app->post(
+        '/readedMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $dataSender = $container->db->update('tbl_messages', [
+                'readed'=>1
+            ], [
+                'id_message' => $data['id_message']
+            ]);
+            // return var_dump($dataSender);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson(array('success' => true));
         }
     )->add(new Auth());
     // End Message

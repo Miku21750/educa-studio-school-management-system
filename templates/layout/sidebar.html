@@ -13,13 +13,13 @@
           ><i class="flaticon-dashboard"></i><span>Dashboard</span></a
         >
       </li>
-      {% if type == 4 or type == 3 or type == 2 %}
+      {% if session.type == 4 or session.type == 3 or session.type == 2 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i class="flaticon-classmates"></i><span>Students</span></a
         >
         <ul class="nav sub-group-menu">
-          {% if type == 4 %}
+          {% if session.type == 4 %}
           <li class="nav-item">
             <a href="/student-details" class="nav-link"
               ><i class="fas fa-angle-right"></i>Student Details</a
@@ -36,7 +36,7 @@
               ><i class="fas fa-angle-right"></i>Student Details</a
             >
           </li>
-          {% if type == 3 %}
+          {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/admit-form" class="nav-link"
               ><i class="fas fa-angle-right"></i>Admission Form</a
@@ -51,7 +51,7 @@
           {% endif %}
         </ul>
       </li>
-      {% endif %} {% if type == 3 or type == 2 %}
+      {% endif %} {% if session.type == 3 or session.type == 2 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i class="flaticon-multiple-users-silhouette"></i
@@ -68,7 +68,7 @@
               ><i class="fas fa-angle-right"></i>Teacher Details</a
             >
           </li>
-          {% if type == 3 %}
+          {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/add-teacher" class="nav-link"
               ><i class="fas fa-angle-right"></i>Add Teacher</a
@@ -82,7 +82,7 @@
           {% endif %}
         </ul>
       </li>
-      {% endif %} {% if type == 4 or  type == 3  %}
+      {% endif %} {% if session.type == 4 or  session.type == 3  %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i class="flaticon-couple"></i><span>Parents</span></a
@@ -98,7 +98,7 @@
               ><i class="fas fa-angle-right"></i>Parents Details</a
             >
           </li>
-          {% if type == 3 %}
+          {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/add-parents" class="nav-link"
               ><i class="fas fa-angle-right"></i>Add Parent</a
@@ -107,7 +107,7 @@
           {% endif %}
         </ul>
       </li>
-      {% endif %} {% if type == "Student" or type == 2 or type ==
+      {% endif %} {% if session.type == "Student" or session.type == 2 or session.type ==
       3 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
@@ -119,7 +119,7 @@
               ><i class="fas fa-angle-right"></i>All Book</a
             >
           </li>
-          {% if type == 3 %}
+          {% if session.type == 3 %}
 
           <li class="nav-item">
             <a href="/add-book" class="nav-link"
@@ -130,7 +130,7 @@
         </ul>
       </li>
       {% endif %} 
-      {% if type == 3 %}
+      {% if session.type == 3 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i class="flaticon-technological"></i><span>Acconunt</span></a
@@ -154,7 +154,7 @@
         </ul>
       </li>
       {% endif %} 
-      {% if type == 3 or type == 2 %}
+      {% if session.type == 3 or session.type == 2 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i
@@ -176,7 +176,7 @@
         </ul>
       </li>
       {% endif %}
-      {% if type == 3 or type == 2 %}
+      {% if session.type == 3 or session.type == 2 %}
       <li class="nav-item">
         <a href="/all-subject" class="nav-link"
           ><i class="flaticon-open-book"></i><span>Subject</span></a
@@ -184,7 +184,7 @@
       </li>
       {% endif %}
       
-      {% if type == "Student" or type == 3 or type == 2 %}
+      {% if session.type == "Student" or session.type == 3 or session.type == 2 %}
       <li class="nav-item">
         <a href="/class-routine" class="nav-link"
           ><i class="flaticon-calendar"></i><span>Class Routine</span></a
@@ -192,7 +192,7 @@
       </li>
       {% endif %}
       
-      {% if  type == "Student" or type == 3 or type == 2 %}
+      {% if  session.type == "Student" or session.type == 3 or session.type == 2 %}
       <li class="nav-item">
         <a href="/student-attendence" class="nav-link"
           ><i class="flaticon-checklist"></i><span>Attendence</span></a
@@ -200,7 +200,7 @@
       </li>
       {% endif %}
 
-      {% if  type == "Student" or type == 3 or type == 2  %}
+      {% if  session.type == "Student" or session.type == 3 or session.type == 2  %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i class="flaticon-shopping-list"></i><span>Exam</span></a
@@ -237,7 +237,7 @@
       </li>
       {% endif %}
       
-      {% if type == '3' or type == 'Teacher' %}
+      {% if session.type == '3' or session.type == 'Teacher' %}
       <li class="nav-item">
         <a href="/notice-board" class="nav-link"
           ><i class="flaticon-script"></i><span>Notice</span></a
@@ -292,7 +292,7 @@
           ><i class="flaticon-planet-earth"></i><span>Map</span></a
         >
       </li>
-      {% if type == 3 %}
+      {% if session.type == 3 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i class="flaticon-settings"></i><span>Account</span></a

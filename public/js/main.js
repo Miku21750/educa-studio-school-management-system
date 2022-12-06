@@ -455,7 +455,7 @@
         });
       })
     }
-
+    
     /*-------------------------------------
           Calender initiate 
       -------------------------------------*/
@@ -515,13 +515,14 @@ $(document).ready(function () {
       },
       "columnDefs": [
         { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-        { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 1, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
         { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 7, className: "text-center", "orderable": false }
+        { "width": "5%", "targets": 7, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 8, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -535,7 +536,8 @@ $(document).ready(function () {
       },
       'columns': [
         { 'data': 'No' },
-        { 'data': 'book_name' },
+        { 'data': 'vehicle_number' },
+        { 'data': 'vehicle_number' },
         { 'data': 'subject' },
         { 'data': 'writer' },
         { 'data': 'class' },
@@ -552,23 +554,23 @@ $(document).ready(function () {
   libary();
 
   //GET HAPUS
-  $('#show_book').on('click', '.item_hapus', function () {
+  $('#show_book').on('click', '.book_remove', function () {
     var id = $(this).attr('data');
-    $('#confirmation-modal').modal('show');
+    $('#confirmation-book-modal').modal('show');
     $('[name="kode"]').val(id);
   });
 
   //Hapus Data
-  $('#btn_hapus').on('click', function () {
+  $('#btn_remove_book').on('click', function () {
     var kode = $('#textkode').val();
     $.ajax({
       type: "POST",
-      url: "/api/delete-book",
+      url: "/api/library/delete-book",
       dataType: "JSON",
       data: { kode: kode },
       success: function (data) {
         if (data) {
-          $('#confirmation-modal').modal('hide');
+          $('#confirmation-book-modal').modal('hide');
           let timerInterval
           Swal.fire({
             title: 'Memuat Data...',
@@ -596,7 +598,7 @@ $(document).ready(function () {
 
             )
           })
-          table.draw(false)
+          Libtable.draw(false)
 
         } else {
           Swal.fire({
@@ -615,6 +617,73 @@ $(document).ready(function () {
     return false;
   });
 
+  //Update Buku
+  $('#btn_update_book').click(function (e) {
+    var id_transport = $('#id_transport').val();
+    var route_name = $('#eroute_name').val();
+    var vehicle_number = $('#evehicle_number').val();
+    var driver_name = $('#ecategory_book').val();
+    var license_number = $('#ewriter_book').val();
+    var phone_number = $('#eclass_book').val();
+    var id_driver = $('#epublish_date').val();
+    var upload_date = $('#eupload_date').val();
+    // console.log(id_transport)
+    // console.log(driver_name)
+    // console.log(license_number)
+    // console.log(phone_number)
+    // console.log(route_name)
+    // console.log(id_driver)
+    // console.log(upload_date)
+    $.ajax({
+      type: "POST",
+      url: "/api/library/update-book-detail",
+      dataType: "JSON",
+      data: { id_transport: id_transport, route_name: route_name, vehicle_number: vehicle_number, driver_name: driver_name, license_number: license_number, phone_number: phone_number, id_driver: id_driver, upload_date: upload_date },
+      success: function (data) {
+        if (data) {
+          $('#detail-book').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah diubah.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+          })
+
+          Libtable.draw(false)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+      }
+    });
+    return false;
+  });
+
 });
 
 $('#show_book').on('click', '.book_detail', function () {
@@ -626,15 +695,293 @@ $('#show_book').on('click', '.book_detail', function () {
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
-      $.each(data, function (key, val) {
-        console.log(data[0]);
-        $('#detail-book').modal('show');
-        $('[name="book_name"]').val(val);
-      });
+      // $.each(data, function (key, val) {
+      console.log(data[0]);
+      $('#detail-book').modal('show');
+      $('[name="id_transport"]').val(data.id_transport);
+      $('[name="eroute_name"]').val(data.name_book);
+      $('[name="evehicle_number"]').val(data.name_book);
+      $('[name="ecategory_book"]').val(data.category_book);
+      $('[name="ewriter_book"]').val(data.writer_book);
+      $('[name="eclass_book"]').val(data.class_book);
+      $('[name="epublish_date"]').val(data.id_driver);
+      $('[name="eupload_date"]').val(data.upload_date);
+      // });
     }
   });
   return false;
 });
+
+/*-------------------------------------
+    DataTable Transport
+-------------------------------------*/
+$(document).ready(function () {
+  transport = function () {
+    transTable = $("#data_transport").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 1, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 2, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 7, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/transport/getTransport",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'id_driver' },
+        { 'data': 'route_name' },
+        { 'data': 'vehicle_number' },
+        { 'data': 'driver_name' },
+        { 'data': 'license_number' },
+        { 'data': 'phone_number' },
+        { 'data': 'aksi' }
+
+      ]
+
+
+    });
+
+  }
+  transport();
+
+  //GET HAPUS
+  $('#show_transport').on('click', '.transport_remove', function () {
+    var id = $(this).attr('data');
+    $('#confirmation-transport-modal').modal('show');
+    $('[name="kode"]').val(id);
+  });
+
+  //Hapus Data
+  $('#btn_remove_transport').on('click', function () {
+    var kode = $('#textkode').val();
+    $.ajax({
+      type: "POST",
+      url: "/api/transport/delete-transport",
+      dataType: "JSON",
+      data: { kode: kode },
+      success: function (data) {
+        if (data) {
+          $('#confirmation-transport-modal').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah dihapus.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+          })
+          transTable.draw(false)
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+
+      }
+    });
+    return false;
+  });
+
+  //Update Buku
+  $('#btn_update_transport').click(function (e) {
+    var id_transport = $('#id_transport').val();
+    var route_name = $('#eroute_name_edit').val();
+    var vehicle_number = $('#evehicle_number_edit').val();
+    var driver_name = $('#edriver_name_edit').val();
+    var license_number = $('#elicense_number_edit').val();
+    var phone_number = $('#ephone_number_edit').val();
+    var id_driver = $('#eid_driver_edit').val();
+    console.log(id_transport)
+    // console.log(driver_name)
+    // console.log(license_number)
+    // console.log(phone_number)
+    // console.log(route_name)
+    // console.log(id_driver)
+    $.ajax({
+      type: "POST",
+      url: "/api/transport/update-transport-detail",
+      dataType: "JSON",
+      data: { id_transport: id_transport, route_name: route_name, vehicle_number: vehicle_number, driver_name: driver_name, license_number: license_number, phone_number: phone_number, id_driver: id_driver },
+      success: function (data) {
+        if (data) {
+          $('#detail-transport').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah diubah.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+          })
+
+          transTable.draw(false)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+      }
+    });
+    return false;
+  });
+
+  //tambah Data
+  $('#btn_add_transport').on('click', function () {
+    // var id_transport = $('#id_transport').val();
+    var route_name = $('#eroute_name').val();
+    var vehicle_number = $('#evehicle_number').val();
+    var driver_name = $('#edriver_name').val();
+    var license_number = $('#elicense_number').val();
+    var phone_number = $('#ephone_number').val();
+    var id_driver = $('#eid_driver').val();
+    // console.log($('#eroute_name').val())
+    $.ajax({
+      type: "POST",
+      url: "/api/transport/add-transport",
+      dataType: "JSON",
+      data: { route_name: route_name, vehicle_number: vehicle_number, driver_name: driver_name, license_number: license_number, phone_number: phone_number, id_driver: id_driver },
+      success: function (data) {
+        if (data) {
+          console.log(data)
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            transTable.draw(false)
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah ditambahkan.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+            
+          })
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+
+      }
+    });
+    return false;
+  });
+
+});
+
+$('#show_transport').on('click', '.transport_detail', function () {
+  var id = $(this).attr('data');
+  $('#detail-transport').modal('show');
+  $.ajax({
+    type: "GET",
+    url: "/" + "api" + "/" + "transport" + "/" + id + "/transport-detail",
+    dataType: "JSON",
+    data: { id: id },
+    success: function (data) {
+      // console.log(data.id_transport);
+      $('#detail-book').modal('show');
+      $('[name="id_transport"]').val(data.id_transport);
+      $('[name="eroute_name"]').val(data.route_name);
+      $('[name="edriver_name"]').val(data.driver_name);
+      $('[name="evehicle_number"]').val(data.vehicle_number);
+      $('[name="elicense_number"]').val(data.license_number);
+      $('[name="ephone_number"]').val(data.phone_number);
+      $('[name="eid_driver"]').val(data.id_driver);
+
+    }
+  });
+  return false;
+});
+
 
 
 /*-------------------------------------
