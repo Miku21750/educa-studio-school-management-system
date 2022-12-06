@@ -1,16 +1,18 @@
-$(document).ready(function () {
-    $('#userBoxAllAccount > img').click(function (e) { 
+$(document).ready(function () {        
+    $('#message').click(function (e) { 
         e.preventDefault();
-        $('#userBoxAllAccount').html();
+        var id = $(this).attr(data-idMessage);
+        // console.log($id)
         $.ajax({
             type: "POST",
-            url: "/account-delete-data",
-            data:{
-                id:
+            url: "/readedMessage",
+            data: {
+                id_message : id
             },
             dataType: "JSON",
             success: function (response) {
                 console.log(response)
+                $('.').addClass(className);
             }
         });
     });

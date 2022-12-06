@@ -591,7 +591,92 @@ return function (App $app) {
         '/messaging',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/messaging.html', $args);
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+                'first_name',
+                'last_name',
+                'username'
+            ]);
+            // return var_dump($data);
+            $container->view->render($response, 'others/messaging.html', [
+                'data'=>$data,
+                'idSenderDefault'=>$_SESSION['id_user']
+            ]);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getNameMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'first_name',
+                'last_name',
+            ], [
+                    "id_user" => $id
+                ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getEmailMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+            ], [
+                    "id_user" => $id
+                ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/messageSend',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $dataSender = $container->db->select('tbl_users', 'email', [
+                'id_user' => $data['id_sender']
+            ]);
+            $dataReceipent = $container->db->select('tbl_users', 'email', [
+                'id_user' => $data['id_user']
+            ]);
+            // return var_dump($dataSender[0]);
+            $insert = $container->db->insert('tbl_messages',[
+                'id_user'=>$data['id_user'],
+                'receiver_email'=>$dataReceipent[0],
+                'sender_email'=>$dataSender[0],
+                'title'=>$data['title'],
+                'message'=>$data['message'],
+                'readed'=>0
+            ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson(array('success' => true));
+        }
+    )->add(new Auth());
+    $app->post(
+        '/readedMessage',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $dataSender = $container->db->update('tbl_messages', [
+                'readed'=>1
+            ], [
+                'id_message' => $data['id_message']
+            ]);
+            // return var_dump($dataSender);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson(array('success' => true));
         }
     )->add(new Auth());
     // End Message
