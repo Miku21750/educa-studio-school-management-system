@@ -1,12 +1,46 @@
 {% extends "/layout/master.html" %}
 {% set title = "Add Book" %}
 {% block content %}
+
+<script>
+
+  let timerInterval
+  Swal.fire({
+      title: 'Memuat Data...',
+      html: 'Tunggu  <b></b>  Detik.',
+      timer: 400,
+      timerProgressBar: true,
+      didOpen: () => {
+          Swal.showLoading()
+          const b = Swal.getHtmlContainer().querySelector('b')
+          timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+          }, 300)
+      },
+      willClose: () => {
+          clearInterval(timerInterval)
+      }
+  }).then((result) => {
+      /* Read more about handling dismissals below */
+      if (result.dismiss === Swal.DismissReason.timer) {
+        Swal.fire(
+          {
+              icon: 'success',
+              title: 'Berhasil',
+              text: 'Data telah ditambahkan.',
+          }
+
+      )
+      }
+  })
+</script>
+
     <!-- Add New Book Area Start Here -->
 <div class="card height-auto">
     <div class="card-body">
       <div class="heading-layout1">
         <div class="item-title">
-          <h3>Add New Book</h3>
+          <h3>Tambah Data Buku</h3>
         </div>
         <div class="dropdown">
           <a
@@ -31,23 +65,23 @@
           </div>
         </div>
       </div>
-      <form class="new-added-form">
+      <form class="new-added-form" action="/api/library/add-book" enctype="multipart/form-data" method="post">
         <div class="row">
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Book Name *</label>
-            <input type="text" placeholder="" class="form-control" />
+            <label>Judul Buku *</label>
+            <input type="text" placeholder="" class="form-control" name="name_book"/>
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Subject *</label>
-            <input type="text" placeholder="" class="form-control" />
+            <label>Mata Pelajaran *</label>
+            <input type="text" placeholder="" class="form-control" name="category_book"/>
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Writter Name *</label>
-            <input type="text" placeholder="" class="form-control" />
+            <label>Penulis Buku *</label>
+            <input type="text" placeholder="" class="form-control" name="writer_book"/>
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Class *</label>
-            <select class="select2">
+            <label>Kelas *</label>
+            <select class="select2" name="class_book">
               <option value="">Please Select Class *</option>
               <option value="1">Play</option>
               <option value="2">Nursery</option>
@@ -60,15 +94,15 @@
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
             <label>ID No</label>
-            <input type="text" placeholder="" class="form-control" />
+            <input type="text" placeholder="" class="form-control" name="code_book"/>
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Publishing Date *</label>
-            <input type="text" placeholder="" class="form-control" />
+            <label>Tanggal Publish *</label>
+            <input type="date" placeholder="" class="form-control" name="publish_date"/>
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Uploade Date *</label>
-            <input type="text" placeholder="" class="form-control" />
+            <label>Tanggal Upload *</label>
+            <input type="date" placeholder="" class="form-control" name="upload_date"/>
           </div>
           <div class="col-md-3 d-none d-xl-block form-group"></div>
           <div class="col-12 form-group mg-t-8">
