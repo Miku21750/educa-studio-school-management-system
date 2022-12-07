@@ -36,22 +36,23 @@
             <div class="card ui-tab-card">
                 <div class="card-body">
                     <div class="single-info-details">
-                            <div class="item-content">
-                                <div class="header-inline item-header">
-                                    <h3 class="text-dark-medium font-medium" name="first_name"></h3>
+                        <div class="item-content">
+                            <div class="header-inline item-header">
+                                <h3 class="text-dark-medium font-medium" name="first_name"></h3>
 
-                                </div>
-                                <div class="info-table table-responsive">
-                                    <table class="table text-nowrap">
-                                        <tbody>
-                                            <input type="text" name="id_book" id="id_book" value="{{ data.id_book }}" hidden>
-                                            <tr class="form-group">
-                                                <label for="book_name">Nama Buku:</label>
-                                                <input name="ebook_name" id="ebook_name" type="text"
+                            </div>
+                            <div class="info-table table-responsive">
+                                <table class="table text-nowrap">
+                                    <tbody>
+                                        <input type="text" name="id_book" id="id_book" value="{{ data.id_book }}"
+                                            hidden>
+                                        <tr class="form-group">
+                                            <label for="book_name">Nama Buku:</label>
+                                            <input name="ebook_name" id="ebook_name" type="text"
                                                 placeholder="Masukan Nama Buku" class="form-control">
-                                            </tr>
+                                        </tr>
 
-                                            <!-- <tr>
+                                        <!-- <tr>
                                                 <label>Kategori Buku:</label>
                                                 <select name="ecategory_book" id="ecategory_book" class="form-control">
                                                     <option value="">Pilih Kategori Buku</option>
@@ -61,51 +62,54 @@
                                                 </select>
                                             </tr> -->
 
-                                            <tr class="form-group">
-                                                <label for="category_book">ID Buku:</label>
-                                                <input name="ecategory_book" id="ecode_book" type="text"
-                                                placeholder="Masukan Kategori Buku" class="form-control">
-                                            </tr>
-                                            
-                                            <tr class="form-group">
-                                                <label for="category_book">Kategori Buku:</label>
-                                                <input name="ecategory_book" id="ecategory_book" type="text"
-                                                placeholder="Masukan Kategori Buku" class="form-control">
-                                            </tr>
+                                        <tr class="form-group">
+                                            <label for="category_book">ID Buku:</label>
+                                            <input name="ecode_book" id="ecode_book" type="text"
+                                                placeholder="Masukan ID Buku" class="form-control">
+                                        </tr>
 
-                                            <tr class="form-group">
-                                                <label for="writer_book">Penulis Buku:</label>
-                                                <input name="ewriter_book" id="ewriter_book" type="text"
+                                        <tr class="form-group">
+                                            <label for="category_book">Kategori Buku:</label>
+                                            <input name="ecategory_book" id="ecategory_book" type="text"
+                                                placeholder="Masukan Kategori Buku" class="form-control">
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label for="writer_book">Penulis Buku:</label>
+                                            <input name="ewriter_book" id="ewriter_book" type="text"
                                                 placeholder="Masukan Penulis Buku" class="form-control">
-                                            </tr>
-                                            
-                                            <tr class="form-group">
-                                                <label for="class">Kelas:</label>
-                                                <input name="eclass_book" id="eclass_book" type="text"
-                                                placeholder="Masukan Kelas" class="form-control">
-                                            </tr>
-                                            
-                                            <tr class="form-group">
-                                                <label>Tanggal diPublish:</label>
-                                                <input name="epublish_date" id="epublish_date" type="date"
-                                                    class="form-control">
-                                            </tr>
-                                            
-                                            <tr class="form-group">
-                                                <label>Tanggal diupload:</label>
-                                                <input name="eupload_date" id="eupload_date" type="date"
-                                                    class="form-control">
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button class="btn btn-warning" id="btn_update_book">Simpan</button>
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label>Kelas *</label>
+                                            <select class="select2" name="eclass_book" id="eclass_book">
+                                                <option value="">Pilih Kelas *</option>
+                                                {% for i in class %}
+                                                <option value="{{i.class}}">{{ i.class }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label>Tanggal diPublish:</label>
+                                            <input name="epublish_date" id="epublish_date" type="date"
+                                                class="form-control">
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label>Tanggal diupload:</label>
+                                            <input name="eupload_date" id="eupload_date" type="date"
+                                                class="form-control">
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-warning" id="btn_update_book">Simpan</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-</div>
-</div>
 </div>
 {% endblock modal %}

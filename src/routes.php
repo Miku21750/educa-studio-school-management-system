@@ -16,6 +16,7 @@ use App\Controller\SubjectController;
 use App\Controller\LibraryController;
 use App\Controller\TransportController;
 use App\Controller\TeacherController;
+use App\Controller\HostelController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -226,6 +227,61 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return TransportController::add_transport($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                }
+            );
+            
+            $app->group(
+                '/hostel',
+                function () use ($app) {
+
+                    $app->get(
+                        '/getHostel',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return HostelController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/hostel-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return HostelController::detail($this, $request, $response, $data);
+                        }
+                    );
+
+                    $app->post(
+                        '/update-hostel-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return HostelController::update_hostel_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/delete-hostel',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return HostelController::delete($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/add-hostel',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return HostelController::add_hostel($this, $request, $response, [
                                 'data' => $data
                             ]);
                         }
@@ -638,7 +694,7 @@ return function (App $app) {
         '/add-book',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'library/add-book.html', $args);
+            return LibraryController::option_book($this, $request, $response, $args);
         }
     )->add(new Auth());
     //end Book
@@ -746,7 +802,7 @@ return function (App $app) {
         '/hostel',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/hostel.html', $args);
+            $container->view->render($response, 'hostel/hostel.html', $args);
         }
     )->add(new Auth());
     //End Hostel
@@ -756,7 +812,38 @@ return function (App $app) {
         '/notice-board',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
+            // return var_dump($dataNotice);
             $container->view->render($response, 'others/notice-board.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getNotice',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataNotice = $container->db->select('tbl_notifications', '*', [
+                'ORDER' => [
+                    'id_notification' => 'DESC'
+                ]
+            ]);
+            // return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/sendNotice',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParsedBody();
+            // return var_dump($dataRequest);
+            $sendNotice = $container->db->insert('tbl_notifications',[
+                'title'=>$dataRequest['title'],
+                'details'=>$dataRequest['details'],
+                'posted_by'=>$dataRequest['UserType'],
+                'terbaca'=>0,
+                'category'=>$dataRequest['category']
+            ]);
+            return $response->withJson(array('success'=>true));
+            // $container->view->render($response, 'others/notice-board.html', $args);
         }
     )->add(new Auth());
     // End Notice
@@ -872,6 +959,8 @@ return function (App $app) {
         '/profile-setting',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
+            // return var_dump($_SESSION['freshAccount']);
+            // $_SESSION['myProfile'] = true;
             $data = $container->db->select('tbl_users', [
                 "[>]tbl_classes" => "id_class",
                 "[>]tbl_hostels" => "id_hostel",
@@ -901,7 +990,8 @@ return function (App $app) {
             ]);
             // return var_dump($data);
             $container->view->render($response, 'others/profile-setting.html', [
-                'data' => $data[0]
+                'data' => $data[0],
+                'myProfile' => true
             ]);
         }
     )->add(new Auth());
@@ -1067,6 +1157,8 @@ return function (App $app) {
                 "id_user" => $data['id_user']
             ]);
             // return var_dump($update);
+            $_SESSION['user'] = '' . $data['first_name'].' '.$data['last_name'];
+            $_SESSION['photo_user'] = $addUpdate;
             return $response->withRedirect('/profile-setting');
         }
     );
@@ -1102,6 +1194,7 @@ return function (App $app) {
     $app->get(
         '/',
         function (Request $request, Response $response, array $args) use ($container) {
+            // return var_dump($_SESSION);
             // Render index view
             $type = $_SESSION['type'];
             $type_user = $_SESSION['type_user'];

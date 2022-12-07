@@ -18,7 +18,7 @@ class TransportController{
 
         // var_dump($data);
 
-        $app->view->render($response, 'library/all-transport.html', [
+        $app->view->render($response, 'transport/all-transport.html', [
             'data' =>  $data,
             'id_transport' => $id_transport,
         ]);
