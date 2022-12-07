@@ -27,49 +27,55 @@
                     <div class="row">
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>Subject Name *</label>
-                            <input type="text" placeholder="" class="form-control">
+                            <input type="text" name="subjectname" id="subject_name" placeholder="" class="form-control">
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>Subject Type *</label>
-                            <select class="select2">
-                                <option value="">Please Select</option>
-                                {% for result in result %}
-                                <option value="{{result.subject_type}}">{{result.subject_type}}</option>
-                                <!-- <option value="2">English</option>
-                                <option value="3">Mathematics</option>
-                                <option value="3">Economics</option>
-                                <option value="3">Chemistry</option> -->
-                                {% endfor %}
+                            <select class="select2" name="subjecttype" id="subject_type">
+                                <option value="0">Please Select</option>
+
+                                {# {% for subjectT in subjectType %} #}
+                                <!-- <option value="{{subjectT}}">{{subjectT}}</option> -->
+                                <option value="Practice">Practice</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Theory">Theory</option>
+                                <!-- <option value="3">Chemistry</option> -->
+
+                                {# {% endfor %} #}
                             </select>
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>Select Class *</label>
-                            <select class="select2">
+                            <select class="select2" name="idclass" id="id_class">
                                 <option value="0">Please Select</option>
-                                {% for result in result %}
-                                <option value="{{result.class}}">{{result.class}}</option>
-                                <!-- <option value="2">Nursery</option>
-                                <option value="3">One</option>
-                                <option value="3">Two</option>
-                                <option value="3">Three</option> -->
-                                {% endfor %}
+                                {# {% for result in result %} #}
+                                <!-- <option value="{{result.class}}">{{result.class}}</option> -->
+                                <option value="1">X</option>
+                                <option value="2">XI</option>
+                                <option value="3">XII</option>
+                                <!-- <option value="3">Three</option> -->
+                                {# {% endfor %} #}
                             </select>
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Select Code</label>
-                            <select class="select2">
+                            <label>ID Teacher</label>
+                            <select class="select2" name="idteacher" id="id_teacher">
                                 <option value="0">Please Select</option>
-                                <option value="1">00524</option>
-                                <option value="2">00525</option>
-                                <option value="3">00526</option>
+                                {% for teacher in teacher %}
+                                <option value="{{teacher.id_user}}">{{teacher.first_name}} {{teacher.last_name}}
+                                </option>
+                                <!-- <option value="2">00525</option> -->
+                                <!-- <option value="3">00526</option>
                                 <option value="3">00527</option>
-                                <option value="3">00528</option>
+                                <option value="3">00528</option> -->
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="col-12 form-group mg-t-8">
-                            <button type="submit"
-                                class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
-                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                            <button type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
+                                id="add_subject">Save</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow"
+                                id="reset">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -112,20 +118,20 @@
                     </div>
                 </form> -->
                 <div class="table-box-wrap">
-                    <table class="table text-nowrap" id="subject">
+                    <table class="display" id="subject">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Subject Name</th>
                                 <th>Subject Type</th>
                                 <th>Class</th>
-                                <th>Date</th>
                                 <th></th>
+                                <!-- <th></th> -->
                             </tr>
                         </thead>
-                        <tbody>
-                            {% for result in result %}
-                            <tr>
+                        <tbody id="show_subject">
+                            {# {% for result in result %} #}
+                            <!-- <tr>
                                 <td>
                                     <div class="form-check">
                                         <input type="checkbox" class="form-check-input">
@@ -152,8 +158,8 @@
                                         </div>
                                     </div>
                                 </td>
-                            </tr>
-                            {% endfor %}
+                            </tr> -->
+                            {# {% endfor %} #}
                             <!-- <tr>
                                 <td>
                                     <div class="form-check">
@@ -356,131 +362,372 @@
             </div>
         </div>
     </div>
+
+    <!-- MODAL DELETE -->
+    <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog success-modal-content" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="success-message">
+                        <input type="hidden" name="kode" id="textkode" value="" hidden>
+                        <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="footer-btn bg-linkedin" id="btn_remove_subject">Ok</button>
+                    <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL UPDATE -->
+    <div class="modal fade" id="detail_subject" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Subject</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card ui-tab-card">
+                    <div class="card-body">
+                        <div class="single-info-details">
+                            <div class="item-content">
+                                <div class="header-inline item-header">
+                                    <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
+
+                                </div>
+                                <div class="info-table table-responsive">
+                                    <table class="table text-nowrap">
+                                        <tbody>
+                                            <input type="text" name="id_subject" id="id_subject"
+                                                value="{{result.id_subject}}" hidden>
+                                            <tr class="form-group">
+                                                <label>Subject Name </label>
+                                                <input type="text" name="subjectname" id="subject_nameU" placeholder=""
+                                                    class="form-control">
+                                            </tr>
+
+                                            <tr class="form-group">
+                                                <label>Subject Type</label>
+                                                <select class="form-control form-control-lg" name="subjecttype"
+                                                    id="subject_typeU">
+                                                    <option value="0">Please Select</option>
+                                                    <option value="Practice">Practice</option>
+                                                    <option value="Mathematics">Mathematics</option>
+                                                    <option value="Theory">Theory</option>
+                                                </select>
+                                            </tr>
+
+                                            <tr class="form-group">
+                                                <label>Select Class</label>
+                                                <select class="form-control form-control-lg" name="idclass"
+                                                    id="id_classU">
+                                                    <option value="0">Please Select</option>
+                                                    {# {% for result in result %} #}
+                                                    <!-- <option value="{{result.class}}">{{result.class}}</option> -->
+                                                    <option value="1">X</option>
+                                                    <option value="2">XI</option>
+                                                    <option value="3">XII</option>
+                                                    <!-- <option value="3">Three</option> -->
+                                                    {# {% endfor %} #}
+                                                </select>
+                                            </tr>
+
+                                            <tr class="form-group">
+                                                <label>ID Teacher</label>
+                                                <select class="form-control form-control-lg" name="idteacher"
+                                                    id="id_teacherU">
+                                                    <option value="0">Please Select</option>
+                                                    {% for teacher in teacher %}
+                                                    <option value="{{teacher.id_user}}">{{teacher.first_name}}
+                                                        {{teacher.last_name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <button class="btn btn-warning" id="btn_update_subject">Simpan</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 </div>
 <!-- All Subjects Area End Here -->
 
-<script src="text/javascript">
+
+<script>
 
 
-    $(document).ready(function () {
-        Tabel1Show = function () {
 
-            table = $("#subject").on('preXhr.dt', function (e, settings, data) {
+    initTable = function () {
 
-                console.log('loading ....');
+        table = $("#subject").on('preXhr.dt', function (e, settings, data) {
 
-            }).on('draw.dt', function () {
-                console.log('dapat data ....');
+            console.log('loading ....');
 
-            }).DataTable({
-                responsive: {
-                    details: {
-                        type: 'column'
-                    }
-                },
-                "columnDefs": [
-                    { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-                    { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
-                    { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
-                    { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
-                    // { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+        }).on('draw.dt', function () {
+            console.log('dapat data ....');
 
-                ],
-                'pageLength': 10,
-                'responsive': true,
-                'processing': true,
-                'serverSide': true,
-                'ajax': {
-                    'url': "/api"+"/allsubject",
-                    'dataType:': 'json',
-                    'type': 'get',
-
-                },
-                'columns': [
-                    { 'data': 'id_subject' },
-                    { 'data': 'subject_name' },
-                    { 'data': 'subject_type' },
-                    { 'data': 'class' },
-                    // { 'data': 'pekerjaan' },
-                    // { 'data': 'alamat' },
-
-                ]
+        }).DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            "columnDefs": [
+                { "width": "5%", "targets": 0, className: "text-center", "orderable": false },
+                { "width": "25%", "targets": 1, className: "text-start", "orderable": false },
+                { "width": "30%", "targets": 2, className: "text-start", "orderable": false },
+                { "width": "20%", "targets": 3, className: "text-start", "orderable": false },
+                { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+                // { "width": "10%", "targets": 5, className: "text-start", "orderable": false },
 
 
-            });
 
-        }
-        Tabel1Show();
+            ],
+            'pageLength': 10,
+            'processing': true,
+            'serverSide': true,
+            'select': true,
+            'responsive': true,
+            'ajax': {
+                url: "/api" + "/allsubject",
+                type: 'GET',
+            },
+            'columns': [
+                { 'data': 'ID' },
+                { 'data': 'subject_name' },
+                { 'data': 'subject_type' },
+                { 'data': 'class' },
+                { 'data': '' },
+                // { 'data': '' },
+            ],
+        });
 
+    }
+
+    initTable();
+
+
+    //ADD SUBJECT 
+    $('#add_subject').on('click', function () {
+        var subject_name = $('#subject_name').val();
+        var subject_type = $('#subject_type').val();
+        var id_class = $('#id_class').val();
+        var id_teacher = $('#id_teacher').val();
+        $.ajax({
+            type: "POST",
+            url: "/api" + "/addsubject",
+            dataType: "JSON",
+            data: { subject_name: subject_name, subject_type: subject_type, id_class: id_class, id_teacher: id_teacher },
+            success: function (data) {
+                if (data) {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Memuat Data...',
+                        html: 'Tunggu  <b></b>  Detik.',
+                        timer: 300,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        $('#subject_type').val('').change();
+                        $('#id_class').val('').change();
+                        $('#id_teacher').val('').change();
+                        $('#subject_name').val('');
+                        Swal.fire(
+                            {
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Data telah ditambahkan.',
+                                //footer: '<a href="">Why do I have this issue?</a>'
+                            }
+
+                        )
+                        $('#addModal').modal('hide');
+                    });
+
+                    table.draw(false)
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ada yang eror!'
+                    })
+                }
+
+            }
+        });
+        return false;
+    });
+
+    // RESET BUTTON
+    $('#reset').click(function (e) {
+        e.preventDefault();
+        $('#subject_type').val('').change();
+        $('#id_class').val('').change();
+        $('#id_teacher').val('').change();
+        $('#subject_name').val('');
 
     });
 
-    //GET Details
-    // function dateFormat(inputDate, format) {
-    //     //parse the input date
-    //     const date = new Date(inputDate);
+    // DELETE SUBJECT
+    // GET
+    $('#show_subject').on('click', '.subject_remove', function () {
+        var id = $(this).attr('data');
+        $('#confirmation-modal').modal('show');
+        $('[name="kode"]').val(id);
+        // console.log(id);
+    });
 
-    //     //extract the parts of the date
-    //     const day = date.getDate();
-    //     const month = date.getMonth() + 1;
-    //     const year = date.getFullYear();
+    // DELETE
+    $('#btn_remove_subject').on('click', function () {
+        var kode = $('#textkode').val();
+        $.ajax({
+            type: "POST",
+            url: "/api" + "/deletesubject",
+            dataType: "JSON",
+            data: { kode: kode },
+            success: function (data) {
+                if (data) {
+                    $('#confirmation-modal').modal('hide');
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Memuat Data...',
+                        html: 'Tunggu  <b></b>  Detik.',
+                        timer: 300,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        Swal.fire(
+                            {
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Data telah dihapus.',
+                            }
+                        )
+                    })
+                    table.draw(false)
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ada yang eror!',
+                    })
+                }
+            }
+        });
+        return false;
+    });
 
-    //     //replace the month
-    //     format = format.replace("MM", month.toString().padStart(2, "0"));
+    // UPDATE SUBJECT
+    $('#show_subject').on('click', '.subject_detail', function () {
+        var id = $(this).attr('data');
+        // $('#detail_subject').modal('show');
+        $.ajax({
+            type: "GET",
+            url: "/api" + "/subject/" + id + "/subject-detail",
+            dataType: "JSON",
+            data: { id_subject: id },
+            success: function (data) {
+                $('#detail_subject').modal('show');
+                $('[name="id_subject"]').val(data.id_subject);
+                $('[name="subjectname"]').val(data.subject_name);
+                $('[name="subjecttype"]').val(data.subject_type);
+                $('[name="idclass"]').val(data.id_class);
+                $('[name="idteacher"]').val(data.id_teacher);
+            }
+        });
+        return false;
+        console.log(id);
+    });
 
-    //     //replace the year
-    //     if (format.indexOf("yyyy") > -1) {
-    //         format = format.replace("yyyy", year.toString());
-    //     } else if (format.indexOf("yy") > -1) {
-    //         format = format.replace("yy", year.toString().substr(2, 2));
-    //     }
+    $('#btn_update_subject').click(function (e) {
+        var id_subject = $('#id_subject').val();
+        var subject_name = $('#subject_nameU').val();
+        var subject_type = $('#subject_typeU').val();
+        var id_class = $('#id_classU').val();
+        var id_teacher = $('#id_teacherU').val();
 
-    //     //replace the day
-    //     format = format.replace("dd", day.toString().padStart(2, "0"));
-
-    //     return format;
-    // }
-
-    // $('#show_data').on('click', '.item_detail', function () {
-    //     var id = $(this).attr('data');
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "/" + "api" + "/" + id + "/detail",
-    //         dataType: "JSON",
-    //         data: { id: id },
-    //         success: function (data) {
-    //             $.each(data, function (id_user, first_name, email, last_name, short_bio, gender, date_of_birth,
-    //                 religion) {
-    //                 $('#large-modal').modal('show');
-    //                 $('[name="bio"]').html(data[0].short_bio);
-    //                 $('[name="first_name"]').html(data[0].first_name + ' ' + data[0].last_name);
-    //                 $('[name="email"]').html(data[0].email);
-    //                 $('[name="gender"]').html(data[0].gender);
-    //                 $('[name="date_of_birth"]').html(dateFormat(data[0].date_of_birth, 'dd-MM-yyyy'));
-    //                 $('[name="religion"]').html(data[0].religion);
-    //                 $('[name="username"]').html(data[0].username);
-    //                 $('[name="blood_group"]').html(data[0].blood_group);
-    //                 $('[name="occupation"]').html(data[0].occupation);
-    //                 $('[name="address_user"]').html(data[0].address_user);
-    //                 $('[name="phone_user"]').html(data[0].phone_user);
-    //                 $('[name="ebio"]').val(data[0].short_bio);
-    //                 $('[name="efirst_name"]').val(data[0].first_name);
-    //                 $('[name="elast_name"]').val(data[0].last_name);
-    //                 $('[name="eemail"]').val(data[0].email);
-    //                 $('[name="egender"]').val(data[0].gender);
-    //                 $('[name="edate_of_birth"]').val(data[0].date_of_birth);
-    //                 $('[name="ereligion"]').val(data[0].religion);
-    //                 $('[name="eusername"]').val(data[0].username);
-    //                 $('[name="eblood_group"]').val(data[0].blood_group);
-    //                 $('[name="eoccupation"]').val(data[0].occupation);
-    //                 $('[name="eaddress_user"]').val(data[0].address_user);
-    //                 $('[name="ephone_user"]').val(data[0].phone_user);
-    //             });
-    //         }
-    //     });
-    //     return false;
-    // });
-
+        $.ajax({
+            type: "POST",
+            url: "/api" + "/updatesubject",
+            dataType: "JSON",
+            data: { id_subject: id_subject, subject_name: subject_name, subject_type: subject_type, id_class: id_class, id_teacher: id_teacher },
+            success: function (data) {
+                if (data) {
+                    $('#detail_subject').modal('hide');
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Memuat Data...',
+                        html: 'Tunggu  <b></b>  Detik.',
+                        timer: 300,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        Swal.fire(
+                            {
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Data telah diubah.',
+                                //footer: '<a href="">Why do I have this issue?</a>'
+                            }
+                        )
+                    })
+                    table.draw(false)
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ada yang eror!',
+                    })
+                }
+            }
+        });
+        return false;
+    });
 
 
 
