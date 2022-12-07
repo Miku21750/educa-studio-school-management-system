@@ -5,9 +5,10 @@ namespace App\Controller;
 class ClassController
 {
 
-    public function getTeacherModel($app, $request, $response, $args)
+    public function getTeacherMod($app, $request, $response, $args)
     {
         $response = $app->db->select("tbl_users", [
+            "id_user",
             "first_name",
             "last_name",
             "NISN",
@@ -18,57 +19,51 @@ class ClassController
         ], [
             "id_user_type" => 2,
         ]);
-
         return $response;
 
     }
 
-    public function getClassModel($app, $request, $response, $args)
+    public function getClassAndSectionsMod($app, $request, $response, $args)
     {
-        $response = $app->db->select("tbl_classes", "*" );
-
-        return $response;
-
-    }
-
-    public function getSectionModel($app, $request, $response, $args)
-    {
-        $response = $app->db->select("tbl_sections", "*" );
-
-        return $response;
-
-    }
-
-    public static function getClass($app, $request, $response, $args)
-    {
-        $response = $app->db->select("tbl_users", [
-            "first_name",
-            "last_name",
-            "NISN",
-            "gender",
-            "phone_user",
-            "email",
-
+        $response = $app->db->select('tbl_classes', [
+            "[>]tbl_sections" => "id_section",
         ], [
-            "id_user_type" => 2,
+            "id_class",
+            "class",
+            "section",
+        ]);
+
+        return $response;
+    }
+
+    public function getSubjectMod($app, $request, $response, $args)
+    {
+        $response = $app->db->select("tbl_subjects", [
+            "id_subject",
+            "subject_name",
+
         ]);
 
         return $response;
 
     }
 
-    public static function insertClass($app, $request, $response, $args)
+    public static function insertClassRoutine($app, $request, $response, $args)
     {
 
     }
 
     public static function viewAddClass($app, $request, $response, $args)
     {
-
-        return var_dump(ClassController::getSectionModel($app, $request, $response, $args));
+        $dataGuru = ClassController::getTeacherMod($app, $request, $response, $args);
+        $dataKelasSection = ClassController::getClassAndSectionsMod($app, $request, $response, $args);
+        $dataSubject = ClassController::getSubjectMod($app, $request, $response, $args);
 
         $app->view->render($response, 'class/add-class.html', [
             'test' => 'test',
+            'dataguru' => $dataGuru,
+            'dataKelasSection' => $dataKelasSection,
+            'dataSubject' => $dataSubject,
 
         ]);
 
