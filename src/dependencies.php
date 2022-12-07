@@ -2,6 +2,7 @@
 
 use Slim\App;
 use Medoo\Medoo;
+use App\Controller\DbController;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -23,6 +24,37 @@ return function (App $app) {
     
     // add upload dir
     $container['upload_directory'] = getcwd() . '/uploads/Profile';
+
+    //add db public
+    // return var_dump($_SESSION);
+    if(isset($_SESSION['user'])){
+        $container['auth'] = function ($app) {
+            // Add message for navbar
+            $message = $app->db->select('tbl_messages(m)', [
+                '[>]tbl_users' => 'id_user'
+            ], [
+                'id_message',
+                'totalMessage'=> Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '".$_SESSION['username']."')"),
+                'id_user',
+                'receiver_email',
+                'sender_email',
+                'title',
+                'message',
+                'readed',
+                'photo_sender'=>Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
+                'first_name_sender'=>Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
+                'last_name_sender'=>Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
+                'time_sended'
+            ], [
+                'username' => $_SESSION['username']
+            ]);
+            // return die(var_dump($message));
+            return $message;
+
+            //countMessage
+        };
+    };
+
     $container['view'] = function ($container) {
         $view = new \Slim\Views\Twig('../templates', [
             'cache' => false
@@ -30,6 +62,11 @@ return function (App $app) {
         //add global session
         $environment = $view->getEnvironment();
         $environment->addGlobal('session', $_SESSION);
+        if(isset($_SESSION['user'])){
+            $environment->addGlobal('auth', $container->auth);
+        }
+        // return var_dump(auth);
+
 
         $router = $container->get('router');
         $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
