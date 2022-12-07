@@ -133,7 +133,7 @@
             <form action="/editDataProfile" method="post" class="new-added-form" enctype="multipart/form-data">
             <div class="item-img">
                 {# <img src="img/figure/student1.jpg" alt="student" /> #}
-                <input type="text" value="{{data.photo_user}}" name ="imageDefault" >
+                <input type="text" value="{{data.photo_user}}" name ="imageDefault" hidden>
                     <div class="avatar-upload">
                         <div class="avatar-edit">
                             <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg"/>

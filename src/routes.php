@@ -714,7 +714,38 @@ return function (App $app) {
         '/notice-board',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
+            // return var_dump($dataNotice);
             $container->view->render($response, 'others/notice-board.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getNotice',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataNotice = $container->db->select('tbl_notifications', '*', [
+                'ORDER' => [
+                    'id_notification' => 'DESC'
+                ]
+            ]);
+            // return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/sendNotice',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParsedBody();
+            // return var_dump($dataRequest);
+            $sendNotice = $container->db->insert('tbl_notifications',[
+                'title'=>$dataRequest['title'],
+                'details'=>$dataRequest['details'],
+                'posted_by'=>$dataRequest['UserType'],
+                'terbaca'=>0,
+                'category'=>$dataRequest['category']
+            ]);
+            return $response->withJson(array('success'=>true));
+            // $container->view->render($response, 'others/notice-board.html', $args);
         }
     )->add(new Auth());
     // End Notice
@@ -830,6 +861,8 @@ return function (App $app) {
         '/profile-setting',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
+            // return var_dump($_SESSION['freshAccount']);
+            // $_SESSION['myProfile'] = true;
             $data = $container->db->select('tbl_users', [
                 "[>]tbl_classes" => "id_class",
                 "[>]tbl_hostels" => "id_hostel",
@@ -859,7 +892,8 @@ return function (App $app) {
             ]);
             // return var_dump($data);
             $container->view->render($response, 'others/profile-setting.html', [
-                'data' => $data[0]
+                'data' => $data[0],
+                'myProfile' => true
             ]);
         }
     )->add(new Auth());
@@ -1026,6 +1060,8 @@ return function (App $app) {
                 "id_user" => $data['id_user']
             ]);
             // return var_dump($update);
+            $_SESSION['user'] = '' . $data['first_name'].' '.$data['last_name'];
+            $_SESSION['photo_user'] = $addUpdate;
             return $response->withRedirect('/profile-setting');
         }
     );
@@ -1061,6 +1097,7 @@ return function (App $app) {
     $app->get(
         '/',
         function (Request $request, Response $response, array $args) use ($container) {
+            // return var_dump($_SESSION);
             // Render index view
             $type = $_SESSION['type'];
             $type_user = $_SESSION['type_user'];
