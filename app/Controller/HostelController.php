@@ -5,37 +5,37 @@ use Medoo\medoo;
 
 
 
-class TransportController{
+class HostelController{
 
     public static function index($app, $request, $response, $args)
     {
-        $id_transport = $args['id_transport'];
+        $id_hostel = $args['id_hostel'];
         // return var_dump($id_parent);
 
 
 
-        $data = $app->db->select('tbl_transports', '*');
+        $data = $app->db->select('tbl_hostel', '*');
 
         // var_dump($data);
 
-        $app->view->render($response, 'transport/all-transport.html', [
+        $app->view->render($response, 'hostel/all-hostel.html', [
             'data' =>  $data,
-            'id_transport' => $id_transport,
+            'id_hostel' => $id_hostel,
         ]);
     }
 
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
-        $transport = $app->db->select(
-            'tbl_transports',
+        $hostel = $app->db->select(
+            'tbl_hostel',
             '*'
         );
-        // return var_dump($transport);
+        // return var_dump($hostel);
 
      
 
-        $totaldata = count($transport);
+        $totaldata = count($hostel);
         $totalfiltered = $totaldata;
         $limit = $req->getParam('length');
         $start = $req->getParam('start');
@@ -51,33 +51,33 @@ class TransportController{
             $search = $req->getParam('search')['value'];
             $limit = [
                 "LIMIT" => [$start, $limit],
-                // 'id_transport_type' => $type,
+                // 'id_hostel_type' => $type,
 
             ];
             $conditions['OR'] = [
-                'tbl_transports.route_name[~]' => '%' . $search . '%',
-                'tbl_transports.vehicle_number[~]' => '%' . $search . '%',
-                'tbl_transports.driver_name[~]' => '%' . $search . '%',
-                'tbl_transports.license_number[~]' => '%' . $search . '%',
-                'tbl_transports.phone_number[~]' => '%' . $search . '%',
+                'tbl_hostel.route_name[~]' => '%' . $search . '%',
+                'tbl_hostel.vehicle_number[~]' => '%' . $search . '%',
+                'tbl_hostel.driver_name[~]' => '%' . $search . '%',
+                'tbl_hostel.license_number[~]' => '%' . $search . '%',
+                'tbl_hostel.phone_number[~]' => '%' . $search . '%',
 
             ];
-            $transport = $app->db->select(
-                'tbl_transports',
+            $hostel = $app->db->select(
+                'tbl_hostel',
                 '*',
                 $limit
             );
-            $totaldata = count($transport);
+            $totaldata = count($hostel);
             $totalfiltered = $totaldata;
         }
 
-        $transport = $app->db->select('tbl_transports', '*', $conditions);
+        $hostel = $app->db->select('tbl_hostel', '*', $conditions);
 
         $data = array();
 
-        if (!empty($transport)) {
+        if (!empty($hostel)) {
             $no = $req->getParam('start') + 1;
-            foreach ($transport as $m) {
+            foreach ($hostel as $m) {
 
                 $datas['No'] = $no . '.';
                 $datas['route_name'] = $m['route_name'];
@@ -92,11 +92,11 @@ class TransportController{
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item transport_remove" data="' . $m['id_transport'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+                    <a class="dropdown-item hostel_remove" data="' . $m['id_hostel'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
                     data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
                             Hapus
                         </button></a>
-                    <a class="btn dropdown-item transport_detail" data="' . $m['id_transport'] . '" ><button type="button" id="show_transport"  class="btn btn-light"  data-toggle="modal" data-target="detail_transport"><i
+                    <a class="btn dropdown-item hostel_detail" data="' . $m['id_hostel'] . '" ><button type="button" id="show_hostel"  class="btn btn-light"  data-toggle="modal" data-target="detail_hostel"><i
                             class="fas fa-edit text-dark-pastel-green"></i>
                             Ubah
                         </button></a>
@@ -106,8 +106,8 @@ class TransportController{
                 $no++;
             }
         }
-        // return var_dump($transport);
-        // return var_dump($transport);
+        // return var_dump($hostel);
+        // return var_dump($hostel);
 
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
@@ -120,13 +120,13 @@ class TransportController{
         echo json_encode($json_data);
     }
 
-    public static function detail($app, $request, $response, $id_transport)
+    public static function detail($app, $request, $response, $id_hostel)
     {
-        // $id_transport = $data;
-        // var_dump($id_transport);
+        // $id_hostel = $data;
+        // var_dump($id_hostel);
 
-        $data = $app->db->get('tbl_transports', [
-            "id_transport",
+        $data = $app->db->get('tbl_hostel', [
+            "id_hostel",
             "route_name",
             "vehicle_number",
             "driver_name",
@@ -134,7 +134,7 @@ class TransportController{
             "phone_number",
             "id_driver",
         ], [
-            'id_transport' => $id_transport
+            'id_hostel' => $id_hostel
         ]);
         // return var_dump($data);
         $json_data = array(
@@ -152,8 +152,8 @@ class TransportController{
         $id = $args['data'];
 
 
-        $del = $app->db->delete('tbl_transports', [
-            "id_transport" => $id
+        $del = $app->db->delete('tbl_hostel', [
+            "id_hostel" => $id
         ]);
 
         // return $rsp->withJson($del);
@@ -164,11 +164,11 @@ class TransportController{
         echo json_encode($json_data);
     }
 
-    public static function update_transport_detail($app, $request, $response, $args)
+    public static function update_hostel_detail($app, $request, $response, $args)
     {
         $data = $args['data'];
         
-        $update = $app->db->update('tbl_transports', [
+        $update = $app->db->update('tbl_hostel', [
             "route_name" => $data['route_name'],
             "vehicle_number" => $data['vehicle_number'],
             "driver_name" => $data['driver_name'],
@@ -176,7 +176,7 @@ class TransportController{
             "phone_number" => $data['phone_number'],
             "id_driver" => $data['id_driver']
         ], [
-            "id_transport" => $data['id_transport']
+            "id_hostel" => $data['id_hostel']
         ]);
         // return var_dump($update);
 
@@ -188,12 +188,12 @@ class TransportController{
         // return var_dump($update);
     }
 
-    public static function add_transport($app, $req, $rsp, $args)
+    public static function add_hostel($app, $req, $rsp, $args)
     {
         $data = $args['data'];
         // return var_dump($data);
         
-        $data = $app->db->insert('tbl_transports', [
+        $data = $app->db->insert('tbl_hostel', [
             "route_name" => $data['route_name'],
             "vehicle_number" => $data['vehicle_number'],
             "driver_name" => $data['driver_name'],

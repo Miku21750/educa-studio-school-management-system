@@ -16,6 +16,7 @@ use App\Controller\SubjectController;
 use App\Controller\LibraryController;
 use App\Controller\TransportController;
 use App\Controller\TeacherController;
+use App\Controller\HostelController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -212,6 +213,61 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return TransportController::add_transport($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                }
+            );
+            
+            $app->group(
+                '/hostel',
+                function () use ($app) {
+
+                    $app->get(
+                        '/getHostel',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return HostelController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/hostel-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return HostelController::detail($this, $request, $response, $data);
+                        }
+                    );
+
+                    $app->post(
+                        '/update-hostel-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return HostelController::update_hostel_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/delete-hostel',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return HostelController::delete($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/add-hostel',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return HostelController::add_hostel($this, $request, $response, [
                                 'data' => $data
                             ]);
                         }
@@ -704,7 +760,7 @@ return function (App $app) {
         '/hostel',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/hostel.html', $args);
+            $container->view->render($response, 'hostel/hostel.html', $args);
         }
     )->add(new Auth());
     //End Hostel
