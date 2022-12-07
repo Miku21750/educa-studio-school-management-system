@@ -1,5 +1,8 @@
 {% block nav %} {# starter div #}
 
+<script>
+  var countMessage;
+</script>
 <!-- Header Menu Area Start Here -->
 <div class="navbar navbar-expand-md header-menu-one bg-light">
   <div class="nav-bar-header-one">
@@ -118,13 +121,13 @@
           <i class="far fa-envelope"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Message</div>
           {# Jumlah total message #}
-          <span>{{countMessage}}</span>
+          <span id="iconCountMessage">{{countMessag}}</span>
         </a>
 
         <div class="dropdown-menu dropdown-menu-right">
           <div class="item-header">
             {# Jumlah total message #}
-            <h6 class="item-title">{{countMessage}} Message</h6>
+            <h6 class="item-title" id="countMessage"> Message</h6>
           </div>
           <div class="item-content">
             {# message start here #}
@@ -144,7 +147,9 @@
                 </p>
               </div>
             </div> #}
-            {% for message in message %}
+            {# {{auth|json_encode()}} #}
+            {% for message in auth %}
+            {% set countMessag = message.totalMessage %}
             {% if message.readed == 1 %}
             <div class="media message_Class" data-idMessage="{{message.id_message}}">
               {% else %}
@@ -157,7 +162,7 @@
                 <div class="item-title">
                   <a href="#">
                     <span class="item-name">{{message.first_name_sender}} {{message.last_name_sender}}</span>
-                    <span class="item-time">{{message.time_sender|date("m/d/Y")}}</span>
+                    <span class="item-time">{{message.time_sender|date("m/d/Y")}} {{message.totalMessage}}</span>
                   </a>
                 </div>
                 <h3>{{message.title}}</h3>
@@ -166,6 +171,12 @@
                 </p>
               </div>
             </div>
+                  
+            <script>
+              
+              countMessage = {{countMessag}};
+              //console.log(countMessage);  
+            </script>
             {% endfor %}
             {# message end here #}
           </div>
@@ -244,7 +255,10 @@
 </div>
 <!-- Header Menu Area End Here -->
 <script>
-  $(document).ready(function () {        
+  $(document).ready(function () {      
+    console.log(countMessage)
+    $('#iconCountMessage').html(countMessage);
+    $('#countMessage').html(''+countMessage+' Message');
     $('.message_Class').click(function (e) { 
         e.preventDefault();
         var id = $(this).attr('data-idMessage');

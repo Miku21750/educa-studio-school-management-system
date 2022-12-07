@@ -1,29 +1,24 @@
 <?php
 
 namespace App\Controller;
-use Medoo\medoo;
 
-
-
-class LibraryController{
+class LibraryController
+{
 
     public static function index($app, $request, $response, $args)
     {
         $id_book = $args['id_book'];
         // return var_dump($id_parent);
 
-
-
         $data = $app->db->select('tbl_books', '*');
 
         // var_dump($data);
 
         $app->view->render($response, 'library/all-book.html', [
-            'data' =>  $data,
+            'data' => $data,
             'id_book' => $id_book,
         ]);
     }
-
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
@@ -33,14 +28,10 @@ class LibraryController{
         );
         // return var_dump($book);
 
-     
-
         $totaldata = count($book);
         $totalfiltered = $totaldata;
         $limit = $req->getParam('length');
         $start = $req->getParam('start');
-      
-
 
         $conditions = [
             "LIMIT" => [$start, $limit],
@@ -82,8 +73,8 @@ class LibraryController{
             foreach ($book as $m) {
 
                 $datas['No'] = $no . '.';
-                $datas['book_code'] = $m['code_book'];
-                $datas['book_name'] = $m['name_book'];
+                $datas['code_book'] = $m['code_book'];
+                $datas['name_book'] = $m['name_book'];
                 $datas['subject'] = $m['category_book'];
                 $datas['writer'] = $m['writer_book'];
                 $datas['class'] = $m['class_book'];
@@ -113,10 +104,10 @@ class LibraryController{
         // return var_dump($book);
 
         $json_data = array(
-            "draw"            => intval($req->getParam('draw')),
-            "recordsTotal"    => intval($totaldata),
+            "draw" => intval($req->getParam('draw')),
+            "recordsTotal" => intval($totaldata),
             "recordsFiltered" => intval($totalfiltered),
-            "data"            => $data
+            "data" => $data,
         );
         // return var_dump($data);
         // return var_dump($json_data);
@@ -138,13 +129,13 @@ class LibraryController{
             "upload_date",
             "code_book",
         ], [
-            'id_book' => $id_book
+            'id_book' => $id_book,
         ]);
         // return var_dump($data);
         $json_data = array(
-            'data' => $data
+            'data' => $data,
         );
-
+        unset($_SESSION['berhasil']);
         return $response->withJson($data);
 
         // return var_dump($json_data);
@@ -155,14 +146,13 @@ class LibraryController{
     {
         $id = $args['data'];
 
-
         $del = $app->db->delete('tbl_books', [
-            "id_book" => $id
+            "id_book" => $id,
         ]);
 
         // return $rsp->withJson($del);
         $json_data = array(
-            "draw"            => intval($req->getParam('draw')),
+            "draw" => intval($req->getParam('draw')),
         );
 
         echo json_encode($json_data);
@@ -171,21 +161,21 @@ class LibraryController{
     public static function update_book_detail($app, $request, $response, $args)
     {
         $data = $args['data'];
-        
+
         $update = $app->db->update('tbl_books', [
-            "name_book" => $data['book_name'],
-            "category_book" => $data['book_category'],
-            "writer_book" => $data['book_writer'],
-            "class_book" => $data['book_class'],
+            "name_book" => $data['name_book'],
+            "category_book" => $data['category_book'],
+            "writer_book" => $data['writer_book'],
+            "class_book" => $data['class_book'],
             "publish_date" => $data['publish_date'],
             "upload_date" => $data['upload_date'],
-            "code_book" => $data['code_book']
+            "code_book" => $data['code_book'],
         ], [
-            "id_book" => $data['id_book']
+            "id_book" => $data['id_book'],
         ]);
 
         $json_data = array(
-            "draw"            => intval($request->getParam('draw')),
+            "draw" => intval($request->getParam('draw')),
         );
         echo json_encode($json_data);
 
@@ -197,7 +187,7 @@ class LibraryController{
     {
         $data = $args['data'];
         // return var_dump($data);
-        
+
         $data = $app->db->insert('tbl_books', [
             "name_book" => $data['name_book'],
             "category_book" => $data['category_book'],
@@ -208,7 +198,29 @@ class LibraryController{
             "code_book" => $data['code_book'],
         ]);
         // return var_dump($data);
-        $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/add-book');
+        // $_SESSION['berhasil'] = true;
+        // unset($_SESSION['berhasil']);
+        // return $rsp->withRedirect('/add-book');
+
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
+
+        $app->view->render($rsp, 'library/add-book.html', [
+            'class' => $class,
+            'type' => $_SESSION['type'],
+            'berhasil' => $berhasil,
+        ]);
+    }
+
+    public static function option_book($app, $req, $rsp, $args)
+    {
+        $class = $app->db->query("SELECT DISTINCT class FROM tbl_classes");
+        $subject = $app->db->query("SELECT DISTINCT subject_name FROM tbl_subjects");
+        return var_dump($subject);
+
+        $app->view->render($rsp, 'library/add-book.html', [
+            'class' => $class,
+            'subject' => $subject,
+        ]);
     }
 }

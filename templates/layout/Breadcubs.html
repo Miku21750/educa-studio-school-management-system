@@ -1,13 +1,21 @@
-{% block Breadcubs %}
-    <!-- Breadcubs Area Start Here -->
-    <div class="breadcrumbs-area">
-        <h3>Dashboard {{ titleDashboard }} </h3>
-        <ul>
-            <li>
-                <a href="/">Home</a>
-            </li>
-            <li>{{ titleDashboard }}</li>
-        </ul>
-    </div>
-    <!-- Breadcubs Area End Here -->
-{% endblock Breadcubs %}
+{% if (session.freshAccount == true) and (myProfile is not defined)  %}  
+    <div class="alert alert-primary" role="alert">
+        Ayo lengkapi data dirimu <a href="/profile-setting">Disini!</a>
+  </div>
+{% endif %}
+
+<!-- Breadcubs Area Start Here -->
+<div class="breadcrumbs-area">
+    <h3>{{typeFrontEnd }} {{ freshAccount }}</h3>
+    
+    <ul>
+        <li>
+            <a href="/">Home</a>
+        </li>
+        {# {{ section_type }} #}
+        {% if section_type is not null %}
+        <li>{{ section_type }}</li>
+        {% endif %}
+    </ul>
+</div>
+<!-- Breadcubs Area End Here -->

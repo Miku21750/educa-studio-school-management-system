@@ -53,6 +53,10 @@
         <div class="alert alert-success" role="alert">
           Berhasil Verifikasi, silahkan Login
         </div>
+        {% elseif notVericate == true %}
+        <div class="alert alert-danger" role="alert">
+          Silahkan verifikasi email terlebih dahulu, cek email kamu
+        </div>
         {% elseif logout == true %}
         <div class="alert alert-primary" role="alert">Success Logout</div>
         {% elseif changedPass == true %}
@@ -357,6 +361,7 @@
             },
             success: function (response) {
               console.log(response)
+              window.location.reload();
             }
           })
         })
@@ -401,7 +406,7 @@
                   footer : '<a href="/login">Atau login</a>'
                 })
               }else{
-              document.location.href = '/login'
+                 window.location.href = '/login'
               }
             }
           })
