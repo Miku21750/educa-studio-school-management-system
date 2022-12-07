@@ -1,7 +1,7 @@
 {% block modal %}
 
 <!-- Confirmation Hapus Modal -->
-<div class="modal fade" id="confirmation-transport-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="confirmation-hostel-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog success-modal-content" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="footer-btn bg-linkedin" id="btn_remove_transport">Ok</button>
+                <button type="button" class="footer-btn bg-linkedin" id="btn_remove_hostel">Ok</button>
                 <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -24,11 +24,11 @@
 </div>
 
 <!-- Large Modal -->
-<div class="modal fade" id="detail-transport" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="detail-hostel" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Detail transport</h5>
+                <h5 class="modal-title">Detail hostel</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -44,41 +44,40 @@
                             <div class="info-table table-responsive">
                                 <table class="table text-nowrap">
                                     <tbody>
-                                        <input type="text" name="id_transport" id="id_transport"
-                                            value="{{ data.id_transport }}"
-                                             hidden>
+                                        <input type="text" name="id_hostel" id="id_hostel" value="{{ data.id_hostel }}"
+                                            hidden>
                                         <tr class="form-group">
-                                            <label>Rute Kendaraan</label>
-                                            <input type="text" placeholder="" class="form-control" id="eroute_name_edit" name="eroute_name">
+                                            <label>Nama Asrama</label>
+                                            <input type="text" placeholder="" class="form-control" id="ehostel_name_edit" name="ehostel_name">
                                         </tr>
 
                                         <tr class="form-group">
-                                            <label>ID Pengendara</label>
-                                            <input type="text" placeholder="" class="form-control" id="eid_driver_edit" name="eid_driver">
+                                            <label>No Kamar</label>
+                                            <input type="text" placeholder="" class="form-control" id="eroom_number_edit" name="eroom_number">
                                         </tr>
 
                                         <tr class="form-group">
-                                            <label>No Kendaraan</label>
-                                            <input type="text" placeholder="" class="form-control" id="evehicle_number_edit" name="evehicle_number">
+                                            <label>Tipe Kamar</label>
+                                            <select class="select2" id="eroom_type_edit" name="eroom_type">
+                                                <option value="">Silahkan Pilih</option>
+                                                <option value="1">Besar</option>
+                                                <option value="2">Sedang</option>
+                                                <option value="3">Kecil</option>
+                                            </select>
                                         </tr>
 
                                         <tr class="form-group">
-                                            <label>Nama Pengendara</label>
-                                            <input type="text" placeholder="" class="form-control" id="edriver_name_edit" name="edriver_name">
+                                            <label>Nomer Kasur</label>
+                                            <input type="text" placeholder="" class="form-control" id="enumber_of_bed_edit" name="enumber_of_bed">
                                         </tr>
 
                                         <tr class="form-group">
-                                            <label>No SIM</label>
-                                            <input type="text" placeholder="" class="form-control" id="elicense_number_edit" name="elicense_number">
-                                        </tr>
-
-                                        <tr class="form-group">
-                                            <label>No Telp</label>
-                                            <input type="text" placeholder="" class="form-control" id="ephone_number_edit" name="ephone_number">
+                                            <label>Harga Per Kasur</label>
+                                            <input type="text" placeholder="" class="form-control" id="ecost_per_bed_edit" name="ecost_per_bed">
                                         </tr>
                                     </tbody>
                                 </table>
-                                <button class="btn btn-warning" id="btn_update_transport">Simpan</button>
+                                <button class="btn btn-warning" id="btn_update_hostel">Simpan</button>
                             </div>
                         </div>
                     </div>

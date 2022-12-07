@@ -652,7 +652,7 @@ return function (App $app) {
         '/add-book',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'library/add-book.html', $args);
+            return LibraryController::option_book($this, $request, $response, $args);
         }
     )->add(new Auth());
     //end Book
