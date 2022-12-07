@@ -321,6 +321,12 @@ return function (App $app) {
                 }
             );
             $app->get(
+                '/dashboard-teacher',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return DashboardTeacherController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
                 '/allstudents',
                 function (Request $request, Response $response, array $args) use ($app) {
                     return StudentController::tampil_data($this, $request, $response, $args);
@@ -362,6 +368,26 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return StudentController::add_student($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/add-promotion',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return StudentController::add_promotion($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/admission/{id}',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return StudentController::add_admission($this, $request, $response, [
                         'data' => $data
                     ]);
                 }
@@ -521,9 +547,13 @@ return function (App $app) {
         return StudentController::page_add_student($this, $request, $response, $args);
 
     });
-    $app->get('/student-promotion', function (Request $request, Response $response, array $args) use ($container) {
+    $app->get('/student-promotion/{id}', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
-        $container->view->render($response, 'students/student-promotion.html', $args);
+        $data = $args['id'];
+
+        return StudentController::student_promotion($this, $request, $response, [
+            'data' => $data
+        ]);
     });
 
     //Teacher
@@ -768,6 +798,24 @@ return function (App $app) {
                     "id_user" => $id
                 ]);
             // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/get_id_ortu',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $NISN = $request->getParam('id_user');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                'NISN',
+                'first_name',
+                'last_name',
+            ], [
+                    "id_user" => $NISN
+                ]);
+            // return var_dump($data);
+
             return $response->withJson($data);
         }
     )->add(new Auth());

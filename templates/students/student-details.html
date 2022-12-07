@@ -140,12 +140,9 @@
                   </tr>
                   <tr>
                     <td>Kelas:</td>
-                    <td class="font-medium text-dark-medium">{{data.class}}</td>
+                    <td class="font-medium text-dark-medium">{{data.class}}-{{data.section}}</td>
                   </tr>
-                  <tr>
-                    <td>Bagian:</td>
-                    <td class="font-medium text-dark-medium">{{data.section}}</td>
-                  </tr>
+                  
                   <tr>
                     <td>Alamat:</td>
                     <td class="font-medium text-dark-medium">
@@ -270,7 +267,9 @@
                     <tr class="form-group">
                       <label for="gender">Orang tua:</label>
                       <select name="id_parent" class="form-control"
-                        value="{{data. first_name_parent}} {{data. last_name_parent}}">
+                        >
+                        <option value="{{data.id_parent}}">{{data.first_name_parent}} {{data. last_name_parent}}</option>
+
                         {% for data in all %}
                         <option value="{{data.id_user}}">{{data. first_name}} {{data. last_name}}</option>
                         {% endfor %}
@@ -312,18 +311,18 @@
                       <label>Kelas:</label>
                       <select name="id_class" class="form-control" value="{{data.class}}">
                         {% for data in class %}
-                        <option value="{{data.id_class}}">{{data.class}}</option>
+                        <option value="{{data.id_class}}">{{data.class}} - {{data.section}}</option>
                         {% endfor %}
                       </select>
                     </tr>
-                    <tr>
+                    {# <tr>
                       <label>Bagian:</label>
                       <select name="id_section" class="form-control" value="{{data.section}}">
                         {% for data in section %}
                         <option value="{{data.id_section}}">{{data.section}}</option>
                         {% endfor %}
                       </select>
-                    </tr>
+                    </tr> #}
                     <tr>
                       <label>Alamat:</label>
                       <input type="text" name="address_user" placeholder="Masukan Alamat" class="form-control"

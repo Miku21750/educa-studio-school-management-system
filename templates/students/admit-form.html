@@ -82,12 +82,12 @@
           <select class="select2" name="id_class">
             <option>Pilih Kelas *</option>
             {% for data in class %}
-            <option value="{{data.id_class}}">{{data.class}}</option>
+            <option value="{{data.id_class}}">{{data.class}} {{data.section}}</option>
             {% endfor %}
 
           </select>
         </div>
-        <div class="col-xl-3 col-lg-6 col-12 form-group">
+        {# <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Bagian *</label>
           <select class="select2" name="id_section">
             <option>Pilih Bagian *</option>
@@ -96,7 +96,7 @@
             {% endfor %}
 
           </select>
-        </div>
+        </div> #}
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Orang tua *</label>
           <select class="select2" name="id_parent">

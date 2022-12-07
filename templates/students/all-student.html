@@ -2,6 +2,41 @@
 {% set title = "All Student" %}
 {% set baseRoute = ".." %}
 {% block content %}
+{% if berhasil == true %}
+<script>
+
+  let timerInterval
+  Swal.fire({
+    title: 'Memuat Data...',
+    html: 'Tunggu  <b></b>  Detik.',
+    timer: 400,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading()
+      const b = Swal.getHtmlContainer().querySelector('b')
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft()
+      }, 300)
+    },
+    willClose: () => {
+      clearInterval(timerInterval)
+    }
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      Swal.fire(
+        {
+          icon: 'success',
+          title: 'Berhasil',
+          text: 'Data telah ditambahkan.',
+        }
+
+      )
+    }
+  })
+</script>
+{% endif %}
+
 <!-- Student Table Area Start Here -->
 <div class="card height-auto">
   <div class="card-body">
@@ -23,12 +58,11 @@
             <th>Nama</th>
             <th>Jenis Kelamin</th>
             <th>kelas</th>
-            <th>Bagian</th>
-            <th>Orang tua</th>
+            {# <th>Orang tua</th>
             <th>Alamat</th>
             <th>Tanggal Lahir</th>
             <th>Telepon</th>
-            <th>E-mail</th>
+            <th>E-mail</th> #}
             <th></th>
           </tr>
         </thead>

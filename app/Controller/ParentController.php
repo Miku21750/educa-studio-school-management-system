@@ -305,6 +305,7 @@ class ParentController
         $id_student = $data['id_student'];
        
         // return var_dump($data);
+        // die();
 
         $directory = $app->get('upload_directory');
         $uploadedFiles = $req->getUploadedFiles();
