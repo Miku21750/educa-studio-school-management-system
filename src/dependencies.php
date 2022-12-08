@@ -86,4 +86,16 @@ return function (App $app) {
         ]);
         return $database;
     };
+    // $container['db'] = function($c){
+    //     $database = new Medoo([
+    //         'database_type' => 'mysql',
+    //         'server' => '103.150.196.234',
+    //         'port' => '33090',
+    //         'database_name' => 'educa_db',
+    //         'username' => 'educational_purpose_user',
+    //         'password' => '{%login=true%}',
+    //     ]);
+    //     return $database;
+    // };
+
 };

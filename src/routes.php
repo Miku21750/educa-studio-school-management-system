@@ -17,6 +17,7 @@ use App\Controller\LibraryController;
 use App\Controller\TransportController;
 use App\Controller\TeacherController;
 use App\Controller\HostelController;
+use App\Controller\ExamController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -282,6 +283,61 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return HostelController::add_hostel($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                }
+            );
+            
+            $app->group(
+                '/exam',
+                function () use ($app) {
+
+                    $app->get(
+                        '/getExam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/exam-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return ExamController::detail($this, $request, $response, $data);
+                        }
+                    );
+
+                    $app->post(
+                        '/update-exam-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::update_exam_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/delete-exam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::delete($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/add-exam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::add_exam($this, $request, $response, [
                                 'data' => $data
                             ]);
                         }
@@ -854,14 +910,14 @@ return function (App $app) {
         '/exam-schedule',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/exam/exam-schedule.html', $args);
+            return ExamController::option_exam($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(
         '/exam-grade',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/exam/exam-grade.html', $args);
+            $container->view->render($response, 'exam/exam-grade.html', $args);
         }
     )->add(new Auth());
     //End Exam
@@ -898,13 +954,36 @@ return function (App $app) {
     $app->get(
         '/getNotice',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $dataNotice = $container->db->select('tbl_notifications', '*', [
+            // Render index view'
+            // return var_dump($request->getParam('search'));
+
+            $condition = [
                 'ORDER' => [
                     'id_notification' => 'DESC'
-                ]
+                ],
+            ];
+            if(!empty($request->getParam('search'))){
+                $search = $request->getParam('search');
+                $condition['OR'] = [
+                    'title[~]' => '%' . $search . '%',
+                    'date_notice' => Medoo::raw("1 OR (date_notice BETWEEN '".$search."' AND '".$search." 23:59:59')")
+                ];
+            }
+            $dataNotice = $container->db->select('tbl_notifications', '*', $condition);
+            //return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getNoticeDetails',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view'
+            // return var_dump($request->getParam('id'));
+            $id = $request->getParam('id');
+            $dataNotice = $container->db->select('tbl_notifications', '*', [
+                'id_notification'=>$id
             ]);
-            // return var_dump($dataNotice);
+            //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
     )->add(new Auth());
@@ -1036,6 +1115,35 @@ return function (App $app) {
             // return var_dump($dataSender);
             // $container->view->render($response, 'others/messaging.html', $args);
             return $response->withJson(array('success' => true));
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getMessageDetails',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view'
+            // return var_dump($request->getParam('id'));
+            $id = $request->getParam('id_message');
+            $dataNotice = $container->db->select('tbl_messages(m)', [
+                '[>]tbl_users' => 'id_user'
+            ], [
+                'id_message',
+                'totalMessage'=> Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '".$_SESSION['username']."')"),
+                'id_user',
+                'receiver_email',
+                'sender_email',
+                'title',
+                'message',
+                'readed',
+                'photo_sender'=>Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
+                'first_name_sender'=>Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
+                'last_name_sender'=>Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
+                'time_sended'
+            ], [
+                'username' => $_SESSION['username'],
+                'id_message' => $id
+            ]);
+            //return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
         }
     )->add(new Auth());
     // End Message
@@ -1322,7 +1430,7 @@ return function (App $app) {
                 return DashboardTeacherController::view($this, $request, $response, $args);
             }
             if ($type == 3) {
-                // $type = "Admin";
+                $type = "Admin";
                 // return var_dump($type_user);
                 return DashboardAdminController::getData($this, $request, $response, [
                     'user' => $_SESSION['user'],

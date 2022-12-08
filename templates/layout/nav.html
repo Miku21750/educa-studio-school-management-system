@@ -22,13 +22,8 @@
     </div>
   </div>
   <div class="d-md-none mobile-nav-bar">
-    <button
-      class="navbar-toggler pulse-animation"
-      type="button"
-      data-toggle="collapse"
-      data-target="#mobile-navbar"
-      aria-expanded="false"
-    >
+    <button class="navbar-toggler pulse-animation" type="button" data-toggle="collapse" data-target="#mobile-navbar"
+      aria-expanded="false">
       <i class="far fa-arrow-alt-circle-down"></i>
     </button>
     <button type="button" class="navbar-toggler sidebar-toggle-mobile">
@@ -44,36 +39,21 @@
               <span class="flaticon-search" aria-hidden="true"></span>
             </button>
           </span>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Find Something . . ."
-          />
+          <input type="text" class="form-control" placeholder="Find Something . . ." />
         </div>
       </li>
     </ul>
     <ul class="navbar-nav">
       <li class="navbar-item dropdown header-admin">
-        <a
-          class="navbar-nav-link dropdown-toggle"
-          href="#"
-          role="button"
-          data-toggle="dropdown"
-          aria-expanded="false"
-        >
+        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <div class="admin-title">
             <h5 class="item-title">
-              {% if session.user == ' ' %} {{ session.username }} {% else %} {{ session.user }} {% endif
-              %}
+              {% if session.user == ' ' %} {{ session.username }} {% else %} {{ session.user }} {% endif %}
             </h5>
             <span>{{ session.type_user }}</span>
           </div>
           <div class="admin-img">
-            <img
-              src="/uploads/Profile/{{session.photo_user}}"
-              style="width: 40px"
-              alt="Admin"
-            />
+            <img src="/uploads/Profile/{{session.photo_user}}" style="width: 40px" alt="Admin" />
           </div>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
@@ -83,25 +63,16 @@
           <div class="item-content">
             <ul class="settings-list">
               <li>
-                <a href="/profile-setting"
-                  ><i class="flaticon-user"></i>My Profile</a
-                >
+                <a href="/profile-setting"><i class="flaticon-user"></i>My Profile</a>
               </li>
               <li>
                 <a href="#"><i class="flaticon-list"></i>Task</a>
               </li>
               <li>
-                <a href="/messaging"
-                  ><i
-                    class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"
-                  ></i
-                  >Message</a
-                >
+                <a href="/messaging"><i class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"></i>Message</a>
               </li>
               <li>
-                <a href="/account-settings"
-                  ><i class="flaticon-gear-loading"></i>Account Settings</a
-                >
+                <a href="/account-settings"><i class="flaticon-gear-loading"></i>Account Settings</a>
               </li>
               <li>
                 <a href="/logout"><i class="flaticon-turn-off"></i>Log Out</a>
@@ -111,17 +82,11 @@
         </div>
       </li>
       <li class="navbar-item dropdown header-message">
-        <a
-          class="navbar-nav-link dropdown-toggle"
-          href="#"
-          role="button"
-          data-toggle="dropdown"
-          aria-expanded="false"
-        >
+        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-envelope"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Message</div>
           {# Jumlah total message #}
-          <span id="iconCountMessage">{{countMessag}}</span>
+          <span id="iconCountMessage"></span>
         </a>
 
         <div class="dropdown-menu dropdown-menu-right">
@@ -131,102 +96,56 @@
           </div>
           <div class="item-content">
             {# message start here #}
-            {# <div class="media">
-              <div class="item-img bg-skyblue author-online">
-                <img src="/img/figure/student11.png" alt="img" />
-              </div>
-              <div class="media-body space-sm">
-                <div class="item-title">
-                  <a href="#">
-                    <span class="item-name">Maria Zaman</span>
-                    <span class="item-time">18:30</span>
-                  </a>
-                </div>
-                <p>
-                  What is the reason of buy this item. Is it usefull for me.....
-                </p>
-              </div>
-            </div> #}
             {# {{auth|json_encode()}} #}
             {% for message in auth %}
             {% set countMessag = message.totalMessage %}
             {% if message.readed == 1 %}
-            <div class="media message_Class" data-idMessage="{{message.id_message}}">
+            <div class="media message_Class" style="opacity: 25%;" data-idMessage="{{message.id_message}}"
+              data-toggle="modal" data-target="#messageViewModal">
               {% else %}
-              <div class="media message_Class" data-idMessage="{{message.id_message}}">
-            {% endif %}
-              <div class="item-img bg-skyblue">
-                <img src="/uploads/Profile/{{message.photo_sender}}" style="width: 40px;" alt="img"/>
-              </div>
-              <div class="media-body space-sm">
-                <div class="item-title">
-                  <a href="#">
-                    <span class="item-name">{{message.first_name_sender}} {{message.last_name_sender}}</span>
-                    <span class="item-time">{{message.time_sender|date("m/d/Y")}} {{message.totalMessage}}</span>
-                  </a>
+              <div class="media message_Class" data-idMessage="{{message.id_message}}" data-toggle="modal"
+                data-target="#messageViewModal">
+                {% endif %}
+                <div class="item-img bg-skyblue">
+                  <img src="/uploads/Profile/{{message.photo_sender}}" style="width: 40px;" alt="img" />
                 </div>
-                <h3>{{message.title}}</h3>
-                <p>
-                 {{message.message}}
-                </p>
+                <div class="media-body space-sm">
+                  <div class="item-title">
+                    <a href="#">
+                      <span class="item-name">{{message.first_name_sender}} {{message.last_name_sender}}</span>
+                      <span class="item-time">{{message.time_sender|date("m/d/Y")}}</span>
+                    </a>
+                  </div>
+                  <p>{{message.title}}</p>
+                  <p>{{message.time_sender}}</p>
+                  {# <p>
+                {{message.message}}
+                </p> #}
+                </div>
               </div>
+
+              <script>
+                countMessage = "{{countMessag}}";
+                //console.log(countMessage);  
+              </script>
+              {% endfor %}
+              {# message end here #}
             </div>
-                  
-            <script>
-              
-              countMessage = {{countMessag}};
-              //console.log(countMessage);  
-            </script>
-            {% endfor %}
-            {# message end here #}
           </div>
-        </div>
       </li>
       <li class="navbar-item dropdown header-notification">
-        <a
-          class="navbar-nav-link dropdown-toggle"
-          href="#"
-          role="button"
-          data-toggle="dropdown"
-          aria-expanded="false"
-        >
+        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-bell"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
           <span>8</span>
         </a>
 
-        <div class="dropdown-menu dropdown-menu-right">
+        <div class="dropdown-menu dropdown-menu-right ">
           <div class="item-header">
             <h6 class="item-title">03 Notifiacations</h6>
           </div>
-          <div class="item-content">
-            <div class="media">
-              <div class="item-icon bg-skyblue">
-                <i class="fas fa-check"></i>
-              </div>
-              <div class="media-body space-sm">
-                <div class="post-title">Complete Today Task</div>
-                <span>1 Mins ago</span>
-              </div>
-            </div>
-            <div class="media">
-              <div class="item-icon bg-orange">
-                <i class="fas fa-calendar-alt"></i>
-              </div>
-              <div class="media-body space-sm">
-                <div class="post-title">Director Metting</div>
-                <span>20 Mins ago</span>
-              </div>
-            </div>
-            <div class="media">
-              <div class="item-icon bg-violet-blue">
-                <i class="fas fa-cogs"></i>
-              </div>
-              <div class="media-body space-sm">
-                <div class="post-title">Update Password</div>
-                <span>45 Mins ago</span>
-              </div>
-            </div>
+          <div class="item-content" id="notification-nav">
+            
           </div>
         </div>
       </li>
@@ -254,28 +173,210 @@
   </div>
 </div>
 <!-- Header Menu Area End Here -->
+<!-- Modal Area Start Here -->
+
+<div class="modal fade" id="messageViewModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="idFromMessageModal"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body" id="messageModal">
+        <div class="media message_class">
+          <div class="item-img bg-skyblue">
+            <img src="" style="width: 60px;" alt="img" id="profileMessageSenderModal" />
+          </div>
+          <div class="media-body space-sm">
+            <div class="item-title">
+              <a href="#">
+                <span class="item-name" id="nameMessageSenderModal"></span>
+                <br>
+              </a>
+            </div>
+            <p id="titleMessageSenderModal" class="font-weight-bold">AAAAA</p>
+          </div>
+          <span class="item-time" style="text-align: right;" id="timeMessageSenderModal"></span>
+        </div>
+        <p id="detailsMessageSenderModal" class="mt-0">AAAA</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
+        <button type="button" class="footer-btn bg-linkedin">Save
+          Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Area End Here -->
 <script>
-  $(document).ready(function () {      
+  $(document).ready(function () {
     console.log(countMessage)
     $('#iconCountMessage').html(countMessage);
-    $('#countMessage').html(''+countMessage+' Message');
-    $('.message_Class').click(function (e) { 
-        e.preventDefault();
-        var id = $(this).attr('data-idMessage');
-        //console.log($id)
-        $.ajax({
-          type: "POST",
-          url: "/readedMessage",
-          data: {
-              id_message : id
-          },
-          dataType: "JSON",
-          success: function (response) {
-              console.log(response)
-              //  $('.message_Class').addClass('bg-secondary')
-          }
+    $('#countMessage').html('' + countMessage + ' Message');
+    $('.message_Class').click(function (e) {
+      e.preventDefault();
+      var id = $(this).attr('data-idMessage');
+      //console.log($id)
+      $.ajax({
+        type: "POST",
+        url: "/readedMessage",
+        data: {
+          id_message: id
+        },
+        dataType: "JSON",
+        success: function (response) {
+          console.log(response)
+          //  $('.message_Class').addClass('bg-secondary')
+        }
       });
     });
-});
+    $('#messageViewModal').on('show.bs.modal', function (e) {
+      var button = $(e.relatedTarget)
+      var recipient = button.data('idmessage');
+      console.log(recipient);
+      $.ajax({
+        type: "GET",
+        url: "/getMessageDetails",
+        data: {
+          id_message: recipient
+        },
+        dataType: "JSON",
+        success: function (response) {
+          console.log(response)
+          //$('#messageModal').html('');
+          var day = new Date(response[0].time_sended)
+          $('#profileMessageSenderModal').attr('src', '/uploads/Profile/' + response[0].photo_sender)
+          $('#nameMessageSenderModal').text(response[0].first_name_sender + ' ' + response[0]
+            .last_name_sender)
+          $('#timeMessageSenderModal').text(day.toDateString())
+          $('#titleMessageSenderModal').text(response[0].title)
+          $('#detailsMessageSenderModal').text(response[0].message)
+        }
+      });
+    })
+
+    function difference2Parts(milliseconds) {
+      const secs = Math.floor(Math.abs(milliseconds) / 1000);
+      const mins = Math.floor(secs / 60);
+      const hours = Math.floor(mins / 60);
+      const days = Math.floor(hours / 24);
+      const millisecs = Math.floor(Math.abs(milliseconds)) % 1000;
+      const multiple = (term, n) => n !== 1 ? `${n} ${term}s` : `1 ${term}`;
+
+      return {
+        days: days,
+        hours: hours % 24,
+        hoursTotal: hours,
+        minutesTotal: mins,
+        minutes: mins % 60,
+        seconds: secs % 60,
+        secondsTotal: secs,
+        milliSeconds: millisecs,
+        get diffStr() {
+          return `${multiple(`day`, this.days)}, ${
+            multiple(`hour`, this.hours)}, ${
+            multiple(`minute`, this.minutes)} and ${
+            multiple(`second`, this.seconds)}`;
+        },
+        get diffStrMs() {
+          return `${this.diffStr.replace(` and`, `, `)} and ${
+            multiple(`millisecond`, this.milliSeconds)}`;
+        },
+      };
+    }
+
+    function untilXMas(date) {
+      const nextChristmas = new Date(date);
+      const report = document.querySelector(`#nextXMas`);
+
+      const diff = () => {
+        const diffs = difference2Parts(nextChristmas - new Date());
+        report.innerHTML = `Awaiting next XMas 🙂 (${
+          diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
+          <br>In other words, until next XMas lasts&hellip;<br>
+          In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${
+          diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
+        setTimeout(diff, 200);
+      };
+      return difference2Parts(nextChristmas - new Date());
+    }
+
+    function drawNotice(s) {
+      //console.log(s);
+      const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+        "September", "Oktober", "November", "Desember"
+      ];
+      //drawNotice();
+      $.ajax({
+        type: "GET",
+        url: "/getNotice",
+        data: {
+          search: s
+        },
+        dataType: "JSON",
+        success: function (response) {
+          //console.log(response[0])
+          $('#notice-list').empty();
+          $.each(response, function (i, data) {
+            data += data[i]
+            var dAwal = new Date(response[i].date_notice)
+            var bulan = months[dAwal.getMonth()];
+            var tanggal = dAwal.getDate();
+            var tahun = dAwal.getFullYear();
+            var minus = untilXMas(dAwal);
+            //console.log(minus)
+            //console.log(minus.minutesTotal);
+            var difference;
+            if (minus.minutesTotal <= 60) {
+              difference = minus.minutesTotal + ' menit lalu';
+            } else if (minus.hoursTotal <= 24) {
+              difference = minus.hoursTotal + ' jam lalu';
+            } else {
+              difference = minus.days + ' hari lalu';
+            }
+
+            console.log(response[i].category)
+            var classCategory;
+            var iconCategory;
+            switch (response[i].category) {
+              case 'Exam': {
+                classCategory = 'bg-warning'
+                iconCategory = 'fas fa-book'
+              }
+              break;
+            case 'Pembayaran': {
+              classCategory = 'bg-success'
+              iconCategory = 'fas fa-money-bill'
+            }
+            break;
+            case 'Event': {
+              classCategory = 'bg-danger'
+              iconCategory = 'fas fa-calendar-check'
+            }
+            break;
+            case 'Pengumuman_Sekolah': {
+              classCategory = 'bg-primary'
+              iconCategory = 'fas fa-bell'
+            }
+            break;
+            default: {
+
+            }
+            break;
+            }
+            
+            $('#notification-nav').append('<div class="media"><div class="item-icon '+classCategory+'"><i class="'+iconCategory+'"></i></div><div class="media-body space-sm"><div class="post-title">'+response[i].title+'</div><span id="timeNotificationNav">'+difference+'</span></div></div>')
+            
+          });
+        },
+        complete: function () {}
+      });
+    };
+    drawNotice();
+  });
 </script>
 {% endblock nav %}

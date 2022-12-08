@@ -455,7 +455,7 @@
         });
       })
     }
-    
+
     /*-------------------------------------
           Calender initiate 
       -------------------------------------*/
@@ -768,6 +768,17 @@ $(document).ready(function () {
   }
   transport();
 
+  // RESET BUTTON
+  $('#reset_transport').click(function (e) {
+    e.preventDefault();
+    $('#eroute_name').val('');
+    $('#eid_driver').val('');
+    $('#evehicle_number').val('');
+    $('#edriver_name').val('');
+    $('#elicense_number').val('');
+    $('#ephone_number').val('');
+  });
+
   //GET HAPUS
   $('#show_transport').on('click', '.transport_remove', function () {
     var id = $(this).attr('data');
@@ -869,6 +880,12 @@ $(document).ready(function () {
               clearInterval(timerInterval)
             }
           }).then((result) => {
+            $('#eroute_name').val('');
+            $('#eid_driver').val('');
+            $('#evehicle_number').val('');
+            $('#edriver_name').val('');
+            $('#elicense_number').val('');
+            $('#ephone_number').val('');
             Swal.fire(
               {
                 icon: 'success',
@@ -939,7 +956,7 @@ $(document).ready(function () {
               }
 
             )
-            
+
           })
 
         } else {
@@ -980,7 +997,7 @@ $('#show_transport').on('click', '.transport_detail', function () {
     }
   });
   return false;
-  
+
 });
 
 /*-------------------------------------
@@ -1036,6 +1053,16 @@ $(document).ready(function () {
 
   }
   hostel();
+
+  // RESET BUTTON
+  $('#reset_hostel').click(function (e) {
+    e.preventDefault();
+    $('#ehostel_name').val('');
+    $('#eroom_number').val('');
+    $('#eroom_type').val('').change();
+    $('#enumber_of_bed').val('');
+    $('#ecost_per_bed').val('');
+  });
 
   //GET HAPUS
   $('#show_hostel').on('click', '.hostel_remove', function () {
@@ -1111,7 +1138,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/hostel/update-hostel-detail",
       dataType: "JSON",
-      data: { id_hostel: id_hostel, hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed},
+      data: { id_hostel: id_hostel, hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
       success: function (data) {
         if (data) {
           $('#detail-hostel').modal('hide');
@@ -1170,7 +1197,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/hostel/add-hostel",
       dataType: "JSON",
-      data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed},
+      data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
       success: function (data) {
         if (data) {
           console.log(data)
@@ -1191,6 +1218,11 @@ $(document).ready(function () {
               clearInterval(timerInterval)
             }
           }).then((result) => {
+            $('#ehostel_name').val('');
+            $('#eroom_number').val('');
+            $('#eroom_type').val('').change();
+            $('#enumber_of_bed').val('');
+            $('#ecost_per_bed').val('');
             hostelTable.draw(false)
             Swal.fire(
               {
@@ -1201,7 +1233,7 @@ $(document).ready(function () {
               }
 
             )
-            
+
           })
 
         } else {
@@ -1237,6 +1269,287 @@ $('#show_hostel').on('click', '.hostel_detail', function () {
       $('[name="eroom_type"]').val(data.room_type);
       $('[name="enumber_of_bed"]').val(data.number_of_bed);
       $('[name="ecost_per_bed"]').val(data.cost_per_bed);
+
+    }
+  });
+  return false;
+});
+
+/*-------------------------------------
+    DataTable Exam
+-------------------------------------*/
+$(document).ready(function () {
+  exam = function () {
+    examTable = $("#data_exam").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/exam/getExam",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'exam_name' },
+        { 'data': 'subject_name' },
+        { 'data': 'class' },
+        { 'data': 'exam_date' },
+        { 'data': 'exam_time' },
+        { 'data': 'aksi' }
+      ]
+
+
+    });
+
+  }
+  exam();
+
+  // RESET BUTTON
+  $('#reset_exam').click(function (e) {
+    e.preventDefault();
+    $('#eexam_name').val('');
+    $('#eclass').val('');
+    $('#esubject').val('').change();
+    $('#eexam_date').val('');
+    $('#eexam_start').val('');
+    $('#eexam_end').val('');
+  });
+
+  //GET HAPUS
+  $('#show_exam').on('click', '.exam_remove', function () {
+    var id = $(this).attr('data');
+    $('#confirmation-exam-modal').modal('show');
+    $('[name="kode"]').val(id);
+  });
+
+  //Hapus Data
+  $('#btn_remove_exam').on('click', function () {
+    var kode = $('#textkode').val();
+    $.ajax({
+      type: "POST",
+      url: "/api/exam/delete-exam",
+      dataType: "JSON",
+      data: { kode: kode },
+      success: function (data) {
+        if (data) {
+          $('#confirmation-exam-modal').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah dihapus.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+          })
+          examTable.draw(false)
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+
+      }
+    });
+    return false;
+  });
+
+  //Update hostel
+  $('#btn_update_exam').click(function (e) {
+    var id_exam = $('#id_exam').val();
+    var exam_name = $('#eexam_name').val();
+    var id_subject = $('#eid_subject').val();
+    var id_class = $('#eid_class').val();
+    var exam_date = $('#eexam_date').val();
+    var exam_start = $('#eexam_start').val();
+    var exam_end = $('#eexam_end').val();
+    // console.log(id_exam)
+    $.ajax({
+      type: "POST",
+      url: "/api/exam/update-exam-detail",
+      dataType: "JSON",
+      data: { id_exam: id_exam, exam_name: exam_name, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end:exam_end },
+      success: function (data) {
+        if (data) {
+          $('#detail-exam').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah diubah.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+          })
+
+          examTable.draw(false)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+      }
+    });
+    return false;
+  });
+
+  //tambah Data
+  $('#btn_add_exam').on('click', function () {
+    // var id_exam = $('#id_exam').val();
+    var exam_name = $('#eexam_name').val();
+    var id_class = $('#eclass').val();
+    var id_subject = $('#esubject').val();
+    var exam_date = $('#eexam_date').val();
+    var exam_start = $('#eexam_start').val();
+    var exam_end = $('#eexam_end').val();
+    console.log(exam_name)
+    $.ajax({
+      type: "POST",
+      url: "/api/exam/add-exam",
+      dataType: "JSON",
+      data: { exam_name: exam_name, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
+      success: function (data) {
+        if (data) {
+          console.log(data)
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            $('#eexam_name').val('');
+            $('#eclass').val('');
+            $('#esubject').val('').change();
+            $('#eexam_date').val('');
+            $('#eexam_start').val('');
+            $('#eexam_end').val('');
+            examTable.draw(false)
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah ditambahkan.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+
+          })
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+
+      }
+    });
+    z
+    return false;
+  });
+
+});
+
+$('#show_exam').on('click', '.exam_detail', function () {
+  var id = $(this).attr('data');
+  $('#detail-exam').modal('show');
+  $.ajax({
+    type: "GET",
+    url: "/" + "api" + "/" + "exam" + "/" + id + "/exam-detail",
+    dataType: "JSON",
+    data: { id: id },
+    success: function (data) {
+      // console.log(data.id_exam);
+      $('#detail-exam').modal('show');
+      $('[name="id_exam"]').val(data.id_exam);
+      $('[name="eexam_name"]').val(data.exam_name);
+      $('[name="esubject"]').val(data.subject);
+      $('[name="eclass"]').val(data.class);
+      $('[name="eexam_date"]').val(data.exam_date);
+      $('[name="eexam_start"]').val(data.exam_start);
+      $('[name="eexam_end"]').val(data.exam_end);
 
     }
   });
