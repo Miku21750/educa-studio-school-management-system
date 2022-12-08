@@ -33,26 +33,7 @@ class SubjectController
     public static function view_data_subject($app, $request, $response, $args)
     {
 
-        // $result = $app->db->debug()->select('tbl_subjects', [
-        //     "[>]tbl_sections"=>["id_subject" => "id_section"],
-        //     "[>]tbl_classes"=>["id_section" => "id_class"],
-        //     "[>]tbl_users"=>["id_user" => "id_user"]
-        // ], '*', [
-        //     "id_user" => $_SESSION['id_user']
-        // ]);
-
-        // *[QUERY SELECT JOIN SUBJECT]*
-        //     $result = $app->db->select('tbl_subjects', [
-        //         "[><]tbl_classes"=>"id_class",
-        //         "[>]tbl_users"=>"id_class"
-        //     ], '*'
-        //     // , [
-        //     //     "id_user" => $_SESSION['id_user']
-        //     // ]
-        // );
-        $result = $app->db->select('tbl_subjects', [
-            "[><]tbl_classes" => "id_class"
-        ], '*');
+        $result = $app->db->select('tbl_subjects', '*');
         // return var_dump($result);
 
         $columns = array(
@@ -83,8 +64,7 @@ class SubjectController
             ];
             $conditions['OR'] = [
                 'tbl_subjects.subject_name[~]' => '%' . $search . '%',
-                'tbl_subjects.subject_type[~]' => '%' . $search . '%',
-                'tbl_classes.class[~]' => '%' . $search . '%'
+                'tbl_subjects.subject_type[~]' => '%' . $search . '%'
 
             ];
             $result = $app->db->select(
@@ -100,9 +80,7 @@ class SubjectController
         }
 
 
-        $result = $app->db->select('tbl_subjects', [
-            "[><]tbl_classes" => "id_class"
-        ], '*', $conditions);
+        $result = $app->db->select('tbl_subjects', '*', $conditions);
 
         $data = array();
 
@@ -113,8 +91,6 @@ class SubjectController
                 $datas['ID'] = $no. '.';
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['subject_type'] = $m['subject_type'];
-                $datas['class'] = $m['class'];
-                // $datas['data'] = $m[''];
                 $datas[''] = '<div class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
@@ -154,9 +130,7 @@ class SubjectController
 
         $app->db->insert('tbl_subjects', [
             'subject_name' => $data['subject_name'],
-            'subject_type' => $data['subject_type'],
-            'id_class' => $data['id_class'],
-            'id_teacher' => $data['id_teacher']
+            'subject_type' => $data['subject_type']
         ]);
 
         $json_data = array(
@@ -170,9 +144,7 @@ class SubjectController
         $data = $app->db->get('tbl_subjects', [
             "id_subject",
             "subject_name",
-            "subject_type",
-            "id_class",
-            "id_teacher"
+            "subject_type"
         ], [
             "id_subject" => $id_subject
         ]);
@@ -189,9 +161,7 @@ class SubjectController
 
         $app->db->update('tbl_subjects', [
             'subject_name' => $data['subject_name'],
-            'subject_type' => $data['subject_type'],
-            'id_class' => $data['id_class'],
-            'id_teacher' => $data['id_teacher']
+            'subject_type' => $data['subject_type']
         ], [
             "id_subject" => $data['id_subject']
         ]);

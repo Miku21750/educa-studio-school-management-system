@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Add New Subject</h3>
+                        <h3>Tambah Mata Pelajaran</h3>
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -26,13 +26,13 @@
                 <form class="new-added-form">
                     <div class="row">
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Subject Name *</label>
+                            <label>Nama Mata Pelajaran *</label>
                             <input type="text" name="subjectname" id="subject_name" placeholder="" class="form-control">
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Subject Type *</label>
+                            <label>Tipe Mata Pelajaran *</label>
                             <select class="select2" name="subjecttype" id="subject_type">
-                                <option value="0">Please Select</option>
+                                <option value="0">Silahkan Pilih</option>
 
                                 {# {% for subjectT in subjectType %} #}
                                 <!-- <option value="{{subjectT}}">{{subjectT}}</option> -->
@@ -44,38 +44,32 @@
                                 {# {% endfor %} #}
                             </select>
                         </div>
-                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                        <!-- <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>Select Class *</label>
                             <select class="select2" name="idclass" id="id_class">
                                 <option value="0">Please Select</option>
                                 {# {% for result in result %} #}
-                                <!-- <option value="{{result.class}}">{{result.class}}</option> -->
                                 <option value="1">X</option>
                                 <option value="2">XI</option>
                                 <option value="3">XII</option>
-                                <!-- <option value="3">Three</option> -->
                                 {# {% endfor %} #}
                             </select>
-                        </div>
-                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                        </div> -->
+                        <!-- <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>ID Teacher</label>
                             <select class="select2" name="idteacher" id="id_teacher">
                                 <option value="0">Please Select</option>
                                 {% for teacher in teacher %}
                                 <option value="{{teacher.id_user}}">{{teacher.first_name}} {{teacher.last_name}}
                                 </option>
-                                <!-- <option value="2">00525</option> -->
-                                <!-- <option value="3">00526</option>
-                                <option value="3">00527</option>
-                                <option value="3">00528</option> -->
                                 {% endfor %}
                             </select>
-                        </div>
+                        </div> -->
                         <div class="col-12 form-group mg-t-8">
                             <button type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
-                                id="add_subject">Save</button>
+                                id="add_subject">Simpan</button>
                             <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow"
-                                id="reset">Reset</button>
+                                id="reset">Mengatur Ulang</button>
                         </div>
                     </div>
                 </form>
@@ -87,7 +81,7 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>All Subjects</h3>
+                        <h3>Semua Mata Pelajaran</h3>
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -121,10 +115,10 @@
                     <table class="display" id="subject">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Subject Name</th>
-                                <th>Subject Type</th>
-                                <th>Class</th>
+                                <th>No</th>
+                                <th>Nama Mata Pelajaran</th>
+                                <th>Tipe Mata Pelajaran</th>
+                                <!-- <th>Class</th> -->
                                 <th></th>
                                 <!-- <th></th> -->
                             </tr>
@@ -426,22 +420,19 @@
                                                 </select>
                                             </tr>
 
-                                            <tr class="form-group">
+                                            <!-- <tr class="form-group">
                                                 <label>Select Class</label>
                                                 <select class="form-control form-control-lg" name="idclass"
                                                     id="id_classU">
                                                     <option value="0">Please Select</option>
                                                     {# {% for result in result %} #}
-                                                    <!-- <option value="{{result.class}}">{{result.class}}</option> -->
                                                     <option value="1">X</option>
                                                     <option value="2">XI</option>
                                                     <option value="3">XII</option>
-                                                    <!-- <option value="3">Three</option> -->
                                                     {# {% endfor %} #}
                                                 </select>
-                                            </tr>
-
-                                            <tr class="form-group">
+                                            </tr> -->
+                                            <!-- <tr class="form-group">
                                                 <label>ID Teacher</label>
                                                 <select class="form-control form-control-lg" name="idteacher"
                                                     id="id_teacherU">
@@ -452,7 +443,8 @@
                                                     </option>
                                                     {% endfor %}
                                                 </select>
-                                            </tr>
+                                            </tr> -->
+
                                         </tbody>
                                     </table>
                                     <button class="btn btn-warning" id="btn_update_subject">Simpan</button>
@@ -492,10 +484,10 @@
             },
             "columnDefs": [
                 { "width": "5%", "targets": 0, className: "text-center", "orderable": false },
-                { "width": "25%", "targets": 1, className: "text-start", "orderable": false },
+                { "width": "45%", "targets": 1, className: "text-start", "orderable": false },
                 { "width": "30%", "targets": 2, className: "text-start", "orderable": false },
                 { "width": "20%", "targets": 3, className: "text-start", "orderable": false },
-                { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+                // { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
                 // { "width": "10%", "targets": 5, className: "text-start", "orderable": false },
 
 
@@ -514,7 +506,6 @@
                 { 'data': 'ID' },
                 { 'data': 'subject_name' },
                 { 'data': 'subject_type' },
-                { 'data': 'class' },
                 { 'data': '' },
                 // { 'data': '' },
             ],
@@ -529,13 +520,11 @@
     $('#add_subject').on('click', function () {
         var subject_name = $('#subject_name').val();
         var subject_type = $('#subject_type').val();
-        var id_class = $('#id_class').val();
-        var id_teacher = $('#id_teacher').val();
         $.ajax({
             type: "POST",
             url: "/api" + "/addsubject",
             dataType: "JSON",
-            data: { subject_name: subject_name, subject_type: subject_type, id_class: id_class, id_teacher: id_teacher },
+            data: { subject_name: subject_name, subject_type: subject_type },
             success: function (data) {
                 if (data) {
                     let timerInterval
@@ -556,8 +545,6 @@
                         }
                     }).then((result) => {
                         $('#subject_type').val('').change();
-                        $('#id_class').val('').change();
-                        $('#id_teacher').val('').change();
                         $('#subject_name').val('');
                         Swal.fire(
                             {
@@ -589,8 +576,6 @@
     $('#reset').click(function (e) {
         e.preventDefault();
         $('#subject_type').val('').change();
-        $('#id_class').val('').change();
-        $('#id_teacher').val('').change();
         $('#subject_name').val('');
 
     });
@@ -667,8 +652,6 @@
                 $('[name="id_subject"]').val(data.id_subject);
                 $('[name="subjectname"]').val(data.subject_name);
                 $('[name="subjecttype"]').val(data.subject_type);
-                $('[name="idclass"]').val(data.id_class);
-                $('[name="idteacher"]').val(data.id_teacher);
             }
         });
         return false;
@@ -679,14 +662,12 @@
         var id_subject = $('#id_subject').val();
         var subject_name = $('#subject_nameU').val();
         var subject_type = $('#subject_typeU').val();
-        var id_class = $('#id_classU').val();
-        var id_teacher = $('#id_teacherU').val();
 
         $.ajax({
             type: "POST",
             url: "/api" + "/updatesubject",
             dataType: "JSON",
-            data: { id_subject: id_subject, subject_name: subject_name, subject_type: subject_type, id_class: id_class, id_teacher: id_teacher },
+            data: { id_subject: id_subject, subject_name: subject_name, subject_type: subject_type },
             success: function (data) {
                 if (data) {
                     $('#detail_subject').modal('hide');

@@ -371,6 +371,25 @@ return function (App $app) {
                 }
             );
             $app->get(
+                '/allclassroutine',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ClassRoutineController::view_data_classroutine($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/addclassroutine',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $tambah = $request->getParsedBody();
+                    return ClassRoutineController::add_class_routine($this, $request, $response, [
+                        'tambah' => $tambah
+                    ]);
+                }
+            );
+            $app->get(
                 '/{id}/detail',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $args['id'];
