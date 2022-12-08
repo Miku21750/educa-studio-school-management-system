@@ -17,6 +17,7 @@ use App\Controller\LibraryController;
 use App\Controller\TransportController;
 use App\Controller\TeacherController;
 use App\Controller\HostelController;
+use App\Controller\ExamController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -282,6 +283,61 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return HostelController::add_hostel($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                }
+            );
+            
+            $app->group(
+                '/exam',
+                function () use ($app) {
+
+                    $app->get(
+                        '/getExam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/exam-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return ExamController::detail($this, $request, $response, $data);
+                        }
+                    );
+
+                    $app->post(
+                        '/update-exam-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::update_exam_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/delete-exam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::delete($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/add-exam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::add_exam($this, $request, $response, [
                                 'data' => $data
                             ]);
                         }
@@ -805,14 +861,14 @@ return function (App $app) {
         '/exam-schedule',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/exam/exam-schedule.html', $args);
+            $container->view->render($response, 'exam/exam-schedule.html', $args);
         }
     )->add(new Auth());
     $app->get(
         '/exam-grade',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/exam/exam-grade.html', $args);
+            $container->view->render($response, 'exam/exam-grade.html', $args);
         }
     )->add(new Auth());
     //End Exam
@@ -1273,7 +1329,7 @@ return function (App $app) {
                 return DashboardTeacherController::view($this, $request, $response, $args);
             }
             if ($type == 3) {
-                // $type = "Admin";
+                $type = "Admin";
                 // return var_dump($type_user);
                 return DashboardAdminController::getData($this, $request, $response, [
                     'user' => $_SESSION['user'],

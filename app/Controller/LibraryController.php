@@ -206,7 +206,6 @@ class LibraryController
         unset($_SESSION['berhasil']);
 
         $app->view->render($rsp, 'library/add-book.html', [
-            'class' => $class,
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil,
         ]);

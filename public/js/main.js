@@ -455,7 +455,7 @@
         });
       })
     }
-    
+
     /*-------------------------------------
           Calender initiate 
       -------------------------------------*/
@@ -768,6 +768,17 @@ $(document).ready(function () {
   }
   transport();
 
+  // RESET BUTTON
+  $('#reset_transport').click(function (e) {
+    e.preventDefault();
+    $('#eroute_name').val('');
+    $('#eid_driver').val('');
+    $('#evehicle_number').val('');
+    $('#edriver_name').val('');
+    $('#elicense_number').val('');
+    $('#ephone_number').val('');
+  });
+
   //GET HAPUS
   $('#show_transport').on('click', '.transport_remove', function () {
     var id = $(this).attr('data');
@@ -939,7 +950,7 @@ $(document).ready(function () {
               }
 
             )
-            
+
           })
 
         } else {
@@ -980,7 +991,7 @@ $('#show_transport').on('click', '.transport_detail', function () {
     }
   });
   return false;
-  
+
 });
 
 /*-------------------------------------
@@ -1036,6 +1047,16 @@ $(document).ready(function () {
 
   }
   hostel();
+
+  // RESET BUTTON
+  $('#reset_hostel').click(function (e) {
+    e.preventDefault();
+    $('#ehostel_name').val('');
+    $('#eroom_number').val('');
+    $('#eroom_type').val('').change();
+    $('#enumber_of_bed').val('');
+    $('#ecost_per_bed').val('');
+  });
 
   //GET HAPUS
   $('#show_hostel').on('click', '.hostel_remove', function () {
@@ -1111,7 +1132,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/hostel/update-hostel-detail",
       dataType: "JSON",
-      data: { id_hostel: id_hostel, hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed},
+      data: { id_hostel: id_hostel, hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
       success: function (data) {
         if (data) {
           $('#detail-hostel').modal('hide');
@@ -1170,7 +1191,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/hostel/add-hostel",
       dataType: "JSON",
-      data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed},
+      data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
       success: function (data) {
         if (data) {
           console.log(data)
@@ -1201,7 +1222,277 @@ $(document).ready(function () {
               }
 
             )
-            
+
+          })
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+
+      }
+    });
+    return false;
+  });
+
+});
+
+$('#show_hostel').on('click', '.hostel_detail', function () {
+  var id = $(this).attr('data');
+  $('#detail-hostel').modal('show');
+  $.ajax({
+    type: "GET",
+    url: "/" + "api" + "/" + "hostel" + "/" + id + "/hostel-detail",
+    dataType: "JSON",
+    data: { id: id },
+    success: function (data) {
+      // console.log(data.id_hostel);
+      $('#detail-hostel').modal('show');
+      $('[name="id_hostel"]').val(data.id_hostel);
+      $('[name="ehostel_name"]').val(data.hostel_name);
+      $('[name="eroom_number"]').val(data.room_number);
+      $('[name="eroom_type"]').val(data.room_type);
+      $('[name="enumber_of_bed"]').val(data.number_of_bed);
+      $('[name="ecost_per_bed"]').val(data.cost_per_bed);
+
+    }
+  });
+  return false;
+});
+
+/*-------------------------------------
+    DataTable Exam
+-------------------------------------*/
+$(document).ready(function () {
+  exam = function () {
+    examTable = $("#data_exam").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/exam/getExam",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'exam_name' },
+        { 'data': 'subject_name' },
+        { 'data': 'class' },
+        { 'data': 'exam_date' },
+        { 'data': 'exam_time' },
+        { 'data': 'aksi' }
+      ]
+      
+      
+    });
+
+  }
+  exam();
+
+  // RESET BUTTON
+  $('#reset_hostel').click(function (e) {
+    e.preventDefault();
+    $('#ehostel_name').val('');
+    $('#eroom_number').val('');
+    $('#eroom_type').val('').change();
+    $('#enumber_of_bed').val('');
+    $('#ecost_per_bed').val('');
+  });
+
+  //GET HAPUS
+  $('#show_hostel').on('click', '.hostel_remove', function () {
+    var id = $(this).attr('data');
+    $('#confirmation-hostel-modal').modal('show');
+    $('[name="kode"]').val(id);
+  });
+
+  //Hapus Data
+  $('#btn_remove_hostel').on('click', function () {
+    var kode = $('#textkode').val();
+    $.ajax({
+      type: "POST",
+      url: "/api/hostel/delete-hostel",
+      dataType: "JSON",
+      data: { kode: kode },
+      success: function (data) {
+        if (data) {
+          $('#confirmation-hostel-modal').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah dihapus.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+          })
+          hostelTable.draw(false)
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+
+      }
+    });
+    return false;
+  });
+
+  //Update hostel
+  $('#btn_update_hostel').click(function (e) {
+    var id_hostel = $('#id_hostel').val();
+    var hostel_name = $('#ehostel_name_edit').val();
+    var room_number = $('#eroom_number_edit').val();
+    var room_type = $('#eroom_type_edit').val();
+    var number_of_bed = $('#enumber_of_bed_edit').val();
+    var cost_per_bed = $('#ecost_per_bed_edit').val();
+    // console.log(id_hostel)
+    $.ajax({
+      type: "POST",
+      url: "/api/hostel/update-hostel-detail",
+      dataType: "JSON",
+      data: { id_hostel: id_hostel, hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
+      success: function (data) {
+        if (data) {
+          $('#detail-hostel').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah diubah.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+          })
+
+          hostelTable.draw(false)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+      }
+    });
+    return false;
+  });
+
+  //tambah Data
+  $('#btn_add_hostel').on('click', function () {
+    // var id_hostel = $('#id_hostel').val();
+    var hostel_name = $('#ehostel_name').val();
+    var room_number = $('#eroom_number').val();
+    var room_type = $('#eroom_type').val();
+    var number_of_bed = $('#enumber_of_bed').val();
+    var cost_per_bed = $('#ecost_per_bed').val();
+    console.log(hostel_name)
+    $.ajax({
+      type: "POST",
+      url: "/api/hostel/add-hostel",
+      dataType: "JSON",
+      data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
+      success: function (data) {
+        if (data) {
+          console.log(data)
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            hostelTable.draw(false)
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah ditambahkan.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+
           })
 
         } else {
