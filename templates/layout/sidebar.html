@@ -20,22 +20,22 @@
         >
         <ul class="nav sub-group-menu">
           {% if session.type == 4 %}
-          <li class="nav-item">
+          {# <li class="nav-item">
             <a href="/student-details" class="nav-link"
               ><i class="fas fa-angle-right"></i>Student Details</a
             >
-          </li>
+          </li> #}
           {% else %}
           <li class="nav-item">
             <a href="/all-students" class="nav-link"
               ><i class="fas fa-angle-right"></i>All Students</a
             >
           </li>
-          <li class="nav-item">
+          {# <li class="nav-item">
             <a href="/student-details" class="nav-link"
               ><i class="fas fa-angle-right"></i>Student Details</a
             >
-          </li>
+          </li> #}
           {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/admit-form" class="nav-link"
@@ -63,11 +63,11 @@
               ><i class="fas fa-angle-right"></i>All Teachers</a
             >
           </li>
-          <li class="nav-item">
+          {# <li class="nav-item">
             <a href="/teacher-details" class="nav-link"
               ><i class="fas fa-angle-right"></i>Teacher Details</a
             >
-          </li>
+          </li> #}
           {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/add-teacher" class="nav-link"
@@ -93,11 +93,11 @@
               ><i class="fas fa-angle-right"></i>All Parents</a
             >
           </li>
-          <li class="nav-item">
+          {# <li class="nav-item">
             <a href="/parents-details" class="nav-link"
               ><i class="fas fa-angle-right"></i>Parents Details</a
             >
-          </li>
+          </li> #}
           {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/add-parents" class="nav-link"

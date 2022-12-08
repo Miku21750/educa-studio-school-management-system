@@ -18,6 +18,7 @@ use App\Controller\LibraryController;
 use App\Controller\TransportController;
 use App\Controller\TeacherController;
 use App\Controller\HostelController;
+use App\Controller\ExamController;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
@@ -234,7 +235,7 @@ return function (App $app) {
                     );
                 }
             );
-            
+
             $app->group(
                 '/hostel',
                 function () use ($app) {
@@ -245,7 +246,7 @@ return function (App $app) {
                             return HostelController::tampil_data($this, $request, $response, $args);
                         }
                     );
-                    
+
                     $app->get(
                         '/{id}/hostel-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
@@ -283,6 +284,61 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return HostelController::add_hostel($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                }
+            );
+            
+            $app->group(
+                '/exam',
+                function () use ($app) {
+
+                    $app->get(
+                        '/getExam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/exam-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return ExamController::detail($this, $request, $response, $data);
+                        }
+                    );
+
+                    $app->post(
+                        '/update-exam-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::update_exam_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/delete-exam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::delete($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+
+                    $app->post(
+                        '/add-exam',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::add_exam($this, $request, $response, [
                                 'data' => $data
                             ]);
                         }
@@ -511,6 +567,60 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->get(
+                '/allteachers',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return TeacherController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/teacher_detail/{id}',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return TeacherController::teacher_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/delete-teacher',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return TeacherController::delete($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/update-teacher-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return TeacherController::update_teacher_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/add-teacher',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return TeacherController::add_teacher($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/allpayment',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return TeacherController::tampil_data_payment($this, $request, $response, $args);
+                }
+            );
         }
     );
 
@@ -656,10 +766,7 @@ return function (App $app) {
             ]);
         }
     )->add(new Auth());
-    $app->get('/student-details', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'students/student-details.html', $args);
-    });
+
     $app->get('/admit-form', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
 
@@ -678,30 +785,28 @@ return function (App $app) {
     $app->get(
         '/all-teacher',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'teacher/all-teacher.html', $args);
-        }
-    )->add(new Auth());
-    $app->get(
-        '/teacher-details',
-        function (Request $request, Response $response, array $args) use ($container) {
-            return TeacherController::viewTeacherDetails($this, $request, $response, $args);
+
+
+            return TeacherController::index($this, $request, $response, [
+                'user' => $_SESSION['username'],
+                'id_user' => $_SESSION['id_user'],
+                'type' =>  $_SESSION['type'],
+                'type_user' =>  $_SESSION['type_user']
+            ]);
         }
     )->add(new Auth());
     $app->get(
         '/add-teacher',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'teacher/add-teacher.html', $args);
-        }
+            return TeacherController::page_add_teacher($this, $request, $response, $args);        }
     )->add(new Auth());
     $app->get(
         '/teacher-payment',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'teacher/teacher-payment.html', $args);
-        }
-    )->add(new Auth());
+            return TeacherController::page_payment($this, $request, $response, $args);        }
+            )->add(new Auth());
     //end Teacher 
 
     //Parent
@@ -826,14 +931,14 @@ return function (App $app) {
         '/exam-schedule',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/exam/exam-schedule.html', $args);
+            return ExamController::option_exam($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(
         '/exam-grade',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/exam/exam-grade.html', $args);
+            $container->view->render($response, 'exam/exam-grade.html', $args);
         }
     )->add(new Auth());
     //End Exam
@@ -870,13 +975,36 @@ return function (App $app) {
     $app->get(
         '/getNotice',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $dataNotice = $container->db->select('tbl_notifications', '*', [
+            // Render index view'
+            // return var_dump($request->getParam('search'));
+
+            $condition = [
                 'ORDER' => [
                     'id_notification' => 'DESC'
-                ]
+                ],
+            ];
+            if(!empty($request->getParam('search'))){
+                $search = $request->getParam('search');
+                $condition['OR'] = [
+                    'title[~]' => '%' . $search . '%',
+                    'date_notice' => Medoo::raw("1 OR (date_notice BETWEEN '".$search."' AND '".$search." 23:59:59')")
+                ];
+            }
+            $dataNotice = $container->db->select('tbl_notifications', '*', $condition);
+            //return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getNoticeDetails',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view'
+            // return var_dump($request->getParam('id'));
+            $id = $request->getParam('id');
+            $dataNotice = $container->db->select('tbl_notifications', '*', [
+                'id_notification'=>$id
             ]);
-            // return var_dump($dataNotice);
+            //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
     )->add(new Auth());
@@ -886,14 +1014,14 @@ return function (App $app) {
             // Render index view
             $dataRequest = $request->getParsedBody();
             // return var_dump($dataRequest);
-            $sendNotice = $container->db->insert('tbl_notifications',[
-                'title'=>$dataRequest['title'],
-                'details'=>$dataRequest['details'],
-                'posted_by'=>$dataRequest['UserType'],
-                'terbaca'=>0,
-                'category'=>$dataRequest['category']
+            $sendNotice = $container->db->insert('tbl_notifications', [
+                'title' => $dataRequest['title'],
+                'details' => $dataRequest['details'],
+                'posted_by' => $dataRequest['UserType'],
+                'terbaca' => 0,
+                'category' => $dataRequest['category']
             ]);
-            return $response->withJson(array('success'=>true));
+            return $response->withJson(array('success' => true));
             // $container->view->render($response, 'others/notice-board.html', $args);
         }
     )->add(new Auth());
@@ -962,8 +1090,8 @@ return function (App $app) {
                 'first_name',
                 'last_name',
             ], [
-                    "id_user" => $NISN
-                ]);
+                "id_user" => $NISN
+            ]);
             // return var_dump($data);
 
             return $response->withJson($data);
@@ -1008,6 +1136,35 @@ return function (App $app) {
             // return var_dump($dataSender);
             // $container->view->render($response, 'others/messaging.html', $args);
             return $response->withJson(array('success' => true));
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getMessageDetails',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view'
+            // return var_dump($request->getParam('id'));
+            $id = $request->getParam('id_message');
+            $dataNotice = $container->db->select('tbl_messages(m)', [
+                '[>]tbl_users' => 'id_user'
+            ], [
+                'id_message',
+                'totalMessage'=> Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '".$_SESSION['username']."')"),
+                'id_user',
+                'receiver_email',
+                'sender_email',
+                'title',
+                'message',
+                'readed',
+                'photo_sender'=>Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
+                'first_name_sender'=>Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
+                'last_name_sender'=>Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
+                'time_sended'
+            ], [
+                'username' => $_SESSION['username'],
+                'id_message' => $id
+            ]);
+            //return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
         }
     )->add(new Auth());
     // End Message
@@ -1226,7 +1383,7 @@ return function (App $app) {
                 "id_user" => $data['id_user']
             ]);
             // return var_dump($update);
-            $_SESSION['user'] = '' . $data['first_name'].' '.$data['last_name'];
+            $_SESSION['user'] = '' . $data['first_name'] . ' ' . $data['last_name'];
             $_SESSION['photo_user'] = $addUpdate;
             return $response->withRedirect('/profile-setting');
         }
@@ -1294,7 +1451,7 @@ return function (App $app) {
                 return DashboardTeacherController::view($this, $request, $response, $args);
             }
             if ($type == 3) {
-                // $type = "Admin";
+                $type = "Admin";
                 // return var_dump($type_user);
                 return DashboardAdminController::getData($this, $request, $response, [
                     'user' => $_SESSION['user'],

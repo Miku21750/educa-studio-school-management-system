@@ -188,7 +188,7 @@
                             <label for="imageUpload"></label>
                         </div>
                         <div class="avatar-preview">
-                            <div id="imagePreview" style="background-image: url(/uploads/Profile/{{data.photo_user}});">
+                            <div id="imagePreview" style="background-image: url(/uploads/Profile/{{data.photo_user |replace({' ' : '%20'})}});">
                             </div>
                         </div>
                 </div>

@@ -1,126 +1,360 @@
 {% extends "/layout/master.html" %}
-{% set title = "Teacher Details" %}
+{% set title = "Teacher Detail" %}
 {% set typeFrontEnd = "Teacher" %}
 {% set section_type = "Teacher Details" %}
 {% block content %}
-<!-- Student Table Area Start Here -->
-<div class="card height-auto">
-  <div class="card-body">
-    <div class="heading-layout1">
-      <div class="item-title">
-        <h3>Tentang Saya</h3>
-      </div>
-      <div class="dropdown">
-        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+{% if berhasil == true %}
+<script>
 
-        <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Tutup</a>
-          <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
-          <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+  let timerInterval
+  Swal.fire({
+    title: 'Memuat Data...',
+    html: 'Tunggu  <b></b>  Detik.',
+    timer: 400,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading()
+      const b = Swal.getHtmlContainer().querySelector('b')
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft()
+      }, 300)
+    },
+    willClose: () => {
+      clearInterval(timerInterval)
+    }
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      Swal.fire(
+        {
+          icon: 'success',
+          title: 'Berhasil',
+          text: 'Data telah ditambahkan.',
+        }
+
+      )
+    }
+  })
+</script>
+
+{% endif %}
+<div class="basic-tab bg-light">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab" aria-selected="true">Detail</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#tab2" role="tab" aria-selected="false">Edit</a>
+    </li>
+
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="tab1" role="tabpanel" class="card height-auto"
+      id="showDataDetailAccountSetting">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Detil Data Guru </h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <div class="single-info-details">
+          <div class="item-img">
+            {# <p>{{data.photo_user}}</p> #}
+            <img src="/uploads/Profile/{{data.photo_user}}" style="width: 280px;" alt="student" />
+          </div>
+          <div class="item-content">
+            <div class="header-inline item-header">
+              <h3 class="text-dark-medium font-medium">{% if data.first_name == '' %}
+                {{ data.username }}
+                {% else %}
+                {{ data.first_name ~" "~ data.last_name }}
+                {% endif %}</h3>
+              <div class="header-elements">
+                <ul>
+
+                  <li>
+                    <a href="#"><i class="fas fa-print"></i></a>
+                  </li>
+                  <li>
+                    <a href="#"><i class="fas fa-download"></i></a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <p> Bio : <br>
+              {{ data.short_bio }}
+              {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
+              word moun taiery.Aliquam erat volutpaturabiene natis massa sedde
+              sodale word moun taiery. #}
+            </p>
+            <div class="info-table table-responsive">
+              <table class="table text-nowrap">
+                <tbody>
+                  <tr>
+                    <td>Nama:</td>
+                    <td class="font-medium text-dark-medium">{{ data.first_name ~' '~ data.last_name }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>NIP:</td>
+                    <td class="font-medium text-dark-medium">{{ data.NISN }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Jenis Kelamin:</td>
+                    <td class="font-medium text-dark-medium">{{data.gender}}</td>
+                  </tr>
+                  
+                  <tr>
+                    <td>Tanggal Lahir:</td>
+                    <td class="font-medium text-dark-medium">{{data.date_of_birth |date("j F Y")}}</td>
+                  </tr>
+                  <tr>
+                    <td>Agama:</td>
+                    <td class="font-medium text-dark-medium">{{data.religion}}</td>
+                  </tr>
+                  <tr>
+                    <td>Username:</td>
+                    <td class="font-medium text-dark-medium">{{data.username}}</td>
+                  </tr>
+                  <tr>
+                    <td>E-mail:</td>
+                    <td class="font-medium text-dark-medium">
+                      {{data.email}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Golongan Darah:</td>
+                    <td class="font-medium text-dark-medium">{{ data.blood_group }}</td>
+                  </tr>
+                  <tr>
+                    <td>Wali Kelas:</td>
+                    <td class="font-medium text-dark-medium">{{data.class}} {{data.section}}</td>
+                  </tr>
+                  <tr>
+                    <td>Mata Pelajaran:</td>
+                    <td class="font-medium text-dark-medium">{{data.subject_name}} ({{data.subject_type}})</td>
+                  </tr>
+                  
+                  
+                  <tr>
+                    <td>Alamat:</td>
+                    <td class="font-medium text-dark-medium">
+                      {{data.address_user}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Phone:</td>
+                    <td class="font-medium text-dark-medium">{{data.phone_user}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="single-info-details">
-      <div class="item-img" >
-        <img src="/uploads/Profile/{{photo}}"  alt="teacher" style="max-width: 280px !important;" />
-      </div>
-      <div class="item-content">
-        <div class="header-inline item-header">
-          <h3 class="text-dark-medium font-medium">{{namaDepanGuru}} {{namaBelakangGuru}}</h3>
-          <div class="header-elements">
-            <ul>
-              <li>
-                <a href="#"><i class="far fa-edit"></i></a>
-              </li>
-              <li>
-                <a href="#"><i class="fas fa-print"></i></a>
-              </li>
-              <li>
-                <a href="#"><i class="fas fa-download"></i></a>
-              </li>
-            </ul>
+    <!-- Profile Settings Area End Here -->
+    <!-- Profile Settings Edit Area Start Here -->
+    <div class="tab-pane fade" id="tab2" role="tabpanel" class="card height-auto" id="editDataDetailAccountSetting">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Edit Profil Kamu</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
           </div>
         </div>
-        <p>
-          {{shortbioGuru}}
-        </p>
-        <div class="info-table table-responsive">
-          <table class="table text-nowrap">
-            <tbody>
-              <tr>
-                <td>Nama :</td>
-                <td class="font-medium text-dark-medium">{{namaDepanGuru}} {{namaBelakangGuru}}</td>
-              </tr>
-              <tr>
-                <td>Jenis Kelamin :</td>
-                <td class="font-medium text-dark-medium">{{jenisKelamin}}</td>
-              </tr>
-              <tr>
-                <td>Agama :</td>
-                <td class="font-medium text-dark-medium">{{agama}}</td>
-              </tr>
-              <tr>
-                <td>Tanggal Bergabung :</td>
-                <td class="font-medium text-dark-medium"> {{admissionDate}}  </td>
-              </tr>
-              <tr>
-                <td>E-mail :</td>
-                <td class="font-medium text-dark-medium">{{email}}
-                </td>
-              </tr>
-              <tr>
-                <td>Mata Pelajaran :</td>
-                <td class="font-medium text-dark-medium">{{teacherSubject.subject}}</td>
-              </tr>
+        <div class="single-info-details">
+          <form action="/api/update-teacher-detail" method="post" class="new-added-form" enctype="multipart/form-data">
+            <div class="item-img">
+              {# <img src="img/figure/student1.jpg" alt="student" /> #}
+              <input type="text" value="{{data.photo_user}}" name="imageDefault" hidden>
+              <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                  <label for="imageUpload"></label>
+                </div>
+                <div class="avatar-preview">
+                  <div id="imagePreview" style="background-image: url(/uploads/Profile/{{data.photo_user|replace({' ' : '%20'})}});">
+                  </div>
+                </div>
+              </div>
+              <script>
+                function readURL(input) {
+                  if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                      $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+                      $('#imagePreview').hide();
+                      $('#imagePreview').fadeIn(650);
+                    }
+                    reader.readAsDataURL(input.files[0]);
 
-              <tr>
-                <td>Kelas :</td>
-                <td class="font-medium text-dark-medium">{{teacherSubject.kelas}} {{teacherSubject.section}}</td>
-              </tr>
+                  }
+                }
+                $("#imageUpload").change(function () {
+                  readURL(this);
+                });
+              </script>
+            </div>
+            <div class="item-content">
+              <div class="header-inline item-header">
+                <h3 class="text-dark-medium font-medium">{% if data.first_name == '' %}
+                  {{ data.username }}
+                  {% else %}
+                  {{ data.first_name ~" "~ data.last_name }}
+                  {% endif %}</h3>
+                <div class="header-elements">
+                  <ul>
 
-              <tr>
-                <td>NIP :</td>
-                <td class="font-medium text-dark-medium">{{NIP}}</td>
-              </tr>
-              <tr>
-                <td>Alamat :</td>
-                <td class="font-medium text-dark-medium">{{addressUser}}</td>
-              </tr>
-              <tr>
-                <td>No. Handpone :</td>
-                <td class="font-medium text-dark-medium">{{phoneUser}}</td>
-              </tr>
-            </tbody>
-          </table>
+                    <li>
+                      <a href="#"><i class="fas fa-print"></i></a>
+                    </li>
+                    <li>
+                      <a href="#"><i class="fas fa-download"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <p>Bio : <br>
+                <textarea name="data_short_bio" cols="120" rows="5" class="form-control">{{ data.short_bio }}</textarea>
+                {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
+                word moun taiery.Aliquam erat volutpaturabiene natis massa sedde
+                sodale word moun taiery. #}
+              </p>
+              <div class="info-table table-responsive">
+                <table class="table text-nowrap">
+                  <tbody>
+                    <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
+                    <tr class="form-group">
+                      <label for="first_name">Nama Depan:</label>
+                      <input type="text" placeholder="Masukan nama depan" name="first_name" class="form-control"
+                        value="{{ data.first_name }}">
+                    </tr>
+                    <tr class="form-group">
+                      <label for="last_name">Nama Belakang:</label>
+                      <input type="text" placeholder="Masukan nama belakang" name="last_name" class="form-control"
+                        value="{{ data.last_name }}">
+                    </tr>
+                    <tr class="form-group">
+                      <label for="last_name">NIP:</label>
+                      <input type="text" placeholder="Masukan nama belakang" name="NISN" class="form-control"
+                        value="{{ data.NISN }}">
+                    </tr>
+                    <tr class="form-group">
+                      <label for="gender">Jenis Kelamin:</label>
+                      <select name="gender" id="selectGenderEditProfile" class="form-control">
+                        <option value="">Pilih gender</option>
+                        <option value="Laki-laki">Laki-Laki</option>
+                        <option value="Perempuan">Perempuan</option>
+                      </select>
+
+                    </tr>
+                    
+
+                    <tr class="form-group">
+                      <label>Tanggal Lahir:</label>
+                      <input type="date" name="date_of_birth" class="form-control" value="{{data.date_of_birth}}">
+                    </tr>
+                    <tr>
+                      <label>Agama:</label>
+                      <input type="text" placeholder="Masukan Agamamu" name="religion" class="form-control"
+                        value="{{ data.religion }}">
+                    </tr>
+                    <tr>
+                      <label>Username:</label>
+                      <input type="text" placeholder="username" name="username" class="form-control bg-light"
+                        value="{{ data.username }}" readonly>
+                    </tr>
+                    <tr>
+                      <label>E-mail:</label>
+                      <input type="email" name="email" class="form-control bg-light" value="{{ data.email }}" readonly>
+                    </tr>
+                    <tr>
+
+                      <label>Golongan Darah:</label>
+                      <select id="selectBloodGroupEditProfile" name="blood_group" class="form-control">
+                        <option value="">Pilih Golongan darah</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="AB">AB</option>
+                        <option value="O">O</option>
+                      </select>
+                    </tr>
+                    <tr>
+                      <label>Wali Kelas:</label>
+                      <select name="id_class" class="form-control" id="kelas">
+                        <option>Pilih Kelas</option>
+                        {% for data in class %}
+                        <option value="{{data.id_class}}">{{data.class}}  {{data.section}}</option>
+                        {% endfor %}
+                      </select>
+                    </tr>
+                    <tr>
+                      <label>Mata Pelajaran:</label>
+                      <select name="id_subject" class="form-control" id="subject" >
+                        <option>Pilih Mapel</option>
+                        {% for data in subject %}
+                        <option value="{{data.id_subject}}">{{data.subject_name}} ({{data.subject_type}})</option>
+                        {% endfor %}
+                      </select>
+                    </tr>
+                    <tr>
+                      <label>Alamat:</label>
+                      <input type="text" name="address_user" placeholder="Masukan Alamat" class="form-control"
+                        value="{{ data.address_user }}">
+                    </tr>
+                    <tr>
+                      <label>No Telepon:</label>
+                      <input type="text" name="phone_user" placeholder="Masukan No Telepon (62-888-8888-8888)"
+                        class="form-control" value="{{ data.phone_user }}">
+                    </tr>
+                  </tbody>
+                </table>
+                <input type="submit" value="Edit Profil" class="btn btn-warning">
+          </form>
         </div>
       </div>
     </div>
   </div>
+
 </div>
-<!-- Student Table Area End Here -->
+</div>
 
+<!-- Profile Settings Edit Area End Here -->
 
+<!-- Script for jquery Edit Form -->
 <script>
-      function dateFormatter(iso, useDay) {
-          if (typeof useDay === typeof undefined) {
-            useDay = true;
-          }
+  $(document).ready(function () {
 
-          if (iso == "0000-00-00 00:00:00") {
-            return '-';
-          }
+    
 
-          var dt = new Date(iso.replace(/-/g, "/"));
-          var dId = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-          var mId = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-          var d = dt.getDate(); if (d < 10) { d = "0" + d; }
-          var dstr = dId[dt.getDay()];
-          var m = mId[dt.getMonth()];
-          var y = dt.getFullYear();
+    var gend = "{{ data.gender }}";
+    var BlGroup = "{{ data.blood_group }}";
+    var subject = "{{ data.id_subject}}";
+    var kelas = "{{ data.id_class }}";
 
-          var str = d + " " + m + " " + y;
-          return useDay ? dstr + ", " + str : str;
-        }
+    $('#selectGenderEditProfile').val(gend).change();
+    $('#selectBloodGroupEditProfile').val(BlGroup).change();
+    $('#subject').val(subject).change();
+    $('#kelas').val(kelas).change();
+  });
 </script>
-
 {% endblock content %}
