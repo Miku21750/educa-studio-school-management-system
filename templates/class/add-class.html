@@ -20,6 +20,28 @@
     <form class="new-added-form">
 
       <div class="row">
+
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Kelas</label>
+          <select id="kelas" class="select2">
+            <option value="">Mohon Dipilih</option>
+            <option value="X">X</option>
+            <option value="XI">XI</option>
+            <option value="XII">XII</option>
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Bagian</label>
+          <select id="bagian" class="select2">
+            <option value="">Mohon Dipilih</option>
+            {% for i in dataSection %}
+            <option value="{{i.id_section}}">{{i.section}} </option>
+            {% endfor %}
+          </select>
+        </div>
+
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Nama Guru *</label>
           <select id="namaGuru" class="select2">
@@ -51,48 +73,6 @@
         </div>
 
         <div class="col-xl-3 col-lg-6 col-12 form-group">
-          <label>Kelas</label>
-          <select class="select2">
-            <option value="">Mohon Dipilih</option>
-            {% for a in dataKelasSection %}
-            <option value="{{a.id_class}}">{{a.class}} - {{a.section}} </option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="col-xl-3 col-lg-6 col-12 form-group">
-          <label>Mata Pelajaran *</label>
-          <select class="select2">
-            <option value="">Mohon Dipilih</option>
-            {% for i in dataSubject %}
-            <option value="{{i.id_subject}}">{{i.subject_name}} </option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="col-xl-3 col-lg-6 col-12 form-group">
-          <label>Waktu Mulai *</label>
-          <input type="time" placeholder="" class="form-control" />
-        </div>
-
-        <div class="col-xl-3 col-lg-6 col-12 form-group">
-          <label>Waktu Selesai *</label>
-          <input type="time" placeholder="" class="form-control" />
-        </div>
-
-        <div class="col-xl-3 col-lg-6 col-12 form-group">
-          <label>Hari *</label>
-          <select id="day" class="select2">
-            <option value="">Mohon Dipilih</option>
-            <option value="Senin">Senin</option>
-            <option value="Selasa">Selasa</option>
-            <option value="Rabu">Rabu</option>
-            <option value="Kamis">Kamis</option>
-            <option value="Jumat">Jumat</option>
-          </select>
-        </div>
-
-        <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>No Handphone *</label>
           <select id="nohp" class="select2" disabled>
             <option value="">Pilih Guru Dahulu</option>
@@ -113,19 +93,17 @@
         </div>
 
         <div class="col-12 form-group mg-t-8">
-          <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">
+          <button onclick="submitBtn(); return false;" type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">
             Save
           </button>
           <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
             Reset
           </button>
         </div>
-
       </div>
     </form>
   </div>
 </div>
-
 
 <script>
 
@@ -145,6 +123,26 @@
     }
   });
 
+  function submitBtn() {
+    $.ajax({
+      url: "/api/kelas/tambah-kelas",
+      type: "POST",
+      dataType: "json",
+      data: {
+        "kelas": $("#kelas").val(),
+        "bagian": $("#bagian").val(),
+        "idTeacher": $("#namaGuru").val(),
+      },
+      beforeSend: function(){
+        // console.log($("#kelas").val());
+        // console.log($("#bagian").val());
+        // console.log($("#namaGuru").val());
+      },
+      success: function(){
+        // console.log("ok");
+      },
+    });
+  }
 </script>
 
 <!-- Add Class Area End Here -->
