@@ -167,7 +167,7 @@ class TeacherController
 
         $data = $app->db->select('tbl_users', [
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
-            '[><]tbl_classes' => ["$tbl_subjects.id_class" => 'id_class'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ],'*', [
             'tbl_users.id_user' => $id
@@ -179,6 +179,7 @@ class TeacherController
         $class = $app->db->select('tbl_classes', [
             '[><]tbl_sections' =>  'id_section',
         ], '*');
+        $subject = $app->db->select('tbl_subjects', '*');
 
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
@@ -187,6 +188,7 @@ class TeacherController
         $app->view->render($response, 'teacher/teacher-details.html', [
             'data' =>  $data[0],
             'class' =>  $class,
+            'subject' =>  $subject,
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
 
@@ -211,7 +213,7 @@ class TeacherController
         echo json_encode($json_data);
     }
 
-    public static function update_student_detail($app, $request, $response, $args)
+    public static function update_teacher_detail($app, $request, $response, $args)
     {
         $data = $args['data'];
 
@@ -245,6 +247,7 @@ class TeacherController
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
             "id_class" => $data['id_class'],
+            "id_subject" => $data['id_subject'],
             "id_parent" => $data['id_parent'],
             "NISN" => $data['NISN'],
             "date_of_birth" => $data['date_of_birth'],
@@ -260,30 +263,27 @@ class TeacherController
         ]);
         // return var_dump($update);
         $_SESSION['berhasil'] = true;
-        return $response->withRedirect('/api/student-detail/' . $data['id_user']);
+        return $response->withRedirect('/api/teacher_detail/' . $data['id_user']);
     }
-    public static function page_add_student($app, $req, $rsp, $args)
+    public static function page_add_teacher($app, $req, $rsp, $args)
     {
 
-        $type = 4;
-        $parent = $app->db->select('tbl_users', '*', [
-            'id_user_type' => $type,
-
-        ]);
+       
         $class = $app->db->select('tbl_classes', [
             '[><]tbl_sections' =>  'id_section',
         ], '*');        // return var_dump($class);
+        $subject = $app->db->select('tbl_subjects', '*');
 
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
-        $app->view->render($rsp, 'students/admit-form.html', [
-            'parent' =>  $parent,
+        $app->view->render($rsp, 'teacher/add-teacher.html', [
             'class' =>  $class,
+            'subject' =>  $subject,
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
         ]);
     }
-    public static function add_student($app, $req, $rsp, $args)
+    public static function add_teacher($app, $req, $rsp, $args)
     {
         $data = $args['data'];
         // return var_dump($data);
@@ -316,11 +316,10 @@ class TeacherController
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
-            "username" => $data['first_name'],
-            "password" => $data['last_name'],
-            "id_section" => $data['id_section'],
+            "username" => $data['nisn'],
+            "password" => $data['nisn'],
             "id_class" => $data['id_class'],
-            "id_parent" => $data['id_parent'],
+            "id_subject" => $data['id_subject'],
             "NISN" => $data['nisn'],
             "date_of_birth" => $data['date_of_birth'],
             "religion" => $data['religion'],
@@ -330,20 +329,14 @@ class TeacherController
             "address_user" => $data['address_user'],
             "short_bio" => $data['data_short_bio'],
             "photo_user" => $addUpdate,
-            "id_user_type" => 1,
+            "id_user_type" => 2,
             "status" => 1,
         ]);
-        $last_id = $app->db->id();
-        $tanggal = date("Y-m-d ");
-
-        $id_masuk = $app->db->insert('tbl_admissions', [
-            "id_user" => $last_id,
-            "admission_date" => $tanggal
-        ]);
+        
 
         // return var_dump($tanggal);
         $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/admit-form');
+        return $rsp->withRedirect('/add-teacher');
     }
     public static function student_promotion($app, $request, $response, $args)
     {
@@ -395,24 +388,123 @@ class TeacherController
         $_SESSION['berhasil'] = true;
         return $rsp->withRedirect('/all-students');
     }
-    public static function add_admission($app, $req, $rsp, $args)
+    public static function page_payment($app, $req, $rsp, $args)
     {
-        $data = $args['data'];
-        // return var_dump($data);
+        $app->view->render($rsp, 'teacher/teacher-payment.html', [
+            'type' => $_SESSION['type'],
+        ]);
+    }
+
+    public static function tampil_data_payment($app, $req, $rsp, $args)
+    {
+        $type = 2;
+        $tbl_classes = 'tbl_classes';
 
 
-        $tanggal = date("Y-m-d ");
-
-        // return var_dump($uploadedFiles);
-        $admission = $app->db->INSERT('tbl_admissions', [
-
-            "id_user" => $data,
-            "admission_date" => $tanggal
+        $parent = $app->db->select('tbl_users', [
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
+            
+        ],'*',[
+            'id_user_type' => $type
         ]);
 
+        // return var_dump($parent);
+        // die();
+        $columns = array(
+            0 => 'id',
+        );
 
-        // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/all-students');
+        $totaldata = count($parent);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+        $order = $req->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $req->getParam('order');
+        $dir = $dir[0]['dir'];
+
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+            'id_user_type' => $type,
+
+        ];
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+
+            $conditions['OR'] = [
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+                'tbl_users.NISN[~]' => '%' . $search . '%',
+                'tbl_users.gender[~]' => '%' . $search . '%',
+
+            ];
+
+            $limit = [
+                "LIMIT" => [$start, $limit],
+                'id_user_type' => $type,
+
+            ];
+
+            $parent = $app->db->select('tbl_users', [
+                '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+                '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
+               
+            ],'*', $limit);
+    
+            $totaldata = count($parent);
+            $totalfiltered = $totaldata;
+            // return var_dump($totaldata);
+        }
+
+        $parent = $app->db->select('tbl_users', [
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
+            
+        ],'*',
+ $conditions);
+
+        $data = array();
+
+
+        if (!empty($parent)) {
+            $no = $req->getParam('start') + 1;
+
+            foreach ($parent as $m) {
+
+                $datas['no'] = $no . '.';
+                $datas['nisn'] = $m['NISN'];
+                $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
+                $datas['nama'] = $m['first_name'] . '  ' . $m['last_name'];
+                $datas['gender'] = $m['gender'];
+                $datas['subject'] = $m['subject_name'] . '(' . $m['subject_type'] . ')';
+                $datas['gaji'] = $m['amount_payment'];
+                
+                
+                if($m['status_pembayaran'] == "Belum Bayar"){
+                    $datas['status'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
+                }else{
+                    $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
+                }
+                
+                $datas['telepon'] = $m['phone_user'];
+                $datas['email'] = $m['email'];                   
+               
+                $data[] = $datas;
+                $no++;
+            }
+        }
+        // return var_dump($parent);
+
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        echo json_encode($json_data);
     }
 }

@@ -518,6 +518,33 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->post(
+                '/update-teacher-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return TeacherController::update_teacher_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/add-teacher',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return TeacherController::add_teacher($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/allpayment',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return TeacherController::tampil_data_payment($this, $request, $response, $args);
+                }
+            );
         }
     );
 
@@ -696,16 +723,14 @@ return function (App $app) {
         '/add-teacher',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'teacher/add-teacher.html', $args);
-        }
+            return TeacherController::page_add_teacher($this, $request, $response, $args);        }
     )->add(new Auth());
     $app->get(
         '/teacher-payment',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'teacher/teacher-payment.html', $args);
-        }
-    )->add(new Auth());
+            return TeacherController::page_payment($this, $request, $response, $args);        }
+            )->add(new Auth());
     //end Teacher 
 
     //Parent
