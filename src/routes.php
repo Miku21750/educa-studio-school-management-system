@@ -234,7 +234,7 @@ return function (App $app) {
                     );
                 }
             );
-            
+
             $app->group(
                 '/hostel',
                 function () use ($app) {
@@ -245,7 +245,7 @@ return function (App $app) {
                             return HostelController::tampil_data($this, $request, $response, $args);
                         }
                     );
-                    
+
                     $app->get(
                         '/{id}/hostel-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
@@ -547,6 +547,33 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->get(
+                '/allteachers',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return TeacherController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/teacher_detail/{id}',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return TeacherController::teacher_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/delete-teacher',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return TeacherController::delete($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 
@@ -692,10 +719,7 @@ return function (App $app) {
             ]);
         }
     )->add(new Auth());
-    $app->get('/student-details', function (Request $request, Response $response, array $args) use ($container) {
-        // Render index view
-        $container->view->render($response, 'students/student-details.html', $args);
-    });
+
     $app->get('/admit-form', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
 
@@ -714,14 +738,14 @@ return function (App $app) {
     $app->get(
         '/all-teacher',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $container->view->render($response, 'teacher/all-teacher.html', $args);
-        }
-    )->add(new Auth());
-    $app->get(
-        '/teacher-details',
-        function (Request $request, Response $response, array $args) use ($container) {
-            return TeacherController::viewTeacherDetails($this, $request, $response, $args);
+
+
+            return TeacherController::index($this, $request, $response, [
+                'user' => $_SESSION['username'],
+                'id_user' => $_SESSION['id_user'],
+                'type' =>  $_SESSION['type'],
+                'type_user' =>  $_SESSION['type_user']
+            ]);
         }
     )->add(new Auth());
     $app->get(
@@ -921,14 +945,14 @@ return function (App $app) {
             // Render index view
             $dataRequest = $request->getParsedBody();
             // return var_dump($dataRequest);
-            $sendNotice = $container->db->insert('tbl_notifications',[
-                'title'=>$dataRequest['title'],
-                'details'=>$dataRequest['details'],
-                'posted_by'=>$dataRequest['UserType'],
-                'terbaca'=>0,
-                'category'=>$dataRequest['category']
+            $sendNotice = $container->db->insert('tbl_notifications', [
+                'title' => $dataRequest['title'],
+                'details' => $dataRequest['details'],
+                'posted_by' => $dataRequest['UserType'],
+                'terbaca' => 0,
+                'category' => $dataRequest['category']
             ]);
-            return $response->withJson(array('success'=>true));
+            return $response->withJson(array('success' => true));
             // $container->view->render($response, 'others/notice-board.html', $args);
         }
     )->add(new Auth());
@@ -997,8 +1021,8 @@ return function (App $app) {
                 'first_name',
                 'last_name',
             ], [
-                    "id_user" => $NISN
-                ]);
+                "id_user" => $NISN
+            ]);
             // return var_dump($data);
 
             return $response->withJson($data);
@@ -1261,7 +1285,7 @@ return function (App $app) {
                 "id_user" => $data['id_user']
             ]);
             // return var_dump($update);
-            $_SESSION['user'] = '' . $data['first_name'].' '.$data['last_name'];
+            $_SESSION['user'] = '' . $data['first_name'] . ' ' . $data['last_name'];
             $_SESSION['photo_user'] = $addUpdate;
             return $response->withRedirect('/profile-setting');
         }
