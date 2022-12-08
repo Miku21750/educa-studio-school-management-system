@@ -3,9 +3,9 @@ content %}
 
 <!-- Class Routine Area Start Here -->
 <div class="row">
-    {# if admin start here #}
-    {# {% if type == "Admin" %} #}
-        
+  {# if admin start here #}
+  {# {% if type == "Admin" %} #}
+
   <div class="col-4-xxxl col-12">
     <div class="card height-auto">
       <div class="card-body">
@@ -14,25 +14,12 @@ content %}
             <h3>Add Class Routine</h3>
           </div>
           <div class="dropdown">
-            <a
-              class="dropdown-toggle"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-              aria-expanded="false"
-              >...</a
-            >
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#"
-                ><i class="fas fa-times text-orange-red"></i>Close</a
-              >
-              <a class="dropdown-item" href="#"
-                ><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a
-              >
-              <a class="dropdown-item" href="#"
-                ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a
-              >
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
           </div>
         </div>
@@ -40,52 +27,67 @@ content %}
           <div class="row">
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Subject Name *</label>
-              <input type="text" placeholder="" class="form-control" />
+              <select class="select2" id="subject_name">
+                <option value="0">Please Select</option>
+                {% for d in result %}
+                <option value="{{d.subject_name}}">{{d.subject_name}}</option>
+                {% endfor %}
+              </select>
             </div>
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Subject Type *</label>
-              <select class="select2">
-                <option value="">Please Select</option>
-                <option value="1">Bangla</option>
-                <option value="2">English</option>
-                <option value="3">Mathematics</option>
-                <option value="3">Economics</option>
-                <option value="3">Chemistry</option>
+              <select class="select2" id="subject_type">
+                <option value="0">Please Select</option>
+                {% for d in result %}
+                <option value="{{d.subject_type}}">{{d.subject_type}}</option>
+                {% endfor %}
               </select>
             </div>
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Select Class *</label>
-              <select class="select2">
+              <select class="select2" id="id_class">
                 <option value="0">Please Select</option>
-                <option value="1">Play</option>
-                <option value="2">Nursery</option>
-                <option value="3">One</option>
-                <option value="3">Two</option>
-                <option value="3">Three</option>
+                {% for d in result %}
+                <option value="{{d.id_class}}">{{d.class}}</option>
+                {% endfor %}
               </select>
             </div>
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
-              <label>Select Code</label>
-              <select class="select2">
+              <label>NIP</label>
+              <select class="select2" id="NISN">
                 <option value="0">Please Select</option>
-                <option value="1">00524</option>
-                <option value="2">00525</option>
-                <option value="3">00526</option>
-                <option value="3">00527</option>
-                <option value="3">00528</option>
+                {% for d in result %}
+                <option value="{{d.NISN}}">{{d.NISN}}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Waktu Mulai *</label>
+              <input type="time" placeholder="" class="form-control" />
+            </div>
+
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Waktu Selesai *</label>
+              <input type="time" placeholder="" class="form-control" />
+            </div>
+
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Hari *</label>
+              <select id="day" class="select2">
+                <option value="">Mohon Dipilih</option>
+                <option value="Senin">Senin</option>
+                <option value="Selasa">Selasa</option>
+                <option value="Rabu">Rabu</option>
+                <option value="Kamis">Kamis</option>
+                <option value="Jumat">Jumat</option>
               </select>
             </div>
             <div class="col-12 form-group mg-t-8">
-              <button
-                type="submit"
-                class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
-              >
+              <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">
                 Save
               </button>
-              <button
-                type="reset"
-                class="btn-fill-lg bg-blue-dark btn-hover-yellow"
-              >
+              <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
                 Reset
               </button>
             </div>
@@ -94,7 +96,7 @@ content %}
       </div>
     </div>
   </div>
-  
+
   {# {% endif %} #}
   {# End if Admin only #}
   <div class="col-8-xxxl col-12">
@@ -105,50 +107,25 @@ content %}
             <h3>Class Routine</h3>
           </div>
           <div class="dropdown">
-            <a
-              class="dropdown-toggle"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-              aria-expanded="false"
-              >...</a
-            >
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
-              <a class="dropdown-item" href="#"
-                ><i class="fas fa-times text-orange-red"></i>Close</a
-              >
-              <a class="dropdown-item" href="#"
-                ><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a
-              >
-              <a class="dropdown-item" href="#"
-                ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a
-              >
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
           </div>
         </div>
         <form class="mg-b-20">
           <div class="row gutters-8">
             <div class="col-lg-4 col-12 form-group">
-              <input
-                type="text"
-                placeholder="Search by Day ..."
-                class="form-control"
-              />
+              <input type="text" placeholder="Search by Day ..." class="form-control" />
             </div>
             <div class="col-lg-3 col-12 form-group">
-              <input
-                type="text"
-                placeholder="Search by Class ..."
-                class="form-control"
-              />
+              <input type="text" placeholder="Search by Class ..." class="form-control" />
             </div>
             <div class="col-lg-3 col-12 form-group">
-              <input
-                type="text"
-                placeholder="Search by Section ..."
-                class="form-control"
-              />
+              <input type="text" placeholder="Search by Section ..." class="form-control" />
             </div>
             <div class="col-lg-2 col-12 form-group">
               <button type="submit" class="fw-btn-fill btn-gradient-yellow">
@@ -192,26 +169,13 @@ content %}
                 <td>20/06/2019</td>
                 <td>
                   <div class="dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-times text-orange-red"></i>Close</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-cogs text-dark-pastel-green"></i
-                        >Edit</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-redo-alt text-orange-peel"></i
-                        >Refresh</a
-                      >
+                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                     </div>
                   </div>
                 </td>
@@ -231,26 +195,13 @@ content %}
                 <td>20/06/2019</td>
                 <td>
                   <div class="dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-times text-orange-red"></i>Close</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-cogs text-dark-pastel-green"></i
-                        >Edit</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-redo-alt text-orange-peel"></i
-                        >Refresh</a
-                      >
+                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                     </div>
                   </div>
                 </td>
@@ -270,26 +221,13 @@ content %}
                 <td>20/06/2019</td>
                 <td>
                   <div class="dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-times text-orange-red"></i>Close</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-cogs text-dark-pastel-green"></i
-                        >Edit</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-redo-alt text-orange-peel"></i
-                        >Refresh</a
-                      >
+                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                     </div>
                   </div>
                 </td>
@@ -309,26 +247,13 @@ content %}
                 <td>20/06/2019</td>
                 <td>
                   <div class="dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-times text-orange-red"></i>Close</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-cogs text-dark-pastel-green"></i
-                        >Edit</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-redo-alt text-orange-peel"></i
-                        >Refresh</a
-                      >
+                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                     </div>
                   </div>
                 </td>
@@ -348,26 +273,13 @@ content %}
                 <td>20/06/2019</td>
                 <td>
                   <div class="dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-times text-orange-red"></i>Close</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-cogs text-dark-pastel-green"></i
-                        >Edit</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-redo-alt text-orange-peel"></i
-                        >Refresh</a
-                      >
+                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                     </div>
                   </div>
                 </td>
@@ -387,26 +299,13 @@ content %}
                 <td>20/06/2019</td>
                 <td>
                   <div class="dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-times text-orange-red"></i>Close</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-cogs text-dark-pastel-green"></i
-                        >Edit</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-redo-alt text-orange-peel"></i
-                        >Refresh</a
-                      >
+                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                     </div>
                   </div>
                 </td>
@@ -426,26 +325,13 @@ content %}
                 <td>20/06/2019</td>
                 <td>
                   <div class="dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-expanded="false"
-                    >
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                       <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-times text-orange-red"></i>Close</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-cogs text-dark-pastel-green"></i
-                        >Edit</a
-                      >
-                      <a class="dropdown-item" href="#"
-                        ><i class="fas fa-redo-alt text-orange-peel"></i
-                        >Refresh</a
-                      >
+                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                     </div>
                   </div>
                 </td>

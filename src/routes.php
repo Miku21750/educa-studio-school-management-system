@@ -13,6 +13,7 @@ use App\Controller\DashbordParentController;
 use App\Controller\DashboardAdminController;
 use App\Controller\ParentController;
 use App\Controller\SubjectController;
+use App\Controller\ClassRoutineController;
 use App\Controller\LibraryController;
 use App\Controller\TransportController;
 use App\Controller\TeacherController;
@@ -785,7 +786,8 @@ return function (App $app) {
         '/class-routine',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/class-routine.html', $args);
+            // $container->view->render($response, 'others/class-routine.html', $args);
+            return ClassRoutineController::index($this, $response, $request, $args);
         }
     )->add(new Auth());
     //End Class Routine
