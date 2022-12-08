@@ -885,7 +885,7 @@ return function (App $app) {
         '/exam-schedule',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'exam/exam-schedule.html', $args);
+            return ExamController::option_exam($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(

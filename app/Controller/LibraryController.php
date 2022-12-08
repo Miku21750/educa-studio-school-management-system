@@ -215,7 +215,7 @@ class LibraryController
     {
         $class = $app->db->query("SELECT DISTINCT class FROM tbl_classes");
         $subject = $app->db->query("SELECT DISTINCT subject_name FROM tbl_subjects");
-        return var_dump($subject);
+        // return var_dump($subject);
 
         $app->view->render($rsp, 'library/add-book.html', [
             'class' => $class,

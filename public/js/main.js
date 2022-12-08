@@ -880,6 +880,12 @@ $(document).ready(function () {
               clearInterval(timerInterval)
             }
           }).then((result) => {
+            $('#eroute_name').val('');
+            $('#eid_driver').val('');
+            $('#evehicle_number').val('');
+            $('#edriver_name').val('');
+            $('#elicense_number').val('');
+            $('#ephone_number').val('');
             Swal.fire(
               {
                 icon: 'success',
@@ -1212,6 +1218,11 @@ $(document).ready(function () {
               clearInterval(timerInterval)
             }
           }).then((result) => {
+            $('#ehostel_name').val('');
+            $('#eroom_number').val('');
+            $('#eroom_type').val('').change();
+            $('#enumber_of_bed').val('');
+            $('#ecost_per_bed').val('');
             hostelTable.draw(false)
             Swal.fire(
               {
@@ -1311,41 +1322,42 @@ $(document).ready(function () {
         { 'data': 'exam_time' },
         { 'data': 'aksi' }
       ]
-      
-      
+
+
     });
 
   }
   exam();
 
   // RESET BUTTON
-  $('#reset_hostel').click(function (e) {
+  $('#reset_exam').click(function (e) {
     e.preventDefault();
-    $('#ehostel_name').val('');
-    $('#eroom_number').val('');
-    $('#eroom_type').val('').change();
-    $('#enumber_of_bed').val('');
-    $('#ecost_per_bed').val('');
+    $('#eexam_name').val('');
+    $('#eclass').val('');
+    $('#esubject').val('').change();
+    $('#eexam_date').val('');
+    $('#eexam_start').val('');
+    $('#eexam_end').val('');
   });
 
   //GET HAPUS
-  $('#show_hostel').on('click', '.hostel_remove', function () {
+  $('#show_exam').on('click', '.exam_remove', function () {
     var id = $(this).attr('data');
-    $('#confirmation-hostel-modal').modal('show');
+    $('#confirmation-exam-modal').modal('show');
     $('[name="kode"]').val(id);
   });
 
   //Hapus Data
-  $('#btn_remove_hostel').on('click', function () {
+  $('#btn_remove_exam').on('click', function () {
     var kode = $('#textkode').val();
     $.ajax({
       type: "POST",
-      url: "/api/hostel/delete-hostel",
+      url: "/api/exam/delete-exam",
       dataType: "JSON",
       data: { kode: kode },
       success: function (data) {
         if (data) {
-          $('#confirmation-hostel-modal').modal('hide');
+          $('#confirmation-exam-modal').modal('hide');
           let timerInterval
           Swal.fire({
             title: 'Memuat Data...',
@@ -1373,7 +1385,7 @@ $(document).ready(function () {
 
             )
           })
-          hostelTable.draw(false)
+          examTable.draw(false)
 
         } else {
           Swal.fire({
@@ -1390,22 +1402,23 @@ $(document).ready(function () {
   });
 
   //Update hostel
-  $('#btn_update_hostel').click(function (e) {
-    var id_hostel = $('#id_hostel').val();
-    var hostel_name = $('#ehostel_name_edit').val();
-    var room_number = $('#eroom_number_edit').val();
-    var room_type = $('#eroom_type_edit').val();
-    var number_of_bed = $('#enumber_of_bed_edit').val();
-    var cost_per_bed = $('#ecost_per_bed_edit').val();
-    // console.log(id_hostel)
+  $('#btn_update_exam').click(function (e) {
+    var id_exam = $('#id_exam').val();
+    var exam_name = $('#eexam_name').val();
+    var id_subject = $('#eid_subject').val();
+    var id_class = $('#eid_class').val();
+    var exam_date = $('#eexam_date').val();
+    var exam_start = $('#eexam_start').val();
+    var exam_end = $('#eexam_end').val();
+    // console.log(id_exam)
     $.ajax({
       type: "POST",
-      url: "/api/hostel/update-hostel-detail",
+      url: "/api/exam/update-exam-detail",
       dataType: "JSON",
-      data: { id_hostel: id_hostel, hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
+      data: { id_exam: id_exam, exam_name: exam_name, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end:exam_end },
       success: function (data) {
         if (data) {
-          $('#detail-hostel').modal('hide');
+          $('#detail-exam').modal('hide');
           let timerInterval
           Swal.fire({
             title: 'Memuat Data...',
@@ -1434,7 +1447,7 @@ $(document).ready(function () {
             )
           })
 
-          hostelTable.draw(false)
+          examTable.draw(false)
         } else {
           Swal.fire({
             icon: 'error',
@@ -1449,19 +1462,20 @@ $(document).ready(function () {
   });
 
   //tambah Data
-  $('#btn_add_hostel').on('click', function () {
-    // var id_hostel = $('#id_hostel').val();
-    var hostel_name = $('#ehostel_name').val();
-    var room_number = $('#eroom_number').val();
-    var room_type = $('#eroom_type').val();
-    var number_of_bed = $('#enumber_of_bed').val();
-    var cost_per_bed = $('#ecost_per_bed').val();
-    console.log(hostel_name)
+  $('#btn_add_exam').on('click', function () {
+    // var id_exam = $('#id_exam').val();
+    var exam_name = $('#eexam_name').val();
+    var id_class = $('#eclass').val();
+    var id_subject = $('#esubject').val();
+    var exam_date = $('#eexam_date').val();
+    var exam_start = $('#eexam_start').val();
+    var exam_end = $('#eexam_end').val();
+    console.log(exam_name)
     $.ajax({
       type: "POST",
-      url: "/api/hostel/add-hostel",
+      url: "/api/exam/add-exam",
       dataType: "JSON",
-      data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
+      data: { exam_name: exam_name, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
       success: function (data) {
         if (data) {
           console.log(data)
@@ -1482,7 +1496,13 @@ $(document).ready(function () {
               clearInterval(timerInterval)
             }
           }).then((result) => {
-            hostelTable.draw(false)
+            $('#eexam_name').val('');
+            $('#eclass').val('');
+            $('#esubject').val('').change();
+            $('#eexam_date').val('');
+            $('#eexam_start').val('');
+            $('#eexam_end').val('');
+            examTable.draw(false)
             Swal.fire(
               {
                 icon: 'success',
@@ -1506,28 +1526,30 @@ $(document).ready(function () {
 
       }
     });
+    z
     return false;
   });
 
 });
 
-$('#show_hostel').on('click', '.hostel_detail', function () {
+$('#show_exam').on('click', '.exam_detail', function () {
   var id = $(this).attr('data');
-  $('#detail-hostel').modal('show');
+  $('#detail-exam').modal('show');
   $.ajax({
     type: "GET",
-    url: "/" + "api" + "/" + "hostel" + "/" + id + "/hostel-detail",
+    url: "/" + "api" + "/" + "exam" + "/" + id + "/exam-detail",
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
-      // console.log(data.id_hostel);
-      $('#detail-hostel').modal('show');
-      $('[name="id_hostel"]').val(data.id_hostel);
-      $('[name="ehostel_name"]').val(data.hostel_name);
-      $('[name="eroom_number"]').val(data.room_number);
-      $('[name="eroom_type"]').val(data.room_type);
-      $('[name="enumber_of_bed"]').val(data.number_of_bed);
-      $('[name="ecost_per_bed"]').val(data.cost_per_bed);
+      // console.log(data.id_exam);
+      $('#detail-exam').modal('show');
+      $('[name="id_exam"]').val(data.id_exam);
+      $('[name="eexam_name"]').val(data.exam_name);
+      $('[name="esubject"]').val(data.subject);
+      $('[name="eclass"]').val(data.class);
+      $('[name="eexam_date"]').val(data.exam_date);
+      $('[name="eexam_start"]').val(data.exam_start);
+      $('[name="eexam_end"]').val(data.exam_end);
 
     }
   });

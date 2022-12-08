@@ -38,8 +38,10 @@ class ExamController{
             'exam_name(exam_name)',
             'subject_name(subject_name)',
             'class(class)',
+            'section(section)',
             'exam_date(exam_date)',
-            'exam_time(exam_time)',
+            'exam_start(exam_start)',
+            'exam_end(exam_end)',
         ]);
         // return var_dump($exam);
         // die();
@@ -68,7 +70,8 @@ class ExamController{
                 'tbl_subjects.subject_name[~]' => '%' . $search . '%',
                 'tbl_classes.class[~]' => '%' . $search . '%',
                 'tbl_exams.exam_date[~]' => '%' . $search . '%',
-                'tbl_exams.exam_time[~]' => '%' . $search . '%',
+                'tbl_exams.exam_start[~]' => '%' . $search . '%',
+                'tbl_exams.exam_end[~]' => '%' . $search . '%',
 
             ];
             $exam = $app->db->select('tbl_exams',[
@@ -79,8 +82,10 @@ class ExamController{
                 'exam_name(exam_name)',
                 'subject_name(subject_name)',
                 'class(class)',
+                'section(section)',
                 'exam_date(exam_date)',
-                'exam_time(exam_time)',
+                'exam_start(exam_start)',
+                'exam_end(exam_end)',
             ],
                 $limit
             );
@@ -97,8 +102,10 @@ class ExamController{
             'exam_name(exam_name)',
             'subject_name(subject_name)',
             'class(class)',
+            'section(section)',
             'exam_date(exam_date)',
-            'exam_time(exam_time)',
+            'exam_start(exam_start)',
+            'exam_end(exam_end)',
         ], $conditions);
 
         $data = array();
@@ -106,13 +113,14 @@ class ExamController{
         if (!empty($exam)) {
             $no = $req->getParam('start') + 1;
             foreach ($exam as $m) {
-
+                $examStart = strtotime($m['exam_start']);
+                $examEnd = strtotime($m['exam_end']);
                 $datas['No'] = $no . '.';
                 $datas['exam_name'] = $m['exam_name'];
                 $datas['subject_name'] = $m['subject_name'];
-                $datas['Class'] = $m['class'];
+                $datas['class'] = $m['class'] . ' ' . $m['section'];
                 $datas['exam_date'] = $m['exam_date'];
-                $datas['exam_time'] = $m['exam_time'];
+                $datas['exam_time'] = date("h:i",$examStart).' - '.date("h:i",$examEnd);
                 $datas['aksi'] =  '<div class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
@@ -158,7 +166,7 @@ class ExamController{
             "id_subject",
             "exam_name",
             "exam_date",
-            "exam_time",
+            "exam_start",
         ], [
             'id_exam' => $id_exam
         ]);
@@ -182,7 +190,6 @@ class ExamController{
             "id_exam" => $id
         ]);
 
-        // return $rsp->withJson($del);
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
         );
@@ -220,10 +227,11 @@ class ExamController{
         
         $data = $app->db->insert('tbl_exams', [
             "exam_name" => $data['exam_name'],
-            "room_number" => $data['room_number'],
-            "room_type" => $data['room_type'],
-            "number_of_bed" => $data['number_of_bed'],
-            "cost_per_bed" => $data['cost_per_bed']
+            "id_class" => $data['id_class'],
+            "id_subject" => $data['id_subject'],
+            "exam_date" => $data['exam_date'],
+            "exam_start" => $data['exam_start'],
+            "exam_end" => $data['exam_end']
         ]);
         // return var_dump($data);
         // $json_data = array(
@@ -231,5 +239,17 @@ class ExamController{
         // );
         // echo json_encode($json_data);
         return $rsp->withJson(array('success'=>true));
+    }
+
+    public static function option_exam($app, $req, $rsp, $args)
+    {
+        $class = $app->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
+        $subject = $app->db->select('tbl_subjects', '*');
+        // return var_dump($subject);
+
+        $app->view->render($rsp, 'exam/exam-schedule.html', [
+            'class' => $class,
+            'subject' => $subject,
+        ]);
     }
 }
