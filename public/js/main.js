@@ -185,9 +185,9 @@
           dataType: "JSON",
           success: function (dana) {
             console.log(dana.sppSiswa)
-            // $.each(dana.sppSiswa, function (i, data) {
-            //   console
-            // });
+            $.each(dana.sppSiswa, function (i, data) {
+              console.log(data)
+            });
           }
         });
       })
@@ -702,7 +702,7 @@ $('#show_book').on('click', '.book_detail', function () {
       $('[name="ebook_name"]').val(data.name_book);
       $('[name="ecategory_book"]').val(data.category_book);
       $('[name="ewriter_book"]').val(data.writer_book);
-      $('[name="eclass_book"]').val(data.class_book);
+      $('[name="eclass_book"]').val(data.class_book).change();
       $('[name="epublish_date"]').val(data.id_driver);
       $('[name="eupload_date"]').val(data.upload_date);
       $('[name="ecode_book"]').val(data.code_book);
@@ -1405,12 +1405,11 @@ $(document).ready(function () {
   $('#btn_update_exam').click(function (e) {
     var id_exam = $('#id_exam').val();
     var exam_name = $('#eexam_name').val();
-    var id_subject = $('#eid_subject').val();
-    var id_class = $('#eid_class').val();
-    var exam_date = $('#eexam_date').val();
-    var exam_start = $('#eexam_start').val();
-    var exam_end = $('#eexam_end').val();
-    // console.log(id_exam)
+    var id_subject = $('#esubject').val();
+    var id_class = $('#eclass').val();
+    var exam_date = $('#eexam_date_send').val();
+    var exam_start = $('#eexam_start_send').val();
+    var exam_end = $('#eexam_end_send').val();
     $.ajax({
       type: "POST",
       url: "/api/exam/update-exam-detail",
@@ -1541,12 +1540,12 @@ $('#show_exam').on('click', '.exam_detail', function () {
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
-      // console.log(data.id_exam);
+      // console.log(data);
       $('#detail-exam').modal('show');
       $('[name="id_exam"]').val(data.id_exam);
       $('[name="eexam_name"]').val(data.exam_name);
-      $('[name="esubject"]').val(data.subject);
-      $('[name="eclass"]').val(data.class);
+      $('[name="esubject"]').val(data.id_subject).change();
+      $('[name="eclass"]').val(data.id_class).change();
       $('[name="eexam_date"]').val(data.exam_date);
       $('[name="eexam_start"]').val(data.exam_start);
       $('[name="eexam_end"]').val(data.exam_end);
@@ -1554,6 +1553,61 @@ $('#show_exam').on('click', '.exam_detail', function () {
     }
   });
   return false;
+});
+
+/*-------------------------------------
+    DataTable Exam Grades
+-------------------------------------*/
+$(document).ready(function () {
+  grade = function () {
+    gradeTable = $("#data_grade").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 1, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 2, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-right", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/exam/getExamGrade",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'grade_name' },
+        { 'data': 'percent_from' },
+        { 'data': 'percent_upto' },
+        { 'data': 'grade_desc' },
+        { 'data': 'grade_point' },
+        { 'data': 'aksi' }
+      ]
+
+
+    });
+
+  }
+  grade();
 });
 
 
