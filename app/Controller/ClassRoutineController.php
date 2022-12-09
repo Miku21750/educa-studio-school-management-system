@@ -8,6 +8,7 @@ class ClassRoutineController
 {
     public static function index($app, $response, $request, $args)
     {
+
         $result = $app->db->select(
             'tbl_subjects',
             [
@@ -65,9 +66,25 @@ class ClassRoutineController
         //     'tbl_sections.section']
         // );
 
+        $cr = $app->db->select(
+            'tbl_class_routines',
+            [
+                "[>]tbl_subjects" => ["id_subject" => "id_subject"],
+                "[>]tbl_classes" => ["id_class" => "id_class"],
+                "[>]tbl_users" => ["id_user" => "id_user"],
+                "[>]tbl_sections" => ["id_class" => "id_section"]
+            ],
+            '*'
+        );
+
         $subject = $app->db->select('tbl_subjects', '*');
 
-        $class = $app->db->select('tbl_classes', '*');
+        $class = $app->db->select(
+            'tbl_classes',
+            [
+                "[><]tbl_sections" => "id_section"
+            ], '*'
+        );
 
         $teacher = $app->db->select('tbl_users', '*', [
             "id_user_type" => 2
@@ -77,7 +94,8 @@ class ClassRoutineController
             'result' => $result,
             'subject' => $subject,
             'class' => $class,
-            'teacher' => $teacher
+            'teacher' => $teacher,
+            'cr' => $cr
         ]);
     }
 
@@ -86,37 +104,14 @@ class ClassRoutineController
         $result = $app->db->select(
             'tbl_class_routines',
             [
-                "[>]tbl_subjects" => ["id_subject" => "id_subject"],
-                "[>]tbl_classes" => ["id_class" => "id_class"],
-                "[>]tbl_users" => ["id_user" => "id_user"],
-                "[>]tbl_sections" => ["id_class" => "id_section"]
+                "[>]tbl_subjects" => "id_subject",
+                "[>]tbl_classes" => "id_class",
+                "[>]tbl_users" => "id_user",
+                "[>]tbl_sections" => "id_section"
             ],
-            [
-                // '*'
-                'id_class_routine',
-                'tbl_class_routines.id_class',
-                'tbl_class_routines.id_subject',
-                'tbl_class_routines.id_user',
-                'school_day',
-                'start_time',
-                'end_time',
-                'tbl_subjects.id_subject',
-                'subject_name',
-                'subject_type',
-                'tbl_classes.id_class',
-                'tbl_classes.id_section',
-                'tbl_classes.class',
-                'tbl_users.id_user',
-                'tbl_users.id_class',
-                'tbl_users.id_user_type',
-                'tbl_users.id_parent',
-                'tbl_users.first_name',
-                'tbl_users.last_name',
-                'tbl_users.NISN',
-                'tbl_sections.id_section',
-                'tbl_sections.section'
-            ]
+            '*'
         );
+        // return var_dump($result);
 
         $columns = array(
             0 => 'id',
@@ -142,17 +137,17 @@ class ClassRoutineController
 
             ];
             $conditions['OR'] = [
-                'tbl_subjects.subject_name[~]' => '%' . $search . '%',
+                'tbl_class_routines.id_subject[~]' => '%' . $search . '%',
                 'tbl_class_routines.school_day[~]' => '%' . $search . '%',
 
             ];
             $result = $app->db->select(
                 'tbl_class_routines',
                 [
-                    "[>]tbl_subjects" => ["id_subject" => "id_subject"],
-                    "[>]tbl_classes" => ["id_class" => "id_class"],
-                    "[>]tbl_users" => ["id_user" => "id_user"],
-                    "[>]tbl_sections" => ["id_class" => "id_section"]
+                    "[>]tbl_subjects" => "id_subject",
+                    "[>]tbl_classes" => "id_class",
+                    "[>]tbl_users" => "id_user",
+                    "[>]tbl_sections" => "id_section"
                 ],
                 [
                     // '*'
@@ -187,10 +182,10 @@ class ClassRoutineController
         $result = $app->db->select(
             'tbl_class_routines',
             [
-                "[>]tbl_subjects" => ["id_subject" => "id_subject"],
-                "[>]tbl_classes" => ["id_class" => "id_class"],
-                "[>]tbl_users" => ["id_user" => "id_user"],
-                "[>]tbl_sections" => ["id_class" => "id_section"]
+                "[>]tbl_subjects" => "id_subject",
+                "[>]tbl_sections" => "id_section",
+                "[>]tbl_classes" => "id_class",
+                "[>]tbl_users" => "id_user",
             ],
             [
                 // '*'
@@ -216,6 +211,9 @@ class ClassRoutineController
                 'tbl_users.NISN',
                 'tbl_sections.id_section',
                 'tbl_sections.section'
+            ],
+            [
+                "ORDER" => ["tbl_users.id_user" => "ASC"]
             ]
         );
 
@@ -242,11 +240,11 @@ class ClassRoutineController
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item classroutine_remove" data="' . $m['id_class_routine'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+                    <a class="dropdown-item class_routine_remove" data="' . $m['id_class_routine'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
                     data-target="#confirmation-modalC"><i class="fas fa-trash text-orange-red"></i>
                             Hapus
                         </button></a>
-                    <a class="btn dropdown-item classroutin_detail" data="' . $m['id_class_routine'] . '" ><button type="button" id="show_subject"  class="btn btn-light"  data-toggle="modal" data-target="#detail_classroutin"><i
+                    <a class="btn dropdown-item class_routine_detail" data="' . $m['id_class_routine'] . '" ><button type="button" id="show_class_routine"  class="btn btn-light"  data-toggle="modal" data-target="#detail_class_routine"><i
                             class="fas fa-edit text-dark-pastel-green"></i>
                             Ubah
                         </button></a>
@@ -288,13 +286,50 @@ class ClassRoutineController
 
     public static function detail($app, $request, $response, $id_class_routine)
     {
-        $data = $app->db->get('tbl_class_routines', [
-            "id_subject",
-            "subject_name",
-            "subject_type"
-        ], [
-            "id_subject" => $id_class_routine
-        ]);
+        // $data = $app->db->select(
+        //     'tbl_class_routines', '*',
+        //     [
+        //         "id_class_routine" => $id_class_routine
+        //     ]
+        // );
+        $data = $app->db->select(
+            'tbl_class_routines',
+            [
+                "[>]tbl_subjects" => ["id_subject" => "id_subject"],
+                "[>]tbl_classes" => ["id_class" => "id_class"],
+                "[>]tbl_users" => ["id_user" => "id_user"],
+                "[>]tbl_sections" => ["id_class" => "id_section"]
+            ],
+            // '*',
+            [
+                // '*'
+                'id_class_routine',
+                'tbl_class_routines.id_class',
+                'tbl_class_routines.id_subject',
+                'tbl_class_routines.id_user',
+                'school_day',
+                'start_time',
+                'end_time',
+                'tbl_subjects.id_subject',
+                'subject_name',
+                'subject_type',
+                'tbl_classes.id_class',
+                'tbl_classes.id_section',
+                'tbl_classes.class',
+                'tbl_users.id_user',
+                'tbl_users.id_class',
+                'tbl_users.id_user_type',
+                'tbl_users.id_parent',
+                'tbl_users.first_name',
+                'tbl_users.last_name',
+                'tbl_users.NISN',
+                'tbl_sections.id_section',
+                'tbl_sections.section'
+            ],
+            [
+                "id_class_routine" => $id_class_routine
+            ]
+        );
         $json_data = array(
             'data' => $data
         );
@@ -308,10 +343,14 @@ class ClassRoutineController
         // return var_dump($data);
 
         $app->db->update('tbl_class_routines', [
-            'subject_name' => $data['subject_name'],
-            'subject_type' => $data['subject_type']
+            'id_class' => $data['id_class'],
+            'id_subject' => $data['subject_name'],
+            'id_user' => $data['id_user'],
+            'school_day' => $data['school_day'],
+            'start_time' => $data['start_time'],
+            'end_time' => $data['end_time']
         ], [
-            "id_subject" => $data['id_subject']
+            "id_class_routine" => $data['id_class_routine']
         ]);
 
         $json_data = array(
@@ -320,12 +359,13 @@ class ClassRoutineController
         echo json_encode($json_data);
     }
 
-    public static function delete_subject($app, $request, $response, $args) {
+    public static function delete_class_routine($app, $request, $response, $args)
+    {
         $id = $args['data'];
         // return var_dump($id);
 
-        $app->db->delete('tbl_subjects', [
-            "id_subject" => $id
+        $app->db->delete('tbl_class_routines', [
+            "id_class_routine" => $id
         ]);
 
         $json_data = array(
@@ -333,5 +373,4 @@ class ClassRoutineController
         );
         echo json_encode($json_data);
     }
-    
 }

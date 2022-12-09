@@ -22,10 +22,18 @@ class LibraryController
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
-        $book = $app->db->select(
-            'tbl_books',
-            '*'
-        );
+        $book = $app->db->select('tbl_books',[
+            '[><]tbl_subjects' => 'id_subject',
+        ],[
+            'id_book(id_book)',
+            'name_book(name_book)',
+            'subject_name(subject_name)',
+            'writer_book(writer_book)',
+            'class_book(class_book)',
+            'publish_date(publish_date)',
+            'upload_date(upload_date)',
+            'code_book(code_book)',
+        ]);
         // return var_dump($book);
 
         $totaldata = count($book);
@@ -48,16 +56,25 @@ class LibraryController
             $conditions['OR'] = [
                 'tbl_books.name_book[~]' => '%' . $search . '%',
                 'tbl_books.code_book[~]' => '%' . $search . '%',
-                'tbl_books.category_book[~]' => '%' . $search . '%',
+                'tbl_subjects.subject_name[~]' => '%' . $search . '%',
                 'tbl_books.writer_book[~]' => '%' . $search . '%',
                 'tbl_books.class_book[~]' => '%' . $search . '%',
                 'tbl_books.publish_date[~]' => '%' . $search . '%',
                 'tbl_books.upload_date[~]' => '%' . $search . '%',
 
             ];
-            $book = $app->db->select(
-                'tbl_books',
-                '*',
+            $book = $app->db->select('tbl_books',[
+                '[><]tbl_subjects' => 'id_subject',
+            ],[
+                'id_book(id_book)',
+                'name_book(name_book)',
+                'id_subject(id_subject)',
+                'writer_book(writer_book)',
+                'class_book(class_book)',
+                'publish_date(publish_date)',
+                'upload_date(upload_date)',
+                'code_book(code_book)',
+            ],
                 $limit
             );
             $totaldata = count($book);
@@ -75,7 +92,7 @@ class LibraryController
                 $datas['No'] = $no . '.';
                 $datas['code_book'] = $m['code_book'];
                 $datas['name_book'] = $m['name_book'];
-                $datas['subject'] = $m['category_book'];
+                $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
                 $datas['class'] = $m['class_book'];
                 $datas['published'] = $m['publish_date'];
@@ -122,7 +139,7 @@ class LibraryController
         $data = $app->db->get('tbl_books', [
             "id_book",
             "name_book",
-            "category_book",
+            "subject_name",
             "writer_book",
             "class_book",
             "publish_date",
@@ -164,7 +181,7 @@ class LibraryController
 
         $update = $app->db->update('tbl_books', [
             "name_book" => $data['name_book'],
-            "category_book" => $data['category_book'],
+            "id_subject" => $data['category_book'],
             "writer_book" => $data['writer_book'],
             "class_book" => $data['class_book'],
             "publish_date" => $data['publish_date'],
@@ -197,7 +214,7 @@ class LibraryController
             "upload_date" => $data['upload_date'],
             "code_book" => $data['code_book'],
         ]);
-        // return var_dump($data);
+        // return die(var_dump($data));
         // $_SESSION['berhasil'] = true;
         // unset($_SESSION['berhasil']);
         // return $rsp->withRedirect('/add-book');
@@ -213,8 +230,8 @@ class LibraryController
 
     public static function option_book($app, $req, $rsp, $args)
     {
-        $class = $app->db->query("SELECT DISTINCT class FROM tbl_classes");
-        $subject = $app->db->query("SELECT DISTINCT subject_name FROM tbl_subjects");
+        $class = $app->db->query("SELECT DISTINCT class FROM tbl_classes")->fetchAll();
+        $subject = $app->db->select('tbl_subjects', '*');
         // return var_dump($subject);
 
         $app->view->render($rsp, 'library/add-book.html', [

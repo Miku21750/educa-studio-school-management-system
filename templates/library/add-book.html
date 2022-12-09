@@ -61,11 +61,11 @@
           <input type="text" placeholder="" class="form-control" name="name_book" />
         </div>
         <div class="col-xl-3 col-lg-6 col-12 form-group">
-          <label>Mata Pelajaran *</label>
+          <label>Kategori Buku *</label>
           <select class="select2" name="category_book">
             <option value="">Pilih Mata Pelajaran *</option>
             {% for i in subject %}
-            <option value="{{i.subject}}">{{ i.subject }}</option>
+            <option value="{{i.id_subject}}">{{ i.subject_name }}</option>
             {% endfor %}
           </select>
         </div>
