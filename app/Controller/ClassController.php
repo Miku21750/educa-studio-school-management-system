@@ -4,6 +4,9 @@ namespace App\Controller;
 
 class ClassController
 {
+    // untuk penambahan tambah vertifikasi input
+    // supaya input kelas yang sudah ada tidak terjadi doble input
+    // jika kelas section dan nama guru sudah ada, jangan di tambah.
 
     public function getTeacherMod($app, $request, $response, $args)
     {
@@ -88,7 +91,6 @@ class ClassController
         // return var_dump($dataSection);
 
         $app->view->render($response, 'class/add-class.html', [
-            'test' => 'test',
             'dataguru' => $dataGuru,
             'dataSection' => $dataSection,
             'dataSubject' => $dataSubject,
