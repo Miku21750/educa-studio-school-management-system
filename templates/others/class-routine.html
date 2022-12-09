@@ -48,10 +48,19 @@ content %}
               <select class="select2" id="id_class">
                 <option value="0">Please Select</option>
                 {% for d in class %}
-                <option value="{{d.id_class}}">{{d.class}} - {{d.id_section}}</option>
+                <option value="{{d.id_class}}">{{d.class}}</option>
                 {% endfor %}
               </select>
             </div>
+            <!-- <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Select Section *</label>
+              <select class="select2" id="id_section">
+                <option value="0">Please Select</option>
+                {% for d in class %}
+                <option value="{{d.id_section}}">{{d.section}}</option>
+                {% endfor %}
+              </select>
+            </div> -->
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>NIP</label>
               <select class="select2" id="id_user">
@@ -116,24 +125,6 @@ content %}
             </div>
           </div>
         </div>
-        <!-- <form class="mg-b-20">
-          <div class="row gutters-8">
-            <div class="col-lg-4 col-12 form-group">
-              <input type="text" placeholder="Search by Day ..." class="form-control" />
-            </div>
-            <div class="col-lg-3 col-12 form-group">
-              <input type="text" placeholder="Search by Class ..." class="form-control" />
-            </div>
-            <div class="col-lg-3 col-12 form-group">
-              <input type="text" placeholder="Search by Section ..." class="form-control" />
-            </div>
-            <div class="col-lg-2 col-12 form-group">
-              <button type="submit" class="fw-btn-fill btn-gradient-yellow">
-                SEARCH
-              </button>
-            </div>
-          </div>
-        </form> -->
         <div class="table-box-nowrap">
           <table class="display" id="class_routine">
             <thead>
@@ -144,193 +135,10 @@ content %}
                 <th>Section</th>
                 <th>Teacher</th>
                 <th>Time</th>
-                <!-- <th>Date</th> -->
                 <th></th>
               </tr>
             </thead>
-            <tbody>
-              <!-- <tr>
-                <td>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" />
-                    <label class="form-check-label">Sunday</label>
-                  </div>
-                </td>
-                <td>4</td>
-                <td>Accounting</td>
-                <td>A</td>
-                <td>Mike John</td>
-                <td>10.00 am-11.00 am</td>
-                <td>20/06/2019</td>
-                <td>
-                  <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <span class="flaticon-more-button-of-three-dots"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
-              <!-- <tr>
-                <td>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" />
-                    <label class="form-check-label">Monday</label>
-                  </div>
-                </td>
-                <td>4</td>
-                <td>English</td>
-                <td>A</td>
-                <td>Adam John</td>
-                <td>10.00 am-11.00 am</td>
-                <td>20/06/2019</td>
-                <td>
-                  <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <span class="flaticon-more-button-of-three-dots"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
-              <!-- <tr>
-                <td>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" />
-                    <label class="form-check-label">Tuesday</label>
-                  </div>
-                </td>
-                <td>4</td>
-                <td>Economics</td>
-                <td>A</td>
-                <td>Johanthon Ray</td>
-                <td>10.00 am-11.00 am</td>
-                <td>20/06/2019</td>
-                <td>
-                  <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <span class="flaticon-more-button-of-three-dots"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
-              <!-- <tr>
-                <td>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" />
-                    <label class="form-check-label">Wednesday</label>
-                  </div>
-                </td>
-                <td>4</td>
-                <td>Drawing</td>
-                <td>A</td>
-                <td>Mike Jonas</td>
-                <td>10.00 am-11.00 am</td>
-                <td>20/06/2019</td>
-                <td>
-                  <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <span class="flaticon-more-button-of-three-dots"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
-              <!-- <tr>
-                <td>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" />
-                    <label class="form-check-label">Thursday</label>
-                  </div>
-                </td>
-                <td>4</td>
-                <td>English</td>
-                <td>A</td>
-                <td>Kate Well</td>
-                <td>10.00 am-11.00 am</td>
-                <td>20/06/2019</td>
-                <td>
-                  <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <span class="flaticon-more-button-of-three-dots"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
-              <!-- <tr>
-                <td>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" />
-                    <label class="form-check-label">Friday</label>
-                  </div>
-                </td>
-                <td>4</td>
-                <td>Chemistry</td>
-                <td>A</td>
-                <td>Mike John</td>
-                <td>10.00 am-11.00 am</td>
-                <td>20/06/2019</td>
-                <td>
-                  <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <span class="flaticon-more-button-of-three-dots"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
-              <!-- <tr>
-                <td>
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" />
-                    <label class="form-check-label">Saturday</label>
-                  </div>
-                </td>
-                <td>4</td>
-                <td>English</td>
-                <td>A</td>
-                <td>Mike John</td>
-                <td>10.00 am-11.00 am</td>
-                <td>20/06/2019</td>
-                <td>
-                  <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                      <span class="flaticon-more-button-of-three-dots"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                      <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
+            <tbody id="show_class_routine">
             </tbody>
           </table>
         </div>
@@ -362,6 +170,103 @@ content %}
     </div>
   </div>
 
+  <!-- MODAL UPDATE -->
+  <div class="modal fade" id="detail_class_routine" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detail Class Routine</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="card ui-tab-card">
+          <div class="card-body">
+            <div class="single-info-details">
+              <div class="item-content">
+                <div class="header-inline item-header">
+                </div>
+                <div class="info-table table-responsive">
+                  <table class="table text-nowrap">
+                    <tbody>
+                      <input type="text" name="id_class_routine" id="id_class_routine" value="{{c_r.id_class_routine}}"
+                        hidden>
+                      <tr class="form-group">
+                        <label>Subject Name </label>
+                        <!-- <input type="text" name="subjectname" id="subject_nameU" placeholder="" class="form-control"> -->
+                        <select class="select2" name="subjectname" id="subject_nameU">
+                          <option value="0">Please Select</option>
+                          {% for d in subject %}
+                          <option value="{{d.id_subject}}">{{d.subject_name}}</option>
+                          {% endfor %}
+                        </select>
+                      </tr>
+
+                      <tr class="form-group">
+                        <label>Subject Type</label>
+                        <select class="select2" name="subjecttype" id="subject_typeU" disabled>
+                          <option value="0">Please Select</option>
+                          {% for d in subject %}
+                          <option value="{{d.id_subject}}">{{d.subject_type}}</option>
+                          {% endfor %}
+                        </select>
+                      </tr>
+
+                      <tr class="form-group">
+                        <label>Select Class</label>
+                        <select class="select2" name="idclass" id="id_classU">
+                          <option value="0">Please Select</option>
+                          {% for d in class %}
+                          <option value="{{d.id_class}}">{{d.class}} - {{d.section}}</option>
+                          {% endfor %}
+                        </select>
+                      </tr>
+
+                      <tr class="form-group">
+                        <label>NIP</label>
+                        <select class="select2" name="iduser" id="id_userU">
+                          <option value="0">Please Select</option>
+                          {% for d in teacher %}
+                          <option value="{{d.id_user}}">{{d.NISN}} - {{d.first_name}} {{d.last_name}}</option>
+                          {% endfor %}
+                        </select>
+                      </tr>
+
+                      <tr class="form-group">
+                        <label>Waktu Mulai *</label>
+                        <input type="time" placeholder="" class="form-control" name="starttime" id="start_timeU" />
+                      </tr>
+
+                      <tr class="from-group">
+                        <label>Waktu Selesai *</label>
+                        <input type="time" placeholder="" class="form-control" name="endtime" id="end_timeU" />
+                      </tr>
+
+                      <tr class="form-group">
+                        <label>Hari *</label>
+                        <select class="select2" name="schoolday" id="school_dayU">
+                          <option value="">Mohon Dipilih</option>
+                          <option value="Senin">Senin</option>
+                          <option value="Selasa">Selasa</option>
+                          <option value="Rabu">Rabu</option>
+                          <option value="Kamis">Kamis</option>
+                          <option value="Jumat">Jumat</option>
+                        </select>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                  <button class="btn btn-warning" id="btn_update_class_routine">Simpan</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
 </div>
 <!-- Class Routine Area End Here -->
 
@@ -374,10 +279,16 @@ content %}
   $("#subject_name").change(function () {
     if (subject_name.val() != subject_type.val()) {
       $("#subject_type").val(subject_name.val()).change();
-      // $("#jenisKelamin").val(subject_name.val()).change();
-      // $("#nip").val(subject_name.val()).change();
-      // $("#nohp").val(subject_name.val()).change();
-      // $("#email").val(subject_name.val()).change();
+    }
+  });
+
+  // AUTO INPUT
+  subject_nameU = $("#subject_nameU");
+  subject_typeU = $("#subject_typeU");
+
+  $("#subject_nameU").change(function () {
+    if (subject_nameU.val() != subject_typeU.val()) {
+      $("#subject_typeU").val(subject_nameU.val()).change();
     }
   });
 
@@ -426,7 +337,6 @@ content %}
         { 'data': 'teacher_name' },
         { 'data': 'time' },
         { 'data': '' },
-        // { 'data': '' },
       ],
     });
 
@@ -481,7 +391,6 @@ content %}
                 icon: 'success',
                 title: 'Berhasil',
                 text: 'Data telah ditambahkan.',
-                //footer: '<a href="">Why do I have this issue?</a>'
               }
 
             )
@@ -514,13 +423,146 @@ content %}
   });
 
   // DELETE CLASS ROUTINE
-    // GET
-    $('#show_class_routine').on('click', '.classroutine_remove', function () {
-        var id = $(this).attr('data');
-        $('#confirmation-modal').modal('show');
-        $('[name="kode"]').val(id);
-        // console.log(id);
+  // GET
+  $('#show_class_routine').on('click', '.class_routine_remove', function () {
+    var id = $(this).attr('data');
+    $('#confirmation-modal').modal('show');
+    $('[name="kode"]').val(id);
+    // console.log(id);
+  });
+
+  // DELETE
+  $('#btn_remove_class_routine').on('click', function () {
+    var kode = $('#textkode').val();
+    $.ajax({
+      type: "POST",
+      url: "/api" + "/deleteclassroutine",
+      dataType: "JSON",
+      data: { kode: kode },
+      success: function (data) {
+        if (data) {
+          $('#confirmation-modal').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah dihapus.',
+              }
+            )
+          })
+          table.draw(false)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+          })
+        }
+      }
     });
+    return false;
+  });
+
+  // UPDATE CLASS ROUTINE
+  $('#show_class_routine').on('click', '.class_routine_detail', function () {
+    var id = $(this).attr('data');
+    // $('#detail_class_routine').modal('show');
+    // console.log(id);
+    $.ajax({
+      type: "GET",
+      url: "/api" + "/class-routine/" + id + "/class-routine-detail",
+      dataType: "JSON",
+      data: { id_class_routine: id },
+      success: function (data) {
+        $('#detail_class_routine').modal('show');
+        $('[name="id_class_routine"]').val(data.id_class_routine);
+        $('[name="subjectname"]').val(data.subject_name);
+        $('[name="subjecttype"]').val(data.subject_type);
+        $('[name="idclass"]').val(data.id_class);
+        $('[name="iduser"]').val(data.id_user);
+        $('[name="starttime"]').val(data.start_time);
+        $('[name="endtime"]').val(data.end_time);
+        $('[name="schoolday"]').val(data.school_day);
+      }
+    });
+    return false;
+    console.log(id);
+  });
+
+  $('#btn_update_class_routine').click(function (e) {
+    var id_class_routine = $('#id_class_routine').val();
+    var subject_name = $('#subject_nameU').val();
+    var subject_type = $('#subject_typeU').val();
+    var id_class = $('#id_classU').val();
+    var id_user = $('#id_userU').val();
+    var start_time = $('#start_timeU').val();
+    var end_time = $('#end_timeU').val();
+    var school_day = $('#school_dayU').val();
+
+    $.ajax({
+      type: "POST",
+      url: "/api" + "/updateclassroutine",
+      dataType: "JSON",
+      data: { id_class_routine: id_class_routine, subject_name: subject_name, subject_type: subject_type,
+         id_class: id_class, id_user: id_user, start_time: start_time, end_time: end_time, school_day: school_day },
+      success: function (data) {
+        if (data) {
+          $('#detail_class_routine').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah diubah.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+            )
+          })
+          table.draw(false)
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+          })
+        }
+      }
+    });
+    return false;
+  });
 
 </script>
 

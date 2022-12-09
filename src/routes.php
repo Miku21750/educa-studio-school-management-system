@@ -182,6 +182,19 @@ return function (App $app) {
             );
 
             $app->group(
+                '/class-routine',
+                function () use ($app) {
+                    $app->get(
+                        '/{id}/class-routine-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            return ClassRoutineController::detail($this, $request, $response, $data);
+                        }
+                    );
+                }
+            );
+
+            $app->group(
                 '/transport',
                 function () use ($app) {
 
@@ -442,6 +455,26 @@ return function (App $app) {
                     $tambah = $request->getParsedBody();
                     return ClassRoutineController::add_class_routine($this, $request, $response, [
                         'tambah' => $tambah
+                    ]);
+                }
+            );
+            $app->post(
+                '/deleteclassroutine',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ClassRoutineController::delete_class_routine($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/updateclassroutine',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ClassRoutineController::update_class_routine($this, $request, $response, [
+                        'data' => $data
                     ]);
                 }
             );
