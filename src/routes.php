@@ -24,6 +24,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 use Slim\Http\UploadedFile;
 use App\Controller\StudentController;
+use App\Controller\AcconuntController;
 
 
 
@@ -621,6 +622,43 @@ return function (App $app) {
                     return TeacherController::tampil_data_payment($this, $request, $response, $args);
                 }
             );
+            $app->get(
+                '/allfees',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return AcconuntController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->post(
+                '/delete-fees',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return AcconuntController::delete($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/{id}/payment-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return AcconuntController::payment_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/update-payment-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return AcconuntController::update_payment_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 
@@ -861,14 +899,15 @@ return function (App $app) {
         '/all-fees',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'acconunt/all-fees.html', $args);
+            return AcconuntController::index($this, $request, $response, $args);
         }
     )->add(new Auth());
+
     $app->get(
         '/all-expense',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'acconunt/all-expense.html', $args);
+            return AcconuntController::pengeluaran($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(
