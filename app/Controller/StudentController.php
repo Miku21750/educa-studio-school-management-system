@@ -247,7 +247,7 @@ class StudentController
             'a.id_user' => $id
 
         ]);
-        // return var_dump($data);
+        // return die(var_dump($data));
         $all = $app->db->select('tbl_users', '*', [
             'id_user_type' => 4
         ]);

@@ -2,6 +2,7 @@
 
 <script>
   var countMessage;
+  var notifCount;
 </script>
 <!-- Header Menu Area Start Here -->
 <div class="navbar navbar-expand-md header-menu-one bg-light">
@@ -82,7 +83,7 @@
         </div>
       </li>
       <li class="navbar-item dropdown header-message">
-        {% if auth is empty %}
+        {% if (auth is empty) or (auth[0].totalMessage == 0) %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-envelope"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Message</div>
@@ -90,7 +91,7 @@
         {% else %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-envelope"></i>
-          <div class="item-title d-md-none text-16 mg-l-10">Message</div>
+          <div class="item-title d-md-none text-16 mg-l-10">Message </div>
           {# Jumlah total message #}
           <span id="iconCountMessage"></span>
         </a>
@@ -101,14 +102,14 @@
           <div class="item-header">
             {# Jumlah total message #}
             {# {{auth|json_encode()}} #}
-            <h6 class="item-title" id="countMessage">Message</h6>
+            <h6 class="item-title" id="countMessage">Message </h6>
           </div>
           <div class="item-content">
             {# message start here #}
             {% for message in auth %}
             {% set countMessag = message.totalMessage %}
             {% if message.readed == 1 %}
-            <div class="media message_Class" style="opacity: 25%;" data-idMessage="{{message.id_message}}"
+            <div class="media message_Class" style="opacity: 40%;" data-idMessage="{{message.id_message}}"
             data-toggle="modal" data-target="#messageViewModal">
               {% else %}
               <div class="media message_Class" data-idMessage="{{message.id_message}}" data-toggle="modal"
@@ -121,7 +122,8 @@
                   <div class="item-title">
                     <a href="#">
                       <span class="item-name">{{message.first_name_sender}} {{message.last_name_sender}}</span>
-                      <span class="item-time">{{message.time_sender|date("m/d/Y")}}</span>
+                      <span class="item-time">{{message.time_sended|date("m/d/Y")}}</span>
+                      
                     </a>
                   </div>
                   <p>{{message.title}}</p>
@@ -142,21 +144,34 @@
           </div>
         </li>
       <li class="navbar-item dropdown header-notification">
+        {% if notif is empty %}
+        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="far fa-bell"></i>
+          <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
+        </a>
+        {% else %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-bell"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
           <span id="iconTotalNotification"></span>
         </a>
-
+        {% set notifCount = notif[0].totalNotif %}
+        <script>
+          notifCount = '{{notifCount}}';
+        </script>
+        {% endif %}
+        
+        
         <div class="dropdown-menu dropdown-menu-right ">
           <div class="item-header">
-            <h6 class="item-title" id="headerTotalNotification">Notifiacations</h6>
+            <h6 class="item-title" id="headerTotalNotification"> Notifications</h6>
           </div>
           <div class="item-content" id="notification-nav">
-            
+              
           </div>
         </div>
       </li>
+      
       {#
       <li class="navbar-item dropdown header-language">
         <a
@@ -223,17 +238,25 @@
 <script>
   $(document).ready(function () {
     console.log(countMessage)
-    if(countMessage == null){
+    console.log(notifCount)
+    if(countMessage == null || countMessage == 0){
       $('#iconCountMessage').html(countMessage);
       $('#countMessage').html('0 New Message');
     }else{
       $('#iconCountMessage').html(countMessage);
-      $('#countMessage').html('' + countMessage + 'New Message');
+      $('#countMessage').html('' + countMessage + ' New Message');
+    }
+    if(notifCount == null  || countMessage == 0){
+      $('#iconTotalNotification').html(notifCount);
+      $('#headerTotalNotifications').html('0 New Notifications');
+    }else{
+      $('#iconTotalNotification').html(notifCount);
+      $('#headerTotalNotification').html('' + notifCount + ' New Notifications');
     }
     $('.message_Class').click(function (e) {
       e.preventDefault();
       var id = $(this).attr('data-idMessage');
-      //console.log($id)
+      console.log(this)
       $.ajax({
         type: "POST",
         url: "/readedMessage",
@@ -243,7 +266,12 @@
         dataType: "JSON",
         success: function (response) {
           console.log(response)
-          //  $('.message_Class').addClass('bg-secondary')
+            $(e.currentTarget).attr('style','opacity: 50%;')
+            console.log(e)
+            countMessage = parseInt(countMessage);
+            //countMessage -= 1;
+            $('#iconCountMessage').html(countMessage);
+            $('#countMessage').html('' + countMessage + ' New Message');
         }
       });
     });
@@ -326,7 +354,7 @@
       //drawNotice();
       $.ajax({
         type: "GET",
-        url: "/getNotice",
+        url: "/getNoticeNavbar",
         data: {
           search: s
         },
