@@ -929,7 +929,13 @@ return function (App $app) {
         '/student-attendence',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/student-attendence.html', $args);
+            $class = $container->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
+            $subject = $container->db->select('tbl_subjects', '*');
+            // return die(var_dump($subject));
+            $container->view->render($response, 'others/student-attendence.html', [
+                'class' => $class,
+                'subject' => $subject,
+            ]);
         }
     )->add(new Auth());
     //End Attendance
