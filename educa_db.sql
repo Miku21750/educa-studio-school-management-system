@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 07 Des 2022 pada 08.12
+-- Waktu pembuatan: 09 Des 2022 pada 07.24
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 7.0.33
 
@@ -31,8 +31,8 @@ SET time_zone = "+00:00";
 CREATE TABLE `tbl_admissions` (
   `id_admission` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `admission_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `admission_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tbl_admissions`
@@ -43,7 +43,10 @@ INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUE
 (2, 3, '2022-12-01'),
 (3, 4, '2022-12-01'),
 (4, 5, '2022-10-06'),
-(5, 9, '2018-07-10');
+(5, 124, '2022-12-07'),
+(6, 7, '2022-12-07'),
+(7, 8, '2022-12-07'),
+(8, 127, '2022-12-07');
 
 -- --------------------------------------------------------
 
@@ -54,8 +57,7 @@ INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUE
 CREATE TABLE `tbl_attendances` (
   `id_attendance` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
-  `att_in` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `att_out` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tanggal` date NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -64,14 +66,14 @@ CREATE TABLE `tbl_attendances` (
 -- Dumping data untuk tabel `tbl_attendances`
 --
 
-INSERT INTO `tbl_attendances` (`id_attendance`, `id_user`, `att_in`, `att_out`, `created_at`, `update_at`) VALUES
-(1, 9, '2022-12-05 00:00:00', '2022-12-05 11:00:00', '2022-12-04 17:00:00', '2022-12-05 04:46:00'),
-(2, 9, '2022-12-06 00:00:00', '2022-12-06 11:00:00', '2022-12-05 02:23:43', '2022-12-05 02:23:43'),
-(3, 9, '2022-12-07 00:00:00', '2022-12-07 11:00:00', '2022-12-05 02:24:55', '2022-12-05 02:24:55'),
-(4, 9, '2022-12-08 00:30:00', '2022-12-08 11:00:00', '2022-12-05 02:24:55', '2022-12-05 02:24:55'),
-(5, 9, '2022-12-08 23:00:00', '2022-12-09 09:00:00', '2022-12-05 03:11:57', '2022-12-05 03:11:57'),
-(6, 9, '2022-12-12 00:00:00', '2022-12-12 11:00:00', '2022-12-05 03:24:26', '2022-12-05 03:24:26'),
-(7, 9, '2022-12-13 01:00:00', '2022-12-13 11:00:00', '2022-12-05 03:24:26', '2022-12-05 03:24:26');
+INSERT INTO `tbl_attendances` (`id_attendance`, `id_user`, `tanggal`, `created_at`, `update_at`) VALUES
+(1, 9, '2022-12-05', '2022-12-04 17:00:00', '2022-12-05 04:46:00'),
+(2, 9, '2022-12-06', '2022-12-05 02:23:43', '2022-12-05 02:23:43'),
+(3, 9, '2022-12-07', '2022-12-05 02:24:55', '2022-12-05 02:24:55'),
+(4, 9, '2022-12-08', '2022-12-05 02:24:55', '2022-12-05 02:24:55'),
+(5, 9, '2022-12-09', '2022-12-05 03:11:57', '2022-12-05 03:11:57'),
+(6, 9, '2022-12-12', '2022-12-05 03:24:26', '2022-12-05 03:24:26'),
+(7, 9, '2022-12-13', '2022-12-05 03:24:26', '2022-12-05 03:24:26');
 
 -- --------------------------------------------------------
 
@@ -243,9 +245,13 @@ CREATE TABLE `tbl_classes` (
 --
 
 INSERT INTO `tbl_classes` (`id_class`, `id_section`, `class`) VALUES
+(0, 0, 'Belum Ada'),
 (1, 1, 'X'),
 (2, 1, 'XI'),
-(3, 1, 'XII');
+(3, 1, 'XII'),
+(4, 2, 'X'),
+(5, 2, 'XI'),
+(6, 2, 'XII');
 
 -- --------------------------------------------------------
 
@@ -258,7 +264,7 @@ CREATE TABLE `tbl_class_routines` (
   `id_class` int(11) NOT NULL,
   `id_subject` int(11) NOT NULL,
   `id_user` int(11) DEFAULT NULL,
-  `date` date DEFAULT NULL,
+  `school_day` enum('Senin','Selasa','Rabu','Kamis','Jumat') DEFAULT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -267,9 +273,14 @@ CREATE TABLE `tbl_class_routines` (
 -- Dumping data untuk tabel `tbl_class_routines`
 --
 
-INSERT INTO `tbl_class_routines` (`id_class_routine`, `id_class`, `id_subject`, `id_user`, `date`, `start_time`, `end_time`) VALUES
-(1, 1, 1, NULL, NULL, NULL, NULL),
-(2, 1, 2, NULL, NULL, NULL, NULL);
+INSERT INTO `tbl_class_routines` (`id_class_routine`, `id_class`, `id_subject`, `id_user`, `school_day`, `start_time`, `end_time`) VALUES
+(1, 1, 1, 23, 'Senin', '07:00:00', '08:00:00'),
+(2, 1, 2, 23, 'Selasa', '08:00:00', '09:00:00'),
+(5, 1, 1, 30, 'Rabu', '15:31:00', '16:31:00'),
+(6, 2, 1, 34, 'Kamis', '15:34:00', '16:34:00'),
+(7, 2, 8, 39, 'Senin', '15:54:00', '16:54:00'),
+(8, 2, 1, 41, 'Rabu', '17:54:00', '18:54:00'),
+(12, 3, 1, 74, 'Jumat', '11:23:00', '12:23:00');
 
 -- --------------------------------------------------------
 
@@ -282,16 +293,49 @@ CREATE TABLE `tbl_exams` (
   `id_class` int(11) NOT NULL,
   `exam_name` varchar(50) NOT NULL,
   `exam_date` date DEFAULT NULL,
-  `exam_time` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `exam_start` time DEFAULT NULL,
+  `exam_end` time NOT NULL,
+  `id_subject` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tbl_exams`
 --
 
-INSERT INTO `tbl_exams` (`id_exam`, `id_class`, `exam_name`, `exam_date`, `exam_time`) VALUES
-(1, 1, 'Ujian Semester 1 X-A', '2022-12-01', '01:00:00'),
-(2, 2, 'Ujian Semester XI-A', '2022-12-01', '01:00:00');
+INSERT INTO `tbl_exams` (`id_exam`, `id_class`, `exam_name`, `exam_date`, `exam_start`, `exam_end`, `id_subject`) VALUES
+(1, 1, 'Ujian Semester 1 X-A', '2022-12-01', '10:00:00', '11:00:00', 1),
+(2, 2, 'Ujian Semester XI-A', '2020-10-24', '14:59:00', '15:59:00', 2),
+(3, 3, 'Ujian Hidup', '0000-00-00', '00:00:00', '00:00:00', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `tbl_exam_grades`
+--
+
+CREATE TABLE `tbl_exam_grades` (
+  `id_exam_grade` int(11) NOT NULL,
+  `grade_name` varchar(5) NOT NULL,
+  `percent_from` int(11) NOT NULL,
+  `percent_upto` int(11) NOT NULL,
+  `grade_desc` varchar(10) NOT NULL,
+  `grade_point` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `tbl_exam_grades`
+--
+
+INSERT INTO `tbl_exam_grades` (`id_exam_grade`, `grade_name`, `percent_from`, `percent_upto`, `grade_desc`, `grade_point`) VALUES
+(1, 'A+', 95, 100, 'Exceptiona', 4),
+(2, 'A', 90, 94, 'Excellent', 3.75),
+(3, 'B+', 85, 89, 'Superior', 3.5),
+(4, 'B', 80, 84, 'Very Good', 3),
+(5, 'C+', 75, 79, 'Above Aver', 2.5),
+(6, 'C', 70, 74, 'Good', 2),
+(7, 'D+', 65, 69, 'High Pass', 1.5),
+(8, 'D', 60, 64, 'Pass', 1),
+(9, 'F', 0, 59, 'Fail', 0);
 
 -- --------------------------------------------------------
 
@@ -305,7 +349,7 @@ CREATE TABLE `tbl_exam_results` (
   `id_exam` int(11) NOT NULL,
   `id_subject` int(11) NOT NULL,
   `id_class` int(11) NOT NULL,
-  `id_section` int(11) NOT NULL,
+  `id_section` int(11) DEFAULT NULL,
   `score` int(11) NOT NULL,
   `date_result` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -339,8 +383,9 @@ CREATE TABLE `tbl_finances` (
   `id_finance` int(11) NOT NULL,
   `id_payment_type` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `tipe_finance` enum('Pemasukan','Pengeluaran') NOT NULL,
   `amount_payment` int(11) NOT NULL,
-  `status` enum('Dibayar','Belum Bayar') NOT NULL,
+  `status_pembayaran` enum('Dibayar','Belum Bayar') NOT NULL,
   `date_payment` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -348,126 +393,14 @@ CREATE TABLE `tbl_finances` (
 -- Dumping data untuk tabel `tbl_finances`
 --
 
-INSERT INTO `tbl_finances` (`id_finance`, `id_payment_type`, `id_user`, `amount_payment`, `status`, `date_payment`) VALUES
-(1, 1, 14, 2000000, 'Dibayar', '2022-02-09'),
-(2, 1, 9, 2000000, 'Dibayar', '2022-04-23'),
-(3, 1, 5, 2000000, 'Dibayar', '2020-03-06'),
-(4, 1, 5, 2000000, 'Dibayar', '2021-04-24'),
-(5, 1, 2, 2000000, 'Dibayar', '2019-03-19'),
-(6, 1, 3, 2000000, 'Belum Bayar', '2021-07-01'),
-(7, 1, 4, 2000000, 'Dibayar', '2022-07-21'),
-(8, 1, 9, 2000000, 'Belum Bayar', '2019-07-14'),
-(9, 1, 11, 2000000, 'Belum Bayar', '2019-10-05'),
-(10, 1, 10, 2000000, 'Belum Bayar', '2021-06-24'),
-(11, 1, 10, 2000000, 'Dibayar', '2021-07-18'),
-(12, 1, 4, 2000000, 'Belum Bayar', '2020-03-24'),
-(13, 1, 17, 2000000, 'Dibayar', '2022-04-12'),
-(14, 1, 18, 2000000, 'Dibayar', '2020-02-24'),
-(15, 1, 5, 2000000, 'Dibayar', '2019-02-03'),
-(16, 1, 14, 2000000, 'Dibayar', '2022-02-07'),
-(17, 1, 9, 2000000, 'Dibayar', '2021-04-20'),
-(18, 1, 9, 2000000, 'Belum Bayar', '2020-07-05'),
-(19, 1, 2, 2000000, 'Dibayar', '2019-09-21'),
-(20, 1, 8, 2000000, 'Dibayar', '2010-01-11'),
-(21, 1, 8, 2000000, 'Dibayar', '2021-08-07'),
-(22, 1, 18, 2000000, 'Dibayar', '2020-11-09'),
-(23, 1, 7, 2000000, 'Belum Bayar', '2021-05-26'),
-(24, 1, 13, 2000000, 'Belum Bayar', '2008-10-12'),
-(25, 1, 5, 2000000, 'Dibayar', '2021-02-28'),
-(26, 1, 2, 2000000, 'Dibayar', '2019-12-12'),
-(27, 1, 6, 2000000, 'Belum Bayar', '2020-09-13'),
-(28, 1, 17, 2000000, 'Dibayar', '2022-09-15'),
-(29, 1, 10, 2000000, 'Dibayar', '2014-04-24'),
-(30, 1, 18, 2000000, 'Dibayar', '2020-01-21'),
-(31, 1, 20, 2000000, 'Dibayar', '2008-02-03'),
-(32, 1, 2, 2000000, 'Dibayar', '2012-05-30'),
-(33, 1, 6, 2000000, 'Belum Bayar', '2021-11-14'),
-(34, 1, 4, 2000000, 'Belum Bayar', '2020-04-11'),
-(35, 1, 18, 2000000, 'Dibayar', '2019-02-27'),
-(36, 1, 17, 2000000, 'Dibayar', '2019-07-27'),
-(37, 1, 9, 2000000, 'Dibayar', '2021-06-16'),
-(38, 1, 13, 2000000, 'Belum Bayar', '2018-07-16'),
-(39, 1, 9, 2000000, 'Belum Bayar', '2019-02-23'),
-(40, 1, 11, 2000000, 'Belum Bayar', '2019-10-11'),
-(41, 1, 18, 2000000, 'Dibayar', '2019-10-17'),
-(42, 1, 18, 2000000, 'Dibayar', '2022-10-02'),
-(43, 1, 9, 2000000, 'Dibayar', '2019-01-04'),
-(44, 1, 5, 2000000, 'Dibayar', '2020-08-01'),
-(45, 1, 11, 2000000, 'Dibayar', '2021-11-22'),
-(46, 1, 15, 2000000, 'Dibayar', '2005-06-03'),
-(47, 1, 20, 2000000, 'Dibayar', '2021-07-29'),
-(48, 1, 19, 2000000, 'Belum Bayar', '2021-09-04'),
-(49, 1, 4, 2000000, 'Dibayar', '2017-01-11'),
-(50, 1, 14, 2000000, 'Belum Bayar', '2017-03-10'),
-(51, 1, 18, 2000000, 'Dibayar', '2021-01-19'),
-(52, 1, 14, 2000000, 'Dibayar', '2020-01-12'),
-(53, 1, 7, 2000000, 'Belum Bayar', '2019-10-07'),
-(54, 1, 11, 2000000, 'Belum Bayar', '2015-10-08'),
-(55, 1, 18, 2000000, 'Belum Bayar', '2020-02-02'),
-(56, 1, 7, 2000000, 'Dibayar', '2006-03-23'),
-(57, 1, 10, 2000000, 'Belum Bayar', '2020-10-29'),
-(58, 1, 4, 2000000, 'Belum Bayar', '2019-04-03'),
-(59, 1, 5, 2000000, 'Dibayar', '2003-06-09'),
-(60, 1, 9, 2000000, 'Belum Bayar', '2020-05-13'),
-(61, 1, 11, 2000000, 'Belum Bayar', '2020-08-11'),
-(62, 1, 11, 2000000, 'Dibayar', '2020-12-28'),
-(63, 1, 12, 2000000, 'Belum Bayar', '2006-09-15'),
-(64, 1, 4, 2000000, 'Dibayar', '2006-06-09'),
-(65, 1, 5, 2000000, 'Dibayar', '2020-12-30'),
-(66, 1, 10, 2000000, 'Dibayar', '2021-07-12'),
-(67, 1, 19, 2000000, 'Dibayar', '2022-11-28'),
-(68, 1, 2, 2000000, 'Belum Bayar', '2019-02-23'),
-(69, 1, 11, 2000000, 'Belum Bayar', '2022-12-06'),
-(70, 1, 15, 2000000, 'Dibayar', '2008-01-31'),
-(71, 1, 11, 2000000, 'Belum Bayar', '2022-02-12'),
-(72, 1, 5, 2000000, 'Belum Bayar', '2021-01-13'),
-(73, 1, 16, 2000000, 'Belum Bayar', '2022-06-02'),
-(74, 1, 5, 2000000, 'Belum Bayar', '2021-08-05'),
-(75, 1, 19, 2000000, 'Dibayar', '2014-11-19'),
-(76, 1, 9, 2000000, 'Belum Bayar', '2019-12-24'),
-(77, 1, 5, 2000000, 'Belum Bayar', '2022-11-11'),
-(78, 1, 15, 2000000, 'Belum Bayar', '2013-03-22'),
-(79, 1, 19, 2000000, 'Dibayar', '2019-03-31'),
-(80, 1, 18, 2000000, 'Dibayar', '2022-01-23'),
-(81, 1, 13, 2000000, 'Dibayar', '2020-07-28'),
-(82, 1, 7, 2000000, 'Belum Bayar', '2012-10-24'),
-(83, 1, 6, 2000000, 'Belum Bayar', '2020-12-09'),
-(84, 1, 2, 2000000, 'Dibayar', '2009-07-13'),
-(85, 1, 7, 2000000, 'Dibayar', '2021-05-26'),
-(86, 1, 20, 2000000, 'Belum Bayar', '2021-03-27'),
-(87, 1, 2, 2000000, 'Dibayar', '2020-07-31'),
-(88, 1, 2, 2000000, 'Belum Bayar', '2019-12-16'),
-(89, 1, 16, 2000000, 'Belum Bayar', '2019-10-18'),
-(90, 1, 4, 2000000, 'Dibayar', '2019-04-21'),
-(91, 1, 11, 2000000, 'Dibayar', '2020-10-26'),
-(92, 1, 20, 2000000, 'Dibayar', '2019-02-04'),
-(93, 1, 6, 2000000, 'Dibayar', '2021-01-09'),
-(94, 1, 16, 2000000, 'Dibayar', '2014-07-10'),
-(95, 1, 15, 2000000, 'Dibayar', '2021-01-01'),
-(96, 1, 7, 2000000, 'Belum Bayar', '2019-01-10'),
-(97, 1, 12, 2000000, 'Belum Bayar', '2019-09-01'),
-(98, 1, 14, 2000000, 'Dibayar', '2019-08-19'),
-(99, 1, 14, 2000000, 'Dibayar', '2020-03-20'),
-(100, 1, 11, 2000000, 'Dibayar', '2012-03-07'),
-(101, 3, 30, 1500000, 'Belum Bayar', '2020-02-25'),
-(102, 3, 35, 1500000, 'Dibayar', '2019-04-03'),
-(103, 3, 30, 1500000, 'Belum Bayar', '2019-07-11'),
-(104, 3, 56, 1500000, 'Dibayar', '2020-10-24'),
-(105, 3, 56, 1500000, 'Dibayar', '2022-06-25'),
-(106, 3, 34, 1500000, 'Belum Bayar', '2018-11-06'),
-(107, 3, 56, 1500000, 'Dibayar', '2016-02-02'),
-(108, 3, 35, 1500000, 'Dibayar', '2019-08-05'),
-(109, 3, 59, 1500000, 'Belum Bayar', '2019-05-26'),
-(110, 3, 34, 1500000, 'Dibayar', '2020-01-24'),
-(111, 3, 35, 1500000, 'Dibayar', '2019-09-04'),
-(112, 3, 34, 1500000, 'Belum Bayar', '2017-05-27'),
-(113, 3, 35, 1500000, 'Belum Bayar', '2021-04-14'),
-(114, 3, 41, 1500000, 'Belum Bayar', '2008-10-08'),
-(116, 3, 59, 1500000, 'Belum Bayar', '2022-08-25'),
-(117, 3, 47, 1500000, 'Dibayar', '2021-04-15'),
-(118, 3, 57, 1500000, 'Belum Bayar', '2013-11-20'),
-(119, 3, 63, 1500000, 'Belum Bayar', '2019-03-22'),
-(120, 3, 41, 1500000, 'Belum Bayar', '2010-08-31');
+INSERT INTO `tbl_finances` (`id_finance`, `id_payment_type`, `id_user`, `tipe_finance`, `amount_payment`, `status_pembayaran`, `date_payment`) VALUES
+(1, 1, 2, 'Pemasukan', 100000, 'Belum Bayar', '0000-00-00'),
+(2, 1, 4, 'Pemasukan', 100000, 'Belum Bayar', '0000-00-00'),
+(3, 1, 2, 'Pemasukan', 100000, 'Dibayar', '2022-12-01'),
+(4, 2, 4, 'Pemasukan', 100000, 'Dibayar', '2022-11-24'),
+(5, 3, 23, 'Pengeluaran', 5000000, 'Dibayar', '2022-12-07'),
+(6, 3, 30, 'Pengeluaran', 5000000, 'Belum Bayar', '2022-12-08'),
+(7, 4, 23, 'Pengeluaran', 500000, 'Dibayar', '2022-12-01');
 
 -- --------------------------------------------------------
 
@@ -505,7 +438,7 @@ CREATE TABLE `tbl_messages` (
   `sender_email` varchar(50) NOT NULL,
   `title` varchar(25) NOT NULL,
   `message` varchar(255) NOT NULL,
-  `time_sended` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `time_sended` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `readed` tinyint(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -518,7 +451,13 @@ INSERT INTO `tbl_messages` (`id_message`, `id_user`, `receiver_email`, `sender_e
 (5, 2, 'oniworld@oniworld.com', 'rafaelfarizi1@gmail.com', 'AAAAAAAAAAA', 'AAAAA', '2022-12-06 07:18:55', 0),
 (6, 111, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'AAAAAAAAAAA', 'AAAAA', '2022-12-06 07:47:57', 1),
 (7, 111, 'rafaelfarizi1@gmail.com', 'harber.tyshawn@example.com', 'Miku21 Under Arrest', 'Alerting, your are under arrest for doing child predator', '2022-12-06 07:27:48', 0),
-(8, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'AAAAAAAA', 'AAAAAA', '2022-12-07 04:10:56', 1);
+(8, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'AAAA', 'AAAAAA', '2022-12-08 02:21:22', 1),
+(9, 112, 'laruthm02@gmail.com', 'rafaelfarizi1@gmail.com', 'jhgjhk', 'mikuas', '2022-12-08 01:47:33', 0),
+(10, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'kambin', 'dsfgfdgsdfgdgs', '2022-12-05 03:06:25', 1),
+(11, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'iuggjhg', 'AAAAA', '2022-12-09 01:53:53', 0),
+(12, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'iuggjhg', 'AAAAAfadasdfasd', '2022-12-09 02:22:01', 1),
+(13, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'iuggjhg', 'AAAAAfadasdfasdasdfasdfas', '2022-12-09 01:56:28', 0),
+(14, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'AAAA', 'AAAAAA', '2022-12-09 02:20:37', 1);
 
 -- --------------------------------------------------------
 
@@ -543,7 +482,10 @@ CREATE TABLE `tbl_notifications` (
 INSERT INTO `tbl_notifications` (`id_notification`, `title`, `details`, `posted_by`, `date_notice`, `terbaca`, `category`) VALUES
 (3, 'Biaya Semester ', 'Jatuh Tempo Biaya Semester Bulan Desember Siswa A', 'Admin', '2022-10-08 03:00:00', 0, 'Pembayaran'),
 (4, 'Biaya Semester B', 'Jatuh Tempo Biaya Semester Bulan Desember Siswa B', 'Admin', '2022-12-07 06:49:25', 0, 'Pembayaran'),
-(8, 'Miku21 Under Arrest', 'Miku21 Under Arrest for doing child predator', 'Miku21 Margareth', '2022-12-07 07:02:43', 0, 'Event');
+(9, 'Miku21 Under Arrest', 'Miku21 Under Arrest for doing child predator', 'Miku21 Margareth', '2022-12-07 07:18:09', 0, 'Event'),
+(10, 'Exam is coming', 'BROOOOOOOO', 'Miku21 Margareth', '2022-12-08 03:30:56', 0, 'Exam'),
+(11, 'Upacara besok', 'BROOOOOOOO', 'Miku21 Margareth', '2022-12-08 03:31:45', 0, 'Pengumuman_Sekolah'),
+(12, 'Miku21 Free from arrest', 'But still hunting children free, be warning guys', 'Miku21 Margareth', '2022-12-09 04:03:47', 0, 'Event');
 
 -- --------------------------------------------------------
 
@@ -561,9 +503,10 @@ CREATE TABLE `tbl_payment_types` (
 --
 
 INSERT INTO `tbl_payment_types` (`id_payment_type`, `payment_type_name`) VALUES
-(1, 'Bayar SPP'),
-(2, 'Dana BOS'),
-(3, 'Gaji Guru');
+(1, 'Biaya Semester'),
+(2, 'Biaya Ujian'),
+(3, 'Gaji Guru'),
+(4, 'Transport');
 
 -- --------------------------------------------------------
 
@@ -581,8 +524,11 @@ CREATE TABLE `tbl_sections` (
 --
 
 INSERT INTO `tbl_sections` (`id_section`, `section`) VALUES
+(0, ''),
 (1, 'A'),
-(2, 'B');
+(2, 'B'),
+(3, 'C'),
+(4, 'D');
 
 -- --------------------------------------------------------
 
@@ -593,21 +539,27 @@ INSERT INTO `tbl_sections` (`id_section`, `section`) VALUES
 CREATE TABLE `tbl_subjects` (
   `id_subject` int(11) NOT NULL,
   `subject_name` varchar(25) NOT NULL,
-  `subject_type` varchar(10) NOT NULL,
-  `id_class` int(11) NOT NULL
+  `subject_type` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_subjects`
 --
 
-INSERT INTO `tbl_subjects` (`id_subject`, `subject_name`, `subject_type`, `id_class`) VALUES
-(1, 'English', 'Theory', 0),
-(2, 'Accounting', 'Mathematic', 0),
-(3, 'Bangla', 'Theory', 0),
-(4, 'Arts', 'Theory', 0),
-(5, 'Bangla', 'Theory', 0),
-(6, 'Arts', 'Theory', 0);
+INSERT INTO `tbl_subjects` (`id_subject`, `subject_name`, `subject_type`) VALUES
+(0, 'Belum Ada', 'Tidak Ada'),
+(1, 'English', 'Theory'),
+(2, 'Accounting', 'Mathematic'),
+(5, 'Bangla', 'Theory'),
+(6, 'Arts', 'Theory'),
+(8, 'Jawa', 'Theory'),
+(9, 'Jawa', 'Practice'),
+(11, 'IPA', 'Practice'),
+(12, 'IPS', 'Theory'),
+(15, 'Japan', 'Theory'),
+(17, 'German', 'Practice'),
+(18, 'Accounting', 'Mathematic'),
+(19, 'Aksara Jawa Kuno', 'Theory');
 
 -- --------------------------------------------------------
 
@@ -623,7 +575,7 @@ CREATE TABLE `tbl_transports` (
   `license_number` varchar(25) NOT NULL,
   `phone_number` varchar(25) NOT NULL,
   `id_driver` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `tbl_transports`
@@ -652,26 +604,28 @@ CREATE TABLE `tbl_users` (
   `id_user` int(11) NOT NULL,
   `id_class` int(11) NOT NULL,
   `id_section` int(11) NOT NULL,
+  `id_subject` int(11) NOT NULL,
   `id_hostel` int(11) NOT NULL,
   `id_trans` int(11) NOT NULL,
   `id_user_type` int(11) NOT NULL,
   `id_parent` int(11) NOT NULL,
   `id_student` int(11) NOT NULL,
-  `class` int(11) DEFAULT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `gender` enum('Laki-Laki','Perempuan') NOT NULL,
+  `session` varchar(50) NOT NULL,
+  `first_name` varchar(25) NOT NULL,
+  `last_name` varchar(25) NOT NULL,
+  `gender` enum('Laki-laki','Perempuan') NOT NULL,
   `date_of_birth` date NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `religion` varchar(255) NOT NULL,
-  `email` varchar(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `NISN` int(11) NOT NULL,
   `photo_user` varchar(255) DEFAULT NULL,
   `blood_group` char(5) DEFAULT NULL,
   `occupation` varchar(255) NOT NULL,
   `phone_user` varchar(25) NOT NULL,
   `address_user` text,
+  `class` varchar(255) DEFAULT NULL,
   `status` tinyint(2) NOT NULL,
   `short_bio` text,
   `admission_status` varchar(11) DEFAULT NULL,
@@ -687,7 +641,7 @@ CREATE TABLE `tbl_users` (
 
 INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_hostel`, `id_trans`, `id_user_type`, `id_parent`, `id_student`, `class`, `first_name`, `last_name`, `gender`, `date_of_birth`, `username`, `password`, `religion`, `email`, `NISN`, `photo_user`, `blood_group`, `occupation`, `phone_user`, `address_user`, `status`, `short_bio`, `admission_status`, `admission_date`, `create_at`, `update_at`, `delete_at`) VALUES
 (2, 1, 0, 0, 1, 1, 48, 0, 1, 'doni', 'billar', 'Laki-Laki', '2012-11-15', 'random', 'random', 'other', 'oniworld@oniworld.com', 9987, 'default.png', NULL, '', '+628963333930', 'random', 0, 'random', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
-(3, 2, 0, 0, 1, 1, 48, 0, 1, 'Art', 'Ankunding', 'Perempuan', '0000-00-00', 'gaylord.schoen', '3e9cab5ae2ae061f1654f0d141bb77f0693f615f', 'hindu', 'moore.eveline@example.net', 9864, 'default.png', 'b', '', '793-284-4861', '5934 Jacinto Crossroad Apt. 364\r\nOlsonmouth, KS 30988', 0, 'Necessitatibus error atque delectus ipsa libero. Harum quasi assumenda quos illum. Maiores et ipsam iusto at ea qui quibusdam. Eligendi iure libero aut quia quia vero autem.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
+(3, 0, 0, 0, 1, 1, 48, 0, 1, 'Art', 'Ankunding', 'Perempuan', '0000-00-00', 'gaylord.schoen', '3e9cab5ae2ae061f1654f0d141bb77f0693f615f', 'hindu', 'moore.eveline@example.net', 9864, 'default.png', 'b', '', '793-284-4861', '5934 Jacinto Crossroad Apt. 364\r\nOlsonmouth, KS 30988', 0, 'Necessitatibus error atque delectus ipsa libero. Harum quasi assumenda quos illum. Maiores et ipsam iusto at ea qui quibusdam. Eligendi iure libero aut quia quia vero autem.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-09 06:11:39', NULL),
 (4, 1, 0, 0, 1, 1, 48, 0, 1, 'Emily', 'Aufderhar', 'Perempuan', '0000-00-00', 'so\'keefe', 'ab3a0ba6b3d3ffc9834f76574dd2c3ec9438a795', 'kristen', 'briana.weimann@example.net', 9861, 'default.png', NULL, '', '1-688-563-2931x133', '1691 Rice Underpass\r\nNorth Valentinamouth, ID 91399', 0, 'Dolore inventore iure repudiandae qui consequatur accusamus. Recusandae dolorem quam est saepe sed unde soluta. Atque id qui deleniti aut repellat. Maxime quaerat ut corrupti et et enim sint.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (5, 1, 0, 0, 1, 1, 48, 0, 1, 'Ida', 'Roberts', 'Perempuan', '0000-00-00', 'swilderman', '2e54bd48cabbb48a57c87ecc6575d6871117c177', 'islam', 'clifford61@example.com', 0, 'default.png', NULL, '', '1-357-343-0969x83055', '002 Connelly Canyon Apt. 917\r\nNew Joyburgh, WA 46394', 0, 'Libero earum dolor possimus accusantium vitae fugiat ratione. Cumque cumque tempore et est dolore rerum voluptatem molestiae. Quas sunt omnis asperiores dolor provident culpa inventore.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (6, 1, 0, 0, 1, 1, 0, 0, 1, 'Eloisa', 'Langworth', 'Laki-Laki', '0000-00-00', 'hyman77', 'a8a88f3f74ee5c0c2efc29a71e94c9b8b7ad6f1a', 'hindu', 'rod.willms@example.org', 0, 'default.png', 'o', '', '8833275468', '1265 Johns Valley Suite 874\r\nSamsonshire, OR 34497', 0, 'Porro ipsa nam harum. Perferendis similique voluptatem incidunt nisi facilis et ratione. Voluptatum tenetur qui sit rerum quam quasi similique. Impedit et corporis repellendus est.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
@@ -787,6 +741,10 @@ INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_hostel`, `id_t
 (100, 2, 0, 0, 1, 4, 0, 0, 1, 'Laverne', 'Morar', 'Perempuan', '0000-00-00', 'miller20', 'c97f8592befaa34057b58d44eb700d66bafb1514', 'kristen', 'clittle@example.org', 0, 'default.png', 'o', '', '5278137898', '40666 Katlyn Shore Suite 040\r\nEast Kelli, ID 28933-3389', 0, 'Quos voluptates ab et ut ipsa sequi. Iste reiciendis vitae illum id aperiam similique cupiditate. Saepe et incidunt est delectus sit rem vel nihil. Nam architecto eligendi vero possimus totam et.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (101, 3, 0, 0, 1, 3, 0, 0, 1, 'Maida', 'Cummings', 'Laki-Laki', '0000-00-00', 'xemmerich', 'c2c8433e159ca1f1a0bd62d8cfd90d2dd64d639b', 'kristen', 'pmosciski@example.net', 0, 'default.png', 'ab', '', '(264)015-2705', '8484 Reece Tunnel Suite 836\r\nNew Julianaview, GA 57745', 0, 'Odio non et eos qui dolor saepe est eum. Harum id explicabo quis exercitationem hic. Neque architecto cupiditate ullam voluptas. Quas cumque illo illum est harum. Corrupti facilis cumque earum quo', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (103, 0, 0, 0, 0, 3, 0, 0, NULL, 'Miku21', 'Margareth', 'Laki-Laki', '2005-04-24', 'miku21', 'miku21', 'Attack Helicopter', 'rafaelfarizi1@gmail.com', 0, '20221207042526-20220929-133008.jpg', 'AB', 'Pullstack Wengdev', '6287731137512', 'Indonesia', 1, 'Miku21 wengdev on Lorem Ipsum', NULL, NULL, '2022-12-07 03:13:24', '2022-12-07 03:25:26', NULL);
+INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_hostel`, `id_trans`, `id_user_type`, `id_parent`, `id_student`, `class`, `first_name`, `last_name`, `gender`, `date_of_birth`, `username`, `password`, `religion`, `email`, `NISN`, `photo_user`, `blood_group`, `occupation`, `phone_user`, `address_user`, `status`, `short_bio`, `admission_status`, `admission_date`, `create_at`, `update_at`, `delete_at`) VALUES
+(111, 0, 0, 0, 0, 2, 0, 0, NULL, '', '', 'Laki-Laki', '0000-00-00', 'miku21comunity', 'miku21', '', 'mikucomunity21@gmail.com', 0, '20221207105642-794cdf8bd464220d70698e3af1179178.jpg', '', '', '', '', 1, '', NULL, NULL, '2022-12-07 09:32:10', '2022-12-07 10:00:05', NULL),
+(112, 0, 0, 0, 0, 1, 0, 0, NULL, 'Leute Ruth', 'Leciepent', '', '2004-07-24', 'ruth02', 'ruth02cans', 'Flying Dutchman', 'laruthm02@gmail.com', 0, '20221208093903-468944.jpg', 'B', 'Sinner', '62877311375121', 'Cimahi', 1, 'Ora pro nobis, sancta Dei Genitrix', NULL, NULL, '2022-12-08 08:32:27', '2022-12-08 08:39:03', NULL),
+(113, 0, 0, 0, 0, 4, 0, 0, NULL, 'Belum', 'Ada', '', '0000-00-00', '', '', '', '', 0, NULL, NULL, '', '', NULL, 0, NULL, NULL, NULL, '2022-12-09 06:10:34', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -856,6 +814,12 @@ ALTER TABLE `tbl_exams`
   ADD KEY `id_class` (`id_class`);
 
 --
+-- Indeks untuk tabel `tbl_exam_grades`
+--
+ALTER TABLE `tbl_exam_grades`
+  ADD PRIMARY KEY (`id_exam_grade`);
+
+--
 -- Indeks untuk tabel `tbl_exam_results`
 --
 ALTER TABLE `tbl_exam_results`
@@ -863,7 +827,8 @@ ALTER TABLE `tbl_exam_results`
   ADD KEY `id_user` (`id_user`),
   ADD KEY `id_exam` (`id_exam`),
   ADD KEY `id_subject` (`id_subject`),
-  ADD KEY `id_class` (`id_class`);
+  ADD KEY `id_class` (`id_class`),
+  ADD KEY `id_section` (`id_section`);
 
 --
 -- Indeks untuk tabel `tbl_finances`
@@ -939,25 +904,25 @@ ALTER TABLE `tbl_user_types`
 -- AUTO_INCREMENT untuk tabel `tbl_admissions`
 --
 ALTER TABLE `tbl_admissions`
-  MODIFY `id_admission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_admission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_attendances`
 --
 ALTER TABLE `tbl_attendances`
-  MODIFY `id_attendance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_attendance` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_books`
 --
 ALTER TABLE `tbl_books`
-  MODIFY `id_book` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `id_book` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_classes`
 --
 ALTER TABLE `tbl_classes`
-  MODIFY `id_class` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_class` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_class_routines`
@@ -969,61 +934,67 @@ ALTER TABLE `tbl_class_routines`
 -- AUTO_INCREMENT untuk tabel `tbl_exams`
 --
 ALTER TABLE `tbl_exams`
-  MODIFY `id_exam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_exam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `tbl_exam_grades`
+--
+ALTER TABLE `tbl_exam_grades`
+  MODIFY `id_exam_grade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_exam_results`
 --
 ALTER TABLE `tbl_exam_results`
-  MODIFY `id_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_finances`
 --
 ALTER TABLE `tbl_finances`
-  MODIFY `id_finance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=121;
+  MODIFY `id_finance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_messages`
 --
 ALTER TABLE `tbl_messages`
-  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
-  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_payment_types`
 --
 ALTER TABLE `tbl_payment_types`
-  MODIFY `id_payment_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_payment_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_sections`
 --
 ALTER TABLE `tbl_sections`
-  MODIFY `id_section` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_section` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_subjects`
 --
 ALTER TABLE `tbl_subjects`
-  MODIFY `id_subject` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_subject` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_transports`
 --
 ALTER TABLE `tbl_transports`
-  MODIFY `id_transport` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_transport` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=105;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_user_types`
@@ -1031,56 +1002,6 @@ ALTER TABLE `tbl_users`
 ALTER TABLE `tbl_user_types`
   MODIFY `id_user_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
---
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
---
-
---
--- Ketidakleluasaan untuk tabel `tbl_admissions`
---
-ALTER TABLE `tbl_admissions`
-  ADD CONSTRAINT `tbl_admissions_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `tbl_users` (`id_user`);
-
---
--- Ketidakleluasaan untuk tabel `tbl_attendances`
---
-ALTER TABLE `tbl_attendances`
-  ADD CONSTRAINT `tbl_attendances_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `tbl_users` (`id_user`);
-
---
--- Ketidakleluasaan untuk tabel `tbl_classes`
---
-ALTER TABLE `tbl_classes`
-  ADD CONSTRAINT `tbl_classes_ibfk_1` FOREIGN KEY (`id_section`) REFERENCES `tbl_sections` (`id_section`);
-
---
--- Ketidakleluasaan untuk tabel `tbl_class_routines`
---
-ALTER TABLE `tbl_class_routines`
-  ADD CONSTRAINT `tbl_class_routines_ibfk_1` FOREIGN KEY (`id_class`) REFERENCES `tbl_classes` (`id_class`),
-  ADD CONSTRAINT `tbl_class_routines_ibfk_2` FOREIGN KEY (`id_subject`) REFERENCES `tbl_subjects` (`id_subject`);
-
---
--- Ketidakleluasaan untuk tabel `tbl_exams`
---
-ALTER TABLE `tbl_exams`
-  ADD CONSTRAINT `tbl_exams_ibfk_1` FOREIGN KEY (`id_class`) REFERENCES `tbl_classes` (`id_class`);
-
---
--- Ketidakleluasaan untuk tabel `tbl_exam_results`
---
-ALTER TABLE `tbl_exam_results`
-  ADD CONSTRAINT `tbl_exam_results_ibfk_1` FOREIGN KEY (`id_exam`) REFERENCES `tbl_exams` (`id_exam`),
-  ADD CONSTRAINT `tbl_exam_results_ibfk_2` FOREIGN KEY (`id_subject`) REFERENCES `tbl_subjects` (`id_subject`),
-  ADD CONSTRAINT `tbl_exam_results_ibfk_3` FOREIGN KEY (`id_user`) REFERENCES `tbl_users` (`id_user`),
-  ADD CONSTRAINT `tbl_exam_results_ibfk_4` FOREIGN KEY (`id_class`) REFERENCES `tbl_classes` (`id_class`);
-
---
--- Ketidakleluasaan untuk tabel `tbl_finances`
---
-ALTER TABLE `tbl_finances`
-  ADD CONSTRAINT `tbl_finances_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `tbl_users` (`id_user`),
-  ADD CONSTRAINT `tbl_finances_ibfk_2` FOREIGN KEY (`id_payment_type`) REFERENCES `tbl_payment_types` (`id_payment_type`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
