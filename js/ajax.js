@@ -13,3 +13,20 @@ $(document).ready(function () {
 
       })
 });
+// .done(res=>{
+//     Swal.close();
+//         console.log(response);
+//         Swal.fire({
+//             icon: 'success',
+//             title: 'Your message was sended',
+//             showConfirmButton: false,
+//             timer: 1500
+//         })
+//         .then((result)=>{
+//             if(true){
+                
+//                 $('#titleMessageForm').focus();
+//                 //$('html, body').animate({ scrollTop: $('#titleMessageForm').offset().top }, 'fast');
+//             }
+//           })
+// })
