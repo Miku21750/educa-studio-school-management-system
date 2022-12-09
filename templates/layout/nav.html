@@ -82,26 +82,34 @@
         </div>
       </li>
       <li class="navbar-item dropdown header-message">
+        {% if auth is empty %}
+        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+          <i class="far fa-envelope"></i>
+          <div class="item-title d-md-none text-16 mg-l-10">Message</div>
+        </a>
+        {% else %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-envelope"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Message</div>
           {# Jumlah total message #}
           <span id="iconCountMessage"></span>
         </a>
+        {% endif %}
+        
 
         <div class="dropdown-menu dropdown-menu-right">
           <div class="item-header">
             {# Jumlah total message #}
-            <h6 class="item-title" id="countMessage"> Message</h6>
+            {# {{auth|json_encode()}} #}
+            <h6 class="item-title" id="countMessage">Message</h6>
           </div>
           <div class="item-content">
             {# message start here #}
-            {# {{auth|json_encode()}} #}
             {% for message in auth %}
             {% set countMessag = message.totalMessage %}
             {% if message.readed == 1 %}
             <div class="media message_Class" style="opacity: 25%;" data-idMessage="{{message.id_message}}"
-              data-toggle="modal" data-target="#messageViewModal">
+            data-toggle="modal" data-target="#messageViewModal">
               {% else %}
               <div class="media message_Class" data-idMessage="{{message.id_message}}" data-toggle="modal"
                 data-target="#messageViewModal">
@@ -132,17 +140,17 @@
               {# message end here #}
             </div>
           </div>
-      </li>
+        </li>
       <li class="navbar-item dropdown header-notification">
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-bell"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
-          <span>8</span>
+          <span id="iconTotalNotification"></span>
         </a>
 
         <div class="dropdown-menu dropdown-menu-right ">
           <div class="item-header">
-            <h6 class="item-title">03 Notifiacations</h6>
+            <h6 class="item-title" id="headerTotalNotification">Notifiacations</h6>
           </div>
           <div class="item-content" id="notification-nav">
             
@@ -215,8 +223,13 @@
 <script>
   $(document).ready(function () {
     console.log(countMessage)
-    $('#iconCountMessage').html(countMessage);
-    $('#countMessage').html('' + countMessage + ' Message');
+    if(countMessage == null){
+      $('#iconCountMessage').html(countMessage);
+      $('#countMessage').html('0 New Message');
+    }else{
+      $('#iconCountMessage').html(countMessage);
+      $('#countMessage').html('' + countMessage + 'New Message');
+    }
     $('.message_Class').click(function (e) {
       e.preventDefault();
       var id = $(this).attr('data-idMessage');

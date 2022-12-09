@@ -48,7 +48,7 @@ return function (App $app) {
             ], [
                 'username' => $_SESSION['username']
             ]);
-            // return die(var_dump($message));
+            //return die(var_dump($message));
             return $message;
 
             //countMessage

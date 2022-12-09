@@ -290,7 +290,7 @@ return function (App $app) {
                     );
                 }
             );
-            
+
             $app->group(
                 '/exam',
                 function () use ($app) {
@@ -301,7 +301,7 @@ return function (App $app) {
                             return ExamController::tampil_data($this, $request, $response, $args);
                         }
                     );
-                    
+
                     $app->get(
                         '/{id}/exam-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
@@ -799,14 +799,16 @@ return function (App $app) {
         '/add-teacher',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            return TeacherController::page_add_teacher($this, $request, $response, $args);        }
+            return TeacherController::page_add_teacher($this, $request, $response, $args);
+        }
     )->add(new Auth());
     $app->get(
         '/teacher-payment',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            return TeacherController::page_payment($this, $request, $response, $args);        }
-            )->add(new Auth());
+            return TeacherController::page_payment($this, $request, $response, $args);
+        }
+    )->add(new Auth());
     //end Teacher 
 
     //Parent
@@ -983,11 +985,11 @@ return function (App $app) {
                     'id_notification' => 'DESC'
                 ],
             ];
-            if(!empty($request->getParam('search'))){
+            if (!empty($request->getParam('search'))) {
                 $search = $request->getParam('search');
                 $condition['OR'] = [
                     'title[~]' => '%' . $search . '%',
-                    'date_notice' => Medoo::raw("1 OR (date_notice BETWEEN '".$search."' AND '".$search." 23:59:59')")
+                    'date_notice' => Medoo::raw("1 OR (date_notice BETWEEN '" . $search . "' AND '" . $search . " 23:59:59')")
                 ];
             }
             $dataNotice = $container->db->select('tbl_notifications', '*', $condition);
@@ -1002,7 +1004,7 @@ return function (App $app) {
             // return var_dump($request->getParam('id'));
             $id = $request->getParam('id');
             $dataNotice = $container->db->select('tbl_notifications', '*', [
-                'id_notification'=>$id
+                'id_notification' => $id
             ]);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
@@ -1103,23 +1105,86 @@ return function (App $app) {
             // Render index view
             $data = $request->getParsedBody();
             // return var_dump($data);
-            $dataSender = $container->db->select('tbl_users', 'email', [
+            $dataSender = $container->db->select('tbl_users', [
+                'email',
+                'first_name',
+                'last_name',
+                'username'
+            ], [
                 'id_user' => $data['id_sender']
             ]);
             $dataReceipent = $container->db->select('tbl_users', 'email', [
                 'id_user' => $data['id_user']
             ]);
-            // return var_dump($dataSender[0]);
+            // return die(var_dump($dataSender[0]['email']));
+            // return die(var_dump($dataSender[0]));
             $insert = $container->db->insert('tbl_messages', [
                 'id_user' => $data['id_user'],
                 'receiver_email' => $dataReceipent[0],
-                'sender_email' => $dataSender[0],
+                'sender_email' => $dataSender[0]['email'],
                 'title' => $data['title'],
                 'message' => $data['message'],
                 'readed' => 0
             ]);
+
+            // kirim email
+            $mail = new PHPMailer;
+            //Memberi tahu PHPMailer untuk menggunakan SMTP
+            $mail->isSMTP();
+            //Mengaktifkan SMTP debugging
+            // 0 = off (digunakan untuk production)
+            // 1 = pesan client
+            // 2 = pesan client dan server
+            $mail->SMTPDebug = 2;
+            //HTML-friendly debug output
+            $mail->Debugoutput = 'html';
+            //hostname dari mail server
+            $mail->Host = 'smtp.gmail.com';
+            // gunakan
+            // $mail->Host = gethostbyname('smtp.gmail.com');
+            // jika jaringan Anda tidak mendukung SMTP melalui IPv6
+            //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
+            $mail->Port = 587;
+            //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
+            $mail->SMTPSecure = 'tls';
+            //SMTP authentication
+            $mail->SMTPAuth = true;
+            //Username yang digunakan untuk SMTP authentication - gunakan email gmail
+            $mail->Username = "rafaelfarizi1@gmail.com";
+            //Password yang digunakan untuk SMTP authentication
+            $mail->Password = "dqwuvxffdphlgdml";
+            //Email pengirim
+            $mail->setFrom('rafaelfarizi1@gmail.com', 'Miku21 Margareth');
+            //  //Alamat email alternatif balasan
+            //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
+            //Email tujuan
+            $mail->addAddress($dataSender[0]['email']);
+            //Subject email
+            $mail->Subject = 'PHPMailer GMail SMTP test';
+            //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
+            //Mengubah HTML menjadi basic plain-text
+            //  $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+            $dataName = '';
+            if ($dataSender[0]['first_name'] == '') {
+                $dataName = $dataSender[0]['username'];
+            } else {
+                $dataName = $dataSender[0]['first_name'] . ' ' . $dataSender[0]['last_name'];
+            };
+            //Replace plain text body dengan cara manual
+            $mail->Body = '<h3>You got message from ' . $dataName . '</h3><br><h1>' . $data['title'] . '</h1><br><br><p>' . $data['message'] . '</p>';
+            $mail->AltBody = 'This is a plain-text message body';
+            //Attach file gambar
+            //  $mail->addAttachment('images/phpmailer_mini.png');
+            //mengirim pesan, mengecek error
+
+            if (!$mail->send()) {
+                echo "Email Error: " . $mail->ErrorInfo;
+            } else {
+                return $response->withJson(array('success' => true));
+            }
+            // kirim email end here
+
             // $container->view->render($response, 'others/messaging.html', $args);
-            return $response->withJson(array('success' => true));
         }
     )->add(new Auth());
     $app->post(
@@ -1148,16 +1213,16 @@ return function (App $app) {
                 '[>]tbl_users' => 'id_user'
             ], [
                 'id_message',
-                'totalMessage'=> Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '".$_SESSION['username']."')"),
+                'totalMessage' => Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '" . $_SESSION['username'] . "')"),
                 'id_user',
                 'receiver_email',
                 'sender_email',
                 'title',
                 'message',
                 'readed',
-                'photo_sender'=>Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
-                'first_name_sender'=>Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
-                'last_name_sender'=>Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
+                'photo_sender' => Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
+                'first_name_sender' => Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
+                'last_name_sender' => Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
                 'time_sended'
             ], [
                 'username' => $_SESSION['username'],
