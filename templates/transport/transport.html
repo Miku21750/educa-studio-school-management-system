@@ -1,0 +1,150 @@
+{% extends "/layout/master.html" %}
+{% set title = "Transport" %}
+{% block content %}
+
+<!-- <script>
+
+    let timerInterval
+    Swal.fire({
+        title: 'Memuat Data...',
+        html: 'Tunggu  <b></b>  Detik.',
+        timer: 400,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+            }, 300)
+        },
+        willClose: () => {
+            clearInterval(timerInterval)
+        }
+    }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+            Swal.fire(
+                {
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Data telah ditambahkan.',
+                }
+
+            )
+        }
+    })
+</script> -->
+
+<div class="row">
+    <!-- Add Transport Area Start Here -->
+    <div class="col-4-xxxl col-12">
+        <div class="card height-auto">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Tambah Kendaraan</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <form class="new-added-form"> -->
+                    <div class="row">
+                        <div class="col-12-xxxl col-xl-4 col-sm-6 col-12 form-group">
+                            <label>Rute Kendaraan</label>
+                            <input type="text" placeholder="" class="form-control" id="eroute_name">
+                        </div>
+                        <div class="col-12-xxxl col-xl-4 col-sm-6 col-12 form-group">
+                            <label>ID Pengendara</label>
+                            <input type="text" placeholder="" class="form-control" id="eid_driver">
+                        </div>
+                        <div class="col-12-xxxl col-xl-4 col-sm-6 col-12 form-group">
+                            <label>No Kendaraan</label>
+                            <input type="text" placeholder="" class="form-control" id="evehicle_number">
+                        </div>
+                        <div class="col-12-xxxl col-xl-4 col-sm-6 col-12 form-group">
+                            <label>Nama Pengendara</label>
+                            <input type="text" placeholder="" class="form-control" id="edriver_name">
+                        </div>
+                        <div class="col-12-xxxl col-xl-4 col-sm-6 col-12 form-group">
+                            <label>No SIM</label>
+                            <input type="text" placeholder="" class="form-control" id="elicense_number">
+                        </div>
+                        <div class="col-12-xxxl col-xl-4 col-sm-6 col-12 form-group">
+                            <label>No Telp</label>
+                            <input type="text" placeholder="" class="form-control" id="ephone_number">
+                        </div>
+                        <div class="col-12 form-group mg-t-8">
+                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
+                                id="btn_add_transport">Simpan</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow" id="reset_transport">Reset</button>
+                        </div>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+    <!-- Add Transport Area End Here -->
+    <!-- All Transport List Area Start Here -->
+    <div class="col-8-xxxl col-12">
+        <div class="card height-auto">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Daftar Kendaraan</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table display text-nowrap" id="data_transport">
+                        <thead class="text-center">
+                            <tr>
+                                <!-- <th>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input checkAll">
+                                        <label class="form-check-label">Rute Kendaraan</label>
+                                    </div>
+                                </th> -->
+                                <th>No</th>
+                                <th>ID Pengendara</th>
+                                <th>Rute Kendaraan</th>
+                                <th>No Kendaraan</th>
+                                <th>Nama Pengendara</th>
+                                <th>SIM</th>
+                                <th>No Telp</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="show_transport">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- All Transport List Area End Here -->
+</div>
+{% include "transport/modal-edit-transport.html" %}
+{% block modal %}
+
+{% endblock modal %}
+{% endblock content %}

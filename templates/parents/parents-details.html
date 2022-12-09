@@ -4,7 +4,41 @@
 
 {% block content %}
 <!-- Profile Settings Area Start Here -->
+{% if berhasil == true %}
+<script>
 
+    let timerInterval
+    Swal.fire({
+        title: 'Memuat Data...',
+        html: 'Tunggu  <b></b>  Detik.',
+        timer: 400,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+            }, 300)
+        },
+        willClose: () => {
+            clearInterval(timerInterval)
+        }
+    }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+          Swal.fire(
+            {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah ditambahkan.',
+            }
+
+        )
+        }
+    })
+</script>
+
+{% endif %}
 <div class="basic-tab bg-light">
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
@@ -154,7 +188,7 @@
                             <label for="imageUpload"></label>
                         </div>
                         <div class="avatar-preview">
-                            <div id="imagePreview" style="background-image: url(/uploads/Profile/{{data.photo_user}});">
+                            <div id="imagePreview" style="background-image: url(/uploads/Profile/{{data.photo_user |replace({' ' : '%20'})}});">
                             </div>
                         </div>
                 </div>

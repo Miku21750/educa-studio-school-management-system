@@ -1,0 +1,133 @@
+{% extends "/layout/master.html" %} {% set title = "Exam Schedule" %} {% block
+content %}
+
+<!-- Exam Schedule Area Start Here -->
+<div class="row">
+  {# if admin start here #}
+  {# {% if type == "Admin" %} #}
+  <div class="col-4-xxxl col-12">
+    <div class="card height-auto">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Add New Exam</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <form class="new-added-form">
+          <div class="row">
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Nama Ujian</label>
+              <input type="text" placeholder="" class="form-control" id="eexam_name" name="eexam_name"/>
+            </div>
+
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Mata Pelajaran *</label>
+              <select class="select2" name="subject" id="esubject">
+                <option value="">Pilih Mata Pelajaran *</option>
+                {% for i in subject %}
+                <option value="{{i.id_subject}}">{{ i.subject_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Kelas *</label>
+              <select class="select2" name="class" id="eclass">
+                <option value="">Pilih Kelas *</option>
+                {% for i in class %}
+                <option value="{{ i.id_class }}">{{ i.class }} {{ i.section }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Tanggal Ujian</label>
+              <input type="date" placeholder="dd/mm/yyyy" class="form-control" name="exam_date" id="eexam_date"/>
+              <!-- <i class="far fa-calendar-alt"></i> -->
+            </div>
+            
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Jam Mulai</label>
+              <input type="time" placeholder="" class="form-control" name="exam_start" id="eexam_start"/>
+              <!-- <i class="far fa-clock"></i> -->
+            </div>
+            
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Jam Selesai</label>
+              <input type="time" placeholder="" class="form-control" name="end" id="eexam_end"/>
+              <!-- <i class="far fa-clock"></i> -->
+            </div>
+
+
+            <div class="col-12 form-group mg-t-8">
+              <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" id="btn_add_exam">
+                Simpan
+              </button>
+              <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow" id="reset_exam">
+                Reset
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {# {% endif %} #}
+  {# if end here #}
+  <div class="col-8-xxxl col-12">
+    <div class="card height-auto">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Daftar Ujian</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <!-- table start here -->
+        <div class="table-responsive">
+          <table class="table display text-nowrap" id="data_exam">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Ujian</th>
+                <th>Mata Pelajaran</th>
+                <th>Kelas</th>
+                <th>Tanggal Ujian</th>
+                <th>Pukul</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="show_exam">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Exam Schedule Area End Here -->
+
+{% include "exam/modal-edit-exam.html" %}
+{% block modal %}
+
+{% endblock modal %}
+{% endblock content %}

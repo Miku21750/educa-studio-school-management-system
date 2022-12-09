@@ -1,89 +1,147 @@
 {% extends "/layout/master.html" %}
 {% set title = "All Subject" %}
 {% block content %}
-    
-                <!-- All Subjects Area Start Here -->
-                <div class="row">
-                    <div class="col-4-xxxl col-12">
-                        <div class="card height-auto">
-                            <div class="card-body">
-                                <div class="heading-layout1">
-                                    <div class="item-title">
-                                        <h3>Add New Subject</h3>
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                            aria-expanded="false">...</a>
 
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                            <a class="dropdown-item" href="#"><i
-                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <form class="new-added-form">
-                                    <div class="row">
-                                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                            <label>Subject Name *</label>
-                                            <input type="text" placeholder="" class="form-control">
-                                        </div>
-                                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                            <label>Subject Type *</label>
-                                            <select class="select2">
-                                                <option value="">Please Select</option>
-                                                <option value="1">Bangla</option>
-                                                <option value="2">English</option>
-                                                <option value="3">Mathematics</option>
-                                                <option value="3">Economics</option>
-                                                <option value="3">Chemistry</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                            <label>Select Class *</label>
-                                            <select class="select2">
-                                                <option value="0">Please Select</option>
-                                                <option value="1">Play</option>
-                                                <option value="2">Nursery</option>
-                                                <option value="3">One</option>
-                                                <option value="3">Two</option>
-                                                <option value="3">Three</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                            <label>Select Code</label>
-                                            <select class="select2">
-                                                <option value="0">Please Select</option>
-                                                <option value="1">00524</option>
-                                                <option value="2">00525</option>
-                                                <option value="3">00526</option>
-                                                <option value="3">00527</option>
-                                                <option value="3">00528</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12 form-group mg-t-8">
-                                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
-                                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+<!-- All Subjects Area Start Here -->
+<div class="row">
+    <div class="col-4-xxxl col-12">
+        <div class="card height-auto">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Tambah Mata Pelajaran</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
-                    <div class="col-8-xxxl col-12">
-                        <div class="card height-auto">
-                            <div class="card-body">
-                                <div class="heading-layout1">
-                                    <div class="item-title">
-                                        <h3>All Subjects</h3>
-                                    </div>
-                                    <div class="dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                            aria-expanded="false">...</a>
+                </div>
+                <form class="new-added-form">
+                    <div class="row">
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Nama Mata Pelajaran *</label>
+                            <input type="text" name="subjectname" id="subject_name" placeholder="" class="form-control">
+                        </div>
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Tipe Mata Pelajaran *</label>
+                            <select class="select2" name="subjecttype" id="subject_type">
+                                <option value="0">Silahkan Pilih</option>
 
+                                {# {% for subjectT in subjectType %} #}
+                                <!-- <option value="{{subjectT}}">{{subjectT}}</option> -->
+                                <option value="Practice">Practice</option>
+                                <option value="Mathematic">Mathematic</option>
+                                <option value="Theory">Theory</option>
+                                <!-- <option value="3">Chemistry</option> -->
+
+                                {# {% endfor %} #}
+                            </select>
+                        </div>
+                        <!-- <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Select Class *</label>
+                            <select class="select2" name="idclass" id="id_class">
+                                <option value="0">Please Select</option>
+                                {# {% for result in result %} #}
+                                <option value="1">X</option>
+                                <option value="2">XI</option>
+                                <option value="3">XII</option>
+                                {# {% endfor %} #}
+                            </select>
+                        </div> -->
+                        <!-- <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>ID Teacher</label>
+                            <select class="select2" name="idteacher" id="id_teacher">
+                                <option value="0">Please Select</option>
+                                {% for teacher in teacher %}
+                                <option value="{{teacher.id_user}}">{{teacher.first_name}} {{teacher.last_name}}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div> -->
+                        <div class="col-12 form-group mg-t-8">
+                            <button type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
+                                id="add_subject">Simpan</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow"
+                                id="reset">Mengatur Ulang</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-8-xxxl col-12">
+        <div class="card height-auto">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Semua Mata Pelajaran</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <form class="mg-b-20">
+                    <div class="row gutters-8">
+                        <div class="col-lg-4 col-12 form-group">
+                            <input type="text" placeholder="Search by Exam ..." class="form-control">
+                        </div>
+                        <div class="col-lg-3 col-12 form-group">
+                            <input type="text" placeholder="Search by Subject ..." class="form-control">
+                        </div>
+                        <div class="col-lg-3 col-12 form-group">
+                            <input type="text" placeholder="dd/mm/yyyy" class="form-control">
+                        </div>
+                        <div class="col-lg-2 col-12 form-group">
+                            <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                        </div>
+                    </div>
+                </form> -->
+                <div class="table-box-wrap">
+                    <table class="display" id="subject">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Mata Pelajaran</th>
+                                <th>Tipe Mata Pelajaran</th>
+                                <!-- <th>Class</th> -->
+                                <th></th>
+                                <!-- <th></th> -->
+                            </tr>
+                        </thead>
+                        <tbody id="show_subject">
+                            {# {% for result in result %} #}
+                            <!-- <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">#{{result.id_subject}}</label>
+                                    </div>
+                                </td>
+                                <td>{{result.subject_name}}</td>
+                                <td>{{result.subject_type}}</td>
+                                <td>{{result.class}}</td>
+                                <td>02/05/2001</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
                                         <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="#"><i
                                                     class="fas fa-times text-orange-red"></i>Close</a>
@@ -93,272 +151,568 @@
                                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                                         </div>
                                     </div>
-                                </div>
-                                <form class="mg-b-20">
-                                    <div class="row gutters-8">
-                                        <div class="col-lg-4 col-12 form-group">
-                                            <input type="text" placeholder="Search by Exam ..." class="form-control">
-                                        </div>
-                                        <div class="col-lg-3 col-12 form-group">
-                                            <input type="text" placeholder="Search by Subject ..." class="form-control">
-                                        </div>
-                                        <div class="col-lg-3 col-12 form-group">
-                                            <input type="text" placeholder="dd/mm/yyyy" class="form-control">
-                                        </div>
-                                        <div class="col-lg-2 col-12 form-group">
-                                            <button type="submit"
-                                                class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                                </td>
+                            </tr> -->
+                            {# {% endfor %} #}
+                            <!-- <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">#0022</label>
+                                    </div>
+                                </td>
+                                <td>Bangla</td>
+                                <td>Theory</td>
+                                <td>6</td>
+                                <td>02/05/2001</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                                         </div>
                                     </div>
-                                </form>
-                                <div class="table-responsive">
-                                    <table class="table display data-table text-nowrap">
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input checkAll">
-                                                        <label class="form-check-label">ID</label>
-                                                    </div>
-                                                </th>
-                                                <th>Subject Name</th>
-                                                <th>Subject Type</th>
-                                                <th>Class</th>
-                                                <th>Date</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
+                                </td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">#0023</label>
+                                    </div>
+                                </td>
+                                <td>English</td>
+                                <td>Theory</td>
+                                <td>7</td>
+                                <td>02/05/2001</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">#0024</label>
+                                    </div>
+                                </td>
+                                <td>Arts</td>
+                                <td>Theory</td>
+                                <td>6</td>
+                                <td>02/05/2001</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">#0025</label>
+                                    </div>
+                                </td>
+                                <td>Finanace</td>
+                                <td>Theory</td>
+                                <td>6</td>
+                                <td>02/05/2001</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">#0026</label>
+                                    </div>
+                                </td>
+                                <td>Economics</td>
+                                <td>Theory</td>
+                                <td>6</td>
+                                <td>02/05/2001</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">#0027</label>
+                                    </div>
+                                </td>
+                                <td>English</td>
+                                <td>Theory</td>
+                                <td>6</td>
+                                <td>02/05/2001</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> -->
+                            <!-- <tr>
+                                <td>
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input">
+                                        <label class="form-check-label">#0028</label>
+                                    </div>
+                                </td>
+                                <td>Bangla</td>
+                                <td>Theory</td>
+                                <td>6</td>
+                                <td>02/05/2001</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false">
+                                            <span class="flaticon-more-button-of-three-dots"></span>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-times text-orange-red"></i>Close</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                            <a class="dropdown-item" href="#"><i
+                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DELETE -->
+    <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog success-modal-content" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="success-message">
+                        <input type="hidden" name="kode" id="textkode" value="" hidden>
+                        <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="footer-btn bg-linkedin" id="btn_remove_subject">Ok</button>
+                    <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL UPDATE -->
+    <div class="modal fade" id="detail_subject" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Subject</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="card ui-tab-card">
+                    <div class="card-body">
+                        <div class="single-info-details">
+                            <div class="item-content">
+                                <div class="header-inline item-header">
+                                    <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
+
+                                </div>
+                                <div class="info-table table-responsive">
+                                    <table class="table text-nowrap">
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input">
-                                                        <label class="form-check-label">#0021</label>
-                                                    </div>
-                                                </td>
-                                                <td>Accounting</td>
-                                                <td>Mathematics</td>
-                                                <td>4</td>
-                                                <td>02/05/2001</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
+                                            <input type="text" name="id_subject" id="id_subject"
+                                                value="{{result.id_subject}}" hidden>
+                                            <tr class="form-group">
+                                                <label>Subject Name </label>
+                                                <input type="text" name="subjectname" id="subject_nameU" placeholder=""
+                                                    class="form-control">
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input">
-                                                        <label class="form-check-label">#0022</label>
-                                                    </div>
-                                                </td>
-                                                <td>Bangla</td>
-                                                <td>Theory</td>
-                                                <td>6</td>
-                                                <td>02/05/2001</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
+
+                                            <tr class="form-group">
+                                                <label>Subject Type</label>
+                                                <select class="form-control form-control-lg" name="subjecttype"
+                                                    id="subject_typeU">
+                                                    <option value="0">Please Select</option>
+                                                    <option value="Practice">Practice</option>
+                                                    <option value="Mathematic">Mathematic</option>
+                                                    <option value="Theory">Theory</option>
+                                                </select>
                                             </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input">
-                                                        <label class="form-check-label">#0023</label>
-                                                    </div>
-                                                </td>
-                                                <td>English</td>
-                                                <td>Theory</td>
-                                                <td>7</td>
-                                                <td>02/05/2001</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input">
-                                                        <label class="form-check-label">#0024</label>
-                                                    </div>
-                                                </td>
-                                                <td>Arts</td>
-                                                <td>Theory</td>
-                                                <td>6</td>
-                                                <td>02/05/2001</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input">
-                                                        <label class="form-check-label">#0025</label>
-                                                    </div>
-                                                </td>
-                                                <td>Finanace</td>
-                                                <td>Theory</td>
-                                                <td>6</td>
-                                                <td>02/05/2001</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input">
-                                                        <label class="form-check-label">#0026</label>
-                                                    </div>
-                                                </td>
-                                                <td>Economics</td>
-                                                <td>Theory</td>
-                                                <td>6</td>
-                                                <td>02/05/2001</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input">
-                                                        <label class="form-check-label">#0027</label>
-                                                    </div>
-                                                </td>
-                                                <td>English</td>
-                                                <td>Theory</td>
-                                                <td>6</td>
-                                                <td>02/05/2001</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input">
-                                                        <label class="form-check-label">#0028</label>
-                                                    </div>
-                                                </td>
-                                                <td>Bangla</td>
-                                                <td>Theory</td>
-                                                <td>6</td>
-                                                <td>02/05/2001</td>
-                                                <td>
-                                                    <div class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                                                            aria-expanded="false">
-                                                            <span class="flaticon-more-button-of-three-dots"></span>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right">
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-times text-orange-red"></i>Close</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                            <a class="dropdown-item" href="#"><i
-                                                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
+
+                                            <!-- <tr class="form-group">
+                                                <label>Select Class</label>
+                                                <select class="form-control form-control-lg" name="idclass"
+                                                    id="id_classU">
+                                                    <option value="0">Please Select</option>
+                                                    {# {% for result in result %} #}
+                                                    <option value="1">X</option>
+                                                    <option value="2">XI</option>
+                                                    <option value="3">XII</option>
+                                                    {# {% endfor %} #}
+                                                </select>
+                                            </tr> -->
+                                            <!-- <tr class="form-group">
+                                                <label>ID Teacher</label>
+                                                <select class="form-control form-control-lg" name="idteacher"
+                                                    id="id_teacherU">
+                                                    <option value="0">Please Select</option>
+                                                    {% for teacher in teacher %}
+                                                    <option value="{{teacher.id_user}}">{{teacher.first_name}}
+                                                        {{teacher.last_name}}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </tr> -->
+
                                         </tbody>
                                     </table>
+                                    <button class="btn btn-warning" id="btn_update_subject">Simpan</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- All Subjects Area End Here -->
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!-- All Subjects Area End Here -->
+
+
+<script>
+
+
+
+    initTable = function () {
+
+        table = $("#subject").on('preXhr.dt', function (e, settings, data) {
+
+            console.log('loading ....');
+
+        }).on('draw.dt', function () {
+            console.log('dapat data ....');
+
+        }).DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            "columnDefs": [
+                { "width": "5%", "targets": 0, className: "text-center", "orderable": false },
+                { "width": "45%", "targets": 1, className: "text-start", "orderable": false },
+                { "width": "30%", "targets": 2, className: "text-start", "orderable": false },
+                { "width": "20%", "targets": 3, className: "text-start", "orderable": false },
+                // { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+                // { "width": "10%", "targets": 5, className: "text-start", "orderable": false },
+
+
+
+            ],
+            'pageLength': 10,
+            'processing': true,
+            'serverSide': true,
+            'select': true,
+            'responsive': true,
+            'ajax': {
+                url: "/api" + "/allsubject",
+                type: 'GET',
+            },
+            'columns': [
+                { 'data': 'ID' },
+                { 'data': 'subject_name' },
+                { 'data': 'subject_type' },
+                { 'data': '' },
+                // { 'data': '' },
+            ],
+        });
+
+    }
+
+    initTable();
+
+
+    //ADD SUBJECT 
+    $('#add_subject').on('click', function () {
+        var subject_name = $('#subject_name').val();
+        var subject_type = $('#subject_type').val();
+        $.ajax({
+            type: "POST",
+            url: "/api" + "/addsubject",
+            dataType: "JSON",
+            data: { subject_name: subject_name, subject_type: subject_type },
+            success: function (data) {
+                if (data) {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Memuat Data...',
+                        html: 'Tunggu  <b></b>  Detik.',
+                        timer: 300,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        $('#subject_type').val('').change();
+                        $('#subject_name').val('');
+                        Swal.fire(
+                            {
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Data telah ditambahkan.',
+                                //footer: '<a href="">Why do I have this issue?</a>'
+                            }
+
+                        )
+                        $('#addModal').modal('hide');
+                    });
+
+                    table.draw(false)
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ada yang eror!'
+                    })
+                }
+
+            }
+        });
+        return false;
+    });
+
+    // RESET BUTTON
+    $('#reset').click(function (e) {
+        e.preventDefault();
+        $('#subject_type').val('').change();
+        $('#subject_name').val('');
+
+    });
+
+    // DELETE SUBJECT
+    // GET
+    $('#show_subject').on('click', '.subject_remove', function () {
+        var id = $(this).attr('data');
+        $('#confirmation-modal').modal('show');
+        $('[name="kode"]').val(id);
+        // console.log(id);
+    });
+
+    // DELETE
+    $('#btn_remove_subject').on('click', function () {
+        var kode = $('#textkode').val();
+        $.ajax({
+            type: "POST",
+            url: "/api" + "/deletesubject",
+            dataType: "JSON",
+            data: { kode: kode },
+            success: function (data) {
+                if (data) {
+                    $('#confirmation-modal').modal('hide');
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Memuat Data...',
+                        html: 'Tunggu  <b></b>  Detik.',
+                        timer: 300,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        Swal.fire(
+                            {
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Data telah dihapus.',
+                            }
+                        )
+                    })
+                    table.draw(false)
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ada yang eror!',
+                    })
+                }
+            }
+        });
+        return false;
+    });
+
+    // UPDATE SUBJECT
+    $('#show_subject').on('click', '.subject_detail', function () {
+        var id = $(this).attr('data');
+        // $('#detail_subject').modal('show');
+        $.ajax({
+            type: "GET",
+            url: "/api" + "/subject/" + id + "/subject-detail",
+            dataType: "JSON",
+            data: { id_subject: id },
+            success: function (data) {
+                $('#detail_subject').modal('show');
+                $('[name="id_subject"]').val(data.id_subject);
+                $('[name="subjectname"]').val(data.subject_name);
+                $('[name="subjecttype"]').val(data.subject_type);
+            }
+        });
+        return false;
+        console.log(id);
+    });
+
+    $('#btn_update_subject').click(function (e) {
+        var id_subject = $('#id_subject').val();
+        var subject_name = $('#subject_nameU').val();
+        var subject_type = $('#subject_typeU').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/api" + "/updatesubject",
+            dataType: "JSON",
+            data: { id_subject: id_subject, subject_name: subject_name, subject_type: subject_type },
+            success: function (data) {
+                if (data) {
+                    $('#detail_subject').modal('hide');
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Memuat Data...',
+                        html: 'Tunggu  <b></b>  Detik.',
+                        timer: 300,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
+                        }
+                    }).then((result) => {
+                        Swal.fire(
+                            {
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Data telah diubah.',
+                                //footer: '<a href="">Why do I have this issue?</a>'
+                            }
+                        )
+                    })
+                    table.draw(false)
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ada yang eror!',
+                    })
+                }
+            }
+        });
+        return false;
+    });
+
+
+
+
+</script>
+
 {% endblock content %}

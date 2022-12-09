@@ -1,19 +1,15 @@
-$(document).ready(function () {        
-    $('#message').click(function (e) { 
-        e.preventDefault();
-        var id = $(this).attr(data-idMessage);
-        // console.log($id)
+$(document).ready(function () {
+    $('#noticeModal').on('show.bs.modal', function (event) {
         $.ajax({
-            type: "POST",
-            url: "/readedMessage",
-            data: {
-                id_message : id
-            },
-            dataType: "JSON",
+            type: "GET",
+            url: "/getMessageDetails",
+            data: "data",
+            dataType: "dataType",
             success: function (response) {
-                console.log(response)
-                $('.').addClass(className);
+                
             }
         });
-    });
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+      })
 });

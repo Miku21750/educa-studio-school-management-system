@@ -46,13 +46,14 @@ class indexApiController
             $_SESSION['type_user'] = $verAwal[0]['user_type'];
             $_SESSION['id_user'] = $verAwal[0]['id_user'];
             $_SESSION['photo_user'] = $verAwal[0]['photo_user'];
+            $_SESSION['status'] = $verAwal[0]['status'];
             $_SESSION['isLogin'] = true;
             if (isset($data['remember-me'])) {
                 //create cookie
                 setcookie("user", $data['user'], time() + (86400 * 30), "/");
                 setcookie("pass", $data['pass'], time() + (86400 * 30), "/");
             }
-
+            
             return $response->withRedirect('/');
         } //Else if not exist, can't login
         else {
@@ -75,7 +76,7 @@ class indexApiController
                 "email" => $data["email"],
             ]
         ]);
-        // return var_dump($data);
+        // return var_dump($verAwal);
         // if exist, can't register
         if ($verAwal != null) {
             $_SESSION['hasData'] = true;
@@ -83,7 +84,6 @@ class indexApiController
 
         } //Else if not exist, register
         else {
-            // return var_dump($verAwal);
             $insert = $app->db->insert('tbl_users', [
                 "username" => $data["user"],
                 "email" => $data["email"],
@@ -93,9 +93,9 @@ class indexApiController
                 "status" => 0
             ]);
             $id_inserted = $app->db->id();
+            // return var_dump($insert);
             // $_SESSION['user'] = $data['user'];
-            $_SESSION['hasData'] = false;
-            $_SESSION['isRegister'] = true;
+            
             $mail = new PHPMailer;
             //Memberi tahu PHPMailer untuk menggunakan SMTP
             $mail->isSMTP();
@@ -141,7 +141,10 @@ class indexApiController
             if (!$mail->send()) {
                 echo "Email Error: " . $mail->ErrorInfo;
             } else {
-                return $response->withJson(array('success' => true));
+                $_SESSION['hasData'] = false;
+                $_SESSION['isRegister'] = true;
+                return $response->withRedirect('/login');
+                // return $response->withJson(array('success' => true));
             }
             // return $response->withJson(array('success' => true));
             // return $response->withRedirect('/login');

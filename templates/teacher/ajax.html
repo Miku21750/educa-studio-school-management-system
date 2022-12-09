@@ -1,0 +1,188 @@
+{% block ajax %}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        teacher = function () {
+
+            table = $("#teacher").on('preXhr.dt', function (e, settings, data) {
+
+                console.log('loading ....');
+
+            }).on('draw.dt', function () {
+                console.log('dapat data ....');
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    {  "targets": 0, className: "text-center", "orderable": false },
+                    {  "targets": 1, className: "text-start", "orderable": false },
+                    {  "targets": 2, className: "text-start", "orderable": false },
+                    {  "targets": 3, className: "text-start", "orderable": false },
+                    {  "targets": 4, className: "text-start", "orderable": false },
+                    {  "targets": 5, className: "text-start", "orderable": false },
+                   
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/allteachers",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'no' },
+                    { 'data': 'nisn' },
+                    { 'data': 'foto' },
+                    { 'data': 'nama' },
+                    { 'data': 'gender' },
+                    { 'data': 'aksi' }
+
+                ]
+
+
+            });
+
+        }
+        teacher();
+
+        //GET HAPUS
+        $('#show_data').on('click', '.item_hapus', function () {
+            var id = $(this).attr('data');
+            $('#confirmation-modal').modal('show');
+            $('[name="kode"]').val(id);
+        });
+
+        //Hapus Data
+        $('#btn_hapus').on('click', function () {
+            var kode = $('#textkode').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/delete-teacher",
+                dataType: "JSON",
+                data: { kode: kode },
+                success: function (data) {
+                    if (data) {
+                        $('#confirmation-modal').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah dihapus.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
+
+                            )
+                        })
+                        table.draw(false)
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+
+
+                    //tampil_data_barang();
+                }
+            });
+            return false;
+        });
+
+        payment = function () {
+
+            table = $("#payment").on('preXhr.dt', function (e, settings, data) {
+
+                console.log('loading ....');
+
+            }).on('draw.dt', function () {
+                console.log('dapat data ....');
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    {  "targets": 0, className: "text-center", "orderable": false },
+                    {  "targets": 1, className: "text-start", "orderable": false },
+                    {  "targets": 2, className: "text-start", "orderable": false },
+                    {  "targets": 3, className: "text-start", "orderable": false },
+                    {  "targets": 4, className: "text-start", "orderable": false },
+                    {  "targets": 5, className: "text-start", "orderable": false },
+                    {  "targets": 6, className: "text-start", "orderable": false },
+                    {  "targets": 7, className: "text-end", "orderable": false },
+                    {  "targets": 8, className: "text-start", "orderable": false },
+                    {  "targets": 9, className: "text-start", "orderable": false },
+                   
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/allpayment",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'no' },
+                    { 'data': 'nisn' },
+                    { 'data': 'foto' },
+                    { 'data': 'nama' },
+                    { 'data': 'gender' },
+                    { 'data': 'subject' },
+                    { 'data': 'gaji' },
+                    { 'data': 'status' },
+                    { 'data': 'telepon' },
+                    { 'data': 'email' },
+
+                ]
+
+
+            });
+
+        }
+        payment();
+    });
+
+
+
+
+   
+
+
+</script>
+
+
+
+{% endblock ajax %}

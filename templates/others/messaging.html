@@ -170,11 +170,24 @@
                     title : values.title,
                     message : values.message
                 },
+                beforeSend: function(){
+                    //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
+                    Swal.fire({
+                      title: 'Loading...',
+                      text: 'Mengirim data ke server...',
+                      imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
+                      imageWidth: 400,
+                      imageHeight: 200,
+                      imageAlt: 'Custom image',
+                      showConfirmButton: false
+                    })
+                  },
                 success: function (response) {
+                    Swal.close();
                     console.log(response);
                     Swal.fire({
                         icon: 'success',
-                        title: 'Your work has been saved',
+                        title: 'Your message was sended',
                         showConfirmButton: false,
                         timer: 1500
                     })

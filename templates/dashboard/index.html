@@ -1,11 +1,15 @@
 {% extends "/layout/master.html" %}
 {% set title = "Admin" %}
-{% set titleDashboard = "Admin" %}
+{% set typeFrontEnd = "Dashboard Admin" %}
+{# {% set message = auth|json_encode() %} #}
 {% block content %}
 
     <!-- Dashboard summery Start Here -->
     <div class="row gutters-20">
-        {# <p>{{ type }}</p> #}
+        {# {{ auth|json_encode() }} #}
+        {# {% for message in auth %}
+            <p>{{message.id_user}}</p>
+        {% endfor %} #}
         <div class="col-xl-3 col-sm-6 col-12">
             <div class="dashboard-summery-one mg-b-20">
                 <div class="row align-items-center">

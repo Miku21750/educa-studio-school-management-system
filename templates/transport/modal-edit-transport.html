@@ -1,0 +1,91 @@
+{% block modal %}
+
+<!-- Confirmation Hapus Modal -->
+<div class="modal fade" id="confirmation-transport-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog success-modal-content" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <input type="hidden" name="kode" id="textkode" value="" hidden>
+                    <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="footer-btn bg-linkedin" id="btn_remove_transport">Ok</button>
+                <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Large Modal -->
+<div class="modal fade" id="detail-transport" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail transport</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card ui-tab-card">
+                <div class="card-body">
+                    <div class="single-info-details">
+                        <div class="item-content">
+                            <div class="header-inline item-header">
+                                <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
+
+                            </div>
+                            <div class="info-table table-responsive">
+                                <table class="table text-nowrap">
+                                    <tbody>
+                                        <input type="text" name="id_transport" id="id_transport"
+                                            value="{{ data.id_transport }}"
+                                             hidden>
+                                        <tr class="form-group">
+                                            <label>Rute Kendaraan</label>
+                                            <input type="text" placeholder="" class="form-control" id="eroute_name_edit" name="eroute_name">
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label>ID Pengendara</label>
+                                            <input type="text" placeholder="" class="form-control" id="eid_driver_edit" name="eid_driver">
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label>No Kendaraan</label>
+                                            <input type="text" placeholder="" class="form-control" id="evehicle_number_edit" name="evehicle_number">
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label>Nama Pengendara</label>
+                                            <input type="text" placeholder="" class="form-control" id="edriver_name_edit" name="edriver_name">
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label>No SIM</label>
+                                            <input type="text" placeholder="" class="form-control" id="elicense_number_edit" name="elicense_number">
+                                        </tr>
+
+                                        <tr class="form-group">
+                                            <label>No Telp</label>
+                                            <input type="text" placeholder="" class="form-control" id="ephone_number_edit" name="ephone_number">
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button class="btn btn-warning" id="btn_update_transport">Simpan</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock modal %}

@@ -1,7 +1,7 @@
 {% extends "/layout/master.html" %}
 {% set title = "Notice" %}
 {% block content %}
-    
+
 <div class="row">
     <!-- Add Notice Area Start Here -->
     <div class="col-4-xxxl col-12">
@@ -11,40 +11,54 @@
                     <div class="item-title">
                         <h3>Create A Notice</h3>
                     </div>
-                     <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" 
-                        data-toggle="dropdown" aria-expanded="false">...</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
                             <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
-                <form class="new-added-form">
+                <form class="new-added-form" id="formNoticeAdd">
                     <div class="row">
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>Title</label>
-                            <input type="text" placeholder="" class="form-control">
+                            <input type="text" placeholder="" name="Title" id="titleNoticeBoard" class="form-control"
+                                required>
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>Details</label>
-                            <input type="text" placeholder="" class="form-control">
+                            <input type="text" placeholder="" name="details" id="detailsNoticeBoard"
+                                class="form-control" required>
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Posted By </label>
-                            <input type="text" placeholder="" class="form-control">
-                            <i class="fas fa-user"></i>
+                            <label>Category</label>
+                            {# <input type="text" placeholder="" name="category" class="form-control"> #}
+                            <select name="category" class="select2" id="categoryNoticeBoard" required>
+                                <option value="">Select Category</option>
+                                <option value="Pengumuman_Sekolah">Pengumuman Sekolah</option>
+                                <option value="Event">Event</option>
+                                <option value="Pembayaran">Pembayaran</option>
+                                <option value="Exam">Exam</option>
+                            </select>
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Date</label>
-                            <input type="text" placeholder="" class="form-control air-datepicker">
-                            <i class="far fa-calendar-alt"></i>
+                            <label>Posted By</label>
+                            {# <input type="text" placeholder="" name="category" class="form-control"> #}
+                            <select name="userType" class="select2" id="userTypeNoticeBoard">
+                                <option value="{{session.user}}">{{session.user}}</option>
+                                <option value="Admin">Admin</option>
+                            </select>
                         </div>
                         <div class="col-12 form-group mg-t-8">
-                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
-                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                            <button type="submit"
+                                class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow"
+                                id="resetFormNoticeBoard">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -60,99 +74,326 @@
                     <div class="item-title">
                         <h3>Notice Board</h3>
                     </div>
-                     <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" 
-                        data-toggle="dropdown" aria-expanded="false">...</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
                             <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
                 <form class="mg-b-20">
                     <div class="row gutters-8">
-                        <div class="col-lg-5 col-12 form-group">
-                            <input type="text" placeholder="Search by Date ..." class="form-control">
+                        <div class="col-lg-6 col-12 form-group">
+                            <input type="date" placeholder="Search by Date ..." id="searchDateNoticeBoard"
+                                class="form-control">
                         </div>
-                        <div class="col-lg-5 col-12 form-group">
-                            <input type="text" placeholder="Search by Title ..." class="form-control">
-                        </div>
-                        <div class="col-lg-2 col-12 form-group">
-                            <button type="submit" class="fw-btn-fill btn-gradient-yellow">SEARCH</button>
+                        <div class="col-lg-6 col-12 form-group">
+                            <input type="text" placeholder="Search by Title ..." id="searchTitleNoticeBoard"
+                                class="form-control">
                         </div>
                     </div>
                 </form>
-                <div class="notice-board-wrap">
-                    <div class="notice-list">
-                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
-                        <div class="post-date bg-yellow">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
-                        <div class="post-date bg-pink">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
-                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
-                        <div class="post-date bg-yellow">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
-                        <div class="post-date bg-pink">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
-                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
-                        <div class="post-date bg-yellow">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
-                    <div class="notice-list">
-                        <div class="post-date bg-pink">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School Great School manag mene esom  
-                            text of the printing Great School manag mene esom  text of the printing manag 
-                            mene esom  text of the printing.</a></h6>
-                        <div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div>
+                <div class="notice-board-wrap" id="notice-list">
+                    {# Notice List start here #}
+
                 </div>
             </div>
         </div>
     </div>
     <!-- All Notice Area End Here -->
+    <!-- Modal Area Start Here -->
+    <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Notifications Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="notice-board-wrap" id="notice-list">
+                    <div class="modal-body" id="noticeDetailModal">
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {# <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
+                    <button type="button" class="footer-btn bg-linkedin">Save
+                        Changes</button> #}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Area End Here -->
 </div>
+<!-- Some jquery here -->
+<script>
+    $(document).ready(function () {
+        var data = [];
 
+        function difference2Parts(milliseconds) {
+            const secs = Math.floor(Math.abs(milliseconds) / 1000);
+            const mins = Math.floor(secs / 60);
+            const hours = Math.floor(mins / 60);
+            const days = Math.floor(hours / 24);
+            const millisecs = Math.floor(Math.abs(milliseconds)) % 1000;
+            const multiple = (term, n) => n !== 1 ? `${n} ${term}s` : `1 ${term}`;
+
+            return {
+                days: days,
+                hours: hours % 24,
+                hoursTotal: hours,
+                minutesTotal: mins,
+                minutes: mins % 60,
+                seconds: secs % 60,
+                secondsTotal: secs,
+                milliSeconds: millisecs,
+                get diffStr() {
+                    return `${multiple(`day`, this.days)}, ${
+                  multiple(`hour`, this.hours)}, ${
+                  multiple(`minute`, this.minutes)} and ${
+                  multiple(`second`, this.seconds)}`;
+                },
+                get diffStrMs() {
+                    return `${this.diffStr.replace(` and`, `, `)} and ${
+                  multiple(`millisecond`, this.milliSeconds)}`;
+                },
+            };
+        }
+
+        function untilXMas(date) {
+            const nextChristmas = new Date(date);
+            const report = document.querySelector(`#nextXMas`);
+
+            const diff = () => {
+                const diffs = difference2Parts(nextChristmas - new Date());
+                report.innerHTML = `Awaiting next XMas 🙂 (${
+                diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
+                <br>In other words, until next XMas lasts&hellip;<br>
+                In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${
+                diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
+                setTimeout(diff, 200);
+            };
+            return difference2Parts(nextChristmas - new Date());
+        }
+
+        function drawNotice(s) {
+            //console.log(s);
+            const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+                "September", "Oktober", "November", "Desember"
+            ];
+            //drawNotice();
+            $.ajax({
+                type: "GET",
+                url: "/getNotice",
+                data: {
+                    search: s
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    //console.log(response[0])
+                    $('#notice-list').empty();
+                    $.each(response, function (i, data) {
+                        data += data[i]
+                        var dAwal = new Date(response[i].date_notice)
+                        var bulan = months[dAwal.getMonth()];
+                        var tanggal = dAwal.getDate();
+                        var tahun = dAwal.getFullYear();
+                        var minus = untilXMas(dAwal);
+                        //console.log(minus)
+                        //console.log(minus.minutesTotal);
+                        var difference;
+                        if (minus.minutesTotal <= 60) {
+                            difference = minus.minutesTotal + ' menit lalu';
+                        } else if (minus.hoursTotal <= 24) {
+                            difference = minus.hoursTotal + ' jam lalu';
+                        } else {
+                            difference = minus.days + ' hari lalu';
+                        }
+
+                        //console.log(response[i].category)
+                        var classCategory;
+                        switch (response[i].category) {
+                            case 'Exam': {
+                                classCategory = 'bg-warning'
+                            }
+                            break;
+                        case 'Pembayaran': {
+                            classCategory = 'bg-success'
+                        }
+                        break;
+                        case 'Event': {
+                            classCategory = 'bg-danger'
+                        }
+                        break;
+                        case 'Pengumuman_Sekolah': {
+                            classCategory = 'bg-primary'
+                        }
+                        break;
+                        default: {
+
+                        }
+                        break;
+                        }
+                        $('#notice-list').append(
+                            '<div class="notice-list noticeBoardToModal" data-id="' +
+                            response[i].id_notification +
+                            '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                            classCategory + '">' +
+                            tanggal + ' ' + bulan + ', ' + tahun +
+                            '</div><h6 class="notice-title"><a href="#">' + response[i]
+                            .title +
+                            '</a></h6> <div class="entry-meta">  ' + response[i]
+                            .posted_by +
+                            ' / <span>' + difference + '</span></div></div>')
+                    });
+                },
+                complete: function () {}
+            });
+        };
+        drawNotice();
+
+        $('#searchTitleNoticeBoard').keyup(function (e) {
+            var search = $('#searchTitleNoticeBoard').val();
+            drawNotice(search)
+            //console.log(search);
+        });
+
+        $('#searchDateNoticeBoard').change(function (e) {
+            var search = $('#searchDateNoticeBoard').val();
+            drawNotice(search)
+            //console.log(search);
+        });
+        $('#noticeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('id') // Extract info from data-* attributes
+            const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+                "September", "Oktober", "November", "Desember"
+            ];
+            // console.log(recipient);
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            $.ajax({
+                type: "GET",
+                url: "/getNoticeDetails",
+                data: {
+                    id: recipient
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    //console.log(response)
+                    var dAwal = new Date(response[0].date_notice)
+                        var bulan = months[dAwal.getMonth()];
+                        var tanggal = dAwal.getDate();
+                        var tahun = dAwal.getFullYear();
+                        var minus = untilXMas(dAwal);
+                        //console.log(minus)
+                        //console.log(minus.minutesTotal);
+                        var difference;
+                        if (minus.minutesTotal <= 60) {
+                            difference = minus.minutesTotal + ' menit lalu';
+                        } else if (minus.hoursTotal <= 24) {
+                            difference = minus.hoursTotal + ' jam lalu';
+                        } else {
+                            difference = minus.days + ' hari lalu';
+                        }
+
+                        //console.log(response[i].category)
+                        var classCategory;
+                        switch (response[0].category) {
+                            case 'Exam': {
+                                classCategory = 'bg-warning'
+                            }
+                            break;
+                        case 'Pembayaran': {
+                            classCategory = 'bg-success'
+                        }
+                        break;
+                        case 'Event': {
+                            classCategory = 'bg-danger'
+                        }
+                        break;
+                        case 'Pengumuman_Sekolah': {
+                            classCategory = 'bg-primary'
+                        }
+                        break;
+                        default: {
+
+                        }
+                        break;
+                        }
+                    var modal = $(this)
+                    $('#noticeDetailModal').empty()
+                    console.log($('#noticeDetailModal').html())
+                    $('#noticeDetailModal').append('<div class="notice-list noticeBoardToModal" data-id="' +
+                    response[0].id_notification +
+                    '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                    classCategory + '">' +
+                    tanggal + ' ' + bulan + ', ' + tahun +
+                    '</div><h6 class="notice-title"><a href="#">' + response[0]
+                    .title +
+                    '</a></h6> <p>'+response[0].details+'</p> <div class="entry-meta">  ' + response[0]
+                    .posted_by +
+                    ' / <span>' + difference + '</span></div></div>');
+                }
+            });
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    
+          })
+        $('#resetFormNoticeBoard').click(function (e) {
+            e.preventDefault();
+            $('#categoryNoticeBoard').val('').change();
+            $('#titleNoticeBoard').val('');
+            $('#detailsNoticeBoard').val('');
+
+        });
+        //$('#noticeList').html('<div class="notice-list"><div class="post-date bg-skyblue">AAAAAA</div><h6 class="notice-title"><a href="#">Gat School Great School manag mene esom text of the printing Great School manag mene esom  text of the printing manag mene esom  text of the printing.</a></h6><div class="entry-meta">  Jennyfar Lopez / <span>5 min ago</span></div></div>')
+        $('#formNoticeAdd').submit(function (e) {
+            e.preventDefault();
+            // get all the inputs into an array.
+            var $inputs = $('#formNoticeAdd :input');
+
+            // not sure if you wanted this, but I thought I'd add it.
+            // get an associative array of just the values.
+            var values = {};
+            $inputs.each(function () {
+                values[this.name] = $(this).val();
+            });
+            console.log(values)
+            $.ajax({
+                type: "POST",
+                url: "/sendNotice",
+                data: {
+                    title: values.Title,
+                    details: values.details,
+                    category: values.category,
+                    UserType: values.userType
+                },
+                success: function (response) {
+                    console.log(response);
+                    $('#titlesendNotice').focus();
+                    $('#notice-list').empty();
+                    drawNotice();
+                    Swal.fire({
+                            icon: 'success',
+                            title: 'Your work has been saved',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                        .then((result) => {
+                            if (true) {
+
+
+                                //$('html, body').animate({ scrollTop: $('#titleMessageForm').offset().top }, 'fast');
+                            }
+                        })
+                }
+            });
+        });
+    });
+</script>
 {% endblock content %}

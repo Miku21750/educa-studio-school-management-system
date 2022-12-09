@@ -106,10 +106,7 @@ class ParentController
                             class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
                             Hapus
                         </button></a>
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-edit text-dark-pastel-green"></i><button type="button"  class="btn btn-light item_detail"  data="' . $m['id_user'] . '"">
-                            Ubah
-                        </button></a>
+                   
                     <a class="dropdown-item" href="' . 'api' . '/' . 'parent-detail' . '/' . $m['id_user']  . '"><i
                             class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
                             data-target="#large-modal" data="' . $m['id_user'] . '"">
@@ -205,21 +202,17 @@ class ParentController
         ], [
             'id_user' => $id_parent
         ]);
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
 
         $app->view->render($response, 'parents/parents-details.html', [
             'data' =>  $data[0],
-            'type' => $_SESSION['type']
+            'type' => $_SESSION['type'],
+            'berhasil' => $berhasil
+
            
         ]);
-        // // return var_dump($data);
-        // $json_data = array(
-        //     'data' => $data[0]
-        // );
-
-        // return $response->withJson($data);
-
-        // return var_dump($json_data);
-        // echo json_encode($json_data);
+       
     }
 
     public static function delete($app, $req, $rsp, $args)
@@ -257,6 +250,15 @@ class ParentController
             $addUpdate = $filename;
             if(!isset($filename)){
                 $addUpdate = $data['imageDefault'];
+            }else{
+                $fileDefault = $data['imageDefault'];
+                // if default? return'
+                if($fileDefault == 'default.png'){
+                    
+                }else{   
+                    // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
+                    unlink('../public/uploads/Profile/'.$fileDefault);
+                }
             }
             
             // return var_dump($uploadedFiles);
@@ -276,6 +278,8 @@ class ParentController
                 "id_user" => $data['id_user']
             ]);
             // return var_dump($update);
+            $_SESSION['berhasil'] = true;
+
             return $response->withRedirect('/api/parent-detail/'. $data['id_user']);
     }
     public static function page_add_parent($app, $req, $rsp, $args)
@@ -298,7 +302,10 @@ class ParentController
     public static function add_parent($app, $req, $rsp, $args)
     {
         $data = $args['data'];
+        $id_student = $data['id_student'];
+       
         // return var_dump($data);
+        // die();
 
         $directory = $app->get('upload_directory');
         $uploadedFiles = $req->getUploadedFiles();
@@ -311,7 +318,16 @@ class ParentController
         // return var_dump(isset($filename));
         $addUpdate = $filename;
         if(!isset($filename)){
-            $addUpdate = '20221205040116-20220929-133008.jpg';
+            $addUpdate = $data['imageDefault'];
+        }else{
+            $fileDefault = $data['imageDefault'];
+            // if default? return'
+            if($fileDefault == 'default.png'){
+                
+            }else{   
+                // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
+                unlink('../public/uploads/Profile/'.$fileDefault);
+            }
         }
         
         // return var_dump($uploadedFiles);
@@ -333,6 +349,16 @@ class ParentController
             "id_user_type" => 4,
             "status" => 1,
         ]);
+        $last_id = $app->db->id();
+        $parent = $app->db->update('tbl_users', [
+            "id_parent" => $last_id,
+        ],[
+            'id_user' => $id_student
+        ]);
+
+        // return var_dump($last_id);
+             
+
         // return var_dump($data);
         $_SESSION['berhasil'] = true;
         return $rsp->withRedirect('/add-parents');

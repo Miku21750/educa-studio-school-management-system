@@ -1,0 +1,116 @@
+{% extends "/layout/master.html" %}
+{% set title = "Hostel" %}
+{% block content %}
+    
+<div class="row">
+    <!-- Add Room Area Start Here -->
+    <div class="col-4-xxxl col-12">
+        <div class="card height-auto">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Tambah Kamar Asrama</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <form class="new-added-form"> -->
+                    <div class="row">
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Nama Asrama</label>
+                            <input type="text" placeholder="" class="form-control" id="ehostel_name">
+                        </div>
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>No Kamar</label>
+                            <input type="text" placeholder="" class="form-control" id="eroom_number">
+                        </div>
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Tipe Kamar</label>
+                            <select class="select2" id="eroom_type" name="eroom_type">
+                                <option value="">Silahkan Pilih</option>
+                                <option value="1">Besar</option>
+                                <option value="2">Sedang</option>
+                                <option value="3">Kecil</option>
+                            </select>
+                        </div>
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Nomer Kasur</label>
+                            <input type="text" placeholder="" class="form-control" id="enumber_of_bed">
+                        </div>
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Harga Per Kasur</label>
+                            <input type="text" placeholder="" class="form-control" id="ecost_per_bed">
+                        </div>
+                        <div class="col-12 form-group mg-t-8">
+                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
+                            id="btn_add_hostel">Simpan</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow" id="reset_hostel">Reset</button>
+                        </div>
+                    </div>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+    <!-- Add Room Area End Here -->
+    <!-- All Room List Area Start Here -->
+    <div class="col-8-xxxl col-12">
+        <div class="card height-auto">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Daftar Kamar Asrama</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="data_hostell" class="" >
+                        <thead class="text-center">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Asrama</th>
+                                <th>No Kamar</th>
+                                <th>Tipe Kamar</th>
+                                <th>No Kasur</th>
+                                <th>Harga per Kasur</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="show_hostel">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- All Room List Area End Here -->
+</div>
+
+{% include "hostel/modal-edit-hostel.html" %}
+{% block modal %}
+
+{% endblock modal %}
+{% endblock content %}

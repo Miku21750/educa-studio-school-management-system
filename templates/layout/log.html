@@ -53,6 +53,10 @@
         <div class="alert alert-success" role="alert">
           Berhasil Verifikasi, silahkan Login
         </div>
+        {% elseif notVericate == true %}
+        <div class="alert alert-danger" role="alert">
+          Silahkan verifikasi email terlebih dahulu, cek email kamu
+        </div>
         {% elseif logout == true %}
         <div class="alert alert-primary" role="alert">Success Logout</div>
         {% elseif changedPass == true %}
@@ -355,8 +359,33 @@
             data: {
               email: email,
             },
+            beforeSend: function(){
+              //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
+              Swal.fire({
+                title: 'Loading...',
+                text: 'Mengirim data ke server...',
+                imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showConfirmButton: false
+              })
+            },
             success: function (response) {
               console.log(response)
+              let timerInterval
+              Swal.fire({
+                title: 'Success!',
+                icon: 'success',
+                text: 'Silahkan cek email atau spam kamu untuk melihat link ganti password',
+                timer: 2000,
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                window.location.reload();
+              })  
             }
           })
         })
@@ -391,6 +420,18 @@
               password: pass,
               type: whoElement
             },
+            beforeSend: function(){
+              //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
+              Swal.fire({
+                title: 'Loading...',
+                text: 'Mengirim data ke server...',
+                imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showConfirmButton: false
+              })
+            },
             success: function (response) {
               console.log(response)
               if(response['hasData'] == true){
@@ -401,7 +442,19 @@
                   footer : '<a href="/login">Atau login</a>'
                 })
               }else{
-              document.location.href = '/login'
+                let timerInterval
+                Swal.fire({
+                  title: 'Success!',
+                  icon: 'success',
+                  text: 'Silahkan cek email atau spam kamu untuk verifikasi email',
+                  timer: 2000,
+                  willClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  /* Read more about handling dismissals below */
+                  window.location.href = '/login'
+                })  
               }
             }
           })
