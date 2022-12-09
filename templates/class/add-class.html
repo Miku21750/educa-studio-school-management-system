@@ -1,131 +1,194 @@
 {% extends "/layout/master.html" %}
 {% set title = "Add Class" %}
 {% block content %}
-    <!-- Add Class Area Start Here -->
+<!-- Add Class Area Start Here -->
 <div class="card height-auto">
-    <div class="card-body">
-      <div class="heading-layout1">
-        <div class="item-title">
-          <h3>Add New Class Schedule</h3>
-        </div>
-        <div class="dropdown">
-          <a
-            class="dropdown-toggle"
-            href="#"
-            role="button"
-            data-toggle="dropdown"
-            aria-expanded="false"
-            >...</a
-          >
-  
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-times text-orange-red"></i>Close</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a
-            >
-          </div>
+  <div class="card-body">
+    <div class="heading-layout1">
+      <div class="item-title">
+        <h3>Tambah Kelas Baru</h3>
+      </div>
+      <div class="dropdown">
+        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Turup</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
         </div>
       </div>
-      <form class="new-added-form">
-        <div class="row">
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Teacher Name *</label>
-            <input type="text" placeholder="" class="form-control" />
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>ID No</label>
-            <input type="text" placeholder="" class="form-control" />
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Gender *</label>
-            <select class="select2">
-              <option value="">Please Select</option>
-              <option value="1">Male</option>
-              <option value="2">Female</option>
-              <option value="3">Others</option>
-            </select>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Class</label>
-            <select class="select2">
-              <option value="">Please Select</option>
-              <option value="1">Play</option>
-              <option value="2">Nursery</option>
-              <option value="3">One</option>
-              <option value="3">Two</option>
-              <option value="3">Three</option>
-              <option value="3">Four</option>
-              <option value="3">Five</option>
-            </select>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Subject *</label>
-            <select class="select2">
-              <option value="">Please Select*</option>
-              <option value="1">English</option>
-              <option value="2">Mathmethics</option>
-              <option value="3">Physics</option>
-              <option value="3">Chemestry</option>
-              <option value="3">Biology</option>
-            </select>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Section *</label>
-            <select class="select2">
-              <option value="">Please Select *</option>
-              <option value="1">Pink</option>
-              <option value="2">Blue</option>
-              <option value="3">Bird</option>
-              <option value="3">Rose</option>
-              <option value="3">Red</option>
-            </select>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Time *</label>
-            <input type="text" placeholder="" class="form-control" />
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Date*</label>
-            <input
-              type="text"
-              placeholder="dd/mm/yyyy"
-              class="form-control air-datepicker"
-              data-position="bottom right"
-            />
-            <i class="far fa-calendar-alt"></i>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Phone *</label>
-            <input type="text" placeholder="" class="form-control" />
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>E-Mail *</label>
-            <input type="email" placeholder="" class="form-control" />
-          </div>
-          <div class="col-md-6 form-group"></div>
-          <div class="col-12 form-group mg-t-8">
-            <button
-              type="submit"
-              class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
-            >
-              Save
-            </button>
-            <button
-              type="reset"
-              class="btn-fill-lg bg-blue-dark btn-hover-yellow"
-            >
-              Reset
-            </button>
-          </div>
-        </div>
-      </form>
     </div>
+    <form id="tambahClass" class="new-added-form">
+
+      <div class="row">
+
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Kelas</label>
+          <select id="kelas" class="select2">
+            <option value="">Mohon Dipilih</option>
+            <option value="X">X</option>
+            <option value="XI">XI</option>
+            <option value="XII">XII</option>
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Bagian</label>
+          <select id="bagian" class="select2">
+            <option value="">Mohon Dipilih</option>
+            {% for i in dataSection %}
+            <option value="{{i.id_section}}">{{i.section}} </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Wali Kelas *</label>
+          <select id="namaGuru" class="select2">
+            <option value="">Mohon Dipilih</option>
+            {% for i in dataguru %}
+            <option value="{{i.id_user}}">{{i.first_name}} {{i.last_name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>NIP *</label>
+          <select id="nip" class="select2" disabled>
+            <option value="">Pilih Wali Kelas Dahulu</option>
+            {% for i in dataguru %}
+            <option value="{{i.id_user}}">{{i.NISN}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Jenis Kelamin *</label>
+          <select id="jenisKelamin" class="select2" disabled>
+            <option value="">Pilih Wali Kelas Dahulu</option>
+            {% for i in dataguru %}
+            <option value="{{i.id_user}}">{{i.gender}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>No Handphone *</label>
+          <select id="nohp" class="select2" disabled>
+            <option value="">Pilih Wali Kelas Dahulu</option>
+            {% for i in dataguru %}
+            <option value="{{i.id_user}}">{{i.phone_user}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Email *</label>
+          <select id="email" class="select2" disabled>
+            <option value="">Pilih Wali Kelas Dahulu</option>
+            {% for i in dataguru %}
+            <option value="{{i.id_user}}">{{i.email}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-12 form-group mg-t-8">
+          <button return false;" type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
+            id="submitBtn">
+            Save
+          </button>
+          <button onclick="resetBtn();" type="button" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
+            Reset
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
-  <!-- Add Class Area End Here -->
-  
+</div>
+
+<script>
+
+  namaGuru = $("#namaGuru");
+  nip = $("#nip");
+  jenisKelamin = $("#jenisKelamin");
+  nohp = $("#nohp");
+  email = $("#email");
+
+  $("#namaGuru").change(function () {
+    if (namaGuru.val() != nip.val()) {
+      $("#nip").val(namaGuru.val()).change();
+      $("#jenisKelamin").val(namaGuru.val()).change();
+      $("#nip").val(namaGuru.val()).change();
+      $("#nohp").val(namaGuru.val()).change();
+      $("#email").val(namaGuru.val()).change();
+    }
+  });
+
+  function resetBtn() {
+    $("#kelas").val("").change();
+    $("#bagian").val("").change();
+    $("#namaGuru").val("").change();
+
+  }
+
+  $("#submitBtn").click(function (e) {
+    // e.preventDefault();
+
+    var namaGuru = $("#namaGuru").val();
+    var kelas = $("#kelas").val();
+    var bagian = $("#bagian").val();
+
+    if (kelas.length == "" || bagian.length == "" || namaGuru.length == "") {
+      Swal.fire({
+        type: 'warning',
+        title: 'Oops...',
+        text: 'Mohon isi Kelas, Bagian, dan Nama Guru !'
+      });
+
+    } else {
+
+      $.ajax({
+        url: "/api/kelas/tambah-kelas",
+        type: "POST",
+        dataType: "json",
+        data: {
+          "kelas": $("#kelas").val(),
+          "bagian": $("#bagian").val(),
+          "idTeacher": $("#namaGuru").val(),
+        },
+        beforeSend: function (data) {
+          console.log($("#kelas").val());
+          console.log($("#bagian").val());
+          console.log($("#namaGuru").val());
+        },
+        success: function (response) {
+
+          Swal.fire(
+            'Berhasil',
+            'Kelas Berhasil Ditambahkan!',
+            'success'
+          );
+
+          $("#kelas").val("").change();
+          $("#bagian").val("").change();
+          $("#namaGuru").val("").change();
+
+          // remove attr sesudah submit
+          $(function () {
+            $('.submitBtn').click(function () {
+              $(':input', '#tambahClass')
+                .not(':button, :submit, :reset, :hidden')
+                .val('')
+                .removeAttr('checked')
+                .removeAttr('selected');
+            });
+          });
+        },
+      });
+    }
+  });
+
+</script>
+
+<!-- Add Class Area End Here -->
 {% endblock content %}
