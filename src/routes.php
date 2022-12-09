@@ -1,31 +1,28 @@
 <?php
 
-use App\Controller\DashboardTeacherController;
+use App\Controller\ClassController;
+use App\Controller\ClassRoutineController;
+use App\Controller\DashboardAdminController;
 use App\Controller\DashboardStudentController;
-use App\Controller\indexApiController;
+use App\Controller\DashboardTeacherController;
+use App\Controller\DashbordParentController; //Pindahkan ke conroller nanti
+use App\Controller\ExamController;
+use App\Controller\HostelController;
+use App\Controller\indexApiController; //Pindahkan ke conroller nanti
 use App\Controller\indexViewController;
-use Slim\App; //Pindahkan ke conroller nanti
+use App\Controller\LibraryController;
+use App\Controller\ParentController;
+use App\Controller\StudentController;
+use App\Controller\SubjectController;
+use App\Controller\TeacherController;
+use App\Controller\TransportController;
+use App\middleware\Auth;
+use Medoo\Medoo;
+use PHPMailer\PHPMailer\PHPMailer;
+use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Medoo\Medoo; //Pindahkan ke conroller nanti
-use App\middleware\Auth;
-use App\Controller\DashbordParentController;
-use App\Controller\DashboardAdminController;
-use App\Controller\ParentController;
-use App\Controller\SubjectController;
-use App\Controller\ClassRoutineController;
-use App\Controller\LibraryController;
-use App\Controller\TransportController;
-use App\Controller\TeacherController;
-use App\Controller\HostelController;
-use App\Controller\ExamController;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP;
 use Slim\Http\UploadedFile;
-use App\Controller\StudentController;
-
-
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -67,7 +64,6 @@ return function (App $app) {
     //     }
     // )->add(new Auth());
 
-
     $app->group(
         '/api',
         function () use ($app) {
@@ -98,7 +94,6 @@ return function (App $app) {
                 }
             );
 
-
             $app->group(
                 '/admin',
                 function () use ($app) {
@@ -109,6 +104,20 @@ return function (App $app) {
                             return DashboardAdminController::apiData($this, $request, $response, $args);;
                         }
                     );
+                }
+            );
+
+            $app->group(
+                '/kelas',
+                function () use ($app) {
+
+                    $app->post(
+                        '/tambah-kelas',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return $response->withJson(ClassController::insertClassMod($this, $request, $response, $args));
+                        }
+                    );
+
                 }
             );
 
@@ -138,7 +147,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return LibraryController::update_book_detail($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -149,7 +158,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return LibraryController::delete($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -160,7 +169,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return LibraryController::add_book($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -207,7 +216,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return TransportController::update_transport_detail($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -218,7 +227,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return TransportController::delete($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -229,7 +238,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return TransportController::add_transport($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -262,7 +271,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return HostelController::update_hostel_detail($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -273,7 +282,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return HostelController::delete($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -284,7 +293,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return HostelController::add_hostel($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -317,7 +326,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return ExamController::update_exam_detail($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -328,7 +337,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return ExamController::delete($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -339,7 +348,7 @@ return function (App $app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
                             return ExamController::add_exam($this, $request, $response, [
-                                'data' => $data
+                                'data' => $data,
                             ]);
                         }
                     );
@@ -362,7 +371,7 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $args['id'];
                     return DashboardStudentController::view_data_exam($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -372,7 +381,7 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $args['id'];
                     return DashbordParentController::tampil_data($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -381,7 +390,7 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $args['id'];
                     return DashbordParentController::tampil_data_result($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -402,7 +411,7 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
                     $tambah = $request->getParsedBody();
                     return SubjectController::add_subject($this, $request, $response, [
-                        'tambah' => $tambah
+                        'tambah' => $tambah,
                     ]);
                 }
             );
@@ -412,7 +421,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return SubjectController::delete_subject($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -422,7 +431,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return SubjectController::update_subject($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -432,7 +441,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return ClassRoutineController::view_data_classroutine($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -441,7 +450,7 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
                     $tambah = $request->getParsedBody();
                     return ClassRoutineController::add_class_routine($this, $request, $response, [
-                        'tambah' => $tambah
+                        'tambah' => $tambah,
                     ]);
                 }
             );
@@ -451,7 +460,7 @@ return function (App $app) {
                     $data = $args['id'];
                     // return var_dump($data);
                     return ParentController::detail($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -461,7 +470,7 @@ return function (App $app) {
                     $data = $args['id'];
                     // return var_dump($data);
                     return ParentController::parent_detail($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -471,7 +480,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return ParentController::update_parent_detail($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -481,7 +490,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return ParentController::delete($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -491,7 +500,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return ParentController::add_parent($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -513,7 +522,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return StudentController::delete($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -523,7 +532,7 @@ return function (App $app) {
                     $data = $args['id'];
                     // return var_dump($data);
                     return StudentController::student_detail($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -533,7 +542,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return StudentController::update_student_detail($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -543,7 +552,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return StudentController::add_student($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -553,7 +562,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return StudentController::add_promotion($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -563,7 +572,7 @@ return function (App $app) {
                     $data = $args['id'];
                     // return var_dump($data);
                     return StudentController::add_admission($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -580,7 +589,7 @@ return function (App $app) {
                     $data = $args['id'];
                     // return var_dump($data);
                     return TeacherController::teacher_detail($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -590,7 +599,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return TeacherController::delete($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -600,7 +609,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return TeacherController::update_teacher_detail($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -610,7 +619,7 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return TeacherController::add_teacher($this, $request, $response, [
-                        'data' => $data
+                        'data' => $data,
                     ]);
                 }
             );
@@ -624,7 +633,6 @@ return function (App $app) {
         }
     );
 
-
     // verification email start here
     $app->get(
         '/verifEmail',
@@ -633,9 +641,9 @@ return function (App $app) {
             $data = $request->getParams();
             // return var_dump($data);
             $container->db->update('tbl_users', [
-                "status" => 1
+                "status" => 1,
             ], [
-                "id_user" => $data['key']
+                "id_user" => $data['key'],
             ]);
             unset($_SESSION['isRegistered']);
             $_SESSION['isValidatingEmail'] = true;
@@ -653,7 +661,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             $data = $request->getParsedBody();
             $Valid = $container->db->select('tbl_users', ['id_user', 'email', 'password'], [
-                'email' => $data['email']
+                'email' => $data['email'],
             ]);
             $isValid = $Valid[0];
             // return var_dump($isValid);
@@ -718,7 +726,7 @@ return function (App $app) {
             $data = $request->getParams();
             $container->view->render($response, 'layout/log.html', [
                 'key' => $data['key'],
-                'isReset' => true
+                'isReset' => true,
             ]);
         }
     );
@@ -730,9 +738,9 @@ return function (App $app) {
             // return var_dump($data);
             if ($data['pass'] == $data['pass2']) {
                 $changePass = $container->db->update('tbl_users', [
-                    'password' => $data['pass']
+                    'password' => $data['pass'],
                 ], [
-                    'id_user' => $data['id_user']
+                    'id_user' => $data['id_user'],
                 ]);
                 $_SESSION['changedPass'] = true;
                 // return var_dump(true);
@@ -741,7 +749,7 @@ return function (App $app) {
                 return $container->view->render($response, 'layout/log.html', [
                     'key' => $data['key'],
                     'isReset' => true,
-                    'notValidChanged' => true
+                    'notValidChanged' => true,
                 ]);
                 // return var_dump(false);
             }
@@ -757,12 +765,11 @@ return function (App $app) {
         '/all-students',
         function (Request $request, Response $response, array $args) use ($container) {
 
-
             return StudentController::index($this, $request, $response, [
                 'user' => $_SESSION['username'],
                 'id_user' => $_SESSION['id_user'],
-                'type' =>  $_SESSION['type'],
-                'type_user' =>  $_SESSION['type_user']
+                'type' => $_SESSION['type'],
+                'type_user' => $_SESSION['type_user'],
             ]);
         }
     )->add(new Auth());
@@ -777,7 +784,7 @@ return function (App $app) {
         $data = $args['id'];
 
         return StudentController::student_promotion($this, $request, $response, [
-            'data' => $data
+            'data' => $data,
         ]);
     });
 
@@ -786,12 +793,11 @@ return function (App $app) {
         '/all-teacher',
         function (Request $request, Response $response, array $args) use ($container) {
 
-
             return TeacherController::index($this, $request, $response, [
                 'user' => $_SESSION['username'],
                 'id_user' => $_SESSION['id_user'],
-                'type' =>  $_SESSION['type'],
-                'type_user' =>  $_SESSION['type_user']
+                'type' => $_SESSION['type'],
+                'type_user' => $_SESSION['type_user'],
             ]);
         }
     )->add(new Auth());
@@ -809,7 +815,7 @@ return function (App $app) {
             return TeacherController::page_payment($this, $request, $response, $args);
         }
     )->add(new Auth());
-    //end Teacher 
+    //end Teacher
 
     //Parent
     $app->get(
@@ -818,8 +824,8 @@ return function (App $app) {
             return ParentController::index($this, $request, $response, [
                 'user' => $_SESSION['username'],
                 'id_parent' => $_SESSION['id_user'],
-                'type' =>  $_SESSION['type'],
-                'type_user' =>  $_SESSION['type_user']
+                'type' => $_SESSION['type'],
+                'type_user' => $_SESSION['type_user'],
             ]);
         }
     )->add(new Auth());
@@ -892,12 +898,12 @@ return function (App $app) {
         '/add-class',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'class/add-class.html', $args);
+            return ClassController::viewAddClass($this, $request, $response, $args);
         }
     )->add(new Auth());
     //end Class
 
-    //Subject 
+    //Subject
     $app->get(
         '/all-subject',
         function (Request $request, Response $response, array $args) use ($container) {
@@ -945,7 +951,7 @@ return function (App $app) {
     )->add(new Auth());
     //End Exam
 
-    //Transport 
+    //Transport
     $app->get(
         '/transport',
         function (Request $request, Response $response, array $args) use ($container) {
@@ -982,14 +988,14 @@ return function (App $app) {
 
             $condition = [
                 'ORDER' => [
-                    'id_notification' => 'DESC'
+                    'id_notification' => 'DESC',
                 ],
             ];
             if (!empty($request->getParam('search'))) {
                 $search = $request->getParam('search');
                 $condition['OR'] = [
                     'title[~]' => '%' . $search . '%',
-                    'date_notice' => Medoo::raw("1 OR (date_notice BETWEEN '" . $search . "' AND '" . $search . " 23:59:59')")
+                    'date_notice' => Medoo::raw("1 OR (date_notice BETWEEN '" . $search . "' AND '" . $search . " 23:59:59')"),
                 ];
             }
             $dataNotice = $container->db->select('tbl_notifications', '*', $condition);
@@ -1027,7 +1033,7 @@ return function (App $app) {
             // return var_dump($request->getParam('id'));
             $id = $request->getParam('id');
             $dataNotice = $container->db->select('tbl_notifications', '*', [
-                'id_notification' => $id
+                'id_notification' => $id,
             ]);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
@@ -1044,7 +1050,7 @@ return function (App $app) {
                 'details' => $dataRequest['details'],
                 'posted_by' => $dataRequest['UserType'],
                 'terbaca' => 0,
-                'category' => $dataRequest['category']
+                'category' => $dataRequest['category'],
             ]);
             return $response->withJson(array('success' => true));
             // $container->view->render($response, 'others/notice-board.html', $args);
@@ -1062,12 +1068,12 @@ return function (App $app) {
                 'email',
                 'first_name',
                 'last_name',
-                'username'
+                'username',
             ]);
             // return var_dump($data);
             $container->view->render($response, 'others/messaging.html', [
                 'data' => $data,
-                'idSenderDefault' => $_SESSION['id_user']
+                'idSenderDefault' => $_SESSION['id_user'],
             ]);
         }
     )->add(new Auth());
@@ -1082,7 +1088,7 @@ return function (App $app) {
                 'first_name',
                 'last_name',
             ], [
-                "id_user" => $id
+                "id_user" => $id,
             ]);
             // $container->view->render($response, 'others/messaging.html', $args);
             return $response->withJson($data);
@@ -1098,7 +1104,7 @@ return function (App $app) {
                 'id_user',
                 'email',
             ], [
-                "id_user" => $id
+                "id_user" => $id,
             ]);
             // $container->view->render($response, 'others/messaging.html', $args);
             return $response->withJson($data);
@@ -1115,7 +1121,7 @@ return function (App $app) {
                 'first_name',
                 'last_name',
             ], [
-                "id_user" => $NISN
+                "id_user" => $NISN,
             ]);
             // return var_dump($data);
 
@@ -1132,12 +1138,12 @@ return function (App $app) {
                 'email',
                 'first_name',
                 'last_name',
-                'username'
+                'username',
             ], [
-                'id_user' => $data['id_sender']
+                'id_user' => $data['id_sender'],
             ]);
             $dataReceipent = $container->db->select('tbl_users', 'email', [
-                'id_user' => $data['id_user']
+                'id_user' => $data['id_user'],
             ]);
             // return die(var_dump($dataSender[0]['email']));
             // return die(var_dump($dataSender[0]));
@@ -1147,7 +1153,7 @@ return function (App $app) {
                 'sender_email' => $dataSender[0]['email'],
                 'title' => $data['title'],
                 'message' => $data['message'],
-                'readed' => 0
+                'readed' => 0,
             ]);
 
             // kirim email
@@ -1216,9 +1222,9 @@ return function (App $app) {
             $data = $request->getParsedBody();
             // return var_dump($data);
             $dataSender = $container->db->update('tbl_messages', [
-                'readed' => 1
+                'readed' => 1,
             ], [
-                'id_message' => $data['id_message']
+                'id_message' => $data['id_message'],
             ]);
             // return var_dump($dataSender);
             // $container->view->render($response, 'others/messaging.html', $args);
@@ -1232,7 +1238,7 @@ return function (App $app) {
             // return var_dump($request->getParam('id'));
             $id = $request->getParam('id_message');
             $dataNotice = $container->db->select('tbl_messages(m)', [
-                '[>]tbl_users' => 'id_user'
+                '[>]tbl_users' => 'id_user',
             ], [
                 'id_message',
                 'totalMessage' => Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '" . $_SESSION['username'] . "')"),
@@ -1245,10 +1251,10 @@ return function (App $app) {
                 'photo_sender' => Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
                 'first_name_sender' => Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
                 'last_name_sender' => Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
-                'time_sended'
+                'time_sended',
             ], [
                 'username' => $_SESSION['username'],
-                'id_message' => $id
+                'id_message' => $id,
             ]);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
@@ -1278,7 +1284,7 @@ return function (App $app) {
                 "[>]tbl_classes" => "id_class",
                 "[>]tbl_hostels" => "id_hostel",
                 "[>]tbl_transports" => ["id_trans" => "id_transport"],
-                "[>]tbl_user_types" => "id_user_type"
+                "[>]tbl_user_types" => "id_user_type",
             ], [
                 "tbl_users.id_user",
                 "tbl_classes.class",
@@ -1297,14 +1303,14 @@ return function (App $app) {
                 "occupation",
                 "phone_user",
                 "address_user",
-                "short_bio"
+                "short_bio",
             ], [
-                'id_user' => $_SESSION['id_user']
+                'id_user' => $_SESSION['id_user'],
             ]);
             // return var_dump($data);
             $container->view->render($response, 'others/profile-setting.html', [
                 'data' => $data[0],
-                'myProfile' => true
+                'myProfile' => true,
             ]);
         }
     )->add(new Auth());
@@ -1316,7 +1322,7 @@ return function (App $app) {
             $isAddAccount = isset($_SESSION['successAddingAccount']);
             unset($_SESSION['successAddingAccount']);
             $container->view->render($response, 'others/account/add-account.html', [
-                'isAddAccount' => $isAddAccount
+                'isAddAccount' => $isAddAccount,
             ]);
         }
     )->add(new Auth());
@@ -1338,7 +1344,7 @@ return function (App $app) {
                 "address_user" => $data['address_user'],
                 "id_user_type" => 3,
                 "status" => 1,
-                "photo_user" => $addPhoto
+                "photo_user" => $addPhoto,
             ]);
             $_SESSION['successAddingAccount'] = true;
             return $response->withRedirect('/add-account');
@@ -1349,12 +1355,12 @@ return function (App $app) {
         '/all-account',
         function (Request $request, Response $response, array $args) use ($container) {
             $data = $container->db->select('tbl_users', '*', [
-                'id_user_type' => 3
+                'id_user_type' => 3,
             ]);
             // return var_dump($data);
             // Render index view
             $container->view->render($response, 'others/account/all-account.html', [
-                'data' => $data
+                'data' => $data,
             ]);
         }
     )->add(new Auth());
@@ -1364,7 +1370,7 @@ return function (App $app) {
             // return var_dump($request->getParams());
             $id = $request->getParam('id_user');
             $data = $container->db->select('tbl_users', '*', [
-                'id_user' => $id
+                'id_user' => $id,
             ]);
             // return var_dump($data);
             return $response->withJson($data[0]);
@@ -1400,9 +1406,9 @@ return function (App $app) {
                 "phone_user" => $data['phone_user'],
                 "address_user" => $data['address_user'],
                 "short_bio" => $data['data_short_bio'],
-                "photo_user" => $addUpdate
+                "photo_user" => $addUpdate,
             ], [
-                "id_user" => $data['id_user']
+                "id_user" => $data['id_user'],
             ]);
             // return var_dump($update);
             return $response->withRedirect('/all-account');
@@ -1414,7 +1420,7 @@ return function (App $app) {
             $data = $request->getParsedBody();
             // return var_dump($data);
             $delete = $container->db->delete('tbl_users', [
-                'id_user' => $data['id']
+                'id_user' => $data['id'],
             ]);
             return $response->withJson(array("success"));
 
@@ -1465,9 +1471,9 @@ return function (App $app) {
                 "phone_user" => $data['phone_user'],
                 "address_user" => $data['address_user'],
                 "short_bio" => $data['data_short_bio'],
-                "photo_user" => $addUpdate
+                "photo_user" => $addUpdate,
             ], [
-                "id_user" => $data['id_user']
+                "id_user" => $data['id_user'],
             ]);
             // return var_dump($update);
             $_SESSION['user'] = '' . $data['first_name'] . ' ' . $data['last_name'];
@@ -1478,7 +1484,6 @@ return function (App $app) {
 
     // End profile setting
 
-
     // Dashboard
     // $app->get(
     //     '/teacher',
@@ -1487,7 +1492,6 @@ return function (App $app) {
     //         $container->view->render($response, 'dashboard/teacher.html', $args);
     //     }
     // );
-
 
     // $app->get('/parent', function (Request $request, Response $response, array $args) use ($container) {
     //     // Render index view
@@ -1530,7 +1534,7 @@ return function (App $app) {
                     'username' => $_SESSION['username'],
                     'type' => $type,
                     'id_student' => $id_student,
-                    'type_user' => $type_user
+                    'type_user' => $type_user,
                 ]);
                 // return $response->withRedirect('/student');
             }
@@ -1544,7 +1548,7 @@ return function (App $app) {
                     'user' => $_SESSION['user'],
                     'type' => $type,
                     'nama_user' => $type_user,
-                    'username' => $_SESSION['username']
+                    'username' => $_SESSION['username'],
                 ]);
             }
             if ($type == 4) {
@@ -1555,7 +1559,7 @@ return function (App $app) {
                     'user' => $_SESSION['user'],
                     'type' => $type,
                     'id_parent' => $id_parent,
-                    'type_user' => $type_user
+                    'type_user' => $type_user,
                 ]);
             } // else {
             //     // Hapus ini
@@ -1573,7 +1577,7 @@ function moveUploadedFile($directory, UploadedFile $uploadedFile)
 {
     $oriname = $uploadedFile->getClientFilename();
     // $basename = bin2hex(random_bytes(8)); // see http://php.net/manual/en/function.random-bytes.php
-    $filename = Date('YmdHis') . '-'  . $oriname;
+    $filename = Date('YmdHis') . '-' . $oriname;
 
     $uploadedFile->moveTo($directory . DIRECTORY_SEPARATOR . $filename);
 
