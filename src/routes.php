@@ -998,6 +998,29 @@ return function (App $app) {
         }
     )->add(new Auth());
     $app->get(
+        '/getNoticeNavbar',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view'
+            // return var_dump($request->getParam('search'));
+            $dataNotice = $container->db->select('tbl_notifications', [
+                'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
+                'id_notification',
+                'title',
+                'details',
+                'posted_by',
+                'date_notice',
+                'terbaca',
+                'category'
+            ], 
+            Medoo::raw("WHERE
+            date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
+            ORDER BY `id_notification` DESC")
+        );
+            //return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
+        }
+    )->add(new Auth());
+    $app->get(
         '/getNoticeDetails',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view'
@@ -1128,7 +1151,7 @@ return function (App $app) {
             ]);
 
             // kirim email
-            $mail = new PHPMailer;
+            $mail = new PHPMailer(true);
             //Memberi tahu PHPMailer untuk menggunakan SMTP
             $mail->isSMTP();
             //Mengaktifkan SMTP debugging
@@ -1179,9 +1202,8 @@ return function (App $app) {
 
             if (!$mail->send()) {
                 echo "Email Error: " . $mail->ErrorInfo;
-            } else {
-                return $response->withJson(array('success' => true));
             }
+            return;
             // kirim email end here
 
             // $container->view->render($response, 'others/messaging.html', $args);
