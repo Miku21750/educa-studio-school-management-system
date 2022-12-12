@@ -178,24 +178,29 @@
           Line Chart 
       -------------------------------------*/
     if ($("#earning-line-chart").length) {
+      // console.log('aa')
+      var amount_payment =[0];
       $(document).ready(function () {
         $.ajax({
           type: "GET",
-          url: "/api/admin/apidata",
+          url: "/adminDataIncome",
           dataType: "JSON",
           success: function (dana) {
-            console.log(dana.sppSiswa)
+            // console.log(dana.sppSiswa)
+
             $.each(dana.sppSiswa, function (i, data) {
-              console.log(data)
+              amount_payment.push(data.amount_payment)
             });
           }
         });
       })
+      console.log(amount_payment);
 
       var lineChartData = {
         labels: ["", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
         datasets: [{
-          data: [0, 50000, 20000, 30000, 70000, 80000, 40000, 60000, 30000, 60000, 70000, 40000, 30000],
+          // data: [0, 50000, 20000, 30000, 70000, 80000, 40000, 60000, 30000, 60000, 70000, 40000, 30000],
+          data: amount_payment, 
           backgroundColor: '#ff0000',
           borderColor: '#ff0000',
           borderWidth: 1,

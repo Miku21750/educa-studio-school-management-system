@@ -113,6 +113,7 @@ class DashboardAdminController
 
     public static function apiData($app, $req, $res, $args)
     {
+        // return var_dump('aaa');
         $siswa = $app->db->select("tbl_users", "*", [
             "id_user_type" => "1",
         ]);
@@ -134,7 +135,7 @@ class DashboardAdminController
             "id_user_type" => "1",
             "gender" => "Perempuan",
         ]);
-
+        // $finance = $app->db
         // $sppSiswa = $app->db->debug()->select('tbl_finances','amount_payment',
         //     // "AND"=>[
         //     //     "id_payment_type" => "1",
@@ -145,12 +146,14 @@ class DashboardAdminController
         //     YEAR(date_payment) = 2020 AND <id_payment_type> = 1 AND <status> = "Dibayar"')
         // );
         $sppSiswa = $app->db->query("
-        SELECT `amount_payment` FROM `tbl_finances` WHERE YEAR(date_payment) = 2020 AND `id_payment_type` = 1 AND `status` = 'Dibayar'")->fetchAll();
-
+        SELECT `amount_payment` FROM `tbl_finances` WHERE YEAR(date_payment) = 1973 AND `tipe_finance` = 'Pemasukan' AND `status_pembayaran` = 'Dibayar'")->fetchAll();
+        // return die(var_dump($sppSiswa));
         return $res->withJson(array(
             // "siswa" => $siswa,
             // "teacher" => $teacher,
             // "parent" => $parent,
+            'sppSiswa'=>$sppSiswa,
+            'tahun'=>$args['data'],
             "totalSiswaMale" => $totalSiswaMale,
             "totalSiswaFemale" => $totalSiswaFemale,
             "sppSiswa" => $sppSiswa,

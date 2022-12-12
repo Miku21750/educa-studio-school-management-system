@@ -23,8 +23,6 @@ use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
-
-use App\Controller\StudentController;
 use App\Controller\AcconuntController;
 
 
@@ -711,6 +709,23 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->get(
+                '/allexpense',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return AcconuntController::tampil_data_expense($this, $request, $response, $args);
+                }
+            );
+            $app->post(
+                '/add-payment',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return AcconuntController::add_payment($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
         }
     );
 
@@ -963,9 +978,9 @@ return function (App $app) {
         '/add-expense',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'acconunt/add-expense.html', $args);
+            return AcconuntController::page_add_payment($this, $request, $response, $args);
         }
-    );
+    )->add(new Auth());
     //end Acconunt
 
     //Class
@@ -1210,6 +1225,23 @@ return function (App $app) {
                 'last_name',
             ], [
                 "id_user" => $NISN,
+            ]);
+            // return var_dump($data);
+
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/get_id_expenses',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $id_user_type = $request->getParam('id_user_type');
+            // return var_dump($request->getParam('id_user'));
+            $data = $container->db->select('tbl_users', [
+                '[><]tbl_user_types' =>  'id_user_type',
+                
+            ], '*', [
+                "id_user_type" => $id_user_type,
             ]);
             // return var_dump($data);
 
@@ -1596,6 +1628,13 @@ return function (App $app) {
     //         }
     //     }
     // );
+    $app->get('/adminDataIncome',function (Request $request, Response $response, array $args) use ($container) {
+        // return var_dump($request->getParams());
+        $data = $request->getParam('tahun');
+        return dashboardAdminController::apiData($container,$request,$response,[
+            'data'=>$data
+        ]);
+    });
     $app->get(
         '/',
         function (Request $request, Response $response, array $args) use ($container) {
