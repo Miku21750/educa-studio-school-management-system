@@ -24,7 +24,6 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
 
-use App\Controller\StudentController;
 use App\Controller\AcconuntController;
 
 
@@ -119,6 +118,20 @@ return function (App $app) {
                         '/tambah-kelas',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return $response->withJson(ClassController::insertClassMod($this, $request, $response, $args));
+                        }
+                    );
+
+                    $app->post(
+                        '/hapus-kelas/{id_class}', 
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return $response->withJson(ClassController::deleteClassMod($this, $request, $response, $args));
+                        }
+                    );
+
+                    $app->get(
+                        '/getallclassdt', 
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ClassController::getAllClassDt($this, $request, $response, $args);
                         }
                     );
 
