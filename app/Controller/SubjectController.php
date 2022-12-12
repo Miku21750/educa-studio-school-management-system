@@ -73,7 +73,8 @@ class SubjectController
                     "[><]tbl_classes" => "id_class"
                 ],
                 '*',
-                $limit
+                // $limit
+                $conditions
             );
             $totaldata = count($result);
             $totalfiltered = $totaldata;
@@ -97,11 +98,11 @@ class SubjectController
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item subject_remove" data="' . $m['id_subject'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+                    <a class="dropdown-item subject_remove" data="' . $m['id_subject'] . '"><button type="button" class="btn btn-light btn-lg" class="modal-trigger" data-toggle="modal"
                     data-target="#confirmation-modalS"><i class="fas fa-trash text-orange-red"></i>
                             Hapus
                         </button></a>
-                    <a class="btn dropdown-item subject_detail" data="' . $m['id_subject'] . '" ><button type="button" id="show_subject"  class="btn btn-light"  data-toggle="modal" data-target="#detail_subject"><i
+                    <a class="btn dropdown-item subject_detail" data="' . $m['id_subject'] . '" ><button type="button" id="show_subject"  class="btn btn-light btn-lg"  data-toggle="modal" data-target="#detail_subject"><i
                             class="fas fa-edit text-dark-pastel-green"></i>
                             Ubah
                         </button></a>

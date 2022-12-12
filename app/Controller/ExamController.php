@@ -208,22 +208,22 @@ class ExamController{
                 $datas['percent_upto'] = $m['percent_upto'];
                 $datas['grade_desc'] = $m['grade_desc'];
                 $datas['grade_point'] = $m['grade_point'];
-                $datas['aksi'] =  '<div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    aria-expanded="false">
-                    <span class="flaticon-more-button-of-three-dots"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item grade_remove" data="' . $m['id_exam_grade'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                    data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
-                            Hapus
-                        </button></a>
-                    <a class="btn dropdown-item grade_detail" data="' . $m['id_exam_grade'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
-                            class="fas fa-edit text-dark-pastel-green"></i>
-                            Ubah
-                        </button></a>
-                </div>
-            </div>';
+            //     $datas['aksi'] =  '<div class="dropdown">
+            //     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+            //         aria-expanded="false">
+            //         <span class="flaticon-more-button-of-three-dots"></span>
+            //     </a>
+            //     <div class="dropdown-menu dropdown-menu-right">
+            //         <a class="dropdown-item grade_remove" data="' . $m['id_exam_grade'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+            //         data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
+            //                 Hapus
+            //             </button></a>
+            //         <a class="btn dropdown-item grade_detail" data="' . $m['id_exam_grade'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
+            //                 class="fas fa-edit text-dark-pastel-green"></i>
+            //                 Ubah
+            //             </button></a>
+            //     </div>
+            // </div>';
                 $data[] = $datas;
                 $no++;
             }

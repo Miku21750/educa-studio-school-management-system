@@ -178,24 +178,29 @@
           Line Chart 
       -------------------------------------*/
     if ($("#earning-line-chart").length) {
+      // console.log('aa')
+      var amount_payment =[0];
       $(document).ready(function () {
         $.ajax({
           type: "GET",
-          url: "/api/admin/apidata",
+          url: "/adminDataIncome",
           dataType: "JSON",
           success: function (dana) {
-            console.log(dana.sppSiswa)
+            // console.log(dana.sppSiswa)
+
             $.each(dana.sppSiswa, function (i, data) {
-              console.log(data)
+              amount_payment.push(data.amount_payment)
             });
           }
         });
       })
+      console.log(amount_payment);
 
       var lineChartData = {
         labels: ["", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
         datasets: [{
-          data: [0, 50000, 20000, 30000, 70000, 80000, 40000, 60000, 30000, 60000, 70000, 40000, 30000],
+          // data: [0, 50000, 20000, 30000, 70000, 80000, 40000, 60000, 30000, 60000, 70000, 40000, 30000],
+          data: amount_payment, 
           backgroundColor: '#ff0000',
           borderColor: '#ff0000',
           borderWidth: 1,
@@ -622,9 +627,9 @@ $(document).ready(function () {
     var id_book = $('#id_book').val();
     var name_book = $('#ebook_name').val();
     var code_book = $('#ecode_book').val();
-    var category_book = $('#ecategory_book').val();
+    var subject = $('#esubject').val();
     var writer_book = $('#ewriter_book').val();
-    var class_book = $('#eclass_book').val();
+    var class_book = $('#eclass').val();
     var publish_date = $('#epublish_date').val();
     var upload_date = $('#eupload_date').val();
     // console.log(id_book)
@@ -638,7 +643,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/library/update-book-detail",
       dataType: "JSON",
-      data: { id_book: id_book, name_book: name_book, category_book: category_book, writer_book: writer_book, class_book: class_book, publish_date: publish_date, upload_date: upload_date, code_book: code_book },
+      data: { id_book: id_book, name_book: name_book, subject: subject, writer_book: writer_book, class_book: class_book, publish_date: publish_date, upload_date: upload_date, code_book: code_book },
       success: function (data) {
         if (data) {
           $('#detail-book').modal('hide');
@@ -700,9 +705,9 @@ $('#show_book').on('click', '.book_detail', function () {
       $('#detail-book').modal('show');
       $('[name="id_book"]').val(data.id_book);
       $('[name="ebook_name"]').val(data.name_book);
-      $('[name="ecategory_book"]').val(data.category_book);
+      $('[name="esubject"]').val(data.subject);
       $('[name="ewriter_book"]').val(data.writer_book);
-      $('[name="eclass_book"]').val(data.class_book).change();
+      $('[name="eclass"]').val(data.class).change();
       $('[name="epublish_date"]').val(data.id_driver);
       $('[name="eupload_date"]').val(data.upload_date);
       $('[name="ecode_book"]').val(data.code_book);
@@ -1580,7 +1585,7 @@ $(document).ready(function () {
         { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
         { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 5, className: "text-right", "orderable": false },
-        { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+        // { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -1600,7 +1605,7 @@ $(document).ready(function () {
         { 'data': 'percent_upto' },
         { 'data': 'grade_desc' },
         { 'data': 'grade_point' },
-        { 'data': 'aksi' }
+        // { 'data': 'aksi' }
       ]
 
 
