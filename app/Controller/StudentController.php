@@ -425,13 +425,13 @@ class StudentController
         $id = $args['data'];
 
         $data = $app->db->select('tbl_users', [
-            '[><]tbl_sections' => 'id_section',
-            '[><]tbl_classes' => 'id_class'
+            '[><]tbl_classes' => 'id_class',
+            '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section']
         ], '*', [
             'id_user' => $id
 
         ]);
-
+        // return die(var_dump($data));
         $class = $app->db->select('tbl_classes', [
             '[><]tbl_sections' =>  'id_section',
         ], '*');

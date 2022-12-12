@@ -17,6 +17,7 @@ class LibraryController
         $app->view->render($response, 'library/all-book.html', [
             'data' => $data,
             'id_book' => $id_book,
+
         ]);
     }
 
@@ -24,12 +25,14 @@ class LibraryController
     {
         $book = $app->db->select('tbl_books',[
             '[><]tbl_subjects' => 'id_subject',
+            '[><]tbl_classes' => 'class',
         ],[
             'id_book(id_book)',
             'name_book(name_book)',
             'subject_name(subject_name)',
             'writer_book(writer_book)',
-            'class_book(class_book)',
+            'class(class)',
+            'class(class)',
             'publish_date(publish_date)',
             'upload_date(upload_date)',
             'code_book(code_book)',
@@ -58,19 +61,20 @@ class LibraryController
                 'tbl_books.code_book[~]' => '%' . $search . '%',
                 'tbl_subjects.subject_name[~]' => '%' . $search . '%',
                 'tbl_books.writer_book[~]' => '%' . $search . '%',
-                'tbl_books.class_book[~]' => '%' . $search . '%',
+                'tbl_books.class[~]' => '%' . $search . '%',
                 'tbl_books.publish_date[~]' => '%' . $search . '%',
                 'tbl_books.upload_date[~]' => '%' . $search . '%',
 
             ];
             $book = $app->db->select('tbl_books',[
                 '[><]tbl_subjects' => 'id_subject',
+                '[><]tbl_classes' => 'class',
             ],[
                 'id_book(id_book)',
                 'name_book(name_book)',
                 'id_subject(id_subject)',
                 'writer_book(writer_book)',
-                'class_book(class_book)',
+                'class(class)',
                 'publish_date(publish_date)',
                 'upload_date(upload_date)',
                 'code_book(code_book)',
@@ -81,7 +85,19 @@ class LibraryController
             $totalfiltered = $totaldata;
         }
 
-        $book = $app->db->select('tbl_books', '*', $conditions);
+        $book = $app->db->select('tbl_books', [
+            '[><]tbl_subjects' => 'id_subject',
+            '[><]tbl_classes' => 'class',
+        ],[
+            'id_book(id_book)',
+            'name_book(name_book)',
+            'subject_name(subject_name)',
+            'writer_book(writer_book)',
+            'class(class)',
+            'publish_date(publish_date)',
+            'upload_date(upload_date)',
+            'code_book(code_book)',
+        ], $conditions);
 
         $data = array();
 
@@ -94,7 +110,7 @@ class LibraryController
                 $datas['name_book'] = $m['name_book'];
                 $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
-                $datas['class'] = $m['class_book'];
+                $datas['class'] = $m['class'];
                 $datas['published'] = $m['publish_date'];
                 $datas['creating_date'] = $m['upload_date'];
                 $datas['aksi'] = '<div class="dropdown">
@@ -141,7 +157,7 @@ class LibraryController
             "name_book",
             "subject_name",
             "writer_book",
-            "class_book",
+            "class",
             "publish_date",
             "upload_date",
             "code_book",
@@ -181,9 +197,9 @@ class LibraryController
 
         $update = $app->db->update('tbl_books', [
             "name_book" => $data['name_book'],
-            "id_subject" => $data['category_book'],
+            "id_subject" => $data['subject'],
             "writer_book" => $data['writer_book'],
-            "class_book" => $data['class_book'],
+            "class" => $data['class'],
             "publish_date" => $data['publish_date'],
             "upload_date" => $data['upload_date'],
             "code_book" => $data['code_book'],
@@ -207,36 +223,40 @@ class LibraryController
 
         $data = $app->db->insert('tbl_books', [
             "name_book" => $data['name_book'],
-            "category_book" => $data['category_book'],
+            "id_subject" => $data['subject'],
             "writer_book" => $data['writer_book'],
-            "class_book" => $data['class_book'],
+            "class" => $data['class_book'],
             "publish_date" => $data['publish_date'],
             "upload_date" => $data['upload_date'],
             "code_book" => $data['code_book'],
         ]);
         // return die(var_dump($data));
-        // $_SESSION['berhasil'] = true;
+        $_SESSION['berhasil'] = true;
         // unset($_SESSION['berhasil']);
-        // return $rsp->withRedirect('/add-book');
 
-        $berhasil = isset($_SESSION['berhasil']);
-        unset($_SESSION['berhasil']);
+        return $rsp->withRedirect('/add-book');
 
-        $app->view->render($rsp, 'library/add-book.html', [
-            'type' => $_SESSION['type'],
-            'berhasil' => $berhasil,
-        ]);
+        // $berhasil = isset($_SESSION['berhasil']);
+        // unset($_SESSION['berhasil']);
+
+        // $app->view->render($rsp, 'library/add-book.html', [
+        //     'type' => $_SESSION['type'],
+        //     'berhasil' => $berhasil,
+        // ]);
     }
 
     public static function option_book($app, $req, $rsp, $args)
     {
         $class = $app->db->query("SELECT DISTINCT class FROM tbl_classes")->fetchAll();
         $subject = $app->db->select('tbl_subjects', '*');
-        // return var_dump($subject);
+        
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
 
         $app->view->render($rsp, 'library/add-book.html', [
             'class' => $class,
             'subject' => $subject,
+            'berhasil' => $berhasil
         ]);
     }
 }
