@@ -23,8 +23,6 @@ use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
-
-use App\Controller\StudentController;
 use App\Controller\AcconuntController;
 
 
@@ -346,6 +344,17 @@ return function (App $app) {
 
                     $app->post(
                         '/update-exam-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::update_exam_detail($this, $request, $response, [
+                                'data' => $data,
+                            ]);
+                        }
+                    );
+                    
+                    $app->post(
+                        '/update-exam-grade',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);

@@ -135,17 +135,15 @@ class DashboardAdminController
             "gender" => "Perempuan",
         ]);
 
-        // $sppSiswa = $app->db->debug()->select('tbl_finances','amount_payment',
-        //     // "AND"=>[
-        //     //     "id_payment_type" => "1",
-        //     //     "status" => "Dibayar",
-        //     //     Medoo::raw('YEAR(date_payment) = 2020')
-        //     // ]
-        //     Medoo::raw('WHERE
-        //     YEAR(date_payment) = 2020 AND <id_payment_type> = 1 AND <status> = "Dibayar"')
-        // );
         $sppSiswa = $app->db->query("
         SELECT `amount_payment` FROM `tbl_finances` WHERE YEAR(date_payment) = 2020 AND `id_payment_type` = 1 AND `status` = 'Dibayar'")->fetchAll();
+
+        $year = $app->db->debug()->query("
+        SELECT DISTINCT `year` FROM `tbl_finances` WHERE YEAR(date_payment)")->fetchAll();
+
+        $app->view->render($rsp, 'dashboard/index.html', [
+            'year' => $year,
+        ]);
 
         return $res->withJson(array(
             // "siswa" => $siswa,
@@ -156,5 +154,4 @@ class DashboardAdminController
             "sppSiswa" => $sppSiswa,
         ));
     }
-
 }
