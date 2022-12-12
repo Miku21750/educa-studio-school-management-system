@@ -116,11 +116,9 @@
                         </div>
                         <div class="dropdown">
                             <a class="date-dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                aria-expanded="false">2019</a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">2020</a>
-                                <a class="dropdown-item" href="#">2021</a>
-                                <a class="dropdown-item" href="#">2022</a>
+                                aria-expanded="false" id="tahun"></a>
+                            <div class="dropdown-menu dropdown-menu-right" id="dropdownYear">
+                                
                             </div>
                         </div>
                     </div>
@@ -421,4 +419,21 @@
         </div>
     </div>
     <!-- Social Media End Here -->
+
+    <script>
+        $('#dropdownYear').each(function() {
+    
+          var year = (new Date()).getFullYear();
+          var current = year;
+          year -= 1;
+          for (var i = 0; i < 6; i++) {
+            if ((year+i) == current)
+              $(this).append('<a class="dropdown-item" href="/adminDataIncome?tahun=' + (year + i) +'">' + (year + i) + '</a>              ');
+            else
+              $(this).append('<a class="dropdown-item" href="/adminDataIncome?tahun=' + (year + i) +  '">' + (year + i) + '</a>');
+          }
+        $('#tahun').html((year))
+        
+        })
+      </script>
 {% endblock content %}

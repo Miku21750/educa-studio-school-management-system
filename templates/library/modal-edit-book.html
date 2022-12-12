@@ -52,25 +52,15 @@
                                                 placeholder="Masukan Nama Buku" class="form-control">
                                         </tr>
 
-                                        <!-- <tr>
-                                                <label>Kategori Buku:</label>
-                                                <select name="ecategory_book" id="ecategory_book" class="form-control">
-                                                    <option value="">Pilih Kategori Buku</option>
-                                                    <option value="sejarah">Sejarah</option>
-                                                    <option value="Mesin">Mesin</option>
-                                                    <option value="Bisnis">Bisnis</option>
-                                                </select>
-                                            </tr> -->
-
                                         <tr class="form-group">
-                                            <label for="category_book">ID Buku:</label>
+                                            <label for="code_book">ID Buku:</label>
                                             <input name="ecode_book" id="ecode_book" type="text"
                                                 placeholder="Masukan ID Buku" class="form-control">
                                         </tr>
 
                                         <tr class="form-group">
-                                            <label for="category_book">Kategori Buku:</label>
-                                            <select class="select2" name="ecategory_book" id="ecategory_book">
+                                            <label for="subject">Kategori Buku:</label>
+                                            <select class="select2" name="esubject" id="esubject">
                                                 <option value="">Pilih Mata Pelajaran *</option>
                                                 {% for i in subject %}
                                                 <option value="{{i.id_subject}}">{{ i.subject_name }}</option>

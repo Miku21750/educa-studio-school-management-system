@@ -52,9 +52,9 @@
                     { 'data': 'pembayaran' },
                     { 'data': 'biaya' },
                     { 'data': 'status_pembayaran' },
+                    { 'data': 'date' },
                     { 'data': 'email' },
                     { 'data': 'telepon' },
-                    { 'data': 'date' },
                     { 'data': 'aksi' }
 
                 ]
@@ -102,6 +102,7 @@
                             
                         }).then((result) => {
                             table.draw(false)
+                            pengeluaran.draw(false)
                             Swal.fire(
                                 {
                                     icon: 'success',
@@ -193,6 +194,7 @@
             }
           }).then((result) => {
             table.draw(false)
+            pengeluaran.draw(false)
             Swal.fire(
               {
                 icon: 'success',
@@ -221,12 +223,12 @@
 
         pengeluaran = function () {
 
-            pengeluaran = $("#payment").on('preXhr.dt', function (e, settings, data) {
+            pengeluaran = $("#allexpense").on('preXhr.dt', function (e, settings, data) {
 
                 console.log('loading ....');
 
             }).on('draw.dt', function () {
-                console.log('dapat data ....');
+                console.log('dapat data pembayaran ....');
 
             }).DataTable({
                 responsive: {
@@ -243,8 +245,7 @@
                     {  "targets": 5, className: "text-start", "orderable": false },
                     {  "targets": 6, className: "text-start", "orderable": false },
                     {  "targets": 7, className: "text-end", "orderable": false },
-                    {  "targets": 8, className: "text-start", "orderable": false },
-                    {  "targets": 9, className: "text-start", "orderable": false },
+                    {  "targets": 8, className: "text-end", "orderable": false },
                    
                 ],
                 'pageLength': 10,
@@ -252,22 +253,21 @@
                 'processing': true,
                 'serverSide': true,
                 'ajax': {
-                    'url': "/api/allpayment",
+                    'url': "/api/allexpense",
                     'dataType:': 'json',
                     'type': 'get',
 
                 },
                 'columns': [
                     { 'data': 'no' },
-                    { 'data': 'nisn' },
-                    { 'data': 'foto' },
                     { 'data': 'nama' },
-                    { 'data': 'gender' },
-                    { 'data': 'subject' },
-                    { 'data': 'gaji' },
+                    { 'data': 'tipe' },
+                    { 'data': 'biaya' },
                     { 'data': 'status' },
+                    { 'data': 'date' },
                     { 'data': 'telepon' },
                     { 'data': 'email' },
+                    { 'data': 'aksi' },
 
                 ]
 
@@ -276,7 +276,43 @@
 
         }
         pengeluaran ();
+
+         //GET HAPUS
+         $('#show_expense').on('click', '.item_hapus', function () {
+            var id = $(this).attr('data');
+            $('#confirmation-modal').modal('show');
+            $('[name="kode"]').val(id);
+        });
+        //Show_pengeleuaran
+        $('#show_expense').on('click', '.payment_detail', function () {
+            var id = $(this).attr('data');
+            $.ajax({
+              type: "GET",
+              url: "/" + "api" + "/" + id + "/payment-detail",
+              dataType: "JSON",
+              data: { id: id },
+              success: function (data) {
+
+                // $.each(data, function (key, val) {
+                console.log(data);
+                $('#detail-payment').modal('show');
+                $('[name="id_finance"]').val(data.id_finance );
+                $('[name="NISN"]').val(data.NISN);
+                $('[name="nama"]').val(data.first_name+ ' ' + data.last_name);
+                $('[name="payment_type_name"]').val(data.id_payment_type).change();
+                $('[name="amount_payment"]').val(data.amount_payment);
+                $('[name="status_pembayaran"]').val(data.status_pembayaran).change();
+                $('[name="date_payment"]').val(data.date_payment);
+                $('[name="tipe_finance"]').val(data.tipe_finance).change();
+         
+                // });
+              }
+            });
+            return false;
+          });
     });
+
+
 
 
 
