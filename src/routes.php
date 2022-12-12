@@ -23,8 +23,6 @@ use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
-
-use App\Controller\StudentController;
 use App\Controller\AcconuntController;
 
 
@@ -462,11 +460,7 @@ return function (App $app) {
             $app->get(
                 '/allclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return ClassRoutineController::view_data_classroutine($this, $request, $response, [
-                        'data' => $data,
-                    ]);
+                    return $response->withJson(ClassRoutineController::view_data_classroutine($this, $request, $response, $args));  
                 }
             );
             $app->post(

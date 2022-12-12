@@ -698,7 +698,7 @@
 <script>
 
     initTable = function () {
-
+        var id = $(this).attr('data');
         table = $("#examResult").on('preXhr.dt', function (e, settings, data) {
 
             console.log('loading ....');
@@ -729,7 +729,7 @@
             'select': true,
             'responsive': true,
             'ajax': {
-                url: "/api/" + "{{id_user}}" + "/examResult",
+                url: "/api/" + id + "/examResult",
                 type: 'GET',
             },
             'columns': [

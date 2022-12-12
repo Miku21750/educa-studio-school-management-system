@@ -48,7 +48,7 @@ content %}
               <select class="select2" id="id_class">
                 <option value="0">Please Select</option>
                 {% for d in class %}
-                <option value="{{d.id_class}}">{{d.class}}</option>
+                <option value="{{d.id_class}}">{{d.class}} - {{d.section}}</option>
                 {% endfor %}
               </select>
             </div>
@@ -56,7 +56,7 @@ content %}
               <label>Select Section *</label>
               <select class="select2" id="id_section">
                 <option value="0">Please Select</option>
-                {% for d in class %}
+                {% for d in section %}
                 <option value="{{d.id_section}}">{{d.section}}</option>
                 {% endfor %}
               </select>
@@ -189,11 +189,9 @@ content %}
                 <div class="info-table table-responsive">
                   <table class="table text-nowrap">
                     <tbody>
-                      <input type="text" name="id_class_routine" id="id_class_routine" value="{{c_r.id_class_routine}}"
-                        hidden>
+                      <input type="text" name="id_class_routine" id="id_class_routine" value="" hidden>
                       <tr class="form-group">
                         <label>Subject Name </label>
-                        <!-- <input type="text" name="subjectname" id="subject_nameU" placeholder="" class="form-control"> -->
                         <select class="select2" name="subjectname" id="subject_nameU">
                           <option value="0">Please Select</option>
                           {% for d in subject %}
@@ -222,6 +220,16 @@ content %}
                         </select>
                       </tr>
 
+                      <!-- <tr class="form-group">
+                        <label>Select Section *</label>
+                        <select class="select2" name="idsection" id="id_sectionU">
+                          <option value="0">Please Select</option>
+                          {% for d in section %}
+                          <option value="{{d.id_section}}">{{d.section}}</option>
+                          {% endfor %}
+                        </select>
+                      </tr> -->
+
                       <tr class="form-group">
                         <label>NIP</label>
                         <select class="select2" name="iduser" id="id_userU">
@@ -234,12 +242,12 @@ content %}
 
                       <tr class="form-group">
                         <label>Waktu Mulai *</label>
-                        <input type="time" placeholder="" class="form-control" name="starttime" id="start_timeU" />
+                        <input type="time" placeholder="" class="form-control form-control-lg" name="starttime" id="start_timeU" />
                       </tr>
 
                       <tr class="from-group">
                         <label>Waktu Selesai *</label>
-                        <input type="time" placeholder="" class="form-control" name="endtime" id="end_timeU" />
+                        <input type="time" placeholder="" class="form-control form-control-lg" name="endtime" id="end_timeU" />
                       </tr>
 
                       <tr class="form-group">
@@ -256,7 +264,7 @@ content %}
 
                     </tbody>
                   </table>
-                  <button class="btn btn-warning" id="btn_update_class_routine">Simpan</button>
+                  <button class="btn btn-lg btn-warning" id="btn_update_class_routine">Simpan</button>
                 </div>
               </div>
             </div>
@@ -349,6 +357,7 @@ content %}
     var subject_name = $('#subject_name').val();
     var subject_type = $('#subject_type').val();
     var id_class = $('#id_class').val();
+    var id_section = $('#id_section').val();
     var id_user = $('#id_user').val();
     var start_time = $('#start_time').val();
     var end_time = $('#end_time').val();
@@ -357,7 +366,7 @@ content %}
       type: "POST",
       url: "/api" + "/addclassroutine",
       dataType: "JSON",
-      data: { subject_name: subject_name, subject_type: subject_type, id_class: id_class, id_user: id_user, start_time: start_time, end_time: end_time, school_day },
+      data: { subject_name: subject_name, subject_type: subject_type, id_class: id_class, id_section: id_section, id_user: id_user, start_time: start_time, end_time: end_time, school_day },
       success: function (data) {
         if (data) {
           let timerInterval
@@ -382,6 +391,7 @@ content %}
             $('#subject_name').val('').change();
             $('#subject_type').val('').change();
             $('#id_class').val('').change();
+            $('#id_section').val('').change();
             $('#id_user').val('').change();
             $('#start_time').val('');
             $('#end_time').val('');
@@ -484,7 +494,6 @@ content %}
   $('#show_class_routine').on('click', '.class_routine_detail', function () {
     var id = $(this).attr('data');
     // $('#detail_class_routine').modal('show');
-    // console.log(id);
     $.ajax({
       type: "GET",
       url: "/api" + "/class-routine/" + id + "/class-routine-detail",
@@ -493,17 +502,17 @@ content %}
       success: function (data) {
         $('#detail_class_routine').modal('show');
         $('[name="id_class_routine"]').val(data.id_class_routine);
-        $('[name="subjectname"]').val(data.subject_name);
-        $('[name="subjecttype"]').val(data.subject_type);
-        $('[name="idclass"]').val(data.id_class);
-        $('[name="iduser"]').val(data.id_user);
         $('[name="starttime"]').val(data.start_time);
         $('[name="endtime"]').val(data.end_time);
-        $('[name="schoolday"]').val(data.school_day);
+        $('[name="schoolday"]').val(data.school_day).change();
+        $('[name="idclass"]').val(data.id_class).change();
+        $('[name="subjectname"]').val(data.id_subject).change();
+        $('[name="subjecttype"]').val(data.id_subject).change();
+        $('[name="iduser"]').val(data.id_user).change();
       }
     });
+    // console.log(id);
     return false;
-    console.log(id);
   });
 
   $('#btn_update_class_routine').click(function (e) {
@@ -520,8 +529,10 @@ content %}
       type: "POST",
       url: "/api" + "/updateclassroutine",
       dataType: "JSON",
-      data: { id_class_routine: id_class_routine, subject_name: subject_name, subject_type: subject_type,
-         id_class: id_class, id_user: id_user, start_time: start_time, end_time: end_time, school_day: school_day },
+      data: {
+        id_class_routine: id_class_routine, subject_name: subject_name, subject_type: subject_type, id_class: id_class,
+        id_user: id_user, start_time: start_time, end_time: end_time, school_day
+      },
       success: function (data) {
         if (data) {
           $('#detail_class_routine').modal('hide');

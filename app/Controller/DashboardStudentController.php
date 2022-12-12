@@ -90,7 +90,7 @@ class DashboardStudentController
             "type" => $type,
             "id_user" => $student_array['id_user'],
             'type_user' => $_SESSION['type_user'],
-            'username' => $_SESSION ['username']
+            'username' => $_SESSION['username']
 
         ));
     }
@@ -121,11 +121,11 @@ class DashboardStudentController
     {
 
         $result = $app->db->select('tbl_exam_results', [
-            '[><]tbl_classes' => 'id_class',
-            '[><]tbl_users' => 'id_user',
-            '[><]tbl_subjects' => 'id_subject'
+            '[>]tbl_classes' => ['id_class' => 'id_class'],
+            '[>]tbl_users' => ['id_user' => 'id_user'],
+            '[>]tbl_subjects' => ['id_subject' => 'id_subject']
         ], '*', [
-            "id_user" => $_SESSION['id_user'],
+            "tbl_exam_results.id_user" => $_SESSION['id_user'],
         ]);
         // return var_dump($result);
 
@@ -146,7 +146,7 @@ class DashboardStudentController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            'id_user' => $_SESSION['id_user']
+            'tbl_exam_results.id_user' => $_SESSION['id_user']
         ];
 
         if (!empty($req->getParam('search')['value'])) {
@@ -166,26 +166,32 @@ class DashboardStudentController
             $result = $app->db->select(
                 'tbl_exam_results',
                 [
-                    '[><]tbl_classes' => 'id_class',
-                    '[><]tbl_users' => 'id_user',
-                    '[><]tbl_subjects' => 'id_subject',
-                    '[><]tbl_exams' => 'id_exam'
+                    // '[>]tbl_classes' => 'id_class',
+                    // '[>]tbl_users' => 'id_user',
+                    // '[>]tbl_subjects' => 'id_subject',
+                    // '[>]tbl_exams' => 'id_exam'
+                    '[>]tbl_classes' => ['id_class' => 'id_class'],
+                    '[>]tbl_users' => ['id_user' => 'id_user'],
+                    '[>]tbl_subjects' => ['id_subject' => 'id_subject']
 
                 ],
                 '*',
-                $limit
+                // $limit
+                $conditions
             );
             $totaldata = count($result);
             $totalfiltered = $totaldata;
-
         }
 
         $result = $app->db->select('tbl_exam_results', [
-            '[><]tbl_sections' => 'id_section',
-            '[><]tbl_classes' => 'id_class',
-            '[><]tbl_users' => 'id_user',
-            '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_exams' => 'id_exam'
+            '[>]tbl_sections' => 'id_section',
+            // '[>]tbl_classes' => 'id_class',
+            // '[>]tbl_users' => 'id_user',
+            // '[>]tbl_subjects' => 'id_subject',
+            '[>]tbl_exams' => 'id_exam',
+            '[>]tbl_classes' => ['id_class' => 'id_class'],
+            '[>]tbl_users' => ['id_user' => 'id_user'],
+            '[>]tbl_subjects' => ['id_subject' => 'id_subject']
 
         ], '*', $conditions);
 
