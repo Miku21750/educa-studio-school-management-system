@@ -352,6 +352,17 @@ return function (App $app) {
                             ]);
                         }
                     );
+                    
+                    $app->post(
+                        '/update-exam-grade',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ExamController::update_exam_detail($this, $request, $response, [
+                                'data' => $data,
+                            ]);
+                        }
+                    );
 
                     $app->post(
                         '/delete-exam',
