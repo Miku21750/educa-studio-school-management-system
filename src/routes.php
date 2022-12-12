@@ -23,8 +23,6 @@ use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
-
-use App\Controller\StudentController;
 use App\Controller\AcconuntController;
 
 
@@ -1011,13 +1009,92 @@ return function (App $app) {
         '/student-attendence',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $class = $container->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
+            // $class = $container->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
+            $class = $container->db->select('tbl_classes', [
+                '[>]tbl_sections' => 'id_section'
+            ],'*');
             $subject = $container->db->select('tbl_subjects', '*');
-            // return die(var_dump($subject));
+            // SELECT session FROM `tbl_users` WHERE session != 0 GROUP BY session
+            $sessionAttend = $container->db->select('tbl_users','session',[
+                'session[!]'=>0,
+                'GROUP'=>[
+                    'session'
+                    ]
+                ]);
+                // return die(var_dump($sessionAttend));
             $container->view->render($response, 'others/student-attendence.html', [
                 'class' => $class,
                 'subject' => $subject,
+                'sessionAttend' => $sessionAttend
             ]);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/viewAttendSheet',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParams();
+            $tanggal = $container->db->select('tbl_attendances','tanggal',[
+                'id_subject'=> $dataRequest['subject'],
+                'GROUP'=>[
+                    'tanggal'
+                ]
+            ]);
+            // return die(var_dump($dataRequest));
+            $viewStudentAttend = $container->db->select('tbl_users',[
+                '[>]tbl_classes'=>'id_class',
+                '[>]tbl_sections'=>['tbl_classes.id_section'=>'id_section'],
+                '[>]tbl_subjects'=>'id_subject',
+                '[>]tbl_attendances'=>'id_user'
+            ],[
+                'id_user',
+                'first_name',
+                'last_name',
+                'tbl_classes.class',
+                'tbl_sections.section',
+                'tbl_subjects.subject_name',
+                'tbl_attendances.id_attendance',
+                'tbl_attendances.tanggal'
+            ],[
+                'id_class'=> $dataRequest['class'],
+                'session'=>$dataRequest['session']
+            ]);
+            $subjectStudentAttend = $container->db->select('tbl_subjects', '*',[
+                'id_subject'=>$dataRequest['subject']
+            ]);
+            if($tanggal == null){
+                $insert = $container->db->insert('tbl_attendances', [
+                    'id_subject'=>$dataRequest['subject'],
+                    'tanggal'=>Medoo::raw('CURRENT_TIMESTAMP')
+                ]);
+                // return die(var_dump($insert));
+                $tanggal = $container->db->select('tbl_attendances','tanggal',[
+                    'id_subject'=> $dataRequest['subject'],
+                    'GROUP'=>[
+                        'tanggal'
+                    ]
+                ]);
+                return $response->withJson(array('viewStudentAttend'=>$viewStudentAttend,'dateStudentAttend'=>$tanggal,'subjectStudentAttend'=>$subjectStudentAttend));
+            }else{
+                return $response->withJson(array('viewStudentAttend'=>$viewStudentAttend,'dateStudentAttend'=>$tanggal,'subjectStudentAttend'=>$subjectStudentAttend));
+            }
+
+        }
+    )->add(new Auth());
+    $app->post(
+        '/sendAbsence',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParsedBody();
+            $allValues = count($dataRequest['date']);
+            // return die(var_dump($allValues));
+            for ($i = 0; $i < $allValues;$i++){
+                $container->db->insert('tbl_attendances', [
+                    'id_user' => $dataRequest['user'][$i],
+
+                ]);
+            }
+
         }
     )->add(new Auth());
     //End Attendance
