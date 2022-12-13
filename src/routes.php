@@ -1078,7 +1078,10 @@ return function (App $app) {
                     'tanggal'
                 ]
             ]);
-            // return die(var_dump($dataRequest));
+            $checkTodayIfAdd = $container->db->select('tbl_attendances','tanggal',[
+                'id_subject'=> $dataRequest['subject'],
+                'tanggal'=>Medoo::raw('CURRENT_DATE')
+            ]);
             $viewStudentAttend = $container->db->select('tbl_users',[
                 '[>]tbl_classes'=>'id_class',
                 '[>]tbl_sections'=>['tbl_classes.id_section'=>'id_section'],
@@ -1097,10 +1100,45 @@ return function (App $app) {
                 'id_class'=> $dataRequest['class'],
                 'session'=>$dataRequest['session']
             ]);
+            $dataStudentArrivedInAttend = $container->db->select('tbl_users',[
+                '[>]tbl_classes'=>'id_class',
+                '[>]tbl_sections'=>['tbl_classes.id_section'=>'id_section'],
+                '[>]tbl_subjects'=>'id_subject',
+                '[>]tbl_attendances'=>'id_user'
+            ],[
+                'id_user',
+                'first_name',
+                'last_name',
+                'tbl_classes.class',
+                'tbl_sections.section',
+                'tbl_subjects.subject_name',
+                'tbl_attendances.id_attendance',
+                'tbl_attendances.tanggal'
+            ],[
+                'id_class'=> $dataRequest['class'],
+                'session'=>$dataRequest['session'],
+                'GROUP'=>[
+                    'id_user'
+                    ]
+                ]);
+                $checkTotalStudent = count($dataStudentArrivedInAttend);
+                $checkStudentDateIfExistChecklist = [];
+                for ($i = 0; $i<$checkTotalStudent; $i++){
+                    $checkValidTotalStudent = $container->db->select('tbl_attendances','tanggal',[
+                        'id_subject'=>$dataRequest['subject'],
+                        'id_user'=>$dataStudentArrivedInAttend[$i]['id_user']
+                    ]);
+                    // $checkStudentDateIfExistChecklist = $checkValidTotalStudent;
+                    array_push($checkStudentDateIfExistChecklist, $checkValidTotalStudent);
+                    // if($checkValidTotalStudent);
+                }
+                // return die(var_dump($dataStudentArrivedInAttend));
+                // return die(var_dump($checkStudentDateIfExistChecklist));
+            
             $subjectStudentAttend = $container->db->select('tbl_subjects', '*',[
                 'id_subject'=>$dataRequest['subject']
             ]);
-            if($tanggal == null){
+            if($checkTodayIfAdd == null){
                 $insert = $container->db->insert('tbl_attendances', [
                     'id_subject'=>$dataRequest['subject'],
                     'tanggal'=>Medoo::raw('CURRENT_TIMESTAMP')
@@ -1112,9 +1150,11 @@ return function (App $app) {
                         'tanggal'
                     ]
                 ]);
-                return $response->withJson(array('viewStudentAttend'=>$viewStudentAttend,'dateStudentAttend'=>$tanggal,'subjectStudentAttend'=>$subjectStudentAttend));
+                return $response->withJson(array('viewStudentAttend'=>$viewStudentAttend,'dateStudentAttend'=>$tanggal,'subjectStudentAttend'=>$subjectStudentAttend,'checkStudentDateIfExistChecklist'=>$checkStudentDateIfExistChecklist,
+                'dataStudentArrivedInAttend'=>$dataStudentArrivedInAttend));
             }else{
-                return $response->withJson(array('viewStudentAttend'=>$viewStudentAttend,'dateStudentAttend'=>$tanggal,'subjectStudentAttend'=>$subjectStudentAttend));
+                return $response->withJson(array('viewStudentAttend'=>$viewStudentAttend,'dateStudentAttend'=>$tanggal,'subjectStudentAttend'=>$subjectStudentAttend,'checkStudentDateIfExistChecklist'=>$checkStudentDateIfExistChecklist,
+                'dataStudentArrivedInAttend'=>$dataStudentArrivedInAttend));
             }
 
         }
@@ -1124,14 +1164,17 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $dataRequest = $request->getParsedBody();
-            $allValues = count($dataRequest['date']);
-            // return die(var_dump($allValues));
+
+            $allValues = count($dataRequest['user']);
+            //return die(var_dump($dataRequest));
             for ($i = 0; $i < $allValues;$i++){
                 $container->db->insert('tbl_attendances', [
-                    'id_user' => $dataRequest['user'][$i],
-
+                    'id_user'=>$dataRequest['user'][$i],
+                    'id_subject'=>$dataRequest['subject'][1],
+                    'tanggal'=>$dataRequest['date'][$i]
                 ]);
             }
+            return $response->withJson(array('success' => true));
 
         }
     )->add(new Auth());
