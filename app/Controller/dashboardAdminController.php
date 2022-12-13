@@ -156,7 +156,7 @@ class DashboardAdminController
             // "teacher" => $teacher,
             // "parent" => $parent,
             'sppSiswa'=>$sppSiswa,
-            'tahun'=>$args['data'],
+            'tahun'=>$year,
             "totalSiswaMale" => $totalSiswaMale,
             "totalSiswaFemale" => $totalSiswaFemale,
             "sppSiswa" => $sppSiswa,
