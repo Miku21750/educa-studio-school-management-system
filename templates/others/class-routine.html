@@ -4,7 +4,7 @@ content %}
 <!-- Class Routine Area Start Here -->
 <div class="row">
   {# if admin start here #}
-  {# {% if type == "Admin" %} #}
+  {% if session.type == 3 or session.type == 2 %}
 
   <div class="col-4-xxxl col-12">
     <div class="card height-auto">
@@ -106,8 +106,10 @@ content %}
     </div>
   </div>
 
-  {# {% endif %} #}
+  {% endif %}
   {# End if Admin only #}
+
+  {% if session.type == 3 or session.type == 2 %}
   <div class="col-8-xxxl col-12">
     <div class="card height-auto">
       <div class="card-body">
@@ -145,6 +147,47 @@ content %}
       </div>
     </div>
   </div>
+  {% endif %}
+
+  {% if session.type == 1 %}
+  <div class="col-8-xxxl col-12">
+    <div class="card height-auto">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Class Routine</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <div class="table-box-nowrap">
+          <table class="display" id="class_routine1">
+            <thead>
+              <tr>
+                <th><label class="form-check-label">Day</label></th>
+                <th>Class</th>
+                <th>Subject</th>
+                <th>Section</th>
+                <th>Teacher</th>
+                <th>Time</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="show_class_routine1">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
 
   <!-- MODAL DELETE -->
@@ -242,12 +285,14 @@ content %}
 
                       <tr class="form-group">
                         <label>Waktu Mulai *</label>
-                        <input type="time" placeholder="" class="form-control form-control-lg" name="starttime" id="start_timeU" />
+                        <input type="time" placeholder="" class="form-control form-control-lg" name="starttime"
+                          id="start_timeU" />
                       </tr>
 
                       <tr class="from-group">
                         <label>Waktu Selesai *</label>
-                        <input type="time" placeholder="" class="form-control form-control-lg" name="endtime" id="end_timeU" />
+                        <input type="time" placeholder="" class="form-control form-control-lg" name="endtime"
+                          id="end_timeU" />
                       </tr>
 
                       <tr class="form-group">
@@ -300,7 +345,7 @@ content %}
     }
   });
 
-  // DATA TABLE
+  // DATA TABLE akses ADMIN, TEACHER
   initTable = function () {
 
     table = $("#class_routine").on('preXhr.dt', function (e, settings, data) {
@@ -345,6 +390,57 @@ content %}
         { 'data': 'teacher_name' },
         { 'data': 'time' },
         { 'data': '' },
+      ],
+    });
+
+  }
+
+  initTable();
+
+  // DATA TABLE akses STUDENT
+  initTable = function () {
+
+    table = $("#class_routine1").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "5%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "20%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "15%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "25%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "20%", "targets": 5, className: "text-start", "orderable": false },
+
+
+
+      ],
+      'pageLength': 10,
+      'processing': true,
+      'serverSide': true,
+      'select': true,
+      'responsive': true,
+      'ajax': {
+        url: "/api" + "/allclassroutine1",
+        type: 'GET',
+      },
+      'columns': [
+        { 'data': 'school_day' },
+        { 'data': 'class' },
+        { 'data': 'subject_name' },
+        { 'data': 'section' },
+        { 'data': 'teacher_name' },
+        { 'data': 'time' },
+        // { 'data': '' },
       ],
     });
 
