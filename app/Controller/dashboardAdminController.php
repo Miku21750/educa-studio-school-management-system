@@ -118,6 +118,7 @@ class DashboardAdminController
 
     public static function apiData($app, $req, $res, $args)
     {
+        // return var_dump('aaa');
         $siswa = $app->db->select("tbl_users", "*", [
             "id_user_type" => "1",
         ]);
@@ -149,11 +150,13 @@ class DashboardAdminController
         // $app->view->render($rsp, 'dashboard/index.html', [
         //     'year' => $year,
         // ]);
-
+            // return die(var_dump($totalSiswaMale));
         return $res->withJson(array(
             // "siswa" => $siswa,
             // "teacher" => $teacher,
             // "parent" => $parent,
+            'sppSiswa'=>$sppSiswa,
+            'tahun'=>$args['data'],
             "totalSiswaMale" => $totalSiswaMale,
             "totalSiswaFemale" => $totalSiswaFemale,
             "sppSiswa" => $sppSiswa,

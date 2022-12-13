@@ -451,8 +451,9 @@
           url: "/api/admin/apidata",
           dataType: "JSON",
           success: function (total) {
+
             let a = total;
-            // console.log(a['totalSiswaFemale'])
+            console.log(total)
             siswaPerempuan = a['totalSiswaFemale']
             siswaLaki = a['totalSiswaMale']
 

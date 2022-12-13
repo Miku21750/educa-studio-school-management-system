@@ -197,7 +197,7 @@ class AcconuntController
                 
                 $datas['email'] = $m['email'];
                 $datas['telepon'] = $m['phone_user'];
-                $datas['date'] = $m['date_payment'] ;
+                $datas['date'] = date('j F Y', strtotime($m['date_payment']))  ;
 
                
 
@@ -270,7 +270,6 @@ class AcconuntController
 
         ], [
             'id_finance' => $id,
-            'tipe_finance' => 'Pemasukan'
         ]);
         // return var_dump($data);
         // die();
@@ -324,145 +323,44 @@ class AcconuntController
         echo json_encode($json_data);
 
     }
-    public static function page_add_teacher($app, $req, $rsp, $args)
+    public static function page_add_payment($app, $req, $rsp, $args)
     {
 
        
         $class = $app->db->select('tbl_classes', [
             '[><]tbl_sections' =>  'id_section',
         ], '*');        // return var_dump($class);
-        $subject = $app->db->select('tbl_subjects', '*');
+        $payment = $app->db->select('tbl_payment_types', '*');
+        $user = $app->db->select('tbl_users', '*',[
+            'id_user_type[!]' => '4'
+        ]);
+        $type = $app->db->select('tbl_user_types', '*');
 
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
-        $app->view->render($rsp, 'teacher/add-teacher.html', [
+        $app->view->render($rsp, 'acconunt/add-expense.html', [
+            'user' =>  $user,
+            'typei' =>  $type,
             'class' =>  $class,
-            'subject' =>  $subject,
+            'payment' =>  $payment,
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
         ]);
     }
-    public static function add_teacher($app, $req, $rsp, $args)
-    {
-        $data = $args['data'];
-        // return var_dump($data);
+    
+    
+   
+  
 
-
-        $directory = $app->get('upload_directory');
-        $uploadedFiles = $req->getUploadedFiles();
-        // handle single input with single file upload
-        $uploadedFile = $uploadedFiles['imageUpload'];
-        if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-            $filename = moveUploadedFile($directory, $uploadedFile);
-            $rsp->write('uploaded ' . $filename . '<br/>');
-        }
-        // return var_dump(isset($filename));
-        $addUpdate = $filename;
-        if (!isset($filename)) {
-            $addUpdate = $data['imageDefault'];
-        } else {
-            $fileDefault = $data['imageDefault'];
-            // if default? return'
-            if ($fileDefault == 'default.png') {
-            } else {
-                // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
-                unlink('../public/uploads/Profile/' . $fileDefault);
-            }
-        }
-
-        // return var_dump($uploadedFiles);
-        $student = $app->db->insert('tbl_users', [
-            "first_name" => $data['first_name'],
-            "last_name" => $data['last_name'],
-            "gender" => $data['gender'],
-            "username" => $data['nisn'],
-            "password" => $data['nisn'],
-            "id_class" => $data['id_class'],
-            "id_subject" => $data['id_subject'],
-            "NISN" => $data['nisn'],
-            "date_of_birth" => $data['date_of_birth'],
-            "religion" => $data['religion'],
-            "blood_group" => $data['blood_group'],
-            "email" => $data['email'],
-            "phone_user" => $data['phone_user'],
-            "address_user" => $data['address_user'],
-            "short_bio" => $data['data_short_bio'],
-            "photo_user" => $addUpdate,
-            "id_user_type" => 2,
-            "status" => 1,
-        ]);
-        
-
-        // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/add-teacher');
-    }
-    public static function student_promotion($app, $request, $response, $args)
-    {
-        $id = $args['data'];
-
-        $data = $app->db->select('tbl_users', [
-            '[><]tbl_sections' => 'id_section',
-            '[><]tbl_classes' => 'id_class'
-        ], '*', [
-            'id_user' => $id
-
-        ]);
-
-        $class = $app->db->select('tbl_classes', [
-            '[><]tbl_sections' =>  'id_section',
-        ], '*');
-
-        $berhasil = isset($_SESSION['berhasil']);
-        unset($_SESSION['berhasil']);
-        // return var_dump($data);
-
-        $app->view->render($response, 'students/student-promotion.html', [
-            'data' =>  $data[0],
-            'class' =>  $class,
-            'type' => $_SESSION['type'],
-            'berhasil' => $berhasil
-
-
-        ]);
-    }
-    public static function add_promotion($app, $req, $rsp, $args)
-    {
-        $data = $args['data'];
-        // return var_dump($data);
-
-
-
-        // return var_dump($uploadedFiles);
-        $student = $app->db->update('tbl_users', [
-
-            "session" => $data['session'],
-            "id_class" => $data['id_class'],
-        ], [
-            "id_user" => $data['id_user']
-        ]);
-
-
-        // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/all-students');
-    }
-    public static function page_payment($app, $req, $rsp, $args)
-    {
-        $app->view->render($rsp, 'teacher/teacher-payment.html', [
-            'type' => $_SESSION['type'],
-        ]);
-    }
-
-    public static function tampil_data_payment($app, $req, $rsp, $args)
+    public static function tampil_data_expense($app, $req, $rsp, $args)
     {
         $type = 2;
-        $tbl_classes = 'tbl_classes';
+        $tbl_finances = 'tbl_finances';
 
 
         $finance = $app->db->select('tbl_users', [
-            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
+            '[><]tbl_payment_types' => ["$tbl_finances.id_payment_type" => 'id_payment_type'],
             
         ],'*',[
             'id_user_type' => $type
@@ -496,8 +394,7 @@ class AcconuntController
             $conditions['OR'] = [
                 'tbl_users.first_name[~]' => '%' . $search . '%',
                 'tbl_users.last_name[~]' => '%' . $search . '%',
-                'tbl_users.NISN[~]' => '%' . $search . '%',
-                'tbl_users.gender[~]' => '%' . $search . '%',
+                'tbl_payment_types.payment_type_name[~]' => '%' . $search . '%',
 
             ];
 
@@ -508,22 +405,21 @@ class AcconuntController
             ];
 
             $finance = $app->db->select('tbl_users', [
-                '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
                 '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
-               
+                '[><]tbl_payment_types' => ["$tbl_finances.id_payment_type" => 'id_payment_type'],
+                
             ],'*', $limit);
     
             $totaldata = count($finance);
             $totalfiltered = $totaldata;
             // return var_dump($totaldata);
         }
-
-        $finance = $app->db->select('tbl_users', [
-            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+        $app->db->select('tbl_users', [
             '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
+            '[><]tbl_payment_types' => ["$tbl_finances.id_payment_type" => 'id_payment_type'],
             
         ],'*',
- $conditions);
+        $conditions);
 
         $data = array();
 
@@ -534,12 +430,9 @@ class AcconuntController
             foreach ($finance as $m) {
 
                 $datas['no'] = $no . '.';
-                $datas['nisn'] = $m['NISN'];
-                $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
-                $datas['nama'] = $m['first_name'] . '  ' . $m['last_name'];
-                $datas['gender'] = $m['gender'];
-                $datas['subject'] = $m['subject_name'] . '(' . $m['subject_type'] . ')';
-                $datas['gaji'] = $m['amount_payment'];
+                $datas['nama'] = $m['first_name'] . '  ' .  $m['last_name'];
+                $datas['tipe'] = $m['payment_type_name'];
+                $datas['biaya'] = $m['amount_payment'];
                 
                 
                 if($m['status_pembayaran'] == "Belum Bayar"){
@@ -549,7 +442,27 @@ class AcconuntController
                 }
                 
                 $datas['telepon'] = $m['phone_user'];
-                $datas['email'] = $m['email'];                   
+                $datas['email'] = $m['email'];    
+                $datas['telepon'] = $m['phone_user'];    
+                $datas['date'] = date('j F Y',strtotime($m['date_payment'])) ;
+                $datas['aksi'] = '<div class="dropdown">
+
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item"  ><i
+                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_finance'] . '"">
+                            Hapus
+                        </button></a>
+                    <a class="dropdown-item " ><i
+                            class="fas fa-solid fa-edit text-orange-peel"></i><button type="button" class="btn btn-light payment_detail"  data="' . $m['id_finance'] . '"" >
+                            Ubah
+                        </button></a>
+                   
+                </div>
+            </div>';               
                
                 $data[] = $datas;
                 $no++;
@@ -565,5 +478,27 @@ class AcconuntController
         );
         // return var_dump($data);
         echo json_encode($json_data);
+    }
+    public static function add_payment($app, $req, $rsp, $args)
+    {
+        $data = $args['data'];
+        // return var_dump($data);
+        $tgl = $data['date_payment'];
+        $tahun = explode('/',$tgl);
+        $date = $tahun[2].'/'.$tahun[1].'/'.$tahun[0];
+        // return var_dump($date);
+        $data = $app->db->insert('tbl_finances', [
+            "id_payment_type" => $data['pembayaran'],
+            "id_user" => $data['id_user'],
+            "amount_payment" => $data['biaya'],
+            "status_pembayaran" => $data['status'],
+            "date_payment" => $date,       
+            "tipe_finance" => $data['tipe'],       
+        ]);
+        
+
+        // return var_dump($data);
+        $_SESSION['berhasil'] = true;
+        return $rsp->withRedirect('/add-expense');
     }
 }

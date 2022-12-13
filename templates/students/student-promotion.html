@@ -53,6 +53,7 @@
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
             <label>Promotion From Class *</label>
+            {# {{ data|json_encode()}} #}
             <input type="text" placeholder="X" class="form-control" value="{{ data.class }}-{{ data.section }}" readonly/>
 
           </div>
@@ -102,12 +103,14 @@
 
       var year = (new Date()).getFullYear();
       var current = year;
-      year -= 1;
-      for (var i = 0; i < 6; i++) {
+      year += 1;
+      for (var i = 0; i < 1; i++) {
         if ((year+i) == current)
           $(this).append('<option value="' + (year + i) + '-' + (year + i + 1) + '">' + (year + i) + '-' + (year + i + 1) + '</option>');
         else
           $(this).append('<option value="' + (year + i) + '-' + (year + i + 1) + '">' + (year + i) + '-' + (year + i + 1) + '</option>');
+        
+        $('#dropdownYear').val((year + i) + '-' + (year + i + 1)).change();
       }
     
     })

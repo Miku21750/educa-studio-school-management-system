@@ -566,7 +566,7 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Kehadiran</h3>
+                        <h3>Kehadiran<h6>Semester</h6></h3>
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -643,7 +643,7 @@
                     </div>
                 </div>
                 <div class="notice-box-wrap">
-                    <h3>Notifications</h3>
+                    <!-- <h3>Notifications</h3> -->
                     {% for view_notification in view_student_notification %}
                     <div class="notice-list">
                         <div class="post-date bg-skyblue">{{view_notification.date_notice|date("d M Y")}}</div>
@@ -698,7 +698,7 @@
 <script>
 
     initTable = function () {
-
+        var id = $(this).attr('data');
         table = $("#examResult").on('preXhr.dt', function (e, settings, data) {
 
             console.log('loading ....');
@@ -729,7 +729,7 @@
             'select': true,
             'responsive': true,
             'ajax': {
-                url: "/api/" + "{{id_user}}" + "/examResult",
+                url: "/api/" + id + "/examResult",
                 type: 'GET',
             },
             'columns': [
@@ -826,7 +826,7 @@
                     var doughnutChartData = {
                         labels: ["Tidak Hadir", "Hadir"],
                         datasets: [{
-                            backgroundColor: ["#d9534f", "#5cb85c"],
+                            backgroundColor: ["#304ffe", "#ffa601"],
                             data: [absen, kehadiran],
                             label: "Total Absensi"
                         },]

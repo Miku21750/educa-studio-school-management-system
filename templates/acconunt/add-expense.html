@@ -1,6 +1,45 @@
 {% extends "/layout/master.html" %}
-{% set title = "Add Expense" %}
+{% set title = "Tambah Pembayaran" %}
+{% set typeFrontEnd = "Tambah Pembayaran" %}
+{% set section_type = "Tambah Pembayaran" %}
 {% block content %}
+
+{% if berhasil == true %}
+<script>
+
+    let timerInterval
+    Swal.fire({
+        title: 'Memuat Data...',
+        html: 'Tunggu  <b></b>  Detik.',
+        timer: 400,
+        timerProgressBar: true,
+        didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+            }, 300)
+        },
+        willClose: () => {
+            clearInterval(timerInterval)
+        }
+    }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+          Swal.fire(
+            {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah ditambahkan.',
+            }
+
+        )
+        }
+    })
+</script>
+
+{% endif %}
+
     <!-- Add Expense Area Start Here -->
 <div class="card height-auto">
     <div class="card-body">
@@ -31,55 +70,64 @@
           </div>
         </div>
       </div>
-      <form class="new-added-form">
+      <form class="new-added-form" action="/api/add-payment" method="post">
         <div class="row">
+
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Name *</label>
-            <input type="text" placeholder="" class="form-control" />
+            {# {{typei|json_encode()}} #}
+            <label>Tipe Akun *</label>
+            <select class="select2" id="expenseTypeAccount">
+            <option>Pilih Tipe Akun *</option>
+            {% for data in typei %}
+            <option value="{{data.id_user_type}}">{{data.user_type}} </option>
+            {% endfor %}
+            </select>          
           </div>
+
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>ID No *</label>
-            <input type="text" placeholder="" class="form-control" />
+            <label>Nama *</label>
+            <select class="select2" id="NamaExpensesInput" name="id_user">
+            <option>Pilih Name *</option>
+            </select>          
           </div>
+          
+          
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Expanse Type *</label>
-            <select class="select2">
-              <option value="">Please Select</option>
-              <option value="1">Salary</option>
-              <option value="2">Transport</option>
-              <option value="3">Maintanance</option>
-              <option value="3">Purchase</option>
-              <option value="3">Utilities</option>
+            <label>Pembayaran *</label>
+            <select class="select2" name="pembayaran">
+              <option value="">Pilih Pembayaran</option>
+              {% for data in payment %}
+              <option value="{{data.id_payment_type}}">{{data.payment_type_name}} </option>
+              {% endfor %}
             </select>
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Amount *</label>
-            <input type="text" placeholder="" class="form-control" />
+            <label>Biaya *</label>
+            <input type="text" placeholder="Jumlah Biaya" class="form-control" name="biaya" />
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Phone</label>
-            <input type="text" placeholder="" class="form-control" />
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>E-Mail Address</label>
-            <input type="text" placeholder="" class="form-control" />
-          </div>
+            <label>Tipe Pembayaran *</label>
+            <select class="select2" name="tipe">
+              <option >Pilih Tipe Pembayaran</option>
+              <option value="Pemasukan">Pemasukan</option>
+              <option value="Pengeluaran">Pengeluaran</option>
+            </select>          </div>
+          
           <div class="col-xl-3 col-lg-6 col-12 form-group">
             <label>Status</label>
-            <select class="select2">
-              <option value="0">Please Select</option>
-              <option value="1">Paid</option>
-              <option value="2">Due</option>
-              <option value="3">Others</option>
+            <select class="select2" name="status">
+              <option >Pilih Status</option>
+              <option value="Dibayar">Dibayar</option>
+              <option value="Belum Bayar">Belum Bayar</option>
             </select>
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
             <label>Date</label>
             <input
               type="text"
-              placeholder="dd/mm/yy"
+              placeholder="Masukan Tanggal"
               class="form-control air-datepicker"
-              data-position="bottom right"
+              data-position="bottom right" name="date_payment"
             />
           </div>
           <div class="col-12 form-group mg-t-8">
@@ -101,5 +149,32 @@
     </div>
   </div>
   <!-- Add Expense Area End Here -->
+
+  <script>
+    $(document).ready(function () {        
+        $('#expenseTypeAccount').change(function (e) { 
+            e.preventDefault();
+            var id_user_type = $('#expenseTypeAccount').val()
+            //console.log(id_user)
+            $.ajax({
+                type: "GET",
+                url: "/get_id_expenses",
+                data: {
+                    id_user_type: id_user_type 
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    console.log(response);
+                    $('#NamaExpensesInput').empty();
+                    for(i = 0; i < response.length; i++){
+                      $('#NamaExpensesInput').append('<option value="'+response[i].id_user+'">'+response[i].first_name+' '+response[i].last_name+'</option>')
+                    }
+                }
+            });
+        });
+        
+        
+    });
+</script>
   
 {% endblock content %}
