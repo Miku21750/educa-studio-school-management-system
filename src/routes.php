@@ -106,6 +106,13 @@ return function (App $app) {
                             return DashboardAdminController::apiData($this, $request, $response, $args);;
                         }
                     );
+                    
+                    $app->get(
+                        '/chart',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return DashboardAdminController::lineChart($this, $request, $response, $args);;
+                        }
+                    );
                 }
             );
 
@@ -139,7 +146,9 @@ return function (App $app) {
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
                             // return var_dump($data);
-                            return LibraryController::detail($this, $request, $response, $data);
+                            return LibraryController::detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
                         }
                     );
 
@@ -940,7 +949,7 @@ return function (App $app) {
         '/all-book',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'library/all-book.html', $args);
+            return LibraryController::option_book_detail($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(

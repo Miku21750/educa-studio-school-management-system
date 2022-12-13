@@ -178,138 +178,173 @@
           Line Chart 
       -------------------------------------*/
     if ($("#earning-line-chart").length) {
+      var inJan, inFeb, inMar, inApr, inMei, inJun, inJul, inAug, inSep, inOkt, inNov, inDes;
+      var outJan, outFeb, outMar, outApr, outMei, outJun, outJul, outAug, outSep, outOkt, outNov, outDes;
+
+      var getTahun;
+
+      // $("#target-line-chart").change(function(){
+      //   getTahun?????
+      // });
+
       $(document).ready(function () {
         $.ajax({
           type: "GET",
-          url: "/api/admin/apidata",
+          url: "/api/admin/chart",
           dataType: "JSON",
-          success: function (dana) {
-            console.log(dana.sppSiswa)
-            $.each(dana.sppSiswa, function (i, data) {
-              console.log('aaaaa');
+          success: function (total) {
+            let a = total;
+            console.log(a.inJan[0].in_jan)
+            inJan = a.inJan[0].in_jan
+            inFeb = a.inFeb[0].in_feb
+            inMar = a.inMar[0].in_mar
+            inApr = a.inApr[0].in_apr
+            inMei = a.inMei[0].in_mei
+            inJun = a.inJun[0].in_jun
+            inJul = a.inJul[0].in_jul
+            inAug = a.inAug[0].in_aug
+            inSep = a.inSep[0].in_sep
+            inOkt = a.inOkt[0].in_okt
+            inNov = a.inNov[0].in_nov
+            inDes = a.inDes[0].in_des
+            
+            outJan = a.outJan[0].out_jan
+            outFeb = a.outFeb[0].out_feb
+            outMar = a.outMar[0].out_mar
+            outApr = a.outApr[0].out_apr
+            outMei = a.outMei[0].out_mei
+            outJun = a.outJun[0].out_jun
+            outJul = a.outJul[0].out_jul
+            outAug = a.outAug[0].out_aug
+            outSep = a.outSep[0].out_sep
+            outOkt = a.outOkt[0].out_okt
+            outNov = a.outNov[0].out_nov
+            outDes = a.outDes[0].out_des
+
+            var lineChartData = {
+              labels: ["","Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
+              datasets: [{
+                data: [0, inJan, inFeb, inMar, inApr, inMei, inJun, inJul, inAug, inSep, inOkt, inNov, inDes],
+                // backgroundColor: '#ff0000',
+                borderColor: '#ff0000',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointBackgroundColor: '#ffffff',
+                pointBorderColor: '#ff0000',
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 3,
+                fill: 'origin',
+                label: "Dana Masuk"
+              },
+              {
+                data: [0, outJan, outFeb, outMar, outApr, outMei, outJun, outJul, outAug, outSep, outOkt, outNov, outDes],
+                // backgroundColor: '#417dfc',
+                borderColor: '#417dfc',
+                borderWidth: 2,
+                pointRadius: 3,
+                pointBackgroundColor: '#ffffff',
+                pointBorderColor: '#304ffe',
+                pointHoverRadius: 6,
+                pointHoverBorderWidth: 3,
+                fill: 'origin',
+                label: "Dana Keluar"
+              }
+              ]
+            };
+
+            var lineChartOptions = {
+              responsive: true,
+              maintainAspectRatio: false,
+              animation: {
+                duration: 2000
+              },
+              scales: {
+
+                xAxes: [{
+                  display: true,
+                  ticks: {
+                    display: true,
+                    fontColor: "#222222",
+                    fontSize: 14,
+                    padding: 20
+                  },
+                  gridLines: {
+                    display: true,
+                    drawBorder: true,
+                    color: '#cccccc',
+                    borderDash: [5, 5]
+                  }
+                }],
+                yAxes: [{
+                  display: true,
+                  ticks: {
+                    display: true,
+                    autoSkip: true,
+                    maxRotation: 0,
+                    fontColor: "#646464",
+                    fontSize: 12,
+                    stepSize: 1000000,
+                    padding: 20,
+                    callback: function (value) {
+                      var ranges = [{
+                        divider: 1,
+                        suffix: 'Rp '
+                      },
+                      {
+                        divider: 1,
+                        suffix: 'Rp '
+                      }
+                      ];
+
+                      function formatNumber(n) {
+                        for (var i = 0; i < ranges.length; i++) {
+                          if (n >= ranges[i].divider) {
+                            return ranges[i].suffix + (n / ranges[i].divider).toString();
+                          }
+                        }
+                        return n;
+                      }
+                      return formatNumber(value);
+                    }
+                  },
+                  gridLines: {
+                    display: true,
+                    drawBorder: false,
+                    color: '#cccccc',
+                    borderDash: [5, 5],
+                    zeroLineBorderDash: [5, 5],
+                  }
+                }]
+              },
+              legend: {
+                display: false
+              },
+              tooltips: {
+                mode: 'index',
+                intersect: false,
+                enabled: true
+              },
+              elements: {
+                line: {
+                  tension: 0.15
+                },
+                point: {
+                  pointStyle: 'circle'
+                }
+              }
+            };
+            var earningCanvas = $("#earning-line-chart").get(0).getContext("2d");
+            var earningChart = new Chart(earningCanvas, {
+              type: 'line',
+              data: lineChartData,
+              options: lineChartOptions
             });
+
           }
         });
       })
-
-      var lineChartData = {
-        labels: ["", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
-        datasets: [{
-          data: [0, 50000, 20000, 30000, 70000, 80000, 40000, 60000, 30000, 60000, 70000, 40000, 30000],
-          backgroundColor: '#ff0000',
-          borderColor: '#ff0000',
-          borderWidth: 1,
-          pointRadius: 0,
-          pointBackgroundColor: '#ff0000',
-          pointBorderColor: '#ffffff',
-          pointHoverRadius: 6,
-          pointHoverBorderWidth: 3,
-          fill: 'origin',
-          label: "Total Collection"
-        },
-        {
-          data: [0, 50000, 20000, 30000, 70000, 100000, 40000, 60000, 30000, 60000, 70000, 40000, 30000],
-          backgroundColor: '#417dfc',
-          borderColor: '#417dfc',
-          borderWidth: 1,
-          pointRadius: 0,
-          pointBackgroundColor: '#304ffe',
-          pointBorderColor: '#ffffff',
-          pointHoverRadius: 6,
-          pointHoverBorderWidth: 3,
-          fill: 'origin',
-          label: "Fees Collection"
-        }
-        ]
-      };
-      var lineChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        animation: {
-          duration: 2000
-        },
-        scales: {
-
-          xAxes: [{
-            display: true,
-            ticks: {
-              display: true,
-              fontColor: "#222222",
-              fontSize: 14,
-              padding: 20
-            },
-            gridLines: {
-              display: true,
-              drawBorder: true,
-              color: '#cccccc',
-              borderDash: [5, 5]
-            }
-          }],
-          yAxes: [{
-            display: true,
-            ticks: {
-              display: true,
-              autoSkip: true,
-              maxRotation: 0,
-              fontColor: "#646464",
-              fontSize: 12,
-              stepSize: 10000,
-              padding: 20,
-              callback: function (value) {
-                var ranges = [{
-                  divider: 1,
-                  suffix: 'Rp '
-                },
-                {
-                  divider: 1,
-                  suffix: 'Rp '
-                }
-                ];
-
-                function formatNumber(n) {
-                  for (var i = 0; i < ranges.length; i++) {
-                    if (n >= ranges[i].divider) {
-                      return ranges[i].suffix + (n / ranges[i].divider).toString();
-                    }
-                  }
-                  return n;
-                }
-                return formatNumber(value);
-              }
-            },
-            gridLines: {
-              display: true,
-              drawBorder: false,
-              color: '#cccccc',
-              borderDash: [5, 5],
-              zeroLineBorderDash: [5, 5],
-            }
-          }]
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          mode: 'index',
-          intersect: false,
-          enabled: true
-        },
-        elements: {
-          line: {
-            tension: 0.15
-          },
-          point: {
-            pointStyle: 'circle'
-          }
-        }
-      };
-      var earningCanvas = $("#earning-line-chart").get(0).getContext("2d");
-      var earningChart = new Chart(earningCanvas, {
-        type: 'line',
-        data: lineChartData,
-        options: lineChartOptions
-      });
     }
+
 
     /*-------------------------------------
           Bar Chart 
@@ -624,16 +659,10 @@ $(document).ready(function () {
     var code_book = $('#ecode_book').val();
     var subject = $('#esubject').val();
     var writer_book = $('#ewriter_book').val();
-    var class_book = $('#eclass').val();
+    var class_book = $('#eclass_book').val();
     var publish_date = $('#epublish_date').val();
     var upload_date = $('#eupload_date').val();
-    // console.log(id_book)
-    // console.log(driver_name)
-    // console.log(license_number)
-    // console.log(phone_number)
-    // console.log(book_name)
-    // console.log(publish_date)
-    // console.log(upload_date)
+    console.log($('#eclass_book').html());
     $.ajax({
       type: "POST",
       url: "/api/library/update-book-detail",
@@ -696,16 +725,16 @@ $('#show_book').on('click', '.book_detail', function () {
     data: { id: id },
     success: function (data) {
       // $.each(data, function (key, val) {
-      console.log(data[0]);
+      console.log(data);
       $('#detail-book').modal('show');
-      $('[name="id_book"]').val(data.id_book);
-      $('[name="ebook_name"]').val(data.name_book);
-      $('[name="esubject"]').val(data.subject);
-      $('[name="ewriter_book"]').val(data.writer_book);
-      $('[name="eclass"]').val(data.class).change();
-      $('[name="epublish_date"]').val(data.id_driver);
-      $('[name="eupload_date"]').val(data.upload_date);
-      $('[name="ecode_book"]').val(data.code_book);
+      $('[name="id_book"]').val(data[0].id_book);
+      $('[name="ebook_name"]').val(data[0].name_book);
+      $('[name="esubject"]').val(data[0].id_subject).change();
+      $('[name="ewriter_book"]').val(data[0].writer_book);
+      $('[name="eclass"]').val(data[0].id_class).change();
+      $('[name="epublish_date"]').val(data[0].publish_date);
+      $('[name="eupload_date"]').val(data[0].upload_date);
+      $('[name="ecode_book"]').val(data[0].code_book);
       // });
     }
   });
@@ -1414,7 +1443,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/exam/update-exam-detail",
       dataType: "JSON",
-      data: { id_exam: id_exam, exam_name: exam_name, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end:exam_end },
+      data: { id_exam: id_exam, exam_name: exam_name, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
       success: function (data) {
         if (data) {
           $('#detail-exam').modal('hide');
