@@ -132,7 +132,10 @@ class ClassRoutineController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            "ORDER" => ["first_name" => "ASC"]
+            "ORDER" => [
+                "school_day" => "ASC",
+                "start_time" => "ASC"
+            ]
         ];
 
         if (!empty($request->getParam('search')['value'])) {
@@ -263,7 +266,7 @@ class ClassRoutineController
             ],
             '*',
             [
-                "tbl_class_routines.id_class" => $class
+                "tbl_classes.id_class" => $class
             ]
         );
         // return var_dump($result);
@@ -283,8 +286,15 @@ class ClassRoutineController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            "ORDER" => ["first_name" => "ASC"],
+            "ORDER" => [
+                "school_day" => "ASC",
+                "start_time" => "ASC"
+            ],
+            "tbl_classes.id_class" => $class
+
         ];
+
+        // return var_dump($conditions);
 
         if (!empty($request->getParam('search')['value'])) {
             $search = $request->getParam('search')['value'];
@@ -321,9 +331,9 @@ class ClassRoutineController
                     'end_time',
                 ],
                 // $limit,
-                [
-                    "tbl_class_routines.id_class" => $class
-                ],
+                // [
+                //     "tbl_classes.id_class" => $class
+                // ],
                 $conditions
             );
             $totaldata = count($result);
@@ -349,9 +359,9 @@ class ClassRoutineController
                 'start_time',
                 'end_time',
             ],
-            [
-                "tbl_class_routines.id_class" => $class
-            ],
+            // [
+            //     "tbl_classes.id_class" => $class
+            // ],
             $conditions
         );
 

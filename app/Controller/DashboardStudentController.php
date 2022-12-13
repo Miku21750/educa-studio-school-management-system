@@ -26,9 +26,9 @@ class DashboardStudentController
         $student_array = $data_student[0];
         // return var_dump($student_array);
 
-        $querry = "select distinct a.occupation,a.NISN,a.id_parent,b.id_user,a.photo_user as photo,CONCAT(a.first_name,' ',a.last_name) as nama ,gender as jenis_kelamin, tc.class as kelas, ts.section as bagian, CONCAT(b.first_name,' ',b.last_name) As ortu ,a.address_user as alamat,a.date_of_birth as tanggal_lahir,a.phone_user as no_hp,a.email 
+        $querry = "select distinct b.occupation,a.NISN,a.id_parent,b.id_user,a.photo_user as photo,CONCAT(a.first_name,' ',a.last_name) as nama ,gender as jenis_kelamin, tc.class as kelas, ts.section as bagian, CONCAT(b.first_name,' ',b.last_name) As ortu ,a.address_user as alamat,a.date_of_birth as tanggal_lahir,a.phone_user as no_hp,a.email 
         from tbl_users a 
-        left join (select b.id_user,b.first_name,b.last_name  from tbl_users b where id_user_type = 4) b on a.id_parent = b.id_user 
+        left join (select b.occupation,b.id_user,b.first_name,b.last_name  from tbl_users b where id_user_type = 4) b on a.id_parent = b.id_user 
         left join tbl_classes tc
         on a.id_class = tc.id_class 
         left join tbl_sections ts 
@@ -43,14 +43,14 @@ class DashboardStudentController
         // ]);
 
         $data_student_notification = $app->db->count('tbl_users', [
-            "[>]tbl_notifications" => ["id_user" => "id_notification"]
+            "[><]tbl_notifications" => ["id_user" => "id_notification"]
         ], '*', [
             "username" => $args['username']
         ]);
 
         // JOIN
         $view_student_notification = $app->db->select('tbl_users', [
-            "[>]tbl_notifications" => ["id_user" => "id_notification"]
+            "[><]tbl_notifications" => ["id_user" => "id_notification"]
         ], '*', [
             // "id_user" => $student_array['id_user'],
             "username" => $args["username"]
@@ -60,7 +60,7 @@ class DashboardStudentController
         //     "id_user" => $student_array['id_user']
         // ]);
         $data_student_attendance = $app->db->count('tbl_users', [
-            "[>]tbl_attendances" => ["id_user" => "id_user"]
+            "[><]tbl_attendances" => ["id_user" => "id_user"]
         ], '*', [
             "username" => $args["username"]
         ]);
