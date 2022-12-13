@@ -134,7 +134,7 @@
                         <div class="col-12 form-group mg-t-8">
                             <button type="submit" id="viewAttendSheetButton"
                                 class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">View</button>
-                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                            <button type="reset" id="resetAttendSheetButton" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -168,7 +168,7 @@
                         <table class="table bs-table table-striped table-bordered text-nowrap">
                             <thead>
                                 <tr id="studentFormAttendViewSheet">
-                                    <th class="text-left">Students</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody id="dateAttendViewSheet">
@@ -189,7 +189,11 @@
     $(document).ready(function () {
         const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         var dateMonthRaw;
-        $('#attendSheetView').hide();
+        //$('#attendSheetView').hide();
+        //setvaluedefault
+        //$('#classAttendType').val();
+        //$('#sessionAttendType').val();
+        //$('#subjectAttendType').val();
         $('#attendSheetCheckForm').submit(function (e) {
             e.preventDefault();
             if ($('#viewAttendSheetButton').attr('disabled') == true) {
@@ -211,11 +215,12 @@
                 dataType: "JSON",
                 success: function (response) {
                     console.log(response)
-                    viewStudent = response.viewStudentAttend
+                    viewStudent = response.dataStudentArrivedInAttend
                     $('#viewAttendSheetButton').attr('disabled', true)
                     $('#attendSheetView').show();
+                    $('#studentFormAttendViewSheet').append('<input type="text" value="'+subjectAttendType+'" hidden></input>')
                     $('#titleAttendSheet').html('Attendence Sheet Of Class ' + viewStudent[0]
-                        .class + ': Section ' + viewStudent[0].section + ', Subject '+response.subjectStudentAttend[0].subject_name);
+                        .class + ' ' + viewStudent[0].section + ': Subject '+response.subjectStudentAttend[0].subject_name);
 //                     var date = new Date();
 //                     var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
 //                     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -241,44 +246,64 @@
 //                             '<th class="checkAllAttend" onclick="selectAll(`2022/'+monthAttendType+'/'+(i + 1) +
 //                             '`)">' + (i + 1) + '</th>');
 //                     }
+                    $('#studentFormAttendViewSheet').append('<th class="text-left select-all">Students</th>')
                     for(let i = 0; i < viewStudent.length;i++){    
                         $('#studentFormAttendViewSheet').append('<th data-idStudent="' + viewStudent[i].id_user+'">' + viewStudent[i].first_name + ' ' + viewStudent[i].last_name + '</th>')
                     }
                     let resultTbl = '';
                     console.log(response.dateStudentAttend[0]);
                     for(let i = 0; i < response.dateStudentAttend.length; i++){
-                        //Lanjutkan ges, saia belum bikin fungsi select all
-                        resultTbl += '<tr><th onclick="selectAll()">'+response.dateStudentAttend[i]+'</th>';
+                        resultTbl += '<tr onclick="selectAll(event)"><th>'+response.dateStudentAttend[i]+'</th>';
                         for(let j = 0; j <  viewStudent.length;j++){
-                            resultTbl += '<td><input type="checkbox" class="attendCheckbox"><span class="checkmark"></span></td>'
+                            if(response.checkStudentDateIfExistChecklist[j].includes(response.dateStudentAttend[i])){
+                                resultTbl += '<td><input type="checkbox" data-idCallDate="'+response.dateStudentAttend[i]+'" data-idUserAttend="'+viewStudent[j].id_user+'" class="attendCheckbox" checked></td>'    
+                            }else{
+                                resultTbl += '<td><input type="checkbox" data-idCallDate="'+response.dateStudentAttend[i]+'" data-idUserAttend="'+viewStudent[j].id_user+'" class="attendCheckbox"></td>'
+                            }
                         }
                         resultTbl += '</tr>';
                     }
                     $('#dateAttendViewSheet').html(resultTbl);
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
+
+                    today = yyyy + '-' + mm + '-' + dd;
+                    console.log(today)
+                    //Lanjutkan membuat if date != now, disabled the checkbox
+                    $('input[type="checkbox"]').not($('input[data-idCallDate="'+today+'"]')).attr('disabled',true)
+                    $('input[type="checkbox"]').not($('input[data-idCallDate="'+today+'"]')).addClass('bg-secondary')
                 }
             });
         });
         
         $('#attendSheetAbsence').submit(function (e) { 
             e.preventDefault();
-            var date = $('input[type=checkbox]:checked').map(function (_, el) {
-                return $(el).attr('data-idDateCheckbox');
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            var date_send = $('input[type=checkbox]:checked').map(function (_, el) {
+                if($(el).attr('data-idcalldate') != today) return
+                return $(el).attr('data-idcalldate');
             }).get();
             var id_user = $('input[type=checkbox]:checked').map(function (_, el) {
+                if($(el).attr('data-idcalldate') != today) return
                 return $(el).attr('data-idUserAttend');
             }).get();
-            var arrAttend = [
-                date = date,
-                user = id_user
-            ]
-            console.log(arrAttend);
+            var id_subject = $('input[type=text]').map(function (_, el) {
+                return $(el).val();
+            }).get();
             $.ajax({
                 type: "POST",
                 url: "/sendAbsence",
                 data: {
-                    date:date,
+                    date:date_send,
                     user:id_user,
-                    
+                    subject:id_subject
                 },
                 dataType: "JSON",
                 success: function (response) {
@@ -286,10 +311,36 @@
                 }
             });
         });
+        $('#resetAttendSheetButton').click(function(e){
+            e.preventDefault();
+            $('#classAttendType').val('').change();
+            $('#subjectAttendType').val('').change();
+            $('#sessionAttendType').val('').change();
+            $('#viewAttendSheetButton').attr('disabled', false)
+            $('#attendSheetView').hide();
+            $('#studentFormAttendViewSheet').empty();
+            $('#dateAttendViewSheet').empty();
 
+        })
     })
-    function selectAll(a){
-        $('[data-idDateCheckbox="'+a+'"]').prop('checked', true)
+    function selectAll(e){
+        var row = $(e.target).text();
+        console.log(row);
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        console.log(today, row)
+        if(row !== today) return
+        console.log($('input[data-idCallDate="'+ row +'"]'))
+        var $checkAll = $('input[data-idCallDate="'+ row +'"]')
+        var values=[];
+        $.each($checkAll, function(i, item) {
+            $(item).prop('checked',true)
+        });
+        
     }
 </script>
 <!-- Some Jquery End Here -->

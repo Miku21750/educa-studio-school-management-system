@@ -106,6 +106,7 @@ class ClassController
                 'first_name',
                 'last_name',
                 'gender',
+                'tbl_classes.id_class',
                 'tbl_classes.class',
                 'tbl_sections.section',
                 'phone_user',
@@ -129,8 +130,19 @@ class ClassController
                 $datas['bagian'] = $i['section'];
                 $datas['phone_user'] = $i['phone_user'];
                 $datas['email'] = $i['email'];
-                $datas['ubah'] = '<button type="button" class="btn btn-warning item_edit" data="' . $i['id_class'] . '"><span class="fa fa-pencil-square-o"></span> Ubah</button>';
-                $datas['hapus'] = '<button type="button" class="btn btn-danger item_hapus " data="' . $i['id_class'] . '"><span class="fa fa-trash-o"></span> Delete</button>';
+                $datas[' '] = '<div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item subject_remove" data="' . $i['id_class'] . '"><button type="button" class="btn btn-light btn-lg" class="modal-trigger" data-toggle="modal"
+                    data-target="#confirmation-modalS"><i class="fas fa-trash text-orange-red"></i> Hapus </button></a>
+                    <a class="btn dropdown-item subject_detail" data="' . $i['id_class'] . '" ><button type="button" id="show_subject"  class="btn btn-light btn-lg"  data-toggle="modal" 
+                    data-target="#detail_subject"><i class="fas fa-edit text-dark-pastel-green"></i> Ubah
+                        </button></a>
+                </div>
+            </div>';
 
                 $data[] = $datas;
                 $no++;
