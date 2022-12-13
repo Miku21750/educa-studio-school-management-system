@@ -488,6 +488,12 @@ return function (App $app) {
                     return $response->withJson(ClassRoutineController::view_data_classroutine($this, $request, $response, $args));  
                 }
             );
+            $app->get(
+                '/allclassroutine1',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return $response->withJson(ClassRoutineController::view_data_classroutine1($this, $request, $response, $args));  
+                }
+            );
             $app->post(
                 '/addclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
