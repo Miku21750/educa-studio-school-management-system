@@ -329,6 +329,27 @@ class ExamController{
         // echo json_encode($json_data);
         return $rsp->withJson(array('success'=>true));
     }
+    public static function add_exam_result($app, $req, $rsp, $args)
+    {
+        $data = $args['data'];
+        
+        $tanggal = date("Y-m-d ");
+
+        $data = $app->db->insert('tbl_exam_results', [
+            "id_user" => $data['id_siswa'],
+            "id_exam" => $data['id_exam'],
+            "id_exam_grade" => $data['id_grade'],
+            "score" => $data['score'],
+            "date_result" => $tanggal
+        ]);
+        // return var_dump($data);
+        // die();
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+        );
+        echo json_encode($json_data);
+        // return $rsp->withJson($data);
+    }
 
     public static function option_exam($app, $req, $rsp, $args)
     {
@@ -341,4 +362,166 @@ class ExamController{
             'subject' => $subject,
         ]);
     }
+    
+    public static function exam_result($app, $req, $rsp, $args)
+    {
+        $user = $app->db->select('tbl_users',[
+            '[><]tbl_classes' => [ "tbl_users.id_class" =>'id_class'],
+        ] ,'*',[
+            'id_user_type' => 1
+        ]);
+        $exam = $app->db->select('tbl_exams', [
+            '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+            '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
+        ]
+        ,'*');
+        $grade = $app->db->select('tbl_exam_grades'
+        ,'*');
+        // return var_dump($subject);
+
+        $app->view->render($rsp, 'exam/exam-result.html', [
+            'user' => $user,
+            'exam' => $exam,
+            'grade' => $grade,
+        ]);
+    }
+    
+    public static function delete_result($app, $req, $rsp, $args)
+    {
+        $id = $args['data'];
+
+
+        $del = $app->db->delete('tbl_exam_results', [
+            "id_result" => $id
+        ]);
+
+        // return var_dump($del);
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
+    }
+
+    public static function tampil_data_result($app, $req, $rsp, $args)
+    {
+        
+        $result = $app->db->select('tbl_exam_results', [
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+            '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+            '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_exam_grades' => 'id_exam_grade',
+        ],'*');
+        
+        //  var_dump($result);
+
+        $columns = array(
+            0 => 'id',
+        );
+
+        $totaldata = count($result);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+        $order = $req->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $req->getParam('order');
+        $dir = $dir[0]['dir'];
+
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+        ];
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+            $limit = [
+                "LIMIT" => [$start, $limit],
+
+            ];
+            $conditions['OR'] = [
+                'tbl_users.NISN[~]' => '%' . $search . '%',
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+                
+            ];
+            $result = $app->db->select('tbl_exam_results', [
+                '[><]tbl_exams' => 'id_exam',
+                '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+                '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+                '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
+                '[><]tbl_users' => 'id_user',
+                '[><]tbl_exam_grades' => 'id_exam_grade',
+
+            ],'*',
+                $limit
+            );
+            $totaldata = count($result);
+            $totalfiltered = $totaldata;
+        }
+
+        $result = $app->db->select('tbl_exam_results',[
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+            '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+            '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_exam_grades' => 'id_exam_grade',
+
+        ],'*', $conditions);
+
+        $data = array();
+
+        if (!empty($result)) {
+            foreach ($result as $m) {
+
+                $datas['nisn'] = $m['NISN'];
+                $datas['nama'] = $m['first_name'].' '.$m['last_name'];
+                $datas['ujian'] = $m['exam_name'];
+                $datas['mapel'] = $m['subject_name'];
+                $datas['kelas'] = $m['class'].' '.$m['section'];
+                $datas['nilai'] = $m['score'];
+                $datas['grade'] = $m['grade_name'];
+                $datas['tanggal'] = $m['date_result'];
+                
+                $datas['aksi'] = '<div class="dropdown">
+
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item"  ><i
+                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light hapus item_hapus" data="' . $m['id_result'] . '"">
+                            Hapus
+                        </button></a>
+                    <a class="dropdown-item " ><i
+                            class="fas fa-solid fa-edit text-orange-peel"></i><button type="button" class="btn btn-light result_detail"  data="' . $m['id_result'] . '"" >
+                            Ubah
+                        </button></a>
+                   
+                </div>
+            </div>';
+
+                $data[] = $datas;
+            }
+        }
+        // return var_dump($result);
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        echo json_encode($json_data);
+    }       
+
+    
+
+
+
+    
 }

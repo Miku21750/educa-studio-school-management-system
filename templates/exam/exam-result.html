@@ -1,0 +1,213 @@
+{% extends "/layout/master.html" %} {% set title = "Exam Schedule" %} 
+{% set title = 'Hasil Ujian' %}
+{% set typeFrontEnd = "Hasil Ujian" %}
+{% set section_type = "Hasil Ujian" %}
+
+{% block content %}
+
+<!-- Exam Schedule Area Start Here -->
+<div class="row">
+  {% if session.type == 4 %}
+
+  <div class="col-4-xxxl col-12">
+    <div class="card dashboard-card-eleven">
+        <div class="card-body">
+            <div class="heading-layout1">
+                <div class="item-title">
+                    <h3>Hasil Ujian Siswa</h3>
+                </div>
+                <div class="dropdown">
+                    <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                        aria-expanded="false">...</a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#"><i
+                                class="fas fa-times text-orange-red"></i>Close</a>
+                        <a class="dropdown-item" href="#"><i
+                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                        <a class="dropdown-item" href="#"><i
+                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-box-wrap">
+                
+                <div class="table-responsive result-table-box">
+                    <input type="text" class="form-control " id="idd" data-result="{{session.id_user}}" value="{{session.id_user}}"  hidden>
+
+                    <table class="table text-nowrap" id="Result">
+                        <thead>
+                            <tr>
+                                <th>NISN</th>
+                                <th>Nama</th>
+                                <th>Nama Ujian</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Kelas</th>
+                                <th>Nilai</th>
+                                <th>Grade</th>
+                                <th>Tanggal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  {% endif %}
+
+  {% if session.type == 3 or  session.type == 2 %}
+  <div class="col-4-xxxl col-12">
+    <div class="card height-auto">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Tambah Nilai Ujian Siswa</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <form class="new-added-form" id="form">
+          <div class="row">
+            
+           
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Nama Siswa </label>
+              <select class="select2" id="siswa">
+                <option value="0">Pilih Siswa*</option>
+                {% for i in user %}
+                <option value="{{ i.id_user }}">{{ i.first_name}} {{ i.last_name}} Kelas {{i.class}}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Nama Ujian </label>
+              <select class="select2" id="exam_name">
+                <option value="0">Pilih Ujian *</option>
+                {% for i in exam %}
+                <option value="{{ i.id_exam }}">{{ i.exam_name }}  {{ i.subject_name }} Kelas {{ i.class }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+            
+            
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Score</label>
+              <input type="text" placeholder="Masukan Nilai" class="form-control" name="Score" id="ScoreExamInput"/>
+            </div>
+
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Grade</label>
+              <select class="select2" name="grade" id="gradeExam" disabled>
+                <option value="0">Pilih Grade *</option>
+                {% for i in grade %}
+                <option value="{{ i.id_exam_grade }}">{{ i.grade_name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            
+           
+
+            <div class="col-12 form-group mg-t-8">
+              <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" id="btn_add_exam_result">
+                Simpan
+              </button>
+              <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow" id="reset">
+                Reset
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-8-xxxl col-12">
+    <div class="card height-auto">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Daftar Ujian</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <!-- table start here -->
+        <div class="table-responsive">
+          <table class="table display text-nowrap" id="all-result">
+            <thead>
+              <tr>
+                <th>NISN</th>
+                <th>Nama</th>
+                <th>Nama Ujian</th>
+                <th>Mata Pelajaran</th>
+                <th>Kelas</th>
+                <th>Nilai</th>
+                <th>Grade</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="show_result">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+    {% endif %}
+
+</div>
+<!-- Exam Schedule Area End Here -->
+
+<!-- Confirmation Hapus Modal -->
+<div class="modal fade" id="hapus-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog success-modal-content" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="success-message">
+                  <input type="hidden" name="kode" id="textkode" value="" hidden>
+                  <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="footer-btn bg-linkedin" id="btn_hapus_result">Ok</button>
+              <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+{% include "exam/ajax.html" %}
+  {% block ajax %}
+  {% endblock ajax %}
+
+
+
+{% endblock content %}

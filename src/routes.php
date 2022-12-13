@@ -399,6 +399,16 @@ return function (App $app) {
                             ]);
                         }
                     );
+                    $app->post(
+                        '/add-exam-result',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return die(var_dump($data));
+                            return ExamController::add_exam_result($this, $request, $response, [
+                                'data' => $data,
+                            ]);
+                        }
+                    );
                 }
             );
 
@@ -744,6 +754,23 @@ return function (App $app) {
                     // return var_dump($data);
                     return AcconuntController::add_payment($this, $request, $response, [
                         'data' => $data,
+                    ]);
+                }
+            );
+            $app->get(
+                '/all-result',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    // return var_dump($data);
+                    return ExamController::tampil_data_result($this, $request, $response, $args);
+                }
+            );
+            $app->post(
+                '/delete-result',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ExamController::delete_result($this, $request, $response, [
+                        'data' => $data
                     ]);
                 }
             );
@@ -1150,6 +1177,13 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $container->view->render($response, 'exam/exam-grade.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/exam-result',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            return ExamController::exam_result($this, $request, $response, $args);
         }
     )->add(new Auth());
     //End Exam

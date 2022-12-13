@@ -310,6 +310,61 @@
             });
             return false;
           });
+
+
+          var id = $('#id_parent').attr('data-id');
+          Tabel1Show = function () {
+  
+              table1 = $("#data_v2").on('preXhr.dt', function (e, settings, data) {
+                  
+                  console.log('loading ....');
+                  
+              }).on('draw.dt', function () {
+                  console.log(id);
+                  
+              }).DataTable({
+                  responsive: {
+                      details: {
+                          type: 'column'
+                      }
+                  },
+                  "columnDefs": [
+                      { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+                      { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+                      { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
+                      { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+                      { "width": "10%", "targets": 4, className: "text-center", "orderable": false },
+                      { "width": "10%", "targets": 5, className: "text-end", "orderable": false },
+                      { "width": "15%", "targets": 6, className: "text-end", "orderable": false }
+  
+                  ],
+                  'pageLength': 10,
+                  'responsive': true,
+                  'processing': true,
+                  'serverSide': true,
+                  'ajax': {
+                      'url': "/api"+"/"+ id + "/select",
+                      'dataType:': 'json',
+                      'type': 'get',
+  
+                  },
+                  'columns': [
+                      { 'data': 'NISN' },
+                      { 'data': 'Nama' },
+                      { 'data': 'payment_type_name' },
+                      { 'data': 'amount_payment' },
+                      { 'data': 'status_pembayaran' },
+                      { 'data': 'email' },
+                      { 'data': 'date_payment' }
+  
+                  ]
+                  
+          
+              });
+  
+          }
+
+          Tabel1Show();
     });
 
 
@@ -317,7 +372,7 @@
 
 
 
-   
+    
 
 
 </script>

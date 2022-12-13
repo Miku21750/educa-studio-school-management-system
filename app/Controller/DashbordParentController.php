@@ -26,11 +26,7 @@ class DashbordParentController
         ],'*', [
             "id_user" => $id_parent,
         ]);
-        $notif = $app->db->select('tbl_users', [
-            "[><]tbl_notifications" => "id_user"
-        ],'*', [
-            "id_user" => $id_parent,
-        ]);
+        $notif = $app->db->select('tbl_notifications','*');
         $totaltagihan = $app->db->sum('tbl_users', [
             "[><]tbl_finances" => "id_user"
         ], 'amount_payment',[
@@ -157,17 +153,19 @@ class DashbordParentController
     public static function tampil_data_result($app, $req, $rsp, $args)
     {
         $id_parent = $args['data'];
-//  var_dump($id_parent);
-
+        
         $result = $app->db->select('tbl_exam_results', [
-            '[><]tbl_classes' => 'id_class',
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+            '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+            '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
             '[><]tbl_users' => 'id_user',
-            '[><]tbl_subjects' => 'id_subject'
+            '[><]tbl_exam_grades' => 'id_exam_grade',
         ],'*', [
             "id_parent" => $id_parent,
         ]);
-        // return var_dump($result);
-
+        
+        //  var_dump($result);
 
         $columns = array(
             0 => 'id',
@@ -202,10 +200,12 @@ class DashbordParentController
                 
             ];
             $result = $app->db->select('tbl_exam_results', [
-                '[><]tbl_classes' => 'id_class',
+                '[><]tbl_exams' => 'id_exam',
+                '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+                '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+                '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
                 '[><]tbl_users' => 'id_user',
-                '[><]tbl_subjects' => 'id_subject',
-                '[><]tbl_exams' => 'id_exam'
+                '[><]tbl_exam_grades' => 'id_exam_grade',
 
             ],'*',
                 $limit
@@ -215,11 +215,12 @@ class DashbordParentController
         }
 
         $result = $app->db->select('tbl_exam_results',[
-                '[><]tbl_sections' => 'id_section',
-                '[><]tbl_classes' => 'id_class',
-                '[><]tbl_users' => 'id_user',
-                '[><]tbl_subjects' => 'id_subject',
-                '[><]tbl_exams' => 'id_exam'
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+            '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+            '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_exam_grades' => 'id_exam_grade',
 
         ],'*', $conditions);
 
@@ -234,6 +235,7 @@ class DashbordParentController
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'].' '.$m['section'];
                 $datas['nilai'] = $m['score'];
+                $datas['grade'] = $m['grade_name'];
                 $datas['tanggal'] = $m['date_result'];
                 
 

@@ -1,0 +1,401 @@
+{% block ajax %}
+<script type="text/javascript">
+
+    $('#ScoreExamInput').keyup(function (e) {
+        e.preventDefault();
+        var nilai = $('#ScoreExamInput').val();
+        if (nilai < 60) {
+            $('#gradeExam').val(9).change()
+        }
+        else if (nilai < 65) {
+            $('#gradeExam').val(8).change()
+        }
+        else if (nilai < 70) {
+            $('#gradeExam').val(7).change()
+        }
+        else if (nilai < 75) {
+            $('#gradeExam').val(6).change()
+        }
+        else if (nilai < 80) {
+            $('#gradeExam').val(5).change()
+        }
+        else if (nilai < 85) {
+            $('#gradeExam').val(4).change()
+        }
+        else if (nilai < 90) {
+            $('#gradeExam').val(3).change()
+        } else if (nilai < 95) {
+            $('#gradeExam').val(2).change()
+        } else if (nilai <= 100) {
+            $('#gradeExam').val(1).change()
+        }
+    })
+
+
+
+
+    $(document).ready(function () {
+        var id = $('#idd').attr('data-result');
+        Tabel2Show = function () {
+
+            table2 = $("#Result").on('preXhr.dt', function (e, settings, data) {
+
+
+            }).on('draw.dt', function () {
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-end", "orderable": false },
+                    { "targets": 6, className: "text-end", "orderable": false },
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api" + "/" + id + "/result",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'nisn' },
+                    { 'data': 'nama' },
+                    { 'data': 'ujian' },
+                    { 'data': 'mapel' },
+                    { 'data': 'kelas' },
+                    { 'data': 'nilai' },
+                    { 'data': 'grade' },
+                    { 'data': 'tanggal' }
+                ]
+
+
+            });
+
+
+        }
+
+        Tabel2Show(false)
+
+        Result = function () {
+
+            Result = $("#all-result").on('preXhr.dt', function (e, settings, data) {
+
+
+            }).on('draw.dt', function () {
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-end", "orderable": false },
+                    { "targets": 6, className: "text-end", "orderable": false },
+                    { "targets": 7, className: "text-end", "orderable": false },
+                    { "targets": 8, className: "text-end", "orderable": false },
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/all-result",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'nisn' },
+                    { 'data': 'nama' },
+                    { 'data': 'ujian' },
+                    { 'data': 'mapel' },
+                    { 'data': 'kelas' },
+                    { 'data': 'nilai' },
+                    { 'data': 'grade' },
+                    { 'data': 'tanggal' },
+                    { 'data': 'aksi' },
+                ]
+
+
+            });
+
+
+
+        }
+        Result(false)
+
+        //GET HAPUS
+        $('#show_result').on('click', '.item_hapus', function () {
+            var id = $(this).attr('data');
+            $('#hapus-modal').modal('show');
+            $('[name="kode"]').val(id);
+        });
+
+
+        //Hapus Data
+        $('#btn_hapus_result').on('click', function () {
+            var kode = $('#textkode').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/delete-result",
+                dataType: "JSON",
+                data: { kode: kode },
+                success: function (data) {
+                    if (data) {
+                        $('#hapus-modal').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+
+                        }).then((result) => {
+                            Result.draw(false)
+
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah dihapus.',
+                                }
+
+                            )
+                        })
+
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+
+
+                }
+            });
+            return false;
+        });
+
+        // RESET BUTTON
+        $('#reset').click(function (e) {
+            e.preventDefault();
+            $('#siswa').val(0).change();
+            $('#exam_name').val(0).change();
+            $('#ScoreExamInput').val('');
+            $('#gradeExam').val(0).change()
+
+        });
+
+        //tambah Data
+        $('#btn_add_exam_result').on('click', function () {
+            var id_siswa = $('#siswa').val();
+            var id_exam = $('#exam_name').val();
+            var score = $('#ScoreExamInput').val();
+            var id_grade = $('#gradeExam').val();
+            console.log(exam_name)
+            $.ajax({
+                type: "POST",
+                url: "/api/exam/add-exam-result",
+                dataType: "JSON",
+                data: { id_siswa: id_siswa, id_exam: id_exam, score: score, id_grade: id_grade },
+                success: function (data) {
+                    if (data) {
+                        console.log(data)
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+
+                            Result.draw(false)
+
+                            $('#siswa').val(0).change();
+                            $('#exam_name').val(0).change();
+                            $('#ScoreExamInput').val('');
+                            $('#gradeExam').val(0).change()
+
+
+
+
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah ditambahkan.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
+
+                            )
+
+                        })
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+                }
+            });
+
+            return false;
+        });
+
+
+
+
+
+
+        //Show_payment
+        $('#show_payment').on('click', '.payment_detail', function () {
+            var id = $(this).attr('data');
+            $.ajax({
+                type: "GET",
+                url: "/" + "api" + "/" + id + "/payment-detail",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (data) {
+
+                    // $.each(data, function (key, val) {
+                    console.log(data);
+                    $('#detail-payment').modal('show');
+                    $('[name="id_finance"]').val(data.id_finance);
+                    $('[name="NISN"]').val(data.NISN);
+                    $('[name="nama"]').val(data.first_name + ' ' + data.last_name);
+                    $('[name="class"]').val(data.class + ' ' + data.section);
+                    $('[name="payment_type_name"]').val(data.id_payment_type).change();
+                    $('[name="amount_payment"]').val(data.amount_payment);
+                    $('[name="status_pembayaran"]').val(data.status_pembayaran).change();
+                    $('[name="date_payment"]').val(data.date_payment);
+                    $('[name="tipe_finance"]').val(data.tipe_finance).change();
+
+                    // });
+                }
+            });
+            return false;
+        });
+
+        //Update Payment
+        $('#btn_update_payment_edit').click(function (e) {
+            var id_finance = $('#id_finance').val();
+            var payment_type_name = $('#payment_type_name').val();
+            var amount_payment = $('#amount_payment').val();
+            var status_pembayaran = $('#status_pembayaran').val();
+            var date_payment = $('#date_payment').val();
+            var tipe_finance = $('#tipe_finance').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/update-payment-detail",
+                dataType: "JSON",
+                data: { id_finance: id_finance, payment_type_name: payment_type_name, amount_payment: amount_payment, status_pembayaran: status_pembayaran, date_payment: date_payment, tipe_finance: tipe_finance },
+                success: function (data) {
+                    if (data) {
+                        $('#detail-payment').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            table.draw(false)
+                            pengeluaran.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah diubah.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
+
+                            )
+                        })
+
+                        transTable.draw(false)
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+                }
+            });
+            return false;
+        });
+
+
+    });
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+{% endblock ajax %}
