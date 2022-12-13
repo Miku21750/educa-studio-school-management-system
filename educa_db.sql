@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 09 Des 2022 pada 08.29
+-- Waktu pembuatan: 13 Des 2022 pada 10.17
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 7.0.33
 
@@ -46,7 +46,8 @@ INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUE
 (5, 124, '2022-12-07'),
 (6, 7, '2022-12-07'),
 (7, 8, '2022-12-07'),
-(8, 127, '2022-12-07');
+(8, 127, '2022-12-07'),
+(9, 112, '2022-12-12');
 
 -- --------------------------------------------------------
 
@@ -57,6 +58,7 @@ INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUE
 CREATE TABLE `tbl_attendances` (
   `id_attendance` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `id_subject` int(6) NOT NULL,
   `tanggal` date NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -66,14 +68,18 @@ CREATE TABLE `tbl_attendances` (
 -- Dumping data untuk tabel `tbl_attendances`
 --
 
-INSERT INTO `tbl_attendances` (`id_attendance`, `id_user`, `tanggal`, `created_at`, `update_at`) VALUES
-(1, 9, '2022-12-05', '2022-12-04 17:00:00', '2022-12-05 04:46:00'),
-(2, 9, '2022-12-06', '2022-12-05 02:23:43', '2022-12-05 02:23:43'),
-(3, 9, '2022-12-07', '2022-12-05 02:24:55', '2022-12-05 02:24:55'),
-(4, 9, '2022-12-08', '2022-12-05 02:24:55', '2022-12-05 02:24:55'),
-(5, 9, '2022-12-09', '2022-12-05 03:11:57', '2022-12-05 03:11:57'),
-(6, 9, '2022-12-12', '2022-12-05 03:24:26', '2022-12-05 03:24:26'),
-(7, 9, '2022-12-13', '2022-12-05 03:24:26', '2022-12-05 03:24:26');
+INSERT INTO `tbl_attendances` (`id_attendance`, `id_user`, `id_subject`, `tanggal`, `created_at`, `update_at`) VALUES
+(9, 0, 11, '2022-12-12', '2022-12-12 08:42:33', '2022-12-12 08:42:33'),
+(10, 0, 12, '2022-12-12', '2022-12-12 09:29:41', '2022-12-12 09:29:41'),
+(11, 0, 0, '2022-12-12', '2022-12-12 09:31:53', '2022-12-12 09:31:53'),
+(12, 0, 1, '2022-12-12', '2022-12-12 09:34:21', '2022-12-12 09:34:21'),
+(13, 0, 1, '2022-12-13', '2022-12-13 03:09:38', '2022-12-13 03:09:38'),
+(19, 0, 11, '2022-12-13', '2022-12-13 03:11:15', '2022-12-13 03:11:15'),
+(20, 0, 2, '2022-12-13', '2022-12-13 03:23:30', '2022-12-13 03:23:30'),
+(23, 112, 1, '2022-12-12', '2022-12-13 04:00:20', '2022-12-13 07:21:33'),
+(24, 2, 1, '2022-12-13', '2022-12-13 07:06:39', '2022-12-13 07:06:39'),
+(25, 112, 1, '2022-12-13', '2022-12-13 07:06:39', '2022-12-13 07:06:39'),
+(26, 112, 11, '2022-12-13', '2022-12-13 07:24:12', '2022-12-13 07:24:12');
 
 -- --------------------------------------------------------
 
@@ -454,10 +460,11 @@ INSERT INTO `tbl_messages` (`id_message`, `id_user`, `receiver_email`, `sender_e
 (8, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'AAAA', 'AAAAAA', '2022-12-08 02:21:22', 1),
 (9, 112, 'laruthm02@gmail.com', 'rafaelfarizi1@gmail.com', 'jhgjhk', 'mikuas', '2022-12-08 01:47:33', 0),
 (10, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'kambin', 'dsfgfdgsdfgdgs', '2022-12-05 03:06:25', 1),
-(11, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'iuggjhg', 'AAAAA', '2022-12-09 01:53:53', 0),
+(11, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'iuggjhg', 'AAAAA', '2022-12-09 01:53:53', 1),
 (12, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'iuggjhg', 'AAAAAfadasdfasd', '2022-12-09 02:22:01', 1),
 (13, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'iuggjhg', 'AAAAAfadasdfasdasdfasdfas', '2022-12-09 01:56:28', 0),
-(14, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'AAAA', 'AAAAAA', '2022-12-09 02:20:37', 1);
+(14, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'AAAA', 'AAAAAA', '2022-12-09 02:20:37', 1),
+(15, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'Miku21 Under Arrest', 'Miku21 is under Arrest For Doing Child Predator, please nif you found this person call 911', '2022-12-09 09:18:47', 0);
 
 -- --------------------------------------------------------
 
@@ -640,9 +647,9 @@ CREATE TABLE `tbl_users` (
 
 INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_subject`, `id_hostel`, `id_trans`, `id_user_type`, `id_parent`, `id_student`, `session`, `first_name`, `last_name`, `gender`, `date_of_birth`, `username`, `password`, `religion`, `email`, `NISN`, `photo_user`, `blood_group`, `occupation`, `phone_user`, `address_user`, `status`, `short_bio`, `admission_status`, `admission_date`, `create_at`, `update_at`, `delete_at`) VALUES
 (0, 0, 0, 0, 0, 0, 4, 0, 0, '0', 'Belum', 'Ada', 'Perempuan', '0000-00-00', '', '', '', '', 0, NULL, NULL, '', '', NULL, 0, NULL, NULL, NULL, '2022-12-09 06:10:34', '2022-12-09 07:21:03', NULL),
-(2, 1, 0, 0, 0, 1, 1, 48, 0, '', 'doni', 'billar', 'Laki-laki', '2012-11-15', 'random', 'random', 'other', 'oniworld@oniworld.com', 9987, 'default.png', NULL, '', '+628963333930', 'random', 0, 'random', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
+(2, 2, 0, 0, 0, 1, 1, 48, 0, '2022-2023', 'doni', 'billar', 'Laki-laki', '2012-11-15', 'random', 'random', 'other', 'oniworld@oniworld.com', 9987, 'default.png', NULL, '', '+628963333930', 'random', 0, 'random', NULL, NULL, '2022-12-07 03:11:44', '2022-12-12 02:40:20', NULL),
 (3, 0, 0, 0, 0, 1, 1, 48, 0, '', 'Art', 'Ankunding', 'Perempuan', '0000-00-00', 'gaylord.schoen', '3e9cab5ae2ae061f1654f0d141bb77f0693f615f', 'hindu', 'moore.eveline@example.net', 9864, 'default.png', 'b', '', '793-284-4861', '5934 Jacinto Crossroad Apt. 364\r\nOlsonmouth, KS 30988', 0, 'Necessitatibus error atque delectus ipsa libero. Harum quasi assumenda quos illum. Maiores et ipsam iusto at ea qui quibusdam. Eligendi iure libero aut quia quia vero autem.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-09 06:11:39', NULL),
-(4, 1, 0, 0, 0, 1, 1, 48, 0, '', 'Emily', 'Aufderhar', 'Perempuan', '0000-00-00', 'so\'keefe', 'ab3a0ba6b3d3ffc9834f76574dd2c3ec9438a795', 'kristen', 'briana.weimann@example.net', 9861, 'default.png', NULL, '', '1-688-563-2931x133', '1691 Rice Underpass\r\nNorth Valentinamouth, ID 91399', 0, 'Dolore inventore iure repudiandae qui consequatur accusamus. Recusandae dolorem quam est saepe sed unde soluta. Atque id qui deleniti aut repellat. Maxime quaerat ut corrupti et et enim sint.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
+(4, 2, 0, 0, 0, 1, 1, 48, 0, '2021-2022', 'Emily', 'Aufderhar', 'Perempuan', '0000-00-00', 'so\'keefe', 'ab3a0ba6b3d3ffc9834f76574dd2c3ec9438a795', 'kristen', 'briana.weimann@example.net', 9861, 'default.png', NULL, '', '1-688-563-2931x133', '1691 Rice Underpass\r\nNorth Valentinamouth, ID 91399', 0, 'Dolore inventore iure repudiandae qui consequatur accusamus. Recusandae dolorem quam est saepe sed unde soluta. Atque id qui deleniti aut repellat. Maxime quaerat ut corrupti et et enim sint.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-12 03:10:13', NULL),
 (5, 1, 0, 0, 0, 1, 1, 48, 0, '', 'Ida', 'Roberts', 'Perempuan', '0000-00-00', 'swilderman', '2e54bd48cabbb48a57c87ecc6575d6871117c177', 'islam', 'clifford61@example.com', 0, 'default.png', NULL, '', '1-357-343-0969x83055', '002 Connelly Canyon Apt. 917\r\nNew Joyburgh, WA 46394', 0, 'Libero earum dolor possimus accusantium vitae fugiat ratione. Cumque cumque tempore et est dolore rerum voluptatem molestiae. Quas sunt omnis asperiores dolor provident culpa inventore.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (6, 1, 0, 0, 0, 1, 1, 0, 0, '', 'Eloisa', 'Langworth', 'Laki-laki', '0000-00-00', 'hyman77', 'a8a88f3f74ee5c0c2efc29a71e94c9b8b7ad6f1a', 'hindu', 'rod.willms@example.org', 0, 'default.png', 'o', '', '8833275468', '1265 Johns Valley Suite 874\r\nSamsonshire, OR 34497', 0, 'Porro ipsa nam harum. Perferendis similique voluptatem incidunt nisi facilis et ratione. Voluptatum tenetur qui sit rerum quam quasi similique. Impedit et corporis repellendus est.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (7, 1, 0, 0, 0, 1, 1, 0, 0, '', 'Gail', 'Kris', 'Perempuan', '0000-00-00', 'lcarroll', '96c515f5a56c27e6a0c448b29192db24935423b9', 'buddha', 'nakia.greenfelder@example.net', 0, 'default.png', NULL, '', '190-759-4362x6965', '63471 Kamren Ridge Apt. 498\r\nPollichstad, DC 10284-9138', 0, 'Sint nam aut quasi autem at. Fuga nesciunt aut dolorem numquam tempore autem. Quia sequi sapiente sunt minima. Et excepturi aut odio tempore.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
@@ -738,12 +745,12 @@ INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_subject`, `id_
 (97, 1, 0, 0, 0, 1, 3, 0, 0, '', 'Kayleigh', 'Brakus', 'Perempuan', '0000-00-00', 'kozey.lyla', 'e45c29594a3979e437aa7388bb5ebe050a2f9fcf', 'hindu', 'haylie.schroeder@example.com', 0, 'default.png', 'a', '', '(182)036-3710x075', '0309 David Mews\r\nEast Garett, PA 20575-4413', 0, 'Eos repellendus amet aperiam provident dolorum in dolorum. Veritatis aliquid iste aut. Eius odit est dolore quis.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (98, 2, 0, 0, 0, 1, 4, 0, 0, '', 'Percy', 'Hauck', 'Perempuan', '0000-00-00', 'bennie47', '3a964cf298b6f9ec38be06b11246337bd8918afa', 'islam', 'sanford97@example.net', 0, 'default.png', 'a', '', '(033)076-4244', '85776 O\'Reilly Parks Suite 946\r\nPort Desireeburgh, RI 21109', 0, 'Omnis facere perferendis amet soluta voluptates. Occaecati eveniet sed sed culpa. Provident nam dolorum tempore praesentium natus voluptatibus illo quis.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (99, 1, 0, 0, 1, 1, 3, 0, 0, '', 'Araceli', 'Koss', 'Perempuan', '0000-00-00', 'littel.daniella', 'deb2c87bfe48c7e579cdbebdca1415104ea123b8', 'katholik', 'mercedes59@example.com', 0, 'default.png', 'o', '', '467-321-6972x50539', '43317 Oberbrunner Ramp\r\nNew Verona, NJ 77057-6445', 0, 'Corporis rem ea fugiat cumque. Corrupti unde et repudiandae voluptatem sequi fugit excepturi. Et voluptas aut minus quia est sed est et. Rem sunt exercitationem facere maiores repellat.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
-(100, 2, 0, 0, 0, 1, 4, 0, 0, '', 'Laverne', 'Morar', 'Perempuan', '0000-00-00', 'miller20', 'c97f8592befaa34057b58d44eb700d66bafb1514', 'kristen', 'clittle@example.org', 0, 'default.png', 'o', '', '5278137898', '40666 Katlyn Shore Suite 040\r\nEast Kelli, ID 28933-3389', 0, 'Quos voluptates ab et ut ipsa sequi. Iste reiciendis vitae illum id aperiam similique cupiditate. Saepe et incidunt est delectus sit rem vel nihil. Nam architecto eligendi vero possimus totam et.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
-(101, 3, 0, 0, 0, 1, 3, 0, 0, '', 'Maida', 'Cummings', 'Laki-laki', '0000-00-00', 'xemmerich', 'c2c8433e159ca1f1a0bd62d8cfd90d2dd64d639b', 'kristen', 'pmosciski@example.net', 0, 'default.png', 'ab', '', '(264)015-2705', '8484 Reece Tunnel Suite 836\r\nNew Julianaview, GA 57745', 0, 'Odio non et eos qui dolor saepe est eum. Harum id explicabo quis exercitationem hic. Neque architecto cupiditate ullam voluptas. Quas cumque illo illum est harum. Corrupti facilis cumque earum quo', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL);
+(100, 2, 0, 0, 0, 1, 4, 0, 0, '', 'Laverne', 'Morar', 'Perempuan', '0000-00-00', 'miller20', 'c97f8592befaa34057b58d44eb700d66bafb1514', 'kristen', 'clittle@example.org', 0, 'default.png', 'o', '', '5278137898', '40666 Katlyn Shore Suite 040\r\nEast Kelli, ID 28933-3389', 0, 'Quos voluptates ab et ut ipsa sequi. Iste reiciendis vitae illum id aperiam similique cupiditate. Saepe et incidunt est delectus sit rem vel nihil. Nam architecto eligendi vero possimus totam et.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL);
 INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_subject`, `id_hostel`, `id_trans`, `id_user_type`, `id_parent`, `id_student`, `session`, `first_name`, `last_name`, `gender`, `date_of_birth`, `username`, `password`, `religion`, `email`, `NISN`, `photo_user`, `blood_group`, `occupation`, `phone_user`, `address_user`, `status`, `short_bio`, `admission_status`, `admission_date`, `create_at`, `update_at`, `delete_at`) VALUES
+(101, 3, 0, 0, 0, 1, 3, 0, 0, '', 'Maida', 'Cummings', 'Laki-laki', '0000-00-00', 'xemmerich', 'c2c8433e159ca1f1a0bd62d8cfd90d2dd64d639b', 'kristen', 'pmosciski@example.net', 0, 'default.png', 'ab', '', '(264)015-2705', '8484 Reece Tunnel Suite 836\r\nNew Julianaview, GA 57745', 0, 'Odio non et eos qui dolor saepe est eum. Harum id explicabo quis exercitationem hic. Neque architecto cupiditate ullam voluptas. Quas cumque illo illum est harum. Corrupti facilis cumque earum quo', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (103, 0, 0, 0, 0, 0, 3, 0, 0, '', 'Miku21', 'Margareth', 'Laki-laki', '2005-04-24', 'miku21', 'miku21', 'Attack Helicopter', 'rafaelfarizi1@gmail.com', 0, '20221207042526-20220929-133008.jpg', 'AB', 'Pullstack Wengdev', '6287731137512', 'Indonesia', 1, 'Miku21 wengdev on Lorem Ipsum', NULL, NULL, '2022-12-07 03:13:24', '2022-12-07 03:25:26', NULL),
 (111, 0, 0, 0, 0, 0, 2, 0, 0, '', '', '', 'Laki-laki', '0000-00-00', 'miku21comunity', 'miku21', '', 'mikucomunity21@gmail.com', 0, '20221207105642-794cdf8bd464220d70698e3af1179178.jpg', '', '', '', '', 1, '', NULL, NULL, '2022-12-07 09:32:10', '2022-12-07 10:00:05', NULL),
-(112, 0, 0, 0, 0, 0, 1, 0, 0, '', 'Leute Ruth', 'Leciepent', '', '2004-07-24', 'ruth02', 'ruth02cans', 'Flying Dutchman', 'laruthm02@gmail.com', 0, '20221208093903-468944.jpg', 'B', 'Sinner', '62877311375121', 'Cimahi', 1, 'Ora pro nobis, sancta Dei Genitrix', NULL, NULL, '2022-12-08 08:32:27', '2022-12-08 08:39:03', NULL),
+(112, 2, 0, 0, 0, 0, 1, 0, 0, '2022-2023', 'Leute Ruth', 'Leciepent', 'Perempuan', '2004-07-24', 'ruth02', 'ruth02cans', 'Flying Dutchman', 'laruthm02@gmail.com', 0, '20221208093903-468944.jpg', 'B', '', '62877311375121', 'Cimahi', 1, 'Ora pro nobis, sancta Dei Genitrix', NULL, NULL, '2022-12-08 08:32:27', '2022-12-12 03:15:58', NULL),
 (131, 0, 0, 0, 0, 0, 1, 0, 0, '', '', '', 'Laki-laki', '0000-00-00', 'aaaaaaaa', '123', '', 'aasa@example.com', 0, 'default.png', NULL, '', '', NULL, 0, NULL, NULL, NULL, '2022-12-09 07:22:26', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -904,13 +911,13 @@ ALTER TABLE `tbl_user_types`
 -- AUTO_INCREMENT untuk tabel `tbl_admissions`
 --
 ALTER TABLE `tbl_admissions`
-  MODIFY `id_admission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_admission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_attendances`
 --
 ALTER TABLE `tbl_attendances`
-  MODIFY `id_attendance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_attendance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_books`
@@ -922,7 +929,7 @@ ALTER TABLE `tbl_books`
 -- AUTO_INCREMENT untuk tabel `tbl_classes`
 --
 ALTER TABLE `tbl_classes`
-  MODIFY `id_class` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_class` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_class_routines`
@@ -958,7 +965,7 @@ ALTER TABLE `tbl_finances`
 -- AUTO_INCREMENT untuk tabel `tbl_messages`
 --
 ALTER TABLE `tbl_messages`
-  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_notifications`
@@ -976,7 +983,7 @@ ALTER TABLE `tbl_payment_types`
 -- AUTO_INCREMENT untuk tabel `tbl_sections`
 --
 ALTER TABLE `tbl_sections`
-  MODIFY `id_section` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_section` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_subjects`
