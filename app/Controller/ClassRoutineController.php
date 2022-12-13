@@ -246,6 +246,146 @@ class ClassRoutineController
         return $json_data;
     }
 
+    public static function view_data_classroutine1($app, $request, $response, $args)
+    {
+
+        $class = $app->db->select('tbl_users', 'id_class', [
+            "id_user" => $_SESSION['id_user']
+        ]);
+
+        $result = $app->db->select(
+            'tbl_class_routines',
+            [
+                "[>]tbl_classes" => ["id_class" => "id_class"],
+                "[>]tbl_subjects" => ["id_subject" => "id_subject"],
+                "[>]tbl_sections" => ["tbl_classes.id_section" => "id_section"],
+                "[>]tbl_users" => ["id_user" => "id_user"],
+            ],
+            '*',
+            [
+                "tbl_class_routines.id_class" => $class
+            ]
+        );
+        // return var_dump($result);
+
+        $columns = array(
+            0 => 'id',
+        );
+
+        $totaldata = count($result);
+        $totalfiltered = $totaldata;
+        $limit = $request->getParam('length');
+        $start = $request->getParam('start');
+        $order = $request->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $request->getParam('order');
+        $dir = $dir[0]['dir'];
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+            "ORDER" => ["first_name" => "ASC"],
+        ];
+
+        if (!empty($request->getParam('search')['value'])) {
+            $search = $request->getParam('search')['value'];
+            $limit = [
+                "LIMIT" => [$start, $limit]
+
+            ];
+            $conditions['OR'] = [
+                'subject_name[~]' => '%' . $search . '%',
+                'first_name[~]' => '%' . $search . '%',
+                'school_day[~]' => '%' . $search . '%',
+                'class[~]' => '%' . $search . '%',
+                'start_time[~]' => '%' . $search . '%',
+
+            ];
+            $result = $app->db->select(
+                'tbl_class_routines',
+                [
+                    "[>]tbl_classes" => ["id_class" => "id_class"],
+                    "[>]tbl_subjects" => ["id_subject" => "id_subject"],
+                    "[>]tbl_sections" => ["tbl_classes.id_section" => "id_section"],
+                    "[>]tbl_users" => ["id_user" => "id_user"],
+                ],
+                [
+                    // '*'
+                    'id_class_routine',
+                    'school_day',
+                    'tbl_classes.class',
+                    'tbl_sections.section',
+                    'subject_name',
+                    'tbl_users.first_name',
+                    'tbl_users.last_name',
+                    'start_time',
+                    'end_time',
+                ],
+                // $limit,
+                [
+                    "tbl_class_routines.id_class" => $class
+                ],
+                $conditions
+            );
+            $totaldata = count($result);
+            $totalfiltered = $totaldata;
+        }
+        $result = $app->db->select(
+            'tbl_class_routines',
+            [
+                "[>]tbl_classes" => ["id_class" => "id_class"],
+                "[>]tbl_subjects" => ["id_subject" => "id_subject"],
+                "[>]tbl_sections" => ["tbl_classes.id_section" => "id_section"],
+                "[>]tbl_users" => ["id_user" => "id_user"],
+            ],
+            [
+                // '*'
+                'id_class_routine',
+                'school_day',
+                'tbl_classes.class',
+                'tbl_sections.section',
+                'subject_name',
+                'tbl_users.first_name',
+                'tbl_users.last_name',
+                'start_time',
+                'end_time',
+            ],
+            [
+                "tbl_class_routines.id_class" => $class
+            ],
+            $conditions
+        );
+
+
+        $data = array();
+
+        if (!empty($result)) {
+            // $no = $request->getParam('start') + 1;
+            foreach ($result as $m) {
+                $rawStartTime = strtotime($m['start_time']);
+                $rawEndTime = strtotime($m['end_time']);
+
+                // $datas['ID'] = $no. '.';
+                $datas['school_day'] = $m['school_day'];
+                $datas['class'] = $m['class'];
+                $datas['subject_name'] = $m['subject_name'];
+                $datas['section'] = $m['section'];
+                $datas['teacher_name'] = $m['first_name'] . " " . $m['last_name'];
+                $datas['time'] = date("H:i", $rawStartTime) . " - " . date("H:i", $rawEndTime);
+
+                $data[] = $datas;
+                // $no++;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($request->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        return $json_data;
+    }
+
     public static function add_class_routine($app, $request, $response, $args)
     {
 
@@ -306,7 +446,7 @@ class ClassRoutineController
         //         "id_class_routine" => $id_class_routine
         //     ]
         // );
-        
+
         $data = $app->db->get(
             'tbl_class_routines',
             [
