@@ -4,14 +4,14 @@ content %}
 <!-- Class Routine Area Start Here -->
 <div class="row">
   {# if admin start here #}
-  {# {% if type == "Admin" %} #}
+  {% if session.type == 3 or session.type == 2 %}
 
   <div class="col-4-xxxl col-12">
     <div class="card height-auto">
       <div class="card-body">
         <div class="heading-layout1">
           <div class="item-title">
-            <h3>Add Class Routine</h3>
+            <h3>Tambahkan Rutinitas Kelas</h3>
           </div>
           <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
@@ -26,27 +26,27 @@ content %}
         <form class="new-added-form">
           <div class="row">
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
-              <label>Subject Name *</label>
-              <select class="select2" id="subject_name">
-                <option value="0">Please Select</option>
+              <label>Nama Mata Pelajaran *</label>
+              <select class="select2" id="subject_name" required>
+                <option value="">Silahkan pilih</option>
                 {% for d in subject %}
                 <option value="{{d.id_subject}}">{{d.subject_name}}</option>
                 {% endfor %}
               </select>
             </div>
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
-              <label>Subject Type *</label>
+              <label>Mata Pelajaran Tipe *</label>
               <select class="select2" id="subject_type" disabled>
-                <option value="0">Please Select</option>
+                <option value="">Silahkan pilih</option>
                 {% for d in subject %}
                 <option value="{{d.id_subject}}">{{d.subject_type}}</option>
                 {% endfor %}
               </select>
             </div>
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
-              <label>Select Class *</label>
-              <select class="select2" id="id_class">
-                <option value="0">Please Select</option>
+              <label>Pilih Kelas *</label>
+              <select class="select2" id="id_class" required>
+                <option value="">Silahkan pilih</option>
                 {% for d in class %}
                 <option value="{{d.id_class}}">{{d.class}} - {{d.section}}</option>
                 {% endfor %}
@@ -55,7 +55,7 @@ content %}
             <!-- <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Select Section *</label>
               <select class="select2" id="id_section">
-                <option value="0">Please Select</option>
+                <option value="0">Silahkan pilih</option>
                 {% for d in section %}
                 <option value="{{d.id_section}}">{{d.section}}</option>
                 {% endfor %}
@@ -63,8 +63,8 @@ content %}
             </div> -->
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>NIP</label>
-              <select class="select2" id="id_user">
-                <option value="0">Please Select</option>
+              <select class="select2" id="id_user" required>
+                <option value="">Silahkan pilih</option>
                 {% for d in teacher %}
                 <option value="{{d.id_user}}">{{d.NISN}} - {{d.first_name}} {{d.last_name}}</option>
                 {% endfor %}
@@ -73,17 +73,17 @@ content %}
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Waktu Mulai *</label>
-              <input type="time" placeholder="" class="form-control" id="start_time" />
+              <input type="time" placeholder="" class="form-control" id="start_time" required />
             </div>
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Waktu Selesai *</label>
-              <input type="time" placeholder="" class="form-control" id="end_time" />
+              <input type="time" placeholder="" class="form-control" id="end_time" required />
             </div>
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Hari *</label>
-              <select class="select2" id="school_day">
+              <select class="select2" id="school_day" required>
                 <option value="">Mohon Dipilih</option>
                 <option value="Senin">Senin</option>
                 <option value="Selasa">Selasa</option>
@@ -94,10 +94,11 @@ content %}
             </div>
             <div class="col-12 form-group mg-t-8">
               <button type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" id="add_class_routine">
-                Save
+                Simpan
               </button>
+              <!-- <input type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" id="add_class_routine" value="Save"> -->
               <button type="reset" id="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
-                Reset
+                Mengatur ulang
               </button>
             </div>
           </div>
@@ -106,14 +107,16 @@ content %}
     </div>
   </div>
 
-  {# {% endif %} #}
+  {% endif %}
   {# End if Admin only #}
+
+  {% if session.type == 3 or session.type == 2 %}
   <div class="col-8-xxxl col-12">
     <div class="card height-auto">
       <div class="card-body">
         <div class="heading-layout1">
           <div class="item-title">
-            <h3>Class Routine</h3>
+            <h3>Rutinitas Kelas</h3>
           </div>
           <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
@@ -129,12 +132,12 @@ content %}
           <table class="display" id="class_routine">
             <thead>
               <tr>
-                <th><label class="form-check-label">Day</label></th>
-                <th>Class</th>
-                <th>Subject</th>
-                <th>Section</th>
-                <th>Teacher</th>
-                <th>Time</th>
+                <th><label class="form-check-label">Hari</label></th>
+                <th>Kelas</th>
+                <th>Mata Pelajaran</th>
+                <th>Bagian</th>
+                <th>Guru</th>
+                <th>Waktu</th>
                 <th></th>
               </tr>
             </thead>
@@ -145,6 +148,47 @@ content %}
       </div>
     </div>
   </div>
+  {% endif %}
+
+  {% if session.type == 1 %}
+  <div class="col-8-xxxl col-12">
+    <div class="card height-auto">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Rutinitas Kelas</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <div class="table-box-nowrap">
+          <table class="display" id="class_routine1">
+            <thead>
+              <tr>
+                <th><label class="form-check-label">Hari</label></th>
+                <th>Kelas</th>
+                <th>Mata Pelajaran</th>
+                <th>Bagian</th>
+                <th>Guru</th>
+                <th>Waktu</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="show_class_routine1">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 
 
   <!-- MODAL DELETE -->
@@ -163,7 +207,7 @@ content %}
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="footer-btn bg-linkedin" id="btn_remove_class_routine">Ok</button>
+          <button type="button" class="footer-btn bg-linkedin" id="btn_remove_class_routine">Ok, Hapus Data</button>
           <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
         </div>
       </div>
@@ -242,12 +286,14 @@ content %}
 
                       <tr class="form-group">
                         <label>Waktu Mulai *</label>
-                        <input type="time" placeholder="" class="form-control form-control-lg" name="starttime" id="start_timeU" />
+                        <input type="time" placeholder="" class="form-control form-control-lg" name="starttime"
+                          id="start_timeU" />
                       </tr>
 
                       <tr class="from-group">
                         <label>Waktu Selesai *</label>
-                        <input type="time" placeholder="" class="form-control form-control-lg" name="endtime" id="end_timeU" />
+                        <input type="time" placeholder="" class="form-control form-control-lg" name="endtime"
+                          id="end_timeU" />
                       </tr>
 
                       <tr class="form-group">
@@ -300,7 +346,7 @@ content %}
     }
   });
 
-  // DATA TABLE
+  // DATA TABLE akses ADMIN, TEACHER
   initTable = function () {
 
     table = $("#class_routine").on('preXhr.dt', function (e, settings, data) {
@@ -319,12 +365,11 @@ content %}
       "columnDefs": [
         { "width": "5%", "targets": 0, className: "text-center", "orderable": false },
         { "width": "15%", "targets": 1, className: "text-start", "orderable": false },
-        { "width": "15%", "targets": 2, className: "text-start", "orderable": false },
-        { "width": "15%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "25%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 3, className: "text-start", "orderable": false },
         { "width": "20%", "targets": 4, className: "text-start", "orderable": false },
         { "width": "20%", "targets": 5, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 6, className: "text-start", "orderable": false },
-
 
 
       ],
@@ -352,6 +397,57 @@ content %}
 
   initTable();
 
+  // DATA TABLE akses STUDENT
+  initTable = function () {
+
+    table1 = $("#class_routine1").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "5%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "25%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "20%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "20%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "25%", "targets": 5, className: "text-start", "orderable": false },
+
+
+
+      ],
+      'pageLength': 10,
+      'processing': true,
+      'serverSide': true,
+      'select': true,
+      'responsive': true,
+      'ajax': {
+        url: "/api" + "/allclassroutine1",
+        type: 'GET',
+      },
+      'columns': [
+        { 'data': 'school_day' },
+        { 'data': 'class' },
+        { 'data': 'subject_name' },
+        { 'data': 'section' },
+        { 'data': 'teacher_name' },
+        { 'data': 'time' },
+        // { 'data': '' },
+      ],
+    });
+
+  }
+
+  initTable();
+
   // ADD CLASS ROUTINE
   $('#add_class_routine').on('click', function () {
     var subject_name = $('#subject_name').val();
@@ -362,62 +458,76 @@ content %}
     var start_time = $('#start_time').val();
     var end_time = $('#end_time').val();
     var school_day = $('#school_day').val();
-    $.ajax({
-      type: "POST",
-      url: "/api" + "/addclassroutine",
-      dataType: "JSON",
-      data: { subject_name: subject_name, subject_type: subject_type, id_class: id_class, id_section: id_section, id_user: id_user, start_time: start_time, end_time: end_time, school_day },
-      success: function (data) {
-        if (data) {
-          let timerInterval
-          Swal.fire({
-            title: 'Memuat Data...',
-            html: 'Tunggu  <b></b>  Detik.',
-            timer: 300,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading()
-              const b = Swal.getHtmlContainer().querySelector('b')
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
-              }, 100)
-            },
-            willClose: () => {
-              clearInterval(timerInterval)
-            }
-          }).then((result) => {
-            // $('#subject_type').val('').change();
-            // $('#subject_name').val('');
-            $('#subject_name').val('').change();
-            $('#subject_type').val('').change();
-            $('#id_class').val('').change();
-            $('#id_section').val('').change();
-            $('#id_user').val('').change();
-            $('#start_time').val('');
-            $('#end_time').val('');
-            $('#school_day').val('').change();
-            Swal.fire(
-              {
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data telah ditambahkan.',
+    if (subject_name == ""
+      || subject_type == ""
+      || id_class == ""
+      || id_section == ""
+      || id_user == ""
+      || start_time == ""
+      || end_time == ""
+      || school_day == ""
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Data harus diisi semua!'
+      })
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "/api" + "/addclassroutine",
+        dataType: "JSON",
+        data: { subject_name: subject_name, subject_type: subject_type, id_class: id_class, id_section: id_section, id_user: id_user, start_time: start_time, end_time: end_time, school_day: school_day },
+        success: function (data) {
+          if (data) {
+            let timerInterval
+            Swal.fire({
+              title: 'Memuat Data...',
+              html: 'Tunggu  <b></b>  Detik.',
+              timer: 300,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
               }
+            }).then((result) => {
+              // $('#subject_type').val('').change();
+              // $('#subject_name').val('');
+              $('#subject_name').val('').change();
+              $('#subject_type').val('').change();
+              $('#id_class').val('').change();
+              $('#id_section').val('').change();
+              $('#id_user').val('').change();
+              $('#start_time').val('');
+              $('#end_time').val('');
+              $('#school_day').val('').change();
+              Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: 'Data telah ditambahkan.',
+                }
 
-            )
-            $('#addModal').modal('hide');
-          });
-
-          table.draw(false)
-
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Ada yang eror!'
-          })
+              )
+              $('#addModal').modal('hide');
+            })
+            table.draw(false);
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ada yang eror!'
+            })
+          }
         }
-      }
-    });
+      });
+    }
   });
 
   // RESET BUTTON
@@ -477,7 +587,7 @@ content %}
               }
             )
           })
-          table.draw(false)
+          table.draw(false);
         } else {
           Swal.fire({
             icon: 'error',
@@ -524,14 +634,13 @@ content %}
     var start_time = $('#start_timeU').val();
     var end_time = $('#end_timeU').val();
     var school_day = $('#school_dayU').val();
-
     $.ajax({
       type: "POST",
       url: "/api" + "/updateclassroutine",
       dataType: "JSON",
       data: {
         id_class_routine: id_class_routine, subject_name: subject_name, subject_type: subject_type, id_class: id_class,
-        id_user: id_user, start_time: start_time, end_time: end_time, school_day
+        id_user: id_user, start_time: start_time, end_time: end_time, school_day: school_day
       },
       success: function (data) {
         if (data) {
@@ -562,7 +671,7 @@ content %}
               }
             )
           })
-          table.draw(false)
+          table.draw(false);
         } else {
           Swal.fire({
             icon: 'error',

@@ -68,8 +68,8 @@
                         <div class="col-12 form-group mg-t-8">
                             <button type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
                                 id="add_subject">Simpan</button>
-                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow"
-                                id="reset">Mengatur Ulang</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow" id="reset">Mengatur
+                                Ulang</button>
                         </div>
                     </div>
                 </form>
@@ -175,8 +175,7 @@
                                 <div class="info-table table-responsive">
                                     <table class="table text-nowrap">
                                         <tbody>
-                                            <input type="text" name="id_subject" id="id_subject"
-                                                value="" hidden>
+                                            <input type="text" name="id_subject" id="id_subject" value="" hidden>
                                             <tr class="form-group">
                                                 <label>Subject Name </label>
                                                 <input type="text" name="subjectname" id="subject_nameU" placeholder=""
@@ -268,56 +267,66 @@
     $('#add_subject').on('click', function () {
         var subject_name = $('#subject_name').val();
         var subject_type = $('#subject_type').val();
-        $.ajax({
-            type: "POST",
-            url: "/api" + "/addsubject",
-            dataType: "JSON",
-            data: { subject_name: subject_name, subject_type: subject_type },
-            success: function (data) {
-                if (data) {
-                    let timerInterval
-                    Swal.fire({
-                        title: 'Memuat Data...',
-                        html: 'Tunggu  <b></b>  Detik.',
-                        timer: 300,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                                b.textContent = Swal.getTimerLeft()
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        $('#subject_type').val('').change();
-                        $('#subject_name').val('');
-                        Swal.fire(
-                            {
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: 'Data telah ditambahkan.',
-                                //footer: '<a href="">Why do I have this issue?</a>'
+        if (subject_name == ""
+            || subject_type == ""
+        ) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Data harus diisi semua!'
+            })
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "/api" + "/addsubject",
+                dataType: "JSON",
+                data: { subject_name: subject_name, subject_type: subject_type },
+                success: function (data) {
+                    if (data) {
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
                             }
+                        }).then((result) => {
+                            $('#subject_type').val('').change();
+                            $('#subject_name').val('');
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah ditambahkan.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
 
-                        )
-                        $('#addModal').modal('hide');
-                    });
+                            )
+                            $('#addModal').modal('hide');
+                        });
 
-                    table.draw(false)
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Ada yang eror!'
-                    })
+                        table.draw(false)
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!'
+                        })
+                    }
+
                 }
-
-            }
-        });
-        return false;
+            });
+            return false;
+        }
     });
 
     // RESET BUTTON
@@ -372,8 +381,8 @@
                                 text: 'Data telah dihapus.',
                             }
                         )
-                    })
-                    table.draw(false)
+                    });
+                    table.draw(false);
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -444,8 +453,8 @@
                                 //footer: '<a href="">Why do I have this issue?</a>'
                             }
                         )
-                    })
-                    table.draw(false)
+                    });
+                    table.draw(false);
                 } else {
                     Swal.fire({
                         icon: 'error',

@@ -75,11 +75,11 @@
                                         </tr>
 
                                         <tr class="form-group">
-                                            <label>Kelas *</label>
+                                            <label for="class_book">Kelas:</label>
                                             <select class="select2" name="eclass_book" id="eclass_book">
                                                 <option value="">Pilih Kelas *</option>
                                                 {% for i in class %}
-                                                <option value="{{i.class}}">{{ i.class }}</option>
+                                                <option value="{{i.id_class}}">{{ i.class }}</option>
                                                 {% endfor %}
                                             </select>
                                         </tr>

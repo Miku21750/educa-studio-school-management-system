@@ -23,20 +23,11 @@ class LibraryController
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
-        $book = $app->db->select('tbl_books',[
+        $book = $app->db->select('tbl_books', [
             '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_classes' => 'class',
-        ],[
-            'id_book(id_book)',
-            'name_book(name_book)',
-            'subject_name(subject_name)',
-            'writer_book(writer_book)',
-            'class(class)',
-            'class(class)',
-            'publish_date(publish_date)',
-            'upload_date(upload_date)',
-            'code_book(code_book)',
-        ]);
+            '[><]tbl_classes' => 'id_class',
+        ], '*'
+        );
         // return var_dump($book);
 
         $totaldata = count($book);
@@ -66,19 +57,10 @@ class LibraryController
                 'tbl_books.upload_date[~]' => '%' . $search . '%',
 
             ];
-            $book = $app->db->select('tbl_books',[
+            $book = $app->db->select('tbl_books', [
                 '[><]tbl_subjects' => 'id_subject',
-                '[><]tbl_classes' => 'class',
-            ],[
-                'id_book(id_book)',
-                'name_book(name_book)',
-                'id_subject(id_subject)',
-                'writer_book(writer_book)',
-                'class(class)',
-                'publish_date(publish_date)',
-                'upload_date(upload_date)',
-                'code_book(code_book)',
-            ],
+                '[><]tbl_classes' => 'id_class',
+            ], '*',
                 $limit
             );
             $totaldata = count($book);
@@ -87,17 +69,8 @@ class LibraryController
 
         $book = $app->db->select('tbl_books', [
             '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_classes' => 'class',
-        ],[
-            'id_book(id_book)',
-            'name_book(name_book)',
-            'subject_name(subject_name)',
-            'writer_book(writer_book)',
-            'class(class)',
-            'publish_date(publish_date)',
-            'upload_date(upload_date)',
-            'code_book(code_book)',
-        ], $conditions);
+            '[><]tbl_classes' => 'id_class',
+        ], '*', $conditions);
 
         $data = array();
 
@@ -147,31 +120,29 @@ class LibraryController
         echo json_encode($json_data);
     }
 
-    public static function detail($app, $request, $response, $id_book)
+    public static function detail($app, $request, $response, $args)
     {
-        // $id_book = $data;
-        // var_dump($id_book);
+        $id_book = $args['data'];
+        // return var_dump($id_book);
 
-        $data = $app->db->get('tbl_books', [
-            "id_book",
-            "name_book",
-            "subject_name",
-            "writer_book",
-            "class",
-            "publish_date",
-            "upload_date",
-            "code_book",
-        ], [
+        $book = $app->db->select('tbl_books', [
+            '[><]tbl_subjects' => 'id_subject',
+            '[><]tbl_classes' => 'id_class',
+        ], '*', [
             'id_book' => $id_book,
         ]);
-        // return var_dump($data);
-        $json_data = array(
-            'data' => $data,
-        );
+
+        // return var_dump($book);
+        // $json_data = array(
+        //     'data' => $data,
+        // );
+
         unset($_SESSION['berhasil']);
-        return $response->withJson($data);
 
         // return var_dump($json_data);
+
+        return $response->withJson($book);
+
         // echo json_encode($json_data);
     }
 
@@ -199,7 +170,7 @@ class LibraryController
             "name_book" => $data['name_book'],
             "id_subject" => $data['subject'],
             "writer_book" => $data['writer_book'],
-            "class" => $data['class'],
+            "id_class" => $data['class_book'],
             "publish_date" => $data['publish_date'],
             "upload_date" => $data['upload_date'],
             "code_book" => $data['code_book'],
@@ -225,7 +196,7 @@ class LibraryController
             "name_book" => $data['name_book'],
             "id_subject" => $data['subject'],
             "writer_book" => $data['writer_book'],
-            "class" => $data['class_book'],
+            "id_class" => $data['class_book'],
             "publish_date" => $data['publish_date'],
             "upload_date" => $data['upload_date'],
             "code_book" => $data['code_book'],
@@ -249,14 +220,37 @@ class LibraryController
     {
         $class = $app->db->query("SELECT DISTINCT class FROM tbl_classes")->fetchAll();
         $subject = $app->db->select('tbl_subjects', '*');
-        
+
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
 
         $app->view->render($rsp, 'library/add-book.html', [
             'class' => $class,
             'subject' => $subject,
-            'berhasil' => $berhasil
+            'berhasil' => $berhasil,
+        ]);
+    }
+
+    public static function option_book_detail($app, $req, $rsp, $args)
+    {
+        // $class = $app->db->query("SELECT class FROM tbl_classes")->fetchAll();
+        $class = $app->db->select('tbl_classes', [
+            'class',
+            'id_class',
+        ], [
+            'GROUP' => [
+                'class',
+            ],
+        ]);
+        $subject = $app->db->select('tbl_subjects', '*');
+
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
+
+        $app->view->render($rsp, 'library/all-book.html', [
+            'class' => $class,
+            'subject' => $subject,
+            'berhasil' => $berhasil,
         ]);
     }
 }
