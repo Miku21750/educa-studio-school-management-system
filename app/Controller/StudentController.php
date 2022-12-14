@@ -142,7 +142,10 @@ class StudentController
                     'id_user' => $m['id_user']
                 ]);
 
-                if ($admission != null) {
+              
+
+                if ($admission != null && $_SESSION['type'] == 3) {
+                    
                     $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -165,7 +168,10 @@ class StudentController
                         </button></a>   
                 </div>
             </div>';
-                } else {
+                } else if( $_SESSION['type'] != 3) {
+                    $datas['aksi'] = ' ';
+
+                }else{
                     $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"

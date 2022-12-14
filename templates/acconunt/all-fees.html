@@ -3,182 +3,191 @@
 {% set typeFrontEnd = "Finance" %}
 {% set section_type = "Add Fees" %}
 {% block content %}
-    <!-- Fees Table Area Start Here -->
+<!-- Fees Table Area Start Here -->
 <div class="card height-auto">
-    <div class="card-body">
-      <div class="heading-layout1">
-        <div class="item-title">
-          <h3>Semua Biaya Pemasukan</h3>
-        </div>
-        <div class="dropdown">
-          <a
-            class="dropdown-toggle"
-            href="#"
-            role="button"
-            data-toggle="dropdown"
-            aria-expanded="false"
-            >...</a
-          >
-  
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-times text-orange-red"></i>Close</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a
-            >
-          </div>
+  <div class="card-body">
+    <div class="heading-layout1">
+      <div class="item-title">
+        <h3>Semua Biaya Pemasukan</h3>
+      </div>
+      <div class="dropdown">
+        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
         </div>
       </div>
+    </div>
+    {% if session.type == 4 %}
+    <div class="table-responsive expenses-table-box">
+      <input type="text" class="form-control " id="id_parent" data-id="{{session.id_user}}" value="{{session.id_user}}"  hidden>
 
-      <div class="table-responsive">
-        <table class="table  text-nowrap" id="allfees">
+      <table class="table  text-nowrap" id="data_v2">
+
           <thead>
-            <tr>
-              <th>No</th>
-              <th>NISN</th>
-              <th>Foto</th>
-              <th>Nama</th>
-              <th>Jenis Kelamin</th>
-              <th>Kelas</th>
-              <th>Pembayaran</th>
-              <th>Biaya</th>
-              <th>Status</th>     
-              <th>Email</th>     
-              <th>Telepon</th>     
-              <th>Tanggal</th>     
-              <th></th>
-            </tr>
+              <tr>     
+                  <th>NISN</th>
+                  <th>Nama</th>
+                  <th>Jenis Pembayaran</th>
+                  <th>Jumlah</th>
+                  <th>Status</th>
+                  <th>E-Mail</th>
+                  <th>Tanggal</th>
+              </tr>
           </thead>
-          <tbody id="show_payment">
-            
-            
+          <tbody id="show_data">
+              
           </tbody>
-        </table>
+      </table>
+  </div>
+    {% endif %}
+
+    <div class="table-responsive">
+
+      {% if session.type == 3 %}
+      <table class="table  text-nowrap" id="allfees">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>NISN</th>
+            <th>Foto</th>
+            <th>Nama</th>
+            <th>Jenis Kelamin</th>
+            <th>Kelas</th>
+            <th>Pembayaran</th>
+            <th>Biaya</th>
+            <th>Status</th>
+            <th>Email</th>
+            <th>Telepon</th>
+            <th>Tanggal</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="show_payment">
+
+
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<!-- Fees Table Area End Here -->
+
+<!-- Modal -->
+<!-- MODAL DELETE -->
+<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog success-modal-content" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="success-message">
+          <input type="hidden" name="kode" id="textkode" value="" hidden>
+          <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="footer-btn bg-linkedin" id="btn_hapus">Ok</button>
+        <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
-  <!-- Fees Table Area End Here -->
-  
-  <!-- Modal -->
-  <!-- MODAL DELETE -->
-  <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog success-modal-content" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="success-message">
-                    <input type="hidden" name="kode" id="textkode" value="" hidden>
-                    <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="footer-btn bg-linkedin" id="btn_hapus">Ok</button>
-                <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- MODAL UPDATE -->
 <div class="modal fade" id="detail-payment" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Detail Pembayaran</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="card ui-tab-card">
-                <div class="card-body">
-                    <div class="single-info-details">
-                        <div class="item-content">
-                            <div class="header-inline item-header">
-                                <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detail Pembayaran</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="card ui-tab-card">
+        <div class="card-body">
+          <div class="single-info-details">
+            <div class="item-content">
+              <div class="header-inline item-header">
+                <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
 
-                            </div>
-                            <div>
-                                
-                                        <input type="text" name="id_finance" id="id_finance"
-                                           hidden>
-                                           <div class="form-group">
-                                            <label>NISN</label>
-                                            <input type="text" name="NISN" class="form-control"  readonly/>
-                                          </div>
-                                           <div class="form-group">
-                                            <label>Nama </label>
-                                            <input type="text" name="nama"  placeholder=""
-                                                class="form-control" readonly>
-                                          </div>
-                                           <div class="form-group">
-                                            <label>Kelas </label>
-                                            <input type="text" name="class"  placeholder=""
-                                                class="form-control" readonly>
-                                          </div>
-                                          
-                                          <div class="form-group">
-                                            <label>Tipe Pembanyaran *</label>
-                                            <select class="select2 form-control form-control-lg" name="payment_type_name" id="payment_type_name">
-                                              <option >Silahkan Pilih *</option>
-                                              {% for data in payment_type %}
-                                              <option value="{{data.id_payment_type}}">{{data.payment_type_name}}</option>
-                                              {% endfor %}
-                                            </select>
-                                          </div>
-                                          
-                                          <div class="form-group">
-                                           <label>Biaya </label>
-                                           <input type="text" name="amount_payment" id="amount_payment"
-                                               class="form-control" >
-                                         </div>
-                                         
-                                         <div class="form-group">
-                                           <label>Status Pembayaran*</label>
-                                           <select class="select2" name="status_pembayaran" id="status_pembayaran">
-                                             <option value="">Pilih Status *</option>
-                                             <option value="Dibayar">Dibayar</option>
-                                             <option value="Belum Bayar">Belum Bayar</option>
-                                            </select>
-                                          </div>
-                                         <div class="form-group">
-                                           <label>Tipe Biaya*</label>
-                                           <select class="select2" name="tipe_finance" id="tipe_finance">
-                                             <option value="">Pilih Tipe Biaya *</option>
-                                             <option value="Pemasukan">Pemasukan</option>
-                                             <option value="Pengeluaran">Pengeluaran</option>
-                                            </select>
-                                          </div>
-                                          
-                                          <div class="form-group">
-                                           <label>Tanggal </label>
-                                           <input type="date" name="date_payment" id="date_payment" 
-                                               class="form-control" >
-                                         </div>
-                                         <div class="modal-footer">
-                                           <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
-                                          <button class="footer-btn bg-linkedin" id="btn_update_payment_edit">Simpan</button>
-            </div>
-                            </div>
-                        </div>
-                    </div>
+              </div>
+              <div>
+              <form>
+                <input type="text" name="id_finance" id="id_finance" hidden>
+                <div class="form-group">
+                  <label>NISN</label>
+                  <input type="text" name="NISN" class="form-control" readonly />
                 </div>
-            </div>
+                <div class="form-group">
+                  <label>Nama </label>
+                  <input type="text" name="nama" placeholder="" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                  <label>Kelas </label>
+                  <input type="text" name="class" placeholder="" class="form-control" readonly>
+                </div>
 
+                <div class="form-group">
+                  <label>Tipe Pembanyaran *</label>
+                  <select class="select2 form-control form-control-lg" name="payment_type_name" id="payment_type_name">
+                    <option>Silahkan Pilih *</option>
+                    {% for data in payment_type %}
+                    <option value="{{data.id_payment_type}}">{{data.payment_type_name}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Biaya </label>
+                  <input type="text" name="amount_payment" id="amount_payment" class="form-control">
+                </div>
+
+                <div class="form-group">
+                  <label>Status Pembayaran*</label>
+                  <select class="select2" name="status_pembayaran" id="status_pembayaran">
+                    <option value="">Pilih Status *</option>
+                    <option value="Dibayar">Dibayar</option>
+                    <option value="Belum Bayar">Belum Bayar</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Tipe Biaya*</label>
+                  <select class="select2" name="tipe_finance" id="tipe_finance">
+                    <option value="">Pilih Tipe Biaya *</option>
+                    <option value="Pemasukan">Pemasukan</option>
+                    <option value="Pengeluaran">Pengeluaran</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Tanggal </label>
+                  <input type="date" name="date_payment" id="date_payment" class="form-control">
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+                  <button type="submit" class="footer-btn bg-linkedin" id="btn_update_payment_edit">Simpan</button>
+                </div>
+              </form>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
+
     </div>
+  </div>
 </div>
 
 
 
-  {% include "acconunt/ajax.html" %}
-  {% block ajax %}
-  {% endblock ajax %}
+{% include "acconunt/ajax.html" %}
+{% block ajax %}
+{% endblock ajax %}
 {% endblock content %}

@@ -480,7 +480,7 @@ class TeacherController
                 $datas['nama'] = $m['first_name'] . '  ' . $m['last_name'];
                 $datas['gender'] = $m['gender'];
                 $datas['subject'] = $m['subject_name'] . '(' . $m['subject_type'] . ')';
-                $datas['gaji'] = $m['amount_payment'];
+                $datas['gaji'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
                 
                 
                 if($m['status_pembayaran'] == "Belum Bayar"){

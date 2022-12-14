@@ -42,56 +42,54 @@
 
                             </div>
                             <div class="info-table table-responsive">
-                                <table class="table text-nowrap">
-                                    <tbody>
-                                        <input type="text" name="id_exam" id="id_exam" value="{{ data.id_exam }}"
-                                            hidden>
-                                        <tr class="form-group">
-                                            <label>Nama Ujian</label>
-                                            <input type="text" placeholder="" class="form-control" id="eexam_name"
-                                                name="eexam_name" />
-                                        </tr>
+                                <input type="text" name="id_exam" id="id_exam" value="{{ data.id_exam }}" hidden>
+                                <div class="form-group">
+                                    <label>Nama Ujian</label>
+                                    <input type="text" placeholder="" class="form-control" id="eexam_name_edit"
+                                        name="eexam_name_edit" />
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Mata Pelajaran *</label>
-                                            <select class="select2" name="esubject" id="esubject">
-                                                <option value="">Pilih Mata Pelajaran *</option>
-                                                {% for i in subject %}
-                                                <option value="{{i.id_subject}}">{{ i.subject_name }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </tr>
-                                        
-                                        <tr class="form-group">
-                                            <label>Kelas *</label>
-                                            <select class="select2" name="eclass" id="eclass">
-                                                <option value="">Pilih Kelas *</option>
-                                                {% for i in class %}
-                                                <option value="{{i.id_class}}">{{ i.class }} {{ i.section }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </tr>
+                                <div class="form-group">
+                                    <label>Mata Pelajaran *</label>
+                                    <select class="select2" name="esubject" id="esubject_edit">
+                                        <option value="">Pilih Mata Pelajaran *</option>
+                                        {% for i in subject %}
+                                        <option value="{{i.id_subject}}">{{ i.subject_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Tanggal Ujian</label>
-                                            <input type="date" placeholder="dd/mm/yyyy" class="form-control"
-                                                name="eexam_date" id="eexam_date_send" />
-                                        </tr>
+                                <div class="form-group">
+                                    <label>Kelas *</label>
+                                    <select class="select2" name="eclass" id="eclass_edit">
+                                        <option value="">Pilih Kelas *</option>
+                                        {% for i in class %}
+                                        <option value="{{i.id_class}}">{{ i.class }} {{ i.section }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Jam Mulai</label>
-                                            <input type="time" placeholder="" class="form-control" name="eexam_start"
-                                                id="eexam_start_send" />
-                                        </tr>
+                                <div class="form-group">
+                                    <label>Tanggal Ujian</label>
+                                    <input type="date" placeholder="dd/mm/yyyy" class="form-control" name="eexam_date"
+                                        id="eexam_date_send" />
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Jam Selesai</label>
-                                            <input type="time" placeholder="" class="form-control" name="eexam_end"
-                                                id="eexam_end_send" />
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <button class="btn btn-warning" id="btn_update_exam">Simpan</button>
+                                <div class="form-group">
+                                    <label>Jam Mulai</label>
+                                    <input type="time" placeholder="" class="form-control" name="eexam_start"
+                                        id="eexam_start_send" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Jam Selesai</label>
+                                    <input type="time" placeholder="" class="form-control" name="eexam_end"
+                                        id="eexam_end_send" />
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button class="footer-btn btn-warning" id="btn_update_exam">Simpan</button>
+                                </div>
                             </div>
                         </div>
                     </div>

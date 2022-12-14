@@ -42,62 +42,58 @@
 
                             </div>
                             <div class="info-table table-responsive">
-                                <table class="table text-nowrap">
-                                    <tbody>
-                                        <input type="text" name="id_book" id="id_book" value="{{ data.id_book }}"
-                                            hidden>
-                                        <tr class="form-group">
-                                            <label for="book_name">Nama Buku:</label>
-                                            <input name="ebook_name" id="ebook_name" type="text"
-                                                placeholder="Masukan Nama Buku" class="form-control">
-                                        </tr>
+                                <input type="text" name="id_book" id="id_book" value="{{ data.id_book }}" hidden>
+                                <div class="form-group">
+                                    <label for="book_name">Nama Buku:</label>
+                                    <input name="ebook_name" id="ebook_name" type="text" placeholder="Masukan Nama Buku"
+                                        class="form-control">
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label for="code_book">ID Buku:</label>
-                                            <input name="ecode_book" id="ecode_book" type="text"
-                                                placeholder="Masukan ID Buku" class="form-control">
-                                        </tr>
+                                <div class="form-group">
+                                    <label for="code_book">ID Buku:</label>
+                                    <input name="ecode_book" id="ecode_book" type="text" placeholder="Masukan ID Buku"
+                                        class="form-control">
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label for="subject">Kategori Buku:</label>
-                                            <select class="select2" name="esubject" id="esubject">
-                                                <option value="">Pilih Mata Pelajaran *</option>
-                                                {% for i in subject %}
-                                                <option value="{{i.id_subject}}">{{ i.subject_name }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </tr>
+                                <div class="form-group">
+                                    <label for="subject">Kategori Buku:</label>
+                                    <select class="select2" name="esubject" id="esubject">
+                                        <option value="">Pilih Mata Pelajaran *</option>
+                                        {% for i in subject %}
+                                        <option value="{{i.id_subject}}">{{ i.subject_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label for="writer_book">Penulis Buku:</label>
-                                            <input name="ewriter_book" id="ewriter_book" type="text"
-                                                placeholder="Masukan Penulis Buku" class="form-control">
-                                        </tr>
+                                <div class="form-group">
+                                    <label for="writer_book">Penulis Buku:</label>
+                                    <input name="ewriter_book" id="ewriter_book" type="text"
+                                        placeholder="Masukan Penulis Buku" class="form-control">
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label for="class_book">Kelas:</label>
-                                            <select class="select2" name="eclass_book" id="eclass_book">
-                                                <option value="">Pilih Kelas *</option>
-                                                {% for i in class %}
-                                                <option value="{{i.id_class}}">{{ i.class }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </tr>
+                                <div class="form-group">
+                                    <label for="class_book">Kelas:</label>
+                                    <select class="select2" name="eclass_book" id="eclass_book">
+                                        <option value="">Pilih Kelas *</option>
+                                        {% for i in class %}
+                                        <option value="{{i.id_class}}">{{ i.class }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Tanggal diPublish:</label>
-                                            <input name="epublish_date" id="epublish_date" type="date"
-                                                class="form-control">
-                                        </tr>
+                                <div class="form-group">
+                                    <label>Tanggal diPublish:</label>
+                                    <input name="epublish_date" id="epublish_date" type="date" class="form-control">
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Tanggal diupload:</label>
-                                            <input name="eupload_date" id="eupload_date" type="date"
-                                                class="form-control">
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <button class="btn btn-warning" id="btn_update_book">Simpan</button>
+                                <div class="form-group">
+                                    <label>Tanggal diupload:</label>
+                                    <input name="eupload_date" id="eupload_date" type="date" class="form-control">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button class="footer-btn bg-warning" id="btn_update_book">Simpan</button>
+                                </div>
                             </div>
                         </div>
                     </div>

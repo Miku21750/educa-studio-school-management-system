@@ -35,6 +35,7 @@ class ParentController
         $type = 4;
         $parent = $app->db->select('tbl_users', '*', [
             'id_user_type' => $type,
+            'id_user[!]' => 0,
         ]);
 
 
@@ -54,7 +55,9 @@ class ParentController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            "id_user_type" => $type
+            "id_user_type" => $type,
+            'id_user[!]' => 0,
+
 
         ];
 
@@ -63,6 +66,8 @@ class ParentController
             $limit = [
                 "LIMIT" => [$start, $limit],
                 'id_user_type' => $type,
+                'id_user[!]' => 0,
+
 
             ];
             $conditions['OR'] = [
@@ -96,24 +101,33 @@ class ParentController
                 $datas['alamat'] = $m['address_user'];
                 $datas['telepon'] = $m['phone_user'];
                 $datas['email'] = $m['email'];
-                $datas['aksi'] = '<div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    aria-expanded="false">
-                    <span class="flaticon-more-button-of-three-dots"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
-                            Hapus
-                        </button></a>
-                   
-                    <a class="dropdown-item" href="' . 'api' . '/' . 'parent-detail' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                            data-target="#large-modal" data="' . $m['id_user'] . '"">
-                            Detail
-                        </button></a>
-                </div>
-            </div>';
+
+                if(  $_SESSION['type'] == 3){
+                    $datas['aksi'] = '<div class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                        aria-expanded="false">
+                        <span class="flaticon-more-button-of-three-dots"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item"  ><i
+                                class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
+                                Hapus
+                            </button></a>
+                       
+                        <a class="dropdown-item" href="' . 'api' . '/' . 'parent-detail' . '/' . $m['id_user']  . '"><i
+                                class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+                                data-target="#large-modal" data="' . $m['id_user'] . '"">
+                                Detail
+                            </button></a>
+                    </div>
+                </div>';
+                }else{
+                    $datas['aksi'] = ' ';
+
+                }
+                
+
+               
                 $data[] = $datas;
                 $no++;
             }

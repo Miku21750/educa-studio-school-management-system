@@ -178,171 +178,156 @@
           Line Chart 
       -------------------------------------*/
     if ($("#earning-line-chart").length) {
-      var inJan, inFeb, inMar, inApr, inMei, inJun, inJul, inAug, inSep, inOkt, inNov, inDes;
-      var outJan, outFeb, outMar, outApr, outMei, outJun, outJul, outAug, outSep, outOkt, outNov, outDes;
-
-      var getTahun;
-
-      // $("#target-line-chart").change(function(){
-      //   getTahun?????
-      // });
-
-      $(document).ready(function () {
+      loadData(2019)
+      var earningChart = null
+      function loadData(year) { 
         $.ajax({
-          type: "GET",
-          url: "/api/admin/chart",
+          type: 'GET',
+          url: "/api/admin/chart?year=" + year,
           dataType: "JSON",
-          success: function (total) {
-            let a = total;
-            console.log(a.inJan[0].in_jan)
-            inJan = a.inJan[0].in_jan
-            inFeb = a.inFeb[0].in_feb
-            inMar = a.inMar[0].in_mar
-            inApr = a.inApr[0].in_apr
-            inMei = a.inMei[0].in_mei
-            inJun = a.inJun[0].in_jun
-            inJul = a.inJul[0].in_jul
-            inAug = a.inAug[0].in_aug
-            inSep = a.inSep[0].in_sep
-            inOkt = a.inOkt[0].in_okt
-            inNov = a.inNov[0].in_nov
-            inDes = a.inDes[0].in_des
-            
-            outJan = a.outJan[0].out_jan
-            outFeb = a.outFeb[0].out_feb
-            outMar = a.outMar[0].out_mar
-            outApr = a.outApr[0].out_apr
-            outMei = a.outMei[0].out_mei
-            outJun = a.outJun[0].out_jun
-            outJul = a.outJul[0].out_jul
-            outAug = a.outAug[0].out_aug
-            outSep = a.outSep[0].out_sep
-            outOkt = a.outOkt[0].out_okt
-            outNov = a.outNov[0].out_nov
-            outDes = a.outDes[0].out_des
-
-            var lineChartData = {
-              labels: ["","Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
-              datasets: [{
-                data: [0, inJan, inFeb, inMar, inApr, inMei, inJun, inJul, inAug, inSep, inOkt, inNov, inDes],
-                // backgroundColor: '#ff0000',
-                borderColor: '#ff0000',
-                borderWidth: 2,
-                pointRadius: 3,
-                pointBackgroundColor: '#ffffff',
-                pointBorderColor: '#ff0000',
-                pointHoverRadius: 6,
-                pointHoverBorderWidth: 3,
-                fill: 'origin',
-                label: "Dana Masuk"
-              },
-              {
-                data: [0, outJan, outFeb, outMar, outApr, outMei, outJun, outJul, outAug, outSep, outOkt, outNov, outDes],
-                // backgroundColor: '#417dfc',
-                borderColor: '#417dfc',
-                borderWidth: 2,
-                pointRadius: 3,
-                pointBackgroundColor: '#ffffff',
-                pointBorderColor: '#304ffe',
-                pointHoverRadius: 6,
-                pointHoverBorderWidth: 3,
-                fill: 'origin',
-                label: "Dana Keluar"
-              }
-              ]
-            };
-
-            var lineChartOptions = {
-              responsive: true,
-              maintainAspectRatio: false,
-              animation: {
-                duration: 2000
-              },
-              scales: {
-
-                xAxes: [{
-                  display: true,
-                  ticks: {
-                    display: true,
-                    fontColor: "#222222",
-                    fontSize: 14,
-                    padding: 20
-                  },
-                  gridLines: {
-                    display: true,
-                    drawBorder: true,
-                    color: '#cccccc',
-                    borderDash: [5, 5]
-                  }
-                }],
-                yAxes: [{
-                  display: true,
-                  ticks: {
-                    display: true,
-                    autoSkip: true,
-                    maxRotation: 0,
-                    fontColor: "#646464",
-                    fontSize: 12,
-                    stepSize: 1000000,
-                    padding: 20,
-                    callback: function (value) {
-                      var ranges = [{
-                        divider: 1,
-                        suffix: 'Rp '
-                      },
-                      {
-                        divider: 1,
-                        suffix: 'Rp '
-                      }
-                      ];
-
-                      function formatNumber(n) {
-                        for (var i = 0; i < ranges.length; i++) {
-                          if (n >= ranges[i].divider) {
-                            return ranges[i].suffix + (n / ranges[i].divider).toString();
-                          }
-                        }
-                        return n;
-                      }
-                      return formatNumber(value);
-                    }
-                  },
-                  gridLines: {
-                    display: true,
-                    drawBorder: false,
-                    color: '#cccccc',
-                    borderDash: [5, 5],
-                    zeroLineBorderDash: [5, 5],
-                  }
-                }]
-              },
-              legend: {
-                display: false
-              },
-              tooltips: {
-                mode: 'index',
-                intersect: false,
-                enabled: true
-              },
-              elements: {
-                line: {
-                  tension: 0.15
-                },
-                point: {
-                  pointStyle: 'circle'
-                }
-              }
-            };
-            var earningCanvas = $("#earning-line-chart").get(0).getContext("2d");
-            var earningChart = new Chart(earningCanvas, {
-              type: 'line',
-              data: lineChartData,
-              options: lineChartOptions
-            });
-
+          success: function (tahun) {
+            drawChart(tahun, true);
           }
         });
-      })
+       }
+      $("#target-line-chart").change(function () {
+        let year = $("#target-line-chart").val();
+        loadData(year)
+      });
+    }
+
+    function drawChart(data, ifExist) {
+      for(let i = 1; i <= 12; i++){
+        if(data.in[i]==null){
+          data.in[i] = 0;
+        }
+        if(data.out[i]==null){
+          data.out[i] = 0;
+        }
+      }
+      // console.log(earningChart == undefined)
+      if (earningChart != null) {
+        // console.log(earningChart);
+        earningChart.destroy();
+      }
+      var lineChartData = {
+        labels: ["", "Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Des"],
+        datasets: [{
+          data: [0, ...data.in],
+          // backgroundColor: '#ff0000',
+          borderColor: '#ff0000',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#ffffff',
+          pointBorderColor: '#ff0000',
+          pointHoverRadius: 6,
+          pointHoverBorderWidth: 3,
+          fill: 'origin',
+          label: "Dana Masuk"
+        },
+        {
+          data: [0, ...data.out],
+          // backgroundColor: '#417dfc',
+          borderColor: '#417dfc',
+          borderWidth: 2,
+          pointRadius: 3,
+          pointBackgroundColor: '#ffffff',
+          pointBorderColor: '#304ffe',
+          pointHoverRadius: 6,
+          pointHoverBorderWidth: 3,
+          fill: 'origin',
+          label: "Dana Keluar"
+        }
+        ]
+      };
+
+      var lineChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 2000
+        },
+        scales: {
+
+          xAxes: [{
+            display: true,
+            ticks: {
+              display: true,
+              fontColor: "#222222",
+              fontSize: 14,
+              padding: 20
+            },
+            gridLines: {
+              display: true,
+              drawBorder: true,
+              color: '#cccccc',
+              borderDash: [5, 5]
+            }
+          }],
+          yAxes: [{
+            display: true,
+            ticks: {
+              display: true,
+              autoSkip: true,
+              maxRotation: 0,
+              fontColor: "#646464",
+              fontSize: 12,
+              stepSize: 1000000,
+              padding: 20,
+              callback: function (value) {
+                var ranges = [{
+                  divider: 1,
+                  suffix: 'Rp '
+                },
+                {
+                  divider: 1,
+                  suffix: 'Rp '
+                }
+                ];
+
+                function formatNumber(n) {
+                  for (var i = 0; i < ranges.length; i++) {
+                    if (n >= ranges[i].divider) {
+                      return ranges[i].suffix + (n / ranges[i].divider).toString();
+                    }
+                  }
+                  return n;
+                }
+                return formatNumber(value);
+              }
+            },
+            gridLines: {
+              display: true,
+              drawBorder: false,
+              color: '#cccccc',
+              borderDash: [5, 5],
+              zeroLineBorderDash: [5, 5],
+            }
+          }]
+        },
+        legend: {
+          display: false
+        },
+        tooltips: {
+          mode: 'index',
+          intersect: false,
+          enabled: true
+        },
+        elements: {
+          line: {
+            tension: 0.15
+          },
+          point: {
+            pointStyle: 'circle'
+          }
+        }
+      };
+      var earningCanvas = $("#earning-line-chart").get(0).getContext("2d");
+      earningChart = new Chart(earningCanvas, {
+        type: 'line',
+        data: lineChartData,
+        options: lineChartOptions
+      });
     }
 
 
@@ -726,7 +711,10 @@ $('#show_book').on('click', '.book_detail', function () {
     data: { id: id },
     success: function (data) {
       // $.each(data, function (key, val) {
-      console.log(data);
+      // console.log(data);
+      $('#detail-book').on('shown.bs.modal', function () {
+        $('#ebook_name').focus();
+      });
       $('#detail-book').modal('show');
       $('[name="id_book"]').val(data[0].id_book);
       $('[name="ebook_name"]').val(data[0].name_book);
@@ -1015,7 +1003,10 @@ $('#show_transport').on('click', '.transport_detail', function () {
     data: { id: id },
     success: function (data) {
       // console.log(data.id_transport);
-      $('#detail-book').modal('show');
+      $('#detail-transport').on('shown.bs.modal', function () {
+        $('#eroute_name_edit').focus();
+      });
+      $('#detail-transport').modal('show');
       $('[name="id_transport"]').val(data.id_transport);
       $('[name="eroute_name"]').val(data.route_name);
       $('[name="edriver_name"]').val(data.driver_name);
@@ -1292,6 +1283,9 @@ $('#show_hostel').on('click', '.hostel_detail', function () {
     data: { id: id },
     success: function (data) {
       // console.log(data.id_hostel);
+      $('#detail-hostel').on('shown.bs.modal', function () {
+        $('#ehostel_name_edit').focus();
+      });
       $('#detail-hostel').modal('show');
       $('[name="id_hostel"]').val(data.id_hostel);
       $('[name="ehostel_name"]').val(data.hostel_name);
@@ -1431,12 +1425,12 @@ $(document).ready(function () {
     return false;
   });
 
-  //Update hostel
+  //Update exam
   $('#btn_update_exam').click(function (e) {
     var id_exam = $('#id_exam').val();
-    var exam_name = $('#eexam_name').val();
-    var id_subject = $('#esubject').val();
-    var id_class = $('#eclass').val();
+    var exam_name = $('#eexam_name_edit').val();
+    var id_subject = $('#esubject_edit').val();
+    var id_class = $('#eclass_edit').val();
     var exam_date = $('#eexam_date_send').val();
     var exam_start = $('#eexam_start_send').val();
     var exam_end = $('#eexam_end_send').val();
@@ -1499,7 +1493,8 @@ $(document).ready(function () {
     var exam_date = $('#eexam_date').val();
     var exam_start = $('#eexam_start').val();
     var exam_end = $('#eexam_end').val();
-    console.log(exam_name)
+    console.log(id_class);
+    console.log(id_subject);
     $.ajax({
       type: "POST",
       url: "/api/exam/add-exam",
@@ -1571,9 +1566,12 @@ $('#show_exam').on('click', '.exam_detail', function () {
     data: { id: id },
     success: function (data) {
       // console.log(data);
+      $('#detail-exam').on('shown.bs.modal', function () {
+        $('#eexam_name').focus();
+      });
       $('#detail-exam').modal('show');
       $('[name="id_exam"]').val(data.id_exam);
-      $('[name="eexam_name"]').val(data.exam_name);
+      $('[name="eexam_name_edit"]').val(data.exam_name);
       $('[name="esubject"]').val(data.id_subject).change();
       $('[name="eclass"]').val(data.id_class).change();
       $('[name="eexam_date"]').val(data.exam_date);

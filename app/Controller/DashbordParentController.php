@@ -21,16 +21,8 @@ class DashbordParentController
         ],'*', [
             "id_parent" => $id_parent,
         ]);
-        $totalnotif = $app->db->count('tbl_users', [
-            "[><]tbl_notifications" => "id_user"
-        ],'*', [
-            "id_user" => $id_parent,
-        ]);
-        $notif = $app->db->select('tbl_users', [
-            "[><]tbl_notifications" => "id_user"
-        ],'*', [
-            "id_user" => $id_parent,
-        ]);
+        $totalnotif = $app->db->count('tbl_notifications','*');
+        $notif = $app->db->select('tbl_notifications','*');
         $totaltagihan = $app->db->sum('tbl_users', [
             "[><]tbl_finances" => "id_user"
         ], 'amount_payment',[
@@ -129,7 +121,7 @@ class DashbordParentController
                 $datas['NISN'] = $m['NISN'];
                 $datas['Nama'] = $m['first_name'].' '.$m['last_name'];
                 $datas['payment_type_name'] = $m['payment_type_name'];
-                $datas['amount_payment'] = $m['amount_payment'];
+                $datas['amount_payment'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
                 // $datas['status_pembayaran'] = $m['status_pembayaran'];
                 if($m['status_pembayaran'] == "Belum Bayar"){
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
@@ -157,17 +149,19 @@ class DashbordParentController
     public static function tampil_data_result($app, $req, $rsp, $args)
     {
         $id_parent = $args['data'];
-//  var_dump($id_parent);
-
+        
         $result = $app->db->select('tbl_exam_results', [
-            '[><]tbl_classes' => 'id_class',
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+            '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+            '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
             '[><]tbl_users' => 'id_user',
-            '[><]tbl_subjects' => 'id_subject'
+            '[><]tbl_exam_grades' => 'id_exam_grade',
         ],'*', [
             "id_parent" => $id_parent,
         ]);
-        // return var_dump($result);
-
+        
+        //  var_dump($result);
 
         $columns = array(
             0 => 'id',
@@ -202,10 +196,12 @@ class DashbordParentController
                 
             ];
             $result = $app->db->select('tbl_exam_results', [
-                '[><]tbl_classes' => 'id_class',
+                '[><]tbl_exams' => 'id_exam',
+                '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+                '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+                '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
                 '[><]tbl_users' => 'id_user',
-                '[><]tbl_subjects' => 'id_subject',
-                '[><]tbl_exams' => 'id_exam'
+                '[><]tbl_exam_grades' => 'id_exam_grade',
 
             ],'*',
                 $limit
@@ -215,11 +211,12 @@ class DashbordParentController
         }
 
         $result = $app->db->select('tbl_exam_results',[
-                '[><]tbl_sections' => 'id_section',
-                '[><]tbl_classes' => 'id_class',
-                '[><]tbl_users' => 'id_user',
-                '[><]tbl_subjects' => 'id_subject',
-                '[><]tbl_exams' => 'id_exam'
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => [ "tbl_exams.id_class" =>'id_class'],
+            '[><]tbl_sections' => [ "tbl_classes.id_section" =>'id_section'],
+            '[><]tbl_subjects' => [ "tbl_exams.id_subject" =>'id_subject'],
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_exam_grades' => 'id_exam_grade',
 
         ],'*', $conditions);
 
@@ -234,6 +231,7 @@ class DashbordParentController
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'].' '.$m['section'];
                 $datas['nilai'] = $m['score'];
+                $datas['grade'] = $m['grade_name'];
                 $datas['tanggal'] = $m['date_result'];
                 
 
