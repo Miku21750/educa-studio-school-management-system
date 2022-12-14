@@ -380,21 +380,4 @@
     </div>
     </div>
     <!-- Social Media End Here -->
-
-    <script>
-        $('#dropdownYear').each(function() {
-    
-          var year = (new Date()).getFullYear();
-          var current = year;
-          year -= 1;
-          for (var i = 0; i < 6; i++) {
-            if ((year+i) == current)
-              $(this).append('<a class="dropdown-item" href="/adminDataIncome?tahun=' + (year + i) +'">' + (year + i) + '</a>              ');
-            else
-              $(this).append('<a class="dropdown-item" href="/adminDataIncome?tahun=' + (year + i) +  '">' + (year + i) + '</a>');
-          }
-        $('#tahun').html((year))
-        
-        })
-      </script>
 {% endblock content %}

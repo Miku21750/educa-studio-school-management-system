@@ -42,42 +42,45 @@
 
                             </div>
                             <div class="info-table table-responsive">
-                                <table class="table text-nowrap">
-                                    <tbody>
-                                        <input type="text" name="id_hostel" id="id_hostel" value="{{ data.id_hostel }}"
-                                            hidden>
-                                        <tr class="form-group">
-                                            <label>Nama Asrama</label>
-                                            <input type="text" placeholder="" class="form-control" id="ehostel_name_edit" name="ehostel_name">
-                                        </tr>
+                                <input type="text" name="id_hostel" id="id_hostel" value="{{ data.id_hostel }}" hidden>
+                                <div class="form-group">
+                                    <label>Nama Asrama</label>
+                                    <input type="text" placeholder="" class="form-control" id="ehostel_name_edit"
+                                        name="ehostel_name">
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>No Kamar</label>
-                                            <input type="text" placeholder="" class="form-control" id="eroom_number_edit" name="eroom_number">
-                                        </tr>
+                                <div class="form-group">
+                                    <label>No Kamar</label>
+                                    <input type="text" placeholder="" class="form-control" id="eroom_number_edit"
+                                        name="eroom_number">
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Tipe Kamar</label>
-                                            <select class="select2" id="eroom_type_edit" name="eroom_type">
-                                                <option value="">Silahkan Pilih</option>
-                                                <option value="1">Besar</option>
-                                                <option value="2">Sedang</option>
-                                                <option value="3">Kecil</option>
-                                            </select>
-                                        </tr>
+                                <div class="form-group">
+                                    <label>Tipe Kamar</label>
+                                    <select class="select2" id="eroom_type_edit" name="eroom_type">
+                                        <option value="">Silahkan Pilih</option>
+                                        <option value="1">Besar</option>
+                                        <option value="2">Sedang</option>
+                                        <option value="3">Kecil</option>
+                                    </select>
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Nomer Kasur</label>
-                                            <input type="text" placeholder="" class="form-control" id="enumber_of_bed_edit" name="enumber_of_bed">
-                                        </tr>
+                                <div class="form-group">
+                                    <label>Nomer Kasur</label>
+                                    <input type="text" placeholder="" class="form-control" id="enumber_of_bed_edit"
+                                        name="enumber_of_bed">
+                                </div>
 
-                                        <tr class="form-group">
-                                            <label>Harga Per Kasur</label>
-                                            <input type="text" placeholder="" class="form-control" id="ecost_per_bed_edit" name="ecost_per_bed">
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <button class="btn btn-warning" id="btn_update_hostel">Simpan</button>
+                                <div class="form-group">
+                                    <label>Harga Per Kasur</label>
+                                    <input type="text" placeholder="" class="form-control" id="ecost_per_bed_edit"
+                                        name="ecost_per_bed">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button class="footer-btn btn-warning" id="btn_update_hostel">Simpan</button>
+                                </div>
+                                
                             </div>
                         </div>
                     </div>
