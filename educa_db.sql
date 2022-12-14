@@ -56,6 +56,7 @@ INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUE
 CREATE TABLE `tbl_attendances` (
   `id_attendance` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `id_subject` int(11) NOT NULL,
   `tanggal` date NOT NULL,
   `absence` tinyint(2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
