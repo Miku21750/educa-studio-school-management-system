@@ -5,6 +5,7 @@
 {% block content %}
     
 <div class="row">
+    {% if session.type == 3 %}
     <!-- Add Room Area Start Here -->
     <div class="col-4-xxxl col-12">
         <div class="card height-auto">
@@ -65,6 +66,7 @@
         </div>
     </div>
     <!-- Add Room Area End Here -->
+    {% endif %}
     <!-- All Room List Area Start Here -->
     <div class="col-8-xxxl col-12">
         <div class="card height-auto">

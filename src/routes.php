@@ -1358,6 +1358,28 @@ return function (App $app) {
             return $response->withJson($dataNotice);
         }
     )->add(new Auth());
+
+    $app->get(
+        '/getNoticeS',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view'
+            // return var_dump($request->getParam('search'));
+
+            $condition = [
+                'ORDER' => [
+                    'id_notification' => 'DESC',
+                    // 'category[!]' => 'Pembayaran' 
+                ],
+            ];
+            
+            $dataNotice = $container->db->select('tbl_notifications', '*', [
+                'category[!]' => 'Pembayaran'
+            ], $condition);
+            //return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
+        }
+    )->add(new Auth());
+
     $app->get(
         '/getNoticeNavbar',
         function (Request $request, Response $response, array $args) use ($container) {
@@ -1394,6 +1416,22 @@ return function (App $app) {
             return $response->withJson($dataNotice);
         }
     )->add(new Auth());
+
+    $app->get(
+        '/getNoticeDetailsS',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view'
+            // return var_dump($request->getParam('id'));
+            $id = $request->getParam('id');
+            $dataNotice = $container->db->select('tbl_notifications', '*', [
+                'id_notification' => $id,
+                // 'category[!]' => 'Pembayaran'
+            ]);
+            //return var_dump($dataNotice);
+            return $response->withJson($dataNotice);
+        }
+    )->add(new Auth());
+
     $app->post(
         '/sendNotice',
         function (Request $request, Response $response, array $args) use ($container) {

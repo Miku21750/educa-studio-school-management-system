@@ -7,7 +7,7 @@
 <!-- Exam Schedule Area Start Here -->
 <div class="row">
   {# if admin start here #}
-  {# {% if type == "Admin" %} #}
+  {% if session.type == "Admin" %}
   <div class="col-4-xxxl col-12">
     <div class="card height-auto">
       <div class="card-body">
@@ -85,7 +85,7 @@
     </div>
   </div>
 
-  {# {% endif %} #}
+  {% endif %}
   {# if end here #}
   <div class="col-8-xxxl col-12">
     <div class="card height-auto">

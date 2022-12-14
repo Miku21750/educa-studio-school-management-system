@@ -22,6 +22,7 @@ class DashboardStudentController
         ], '*', [
             "username" => $args["username"]
         ]);
+
         // return var_dump($data_student);
         $student_array = $data_student[0];
         // return var_dump($student_array);
@@ -38,17 +39,39 @@ class DashboardStudentController
         $data_parentS = $app->db->query($querry)->fetch();
         // return var_dump($data_parentS);
 
-        // $data_student_notification = $app->db->count('tbl_notifications', [
-        //     "id_user" => $student_array['id_user']
-        // ]);
 
+        //BERDASARKAN ID USER = ID NOTIF 
         $data_student_notification = $app->db->count('tbl_users', [
             "[><]tbl_notifications" => ["id_user" => "id_notification"]
         ], '*', [
             "username" => $args['username']
         ]);
 
+
+        $id_notif = $app->db->select('tbl_notifications', 'id_notification', [
+            "category" => "event"
+        ]);
+
+        $data_notice = $app->db->count('tbl_notifications', '*', [
+            "category[!]" => "pembayaran"
+        ]);
+        $view_noticeEx = $app->db->select('tbl_notifications', '*', [
+            "category" => "exam"
+        ]);
+        $view_noticeEv = $app->db->select('tbl_notifications', '*', [
+            "category" => "event"
+        ]);
+        $view_noticeP = $app->db->select('tbl_notifications', '*', [
+            "category" => "Pengumuman_Sekolah"
+        ]);
+        $event_notice = $app->db->count('tbl_notifications', '*', [
+            "category" => "Event"
+        ]);
+
+
+
         // JOIN
+        //BERDASARKAN ID USER = ID NOTIF 
         $view_student_notification = $app->db->select('tbl_users', [
             "[><]tbl_notifications" => ["id_user" => "id_notification"]
         ], '*', [
@@ -56,23 +79,36 @@ class DashboardStudentController
             "username" => $args["username"]
         ]);
 
-        // $data_student_attendance = $app->db->count('tbl_attendances', [
-        //     "id_user" => $student_array['id_user']
-        // ]);
-        $data_student_attendance = $app->db->count('tbl_users', [
-            "[><]tbl_attendances" => ["id_user" => "id_user"]
-        ], '*', [
-            "username" => $args["username"]
+        $data_student_attendance = $app->db->count('tbl_attendances', [
+            "id_user" => $_SESSION['id_user']
         ]);
+
+        // $data_student_attendance = $app->db->count('tbl_users', [
+        //     "[><]tbl_attendances" => ["id_user" => "id_user"]
+        // ], '*', [
+        //     "username" => $args["username"]
+        // ]);
+
         // return var_dump($data_student_attendance);
         $data_student_absent = 120 - $data_student_attendance;
 
+        $data_student_absent1 = $data_student_attendance - $data_student_attendance;
+
+        // ABSEN BERDASARKAN SEMESTER
         $presentaseKehadiran1 = floor($data_student_attendance / 120 * 100);
+
+        // ABSEN BERDASARKAN JUMLAH DATA PADA TABEL(DATABASE)
+        $presentaseKehadiran2 = floor($data_student_attendance / $data_student_attendance * 100);
 
         $presentaseKehadiran = number_format((float) $data_student_attendance / 120 * 100, 1, '.', '');
         // return var_dump($presentaseKehadiran);
+        $presentaseKehadiran3 = number_format((float) $data_student_attendance / $data_student_attendance * 100, 1, '.', '');
+
+
         $presentaseAbsen = number_format((float) $data_student_absent / 120 * 100, 1, '.', '');
         // return var_dump($presentaseAbsen);
+        $presentaseAbsen1 = number_format((float) $data_student_absent1 / $data_student_attendance * 100, 1, '.', '');
+        // return var_dump($presentaseAbsen1);
 
         $data_student_exam = $app->db->select('tbl_exams', [
             "[><]tbl_exam_results" => ["id_exam" => "id_exam"]
@@ -88,14 +124,23 @@ class DashboardStudentController
 
         return $app->get('view')->render($response, 'dashboard/student.html', array(
             // "data2" => $data2,
+            "id_notif" => $id_notif,
             "data_student" => $data_student,
             "data_parentS" => $data_parentS,
             "data_student_notification" => $data_student_notification,
             "view_student_notification" => $view_student_notification,
+            "data_notice" => $data_notice,
+            "view_noticeEx" => $view_noticeEx,
+            "view_noticeEv" => $view_noticeEv,
+            "view_noticeP" => $view_noticeP,
+            "event_notice" => $event_notice,
             "data_student_attendance" => $data_student_attendance,
             "presentaseKehadiran1" => $presentaseKehadiran1,
+            "presentaseKehadiran2" => $presentaseKehadiran2,
+            "presentaseKehadiran3" => $presentaseKehadiran3,
             "presentaseKehadiran" => $presentaseKehadiran,
             "presentaseAbsen" => $presentaseAbsen,
+            "presentaseAbsen1" => $presentaseAbsen1,
             // "dataExam" => $dataExam,
             "data_student_exam" => $data_student_exam,
             // "data_student_examR" => $data_student_exam_result,
@@ -106,6 +151,7 @@ class DashboardStudentController
             'username' => $_SESSION['username']
 
         ));
+
     }
 
     public static function apiDataM($app, $request, $response, $args)
@@ -124,6 +170,7 @@ class DashboardStudentController
 
         $presentaseAbsen = number_format((float) $data_student_absent / 120 * 100, 1, '.', '');
         // return var_dump($presentaseAbsen);
+        // $presentaseAbsen1 = number_format((float) $data_student_absent1 / $data_student_attendance * 100, 1, '.', '');
 
         return $response->withJson([
             "presentaseKehadiranM" => $presentaseKehadiran,
@@ -140,6 +187,10 @@ class DashboardStudentController
             '[>]tbl_subjects' => ['id_subject' => 'id_subject']
         ], '*', [
             "tbl_exam_results.id_user" => $_SESSION['id_user'],
+            "ORDER" => [
+                "subject_name" => "ASC",
+                "score" => "ASC"
+            ]
         ]);
         // return var_dump($result);
 
@@ -160,7 +211,11 @@ class DashboardStudentController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            'tbl_exam_results.id_user' => $_SESSION['id_user']
+            'tbl_exam_results.id_user' => $_SESSION['id_user'],
+            "ORDER" => [
+                "subject_name" => "ASC",
+                "score" => "ASC"
+            ]
         ];
 
         if (!empty($req->getParam('search')['value'])) {
