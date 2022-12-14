@@ -57,7 +57,9 @@ INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUE
 CREATE TABLE `tbl_attendances` (
   `id_attendance` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
+  `id_subject` int(6) NOT NULL,
   `tanggal` date NOT NULL,
+  `absence` tinyint(2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -66,14 +68,11 @@ CREATE TABLE `tbl_attendances` (
 -- Dumping data untuk tabel `tbl_attendances`
 --
 
-INSERT INTO `tbl_attendances` (`id_attendance`, `id_user`, `tanggal`, `created_at`, `update_at`) VALUES
-(1, 9, '2022-12-05', '2022-12-04 17:00:00', '2022-12-05 04:46:00'),
-(2, 9, '2022-12-06', '2022-12-05 02:23:43', '2022-12-05 02:23:43'),
-(3, 9, '2022-12-07', '2022-12-05 02:24:55', '2022-12-05 02:24:55'),
-(4, 9, '2022-12-08', '2022-12-05 02:24:55', '2022-12-05 02:24:55'),
-(5, 9, '2022-12-09', '2022-12-05 03:11:57', '2022-12-05 03:11:57'),
-(6, 9, '2022-12-12', '2022-12-05 03:24:26', '2022-12-05 03:24:26'),
-(7, 9, '2022-12-13', '2022-12-05 03:24:26', '2022-12-05 03:24:26');
+INSERT INTO `tbl_attendances` (`id_attendance`, `id_user`, `id_subject`, `tanggal`, `absence`, `created_at`, `update_at`) VALUES
+(31, 0, 1, '2022-12-14', 0, '2022-12-14 08:11:33', '2022-12-14 08:11:33'),
+(32, 2, 1, '2022-12-14', 0, '2022-12-14 08:17:53', '2022-12-14 08:17:53'),
+(33, 112, 1, '2022-12-14', 1, '2022-12-14 08:17:53', '2022-12-14 08:37:03'),
+(34, 0, 2, '2022-12-14', 0, '2022-12-14 08:30:59', '2022-12-14 08:30:59');
 
 -- --------------------------------------------------------
 
