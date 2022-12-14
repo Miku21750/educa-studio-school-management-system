@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 14 Des 2022 pada 10.11
+-- Waktu pembuatan: 14 Des 2022 pada 10.23
 -- Versi server: 10.1.37-MariaDB
 -- Versi PHP: 7.0.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,7 +32,7 @@ CREATE TABLE `tbl_admissions` (
   `id_admission` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `admission_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_admissions`
@@ -45,7 +46,8 @@ INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUE
 (5, 124, '2022-12-07'),
 (6, 7, '2022-12-07'),
 (7, 8, '2022-12-07'),
-(8, 127, '2022-12-07');
+(8, 127, '2022-12-07'),
+(9, 112, '2022-12-14');
 
 -- --------------------------------------------------------
 
@@ -88,7 +90,7 @@ CREATE TABLE `tbl_books` (
   `publish_date` date NOT NULL,
   `upload_date` date NOT NULL,
   `code_book` varchar(15) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_books`
@@ -111,7 +113,7 @@ CREATE TABLE `tbl_classes` (
   `id_class` int(11) NOT NULL,
   `id_section` int(11) NOT NULL,
   `class` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_classes`
@@ -140,7 +142,7 @@ CREATE TABLE `tbl_class_routines` (
   `school_day` enum('Senin','Selasa','Rabu','Kamis','Jumat') DEFAULT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_class_routines`
@@ -169,7 +171,7 @@ CREATE TABLE `tbl_exams` (
   `exam_start` time DEFAULT NULL,
   `exam_end` time NOT NULL,
   `id_subject` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_exams`
@@ -194,7 +196,7 @@ CREATE TABLE `tbl_exam_grades` (
   `percent_upto` int(11) NOT NULL,
   `grade_desc` varchar(20) NOT NULL,
   `grade_point` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_exam_grades`
@@ -226,7 +228,7 @@ CREATE TABLE `tbl_exam_results` (
   `id_section` int(11) DEFAULT NULL,
   `score` int(11) NOT NULL,
   `date_result` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_exam_results`
@@ -261,7 +263,7 @@ CREATE TABLE `tbl_finances` (
   `amount_payment` int(11) NOT NULL,
   `status_pembayaran` enum('Dibayar','Belum Bayar') NOT NULL,
   `date_payment` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_finances`
@@ -305,7 +307,7 @@ CREATE TABLE `tbl_hostels` (
   `room_type` varchar(10) NOT NULL,
   `number_of_bed` int(11) NOT NULL,
   `cost_per_bed` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_hostels`
@@ -328,9 +330,9 @@ CREATE TABLE `tbl_messages` (
   `sender_email` varchar(50) NOT NULL,
   `title` varchar(25) NOT NULL,
   `message` varchar(255) NOT NULL,
-  `time_sended` timestamp NOT NULL DEFAULT current_timestamp(),
+  `time_sended` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `readed` tinyint(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_messages`
@@ -360,10 +362,10 @@ CREATE TABLE `tbl_notifications` (
   `title` varchar(50) NOT NULL,
   `details` varchar(100) NOT NULL,
   `posted_by` varchar(50) NOT NULL,
-  `date_notice` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `date_notice` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `terbaca` tinyint(2) NOT NULL,
   `category` enum('Pengumuman_Sekolah','Event','Pembayaran','Exam') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_notifications`
@@ -386,7 +388,7 @@ INSERT INTO `tbl_notifications` (`id_notification`, `title`, `details`, `posted_
 CREATE TABLE `tbl_payment_types` (
   `id_payment_type` int(11) NOT NULL,
   `payment_type_name` varchar(25) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_payment_types`
@@ -407,7 +409,7 @@ INSERT INTO `tbl_payment_types` (`id_payment_type`, `payment_type_name`) VALUES
 CREATE TABLE `tbl_sections` (
   `id_section` int(11) NOT NULL,
   `section` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_sections`
@@ -430,7 +432,7 @@ CREATE TABLE `tbl_subjects` (
   `id_subject` int(11) NOT NULL,
   `subject_name` varchar(25) NOT NULL,
   `subject_type` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_subjects`
@@ -465,7 +467,7 @@ CREATE TABLE `tbl_transports` (
   `license_number` varchar(25) NOT NULL,
   `phone_number` varchar(25) NOT NULL,
   `id_driver` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_transports`
@@ -512,23 +514,23 @@ CREATE TABLE `tbl_users` (
   `blood_group` char(5) DEFAULT NULL,
   `occupation` varchar(255) NOT NULL,
   `phone_user` varchar(25) NOT NULL,
-  `address_user` text DEFAULT NULL,
+  `address_user` text,
   `class` varchar(255) DEFAULT NULL,
   `status` tinyint(2) NOT NULL,
-  `short_bio` text DEFAULT NULL,
+  `short_bio` text,
   `admission_status` varchar(11) DEFAULT NULL,
   `admission_date` date DEFAULT NULL,
-  `create_at` timestamp NULL DEFAULT current_timestamp(),
-  `update_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
+  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `delete_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_users`
 --
 
 INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_subject`, `id_hostel`, `id_trans`, `id_user_type`, `id_parent`, `id_student`, `session`, `first_name`, `last_name`, `gender`, `date_of_birth`, `username`, `password`, `religion`, `email`, `NISN`, `photo_user`, `blood_group`, `occupation`, `phone_user`, `address_user`, `class`, `status`, `short_bio`, `admission_status`, `admission_date`, `create_at`, `update_at`, `delete_at`) VALUES
-(2, 1, 0, 0, 0, 1, 1, 48, 0, '', 'doni', 'billar', 'Laki-laki', '2012-11-15', 'random', 'random', 'other', 'oniworld@oniworld.com', 9987, 'default.png', NULL, '', '+628963333930', 'random', '1', 0, 'random', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
+(2, 2, 0, 0, 0, 1, 1, 48, 0, '2023-2024', 'doni', 'billar', 'Laki-laki', '2012-11-15', 'random', 'random', 'other', 'oniworld@oniworld.com', 9987, 'default.png', NULL, '', '+628963333930', 'random', '1', 0, 'random', NULL, NULL, '2022-12-07 03:11:44', '2022-12-14 09:20:50', NULL),
 (3, 0, 0, 0, 0, 1, 1, 48, 0, '', 'Art', 'Ankunding', 'Perempuan', '0000-00-00', 'gaylord.schoen', '3e9cab5ae2ae061f1654f0d141bb77f0693f615f', 'hindu', 'moore.eveline@example.net', 9864, 'default.png', 'b', '', '793-284-4861', '5934 Jacinto Crossroad Apt. 364\r\nOlsonmouth, KS 30988', '1', 0, 'Necessitatibus error atque delectus ipsa libero. Harum quasi assumenda quos illum. Maiores et ipsam iusto at ea qui quibusdam. Eligendi iure libero aut quia quia vero autem.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-09 06:11:39', NULL),
 (4, 1, 0, 0, 0, 1, 1, 48, 0, '', 'Emily', 'Aufderhar', 'Perempuan', '0000-00-00', 'so\'keefe', 'ab3a0ba6b3d3ffc9834f76574dd2c3ec9438a795', 'kristen', 'briana.weimann@example.net', 9861, 'default.png', NULL, '', '1-688-563-2931x133', '1691 Rice Underpass\r\nNorth Valentinamouth, ID 91399', '1', 0, 'Dolore inventore iure repudiandae qui consequatur accusamus. Recusandae dolorem quam est saepe sed unde soluta. Atque id qui deleniti aut repellat. Maxime quaerat ut corrupti et et enim sint.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (5, 1, 0, 0, 0, 1, 1, 48, 0, '', 'Ida', 'Roberts', 'Perempuan', '0000-00-00', 'swilderman', '2e54bd48cabbb48a57c87ecc6575d6871117c177', 'islam', 'clifford61@example.com', 0, 'default.png', NULL, '', '1-357-343-0969x83055', '002 Connelly Canyon Apt. 917\r\nNew Joyburgh, WA 46394', '1', 0, 'Libero earum dolor possimus accusantium vitae fugiat ratione. Cumque cumque tempore et est dolore rerum voluptatem molestiae. Quas sunt omnis asperiores dolor provident culpa inventore.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
@@ -631,7 +633,7 @@ INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_subject`, `id_
 (101, 3, 0, 0, 0, 1, 3, 0, 0, '', 'Maida', 'Cummings', 'Laki-laki', '0000-00-00', 'xemmerich', 'c2c8433e159ca1f1a0bd62d8cfd90d2dd64d639b', 'kristen', 'pmosciski@example.net', 0, 'default.png', 'ab', '', '(264)015-2705', '8484 Reece Tunnel Suite 836\r\nNew Julianaview, GA 57745', '1', 0, 'Odio non et eos qui dolor saepe est eum. Harum id explicabo quis exercitationem hic. Neque architecto cupiditate ullam voluptas. Quas cumque illo illum est harum. Corrupti facilis cumque earum quo', NULL, NULL, '2022-12-07 03:11:44', '2022-12-07 03:24:51', NULL),
 (103, 0, 0, 0, 0, 0, 3, 0, 0, '', 'Miku21', 'Margareth', 'Laki-laki', '2005-04-24', 'miku21', 'miku21', 'Attack Helicopter', 'rafaelfarizi1@gmail.com', 0, '20221207042526-20220929-133008.jpg', 'AB', 'Pullstack Wengdev', '6287731137512', 'Indonesia', NULL, 1, 'Miku21 wengdev on Lorem Ipsum', NULL, NULL, '2022-12-07 03:13:24', '2022-12-07 03:25:26', NULL),
 (111, 0, 0, 0, 0, 0, 2, 0, 0, '', '', '', 'Laki-laki', '0000-00-00', 'miku21comunity', 'miku21', '', 'mikucomunity21@gmail.com', 0, '20221207105642-794cdf8bd464220d70698e3af1179178.jpg', '', '', '', '', NULL, 1, '', NULL, NULL, '2022-12-07 09:32:10', '2022-12-07 10:00:05', NULL),
-(112, 0, 0, 0, 0, 0, 1, 0, 0, '', 'Leute Ruth', 'Leciepent', '', '2004-07-24', 'ruth02', 'ruth02cans', 'Flying Dutchman', 'laruthm02@gmail.com', 0, '20221208093903-468944.jpg', 'B', 'Sinner', '62877311375121', 'Cimahi', NULL, 1, 'Ora pro nobis, sancta Dei Genitrix', NULL, NULL, '2022-12-08 08:32:27', '2022-12-08 08:39:03', NULL),
+(112, 2, 0, 0, 0, 0, 1, 0, 0, '2023-2024', 'Leute Ruth', 'Leciepent', '', '2004-07-24', 'ruth02', 'ruth02cans', 'Flying Dutchman', 'laruthm02@gmail.com', 0, '20221208093903-468944.jpg', 'B', 'Sinner', '62877311375121', 'Cimahi', NULL, 1, 'Ora pro nobis, sancta Dei Genitrix', NULL, NULL, '2022-12-08 08:32:27', '2022-12-14 09:21:09', NULL),
 (113, 0, 0, 0, 0, 0, 4, 0, 0, '', 'Belum', 'Ada', '', '0000-00-00', '', '', '', '', 0, NULL, NULL, '', '', NULL, NULL, 0, NULL, NULL, NULL, '2022-12-09 06:10:34', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -643,7 +645,7 @@ INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_section`, `id_subject`, `id_
 CREATE TABLE `tbl_user_types` (
   `id_user_type` int(11) NOT NULL,
   `user_type` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `tbl_user_types`
@@ -792,7 +794,7 @@ ALTER TABLE `tbl_user_types`
 -- AUTO_INCREMENT untuk tabel `tbl_admissions`
 --
 ALTER TABLE `tbl_admissions`
-  MODIFY `id_admission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_admission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT untuk tabel `tbl_attendances`
