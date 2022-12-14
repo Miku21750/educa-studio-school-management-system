@@ -33,20 +33,19 @@ class ClassController
     {
 
         $data = $app->db->select(
-            'tbl_users',
+            'tbl_users(a)',
             [
-                "[>]tbl_classes" => ["id_class" => "id_class"],
+                "[>]tbl_classes" => "id_class",
                 "[>]tbl_sections" => ["tbl_classes.id_section" => "id_section"]
 
             ],
+           '*',
             [
-                'id_user',
-            ],
-            [
-                "id_user_type" => 2
+                "id_user_type" => 2,
+                "a.id_class[!]" => 0,
             ]
         );
-
+        // return die(var_dump($data));
         $columns = array(
             0 => 'id',
         );
@@ -62,7 +61,9 @@ class ClassController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            "id_user_type" => 2
+            "id_user_type" => 2,
+            "a.id_class[!]" => 0,
+
 
         ];
 
@@ -70,7 +71,8 @@ class ClassController
             $search = $request->getParam('search')['value'];
             $limit = [
                 "LIMIT" => [$start, $limit],
-                "id_user_type" => 2
+                "id_user_type" => 2,
+                "a.id_class[!]" => 0,
 
             ];
             $conditions['OR'] = [
@@ -79,13 +81,13 @@ class ClassController
 
             ];
             $data = $app->db->select(
-                'tbl_users',
+                'tbl_users(a)',
                 [
-                    "[>]tbl_classes" => ["id_class" => "id_class"],
+                    "[>]tbl_classes" => "id_class",
                     "[>]tbl_sections" => ["tbl_classes.id_section" => "id_section"]
-
+    
                 ],
-                '*',
+               '*',
                 // $limit,
                 $conditions
             );
@@ -95,23 +97,13 @@ class ClassController
         }
 
         $list = $app->db->select(
-            'tbl_users',
+            'tbl_users(a)',
             [
-                "[>]tbl_classes" => ["id_class" => "id_class"],
+                "[>]tbl_classes" => "id_class",
                 "[>]tbl_sections" => ["tbl_classes.id_section" => "id_section"]
+
             ],
-            [
-                'tbl_classes.id_class',
-                'NISN',
-                'first_name',
-                'last_name',
-                'gender',
-                'tbl_classes.id_class',
-                'tbl_classes.class',
-                'tbl_sections.section',
-                'phone_user',
-                'email',
-            ],
+           '*',
             $conditions
         );
 

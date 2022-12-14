@@ -517,7 +517,46 @@ class ExamController{
         );
         // return var_dump($data);
         echo json_encode($json_data);
-    }       
+    }  
+    public static function result_detail($app, $request, $response, $args)
+    {
+        $id_result = $args['data'];
+        // var_dump($id_exam);
+
+        $data = $app->db->get('tbl_exam_results',[
+            '[><]tbl_users' => 'id_user',
+
+        ], '*', [
+            'id_result' => $id_result
+        ]);
+        // return var_dump($data);
+      
+
+        return $response->withJson($data);
+
+     
+    }  
+    public static function update_result_detail($app, $request, $response, $args)
+    {
+        $data = $args['data'];
+        
+        $update = $app->db->update('tbl_exam_results', [
+            "id_user" => $data['id_user'],
+            "id_exam" => $data['id_exam'],
+            "id_exam_grade" => $data['id_exam_grade'],
+            "score" => $data['score'],
+        ], [
+            "id_result" => $data['id_result']
+        ]);
+        // return var_dump($update);
+
+        $json_data = array(
+            "draw"            => intval($request->getParam('draw')),
+        );
+        echo json_encode($json_data);
+
+        // return var_dump($update);
+    }   
 
     
 

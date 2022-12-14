@@ -789,6 +789,26 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->get(
+                '/{id}/result-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return ExamController::result_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/update-result-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return ExamController::update_result_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 
