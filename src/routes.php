@@ -1130,6 +1130,30 @@ return function (App $app) {
         }
     )->add(new Auth());
     $app->get(
+        '/admin-student-attendence',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            // $class = $container->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
+            $class = $container->db->select('tbl_classes', [
+                '[>]tbl_sections' => 'id_section'
+            ],'*');
+            $subject = $container->db->select('tbl_subjects', '*');
+            // SELECT session FROM `tbl_users` WHERE session != 0 GROUP BY session
+            $sessionAttend = $container->db->select('tbl_users','session',[
+                'session[!]'=>0,
+                'GROUP'=>[
+                    'session'
+                    ]
+                ]);
+                // return die(var_dump($sessionAttend));
+            $container->view->render($response, 'others/admin-student-attendance.html', [
+                'class' => $class,
+                'subject' => $subject,
+                'sessionAttend' => $sessionAttend
+            ]);
+        }
+    )->add(new Auth());
+    $app->get(
         '/viewAttendSheet',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
@@ -1188,7 +1212,8 @@ return function (App $app) {
                 for ($i = 0; $i<$checkTotalStudent; $i++){
                     $checkValidTotalStudent = $container->db->select('tbl_attendances','tanggal',[
                         'id_subject'=>$dataRequest['subject'],
-                        'id_user'=>$dataStudentArrivedInAttend[$i]['id_user']
+                        'id_user'=>$dataStudentArrivedInAttend[$i]['id_user'],
+                        'absence'=>1
                     ]);
                     // $checkStudentDateIfExistChecklist = $checkValidTotalStudent;
                     array_push($checkStudentDateIfExistChecklist, $checkValidTotalStudent);
@@ -1228,13 +1253,28 @@ return function (App $app) {
             $dataRequest = $request->getParsedBody();
 
             $allValues = count($dataRequest['user']);
-            //return die(var_dump($dataRequest));
+            // return die(var_dump($dataRequest));
             for ($i = 0; $i < $allValues;$i++){
-                $container->db->insert('tbl_attendances', [
-                    'id_user'=>$dataRequest['user'][$i],
-                    'id_subject'=>$dataRequest['subject'][1],
-                    'tanggal'=>$dataRequest['date'][$i]
+                $checkIfExistUpdate = $container->db->select('tbl_attendances', 'id_attendance', [
+                    'id_user' => $dataRequest['user'][$i],
+                    'id_subject' => $dataRequest['subject'][1],
+                    'tanggal' => $dataRequest['date'][$i]
                 ]);
+                // return die(var_dump($checkIfExistUpdate));
+                if($checkIfExistUpdate != null){
+                    $container->db->update('tbl_attendances', [
+                        'absence' => $dataRequest['absence'][$i]
+                    ],[
+                        'id_attendance'=>$checkIfExistUpdate[0]
+                    ]);
+                } else {
+                    $container->db->insert('tbl_attendances', [
+                        'id_user' => $dataRequest['user'][$i],
+                        'id_subject' => $dataRequest['subject'][1],
+                        'tanggal' => $dataRequest['date'][$i],
+                        'absence' => $dataRequest['absence'][$i]
+                    ]);
+                }
             }
             return $response->withJson(array('success' => true));
 
@@ -1686,14 +1726,58 @@ return function (App $app) {
     $app->get(
         '/all-account',
         function (Request $request, Response $response, array $args) use ($container) {
-            $data = $container->db->select('tbl_users', '*', [
-                'id_user_type' => 3,
-            ]);
+
+            // $data = $container->db->select('tbl_users', '*');
             // return var_dump($data);
             // Render index view
-            $container->view->render($response, 'others/account/all-account.html', [
-                'data' => $data,
-            ]);
+            // $container->view->render($response, 'others/account/all-account.html', [
+            //     'data'=> $data
+            // ]);
+            $container->view->render($response, 'others/account/all-account.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getAllAccount',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $search = $request->getParam('search') ?? '';
+            $account = $container->db->select('tbl_users','*');
+        // return var_dump($search);
+        // die();
+     
+
+        $totaldata = count($account);
+        $totalfiltered = $totaldata;
+        $conditions = [
+            'id_user[!]'=>0 
+        ];
+        if (!empty($request->getParam('search'))) {
+            $search = $request->getParam('search');
+            $conditions['OR'] = [
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+                'tbl_users.username[~]' => '%' . $search . '%',
+                'tbl_user_types.user_type[~]' => '%' . $search . '%',
+
+            ];
+            $account = $container->db->select('tbl_users',[
+                '[><]tbl_user_types'=>'id_user_type'
+            ],'*',
+                $conditions
+            );
+            $totaldata = count($account);
+            $totalfiltered = $totaldata;
+        }
+        
+        $account = $container->db->select('tbl_users',[
+            '[><]tbl_user_types'=>'id_user_type'
+        ],'*', $conditions);
+        $data = array();
+        // return var_dump($account);
+        if(!empty($account)){
+
+            return $response->withJson(array('account'=>$account,'totalData'=>$totalfiltered));
+        }
+            // return var_dump($data);
         }
     )->add(new Auth());
     $app->get(
