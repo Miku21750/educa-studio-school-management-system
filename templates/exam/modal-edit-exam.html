@@ -45,13 +45,13 @@
                                 <input type="text" name="id_exam" id="id_exam" value="{{ data.id_exam }}" hidden>
                                 <div class="form-group">
                                     <label>Nama Ujian</label>
-                                    <input type="text" placeholder="" class="form-control" id="eexam_name"
-                                        name="eexam_name" />
+                                    <input type="text" placeholder="" class="form-control" id="eexam_name_edit"
+                                        name="eexam_name_edit" />
                                 </div>
 
                                 <div class="form-group">
                                     <label>Mata Pelajaran *</label>
-                                    <select class="select2" name="esubject" id="esubject">
+                                    <select class="select2" name="esubject" id="esubject_edit">
                                         <option value="">Pilih Mata Pelajaran *</option>
                                         {% for i in subject %}
                                         <option value="{{i.id_subject}}">{{ i.subject_name }}</option>
@@ -61,7 +61,7 @@
 
                                 <div class="form-group">
                                     <label>Kelas *</label>
-                                    <select class="select2" name="eclass" id="eclass">
+                                    <select class="select2" name="eclass" id="eclass_edit">
                                         <option value="">Pilih Kelas *</option>
                                         {% for i in class %}
                                         <option value="{{i.id_class}}">{{ i.class }} {{ i.section }}</option>

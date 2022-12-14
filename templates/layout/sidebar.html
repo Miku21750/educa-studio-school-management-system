@@ -163,7 +163,7 @@
         </ul>
       </li>
       {% endif %} 
-      {% if session.type == 3 or session.type == 2 %}
+      {% if session.type == 3 or session.type == 2 or session.type == 1 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i
@@ -177,11 +177,13 @@
               ><i class="fas fa-angle-right"></i>All Classes</a
             >
           </li>
+          {% if session.type == 3 or session.type == 2 %}
           <li class="nav-item">
             <a href="/add-class" class="nav-link"
               ><i class="fas fa-angle-right"></i>Add New Class</a
             >
           </li>
+          {% endif %}
         </ul>
       </li>
       {% endif %}
@@ -209,14 +211,14 @@
       </li>
       {% endif %}
 
-      {% if  session.type == "Student" or session.type == 3 or session.type == 2 or session.type == 4 %}
+      {% if  session.type == "1" or session.type == 3 or session.type == 2 or session.type == 4 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i class="flaticon-shopping-list"></i><span>Exam</span></a
         >
 
         <ul class="nav sub-group-menu">
-          {% if  session.type == "Student" or session.type == 3 or session.type == 2  %}
+          {% if  session.type == "1" or session.type == 3 or session.type == 2  %}
           <li class="nav-item">
             <a href="/exam-schedule" class="nav-link"
               ><i class="fas fa-angle-right"></i>Exam Schedule</a
@@ -241,7 +243,7 @@
       </li>
       {% endif %}
 
-      {% if  session.type == "Student" or session.type == 3 or session.type == 2  %}
+      {% if  session.type == "1" or session.type == 3 or session.type == 2  %}
 
       <li class="nav-item">
         <a href="/transport" class="nav-link"
