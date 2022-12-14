@@ -27,7 +27,7 @@ content %}
           <div class="row">
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Nama Mata Pelajaran *</label>
-              <select class="select2" id="subject_name" required>
+              <select class="select2" id="subject_name" autofocus required>
                 <option value="">Silahkan pilih</option>
                 {% for d in subject %}
                 <option value="{{d.id_subject}}">{{d.subject_name}}</option>
@@ -414,12 +414,12 @@ content %}
         }
       },
       "columnDefs": [
-        { "width": "5%", "targets": 0, className: "text-center", "orderable": false },
-        { "width": "25%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "20%", "targets": 1, className: "text-start", "orderable": false },
         { "width": "20%", "targets": 2, className: "text-start", "orderable": false },
-        { "width": "5%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
         { "width": "20%", "targets": 4, className: "text-start", "orderable": false },
-        { "width": "25%", "targets": 5, className: "text-start", "orderable": false },
+        { "width": "20%", "targets": 5, className: "text-start", "orderable": false },
 
 
 
@@ -440,7 +440,6 @@ content %}
         { 'data': 'section' },
         { 'data': 'teacher_name' },
         { 'data': 'time' },
-        // { 'data': '' },
       ],
     });
 

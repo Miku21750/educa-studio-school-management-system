@@ -27,7 +27,7 @@
                 <div class="student-info">
                     <div class="media media-none--xs">
                         <div class="item-img">
-                            <img src="img/figure/student.png" class="media-img-auto" alt="student">
+                            <img src="uploads/Profile/{{data_parentS.photo}}" alt="student" />
                         </div>
                         <div class="media-body">
                             <h3 class="item-title">{{student.first_name}} {{student.last_name}}</h3>
@@ -119,8 +119,8 @@
                         <div class="col-6">
                             <div class="item-content">
                                 <div class="item-title">Pemberitahuan</div>
-                                <div class="item-number"><span class="counter"
-                                        data-num="{{data_student_notification}}">12</span></div>
+                                <div class="item-number"><span class="counter" data-num="{{data_notice}}">12</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -137,7 +137,7 @@
                         <div class="col-6">
                             <div class="item-content">
                                 <div class="item-title">Acara</div>
-                                <div class="item-number"><span class="counter" data-num="">06</span></div>
+                                <div class="item-number"><span class="counter" data-num="{{event_notice}}">06</span></div>
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                             <div class="item-content">
                                 <div class="item-title">Kehadiran</div>
                                 <div class="item-number"><span class="counter"
-                                        data-num="{{presentaseKehadiran1}}"></span><span>%</span></div>
+                                        data-num="{{presentaseKehadiran2}}"></span><span>%</span></div>
                             </div>
                         </div>
                     </div>
@@ -202,356 +202,6 @@
                                 </tbody>
                             </table>
                         </div>
-
-                        <!-- <div class="table-box-wrap">
-                            <form class="search-form-box">
-                                <div class="row gutters-8">
-                                    <div class="col-lg-4 col-12 form-group">
-                                        <input type="text" placeholder="Search by Exam ..." class="form-control">
-                                    </div>
-                                    <div class="col-lg-3 col-12 form-group">
-                                        <input type="text" placeholder="Search by Subject ..." class="form-control">
-                                    </div>
-                                    <div class="col-lg-3 col-12 form-group">
-                                        <input type="text" placeholder="dd MM YYYY" class="form-control">
-                                    </div>
-                                    <div class="col-lg-2 col-12 form-group">
-                                        <button type="submit" class="fw-btn-fill btn-gradient-yellow">CARI</button>
-                                    </div>
-                                </div>
-                            </form>
-                            <div class="table-responsive result-table-box">
-                                <input type="text" class="form-control " id="id" data-result="{{id_user}}"
-                                    value="{{id_user}}" hidden>
-                                <table class="table text-nowrap" id="x"></table>
-                                <thead>
-                                    <tr>
-                                        <th>NISN</th>
-                                        <th>Nama</th>
-                                        <th>Nama Ujian</th>
-                                        <th>Mata Pelajaran</th>
-                                        <th>Kelas</th>
-                                        <th>Nilai</th>
-                                        <th>Tanggal</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for data_student_exam in data_student_exam %}
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#{{id_user}}</label>
-                                                </div>
-                                            </td>
-                                            <td>{{data_student_exam.exam_name}}</td>
-                                            <td>{{data_student_exam.id_subject}}</td>
-                                            <td>
-                                                {% if data_student_exam.score >= 90 %}
-                                                A
-                                                {% elseif data_student_exam.score >= 80 %}
-                                                B
-                                                {% elseif data_student_exam.score >= 60 %}
-                                                C
-                                                {% else %}
-                                                D
-                                                {% endif %}
-                                            </td>
-                                            <td>{{data_student_exam.score}}.00 > 100</td>
-                                            <td>{{data_student_exam.exam_date|date("d M Y")}}</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0021</label>
-                                                </div>
-                                            </td>
-                                            <td>Class Test</td>
-                                            <td>English</td>
-                                            <td>A</td>
-                                            <td>99.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0022</label>
-                                                </div>
-                                            </td>
-                                            <td>Class Test</td>
-                                            <td>English</td>
-                                            <td>A</td>
-                                            <td>99.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0023</label>
-                                                </div>
-                                            </td>
-                                            <td>Class Test</td>
-                                            <td>Chemistry</td>
-                                            <td>A</td>
-                                            <td>99.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0024</label>
-                                                </div>
-                                            </td>
-                                            <td>Class Test</td>
-                                            <td>English</td>
-                                            <td>A</td>
-                                            <td>99.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0025</label>
-                                                </div>
-                                            </td>
-                                            <td>Class Test</td>
-                                            <td>Chemistry</td>
-                                            <td>A</td>
-                                            <td>99.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0025</label>
-                                                </div>
-                                            </td>
-                                            <td>Class Test</td>
-                                            <td>Chemistry</td>
-                                            <td>D</td>
-                                            <td>70.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0025</label>
-                                                </div>
-                                            </td>
-                                            <td>Class Test</td>
-                                            <td>English</td>
-                                            <td>C</td>
-                                            <td>80.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0025</label>
-                                                </div>
-                                            </td>
-                                            <td>Class Test</td>
-                                            <td>English</td>
-                                            <td>B</td>
-                                            <td>99.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input">
-                                                    <label class="form-check-label">#0025</label>
-                                                </div>
-                                            </td>
-                                            <td>First Semister</td>
-                                            <td>English</td>
-                                            <td>A</td>
-                                            <td>99.00 > 100</td>
-                                            <td>22/02/2019</td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <a href="#" class="dropdown-toggle"
-                                                        data-toggle="dropdown" aria-expanded="false">
-                                                        <span
-                                                            class="flaticon-more-button-of-three-dots"></span>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-times text-orange-red"></i>Close</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i
-                                                                class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                </tbody>
-                                </table>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>
@@ -587,11 +237,11 @@
                 <div class="student-report">
                     <div class="student-count pseudo-bg-blue">
                         <h4 class="item-title">Tidak Hadir</h4>
-                        <div class="item-number">{{presentaseAbsen}}%</div>
+                        <div class="item-number">{{presentaseAbsen1}}%</div>
                     </div>
                     <div class="student-count pseudo-bg-yellow">
                         <h4 class="item-title">Hadir</h4>
-                        <div class="item-number">{{presentaseKehadiran}}%</div>
+                        <div class="item-number">{{presentaseKehadiran3}}%</div>
                     </div>
                 </div>
             </div>
@@ -623,7 +273,67 @@
             </div>
         </div>
     </div>
+
     <!-- NOTIFICATION -->
+    <!-- <div class="col-4-xxxl col-12">
+        <div class="card dashboard-card-six">
+            <div class="card-body">
+                <div class="heading-layout1 mg-b-17">
+                    <div class="item-title">
+                        <h3>Notifications</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="notice-board-wrap">
+
+                    {% for view_notification in view_noticeEx %}
+                    <div class="notice-list">
+                        <div class="post-date bg-warning">{{view_notification.date_notice|date("d M Y")}}</div>
+                        <h6 class="notice-title"><a data-toggle="modal"
+                                href="#noticeModalEx">{{view_notification.title}}</a></h6>
+                        <div class="entry-meta"> {{view_notification.posted_by}} /
+                            <span>{{view_notification.date_notice|date("g:ia")}}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% for view_notification in view_noticeEv %}
+                    <div class="notice-list" id="view_noticeEv">
+                        <div class="post-date bg-danger">{{view_notification.date_notice|date("d M Y")}}</div>
+                        <h6 class="notice-title"><a class="viewnoticeEv" data-toggle="modal" href="#noticeModalEv"
+                                id="{{view_notification.id_notification}}">{{view_notification.title}}
+                                {{view_notification.id_notification}}</a></h6>
+                        <div class="entry-meta"> {{view_notification.posted_by}} /
+                            <span>{{view_notification.date_notice|date("g:ia")}}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                    {% for view_notification in view_noticeP %}
+                    <div class="notice-list">
+                        <div class="post-date bg-primary">{{view_notification.date_notice|date("d M Y")}}</div>
+                        <h6 class="notice-title"><a data-toggle="modal"
+                                href="#noticeModalP">{{view_notification.title}}</a></h6>
+                        <div class="entry-meta"> {{view_notification.posted_by}} /
+                            <span>{{view_notification.date_notice|date("g:ia")}}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div> -->
+
     <div class="col-4-xxxl col-12">
         <div class="card dashboard-card-six">
             <div class="card-body">
@@ -643,59 +353,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="notice-board-wrap" id="otice-list">
-                    <!-- <h3>Notifications</h3> -->
+                <div class="notice-board-wrap" id="notice-list">
+                    {# Notice List start here #}
 
-                    {% for view_notification in view_student_notification %}
-                    <div class="notice-list">
-                        <div class="post-date bg-skyblue">{{view_notification.date_notice|date("d M Y")}}</div>
-                        <h6 class="notice-title"><a href="#">{{view_notification.title}}</a></h6>
-                        <div class="entry-meta"> {{view_notification.posted_by}} /
-                            <span>{{view_notification.date_notice|date("g:ia")}}</span>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-                    <!-- <div class="notice-list">
-                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School manag mene esom tus eleifend
-                                lectus
-                                sed maximus mi faucibusnting.</a></h6>
-                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div> -->
-                    <!-- <div class="notice-list">
-                        <div class="post-date bg-yellow">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
-                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div> -->
-                    <!-- <div class="notice-list">
-                        <div class="post-date bg-pink">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School manag Nulla rhoncus eleifensed
-                                mim
-                                us mi faucibus id. Mauris vestibulum non purus lobortismenearea</a></h6>
-                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div> -->
-                    <!-- <div class="notice-list">
-                        <div class="post-date bg-skyblue">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School manag mene esom text of the
-                                printing.</a></h6>
-                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div> -->
-                    <!-- <div class="notice-list">
-                        <div class="post-date bg-yellow">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School manag printing.</a></h6>
-                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div> -->
-                    <!-- <div class="notice-list">
-                        <div class="post-date bg-pink">16 June, 2019</div>
-                        <h6 class="notice-title"><a href="#">Great School manag meneesom.</a></h6>
-                        <div class="entry-meta"> Jennyfar Lopez / <span>5 min ago</span></div>
-                    </div> -->
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Modal Area Start Here -->
     <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -719,6 +383,102 @@
             </div>
         </div>
     </div>
+    <!-- Modal Area End Here -->
+
+    <!-- Modal Area Start Here -->
+    <!-- <div class="modal fade" id="noticeModalEx" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Notifications Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for view_notification in view_student_notification %}
+                    <div class="notice-list">
+                        <div class="post-date bg-warning text-white p-2 mb-3 mt-3">
+                            {{view_notification.date_notice|date("d M Y")}}</div>
+                        <h6 class="notice-title font-weight-bold">{{view_notification.title}}</h6>
+                        <p>"{{view_notification.details}}"</p>
+                        <div class="entry-meta font-weight-light"> {{view_notification.posted_by}} /
+                            <span class="font-italic">{{view_notification.date_notice|date("g:ia")}}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    {# <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
+                    <button type="button" class="footer-btn bg-linkedin">Save
+                        Changes</button> #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="noticeModalEv" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Notifications Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for view_notification in view_noticeEv %}
+                    <input type="hidden" name="kode" id="textkode" value="" hidden>
+                    <div class="notice-list">
+                        <div class="post-date bg-danger text-white p-2 mb-3 mt-3">
+                            {{view_notification.date_notice|date("d M Y")}}</div>
+                        <h6 class="notice-title font-weight-bold">{{view_notification.title}}</h6>
+                        <p>"{{view_notification.details}}"</p>
+                        <div class="entry-meta font-weight-light"> {{view_notification.posted_by}} /
+                            <span class="font-italic">{{view_notification.date_notice|date("g:ia")}}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    {# <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
+                    <button type="button" class="footer-btn bg-linkedin">Save
+                        Changes</button> #}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="noticeModalP" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Notifications Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for view_notification in view_noticeP %}
+                    <div class="notice-list">
+                        <div class="post-date bg-primary text-white p-2 mb-3 mt-3">
+                            {{view_notification.date_notice|date("d M Y")}}</div>
+                        <h6 class="notice-title font-weight-bold">{{view_notification.title}}</h6>
+                        <p>"{{view_notification.details}}"</p>
+                        <div class="entry-meta font-weight-light"> {{view_notification.posted_by}} /
+                            <span class="font-italic">{{view_notification.date_notice|date("g:ia")}}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    {# <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
+                    <button type="button" class="footer-btn bg-linkedin">Save
+                        Changes</button> #}
+                </div>
+            </div>
+        </div>
+    </div> -->
     <!-- Modal Area End Here -->
 
 </div>
@@ -775,65 +535,226 @@
 
     initTable();
 
+    $(document).ready(function () {
+        var data = [];
+
+        function difference2Parts(milliseconds) {
+            const secs = Math.floor(Math.abs(milliseconds) / 1000);
+            const mins = Math.floor(secs / 60);
+            const hours = Math.floor(mins / 60);
+            const days = Math.floor(hours / 24);
+            const millisecs = Math.floor(Math.abs(milliseconds)) % 1000;
+            const multiple = (term, n) => n !== 1 ? `${n} ${term}s` : `1 ${term}`;
+
+            return {
+                days: days,
+                hours: hours % 24,
+                hoursTotal: hours,
+                minutesTotal: mins,
+                minutes: mins % 60,
+                seconds: secs % 60,
+                secondsTotal: secs,
+                milliSeconds: millisecs,
+                get diffStr() {
+                    return `${multiple(`day`, this.days)}, ${multiple(`hour`, this.hours)}, ${multiple(`minute`, this.minutes)} and ${multiple(`second`, this.seconds)}`;
+                },
+                get diffStrMs() {
+                    return `${this.diffStr.replace(` and`, `, `)} and ${multiple(`millisecond`, this.milliSeconds)}`;
+                },
+            };
+        }
+
+        function untilXMas(date) {
+            const nextChristmas = new Date(date);
+            const report = document.querySelector(`#nextXMas`);
+
+            const diff = () => {
+                const diffs = difference2Parts(nextChristmas - new Date());
+                report.innerHTML = `Awaiting next XMas 🙂 (${diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
+                <br>In other words, until next XMas lasts&hellip;<br>
+                In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
+                setTimeout(diff, 200);
+            };
+            return difference2Parts(nextChristmas - new Date());
+        }
+
+        function drawNotice(s) {
+            //console.log(s);
+            const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+                "September", "Oktober", "November", "Desember"
+            ];
+            //drawNotice();
+            $.ajax({
+                type: "GET",
+                url: "/getNoticeS",
+                data: {
+                    search: s
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    //console.log(response[0])
+                    $('#notice-list').empty();
+                    $.each(response, function (i, data) {
+                        data += data[i]
+                        var dAwal = new Date(response[i].date_notice)
+                        var bulan = months[dAwal.getMonth()];
+                        var tanggal = dAwal.getDate();
+                        var tahun = dAwal.getFullYear();
+                        var minus = untilXMas(dAwal);
+                        //console.log(minus)
+                        //console.log(minus.minutesTotal);
+                        var difference;
+                        if (minus.minutesTotal <= 60) {
+                            difference = minus.minutesTotal + ' menit lalu';
+                        } else if (minus.hoursTotal <= 24) {
+                            difference = minus.hoursTotal + ' jam lalu';
+                        } else {
+                            difference = minus.days + ' hari lalu';
+                        }
+
+                        //console.log(response[i].category)
+                        var classCategory;
+                        switch (response[i].category) {
+                            case 'Exam': {
+                                classCategory = 'bg-warning'
+                            }
+                                break;
+                            case 'Pembayaran': {
+                                classCategory = 'bg-success'
+                            }
+                                break;
+                            case 'Event': {
+                                classCategory = 'bg-danger'
+                            }
+                                break;
+                            case 'Pengumuman_Sekolah': {
+                                classCategory = 'bg-primary'
+                            }
+                                break;
+                            default: {
+
+                            }
+                                break;
+                        }
+                        $('#notice-list').append(
+                            '<div class="notice-list noticeBoardToModal" data-id="' +
+                            response[i].id_notification +
+                            '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                            classCategory + '">' +
+                            tanggal + ' ' + bulan + ', ' + tahun +
+                            '</div><h6 class="notice-title"><a href="#">' + response[i]
+                                .title +
+                            '</a></h6> <div class="entry-meta">  ' + response[i]
+                                .posted_by +
+                            ' / <span>' + difference + '</span></div></div>')
+                    });
+                },
+                complete: function () { }
+            });
+        };
+        drawNotice();
+
+        // $('#searchTitleNoticeBoard').keyup(function (e) {
+        //     var search = $('#searchTitleNoticeBoard').val();
+        //     drawNotice(search)
+        //     //console.log(search);
+        // });
+
+        // $('#searchDateNoticeBoard').change(function (e) {
+        //     var search = $('#searchDateNoticeBoard').val();
+        //     drawNotice(search)
+        //     //console.log(search);
+        // });
+
+        $('#noticeModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('id') // Extract info from data-* attributes
+            const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+                "September", "Oktober", "November", "Desember"
+            ];
+            // console.log(recipient);
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            $.ajax({
+                type: "GET",
+                url: "/getNoticeDetailsS",
+                data: {
+                    id: recipient
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    //console.log(response)
+                    var dAwal = new Date(response[0].date_notice)
+                    var bulan = months[dAwal.getMonth()];
+                    var tanggal = dAwal.getDate();
+                    var tahun = dAwal.getFullYear();
+                    var minus = untilXMas(dAwal);
+                    //console.log(minus)
+                    //console.log(minus.minutesTotal);
+                    var difference;
+                    if (minus.minutesTotal <= 60) {
+                        difference = minus.minutesTotal + ' menit lalu';
+                    } else if (minus.hoursTotal <= 24) {
+                        difference = minus.hoursTotal + ' jam lalu';
+                    } else {
+                        difference = minus.days + ' hari lalu';
+                    }
+
+                    //console.log(response[i].category)
+                    var classCategory;
+                    switch (response[0].category) {
+                        case 'Exam': {
+                            classCategory = 'bg-warning'
+                        }
+                            break;
+                        case 'Pembayaran': {
+                            classCategory = 'bg-success'
+                        }
+                            break;
+                        case 'Event': {
+                            classCategory = 'bg-danger'
+                        }
+                            break;
+                        case 'Pengumuman_Sekolah': {
+                            classCategory = 'bg-primary'
+                        }
+                            break;
+                        default: {
+
+                        }
+                            break;
+                    }
+                    var modal = $(this)
+                    $('#noticeDetailModal').empty()
+                    console.log($('#noticeDetailModal').html())
+                    $('#noticeDetailModal').append('<div class="notice-list noticeBoardToModal" data-id="' +
+                        response[0].id_notification +
+                        '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                        classCategory + '">' +
+                        tanggal + ' ' + bulan + ', ' + tahun +
+                        '</div><h6 class="notice-title"><a href="#">' + response[0]
+                            .title +
+                        '</a></h6> <p>' + response[0].details + '</p> <div class="entry-meta">  ' + response[0]
+                            .posted_by +
+                        ' / <span>' + difference + '</span></div></div>');
+                }
+            });
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+        })
+        $('#resetFormNoticeBoard').click(function (e) {
+            e.preventDefault();
+            $('#categoryNoticeBoard').val('').change();
+            $('#titleNoticeBoard').val('');
+            $('#detailsNoticeBoard').val('');
+
+        });
+    })
+
 
 </script>
 
 
 <script type="text/javascript">
-
-    // $(document).ready(function () {
-
-    //     initTable = function () {
-
-    //         table = $("#examResult").on('preXhr.dt', function (e, settings, data) {
-
-    //         }).on('draw.dt', function () {
-
-    //         }).DataTable({
-    //             responsive: {
-    //                 details: {
-    //                     type: 'column'
-    //                 }
-    //             },
-    //             "columnDefs": [
-    //                 { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-    //                 { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
-    //                 { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
-    //                 { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
-    //                 { "width": "10%", "targets": 4, className: "text-center", "orderable": false },
-    //                 { "width": "10%", "targets": 5, className: "text-end", "orderable": false },
-    //                 { "width": "10%", "targets": 6, className: "text-end", "orderable": false },
-
-    //             ],
-    //             'pageLength': 10,
-    //             'responsive': true,
-    //             'processing': true,
-    //             'serverSide': true,
-    //             'serverMethod': 'get',
-    //             'ajax': {
-    //                 'url': "/api/" + "{{id_user}}" + "/examResult",
-    //                 'dataType:': 'json',
-    //                 'type': 'get',
-
-    //             },
-    //             'columns': [
-    //                 { 'data': 'nisn' },
-    //                 { 'data': 'nama' },
-    //                 { 'data': 'ujian' },
-    //                 { 'data': 'mapel' },
-    //                 { 'data': 'kelas' },
-    //                 { 'data': 'nilai' },
-    //                 { 'data': 'tanggal' }
-    //             ]
-
-
-    //         });
-
-    //         initTable();
-    //     }
-
-    // });
-
 
     if ($("#absent-student-doughnut-chart").length) {
         var absen;

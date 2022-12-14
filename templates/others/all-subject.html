@@ -27,7 +27,8 @@
                     <div class="row">
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>Nama Mata Pelajaran *</label>
-                            <input type="text" name="subjectname" id="subject_name" placeholder="" class="form-control">
+                            <input type="text" name="subjectname" id="subject_name" placeholder="" class="form-control"
+                                autofocus>
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
                             <label>Tipe Mata Pelajaran *</label>
@@ -178,8 +179,8 @@
                                             <input type="text" name="id_subject" id="id_subject" value="" hidden>
                                             <tr class="form-group">
                                                 <label>Subject Name </label>
-                                                <input type="text" name="subjectname" id="subject_nameU" placeholder=""
-                                                    class="form-control form-control-lg">
+                                                <input type="text" name="subjectnameU" id="subject_nameU" placeholder=""
+                                                    class="form-control form-control-lg" autofocus>
                                             </tr>
 
                                             <tr class="form-group">
@@ -396,6 +397,10 @@
     });
 
     // UPDATE SUBJECT
+    // $('#show_subject').on('shown.bs.modal', function () {
+    //     $('#subject_nameU').trigger('focus');
+    // });
+
     $('#show_subject').on('click', '.subject_detail', function () {
         var id = $(this).attr('data');
         // $('#detail_subject').modal('show');
@@ -405,9 +410,12 @@
             dataType: "JSON",
             data: { id_subject: id },
             success: function (data) {
-                $('#detail_subject').modal('show');
+                $('#detail_subject').on('shown.bs.modal', function () {
+                    $('#subject_nameU').focus();
+                }).modal('show');
+                // $('#detail_subject').modal('show');
                 $('[name="id_subject"]').val(data.id_subject);
-                $('[name="subjectname"]').val(data.subject_name);
+                $('[name="subjectnameU"]').val(data.subject_name);
                 $('[name="subjecttype"]').val(data.subject_type);
             }
         });
