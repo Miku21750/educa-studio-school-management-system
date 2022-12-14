@@ -128,9 +128,13 @@ return function (App $app) {
                     );
 
                     $app->post(
-                        '/hapus-kelas/{id_class}', 
+                        '/hapus-kelas', 
                         function (Request $request, Response $response, array $args) use ($app) {
-                            return $response->withJson(ClassController::deleteClassMod($this, $request, $response, $args));
+                           $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ClassController::deleteClassMod($this, $request, $response, [
+                                'data' => $data
+                            ]);
                         }
                     );
 
@@ -138,6 +142,26 @@ return function (App $app) {
                         '/getallclassdt', 
                         function (Request $request, Response $response, array $args) use ($app) {
                             return ClassController::getAllClassDt($this, $request, $response, $args);
+                        }
+                    );
+                    $app->get(
+                        '/{id}detail', 
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return ClassController::modal_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                    $app->post(
+                        '/updateclass',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ClassController::update_kelas_detail($this, $request, $response, [
+                                'data' => $data,
+                            ]);
                         }
                     );
 
@@ -1071,7 +1095,9 @@ return function (App $app) {
         '/all-class',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'class/all-class.html', $args);
+            return ClassController::index($this, $request, $response, $args);
+
+            // $container->view->render($response, 'class/all-class.html', $args);
         }
     )->add(new Auth());
     $app->get(

@@ -5,353 +5,327 @@
 {% block content %}
 <!-- Class Table Area Start Here -->
 <div class="card height-auto">
-  <div class="card-body">
-    <div class="heading-layout1">
-      <div class="item-title">
-        <h3>Semua Kelas</h3>
-      </div>
+    <div class="card-body">
+        <div class="heading-layout1">
+            <div class="item-title">
+                <h3>Semua Kelas</h3>
+            </div>
+        </div>
+        <div class="table">
+            <table id="allClass" class="table  text-nowrap">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>NIP</th>
+                        <th>Wali Kelas</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Kelas</th>
+                        <th>Bagian</th>
+                        <th>No Telp.</th>
+                        <th>E-Mail</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody id="show_class">
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="table">
-      <table  id="allClass" class="table  text-nowrap">
-        <thead>
-          <tr>
-            <th>No.</th>
-            <th>Nip</th>
-            <th>Wali Kelas</th>
-            <th>Jenis Kelamin</th>
-            <th>Kelas</th>
-            <th>Bagian</th>
-            <th>No Telp.</th>
-            <th>E-Mail</th>
-            <th> </th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-  </div>
 </div>
 
 
-    <!-- MODAL DELETE -->
-    <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog success-modal-content" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <div class="success-message">
-                      <input type="hidden" name="kode" id="textkode" value="" hidden>
-                      <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
-                  </div>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="footer-btn bg-linkedin" id="btn_remove_subject">Ok</button>
-                  <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
-              </div>
-          </div>
-      </div>
-  </div>
+<!-- MODAL DELETE -->
+<div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog success-modal-content" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <input type="hidden" name="kode" id="textkode" value="">
+                    <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+                </div>
+            </div>
 
-  <!-- MODAL UPDATE -->
-  <div class="modal fade" id="detail_subject" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title">Detail Subject</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="card ui-tab-card">
-                  <div class="card-body">
-                      <div class="single-info-details">
-                          <div class="item-content">
-                              <div class="header-inline item-header">
-                                  <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
+            <div class="modal-footer">
+                <button type="button" class="footer-btn bg-linkedin" id="btn_remove_subject">Ok</button>
+                <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-                              </div>
-                              <div class="info-table table-responsive">
-                                  <table class="table text-nowrap">
-                                      <tbody>
-                                          <input type="text" name="id_subject" id="id_subject"
-                                              value="" hidden>
-                                          <tr class="form-group">
-                                              <label>Subject Name </label>
-                                              <input type="text" name="subjectname" id="subject_nameU" placeholder=""
-                                                  class="form-control form-control-lg">
-                                          </tr>
+<!-- MODAL UPDATE -->
+<div class="modal fade" id="detail_kelas" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detail Subject</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="card ui-tab-card">
+                <div class="card-body">
+                    <div class="single-info-details">
+                        <div class="item-content">
+                            <div class="header-inline item-header">
+                                <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
 
-                                          <tr class="form-group">
-                                              <label>Subject Type</label>
-                                              <select class="form-control form-control-lg" name="subjecttype"
-                                                  id="subject_typeU">
-                                                  <option value="0">Please Select</option>
-                                                  <option value="Practice">Practice</option>
-                                                  <option value="Mathematic">Mathematic</option>
-                                                  <option value="Theory">Theory</option>
-                                              </select>
-                                          </tr>
-                                      </tbody>
-                                  </table>
-                                  <button class="btn btn-warning btn-lg" id="btn_update_subject">Simpan</button>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
+                            </div>
+                            <div class="info-table ">
+                                <form>
+                                    <input type="text" name="id_class" id="id_class" value="" hidden>
+                                    <input type="text" name="old_id_user" id="old_id_user" value="" hidden>
+                                    <div class=" form-group">
+                                        <label>Kelas</label>
+                                        <select id="class" class="select2" name="kelas">
+                                            <option value="">Mohon Dipilih</option>
+                                            <option value="X">X</option>
+                                            <option value="XI">XI</option>
+                                            <option value="XII">XII</option>
+                                        </select>
+                                    </div>
 
-          </div>
-      </div>
-  </div>
+                                    <div class=" form-group">
+                                        <label>Bagian</label>
+                                        <select id="id_section" class="select2" name="bagian">
+                                            <option value="">Mohon Dipilih</option>
+                                            {% for i in section %}
+                                            <option value="{{i.id_section}}">{{i.section}} </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class=" form-group">
+                                        <label>Wali Kelas </label>
+                                        <select id="id_user" class="select2" name="id_user">
+                                            <option value="">Mohon Dipilih</option>
+                                            {% for i in guru %}
+                                            <option value="{{i.id_user}}">{{i.first_name}} {{i.last_name}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="footer-btn bg-dark-low"
+                                            data-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="footer-btn bg-linkedin"
+                                            id="btn_update_class">Simpan</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 
 <script>
+    $(document).ready(function () {
 
-  initTable = function () {
+        exam1 = function () {
+            table = $("#allClass").on('preXhr.dt', function (e, settings, data) {
 
-    table = $("#allClass").on('preXhr.dt', function (e, settings, data) {
+                console.log('loading ....');
 
-      console.log('loading ....');
+            }).on('draw.dt', function () {
+                console.log('dapat data ....');
 
-    }).on('draw.dt', function () {
-      console.log('dapat data');
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-start", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-start", "orderable": false },
+                    { "targets": 5, className: "text-start", "orderable": false },
+                    { "targets": 6, className: "text-start", "orderable": false },
+                    { "targets": 7, className: "text-start", "orderable": false },
+                    { "targets": 8, className: "text-start", "orderable": false }
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/kelas/getallclassdt",
+                    'dataType:': 'json',
+                    'type': 'get',
+                },
 
-    }).DataTable({
-      "columnDefs": [
-      { "targets": 0, className: "text-center", "orderable": false },
-        { "targets": 1, className: "text-start", "orderable": false },
-        { "targets": 2, className: "text-start", "orderable": false },
-        { "targets": 3, className: "text-start", "orderable": false },
-        { "targets": 4, className: "text-start", "orderable": false },
-        { "targets": 5, className: "text-center", "orderable": false },
-        { "targets": 6, className: "text-center", "orderable": false },
-        { "targets": 7, className: "text-start", "orderable": false },
-        { "targets": 8, className: "text-center", "orderable": false },
-        { "targets": 9, className: "text-center", "orderable": false }
-      ], 
-      'pageLength': 10,
-      'processing': true,
-      'serverSide': true,
-      'select': true,
-      'responsive': true,
-      'ajax': {
-        url: '/api/admin/kelola-barang',
-        type: 'GET',
-      },
-      'columns': [
-      { 'data' : 'no'},
-            { 'data' : 'Nip'},
-            { 'data' : 'WaliKelas'},
-            { 'data' : 'gender'}, 
-            { 'data' : 'kelas'},
-            { 'data' : 'bagian'},
-            { 'data' : 'phone_user'},
-            { 'data' : 'email'},
-            { 'data' : ' '},
-      ],
-    });
-
-  }
-
-  // initTable();
-
-
+                'columns': [
+                    { 'data': 'no' },
+                    { 'data': 'Nip' },
+                    { 'data': 'WaliKelas' },
+                    { 'data': 'gender' },
+                    { 'data': 'kelas' },
+                    { 'data': 'bagian' },
+                    { 'data': 'phone_user' },
+                    { 'data': 'email' },
+                    { 'data': ' ' },
+                ]
 
 
-  exam1 = function () {
-    examTable = $("#allClass").on('preXhr.dt', function (e, settings, data) {
+            });
 
-      console.log('loading ....');
 
-    }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
-    }).DataTable({
-      responsive: {
-        details: {
-          type: 'column'
         }
-      },
-      "columnDefs": [
-        { "targets": 0, className: "text-start", "orderable": false },
-        { "targets": 1, className: "text-start", "orderable": false },
-        { "targets": 2, className: "text-start", "orderable": false },
-        { "targets": 3, className: "text-start", "orderable": false },
-        { "targets": 4, className: "text-start", "orderable": false },
-        { "targets": 5, className: "text-start", "orderable": false },
-        { "targets": 6, className: "text-start", "orderable": false },
-        { "targets": 7, className: "text-start", "orderable": false },
-        { "targets": 8, className: "text-start", "orderable": false }
-      ],
-      'pageLength': 10,
-      'responsive': true,
-      'processing': true,
-      'serverSide': true,
-      'ajax': {
-        'url': "/api/kelas/getallclassdt",
-        'dataType:': 'json',
-        'type': 'get',
-      },
+        exam1();
 
-      'columns': [
-            { 'data' : 'no'},
-            { 'data' : 'Nip'},
-            { 'data' : 'WaliKelas'},
-            { 'data' : 'gender'}, 
-            { 'data' : 'kelas'},
-            { 'data' : 'bagian'},
-            { 'data' : 'phone_user'},
-            { 'data' : 'email'},
-            { 'data' : ' '},
-      ]
+        // DELETE SUBJECT
+        // GET Hapus
+        $('#show_class').on('click', '.item_hapus', function () {
+            var id = $(this).attr('data');
+            $('#confirmation-modal').modal('show');
+            $('[name="kode"]').val(id);
+            // console.log(id);
+        });
 
 
-    });
-
-  }
-  exam1();
-
-
-
-
-    // DELETE SUBJECT
-    // GET
-    $('#show_subject').on('click', '.subject_remove', function () {
-        var id = $(this).attr('data');
-        $('#confirmation-modal').modal('show');
-        $('[name="kode"]').val(id);
-        // console.log(id);
-    });
-
-    // DELETE
-    $('#btn_remove_subject').on('click', function () {
-        var kode = $('#textkode').val();
-        $.ajax({
-            type: "POST",
-            url: "/api" + "/deletesubject",
-            dataType: "JSON",
-            data: { kode: kode },
-            success: function (data) {
-                if (data) {
-                    $('#confirmation-modal').modal('hide');
-                    let timerInterval
-                    Swal.fire({
-                        title: 'Memuat Data...',
-                        html: 'Tunggu  <b></b>  Detik.',
-                        timer: 300,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                                b.textContent = Swal.getTimerLeft()
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        Swal.fire(
-                            {
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: 'Data telah dihapus.',
+        // DELETE
+        $('#btn_remove_subject').on('click', function () {
+            var kode = $('#textkode').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/kelas/hapus-kelas",
+                dataType: "JSON",
+                data: { kode: kode },
+                success: function (data) {
+                    if (data) {
+                        $('#confirmation-modal').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
                             }
-                        )
-                    })
-                    table.draw(false)
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Ada yang eror!',
-                    })
+
+                        }).then((result) => {
+                            table.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah dihapus.',
+                                }
+                            )
+                            table.draw(false)
+
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                        })
+                    }
                 }
-            }
+            });
+            return false;
         });
-        return false;
-    });
 
-    // UPDATE SUBJECT
-    $('#show_subject').on('click', '.subject_detail', function () {
-        var id = $(this).attr('data');
-        // $('#detail_subject').modal('show');
-        $.ajax({
-            type: "GET",
-            url: "/api" + "/subject/" + id + "/subject-detail",
-            dataType: "JSON",
-            data: { id_subject: id },
-            success: function (data) {
-                $('#detail_subject').modal('show');
-                $('[name="id_subject"]').val(data.id_subject);
-                $('[name="subjectname"]').val(data.subject_name);
-                $('[name="subjecttype"]').val(data.subject_type);
-            }
+
+        // UPDATE SUBJECT
+        $('#show_class').on('click', '.kelas_detail', function () {
+            var id = $(this).attr('data');
+            $.ajax({
+                type: "GET",
+                url: "/" + "api" + "/kelas/" + id + "detail",
+                dataType: "JSON",
+                data: { id_user: id },
+                success: function (data) {
+                    $('#detail_kelas').modal('show');
+                    $('[name="old_id_user"]').val(data.id_user);
+                    $('[name="id_class"]').val(data.id_class);
+                    $('[name="kelas"]').val(data.class).change();
+                    $('[name="bagian"]').val(data.id_section).change();
+                    $('[name="id_user"]').val(data.id_user).change();
+                }
+            });
+            return false;
+            console.log(id);
         });
-        return false;
-        console.log(id);
-    });
 
-    $('#btn_update_subject').click(function (e) {
-        var id_subject = $('#id_subject').val();
-        var subject_name = $('#subject_nameU').val();
-        var subject_type = $('#subject_typeU').val();
+        $('#btn_update_class').click(function (e) {
+            var id_class = $('#id_class').val();
+            var old_id_user = $('#old_id_user').val();
+            var id_user = $('#id_user').val();
+            var id_section = $('#id_section').val();
+            var class_name = $('#class').val();
 
-        $.ajax({
-            type: "POST",
-            url: "/api" + "/updatesubject",
-            dataType: "JSON",
-            data: { id_subject: id_subject, subject_name: subject_name, subject_type: subject_type },
-            success: function (data) {
-                if (data) {
-                    $('#detail_subject').modal('hide');
-                    let timerInterval
-                    Swal.fire({
-                        title: 'Memuat Data...',
-                        html: 'Tunggu  <b></b>  Detik.',
-                        timer: 300,
-                        timerProgressBar: true,
-                        didOpen: () => {
-                            Swal.showLoading()
-                            const b = Swal.getHtmlContainer().querySelector('b')
-                            timerInterval = setInterval(() => {
-                                b.textContent = Swal.getTimerLeft()
-                            }, 100)
-                        },
-                        willClose: () => {
-                            clearInterval(timerInterval)
-                        }
-                    }).then((result) => {
-                        Swal.fire(
-                            {
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: 'Data telah diubah.',
-                                //footer: '<a href="">Why do I have this issue?</a>'
+            $.ajax({
+                type: "POST",
+                url: "/api/kelas/updateclass",
+                dataType: "JSON",
+                data: { id_class: id_class, id_user: id_user, id_section: id_section, class: class_name, old_id_user: old_id_user },
+                success: function (data) {
+                    if (data) {
+                        $('#detail_kelas').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
                             }
-                        )
-                    })
-                    table.draw(false)
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Ada yang eror!',
-                    })
+                        }).then((result) => {
+                            table.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah diubah.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
+                            )
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                        })
+                    }
                 }
-            }
+            });
+            return false;
         });
-        return false;
+
+
     });
-
-
-
 
 
 </script>
