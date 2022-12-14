@@ -50,9 +50,7 @@ class LibraryController
             $conditions['OR'] = [
                 'tbl_books.name_book[~]' => '%' . $search . '%',
                 'tbl_books.code_book[~]' => '%' . $search . '%',
-                'tbl_subjects.subject_name[~]' => '%' . $search . '%',
                 'tbl_books.writer_book[~]' => '%' . $search . '%',
-                'tbl_books.class[~]' => '%' . $search . '%',
                 'tbl_books.publish_date[~]' => '%' . $search . '%',
                 'tbl_books.upload_date[~]' => '%' . $search . '%',
 
@@ -218,7 +216,14 @@ class LibraryController
 
     public static function option_book($app, $req, $rsp, $args)
     {
-        $class = $app->db->query("SELECT DISTINCT class FROM tbl_classes")->fetchAll();
+        $class = $app->db->select('tbl_classes', [
+            'class',
+            'id_class',
+        ], [
+            'GROUP' => [
+                'class',
+            ],
+        ]);
         $subject = $app->db->select('tbl_subjects', '*');
 
         $berhasil = isset($_SESSION['berhasil']);

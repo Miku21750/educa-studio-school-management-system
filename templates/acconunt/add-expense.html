@@ -1,7 +1,7 @@
 {% extends "/layout/master.html" %}
-{% set title = "Tambah Pembayaran" %}
-{% set typeFrontEnd = "Tambah Pembayaran" %}
-{% set section_type = "Tambah Pembayaran" %}
+{% set title = "Add Expense" %}
+{% set typeFrontEnd = "Finance" %}
+{% set section_type = "Add Expense" %}
 {% block content %}
 
 {% if berhasil == true %}
@@ -45,7 +45,7 @@
     <div class="card-body">
       <div class="heading-layout1">
         <div class="item-title">
-          <h3>Add New Expense</h3>
+          <h3>Tambah Pembayaran</h3>
         </div>
         <div class="dropdown">
           <a
@@ -75,9 +75,9 @@
 
           <div class="col-xl-3 col-lg-6 col-12 form-group">
             {# {{typei|json_encode()}} #}
-            <label>Tipe Akun *</label>
+            <label>Tipe Pengguna</label>
             <select class="select2" id="expenseTypeAccount">
-            <option>Pilih Tipe Akun *</option>
+            <option>Pilih Tipe Akun </option>
             {% for data in typei %}
             <option value="{{data.id_user_type}}">{{data.user_type}} </option>
             {% endfor %}
@@ -85,15 +85,15 @@
           </div>
 
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Nama *</label>
+            <label>Nama </label>
             <select class="select2" id="NamaExpensesInput" name="id_user">
-            <option>Pilih Name *</option>
+            <option>Pilih Name </option>
             </select>          
           </div>
           
           
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Pembayaran *</label>
+            <label>Pembayaran </label>
             <select class="select2" name="pembayaran">
               <option value="">Pilih Pembayaran</option>
               {% for data in payment %}
@@ -102,11 +102,11 @@
             </select>
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Biaya *</label>
+            <label>Biaya </label>
             <input type="text" placeholder="Jumlah Biaya" class="form-control" name="biaya" />
           </div>
           <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Tipe Pembayaran *</label>
+            <label>Tipe Pembayaran </label>
             <select class="select2" name="tipe">
               <option >Pilih Tipe Pembayaran</option>
               <option value="Pemasukan">Pemasukan</option>

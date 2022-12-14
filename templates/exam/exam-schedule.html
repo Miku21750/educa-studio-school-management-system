@@ -1,5 +1,8 @@
-{% extends "/layout/master.html" %} {% set title = "Exam Schedule" %} {% block
-content %}
+{% extends "/layout/master.html" %} 
+{% set title = "Exam Schedule" %} 
+{% set typeFrontEnd = "Exam" %}
+{% set section_type = "Exam Schedule" %}
+{% block content %}
 
 <!-- Exam Schedule Area Start Here -->
 <div class="row">
@@ -31,8 +34,8 @@ content %}
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Mata Pelajaran *</label>
-              <select class="select2">
-                <option value="">Pilih Mata Pelajaran *</option>
+              <select class="select2" id="esubject">
+                <option value="0">Pilih Mata Pelajaran *</option>
                 {% for i in subject %}
                 <option value="{{ i.id_subject }}">{{ i.subject_name }}</option>
                 {% endfor %}
@@ -41,8 +44,8 @@ content %}
             
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Kelas *</label>
-              <select class="select2">
-                <option value="">Pilih Kelas *</option>
+              <select class="select2" id="eclass">
+                <option value="0">Pilih Kelas *</option>
                 {% for i in class %}
                 <option value="{{ i.id_class }}">{{ i.class }} {{ i.section }}</option>
                 {% endfor %}

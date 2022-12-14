@@ -83,7 +83,7 @@
 <!-- Dashboard summery End Here -->
 <!-- Dashboard Content Start Here -->
 <div class="row gutters-20">
-    <div class="col-12 col-xl-8 col-6-xxxl">
+    <div class="col-12 col-xl-6 col-6-xxxl">
         <div class="card dashboard-card-one pd-b-20">
             <div class="card-body">
                 <div class="heading-layout1">
@@ -114,15 +114,7 @@
                         </div>
                     </div>
                     <div class="dropdown form-group">
-                        <!-- <a class="date-dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                            aria-expanded="false">2019</a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#">2020</a>
-                            <a class="dropdown-item" href="#">2021</a>
-                            <a class="dropdown-item" href="#">2022</a>
-                        </div> -->
                         <select class="select2" id="target-line-chart">
-                            <!-- <option value="">2019 </option> -->
                             {% for i in year %}
                             <option value="{{ i.tahun }}">{{ i.tahun }}</option>
                             {% endfor %}
@@ -136,7 +128,7 @@
         </div>
     </div>
     
-    <div class="col-12 col-xl-8 col-6-xxxl">
+    <div class="col-12 col-xl-6 col-6-xxxl">
         <div class="card dashboard-card-three pd-b-20">
             <div class="card-body">
                 <div class="heading-layout1">
@@ -380,21 +372,4 @@
     </div>
     </div>
     <!-- Social Media End Here -->
-
-    <script>
-        $('#dropdownYear').each(function() {
-    
-          var year = (new Date()).getFullYear();
-          var current = year;
-          year -= 1;
-          for (var i = 0; i < 6; i++) {
-            if ((year+i) == current)
-              $(this).append('<a class="dropdown-item" href="/adminDataIncome?tahun=' + (year + i) +'">' + (year + i) + '</a>              ');
-            else
-              $(this).append('<a class="dropdown-item" href="/adminDataIncome?tahun=' + (year + i) +  '">' + (year + i) + '</a>');
-          }
-        $('#tahun').html((year))
-        
-        })
-      </script>
 {% endblock content %}
