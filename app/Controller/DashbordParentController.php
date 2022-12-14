@@ -21,11 +21,7 @@ class DashbordParentController
         ],'*', [
             "id_parent" => $id_parent,
         ]);
-        $totalnotif = $app->db->count('tbl_users', [
-            "[><]tbl_notifications" => "id_user"
-        ],'*', [
-            "id_user" => $id_parent,
-        ]);
+        $totalnotif = $app->db->count('tbl_notifications','*');
         $notif = $app->db->select('tbl_notifications','*');
         $totaltagihan = $app->db->sum('tbl_users', [
             "[><]tbl_finances" => "id_user"
@@ -125,7 +121,7 @@ class DashbordParentController
                 $datas['NISN'] = $m['NISN'];
                 $datas['Nama'] = $m['first_name'].' '.$m['last_name'];
                 $datas['payment_type_name'] = $m['payment_type_name'];
-                $datas['amount_payment'] = $m['amount_payment'];
+                $datas['amount_payment'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
                 // $datas['status_pembayaran'] = $m['status_pembayaran'];
                 if($m['status_pembayaran'] == "Belum Bayar"){
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';

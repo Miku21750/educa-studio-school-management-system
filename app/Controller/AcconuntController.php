@@ -187,7 +187,7 @@ class AcconuntController
                 $datas['gender'] = $m['gender'];
                 $datas['kelas'] = $m['class'] . ' '  .$m['section'];
                 $datas['pembayaran'] = $m['payment_type_name'];
-                $datas['biaya'] = $m['amount_payment'];
+                $datas['biaya'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
                 
                 if($m['status_pembayaran'] == "Belum Bayar"){
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
@@ -358,12 +358,12 @@ class AcconuntController
         $tbl_finances = 'tbl_finances';
 
 
-        $finance = $app->db->select('tbl_users', [
-            '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
-            '[><]tbl_payment_types' => ["$tbl_finances.id_payment_type" => 'id_payment_type'],
+        $finance = $app->db->select('tbl_finances', [
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_payment_types' =>  'id_payment_type',
             
         ],'*',[
-            'id_user_type' => $type
+            'tipe_finance' => 'Pengeluaran'
         ]);
 
         // return var_dump($finance);
@@ -384,29 +384,28 @@ class AcconuntController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            'id_user_type' => $type,
-
+            'tipe_finance' => 'Pengeluaran'         
         ];
 
         if (!empty($req->getParam('search')['value'])) {
             $search = $req->getParam('search')['value'];
 
             $conditions['OR'] = [
+                'tbl_finances.tipe_finance[~]' => '%' . $search . '%',
                 'tbl_users.first_name[~]' => '%' . $search . '%',
                 'tbl_users.last_name[~]' => '%' . $search . '%',
                 'tbl_payment_types.payment_type_name[~]' => '%' . $search . '%',
-
             ];
 
             $limit = [
                 "LIMIT" => [$start, $limit],
-                'id_user_type' => $type,
+                'tipe_finance' => 'Pengeluaran'
 
             ];
 
-            $finance = $app->db->select('tbl_users', [
-                '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
-                '[><]tbl_payment_types' => ["$tbl_finances.id_payment_type" => 'id_payment_type'],
+            $finance = $app->db->select('tbl_finances', [
+                '[><]tbl_payment_types' =>  'id_payment_type',
+                '[><]tbl_users' => 'id_user',
                 
             ],'*', $limit);
     
@@ -414,12 +413,12 @@ class AcconuntController
             $totalfiltered = $totaldata;
             // return var_dump($totaldata);
         }
-        $app->db->select('tbl_users', [
-            '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
-            '[><]tbl_payment_types' => ["$tbl_finances.id_payment_type" => 'id_payment_type'],
+        $finance = $app->db->select('tbl_finances', [
+            '[><]tbl_payment_types' =>  'id_payment_type',
+            '[><]tbl_users' => 'id_user',
             
-        ],'*',
-        $conditions);
+        ],'*', $conditions);
+        // return die(var_dump($conditions));
 
         $data = array();
 
@@ -432,7 +431,7 @@ class AcconuntController
                 $datas['no'] = $no . '.';
                 $datas['nama'] = $m['first_name'] . '  ' .  $m['last_name'];
                 $datas['tipe'] = $m['payment_type_name'];
-                $datas['biaya'] = $m['amount_payment'];
+                $datas['biaya'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
                 
                 
                 if($m['status_pembayaran'] == "Belum Bayar"){
