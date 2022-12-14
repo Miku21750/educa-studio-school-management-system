@@ -491,7 +491,7 @@ CREATE TABLE `tbl_notifications` (
   `details` varchar(100) NOT NULL,
   `posted_by` varchar(50) NOT NULL,
   `date_notice` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `terbaca` tinyint(2) NOT NULL,
+  `date_event` datetime NOT NULL,
   `category` enum('Pengumuman_Sekolah','Event','Pembayaran','Exam') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -499,16 +499,13 @@ CREATE TABLE `tbl_notifications` (
 -- Dumping data untuk tabel `tbl_notifications`
 --
 
-INSERT INTO `tbl_notifications` (`id_notification`, `title`, `details`, `posted_by`, `date_notice`, `terbaca`, `category`) VALUES
-(3, 'Biaya Semester ', 'Jatuh Tempo Biaya Semester Bulan Desember Siswa A', 'Admin', '2022-10-08 03:00:00', 0, 'Pembayaran'),
-(4, 'Biaya Semester B', 'Jatuh Tempo Biaya Semester Bulan Desember Siswa B', 'Admin', '2022-12-07 06:49:25', 0, 'Pembayaran'),
-(9, 'Miku21 Under Arrest', 'Miku21 Under Arrest for doing child predator', 'Miku21 Margareth', '2022-12-07 07:18:09', 0, 'Event'),
-(10, 'Exam is coming', 'BROOOOOOOO', 'Miku21 Margareth', '2022-12-08 03:30:56', 0, 'Exam'),
-(11, 'Upacara besok', 'BROOOOOOOO', 'Miku21 Margareth', '2022-12-08 03:31:45', 0, 'Pengumuman_Sekolah'),
-(12, 'Miku21 Free from arrest', 'But still hunting children free, be warning guys', 'Miku21 Margareth', '2022-12-09 04:03:47', 0, 'Event'),
-(13, 'BOOM', 'BOOM BOOM BOOM BOOM BOOM BOOM', 'Miku21 Margareth', '2022-12-14 07:27:51', 0, 'Pengumuman_Sekolah'),
-(14, 'Title Event', 'BOOM BOOM BOOM BOOM BOOM BOOM', 'Admin', '2022-12-14 09:35:19', 0, 'Event'),
-(15, 'TitlePengumuman', 'BOOM BOOM BOOM BOOM BOOM BOOM', 'Admin', '2022-12-14 09:35:37', 0, 'Pengumuman_Sekolah');
+INSERT INTO `tbl_notifications` (`id_notification`, `title`, `details`, `posted_by`, `date_notice`, `date_event`, `category`) VALUES
+(3, 'Biaya Semester ', 'Jatuh Tempo Biaya Semester Bulan Desember Siswa A', 'Admin', '2022-10-08 03:00:00', '0000-00-00 00:00:00', 'Pembayaran'),
+(4, 'Biaya Semester B', 'Jatuh Tempo Biaya Semester Bulan Desember Siswa B', 'Admin', '2022-12-07 06:49:25', '0000-00-00 00:00:00', 'Pembayaran'),
+(9, 'Miku21 Under Arrest', 'Miku21 Under Arrest for doing child predator', 'Miku21 Margareth', '2022-12-07 07:18:09', '0000-00-00 00:00:00', 'Event'),
+(10, 'Exam is coming', 'BROOOOOOOO', 'Miku21 Margareth', '2022-12-08 03:30:56', '0000-00-00 00:00:00', 'Exam'),
+(11, 'Upacara besok', 'BROOOOOOOO', 'Miku21 Margareth', '2022-12-08 03:31:45', '0000-00-00 00:00:00', 'Pengumuman_Sekolah'),
+(12, 'Miku21 Free from arrest', 'But still hunting children free, be warning guys', 'Miku21 Margareth', '2022-12-09 04:03:47', '0000-00-00 00:00:00', 'Event');
 
 -- --------------------------------------------------------
 
