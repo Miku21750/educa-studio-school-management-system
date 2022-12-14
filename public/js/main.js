@@ -178,42 +178,35 @@
           Line Chart 
       -------------------------------------*/
     if ($("#earning-line-chart").length) {
+      loadData(2019)
       var earningChart = null
-      // var inJan, inFeb, inMar, inApr, inMei, inJun, inJul, inAug, inSep, inOkt, inNov, inDes;
-      // var outJan, outFeb, outMar, outApr, outMei, outJun, outJul, outAug, outSep, outOkt, outNov, outDes;
-
-      // var getTahun;
-        const year = 2019
-          $.ajax({
-            type: "GET",
-            url: "/api/admin/chart?year=" + year,
-            dataType: "JSON",
-            success: function (data) {
-              // console.log(data.in)
-              drawChart(data)
-            }
-          });
-      $("#target-line-chart").change(function () {
-        let year = $("#target-line-chart").val();
+      function loadData(year) { 
         $.ajax({
           type: 'GET',
           url: "/api/admin/chart?year=" + year,
           dataType: "JSON",
           success: function (tahun) {
-            // console.log(tahun);
-            drawChart(tahun,true);
+            drawChart(tahun, true);
           }
         });
+       }
+      $("#target-line-chart").change(function () {
+        let year = $("#target-line-chart").val();
+        loadData(year)
       });
-
-      // $(document).ready(function () {
-        
-      // })
     }
 
-    function drawChart(data,ifExist) {
+    function drawChart(data, ifExist) {
+      for(let i = 1; i <= 12; i++){
+        if(data.in[i]==null){
+          data.in[i] = 0;
+        }
+        if(data.out[i]==null){
+          data.out[i] = 0;
+        }
+      }
       // console.log(earningChart == undefined)
-      if(earningChart != null){
+      if (earningChart != null) {
         // console.log(earningChart);
         earningChart.destroy();
       }
@@ -718,7 +711,10 @@ $('#show_book').on('click', '.book_detail', function () {
     data: { id: id },
     success: function (data) {
       // $.each(data, function (key, val) {
-      console.log(data);
+      // console.log(data);
+      $('#detail-book').on('shown.bs.modal', function () {
+        $('#ebook_name').focus();
+      });
       $('#detail-book').modal('show');
       $('[name="id_book"]').val(data[0].id_book);
       $('[name="ebook_name"]').val(data[0].name_book);
@@ -1007,7 +1003,10 @@ $('#show_transport').on('click', '.transport_detail', function () {
     data: { id: id },
     success: function (data) {
       // console.log(data.id_transport);
-      $('#detail-book').modal('show');
+      $('#detail-transport').on('shown.bs.modal', function () {
+        $('#eroute_name_edit').focus();
+      });
+      $('#detail-transport').modal('show');
       $('[name="id_transport"]').val(data.id_transport);
       $('[name="eroute_name"]').val(data.route_name);
       $('[name="edriver_name"]').val(data.driver_name);
@@ -1284,6 +1283,9 @@ $('#show_hostel').on('click', '.hostel_detail', function () {
     data: { id: id },
     success: function (data) {
       // console.log(data.id_hostel);
+      $('#detail-hostel').on('shown.bs.modal', function () {
+        $('#ehostel_name_edit').focus();
+      });
       $('#detail-hostel').modal('show');
       $('[name="id_hostel"]').val(data.id_hostel);
       $('[name="ehostel_name"]').val(data.hostel_name);
@@ -1423,12 +1425,12 @@ $(document).ready(function () {
     return false;
   });
 
-  //Update hostel
+  //Update exam
   $('#btn_update_exam').click(function (e) {
     var id_exam = $('#id_exam').val();
-    var exam_name = $('#eexam_name').val();
-    var id_subject = $('#esubject').val();
-    var id_class = $('#eclass').val();
+    var exam_name = $('#eexam_name_edit').val();
+    var id_subject = $('#esubject_edit').val();
+    var id_class = $('#eclass_edit').val();
     var exam_date = $('#eexam_date_send').val();
     var exam_start = $('#eexam_start_send').val();
     var exam_end = $('#eexam_end_send').val();
@@ -1491,7 +1493,8 @@ $(document).ready(function () {
     var exam_date = $('#eexam_date').val();
     var exam_start = $('#eexam_start').val();
     var exam_end = $('#eexam_end').val();
-    console.log(exam_name)
+    console.log(id_class);
+    console.log(id_subject);
     $.ajax({
       type: "POST",
       url: "/api/exam/add-exam",
@@ -1563,9 +1566,12 @@ $('#show_exam').on('click', '.exam_detail', function () {
     data: { id: id },
     success: function (data) {
       // console.log(data);
+      $('#detail-exam').on('shown.bs.modal', function () {
+        $('#eexam_name').focus();
+      });
       $('#detail-exam').modal('show');
       $('[name="id_exam"]').val(data.id_exam);
-      $('[name="eexam_name"]').val(data.exam_name);
+      $('[name="eexam_name_edit"]').val(data.exam_name);
       $('[name="esubject"]').val(data.id_subject).change();
       $('[name="eclass"]').val(data.id_class).change();
       $('[name="eexam_date"]').val(data.exam_date);

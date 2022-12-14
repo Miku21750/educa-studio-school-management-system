@@ -170,6 +170,9 @@ class DashboardAdminController
         $in = [];
         $out = [];
         for ($x = 1; $x <= 12; $x++) {
+            // if(){
+                
+            // }
             //dana masuk
             array_push($in, $app->db->sum('tbl_finances', 'amount_payment', Medoo::raw("WHERE MONTH(date_payment) = " . $x . " AND `tipe_finance` = 'Pemasukan' AND `status_pembayaran` = 'Dibayar' AND YEAR(date_payment) = " . $year)));
             //dana keluar
