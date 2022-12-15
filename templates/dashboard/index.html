@@ -1,6 +1,7 @@
 {% extends "/layout/master.html" %}
 {% set title = "Admin" %}
 {% set typeFrontEnd = "Dashboard Admin" %}
+{% set section_type = "Dashboard Admin" %}
 {# {% set message = auth|json_encode() %} #}
 {% block content %}
 
@@ -72,8 +73,7 @@
                 <div class="col-6">
                     <div class="item-content">
                         <div class="item-title">Keuangan</div>
-                        <div class="item-number"><span>Rp</span><span class="counter"
-                                data-num="{{totalDana}}">1,193,000</span></div>
+                        <div class="item-number">{{totalDanaShow}}</div>
                     </div>
                 </div>
             </div>
@@ -188,75 +188,14 @@
             </div>
         </div>
     </div>
-    <!-- <div class="col-lg-6 col-xl-6 col-4-xxxl">
-            <div class="card dashboard-card-five pd-b-20">
-                <div class="card-body pd-b-14">
-                    <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Website Traffic</h3>
-                        </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                aria-expanded="false">...</a>
-
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Tutup</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Ubah</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                            </div>
-                        </div>
-                    </div>
-                    <h6 class="traffic-title">Unique Visitors</h6>
-                    <div class="traffic-number">2,590</div>
-                    <div class="traffic-bar">
-                        <div class="direct" data-toggle="tooltip" data-placement="top" title="Direct">
-                        </div>
-                        <div class="search" data-toggle="tooltip" data-placement="top" title="Search">
-                        </div>
-                        <div class="referrals" data-toggle="tooltip" data-placement="top" title="Referrals">
-                        </div>
-                        <div class="social" data-toggle="tooltip" data-placement="top" title="Social">
-                        </div>
-                    </div>
-                    <div class="traffic-table table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td class="t-title pseudo-bg-Aquamarine">Direct</td>
-                                    <td>12,890</td>
-                                    <td>50%</td>
-                                </tr>
-                                <tr>
-                                    <td class="t-title pseudo-bg-blue">Search</td>
-                                    <td>7,245</td>
-                                    <td>27%</td>
-                                </tr>
-                                <tr>
-                                    <td class="t-title pseudo-bg-yellow">Referrals</td>
-                                    <td>4,256</td>
-                                    <td>8%</td>
-                                </tr>
-                                <tr>
-                                    <td class="t-title pseudo-bg-red">Social</td>
-                                    <td>500</td>
-                                    <td>7%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div> -->
+    
     <!-- All Notice Area Start Here -->
     <div class="col-12 col-xl-6 col-6-xxxl">
         <div class="card height-auto">
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Notice Board</h3>
+                        <h3>Pemberitahuan</h3>
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -270,18 +209,7 @@
                         </div>
                     </div>
                 </div>
-                <form class="mg-b-20">
-                    <div class="row gutters-8">
-                        <div class="col-lg-6 col-12 form-group">
-                            <input type="date" placeholder="Search by Date ..." id="searchDateNoticeBoard"
-                                class="form-control">
-                        </div>
-                        <div class="col-lg-6 col-12 form-group">
-                            <input type="text" placeholder="Search by Title ..." id="searchTitleNoticeBoard"
-                                class="form-control">
-                        </div>
-                    </div>
-                </form>
+                
                 <div class="notice-board-wrap" id="notice-list">
                     {# Notice List start here #}
 
@@ -292,282 +220,30 @@
     <!-- All Notice Area End Here -->
 </div>
 <!-- Dashboard Content End Here -->
-<!-- Social Media Start Here -->
-<div class="row gutters-20">
-    <div class="col-lg-3 col-sm-6 col-12">
-        <div class="card dashboard-card-seven">
-            <div class="social-media bg-fb hover-fb">
-                <div class="media media-none--lg">
-                    <div class="social-icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </div>
-                    <div class="media-body space-sm">
-                        <h6 class="item-title">Like halaman facebook</h6>
+
+    <!-- Modal Area Start Here -->
+    <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Notifications Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="notice-board-wrap" id="notice-list">
+                    <div class="modal-body" id="noticeDetailModal">
+
                     </div>
                 </div>
-                <div class="social-like">30,000</div>
+                <div class="modal-footer">
+                    {# <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
+                    <button type="button" class="footer-btn bg-linkedin">Save
+                        Changes</button> #}
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-sm-6 col-12">
-        <div class="card dashboard-card-seven">
-            <div class="social-media bg-twitter hover-twitter">
-                <div class="media media-none--lg">
-                    <div class="social-icon">
-                        <i class="fab fa-twitter"></i>
-                    </div>
-                    <div class="media-body space-sm">
-                        <h6 class="item-title">Followers twitter</h6>
-                    </div>
-                </div>
-                <div class="social-like">1,11,000</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-12">
-        <div class="card dashboard-card-seven">
-            <div class="social-media bg-gplus hover-gplus">
-                <div class="media media-none--lg">
-                    <div class="social-icon">
-                        <i class="fab fa-google-plus-g"></i>
-                    </div>
-                    <div class="media-body space-sm">
-                        <h6 class="item-title">Followers googleplus</h6>
-                    </div>
-                </div>
-                <div class="social-like">19,000</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-sm-6 col-12">
-        <div class="card dashboard-card-seven">
-            <div class="social-media bg-linkedin hover-linked">
-                <div class="media media-none--lg">
-                    <div class="social-icon">
-                        <i class="fab fa-linkedin-in"></i>
-                    </div>
-                    <div class="media-body space-sm">
-                        <h6 class="item-title">Followers LinkedIn</h6>
-                    </div>
-                </div>
-                <div class="social-like">45,000</div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!-- Social Media End Here -->
-    <!-- Some jquery here -->
-<script>
-    $(document).ready(function () {
-        var data = [];
+    <!-- Modal Area End Here -->
 
-        function difference2Parts(milliseconds) {
-            const secs = Math.floor(Math.abs(milliseconds) / 1000);
-            const mins = Math.floor(secs / 60);
-            const hours = Math.floor(mins / 60);
-            const days = Math.floor(hours / 24);
-            const millisecs = Math.floor(Math.abs(milliseconds)) % 1000;
-            const multiple = (term, n) => n !== 1 ? `${n} ${term}s` : `1 ${term}`;
-
-            return {
-                days: days,
-                hours: hours % 24,
-                hoursTotal: hours,
-                minutesTotal: mins,
-                minutes: mins % 60,
-                seconds: secs % 60,
-                secondsTotal: secs,
-                milliSeconds: millisecs,
-                get diffStr() {
-                    return `${multiple(`day`, this.days)}, ${
-                  multiple(`hour`, this.hours)}, ${
-                  multiple(`minute`, this.minutes)} and ${
-                  multiple(`second`, this.seconds)}`;
-                },
-                get diffStrMs() {
-                    return `${this.diffStr.replace(` and`, `, `)} and ${
-                  multiple(`millisecond`, this.milliSeconds)}`;
-                },
-            };
-        }
-
-        function untilXMas(date) {
-            const nextChristmas = new Date(date);
-            const report = document.querySelector(`#nextXMas`);
-
-            const diff = () => {
-                const diffs = difference2Parts(nextChristmas - new Date());
-                report.innerHTML = `Awaiting next XMas 🙂 (${
-                diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
-                <br>In other words, until next XMas lasts&hellip;<br>
-                In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${
-                diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
-                setTimeout(diff, 200);
-            };
-            return difference2Parts(nextChristmas - new Date());
-        }
-
-        function drawNotice(s) {
-            //console.log(s);
-            const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
-                "September", "Oktober", "November", "Desember"
-            ];
-            //drawNotice();
-            $.ajax({
-                type: "GET",
-                url: "/getNotice",
-                data: {
-                    search: s
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    //console.log(response[0])
-                    $('#notice-list').empty();
-                    $.each(response, function (i, data) {
-                        data += data[i]
-                        var dAwal = new Date(response[i].date_notice)
-                        var bulan = months[dAwal.getMonth()];
-                        var tanggal = dAwal.getDate();
-                        var tahun = dAwal.getFullYear();
-                        var minus = untilXMas(dAwal);
-                        //console.log(minus)
-                        //console.log(minus.minutesTotal);
-                        var difference;
-                        if (minus.minutesTotal <= 60) {
-                            difference = minus.minutesTotal + ' menit lalu';
-                        } else if (minus.hoursTotal <= 24) {
-                            difference = minus.hoursTotal + ' jam lalu';
-                        } else {
-                            difference = minus.days + ' hari lalu';
-                        }
-
-                        //console.log(response[i].category)
-                        var classCategory;
-                        switch (response[i].category) {
-                            case 'Exam': {
-                                classCategory = 'bg-warning'
-                            }
-                            break;
-                        case 'Pembayaran': {
-                            classCategory = 'bg-success'
-                        }
-                        break;
-                        case 'Event': {
-                            classCategory = 'bg-danger'
-                        }
-                        break;
-                        case 'Pengumuman_Sekolah': {
-                            classCategory = 'bg-primary'
-                        }
-                        break;
-                        default: {
-
-                        }
-                        break;
-                        }
-                        $('#notice-list').append(
-                            '<div class="notice-list noticeBoardToModal" data-id="' +
-                            response[i].id_notification +
-                            '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
-                            classCategory + '">' +
-                            tanggal + ' ' + bulan + ', ' + tahun +
-                            '</div><h6 class="notice-title"><a href="#">' + response[i]
-                            .title +
-                            '</a></h6> <div class="entry-meta">  ' + response[i]
-                            .posted_by +
-                            ' / <span>' + difference + '</span></div></div>')
-                    });
-                },
-                complete: function () {}
-            });
-        };
-        drawNotice();
-        $('#searchTitleNoticeBoard').keyup(function (e) {
-            var search = $('#searchTitleNoticeBoard').val();
-            drawNotice(search)
-            //console.log(search);
-        });
-
-        $('#searchDateNoticeBoard').change(function (e) {
-            var search = $('#searchDateNoticeBoard').val();
-            drawNotice(search)
-            //console.log(search);
-        }); 
-        $('#noticeModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var recipient = button.data('id') // Extract info from data-* attributes
-            const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
-                "September", "Oktober", "November", "Desember"
-            ];
-            // console.log(recipient);
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            $.ajax({
-                type: "GET",
-                url: "/getNoticeDetails",
-                data: {
-                    id: recipient
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    //console.log(response)
-                    var dAwal = new Date(response[0].date_notice)
-                        var bulan = months[dAwal.getMonth()];
-                        var tanggal = dAwal.getDate();
-                        var tahun = dAwal.getFullYear();
-                        var minus = untilXMas(dAwal);
-                        //console.log(minus)
-                        //console.log(minus.minutesTotal);
-                        var difference;
-                        if (minus.minutesTotal <= 60) {
-                            difference = minus.minutesTotal + ' menit lalu';
-                        } else if (minus.hoursTotal <= 24) {
-                            difference = minus.hoursTotal + ' jam lalu';
-                        } else {
-                            difference = minus.days + ' hari lalu';
-                        }
-
-                        //console.log(response[i].category)
-                        var classCategory;
-                        switch (response[0].category) {
-                            case 'Exam': {
-                                classCategory = 'bg-warning'
-                            }
-                            break;
-                        case 'Pembayaran': {
-                            classCategory = 'bg-success'
-                        }
-                        break;
-                        case 'Event': {
-                            classCategory = 'bg-danger'
-                        }
-                        break;
-                        case 'Pengumuman_Sekolah': {
-                            classCategory = 'bg-primary'
-                        }
-                        break;
-                        default: {
-
-                        }
-                        break;
-                        }
-                    var modal = $(this)
-                    $('#noticeDetailModal').empty()
-                    console.log($('#noticeDetailModal').html())
-                    $('#noticeDetailModal').append('<div class="notice-list noticeBoardToModal" data-id="' +
-                    response[0].id_notification +
-                    '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
-                    classCategory + '">' +
-                    tanggal + ' ' + bulan + ', ' + tahun +
-                    '</div><h6 class="notice-title"><a href="#">' + response[0]
-                    .title +
-                    '</a></h6> <p>'+response[0].details+'</p> <div class="entry-meta">  ' + response[0]
-                    .posted_by +
-                    ' / <span>' + difference + '</span></div></div>');
-                }
-            });
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-    
-          })
-    });
-</script>
 {% endblock content %}

@@ -187,6 +187,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getBookS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return LibraryController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/book-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -271,6 +278,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getTransportS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return TransportController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/transport-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -322,6 +336,13 @@ return function (App $app) {
                         '/getHostel',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return HostelController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
+                        '/getHostelS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return HostelController::tampil_dataS($this, $request, $response, $args);
                         }
                     );
 
@@ -381,6 +402,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getExamS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_dataS ($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/getExamGrade',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return ExamController::tampil_data_grade($this, $request, $response, $args);
@@ -393,6 +421,15 @@ return function (App $app) {
                             $data = $args['id'];
                             // return var_dump($data);
                             return ExamController::detail($this, $request, $response, $data);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/grade-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return ExamController::grade_detail($this, $request, $response, $data);
                         }
                     );
 
@@ -408,11 +445,11 @@ return function (App $app) {
                     );
 
                     $app->post(
-                        '/update-exam-grade',
+                        '/update-grade-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
-                            return ExamController::update_exam_detail($this, $request, $response, [
+                            return ExamController::update_grade_detail($this, $request, $response, [
                                 'data' => $data,
                             ]);
                         }
