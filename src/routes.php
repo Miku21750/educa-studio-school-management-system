@@ -1392,7 +1392,6 @@ return function (App $app) {
                 'details',
                 'posted_by',
                 'date_notice',
-                'terbaca',
                 'category'
             ], 
             Medoo::raw("WHERE
@@ -1431,20 +1430,60 @@ return function (App $app) {
             return $response->withJson($dataNotice);
         }
     )->add(new Auth());
-
     $app->post(
         '/sendNotice',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $dataRequest = $request->getParsedBody();
             // return var_dump($dataRequest);
+            $dateEvent = $dataRequest['date_event'];
+            if($dateEvent = ''){
+                $dateEvent = 0;
+            }
             $sendNotice = $container->db->insert('tbl_notifications', [
                 'title' => $dataRequest['title'],
                 'details' => $dataRequest['details'],
                 'posted_by' => $dataRequest['UserType'],
-                'terbaca' => 0,
+                'date_event'=>$dataRequest['date_event'],
                 'category' => $dataRequest['category'],
+                
             ]);
+            return $response->withJson(array('success' => true));
+            // $container->view->render($response, 'others/notice-board.html', $args);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/editNotice',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParsedBody();
+            //return var_dump($dataRequest);
+            $dateEvent = $dataRequest['date_event'];
+            if($dateEvent = ''){
+                $dateEvent = 0;
+            }
+            $sendNotice = $container->db->update('tbl_notifications', [
+                'title' => $dataRequest['title'],
+                'details' => $dataRequest['details'],
+                'posted_by' => $dataRequest['UserType'],
+                'date_event'=>$dataRequest['date_event'],
+                'category' => $dataRequest['category'],
+            ],[
+                'id_notification'=> $dataRequest['id']
+            ]);
+            return $response->withJson(array('success' => true));
+            // $container->view->render($response, 'others/notice-board.html', $args);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/deleteNotice',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParsedBody();
+            $delete = $container->db    ->delete('tbl_notifications', [
+                'id_notification'=>$dataRequest['id_notification']
+            ]);
+            //return var_dump($delete);
             return $response->withJson(array('success' => true));
             // $container->view->render($response, 'others/notice-board.html', $args);
         }

@@ -1,3 +1,5 @@
+
+
 (function ($) {
   "use strict";
 
@@ -480,42 +482,51 @@
     /*-------------------------------------
           Calender initiate 
       -------------------------------------*/
-    if ($.fn.fullCalendar !== undefined) {
-      $('#fc-calender').fullCalendar({
-        header: {
-          center: 'basicDay,basicWeek,month',
-          left: 'title',
-          right: 'prev,next',
-        },
-        fixedWeekCount: false,
-        navLinks: true, // can click day/week names to navigate views
-        editable: true,
-        eventLimit: true, // allow "more" link when too many events
-        aspectRatio: 1.8,
-        events: [{
-          title: 'All Day Event',
-          start: '2019-04-01'
-        },
-
-        {
-          title: 'Meeting',
-          start: '2019-04-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2019-04-15T17:30:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2019-04-20T07:00:00'
+      
+    $.ajax({
+      type: "GET",
+      url: "/getNotice",
+      dataType: "JSON",
+      success: function (response) {
+        // console.log(response)
+        var dataEventCalendar = response;
+        var event = [];
+        // console.log(dataEventCalendar)
+        for(var i = 0; i<dataEventCalendar.length;i++){
+          var time_temp = new Date(dataEventCalendar[i].date_event);
+          var time = time_temp.getTime();
+          event.push({
+            title: dataEventCalendar[i].title,
+            start: time,
+            color: 'yellow',
+          })
         }
-        ]
-      });
-    }
+        console.log(event)
+        if ($.fn.fullCalendar !== undefined) {
+          calendarEvent(event);
+        }
+      }
+    });
+
   });
 
 })(jQuery);
-
+function calendarEvent(event){
+  $('#fc-calender').fullCalendar({
+    header: {
+      center: 'basicDay,basicWeek,month',
+      left: 'title',
+      right: 'prev,next',
+    },
+    fixedWeekCount: false,
+    navLinks: true, // can click day/week names to navigate views
+    editable: true,
+    eventLimit: true, // allow "more" link when too many events
+    aspectRatio: 1.8,
+    events: event,
+    // defaultView: 'ay'
+  });
+}
 /*-------------------------------------
     DataTable Library
 -------------------------------------*/
