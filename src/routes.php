@@ -388,6 +388,15 @@ return function (App $app) {
                             return ExamController::detail($this, $request, $response, $data);
                         }
                     );
+                    
+                    $app->get(
+                        '/{id}/grade-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return ExamController::grade_detail($this, $request, $response, $data);
+                        }
+                    );
 
                     $app->post(
                         '/update-exam-detail',
@@ -401,11 +410,11 @@ return function (App $app) {
                     );
                     
                     $app->post(
-                        '/update-exam-grade',
+                        '/update-grade-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
-                            return ExamController::update_exam_detail($this, $request, $response, [
+                            return ExamController::update_grade_detail($this, $request, $response, [
                                 'data' => $data,
                             ]);
                         }
