@@ -73,7 +73,6 @@ return function (App $app) {
                 'details',
                 'posted_by',
                 'date_notice',
-                'terbaca',
                 'category'
             ], 
             Medoo::raw("WHERE

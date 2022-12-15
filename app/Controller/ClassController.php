@@ -12,10 +12,10 @@ class ClassController
 
     public static function index($app, $request, $response, $args)
     {
-        
+
         // return var_dump($id_finance);
         $section = $app->db->select('tbl_sections', '*');
-        $guru = $app->db->select('tbl_users', '*',[
+        $guru = $app->db->select('tbl_users', '*', [
             "id_user_type" => 2
         ]);
 
@@ -24,7 +24,7 @@ class ClassController
         unset($_SESSION['berhasil']);
 
         $app->view->render($response, 'class/all-class.html', [
-          
+
             'type_user' => $_SESSION['type_user'],
             'berhasil' => $berhasil,
             'guru' => $guru,
@@ -60,7 +60,7 @@ class ClassController
                 "[><]tbl_users" => "id_class",
 
             ],
-           '*',
+            '*',
             [
                 "id_user_type" => 2,
                 "id_class[!]" => 0,
@@ -105,9 +105,9 @@ class ClassController
                 [
                     "[><]tbl_sections" =>  "id_section",
                     "[><]tbl_users" => "id_class",
-    
+
                 ],
-               '*',
+                '*',
                 // $limit,
                 $conditions
             );
@@ -123,7 +123,7 @@ class ClassController
                 "[><]tbl_users" => "id_class",
 
             ],
-           '*',
+            '*',
             $conditions
         );
 
@@ -160,6 +160,119 @@ class ClassController
                         </button></a>
                 </div>
             </div>';
+
+                $data[] = $datas;
+                $no++;
+            }
+        }
+
+        // $totaldata = count($data);
+        // $totalfiltered = $totaldata;
+
+
+        $json_data = array(
+            "draw"            => intval($request->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        echo json_encode($json_data);
+    }
+
+    public static function getAllClassS($app, $request, $response, $args)
+    {
+        $kelas = $app->db->select('tbl_users', 'id_class', [
+            "id_user" => $_SESSION['id_user']
+        ]);
+
+        $data = $app->db->select(
+            'tbl_classes',
+            [
+                "[><]tbl_sections" =>  "id_section",
+                "[><]tbl_users" => "id_class",
+
+            ],
+            '*',
+            [
+                "id_user_type" => 1,
+                "id_class" => $kelas
+            ]
+        );
+        // return die(var_dump($data));
+        $columns = array(
+            0 => 'id',
+        );
+
+        $totaldata = count($data);
+        $totalfiltered = $totaldata;
+        $limit = $request->getParam('length');
+        $start = $request->getParam('start');
+        $order = $request->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $request->getParam('order');
+        $dir = $dir[0]['dir'];
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+            "id_user_type" => 1,
+            "id_class" => $kelas
+
+        ];
+
+        if (!empty($request->getParam('search')['value'])) {
+            $search = $request->getParam('search')['value'];
+            $limit = [
+                "LIMIT" => [$start, $limit]
+            ];
+            $conditions['OR'] = [
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+
+            ];
+            $data = $app->db->select(
+                'tbl_classes',
+                [
+                    "[><]tbl_sections" =>  "id_section",
+                    "[><]tbl_users" => "id_class",
+
+                ],
+                '*',
+                // $limit,
+                $conditions
+            );
+            // return die(var_dump($data));
+            $totaldata = count($data);
+            $totalfiltered = $totaldata;
+        }
+
+        $list = $app->db->select(
+            'tbl_classes',
+            [
+                "[><]tbl_sections" =>  "id_section",
+                "[><]tbl_users" => "id_class",
+
+            ],
+            '*',
+            $conditions
+        );
+
+        $data = array();
+
+
+        if (!empty($list)) {
+            $no = $request->getParam('start') + 1;
+            foreach ($list as $i) {
+
+                $datas['no'] = $no . '.';
+                $datas['Nisn'] = $i['NISN'];
+                $datas['Nama'] = $i['first_name'] . " " . $i['last_name'];
+                $datas['gender'] = $i['gender'];
+                $datas['kelas'] = $i['class'];
+                $datas['bagian'] = $i['section'];
+                $datas['phone_user'] = $i['phone_user'];
+                $datas['email'] = $i['email'];
+
 
                 $data[] = $datas;
                 $no++;
@@ -254,7 +367,7 @@ class ClassController
     public static function modal_detail($app, $request, $response, $args)
     {
         $id = $args['data'];
-        
+
 
 
         $data = $app->db->select(
@@ -264,8 +377,8 @@ class ClassController
                 "[>]tbl_sections" => ["tbl_classes.id_section" => "id_section"]
 
             ],
-           '*',
-            [   
+            '*',
+            [
                 "id_user" => $id,
                 "id_user_type" => 2,
                 "a.id_class[!]" => 0,
@@ -285,28 +398,27 @@ class ClassController
         // return var_dump($uploadedFiles);
         $update = $app->db->update('tbl_classes', [
             "id_section" => $data['id_section'],
-            "class" => $data['class'],  
+            "class" => $data['class'],
         ], [
-         
+
             "id_class" => $data['id_class'],
 
         ]);
 
-        if($data['id_user'] != $data['old_id_user']){
+        if ($data['id_user'] != $data['old_id_user']) {
             $user = $app->db->update("tbl_users", [
                 "id_class" => 0,
             ], [
                 "id_user" => $data['old_id_user'],
             ]);
-        }else{
-           
+        } else {
         }
         $user = $app->db->update("tbl_users", [
             "id_class" => $data['id_class'],
         ], [
             "id_user" => $data['id_user'],
         ]);
-       
+
 
 
 
@@ -317,7 +429,6 @@ class ClassController
         );
 
         echo json_encode($json_data);
-
     }
 
     public static function viewAddClass($app, $request, $response, $args)
@@ -334,5 +445,4 @@ class ClassController
             'dataSubject' => $dataSubject,
         ]);
     }
-    
 }
