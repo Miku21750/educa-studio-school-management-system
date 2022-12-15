@@ -18,19 +18,19 @@
                     }
                 },
                 "columnDefs": [
-                    {  "targets": 0, className: "text-center", "orderable": false },
-                    {  "targets": 1, className: "text-start", "orderable": false },
-                    {  "targets": 2, className: "text-start", "orderable": false },
-                    {  "targets": 3, className: "text-start", "orderable": false },
-                    {  "targets": 4, className: "text-start", "orderable": false },
-                    {  "targets": 5, className: "text-start", "orderable": false },
-                    {  "targets": 6, className: "text-start", "orderable": false },
-                    {  "targets": 7, className: "text-start", "orderable": false },
-                    {  "targets": 8, className: "text-start", "orderable": false },
-                    {  "targets": 10, className: "text-start", "orderable": false },
-                    {  "targets": 11, className: "text-start", "orderable": false },
-                    {  "targets": 12, className: "text-start", "orderable": false },
-                    
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-start", "orderable": false },
+                    { "targets": 5, className: "text-start", "orderable": false },
+                    { "targets": 6, className: "text-start", "orderable": false },
+                    { "targets": 7, className: "text-start", "orderable": false },
+                    { "targets": 8, className: "text-start", "orderable": false },
+                    { "targets": 10, className: "text-start", "orderable": false },
+                    { "targets": 11, className: "text-start", "orderable": false },
+                    { "targets": 12, className: "text-start", "orderable": false },
+
                 ],
                 'pageLength': 10,
                 'responsive': true,
@@ -99,7 +99,7 @@
                             willClose: () => {
                                 clearInterval(timerInterval)
                             }
-                            
+
                         }).then((result) => {
                             table.draw(false)
                             pengeluaran.draw(false)
@@ -112,7 +112,7 @@
 
                             )
                         })
-                        
+
 
                     } else {
                         Swal.fire({
@@ -125,7 +125,6 @@
 
 
 
-                    //tampil_data_barang();
                 }
             });
             return false;
@@ -135,93 +134,93 @@
         $('#show_payment').on('click', '.payment_detail', function () {
             var id = $(this).attr('data');
             $.ajax({
-              type: "GET",
-              url: "/" + "api" + "/" + id + "/payment-detail",
-              dataType: "JSON",
-              data: { id: id },
-              success: function (data) {
+                type: "GET",
+                url: "/" + "api" + "/" + id + "/payment-detail",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (data) {
 
-                // $.each(data, function (key, val) {
-                console.log(data);
-                //$('#detail-payment').modal('show');
-                $('#detail-payment').on('shown.bs.modal', function (e) {
-                    $('#amount_payment').focus();
-                 }).modal('show');
-                $('[name="id_finance"]').val(data.id_finance );
-                $('[name="NISN"]').val(data.NISN);
-                $('[name="nama"]').val(data.first_name+ ' ' + data.last_name);
-                $('[name="class"]').val(data.class + ' ' + data.section);
-                $('[name="payment_type_name"]').val(data.id_payment_type).change();
-                $('[name="amount_payment"]').val(data.amount_payment);
-                $('[name="status_pembayaran"]').val(data.status_pembayaran).change();
-                $('[name="date_payment"]').val(data.date_payment);
-                $('[name="tipe_finance"]').val(data.tipe_finance).change();
-         
-                // });
-              }
+                    // $.each(data, function (key, val) {
+                    console.log(data);
+                    //$('#detail-payment').modal('show');
+                    $('#detail-payment').on('shown.bs.modal', function (e) {
+                        $('#amount_payment').focus();
+                    }).modal('show');
+                    $('[name="id_finance"]').val(data.id_finance);
+                    $('[name="NISN"]').val(data.NISN);
+                    $('[name="nama"]').val(data.first_name + ' ' + data.last_name);
+                    $('[name="class"]').val(data.class + ' ' + data.section);
+                    $('[name="payment_type_name"]').val(data.id_payment_type).change();
+                    $('[name="amount_payment"]').val(data.amount_payment);
+                    $('[name="status_pembayaran"]').val(data.status_pembayaran).change();
+                    $('[name="date_payment"]').val(data.date_payment);
+                    $('[name="tipe_finance"]').val(data.tipe_finance).change();
+
+                    // });
+                }
             });
             return false;
-          });
+        });
 
-          //Update Payment
-  $('#btn_update_payment_edit').click(function (e) {
-    var id_finance = $('#id_finance').val();
-    var payment_type_name = $('#payment_type_name').val();
-    var amount_payment = $('#amount_payment').val();
-    var status_pembayaran = $('#status_pembayaran').val();
-    var date_payment = $('#date_payment').val();
-    var tipe_finance = $('#tipe_finance').val();
-    $.ajax({
-      type: "POST",
-      url: "/api/update-payment-detail",
-      dataType: "JSON",
-      data: { id_finance: id_finance, payment_type_name: payment_type_name, amount_payment: amount_payment, status_pembayaran: status_pembayaran, date_payment: date_payment, tipe_finance:tipe_finance },
-      success: function (data) {
-        if (data) {
-          $('#detail-payment').modal('hide');
-          let timerInterval
-          Swal.fire({
-            title: 'Memuat Data...',
-            html: 'Tunggu  <b></b>  Detik.',
-            timer: 300,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading()
-              const b = Swal.getHtmlContainer().querySelector('b')
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
-              }, 100)
-            },
-            willClose: () => {
-              clearInterval(timerInterval)
-            }
-          }).then((result) => {
-            table.draw(false)
-            pengeluaran.draw(false)
-            Swal.fire(
-              {
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data telah diubah.',
-                //footer: '<a href="">Why do I have this issue?</a>'
-              }
+        //Update Payment
+        $('#btn_update_payment_edit').click(function (e) {
+            var id_finance = $('#id_finance').val();
+            var payment_type_name = $('#payment_type_name').val();
+            var amount_payment = $('#amount_payment').val();
+            var status_pembayaran = $('#status_pembayaran').val();
+            var date_payment = $('#date_payment').val();
+            var tipe_finance = $('#tipe_finance').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/update-payment-detail",
+                dataType: "JSON",
+                data: { id_finance: id_finance, payment_type_name: payment_type_name, amount_payment: amount_payment, status_pembayaran: status_pembayaran, date_payment: date_payment, tipe_finance: tipe_finance },
+                success: function (data) {
+                    if (data) {
+                        $('#detail-payment').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            table.draw(false)
+                            pengeluaran.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah diubah.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
 
-            )
-          })
+                            )
+                        })
 
-          transTable.draw(false)
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Ada yang eror!',
-            //footer: '<a href="">Why do I have this issue?</a>'
-          })
-        }
-      }
-    });
-    return false;
-  });
+                        transTable.draw(false)
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+                }
+            });
+            return false;
+        });
 
 
         pengeluaran = function () {
@@ -240,16 +239,16 @@
                     }
                 },
                 "columnDefs": [
-                    {  "targets": 0, className: "text-center", "orderable": false },
-                    {  "targets": 1, className: "text-start", "orderable": false },
-                    {  "targets": 2, className: "text-start", "orderable": false },
-                    {  "targets": 3, className: "text-start", "orderable": false },
-                    {  "targets": 4, className: "text-start", "orderable": false },
-                    {  "targets": 5, className: "text-start", "orderable": false },
-                    {  "targets": 6, className: "text-start", "orderable": false },
-                    {  "targets": 7, className: "text-end", "orderable": false },
-                    {  "targets": 8, className: "text-end", "orderable": false },
-                   
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-start", "orderable": false },
+                    { "targets": 5, className: "text-start", "orderable": false },
+                    { "targets": 6, className: "text-start", "orderable": false },
+                    { "targets": 7, className: "text-end", "orderable": false },
+                    { "targets": 8, className: "text-end", "orderable": false },
+
                 ],
                 'pageLength': 10,
                 'responsive': true,
@@ -278,10 +277,10 @@
             });
 
         }
-        pengeluaran ();
+        pengeluaran();
 
-         //GET HAPUS
-         $('#show_expense').on('click', '.item_hapus', function () {
+        //GET HAPUS
+        $('#show_expense').on('click', '.item_hapus', function () {
             var id = $(this).attr('data');
             $('#confirmation-modal').modal('show');
             $('[name="kode"]').val(id);
@@ -290,86 +289,86 @@
         $('#show_expense').on('click', '.payment_detail', function () {
             var id = $(this).attr('data');
             $.ajax({
-              type: "GET",
-              url: "/" + "api" + "/" + id + "/payment-detail",
-              dataType: "JSON",
-              data: { id: id },
-              success: function (data) {
+                type: "GET",
+                url: "/" + "api" + "/" + id + "/payment-detail",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (data) {
 
-                // $.each(data, function (key, val) {
-                console.log(data);
-                $('#detail-payment').on('shown.bs.modal', function (e) {
-                    $('#amount_payment').focus();
-                 }).modal('show');
-                $('[name="id_finance"]').val(data.id_finance );
-                $('[name="NISN"]').val(data.NISN);
-                $('[name="nama"]').val(data.first_name+ ' ' + data.last_name);
-                $('[name="payment_type_name"]').val(data.id_payment_type).change();
-                $('[name="amount_payment"]').val(data.amount_payment);
-                $('[name="status_pembayaran"]').val(data.status_pembayaran).change();
-                $('[name="date_payment"]').val(data.date_payment);
-                $('[name="tipe_finance"]').val(data.tipe_finance).change();
-         
-                // });
-              }
+                    // $.each(data, function (key, val) {
+                    console.log(data);
+                    $('#detail-payment').on('shown.bs.modal', function (e) {
+                        $('#amount_payment').focus();
+                    }).modal('show');
+                    $('[name="id_finance"]').val(data.id_finance);
+                    $('[name="NISN"]').val(data.NISN);
+                    $('[name="nama"]').val(data.first_name + ' ' + data.last_name);
+                    $('[name="payment_type_name"]').val(data.id_payment_type).change();
+                    $('[name="amount_payment"]').val(data.amount_payment);
+                    $('[name="status_pembayaran"]').val(data.status_pembayaran).change();
+                    $('[name="date_payment"]').val(data.date_payment);
+                    $('[name="tipe_finance"]').val(data.tipe_finance).change();
+
+                    // });
+                }
             });
             return false;
-          });
+        });
 
 
-          var id = $('#id_parent').attr('data-id');
-          Tabel1Show = function () {
-  
-              table1 = $("#data_v2").on('preXhr.dt', function (e, settings, data) {
-                  
-                  console.log('loading ....');
-                  
-              }).on('draw.dt', function () {
-                  console.log(id);
-                  
-              }).DataTable({
-                  responsive: {
-                      details: {
-                          type: 'column'
-                      }
-                  },
-                  "columnDefs": [
-                      { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-                      { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
-                      { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
-                      { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
-                      { "width": "10%", "targets": 4, className: "text-center", "orderable": false },
-                      { "width": "10%", "targets": 5, className: "text-end", "orderable": false },
-                      { "width": "15%", "targets": 6, className: "text-end", "orderable": false }
-  
-                  ],
-                  'pageLength': 10,
-                  'responsive': true,
-                  'processing': true,
-                  'serverSide': true,
-                  'ajax': {
-                      'url': "/api"+"/"+ id + "/select",
-                      'dataType:': 'json',
-                      'type': 'get',
-  
-                  },
-                  'columns': [
-                      { 'data': 'NISN' },
-                      { 'data': 'Nama' },
-                      { 'data': 'payment_type_name' },
-                      { 'data': 'amount_payment' },
-                      { 'data': 'status_pembayaran' },
-                      { 'data': 'email' },
-                      { 'data': 'date_payment' }
-  
-                  ]
-                  
-          
-              });
-  
-          }
+        var id = $('#id_parent').attr('data-id');
+        Tabel1Show = function () {
 
-          Tabel1Show();
+            table1 = $("#data_v2").on('preXhr.dt', function (e, settings, data) {
+
+                console.log('loading ....');
+
+            }).on('draw.dt', function () {
+                console.log(id);
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+                    { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+                    { "width": "10%", "targets": 4, className: "text-center", "orderable": false },
+                    { "width": "10%", "targets": 5, className: "text-end", "orderable": false },
+                    { "width": "15%", "targets": 6, className: "text-end", "orderable": false }
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api" + "/" + id + "/select",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'NISN' },
+                    { 'data': 'Nama' },
+                    { 'data': 'payment_type_name' },
+                    { 'data': 'amount_payment' },
+                    { 'data': 'status_pembayaran' },
+                    { 'data': 'email' },
+                    { 'data': 'date_payment' }
+
+                ]
+
+
+            });
+
+        }
+
+        Tabel1Show();
     });
 
 
@@ -377,7 +376,7 @@
 
 
 
-    
+
 
 
 </script>

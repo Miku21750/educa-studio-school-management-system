@@ -82,6 +82,8 @@ class DashboardTeacherController
             'pendapatanTotal' => $pendapatanTotal,
             'siswaLakiLaki' => $siswaLakiLaki,
             'siswaPerempuan' => $siswaPerempuan,
+            'user' => $args['user'],
+            'type' => $args['type'],
         ]);
     }
 

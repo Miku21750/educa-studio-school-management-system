@@ -209,9 +209,11 @@ class AcconuntController
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_finance'] . '"">
+                            class="fas fa-trash text-orange-red"></i>
+                            <button type="button" class="btn btn-light item_hapus" data="' . $m['id_finance'] . '"">
                             Hapus
                         </button></a>
+                        
                     <a class="dropdown-item " ><i
                             class="fas fa-solid fa-edit text-orange-peel"></i><button type="button" class="btn btn-light payment_detail"  data="' . $m['id_finance'] . '"" >
                             Ubah

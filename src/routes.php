@@ -106,7 +106,7 @@ return function (App $app) {
                             return DashboardAdminController::apiData($this, $request, $response, $args);;
                         }
                     );
-                    
+
                     $app->get(
                         '/chart',
                         function (Request $request, Response $response, array $args) use ($app) {
@@ -128,19 +128,50 @@ return function (App $app) {
                     );
 
                     $app->post(
-                        '/hapus-kelas/{id_class}', 
+                        '/hapus-kelas',
                         function (Request $request, Response $response, array $args) use ($app) {
-                            return $response->withJson(ClassController::deleteClassMod($this, $request, $response, $args));
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ClassController::deleteClassMod($this, $request, $response, [
+                                'data' => $data
+                            ]);
                         }
                     );
 
                     $app->get(
-                        '/getallclassdt', 
+                        '/getallclassdt',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return ClassController::getAllClassDt($this, $request, $response, $args);
                         }
                     );
 
+                    $app->get(
+                        '/getallclassS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ClassController::getAllClassS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
+                        '/{id}detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return ClassController::modal_detail($this, $request, $response, [
+                                'data' => $data
+                            ]);
+                        }
+                    );
+                    $app->post(
+                        '/updateclass',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $request->getParsedBody();
+                            // return var_dump($data);
+                            return ClassController::update_kelas_detail($this, $request, $response, [
+                                'data' => $data,
+                            ]);
+                        }
+                    );
                 }
             );
 
@@ -348,7 +379,7 @@ return function (App $app) {
                             return ExamController::tampil_data($this, $request, $response, $args);
                         }
                     );
-                    
+
                     $app->get(
                         '/getExamGrade',
                         function (Request $request, Response $response, array $args) use ($app) {
@@ -375,7 +406,7 @@ return function (App $app) {
                             ]);
                         }
                     );
-                    
+
                     $app->post(
                         '/update-exam-grade',
                         function (Request $request, Response $response, array $args) use ($app) {
@@ -504,13 +535,13 @@ return function (App $app) {
             $app->get(
                 '/allclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return $response->withJson(ClassRoutineController::view_data_classroutine($this, $request, $response, $args));  
+                    return $response->withJson(ClassRoutineController::view_data_classroutine($this, $request, $response, $args));
                 }
             );
             $app->get(
                 '/allclassroutine1',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return $response->withJson(ClassRoutineController::view_data_classroutine1($this, $request, $response, $args));  
+                    return $response->withJson(ClassRoutineController::view_data_classroutine1($this, $request, $response, $args));
                 }
             );
             $app->post(
@@ -1071,7 +1102,9 @@ return function (App $app) {
         '/all-class',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'class/all-class.html', $args);
+            return ClassController::index($this, $request, $response, $args);
+
+            // $container->view->render($response, 'class/all-class.html', $args);
         }
     )->add(new Auth());
     $app->get(
@@ -1112,16 +1145,16 @@ return function (App $app) {
             // $class = $container->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
             $class = $container->db->select('tbl_classes', [
                 '[>]tbl_sections' => 'id_section'
-            ],'*');
+            ], '*');
             $subject = $container->db->select('tbl_subjects', '*');
             // SELECT session FROM `tbl_users` WHERE session != 0 GROUP BY session
-            $sessionAttend = $container->db->select('tbl_users','session',[
-                'session[!]'=>0,
-                'GROUP'=>[
+            $sessionAttend = $container->db->select('tbl_users', 'session', [
+                'session[!]' => 0,
+                'GROUP' => [
                     'session'
-                    ]
-                ]);
-                // return die(var_dump($sessionAttend));
+                ]
+            ]);
+            // return die(var_dump($sessionAttend));
             $container->view->render($response, 'others/student-attendence.html', [
                 'class' => $class,
                 'subject' => $subject,
@@ -1136,16 +1169,16 @@ return function (App $app) {
             // $class = $container->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
             $class = $container->db->select('tbl_classes', [
                 '[>]tbl_sections' => 'id_section'
-            ],'*');
+            ], '*');
             $subject = $container->db->select('tbl_subjects', '*');
             // SELECT session FROM `tbl_users` WHERE session != 0 GROUP BY session
-            $sessionAttend = $container->db->select('tbl_users','session',[
-                'session[!]'=>0,
-                'GROUP'=>[
+            $sessionAttend = $container->db->select('tbl_users', 'session', [
+                'session[!]' => 0,
+                'GROUP' => [
                     'session'
-                    ]
-                ]);
-                // return die(var_dump($sessionAttend));
+                ]
+            ]);
+            // return die(var_dump($sessionAttend));
             $container->view->render($response, 'others/admin-student-attendance.html', [
                 'class' => $class,
                 'subject' => $subject,
@@ -1158,22 +1191,22 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $dataRequest = $request->getParams();
-            $tanggal = $container->db->select('tbl_attendances','tanggal',[
-                'id_subject'=> $dataRequest['subject'],
-                'GROUP'=>[
+            $tanggal = $container->db->select('tbl_attendances', 'tanggal', [
+                'id_subject' => $dataRequest['subject'],
+                'GROUP' => [
                     'tanggal'
                 ]
             ]);
-            $checkTodayIfAdd = $container->db->select('tbl_attendances','tanggal',[
-                'id_subject'=> $dataRequest['subject'],
-                'tanggal'=>Medoo::raw('CURRENT_DATE')
+            $checkTodayIfAdd = $container->db->select('tbl_attendances', 'tanggal', [
+                'id_subject' => $dataRequest['subject'],
+                'tanggal' => Medoo::raw('CURRENT_DATE')
             ]);
-            $viewStudentAttend = $container->db->select('tbl_users',[
-                '[>]tbl_classes'=>'id_class',
-                '[>]tbl_sections'=>['tbl_classes.id_section'=>'id_section'],
-                '[>]tbl_subjects'=>'id_subject',
-                '[>]tbl_attendances'=>'id_user'
-            ],[
+            $viewStudentAttend = $container->db->select('tbl_users', [
+                '[>]tbl_classes' => 'id_class',
+                '[>]tbl_sections' => ['tbl_classes.id_section' => 'id_section'],
+                '[>]tbl_subjects' => 'id_subject',
+                '[>]tbl_attendances' => 'id_user'
+            ], [
                 'id_user',
                 'first_name',
                 'last_name',
@@ -1182,16 +1215,16 @@ return function (App $app) {
                 'tbl_subjects.subject_name',
                 'tbl_attendances.id_attendance',
                 'tbl_attendances.tanggal'
-            ],[
-                'id_class'=> $dataRequest['class'],
-                'session'=>$dataRequest['session']
+            ], [
+                'id_class' => $dataRequest['class'],
+                'session' => $dataRequest['session']
             ]);
-            $dataStudentArrivedInAttend = $container->db->select('tbl_users',[
-                '[>]tbl_classes'=>'id_class',
-                '[>]tbl_sections'=>['tbl_classes.id_section'=>'id_section'],
-                '[>]tbl_subjects'=>'id_subject',
-                '[>]tbl_attendances'=>'id_user'
-            ],[
+            $dataStudentArrivedInAttend = $container->db->select('tbl_users', [
+                '[>]tbl_classes' => 'id_class',
+                '[>]tbl_sections' => ['tbl_classes.id_section' => 'id_section'],
+                '[>]tbl_subjects' => 'id_subject',
+                '[>]tbl_attendances' => 'id_user'
+            ], [
                 'id_user',
                 'first_name',
                 'last_name',
@@ -1200,50 +1233,53 @@ return function (App $app) {
                 'tbl_subjects.subject_name',
                 'tbl_attendances.id_attendance',
                 'tbl_attendances.tanggal'
-            ],[
-                'id_class'=> $dataRequest['class'],
-                'session'=>$dataRequest['session'],
-                'GROUP'=>[
+            ], [
+                'id_class' => $dataRequest['class'],
+                'session' => $dataRequest['session'],
+                'GROUP' => [
                     'id_user'
-                    ]
-                ]);
-                $checkTotalStudent = count($dataStudentArrivedInAttend);
-                $checkStudentDateIfExistChecklist = [];
-                for ($i = 0; $i<$checkTotalStudent; $i++){
-                    $checkValidTotalStudent = $container->db->select('tbl_attendances','tanggal',[
-                        'id_subject'=>$dataRequest['subject'],
-                        'id_user'=>$dataStudentArrivedInAttend[$i]['id_user'],
-                        'absence'=>1
-                    ]);
-                    // $checkStudentDateIfExistChecklist = $checkValidTotalStudent;
-                    array_push($checkStudentDateIfExistChecklist, $checkValidTotalStudent);
-                    // if($checkValidTotalStudent);
-                }
-                // return die(var_dump($dataStudentArrivedInAttend));
-                // return die(var_dump($checkStudentDateIfExistChecklist));
-            
-            $subjectStudentAttend = $container->db->select('tbl_subjects', '*',[
-                'id_subject'=>$dataRequest['subject']
+                ]
             ]);
-            if($checkTodayIfAdd == null){
+            $checkTotalStudent = count($dataStudentArrivedInAttend);
+            $checkStudentDateIfExistChecklist = [];
+            for ($i = 0; $i < $checkTotalStudent; $i++) {
+                $checkValidTotalStudent = $container->db->select('tbl_attendances', 'tanggal', [
+                    'id_subject' => $dataRequest['subject'],
+                    'id_user' => $dataStudentArrivedInAttend[$i]['id_user'],
+                    'absence' => 1
+                ]);
+                // $checkStudentDateIfExistChecklist = $checkValidTotalStudent;
+                array_push($checkStudentDateIfExistChecklist, $checkValidTotalStudent);
+                // if($checkValidTotalStudent);
+            }
+            // return die(var_dump($dataStudentArrivedInAttend));
+            // return die(var_dump($checkStudentDateIfExistChecklist));
+
+            $subjectStudentAttend = $container->db->select('tbl_subjects', '*', [
+                'id_subject' => $dataRequest['subject']
+            ]);
+            if ($checkTodayIfAdd == null) {
                 $insert = $container->db->insert('tbl_attendances', [
-                    'id_subject'=>$dataRequest['subject'],
-                    'tanggal'=>Medoo::raw('CURRENT_TIMESTAMP')
+                    'id_subject' => $dataRequest['subject'],
+                    'tanggal' => Medoo::raw('CURRENT_TIMESTAMP')
                 ]);
                 // return die(var_dump($insert));
-                $tanggal = $container->db->select('tbl_attendances','tanggal',[
-                    'id_subject'=> $dataRequest['subject'],
-                    'GROUP'=>[
+                $tanggal = $container->db->select('tbl_attendances', 'tanggal', [
+                    'id_subject' => $dataRequest['subject'],
+                    'GROUP' => [
                         'tanggal'
                     ]
                 ]);
-                return $response->withJson(array('viewStudentAttend'=>$viewStudentAttend,'dateStudentAttend'=>$tanggal,'subjectStudentAttend'=>$subjectStudentAttend,'checkStudentDateIfExistChecklist'=>$checkStudentDateIfExistChecklist,
-                'dataStudentArrivedInAttend'=>$dataStudentArrivedInAttend));
-            }else{
-                return $response->withJson(array('viewStudentAttend'=>$viewStudentAttend,'dateStudentAttend'=>$tanggal,'subjectStudentAttend'=>$subjectStudentAttend,'checkStudentDateIfExistChecklist'=>$checkStudentDateIfExistChecklist,
-                'dataStudentArrivedInAttend'=>$dataStudentArrivedInAttend));
+                return $response->withJson(array(
+                    'viewStudentAttend' => $viewStudentAttend, 'dateStudentAttend' => $tanggal, 'subjectStudentAttend' => $subjectStudentAttend, 'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend
+                ));
+            } else {
+                return $response->withJson(array(
+                    'viewStudentAttend' => $viewStudentAttend, 'dateStudentAttend' => $tanggal, 'subjectStudentAttend' => $subjectStudentAttend, 'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend
+                ));
             }
-
         }
     )->add(new Auth());
     $app->post(
@@ -1254,18 +1290,18 @@ return function (App $app) {
 
             $allValues = count($dataRequest['user']);
             // return die(var_dump($dataRequest));
-            for ($i = 0; $i < $allValues;$i++){
+            for ($i = 0; $i < $allValues; $i++) {
                 $checkIfExistUpdate = $container->db->select('tbl_attendances', 'id_attendance', [
                     'id_user' => $dataRequest['user'][$i],
                     'id_subject' => $dataRequest['subject'][1],
                     'tanggal' => $dataRequest['date'][$i]
                 ]);
                 // return die(var_dump($checkIfExistUpdate));
-                if($checkIfExistUpdate != null){
+                if ($checkIfExistUpdate != null) {
                     $container->db->update('tbl_attendances', [
                         'absence' => $dataRequest['absence'][$i]
-                    ],[
-                        'id_attendance'=>$checkIfExistUpdate[0]
+                    ], [
+                        'id_attendance' => $checkIfExistUpdate[0]
                     ]);
                 } else {
                     $container->db->insert('tbl_attendances', [
@@ -1277,7 +1313,6 @@ return function (App $app) {
                 }
             }
             return $response->withJson(array('success' => true));
-
         }
     )->add(new Auth());
     //End Attendance
@@ -1371,7 +1406,7 @@ return function (App $app) {
                     // 'category[!]' => 'Pembayaran' 
                 ],
             ];
-            
+
             $dataNotice = $container->db->select('tbl_notifications', '*', [
                 'category[!]' => 'Pembayaran'
             ], $condition);
@@ -1397,7 +1432,7 @@ return function (App $app) {
             Medoo::raw("WHERE
             date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
             ORDER BY `id_notification` DESC")
-        );
+            );
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
@@ -1568,7 +1603,7 @@ return function (App $app) {
             // return var_dump($request->getParam('id_user'));
             $data = $container->db->select('tbl_users', [
                 '[><]tbl_user_types' =>  'id_user_type',
-                
+
             ], '*', [
                 "id_user_type" => $id_user_type,
             ]);
@@ -1817,43 +1852,46 @@ return function (App $app) {
         '/getAllAccount',
         function (Request $request, Response $response, array $args) use ($container) {
             $search = $request->getParam('search') ?? '';
-            $account = $container->db->select('tbl_users','*');
-        // return var_dump($search);
-        // die();
-     
+            $account = $container->db->select('tbl_users', '*');
+            // return var_dump($search);
+            // die();
 
-        $totaldata = count($account);
-        $totalfiltered = $totaldata;
-        $conditions = [
-            'id_user[!]'=>0 
-        ];
-        if (!empty($request->getParam('search'))) {
-            $search = $request->getParam('search');
-            $conditions['OR'] = [
-                'tbl_users.first_name[~]' => '%' . $search . '%',
-                'tbl_users.last_name[~]' => '%' . $search . '%',
-                'tbl_users.username[~]' => '%' . $search . '%',
-                'tbl_user_types.user_type[~]' => '%' . $search . '%',
 
-            ];
-            $account = $container->db->select('tbl_users',[
-                '[><]tbl_user_types'=>'id_user_type'
-            ],'*',
-                $conditions
-            );
             $totaldata = count($account);
             $totalfiltered = $totaldata;
-        }
-        
-        $account = $container->db->select('tbl_users',[
-            '[><]tbl_user_types'=>'id_user_type'
-        ],'*', $conditions);
-        $data = array();
-        // return var_dump($account);
-        if(!empty($account)){
+            $conditions = [
+                'id_user[!]' => 0
+            ];
+            if (!empty($request->getParam('search'))) {
+                $search = $request->getParam('search');
+                $conditions['OR'] = [
+                    'tbl_users.first_name[~]' => '%' . $search . '%',
+                    'tbl_users.last_name[~]' => '%' . $search . '%',
+                    'tbl_users.username[~]' => '%' . $search . '%',
+                    'tbl_user_types.user_type[~]' => '%' . $search . '%',
 
-            return $response->withJson(array('account'=>$account,'totalData'=>$totalfiltered));
-        }
+                ];
+                $account = $container->db->select(
+                    'tbl_users',
+                    [
+                        '[><]tbl_user_types' => 'id_user_type'
+                    ],
+                    '*',
+                    $conditions
+                );
+                $totaldata = count($account);
+                $totalfiltered = $totaldata;
+            }
+
+            $account = $container->db->select('tbl_users', [
+                '[><]tbl_user_types' => 'id_user_type'
+            ], '*', $conditions);
+            $data = array();
+            // return var_dump($account);
+            if (!empty($account)) {
+
+                return $response->withJson(array('account' => $account, 'totalData' => $totalfiltered));
+            }
             // return var_dump($data);
         }
     )->add(new Auth());
@@ -2001,11 +2039,11 @@ return function (App $app) {
     //         }
     //     }
     // );
-    $app->get('/adminDataIncome',function (Request $request, Response $response, array $args) use ($container) {
+    $app->get('/adminDataIncome', function (Request $request, Response $response, array $args) use ($container) {
         // return var_dump($request->getParams());
         $data = $request->getParam('tahun');
-        return dashboardAdminController::apiData($container,$request,$response,[
-            'data'=>$data
+        return dashboardAdminController::apiData($container, $request, $response, [
+            'data' => $data
         ]);
     });
     $app->get(
@@ -2039,7 +2077,13 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
             }
             if ($type == 2) {
-                return DashboardTeacherController::view($this, $request, $response, $args);
+                $type = "Teacher";
+                return DashboardTeacherController::view($this, $request, $response, [
+                    'user' => $_SESSION['user'],
+                    'username' => $_SESSION['username'],
+                    'type' => $type,
+                    'nama_user' => $type_user,
+                ]);
             }
             if ($type == 3) {
                 $type = "Admin";
@@ -2054,7 +2098,7 @@ return function (App $app) {
             if ($type == 4) {
                 $type = "Parent";
                 $id_parent = $_SESSION['id_user'];
-
+                
                 return DashbordParentController::index($this, $request, $response, [
                     'user' => $_SESSION['user'],
                     'type' => $type,
