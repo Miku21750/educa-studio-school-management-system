@@ -2026,7 +2026,13 @@ return function (App $app) {
                 // return $response->withRedirect('/student');
             }
             if ($type == 2) {
-                return DashboardTeacherController::view($this, $request, $response, $args);
+                $type = "Teacher";
+                return DashboardTeacherController::view($this, $request, $response, [
+                    'user' => $_SESSION['user'],
+                    'username' => $_SESSION['username'],
+                    'type' => $type,
+                    'nama_user' => $type_user,
+                ]);
             }
             if ($type == 3) {
                 $type = "Admin";
@@ -2041,7 +2047,7 @@ return function (App $app) {
             if ($type == 4) {
                 $type = "Parent";
                 $id_parent = $_SESSION['id_user'];
-
+                
                 return DashbordParentController::index($this, $request, $response, [
                     'user' => $_SESSION['user'],
                     'type' => $type,
