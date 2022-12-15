@@ -79,8 +79,21 @@ class DashboardStudentController
             "username" => $args["username"]
         ]);
 
+
+
         $data_student_attendance = $app->db->count('tbl_attendances', [
-            "id_user" => $_SESSION['id_user']
+            "id_user" => $_SESSION['id_user'],
+            // "absence" => 1
+        ]);
+
+        $data_student_attendanceP = $app->db->count('tbl_attendances', [
+            "id_user" => $_SESSION['id_user'],
+            "absence" => 1
+        ]);
+
+        $data_student_attendanceA = $app->db->count('tbl_attendances', [
+            "id_user" => $_SESSION['id_user'],
+            "absence" => 0
         ]);
 
         // $data_student_attendance = $app->db->count('tbl_users', [
@@ -90,24 +103,40 @@ class DashboardStudentController
         // ]);
 
         // return var_dump($data_student_attendance);
-        $data_student_absent = 120 - $data_student_attendance;
+        // $data_student_absent = 120 - $data_student_attendance;
 
-        $data_student_absent1 = $data_student_attendance - $data_student_attendance;
+        if ($data_student_attendance == 0) {
+            $presentaseKehadiran2 = 0;
+            $presentaseKehadiran3 = 0;
+            $presentaseAbsen1 = 0;
+        } else {
+            $data_student_absent1 = $data_student_attendance - $data_student_attendanceP;
+
+            $presentaseKehadiran2 = floor(100 * $data_student_attendanceP / $data_student_attendance);
+
+            $presentaseKehadiran3 = number_format((float) $data_student_attendanceP / $data_student_attendance * 100, 1, '.', '');
+
+            $presentaseAbsen1 = number_format((float) $data_student_absent1 / $data_student_attendance * 100, 1, '.', '');
+        }
+
+        // $data_student_absent1 = $data_student_attendance - $data_student_attendanceP;
 
         // ABSEN BERDASARKAN SEMESTER
-        $presentaseKehadiran1 = floor($data_student_attendance / 120 * 100);
+        $presentaseKehadiran1 = floor($data_student_attendanceP / 120 * 100);
 
         // ABSEN BERDASARKAN JUMLAH DATA PADA TABEL(DATABASE)
-        $presentaseKehadiran2 = floor($data_student_attendance / $data_student_attendance * 100);
+        // $presentaseKehadiran2 = floor( 100 * $data_student_attendanceP / $data_student_attendance);
 
-        $presentaseKehadiran = number_format((float) $data_student_attendance / 120 * 100, 1, '.', '');
+        // $presentaseKehadiran = number_format((float) $data_student_attendance / 120 * 100, 1, '.', '');
         // return var_dump($presentaseKehadiran);
-        $presentaseKehadiran3 = number_format((float) $data_student_attendance / $data_student_attendance * 100, 1, '.', '');
+
+        // $presentaseKehadiran3 = number_format((float) $data_student_attendanceP / $data_student_attendance * 100, 1, '.', '');
 
 
-        $presentaseAbsen = number_format((float) $data_student_absent / 120 * 100, 1, '.', '');
+        // $presentaseAbsen = number_format((float) $data_student_absent / 120 * 100, 1, '.', '');
         // return var_dump($presentaseAbsen);
-        $presentaseAbsen1 = number_format((float) $data_student_absent1 / $data_student_attendance * 100, 1, '.', '');
+
+        // $presentaseAbsen1 = number_format((float) $data_student_absent1 / $data_student_attendance * 100, 1, '.', '');
         // return var_dump($presentaseAbsen1);
 
         $data_student_exam = $app->db->select('tbl_exams', [
@@ -134,12 +163,12 @@ class DashboardStudentController
             "view_noticeEv" => $view_noticeEv,
             "view_noticeP" => $view_noticeP,
             "event_notice" => $event_notice,
-            "data_student_attendance" => $data_student_attendance,
+            "data_student_attendance" => $data_student_attendanceP,
             "presentaseKehadiran1" => $presentaseKehadiran1,
             "presentaseKehadiran2" => $presentaseKehadiran2,
             "presentaseKehadiran3" => $presentaseKehadiran3,
-            "presentaseKehadiran" => $presentaseKehadiran,
-            "presentaseAbsen" => $presentaseAbsen,
+            // "presentaseKehadiran" => $presentaseKehadiran,
+            // "presentaseAbsen" => $presentaseAbsen,
             "presentaseAbsen1" => $presentaseAbsen1,
             // "dataExam" => $dataExam,
             "data_student_exam" => $data_student_exam,
@@ -151,7 +180,6 @@ class DashboardStudentController
             'username' => $_SESSION['username']
 
         ));
-
     }
 
     public static function apiDataM($app, $request, $response, $args)
@@ -162,6 +190,17 @@ class DashboardStudentController
         $data_student_attendance = $app->db->count('tbl_attendances', [
             "id_user" => $_SESSION['id_user']
         ]);
+
+        $data_student_attendanceP = $app->db->count('tbl_attendances', [
+            "id_user" => $_SESSION['id_user'],
+            "absence" => 1
+        ]);
+
+        $data_student_attendanceA = $app->db->count('tbl_attendances', [
+            "id_user" => $_SESSION['id_user'],
+            "absence" => 0
+        ]);
+
         // return var_dump($idUser);
         // return var_dump($data_student_attendance);
         $data_student_absent = 120 - $data_student_attendance;
@@ -170,11 +209,29 @@ class DashboardStudentController
 
         $presentaseAbsen = number_format((float) $data_student_absent / 120 * 100, 1, '.', '');
         // return var_dump($presentaseAbsen);
+
+
+        // $data_student_absent1 = $data_student_attendance - $data_student_attendanceP;
+        // $presentaseKehadiran3 = number_format((float) $data_student_attendanceP / $data_student_attendance * 100, 1, '.', '');
         // $presentaseAbsen1 = number_format((float) $data_student_absent1 / $data_student_attendance * 100, 1, '.', '');
 
+        if ($data_student_attendance == 0) {
+            // $presentaseKehadiran2 = 0;
+            $presentaseKehadiran3 = 0;
+            $presentaseAbsen1 = 0;
+        } else {
+            $data_student_absent1 = $data_student_attendance - $data_student_attendanceP;
+
+            // $presentaseKehadiran2 = floor(100 * $data_student_attendanceP / $data_student_attendance);
+
+            $presentaseKehadiran3 = number_format((float) $data_student_attendanceP / $data_student_attendance * 100, 1, '.', '');
+
+            $presentaseAbsen1 = number_format((float) $data_student_absent1 / $data_student_attendance * 100, 1, '.', '');
+        }
+
         return $response->withJson([
-            "presentaseKehadiranM" => $presentaseKehadiran,
-            "presentaseAbsenM" => $presentaseAbsen
+            "presentaseKehadiranM" => $presentaseKehadiran3,
+            "presentaseAbsenM" => $presentaseAbsen1
         ]);
     }
 
