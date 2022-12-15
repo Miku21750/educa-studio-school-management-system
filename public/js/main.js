@@ -1,3 +1,5 @@
+
+
 (function ($) {
   "use strict";
 
@@ -480,42 +482,74 @@
     /*-------------------------------------
           Calender initiate 
       -------------------------------------*/
-    if ($.fn.fullCalendar !== undefined) {
-      $('#fc-calender').fullCalendar({
-        header: {
-          center: 'basicDay,basicWeek,month',
-          left: 'title',
-          right: 'prev,next',
-        },
-        fixedWeekCount: false,
-        navLinks: true, // can click day/week names to navigate views
-        editable: true,
-        eventLimit: true, // allow "more" link when too many events
-        aspectRatio: 1.8,
-        events: [{
-          title: 'All Day Event',
-          start: '2019-04-01'
-        },
+      
+    $.ajax({
+      type: "GET",
+      url: "/getNotice",
+      dataType: "JSON",
+      success: function (response) {
+        // console.log(response)
+        var dataEventCalendar = response;
+        var event = [];
+        // console.log(dataEventCalendar)
+        for(var i = 0; i<dataEventCalendar.length;i++){
+          var time_temp = new Date(dataEventCalendar[i].date_event);
+          var time = time_temp.getTime();
+          var colorCategory;
+          switch (response[i].category) {
+              case 'Exam': {
+                  colorCategory = '#ffc107'
+              }
+              break;
+              case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
+                  colorCategory = '#28a745'
+              }
+              break;
+              case 'Event': {
+                  colorCategory = '#dc3545'
+              }
+              break;
+              case 'Pengumuman_Sekolah': {
+                  colorCategory = '#007bff'
+              }
+              break;
+              default: {
 
-        {
-          title: 'Meeting',
-          start: '2019-04-12T14:30:00'
-        },
-        {
-          title: 'Happy Hour',
-          start: '2019-04-15T17:30:00'
-        },
-        {
-          title: 'Birthday Party',
-          start: '2019-04-20T07:00:00'
+              }
+              break;
+          }
+          event.push({
+            title: dataEventCalendar[i].title,
+            start: time,
+            color: colorCategory,
+          })
         }
-        ]
-      });
-    }
+        console.log(dataEventCalendar)
+        if ($.fn.fullCalendar !== undefined) {
+          calendarEvent(event);
+        }
+      }
+    });
+
   });
 
 })(jQuery);
-
+function calendarEvent(event){
+  $('#fc-calender').fullCalendar({
+    header: {
+      center: 'basicDay,basicWeek,month',
+      left: 'title',
+      right: 'prev,next',
+    },
+    fixedWeekCount: false,
+    navLinks: true, // can click day/week names to navigate views
+    editable: true,
+    eventLimit: true, // allow "more" link when too many events
+    aspectRatio: 1.8,
+    events: event,
+    // defaultView: 'ay'
+  });
+}
 /*-------------------------------------
     DataTable Library
 -------------------------------------*/
@@ -1811,11 +1845,10 @@ $(document).ready(function () {
       "columnDefs": [
         { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 1, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 2, className: "text-center", "orderable": false },
-        { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-right", "orderable": false },
-        // { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+        { "width": "10%", "targets": 2, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 4, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 5, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -1832,10 +1865,9 @@ $(document).ready(function () {
         { 'data': 'No' },
         { 'data': 'grade_name' },
         { 'data': 'percent_from' },
-        { 'data': 'percent_upto' },
         { 'data': 'grade_desc' },
         { 'data': 'grade_point' },
-        // { 'data': 'aksi' }
+        { 'data': 'aksi' }
       ]
 
 
@@ -1843,11 +1875,303 @@ $(document).ready(function () {
 
   }
   grade();
+
+  //Update exam
+  $('#btn_update_grade').click(function (e) {
+    var id_exam_grade = $('#id_exam_grade').val();
+    var grade_name = $('#egrade_name').val();
+    var grade_point = $('#egrade_point').val();
+    var percent_from = $('#egrade_from').val();
+    var percent_upto = $('#egrade_upto').val();
+    var grade_desc = $('#egrade_desc').val();
+    
+    $.ajax({
+      type: "POST",
+      url: "/api/exam/update-grade-detail",
+      dataType: "JSON",
+      data: { id_exam_grade: id_exam_grade, grade_name: grade_name, grade_point: grade_point, percent_from: percent_from, percent_upto: percent_upto, grade_desc: grade_desc },
+      success: function (data) {
+        if (data) {
+          $('#detail-grade').modal('hide');
+          let timerInterval
+          Swal.fire({
+            title: 'Memuat Data...',
+            html: 'Tunggu  <b></b>  Detik.',
+            timer: 300,
+            timerProgressBar: true,
+            didOpen: () => {
+              Swal.showLoading()
+              const b = Swal.getHtmlContainer().querySelector('b')
+              timerInterval = setInterval(() => {
+                b.textContent = Swal.getTimerLeft()
+              }, 100)
+            },
+            willClose: () => {
+              clearInterval(timerInterval)
+            }
+          }).then((result) => {
+            Swal.fire(
+              {
+                icon: 'success',
+                title: 'Berhasil',
+                text: 'Data telah diubah.',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              }
+
+            )
+            gradeTable.draw(false)
+          })
+
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Ada yang eror!',
+            //footer: '<a href="">Why do I have this issue?</a>'
+          })
+        }
+      }
+    });
+    return false;
+  });
+});
+$('#show_grade').on('click', '.grade_detail', function () {
+  var id = $(this).attr('data');
+  $('#detail-grade').modal('show');
+  $.ajax({
+    type: "GET",
+    url: "/" + "api" + "/" + "exam" + "/" + id + "/grade-detail",
+    dataType: "JSON",
+    data: { id: id },
+    success: function (data) {
+      console.log(data);
+      $('#detail-grade').on('shown.bs.modal', function () {
+        $('#egrade_name').focus();
+      });
+      $('#detail-grade').modal('show');
+      $('[name="id_exam_grade"]').val(data.id_exam_grade);
+      $('[name="grade_name"]').val(data.grade_name);
+      $('[name="grade_point"]').val(data.grade_point);
+      $('[name="form"]').val(data.percent_from);
+      $('[name="upto"]').val(data.percent_upto);
+      // $('[name="precentage_from"]').val(data.percent_from);
+      // $('[name="precentage_upto"]').val(data.percent_upto);
+      $('[name="grade_desc"]').val(data.grade_desc);
+
+    }
+  });
+  return false;
 });
 
 
 
 /*-------------------------------------
+      Notice Board
+  -------------------------------------*/
+  $(document).ready(function () {
+    var data = [];
+
+    function difference2Parts(milliseconds) {
+        const secs = Math.floor(Math.abs(milliseconds) / 1000);
+        const mins = Math.floor(secs / 60);
+        const hours = Math.floor(mins / 60);
+        const days = Math.floor(hours / 24);
+        const millisecs = Math.floor(Math.abs(milliseconds)) % 1000;
+        const multiple = (term, n) => n !== 1 ? `${n} ${term}s` : `1 ${term}`;
+
+        return {
+            days: days,
+            hours: hours % 24,
+            hoursTotal: hours,
+            minutesTotal: mins,
+            minutes: mins % 60,
+            seconds: secs % 60,
+            secondsTotal: secs,
+            milliSeconds: millisecs,
+            get diffStr() {
+                return `${multiple(`day`, this.days)}, ${multiple(`hour`, this.hours)}, ${multiple(`minute`, this.minutes)} and ${multiple(`second`, this.seconds)}`;
+            },
+            get diffStrMs() {
+                return `${this.diffStr.replace(` and`, `, `)} and ${multiple(`millisecond`, this.milliSeconds)}`;
+            },
+        };
+    }
+
+    function untilXMas(date) {
+        const nextChristmas = new Date(date);
+        const report = document.querySelector(`#nextXMas`);
+
+        const diff = () => {
+            const diffs = difference2Parts(nextChristmas - new Date());
+            report.innerHTML = `Awaiting next XMas 🙂 (${diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
+            <br>In other words, until next XMas lasts&hellip;<br>
+            In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
+            setTimeout(diff, 200);
+        };
+        return difference2Parts(nextChristmas - new Date());
+    }
+
+    function drawNotice(s) {
+        //console.log(s);
+        const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+            "September", "Oktober", "November", "Desember"
+        ];
+        //drawNotice();
+        $.ajax({
+            type: "GET",
+            url: "/getNoticeS",
+            data: {
+                search: s
+            },
+            dataType: "JSON",
+            success: function (response) {
+                //console.log(response[0])
+                $('#notice-list').empty();
+                $.each(response, function (i, data) {
+                    data += data[i]
+                    var dAwal = new Date(response[i].date_notice)
+                    var bulan = months[dAwal.getMonth()];
+                    var tanggal = dAwal.getDate();
+                    var tahun = dAwal.getFullYear();
+                    var minus = untilXMas(dAwal);
+                    //console.log(minus)
+                    //console.log(minus.minutesTotal);
+                    var difference;
+                    if (minus.minutesTotal <= 60) {
+                        difference = minus.minutesTotal + ' menit lalu';
+                    } else if (minus.hoursTotal <= 24) {
+                        difference = minus.hoursTotal + ' jam lalu';
+                    } else {
+                        difference = minus.days + ' hari lalu';
+                    }
+
+                    //console.log(response[i].category)
+                    var classCategory;
+                    switch (response[i].category) {
+                        case 'Exam': {
+                            classCategory = 'bg-warning'
+                        }
+                            break;
+                        case 'Pembayaran': {
+                            classCategory = 'bg-success'
+                        }
+                            break;
+                        case 'Event': {
+                            classCategory = 'bg-danger'
+                        }
+                            break;
+                        case 'Pengumuman_Sekolah': {
+                            classCategory = 'bg-primary'
+                        }
+                            break;
+                        default: {
+
+                        }
+                            break;
+                    }
+                    $('#notice-list').append(
+                        '<div class="notice-list noticeBoardToModal" data-id="' +
+                        response[i].id_notification +
+                        '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                        classCategory + '">' +
+                        tanggal + ' ' + bulan + ', ' + tahun +
+                        '</div><h6 class="notice-title"><a href="#">' + response[i]
+                            .title +
+                        '</a></h6> <div class="entry-meta">  ' + response[i]
+                            .posted_by +
+                        ' / <span>' + difference + '</span></div></div>')
+                });
+            },
+            complete: function () { }
+        });
+    };
+    drawNotice();
+
+    $('#noticeModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var recipient = button.data('id') // Extract info from data-* attributes
+        const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+            "September", "Oktober", "November", "Desember"
+        ];
+        // console.log(recipient);
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        $.ajax({
+            type: "GET",
+            url: "/getNoticeDetailsS",
+            data: {
+                id: recipient
+            },
+            dataType: "JSON",
+            success: function (response) {
+                //console.log(response)
+                var dAwal = new Date(response[0].date_notice)
+                var bulan = months[dAwal.getMonth()];
+                var tanggal = dAwal.getDate();
+                var tahun = dAwal.getFullYear();
+                var minus = untilXMas(dAwal);
+                //console.log(minus)
+                //console.log(minus.minutesTotal);
+                var difference;
+                if (minus.minutesTotal <= 60) {
+                    difference = minus.minutesTotal + ' menit lalu';
+                } else if (minus.hoursTotal <= 24) {
+                    difference = minus.hoursTotal + ' jam lalu';
+                } else {
+                    difference = minus.days + ' hari lalu';
+                }
+
+                //console.log(response[i].category)
+                var classCategory;
+                switch (response[0].category) {
+                    case 'Exam': {
+                        classCategory = 'bg-warning'
+                    }
+                        break;
+                    case 'Pembayaran': {
+                        classCategory = 'bg-success'
+                    }
+                        break;
+                    case 'Event': {
+                        classCategory = 'bg-danger'
+                    }
+                        break;
+                    case 'Pengumuman_Sekolah': {
+                        classCategory = 'bg-primary'
+                    }
+                        break;
+                    default: {
+
+                    }
+                        break;
+                }
+                var modal = $(this)
+                $('#noticeDetailModal').empty()
+                console.log($('#noticeDetailModal').html())
+                $('#noticeDetailModal').append('<div class="notice-list noticeBoardToModal" data-id="' +
+                    response[0].id_notification +
+                    '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                    classCategory + '">' +
+                    tanggal + ' ' + bulan + ', ' + tahun +
+                    '</div><h6 class="notice-title"><a href="#">' + response[0]
+                        .title +
+                    '</a></h6> <p>' + response[0].details + '</p> <div class="entry-meta">  ' + response[0]
+                        .posted_by +
+                    ' / <span>' + difference + '</span></div></div>');
+            }
+        });
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+
+    })
+    $('#resetFormNoticeBoard').click(function (e) {
+        e.preventDefault();
+        $('#categoryNoticeBoard').val('').change();
+        $('#titleNoticeBoard').val('');
+        $('#detailsNoticeBoard').val('');
+
+    });
+})
+
+  /*-------------------------------------
       Date Format
   -------------------------------------*/
 //GET Details

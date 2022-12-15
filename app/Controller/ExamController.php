@@ -345,26 +345,13 @@ class ExamController
             foreach ($grade as $m) {
                 $datas['No'] = $no . '.';
                 $datas['grade_name'] = $m['grade_name'];
-                $datas['percent_from'] = $m['percent_from'];
-                $datas['percent_upto'] = $m['percent_upto'];
+                $datas['percent_from'] = $m['percent_from']. '%' . ' - ' . $m['percent_upto'].'%';
                 $datas['grade_desc'] = $m['grade_desc'];
                 $datas['grade_point'] = $m['grade_point'];
-                //     $datas['aksi'] =  '<div class="dropdown">
-                //     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                //         aria-expanded="false">
-                //         <span class="flaticon-more-button-of-three-dots"></span>
-                //     </a>
-                //     <div class="dropdown-menu dropdown-menu-right">
-                //         <a class="dropdown-item grade_remove" data="' . $m['id_exam_grade'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                //         data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
-                //                 Hapus
-                //             </button></a>
-                //         <a class="btn dropdown-item grade_detail" data="' . $m['id_exam_grade'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
-                //                 class="fas fa-edit text-dark-pastel-green"></i>
-                //                 Ubah
-                //             </button></a>
-                //     </div>
-                // </div>';
+                $datas['aksi'] = '<a class="btn dropdown-item grade_detail" data="' . $m['id_exam_grade'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
+                        class="fas fa-edit text-dark-pastel-green"></i>
+                        Ubah
+                </button></a>';
                 $data[] = $datas;
                 $no++;
             }
@@ -666,7 +653,46 @@ class ExamController
         );
         // return var_dump($data);
         echo json_encode($json_data);
-    }
+    }  
+
+    public static function grade_detail($app, $request, $response, $args)
+    {
+        $id_exam_grade = $args;
+
+        $data = $app->db->get('tbl_exam_grades', '*', [
+            'id_exam_grade' => $id_exam_grade
+        ]);
+        // return var_dump($data);
+      
+
+        return $response->withJson($data);
+
+     
+    }  
+
+    public static function update_grade_detail($app, $request, $response, $args)
+    {
+        $data = $args['data'];
+        
+        $update = $app->db->update('tbl_exam_grades', [
+            "grade_name" => $data['grade_name'],
+            "grade_point" => $data['grade_point'],
+            "percent_from" => $data['percent_from'],
+            "percent_upto" => $data['percent_upto'],
+            "grade_desc" => $data['grade_desc']
+        ], [
+            "id_exam_grade" => $data['id_exam_grade']
+        ]);
+        // return var_dump($update);
+
+        $json_data = array(
+            "draw"            => intval($request->getParam('draw')),
+        );
+        echo json_encode($json_data);
+
+        // return var_dump($update);
+    }   
+
     public static function result_detail($app, $request, $response, $args)
     {
         $id_result = $args['data'];

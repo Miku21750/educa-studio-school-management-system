@@ -5,7 +5,9 @@
 {% block content %}
 
 <!-- All Subjects Area Start Here -->
+
 <div class="row">
+    {% if session.type == 3 %}
     <div class="col-4-xxxl col-12">
         <div class="card height-auto">
             <div class="card-body">
@@ -79,6 +81,8 @@
             </div>
         </div>
     </div>
+    {% endif %}
+
     <div class="col-8-xxxl col-12">
         <div class="card height-auto">
             <div class="card-body">
