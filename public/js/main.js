@@ -495,13 +495,36 @@
         for(var i = 0; i<dataEventCalendar.length;i++){
           var time_temp = new Date(dataEventCalendar[i].date_event);
           var time = time_temp.getTime();
+          var colorCategory;
+          switch (response[i].category) {
+              case 'Exam': {
+                  colorCategory = '#ffc107'
+              }
+              break;
+              case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
+                  colorCategory = '#28a745'
+              }
+              break;
+              case 'Event': {
+                  colorCategory = '#dc3545'
+              }
+              break;
+              case 'Pengumuman_Sekolah': {
+                  colorCategory = '#007bff'
+              }
+              break;
+              default: {
+
+              }
+              break;
+          }
           event.push({
             title: dataEventCalendar[i].title,
             start: time,
-            color: 'yellow',
+            color: colorCategory,
           })
         }
-        console.log(event)
+        console.log(dataEventCalendar)
         if ($.fn.fullCalendar !== undefined) {
           calendarEvent(event);
         }

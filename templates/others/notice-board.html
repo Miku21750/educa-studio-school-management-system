@@ -137,7 +137,7 @@
     </div>
     <!-- Modal Area End Here -->
     <!-- Modal Edit Area Start Here -->
-    <div class="modal fade" id="noticeModalEdit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="noticeModalEdit" tabindex="-1" role="dialog" aria-hidden="true" style="overflow: auto;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -330,22 +330,22 @@
                                 classCategory = 'bg-warning'
                             }
                             break;
-                        case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
-                            classCategory = 'bg-success'
-                        }
-                        break;
-                        case 'Event': {
-                            classCategory = 'bg-danger'
-                        }
-                        break;
-                        case 'Pengumuman_Sekolah': {
-                            classCategory = 'bg-primary'
-                        }
-                        break;
-                        default: {
+                            case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
+                                classCategory = 'bg-success'
+                            }
+                            break;
+                            case 'Event': {
+                                classCategory = 'bg-danger'
+                            }
+                            break;
+                            case 'Pengumuman_Sekolah': {
+                                classCategory = 'bg-primary'
+                            }
+                            break;
+                            default: {
 
-                        }
-                        break;
+                            }
+                            break;
                         }
                     var modal = $(this)
                     $('#noticeDetailModal').empty()
