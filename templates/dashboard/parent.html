@@ -1,6 +1,7 @@
 {% extends "/layout/master.html" %}
 {% set title = 'Orang Tua' %}
 {% set typeFrontEnd = "Dashboard Orang Tua" %}
+{% set section_type = "Dashboard Orang Tua" %}
 {% block content %}
     <!-- Dashboard summery Start Here -->
     <div class="row">
@@ -15,7 +16,7 @@
                     <div class="col-6">
                         <div class="item-content">
                             <div class="item-title">Biaya jatuh tempo</div>
-                            <div class="item-number"><span>Rp. </span><span class="counter" data-num="{{totaltagihan}}"></span></div>
+                            <div class="item-number"><span >{{totaltagihan}}</span></div>
                         </div>
                     </div>
                 </div>
@@ -66,7 +67,9 @@
                     <div class="col-6">
                         <div class="item-content">
                             <div class="item-title">Pembayaran</div>
-                            <div class="item-number"><span>Rp. </span><span class="counter" data-num="{{totalpembayaran}}"></span></div>
+                            <div class="item-number"><span>{{totalpembayaran}} </span>
+                                {# <span class="counter" data-num="{{totalpembayaran}}"></span> #}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -81,7 +84,7 @@
                 <div class="card-body">
                     <div class="heading-layout1">
                         <div class="item-title">
-                            <h3>Anak-anaku</h3>
+                            <h3>Anaku</h3>
                         </div>
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -217,20 +220,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="notice-box-wrap m-height-660">
-                        {% for notif in notif %}
-
-                        <div class="notice-list">
-                            <div class="post-date bg-skyblue">{{notif.date_notice | date('j F Y') }}</div>
-                            <h6 class="notice-title"><a href="#">{{notif.details}}</a></h6>
-                            {# {{ "now" | date }}
-                            {{ notif.date_notice | date("l") }}
-                            {{ item.dateAdded | date("l") == "now" | date('l') ? 'Today' : 'on ' ~ item.dateAdded | date("l") }} #}
-                            <div class="entry-meta"> {{notif.posted_by}} <br> <span>{{ notif.date_notice | date('l') }}</span> <br> <span>{{ notif.date_notice | date() }}</span></div>
-                        </div>
-                        {% endfor %}
+                    <div class="notice-box-wrap m-height-660"  id="notice-list">
+                    
 
                     </div>
+                   
                 </div>
             </div>
         </div>
@@ -283,6 +277,31 @@
             </div>
         </div>
     </div>
+
+     <!-- Modal Area Start Here -->
+     <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Notifications Detail</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="notice-board-wrap" id="notice-list">
+                    <div class="modal-body" id="noticeDetailModal">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {# <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
+                    <button type="button" class="footer-btn bg-linkedin">Save
+                        Changes</button> #}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal Area End Here -->
 
     {% include "dashboard/ajaxparent.html" %}
 {% block ajax %}

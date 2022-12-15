@@ -5191,6 +5191,7 @@ body {
 }
 .avatar-upload .avatar-edit input {
   display: none;
+
 }
 .avatar-upload .avatar-edit input + label {
   display: inline-block;
@@ -5209,17 +5210,19 @@ body {
   background: #f1f1f1;
   border-color: #d6d6d6;
 }
-.avatar-upload .avatar-edit input + label:after {
-  content: "\f040";
+.avatar-upload .avatar-edit input+label:after {
   font-family: 'FontAwesome';
+  content: "\f030";
   color: #757575;
+  font-weight: 900;
   position: absolute;
-  top: 10px;
+  top: 5px;
   left: 0;
   right: 0;
   text-align: center;
   margin: auto;
 }
+
 .avatar-upload .avatar-preview {
   width: 192px;
   height: 192px;

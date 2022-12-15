@@ -153,11 +153,13 @@
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-bell"></i>
           <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
-          <span id="iconTotalNotification"></span>
+          <span id="iconTotalNotification">{{notif[0].totalNotif}}</span>
         </a>
+
         {% set notifCount = notif[0].totalNotif %}
         <script>
           notifCount = '{{notifCount}}';
+          console.log(notifCount)
         </script>
         {% endif %}
         

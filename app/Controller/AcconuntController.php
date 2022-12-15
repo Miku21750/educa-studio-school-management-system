@@ -187,7 +187,7 @@ class AcconuntController
                 $datas['gender'] = $m['gender'];
                 $datas['kelas'] = $m['class'] . ' '  .$m['section'];
                 $datas['pembayaran'] = $m['payment_type_name'];
-                $datas['biaya'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
+                $datas['biaya'] = 'Rp. ' . number_format($m['amount_payment'],0,',','.') ;
                 
                 if($m['status_pembayaran'] == "Belum Bayar"){
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
@@ -433,7 +433,7 @@ class AcconuntController
                 $datas['no'] = $no . '.';
                 $datas['nama'] = $m['first_name'] . '  ' .  $m['last_name'];
                 $datas['tipe'] = $m['payment_type_name'];
-                $datas['biaya'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
+                $datas['biaya'] = 'Rp. ' . number_format($m['amount_payment'],0,',','.') ;
                 
                 
                 if($m['status_pembayaran'] == "Belum Bayar"){
