@@ -42,7 +42,11 @@ class TeacherController
         
 
 
-        $parent = $app->db->select('tbl_users', '*', [
+        $parent = $app->db->select('tbl_users',[
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+        ], '*', [
             'id_user_type' => $type,
         ]);
 
@@ -85,7 +89,11 @@ class TeacherController
             ];
 
             $parent = $app->db->select(
-                'tbl_users',
+                'tbl_users',[
+                    '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+                    '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+                    '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+                ],
                 '*',
                 $limit
             );
@@ -94,7 +102,11 @@ class TeacherController
             // return var_dump($totaldata);
         }
 
-        $parent = $app->db->select('tbl_users', '*', $conditions);
+        $parent = $app->db->select('tbl_users',[
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+        ], '*', $conditions);
 
         $data = array();
 
@@ -108,6 +120,7 @@ class TeacherController
                 $datas['nisn'] = $m['NISN'];
                 $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
                 $datas['gender'] = $m['gender'];
+                $datas['mapel'] = $m['subject_name'];
 
                 $username = $app->db->select('tbl_users', 'first_name', [
                     'id_user' => $m['id_user']
@@ -119,9 +132,9 @@ class TeacherController
                 }
 
 
-               
 
-                    $datas['aksi'] = '<div class="dropdown">
+                if ($_SESSION['type'] == '3') {
+ $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
@@ -139,7 +152,14 @@ class TeacherController
                         </button></a>
                    
                 </div>
-            </div>';
+            </div>';                } else {
+                    $datas['aksi'] = ' ';
+                }
+
+
+               
+
+                   
                
                 $data[] = $datas;
                 $no++;

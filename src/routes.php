@@ -537,6 +537,12 @@ return function (App $app) {
                     return $response->withJson(ClassRoutineController::view_data_classroutine1($this, $request, $response, $args));  
                 }
             );
+            $app->get(
+                '/allclassroutineguru',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return $response->withJson(ClassRoutineController::view_data_classroutineguru($this, $request, $response, $args));  
+                }
+            );
             $app->post(
                 '/addclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -1372,6 +1378,7 @@ return function (App $app) {
                     'id_notification' => 'DESC',
                 ],
             ];
+            
             if (!empty($request->getParam('search'))) {
                 $search = $request->getParam('search');
                 $condition['OR'] = [
@@ -1398,9 +1405,25 @@ return function (App $app) {
                 ],
             ];
             
-            $dataNotice = $container->db->select('tbl_notifications', '*', [
-                'category[!]' => 'Pembayaran'
-            ], $condition);
+            if($_SESSION['type'] == 1){
+                $category = [
+                    'category[!]' => 'Pembayaran'
+                ];
+            }elseif($_SESSION['type'] == 4){
+                $category = [
+                    'category' => ['Pembayaran','Exam']
+                ];
+            }elseif($_SESSION['type'] == 3){
+                $category = [
+                    'category' => ['Pembayaran','Exam','Event','Pengumuman_Sekolah']
+                ];
+            }else{
+                $category = [
+                    'category' => ['Gaji','Exam','Event']
+                ];
+            }
+            
+            $dataNotice = $container->db->select('tbl_notifications', '*', $category, $condition);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
