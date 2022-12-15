@@ -66,19 +66,84 @@ return function (App $app) {
             //countMessage
         };
         $container['notif'] = function ($app) {
-            $dataNotice = $app->db->select('tbl_notifications', [
-                'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
-                'id_notification',
-                'title',
-                'details',
-                'posted_by',
-                'date_notice',
-                'category'
-            ], 
-            Medoo::raw("WHERE
-            date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
-            ORDER BY `id_notification` DESC")
-        );
+            $dataNotice = [];
+            // return die($_SESSION['type']);
+            switch ($_SESSION['type']){
+                case 1:{
+                    $dataNotice = $app->db->select('tbl_notifications', [
+                        'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE category NOT IN('Pembayaran_SPP', 'Pembayaran_Gaji') AND date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
+                        'id_notification',
+                        'title',
+                        'details',
+                        'posted_by',
+                        'date_notice',
+                        'category'
+                    ], 
+                    Medoo::raw("WHERE
+                        category NOT IN('Pembayaran_SPP', 'Pembayaran_Gaji')
+                        AND
+                        date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
+                        ORDER BY `id_notification` DESC")
+                     );
+                }
+                break;
+                case 2:{
+                    $dataNotice = $app->db->select('tbl_notifications', [
+                        'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
+                        'id_notification',
+                        'title',
+                        'details',
+                        'posted_by',
+                        'date_notice',
+                        'category'
+                    ], 
+                    Medoo::raw("WHERE
+                        category NOT IN('Pembayaran_SPP')
+                        AND
+                        date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
+                        ORDER BY `id_notification` DESC")
+                     );
+                }
+                break;
+                case 3:{
+                    $dataNotice = $app->db->select('tbl_notifications', [
+                        'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
+                        'id_notification',
+                        'title',
+                        'details',
+                        'posted_by',
+                        'date_notice',
+                        'category'
+                    ], 
+                    Medoo::raw("WHERE
+                        date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
+                        ORDER BY `id_notification` DESC")
+                     );
+                }
+                break;
+                case 4:{
+                    $dataNotice = $app->db->select('tbl_notifications', [
+                        'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
+                        'id_notification',
+                        'title',
+                        'details',
+                        'posted_by',
+                        'date_notice',
+                        'category'
+                    ], 
+                    Medoo::raw("WHERE
+                        category IN('Pembayaran_SPP', 'Exam')
+                        AND
+                        date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
+                        ORDER BY `id_notification` DESC")
+                     );
+                }
+                break;
+                default:{
+
+                }
+                break;
+            }
             // return die(var_dump($dataNotice));
             return $dataNotice;
             //countMessage

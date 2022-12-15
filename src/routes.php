@@ -1408,7 +1408,7 @@ return function (App $app) {
             ];
 
             $dataNotice = $container->db->select('tbl_notifications', '*', [
-                'category[!]' => 'Pembayaran'
+                'category[!]' => ['Pembayaran_Gaji','Pembayaran_SPP']
             ], $condition);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
@@ -1420,19 +1420,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view'
             // return var_dump($request->getParam('search'));
-            $dataNotice = $container->db->select('tbl_notifications', [
-                'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
-                'id_notification',
-                'title',
-                'details',
-                'posted_by',
-                'date_notice',
-                'category'
-            ], 
-            Medoo::raw("WHERE
-            date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
-            ORDER BY `id_notification` DESC")
-            );
+            $dataNotice = $container->notif;
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
@@ -1815,7 +1803,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $data = $request->getParsedBody();
-            $addPhoto = '20221205040116-20220929-133008.jpg';
+            $addPhoto = 'default.png';
             // return var_dump($data);
 
             $insert = $container->db->insert('tbl_users', [
