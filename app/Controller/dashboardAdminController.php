@@ -47,14 +47,14 @@ class DashboardAdminController
 
         $danaMasuk = $app->db->sum("tbl_finances", "amount_payment", [
             "AND" => [
-                "id_payment_type" => [1, 2],
+                "tipe_finance" => 'Pemasukan',
                 "status_pembayaran" => "Dibayar",
             ],
         ]);
 
         $danaKeluar = $app->db->sum("tbl_finances", "amount_payment", [
             "AND" => [
-                "id_payment_type" => [3, 4],
+                "tipe_finance" => 'Pengeluaran',
                 "status_pembayaran" => "Dibayar",
             ],
         ]);
@@ -81,18 +81,13 @@ class DashboardAdminController
         ], [
             'username' => $args['username'],
         ]);
-        // return var_dump($_SESSION);
-
-        //countMessage
+        
         $countMessage = $app->db->count('tbl_messages', [
             '[>]tbl_users' => 'id_user',
         ], 'id_message', [
             'username' => $args['username'],
         ]);
-        // return var_dump($countMessage);
 
-        // return $count;
-        // return var_dump($args);
         return $app->view->render($res, 'dashboard/index.html', [
             'totalSiswa' => $totalSiswa,
             "totalSiswaMale" => $totalSiswaMale,
@@ -100,10 +95,9 @@ class DashboardAdminController
             'totalTeacher' => $totalTeacher,
             'totalParent' => $totalParent,
             'totalDana' => $totalDana,
-            'danaMasuk' => $danaMasuk,
-            'danaKeluar' => $danaKeluar,
-            // 'danaBOS' => $danaBOS,
-            // 'sppSiswa' => $sppSiswa,
+            'danaMasuk' => number_format($danaMasuk,0,',','.'),
+            'danaKeluar' => number_format($danaKeluar,0,',','.'),
+            'totalDanaShow' => 'Rp ' . number_format($totalDana,0,',','.'),
             'type_user' => $_SESSION['type_user'],
             'totalDanaBOS' => $totalDanaBOS,
             'totalSppSiswa' => $totalSppSiswa,
@@ -142,25 +136,13 @@ class DashboardAdminController
             "gender" => "Perempuan",
         ]);
 
-        // $sppSiswa = $app->db->query("
-        // SELECT `amount_payment` FROM `tbl_finances` WHERE MONTH(date_payment) = " . $getTahun . "AND `id_payment_type` = 1 AND `status_pembayaran` = 'Dibayar'")->fetchAll();
-
         $year = $app->db->query("
         SELECT DISTINCT `year` FROM `tbl_finances` WHERE YEAR(date_payment)")->fetchAll();
 
-        // $app->view->render($rsp, 'dashboard/index.html', [
-        //     'year' => $year,
-        // ]);
-        // return die(var_dump($totalSiswaMale));
         return $res->withJson(array(
-            // "siswa" => $siswa,
-            // "teacher" => $teacher,
-            // "parent" => $parent,
-            // 'sppSiswa' => $sppSiswa,
             'tahun' => $year,
             "totalSiswaMale" => $totalSiswaMale,
             "totalSiswaFemale" => $totalSiswaFemale,
-            // "sppSiswa" => $sppSiswa,
         ));
     }
 

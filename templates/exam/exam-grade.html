@@ -5,75 +5,8 @@
 {% block content %}
     
 <div class="row">
-    <!-- Exam Grade Add Area Start Here -->
-    {# if admin start here #}
-    {#{% if type == "Admin" %}#}
-    <!-- <div class="col-4-xxxl col-12">
-        <div class="card height-auto">
-            <div class="card-body">
-                <div class="heading-layout1">
-                    <div class="item-title">
-                        <h3>Add New Grade</h3>
-                    </div>
-                    <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                            aria-expanded="false">...</a>
-
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#"><i 
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                        </div>
-                    </div>
-                </div>
-                <form class="new-added-form">
-                    <div class="row">
-                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Grade Name</label>
-                            <input type="text" placeholder="" class="form-control">
-                        </div>
-                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Grade Point</label>
-                            <select class="select2">
-                                <option value="">Please Select</option>
-                                <option value="1">4.00</option>
-                                <option value="2">3.65</option>
-                                <option value="3">3.50</option>
-                                <option value="3">3.00</option>
-                                <option value="3">2.50</option>
-                            </select>
-                        </div>
-                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Percentage From</label>
-                            <input type="text" placeholder="" class="form-control">
-                        </div>
-                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Percentage Upto</label>
-                            <input type="text" placeholder="" class="form-control">
-                        </div>
-                        <div class="col-12 form-group">
-                            <label>Comments</label>
-                            <textarea class="textarea form-control" name="message" id="form-message"
-                                cols="10" rows="4"></textarea>
-                        </div>
-                        <div class="col-12 form-group mg-t-8">
-                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
-                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> -->
-    
-    {#{% endif %}#}
-    {# if end here #}
-    <!-- Exam Grade Add Area End Here -->
     <!-- Exam Grade List Area Start Here -->
-    <div class="col-8-xxxl col-12">
+    <div class="col-10-xxxl col-10">
         <div class="card height-auto">
             <div class="card-body">
                 <div class="heading-layout1">
@@ -100,12 +33,11 @@
                         <thead class="text-center">
                             <tr>
                                 <th>No</th>
-                                <th>Grade Name</th>
-                                <th>Percent From</th>
-                                <th>Percent Upto</th>
-                                <th>Comment</th>
-                                <th>Grade Point</th>
-                                <!-- <th></th> -->
+                                <th>Grade Nilai</th>
+                                <th>Nilai</th>
+                                <th>Keterangan</th>
+                                <th>Point</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="show_grade">
@@ -118,5 +50,68 @@
     </div>
     <!-- Exam Grade List Area End Here -->
 </div>
+
+<!-- MODAL UPDATE -->
+<div class="modal fade" id="detail-grade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detail Grade Nilai</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="card ui-tab-card">
+          <div class="card-body">
+            <div class="single-info-details">
+              <div class="item-content">
+                <div class="header-inline item-header">
+  
+                </div>
+                <div>
+                  <form>
+  
+                    <input type="text" name="id_exam_grade" id="id_exam_grade" hidden>
+                    <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                        <label>Grade Nilai</label>
+                        <input type="text" placeholder="" class="form-control" id="egrade_name" name="grade_name">
+                    </div>
+
+                    <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                        <label>Point</label>
+                        <input type="text" placeholder="" class="form-control" id="egrade_point" name="grade_point">
+                    </div>
+                 
+
+                    <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                        <label>Batas Nilai Bawah</label>
+                        <input type="text" placeholder="" class="form-control" id="egrade_from" name="form">
+                    </div>
+
+                    <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                        <label>Batas Nilai Atas</label>
+                        <input type="text" placeholder="" class="form-control" id="egrade_upto" name="upto">
+                    </div>
+
+                    <div class="col-12 form-group">
+                        <label>Keterangan</label>
+                        <input type="text" placeholder="" class="form-control" id="egrade_desc" name="grade_desc">
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+                      <button type="submit" class="footer-btn bg-linkedin" id="btn_update_grade">Simpan</button>
+                    </div>
+                  </form>
+  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
 <!-- All Subjects Area End Here -->
 {% endblock content %}

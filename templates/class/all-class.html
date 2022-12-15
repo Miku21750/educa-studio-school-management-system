@@ -3,6 +3,8 @@
 {% set typeFrontEnd = "Class" %}
 {% set section_type = "All Class" %}
 {% block content %}
+
+{% if session.type == 2 or session.type == 3 %}
 <!-- Class Table Area Start Here -->
 <div class="card height-auto">
     <div class="card-body">
@@ -32,6 +34,39 @@
         </div>
     </div>
 </div>
+{% endif %}
+
+{% if session.type == 1 %}
+<div class="card height-auto">
+    <div class="card-body">
+        <div class="heading-layout1">
+            <div class="item-title">
+                <h3>Semua Murid Kelas</h3>
+                <!-- <h5>{{ kelas.class}}</h5> -->
+            </div>
+        </div>
+        <div class="table">
+            <table id="allClassS" class="table  text-nowrap">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>NISN</th>
+                        <th>Nama</th>
+                        <th>Jenis Kelamin</th>
+                        <th>Kelas</th>
+                        <th>Bagian</th>
+                        <th>No Telp.</th>
+                        <th>E-Mail</th>
+                        <!-- <th> </th> -->
+                    </tr>
+                </thead>
+                <tbody id="show_classS">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 
 <!-- MODAL DELETE -->
@@ -326,6 +361,61 @@
 
 
     });
+
+    classTable = function () {
+        table = $("#allClassS").on('preXhr.dt', function (e, settings, data) {
+
+            console.log('loading ....');
+
+        }).on('draw.dt', function () {
+            console.log('dapat data ....');
+
+        }).DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            "columnDefs": [
+                { "targets": 0, className: "text-start", "orderable": false },
+                { "targets": 1, className: "text-start", "orderable": false },
+                { "targets": 2, className: "text-start", "orderable": false },
+                { "targets": 3, className: "text-start", "orderable": false },
+                { "targets": 4, className: "text-start", "orderable": false },
+                { "targets": 5, className: "text-start", "orderable": false },
+                { "targets": 6, className: "text-start", "orderable": false },
+                { "targets": 7, className: "text-start", "orderable": false },
+                // { "targets": 8, className: "text-start", "orderable": false }
+            ],
+            'pageLength': 10,
+            'responsive': true,
+            'processing': true,
+            'serverSide': true,
+            'ajax': {
+                'url': "/api/kelas/getallclassS",
+                'dataType:': 'json',
+                'type': 'get',
+            },
+
+            'columns': [
+                { 'data': 'no' },
+                { 'data': 'Nisn' },
+                { 'data': 'Nama' },
+                { 'data': 'gender' },
+                { 'data': 'kelas' },
+                { 'data': 'bagian' },
+                { 'data': 'phone_user' },
+                { 'data': 'email' },
+                // { 'data': ' ' },
+            ]
+
+
+        });
+
+
+
+    }
+    classTable();
 
 
 </script>

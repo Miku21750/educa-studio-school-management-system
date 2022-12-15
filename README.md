@@ -3,62 +3,83 @@
 Ini adalah dokumentasi Singkat Educa Studio School Management System 
 
 
-Route Documentation
+## Daftar Isi  
 
-`/` = untuk dashboard Admin, Teacher, User, dan Parent menggunakan kondisi if else.  
+- [Educa Studio School Management System](#educa-studio-school-management-system)
+  - [Daftar Isi](#daftar-isi)
+  - [User Role](#user-role)
+  - [Route Documentation](#route-documentation)
+  - [Rest Api](#rest-api)
+  - [Authors and acknowledgment](#authors-and-acknowledgment)
+  - [License](#license)
+  - [Project status](#project-status)
+  - [Suggestions for a good README](#suggestions-for-a-good-readme)
+  - [Name](#name)
+  - [Description](#description)
+  - [Badges](#badges)
+  - [Visuals](#visuals)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [Support](#support)
+  - [Contributing](#contributing)
 
 
 
 
+## User Role  
 
+| Tipe    | Id Tipe | Deskripsi                                     |
+|---------|---------|-----------------------------------------------|
+| Student |    1    | Sebagian fungsi/action yang dikhususkan saja. |
+| Teacher |    2    | Sebagian fungsi/action yang dikhususkan saja. |
+| Admin   |    3    | Semua fungsi/action terbuka                   |
+| Parent  |    4    | Sebagian fungsi/action yang dikhususkan saja. |  
 
--- --------------------------------------------------------------------------------------------------
+## Route Documentation  
 
-## Getting started
+| Tingkatan Akses | Sidebar Menu  | Rute                | Deskripsi                                           |
+|-----------------|---------------|---------------------|-----------------------------------------------------|
+|     1,2,3,4     |               | /login              | Login                                               |
+|      1,2,4      |               | /Register           | Register                                            |
+|     1,2,3,4     |               | /                   | Dashboard                                           |
+|      1,2,3      | Student       | /all-student        | Melihat Semua Siswa                                 |
+|        3        | Student       | /admit-form         | Tambah Siswa (Admission Form)                       |
+|      1,2,3      | Teacher       | /all-teacher        | Melihat Semua Guru                                  |
+|        3        | Teacher       | /add-teacher        | Menambah Guru                                       |
+|        3        | Teacher       | /teacher-payment    | Melihat Gaji Guru                                   |
+|        3        | Parent        | /all-parent         | Melihat Seluruh Orang Tua Murid                     |
+|        3        | Parent        | /add-parent         | Menambah Orang Tua Murid                            |
+|      1,2,3      | Liblary       | /all-book           | Melihat Semua Buku                                  |
+|        3        | Liblary       | /add-book           | Menambah Buku                                       |
+|        3        | Accoununt     | /all-fees           | Melihat pemasukan                                   |
+|        3        | Accoununt     | /all-expense        | Melihat Pengeluaran                                 |
+|        3        | Accoununt     | /add-expense        | Menambah Pemasukan Pengeluaran                      |
+|      1,2,3      | Class         | /all-class          | Melihat Semua Kelas                                 |
+|        3        | Class         | /add-class          | Menambah Kelas Baru                                 |
+|       2*,3      | Subject       | /all-subject        | Menambah dan melihat semua Mata Pelajaran           |
+|     1*,2*,3     | Class Routine | /class-routine      | Menambah dan melihat semua rutinitas kelas (Jadwal) |
+|       2,3       | Attendance    | /student-attendence | Melihat dan menambah absen Siswa                    |
+|      1,2,3      | Exam          | /exam-schedule      | Melihat Semua Ujian                                 |
+|      1,2,3      | Exam          | /exam-grade         | Melihat Hasil Ujian                                 |
+|      1*,2,3     | Exam          | /exam-result        | Melihat dan Menambah hasil ujian                    |
+|       1*,3      | Transport     | /transport          | Melihat dan Menambah transport                      |
+|       1*,3      | Hostel        | /hostel             | Melihat dan menambah asrama                         |
+|      1,2,3      | Messeage      | /messaging          | Pesan                                               |
+|    1*,2*,3,4*   | Notice        | /notice-board       | Pemberitahuan                                       |
+|        3        | Account       | /all-account        | Melihat Semua Akun                                  |
+|        3        | Account       | /add-account        | Menambah Akun Baru                                  |
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Rest Api  
+Belum.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Authors and acknowledgment
+Belum.
 
-## Add your files
+## License
+Company Confedential.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://gitlab.com/gamelab-bootcamp-2/educa-studio-school-management-system.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.com/gamelab-bootcamp-2/educa-studio-school-management-system/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+## Project status
+On Going.
 
 ## Suggestions for a good README
 Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
@@ -84,9 +105,6 @@ Use examples liberally, and show the expected output if you can. It's helpful to
 ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
 ## Contributing
 State if you are open to contributions and what your requirements are for accepting them.
 
@@ -94,11 +112,3 @@ For people who want to make changes to your project, it's helpful to have some d
 
 You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
