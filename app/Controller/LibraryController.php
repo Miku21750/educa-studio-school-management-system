@@ -23,10 +23,13 @@ class LibraryController
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
-        $book = $app->db->select('tbl_books', [
-            '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_classes' => 'id_class',
-        ], '*'
+        $book = $app->db->select(
+            'tbl_books',
+            [
+                '[><]tbl_subjects' => 'id_subject',
+                '[><]tbl_classes' => 'id_class',
+            ],
+            '*'
         );
         // return var_dump($book);
 
@@ -55,10 +58,116 @@ class LibraryController
                 'tbl_books.upload_date[~]' => '%' . $search . '%',
 
             ];
-            $book = $app->db->select('tbl_books', [
+            $book = $app->db->select(
+                'tbl_books',
+                [
+                    '[><]tbl_subjects' => 'id_subject',
+                    '[><]tbl_classes' => 'id_class',
+                ],
+                '*',
+                $limit
+            );
+            $totaldata = count($book);
+            $totalfiltered = $totaldata;
+        }
+
+        $book = $app->db->select('tbl_books', [
+            '[><]tbl_subjects' => 'id_subject',
+            '[><]tbl_classes' => 'id_class',
+        ], '*', $conditions);
+
+        $data = array();
+
+        if (!empty($book)) {
+            $no = $req->getParam('start') + 1;
+            foreach ($book as $m) {
+
+                $datas['No'] = $no . '.';
+                $datas['code_book'] = $m['code_book'];
+                $datas['name_book'] = $m['name_book'];
+                $datas['subject'] = $m['subject_name'];
+                $datas['writer'] = $m['writer_book'];
+                $datas['class'] = $m['class'];
+                $datas['published'] = $m['publish_date'];
+                $datas['creating_date'] = $m['upload_date'];
+                $datas['aksi'] = '<div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item book_remove" data="' . $m['id_book'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+                    data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
+                            Hapus
+                        </button></a>
+                    <a class="btn dropdown-item book_detail" data="' . $m['id_book'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
+                            class="fas fa-edit text-dark-pastel-green"></i>
+                            Ubah
+                        </button></a>
+                </div>
+            </div>';
+                $data[] = $datas;
+                $no++;
+            }
+        }
+        // return var_dump($book);
+        // return var_dump($book);
+
+        $json_data = array(
+            "draw" => intval($req->getParam('draw')),
+            "recordsTotal" => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data" => $data,
+        );
+        // return var_dump($data);
+        // return var_dump($json_data);
+        echo json_encode($json_data);
+    }
+
+    public static function tampil_dataS($app, $req, $rsp, $args)
+    {
+        $book = $app->db->select(
+            'tbl_books',
+            [
                 '[><]tbl_subjects' => 'id_subject',
                 '[><]tbl_classes' => 'id_class',
-            ], '*',
+            ],
+            '*'
+        );
+        // return var_dump($book);
+
+        $totaldata = count($book);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+
+        ];
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+            $limit = [
+                "LIMIT" => [$start, $limit],
+                // 'id_book_type' => $type,
+
+            ];
+            $conditions['OR'] = [
+                'tbl_books.name_book[~]' => '%' . $search . '%',
+                'tbl_books.code_book[~]' => '%' . $search . '%',
+                'tbl_books.writer_book[~]' => '%' . $search . '%',
+                'tbl_books.publish_date[~]' => '%' . $search . '%',
+                'tbl_books.upload_date[~]' => '%' . $search . '%',
+
+            ];
+            $book = $app->db->select(
+                'tbl_books',
+                [
+                    '[><]tbl_subjects' => 'id_subject',
+                    '[><]tbl_classes' => 'id_class',
+                ],
+                '*',
                 $limit
             );
             $totaldata = count($book);

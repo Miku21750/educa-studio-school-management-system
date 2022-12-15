@@ -187,6 +187,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getBookS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return LibraryController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/book-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -271,6 +278,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getTransportS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return TransportController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/transport-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -322,6 +336,13 @@ return function (App $app) {
                         '/getHostel',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return HostelController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
+                        '/getHostelS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return HostelController::tampil_dataS($this, $request, $response, $args);
                         }
                     );
 
@@ -381,6 +402,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getExamS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_dataS ($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/getExamGrade',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return ExamController::tampil_data_grade($this, $request, $response, $args);
@@ -393,6 +421,15 @@ return function (App $app) {
                             $data = $args['id'];
                             // return var_dump($data);
                             return ExamController::detail($this, $request, $response, $data);
+                        }
+                    );
+                    
+                    $app->get(
+                        '/{id}/grade-detail',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            $data = $args['id'];
+                            // return var_dump($data);
+                            return ExamController::grade_detail($this, $request, $response, $data);
                         }
                     );
 
@@ -408,11 +445,11 @@ return function (App $app) {
                     );
 
                     $app->post(
-                        '/update-exam-grade',
+                        '/update-grade-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $request->getParsedBody();
                             // return var_dump($data);
-                            return ExamController::update_exam_detail($this, $request, $response, [
+                            return ExamController::update_grade_detail($this, $request, $response, [
                                 'data' => $data,
                             ]);
                         }
@@ -1420,19 +1457,16 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view'
             // return var_dump($request->getParam('search'));
-            $dataNotice = $container->db->select(
-                'tbl_notifications',
-                [
-                    'totalNotif' => Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
-                    'id_notification',
-                    'title',
-                    'details',
-                    'posted_by',
-                    'date_notice',
-                    'terbaca',
-                    'category'
-                ],
-                Medoo::raw("WHERE
+            $dataNotice = $container->db->select('tbl_notifications', [
+                'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
+                'id_notification',
+                'title',
+                'details',
+                'posted_by',
+                'date_notice',
+                'category'
+            ], 
+            Medoo::raw("WHERE
             date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
             ORDER BY `id_notification` DESC")
             );
@@ -1468,20 +1502,60 @@ return function (App $app) {
             return $response->withJson($dataNotice);
         }
     )->add(new Auth());
-
     $app->post(
         '/sendNotice',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $dataRequest = $request->getParsedBody();
             // return var_dump($dataRequest);
+            $dateEvent = $dataRequest['date_event'];
+            if($dateEvent = ''){
+                $dateEvent = 0;
+            }
             $sendNotice = $container->db->insert('tbl_notifications', [
                 'title' => $dataRequest['title'],
                 'details' => $dataRequest['details'],
                 'posted_by' => $dataRequest['UserType'],
-                'terbaca' => 0,
+                'date_event'=>$dataRequest['date_event'],
                 'category' => $dataRequest['category'],
+                
             ]);
+            return $response->withJson(array('success' => true));
+            // $container->view->render($response, 'others/notice-board.html', $args);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/editNotice',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParsedBody();
+            //return var_dump($dataRequest);
+            $dateEvent = $dataRequest['date_event'];
+            if($dateEvent = ''){
+                $dateEvent = 0;
+            }
+            $sendNotice = $container->db->update('tbl_notifications', [
+                'title' => $dataRequest['title'],
+                'details' => $dataRequest['details'],
+                'posted_by' => $dataRequest['UserType'],
+                'date_event'=>$dataRequest['date_event'],
+                'category' => $dataRequest['category'],
+            ],[
+                'id_notification'=> $dataRequest['id']
+            ]);
+            return $response->withJson(array('success' => true));
+            // $container->view->render($response, 'others/notice-board.html', $args);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/deleteNotice',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParsedBody();
+            $delete = $container->db    ->delete('tbl_notifications', [
+                'id_notification'=>$dataRequest['id_notification']
+            ]);
+            //return var_dump($delete);
             return $response->withJson(array('success' => true));
             // $container->view->render($response, 'others/notice-board.html', $args);
         }
