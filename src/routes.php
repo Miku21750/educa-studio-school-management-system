@@ -187,6 +187,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getBookS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return LibraryController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/book-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -271,6 +278,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getTransportS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return TransportController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/transport-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -326,6 +340,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getHostelS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return HostelController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/hostel-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -377,6 +398,13 @@ return function (App $app) {
                         '/getExam',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return ExamController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
+                        '/getExamS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_dataS ($this, $request, $response, $args);
                         }
                     );
 

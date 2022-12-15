@@ -180,7 +180,7 @@
     if ($("#earning-line-chart").length) {
       loadData(2019)
       var earningChart = null
-      function loadData(year) { 
+      function loadData(year) {
         $.ajax({
           type: 'GET',
           url: "/api/admin/chart?year=" + year,
@@ -189,7 +189,7 @@
             drawChart(tahun, true);
           }
         });
-       }
+      }
       $("#target-line-chart").change(function () {
         let year = $("#target-line-chart").val();
         loadData(year)
@@ -197,11 +197,11 @@
     }
 
     function drawChart(data, ifExist) {
-      for(let i = 1; i <= 12; i++){
-        if(data.in[i]==null){
+      for (let i = 1; i <= 12; i++) {
+        if (data.in[i] == null) {
           data.in[i] = 0;
         }
-        if(data.out[i]==null){
+        if (data.out[i] == null) {
           data.out[i] = 0;
         }
       }
@@ -574,6 +574,61 @@ $(document).ready(function () {
   }
   libary();
 
+
+  libary = function () {
+    Libtable = $("#data_bookS").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 7, className: "text-center", "orderable": false },
+        // { "width": "5%", "targets": 8, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/library/getBookS",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'code_book' },
+        { 'data': 'name_book' },
+        { 'data': 'subject' },
+        { 'data': 'writer' },
+        { 'data': 'class' },
+        { 'data': 'published' },
+        { 'data': 'creating_date' },
+        // { 'data': 'aksi' }
+
+      ]
+
+
+    });
+
+  }
+  libary();
+
   //GET HAPUS
   $('#show_book').on('click', '.book_remove', function () {
     var id = $(this).attr('data');
@@ -785,6 +840,58 @@ $(document).ready(function () {
 
   }
   transport();
+
+  transportS = function () {
+    transTable = $("#data_transportS").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 1, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 2, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
+        // { "width": "15%", "targets": 7, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/transport/getTransportS",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'id_driver' },
+        { 'data': 'route_name' },
+        { 'data': 'vehicle_number' },
+        { 'data': 'driver_name' },
+        { 'data': 'license_number' },
+        { 'data': 'phone_number' },
+        // { 'data': 'aksi' }
+
+      ]
+
+
+    });
+
+  }
+  transportS();
 
   // RESET BUTTON
   $('#reset_transport').click(function (e) {
@@ -1075,6 +1182,56 @@ $(document).ready(function () {
   }
   hostel();
 
+  hostelS = function () {
+    hostelTable = $("#data_hostellS").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "targets": 0, className: "text-center", "orderable": false },
+        { "targets": 1, className: "text-start", "orderable": false },
+        { "targets": 2, className: "text-center", "orderable": false },
+        { "targets": 3, className: "text-center", "orderable": false },
+        { "targets": 4, className: "text-center", "orderable": false },
+        { "targets": 5, className: "text-center", "orderable": false },
+        // { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/hostel/getHostelS",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'hostel_name' },
+        { 'data': 'room_number' },
+        { 'data': 'room_type' },
+        { 'data': 'number_of_bed' },
+        { 'data': 'cost_per_bed' },
+        // { 'data': 'aksi' }
+
+      ]
+
+
+    });
+
+  }
+  hostelS();
+
   // RESET BUTTON
   $('#reset_hostel').click(function (e) {
     e.preventDefault();
@@ -1352,6 +1509,56 @@ $(document).ready(function () {
 
   }
   exam();
+
+  examS = function () {
+    examTable = $("#data_examS").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        // { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+
+      ],
+      'pageLength': 10,
+      'responsive': true,
+      'processing': true,
+      'serverSide': true,
+      'ajax': {
+        'url': "/api/exam/getExamS",
+        'dataType:': 'json',
+        'type': 'get',
+      },
+
+      'columns': [
+        { 'data': 'No' },
+        { 'data': 'exam_name' },
+        { 'data': 'subject_name' },
+        { 'data': 'class' },
+        { 'data': 'exam_date' },
+        { 'data': 'exam_time' },
+        // { 'data': 'aksi' }
+      ]
+
+
+    });
+
+  }
+  examS();
 
   // RESET BUTTON
   $('#reset_exam').click(function (e) {
