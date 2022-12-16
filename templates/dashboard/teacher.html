@@ -112,18 +112,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="notice-box-wrap m-height-660">
-                    {% for notif in notif %}
-
-                    <div class="notice-list">
-                        <div class="post-date bg-skyblue">{{notif.date_notice | date('j F Y') }}</div>
-                        <h6 class="notice-title"><a href="#">{{notif.details}}</a></h6>
-                        {# {{ "now" | date }}
-                        {{ notif.date_notice | date("l") }}
-                        {{ item.dateAdded | date("l") == "now" | date('l') ? 'Today' : 'on ' ~ item.dateAdded | date("l") }} #}
-                        <div class="entry-meta"> {{notif.posted_by}} <br> <span>{{ notif.date_notice | date('l') }}</span> <br> <span>{{ notif.date_notice | date() }}</span></div>
-                    </div>
-                    {% endfor %}
+                <div class="notice-box-wrap m-height-660"  id="notice-list">
+                    
 
                 </div>
             </div>
@@ -282,5 +272,222 @@
             }
             student();
         });
+
+        $(document).ready(function () {
+            var data = [];
+    
+            function difference2Parts(milliseconds) {
+                const secs = Math.floor(Math.abs(milliseconds) / 1000);
+                const mins = Math.floor(secs / 60);
+                const hours = Math.floor(mins / 60);
+                const days = Math.floor(hours / 24);
+                const millisecs = Math.floor(Math.abs(milliseconds)) % 1000;
+                const multiple = (term, n) => n !== 1 ? `${n} ${term}s` : `1 ${term}`;
+    
+                return {
+                    days: days,
+                    hours: hours % 24,
+                    hoursTotal: hours,
+                    minutesTotal: mins,
+                    minutes: mins % 60,
+                    seconds: secs % 60,
+                    secondsTotal: secs,
+                    milliSeconds: millisecs,
+                    get diffStr() {
+                        return `${multiple(`day`, this.days)}, ${multiple(`hour`, this.hours)}, ${multiple(`minute`, this.minutes)} and ${multiple(`second`, this.seconds)}`;
+                    },
+                    get diffStrMs() {
+                        return `${this.diffStr.replace(` and`, `, `)} and ${multiple(`millisecond`, this.milliSeconds)}`;
+                    },
+                };
+            }
+    
+            function untilXMas(date) {
+                const nextChristmas = new Date(date);
+                const report = document.querySelector(`#nextXMas`);
+    
+                const diff = () => {
+                    const diffs = difference2Parts(nextChristmas - new Date());
+                    report.innerHTML = `Awaiting next XMas 🙂 (${diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
+                    <br>In other words, until next XMas lasts&hellip;<br>
+                    In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
+                    setTimeout(diff, 200);
+                };
+                return difference2Parts(nextChristmas - new Date());
+            }
+    
+            function drawNotice(s) {
+                //console.log(s);
+                const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+                    "September", "Oktober", "November", "Desember"
+                ];
+                //drawNotice();
+                $.ajax({
+                    type: "GET",
+                    url: "/getNoticeS",
+                    data: {
+                        search: s
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        //console.log(response[0])
+                        $('#notice-list').empty();
+                        $.each(response, function (i, data) {
+                            data += data[i]
+                            var dAwal = new Date(response[i].date_notice)
+                            var bulan = months[dAwal.getMonth()];
+                            var tanggal = dAwal.getDate();
+                            var tahun = dAwal.getFullYear();
+                            var minus = untilXMas(dAwal);
+                            //console.log(minus)
+                            //console.log(minus.minutesTotal);
+                            var difference;
+                            if (minus.minutesTotal <= 60) {
+                                difference = minus.minutesTotal + ' menit lalu';
+                            } else if (minus.hoursTotal <= 24) {
+                                difference = minus.hoursTotal + ' jam lalu';
+                            } else {
+                                difference = minus.days + ' hari lalu';
+                            }
+    
+                            //console.log(response[i].category)
+                            var classCategory;
+                            switch (response[i].category) {
+                                case 'Exam': {
+                                    classCategory = 'bg-warning'
+                                }
+                                    break;
+                                case 'Pembayaran': {
+                                    classCategory = 'bg-success'
+                                }
+                                    break;
+                                case 'Event': {
+                                    classCategory = 'bg-danger'
+                                }
+                                    break;
+                                case 'Pengumuman_Sekolah': {
+                                    classCategory = 'bg-primary'
+                                }
+                                    break;
+                                default: {
+    
+                                }
+                                    break;
+                            }
+                            $('#notice-list').append(
+                                '<div class="notice-list noticeBoardToModal" data-id="' +
+                                response[i].id_notification +
+                                '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                                classCategory + '">' +
+                                tanggal + ' ' + bulan + ', ' + tahun +
+                                '</div><h6 class="notice-title"><a href="#">' + response[i]
+                                    .title +
+                                '</a></h6> <div class="entry-meta">  ' + response[i]
+                                    .posted_by +
+                                ' / <span>' + difference + '</span></div></div>')
+                        });
+                    },
+                    complete: function () { }
+                });
+            };
+            drawNotice();
+    
+            // $('#searchTitleNoticeBoard').keyup(function (e) {
+            //     var search = $('#searchTitleNoticeBoard').val();
+            //     drawNotice(search)
+            //     //console.log(search);
+            // });
+    
+            // $('#searchDateNoticeBoard').change(function (e) {
+            //     var search = $('#searchDateNoticeBoard').val();
+            //     drawNotice(search)
+            //     //console.log(search);
+            // });
+    
+            $('#noticeModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var recipient = button.data('id') // Extract info from data-* attributes
+                const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+                    "September", "Oktober", "November", "Desember"
+                ];
+                // console.log(recipient);
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                $.ajax({
+                    type: "GET",
+                    url: "/getNoticeDetailsS",
+                    data: {
+                        id: recipient
+                    },
+                    dataType: "JSON",
+                    success: function (response) {
+                        //console.log(response)
+                        var dAwal = new Date(response[0].date_notice)
+                        var bulan = months[dAwal.getMonth()];
+                        var tanggal = dAwal.getDate();
+                        var tahun = dAwal.getFullYear();
+                        var minus = untilXMas(dAwal);
+                        //console.log(minus)
+                        //console.log(minus.minutesTotal);
+                        var difference;
+                        if (minus.minutesTotal <= 60) {
+                            difference = minus.minutesTotal + ' menit lalu';
+                        } else if (minus.hoursTotal <= 24) {
+                            difference = minus.hoursTotal + ' jam lalu';
+                        } else {
+                            difference = minus.days + ' hari lalu';
+                        }
+    
+                        //console.log(response[i].category)
+                        var classCategory;
+                        switch (response[0].category) {
+                            case 'Exam': {
+                                classCategory = 'bg-warning'
+                            }
+                                break;
+                            case 'Pembayaran': {
+                                classCategory = 'bg-success'
+                            }
+                                break;
+                            case 'Event': {
+                                classCategory = 'bg-danger'
+                            }
+                                break;
+                            case 'Pengumuman_Sekolah': {
+                                classCategory = 'bg-primary'
+                            }
+                                break;
+                            default: {
+    
+                            }
+                                break;
+                        }
+                        var modal = $(this)
+                        $('#noticeDetailModal').empty()
+                        console.log($('#noticeDetailModal').html())
+                        $('#noticeDetailModal').append('<div class="notice-list noticeBoardToModal" data-id="' +
+                            response[0].id_notification +
+                            '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                            classCategory + '">' +
+                            tanggal + ' ' + bulan + ', ' + tahun +
+                            '</div><h6 class="notice-title"><a href="#">' + response[0]
+                                .title +
+                            '</a></h6> <p>' + response[0].details + '</p> <div class="entry-meta">  ' + response[0]
+                                .posted_by +
+                            ' / <span>' + difference + '</span></div></div>');
+                    }
+                });
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    
+            })
+            $('#resetFormNoticeBoard').click(function (e) {
+                e.preventDefault();
+                $('#categoryNoticeBoard').val('').change();
+                $('#titleNoticeBoard').val('');
+                $('#detailsNoticeBoard').val('');
+    
+            });
+        })
+
+
 </script>
 {% endblock content %}

@@ -115,7 +115,7 @@
                   </tr>
                   <tr>
                     <td>Orang Tua:</td>
-                    <td class="font-medium text-dark-medium">{{data.first_name_parent}} {{data.last_name_parent}}</td>
+                    <td class="font-medium text-dark-medium">{{data.first_name_ortu}} {{data.last_name_ortu}}</td>
                   </tr>
                   <tr>
                     <td>Tanggal Lahir:</td>
@@ -141,7 +141,7 @@
                   </tr>
                   <tr>
                     <td>Kelas:</td>
-                    <td class="font-medium text-dark-medium">{{data.class}}-{{data.section}}</td>
+                    <td class="font-medium text-dark-medium">{{data.class}} {{data.section}}</td>
                   </tr>
                   
                   <tr>
@@ -268,9 +268,7 @@
                     <tr class="form-group">
                       <label for="gender">Orang tua:</label>
                       <select name="id_parent" class="form-control"
-                        >
-                        <option value="{{data.id_parent}}">{{data.first_name_parent}} {{data. last_name_parent}}</option>
-
+                      id="id_parent_detail">
                         {% for data in all %}
                         <option value="{{data.id_user}}">{{data. first_name}} {{data. last_name}}</option>
                         {% endfor %}
@@ -310,20 +308,13 @@
                     </tr>
                     <tr>
                       <label>Kelas:</label>
-                      <select name="id_class" class="form-control" value="{{data.class}}">
+                      <select name="id_class" class="form-control" id="id_class_detail">
                         {% for data in class %}
-                        <option value="{{data.id_class}}">{{data.class}} - {{data.section}}</option>
+                        <option value="{{data.id_class}}">{{data.class}} {{data.section}}</option>
                         {% endfor %}
                       </select>
                     </tr>
-                    {# <tr>
-                      <label>Bagian:</label>
-                      <select name="id_section" class="form-control" value="{{data.section}}">
-                        {% for data in section %}
-                        <option value="{{data.id_section}}">{{data.section}}</option>
-                        {% endfor %}
-                      </select>
-                    </tr> #}
+                   
                     <tr>
                       <label>Alamat:</label>
                       <input type="text" name="address_user" placeholder="Masukan Alamat" class="form-control"
@@ -362,9 +353,12 @@
 
     var gend = "{{ data.gender }}";
     var BlGroup = "{{ data.blood_group }}";
-
+    var id_parent = "{{data.parent}}"
+    var id_class = "{{data.kelas}}"
     $('#selectGenderEditProfile').val(gend).change();
     $('#selectBloodGroupEditProfile').val(BlGroup).change();
+    $('#id_parent_detail').val(id_parent).change();
+    $('#id_class_detail').val(id_class).change();
   });
 </script>
 {% endblock content %}

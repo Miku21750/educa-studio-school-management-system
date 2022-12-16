@@ -60,15 +60,15 @@
       <div class="row">
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Nama Depan *</label>
-          <input type="text" placeholder="Masukan Nama Depan" class="form-control" name="first_name" />
+          <input type="text" placeholder="Masukan Nama Depan" class="form-control" name="first_name" required/>
         </div>
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Nama Belakang *</label>
-          <input type="text" placeholder="Masukan Nama Belakang" class="form-control" name="last_name" />
+          <input type="text" placeholder="Masukan Nama Belakang" class="form-control" name="last_name" required/>
         </div>
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>NISN *</label>
-          <input type="text" placeholder="Masukan Nama Belakang" class="form-control" name="nisn" />
+          <input type="text" placeholder="Masukan NISN" class="form-control" name="nisn" required/>
         </div>
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Jenis Kelamin *</label>
@@ -88,32 +88,26 @@
 
           </select>
         </div>
-        {# <div class="col-xl-3 col-lg-6 col-12 form-group">
-          <label>Bagian *</label>
-          <select class="select2" name="id_section">
-            <option>Pilih Bagian *</option>
-            {% for data in section %}
-            <option value="{{data.id_section}}">{{data.section}}</option>
-            {% endfor %}
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Promote Session *</label>
+          <select name="session" class="form-control select2" id="dropdownYear">
+            <option>Pilih Session *</option>
 
           </select>
-        </div> #}
+
+        </div>
+       
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Orang tua *</label>
           <select class="select2" name="id_parent">
             <option>Pilih Orang tua *</option>
-            {% for data in parent %}
+            {% for data in student %}
             <option value="{{data.id_user}}">{{data.first_name}} {{data.last_name}}</option>
             {% endfor %}
 
           </select>
         </div>
-        {# <div class="col-xl-3 col-lg-6 col-12 form-group">
-          <label>Admission ID</label>
-          <input type="text" placeholder="" class="form-control" />
-        </div> #}
-
-
+       
 
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Golongan Darah *</label>
@@ -138,26 +132,23 @@
         </div>
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>E-Mail</label>
-          <input type="email" placeholder="" class="form-control" name="email" />
+          <input type="email" placeholder="" class="form-control" name="email" required />
         </div>
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Alamat</label>
-          <input type="text" placeholder="" class="form-control" name="address_user" />
+          <input type="text" placeholder="" class="form-control" name="address_user" required />
         </div>
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Tanggal lahir</label>
-          <input type="date" name="date_of_birth" class="form-control" name="date_of_birth">
+          <input type="date" name="date_of_birth" class="form-control" name="date_of_birth" required>
         </div>
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Phone</label>
-          <input type="text" placeholder="" class="form-control" name="phone_user" />
+          <input type="text" placeholder="" class="form-control" name="phone_user" required/>
         </div>
-        <div class="col-lg-6 col-12 form-group">
-          <label>Short BIO</label>
-          <textarea class="textarea form-control" cols="10" rows="9" name="data_short_bio"></textarea>
-        </div>
+       
         <div class="col-lg-6 col-12 form-group mg-t-30">
-          <label class="text-dark-medium">Upload Foto Orang Tua (150px X 150px)</label>
+          <label class="text-dark-medium">Upload Foto  (150px X 150px)</label>
           <input type="file" class="form-control-file" name="imageUpload" />
           <input type="text" class="form-control-file" name="imageDefault" value="default.png" hidden />
         </div>
@@ -175,5 +166,22 @@
 </div>
 
 <!-- Admit Form Area End Here -->
+<script>
+  $('#dropdownYear').each(function() {
+
+    var year = (new Date()).getFullYear();
+    var current = year;
+    year += 1;
+    for (var i = 0; i < 1; i++) {
+      if ((year+i) == current)
+        $(this).append('<option value="' + (year + i) + '-' + (year + i + 1) + '">' + (year + i) + '-' + (year + i + 1) + '</option>');
+      else
+        $(this).append('<option value="' + (year + i) + '-' + (year + i + 1) + '">' + (year + i) + '-' + (year + i + 1) + '</option>');
+      
+      $('#dropdownYear').val((year + i) + '-' + (year + i + 1)).change();
+    }
+  
+  })
+</script>
 
 {% endblock content %}

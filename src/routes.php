@@ -187,6 +187,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getBookS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return LibraryController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/book-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -271,6 +278,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getTransportS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return TransportController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/transport-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -326,6 +340,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getHostelS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return HostelController::tampil_dataS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/hostel-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -377,6 +398,13 @@ return function (App $app) {
                         '/getExam',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return ExamController::tampil_data($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
+                        '/getExamS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_dataS ($this, $request, $response, $args);
                         }
                     );
 
@@ -551,6 +579,12 @@ return function (App $app) {
                 '/allclassroutine1',
                 function (Request $request, Response $response, array $args) use ($app) {
                     return $response->withJson(ClassRoutineController::view_data_classroutine1($this, $request, $response, $args));
+                }
+            );
+            $app->get(
+                '/allclassroutineguru',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return $response->withJson(ClassRoutineController::view_data_classroutineguru($this, $request, $response, $args));  
                 }
             );
             $app->post(
@@ -1390,6 +1424,7 @@ return function (App $app) {
                     'id_notification' => 'DESC',
                 ],
             ];
+            
             if (!empty($request->getParam('search'))) {
                 $search = $request->getParam('search');
                 $condition['OR'] = [
@@ -1415,10 +1450,26 @@ return function (App $app) {
                     // 'category[!]' => 'Pembayaran' 
                 ],
             ];
-
-            $dataNotice = $container->db->select('tbl_notifications', '*', [
-                'category[!]' => 'Pembayaran'
-            ], $condition);
+            
+            if($_SESSION['type'] == 1){
+                $category = [
+                    'category[!]' => ['Pembayaran_Gaji','Pembayaran_SPP']
+                ];
+            }elseif($_SESSION['type'] == 4){
+                $category = [
+                    'category' => ['Pembayaran_SPP','Exam']
+                ];
+            }elseif($_SESSION['type'] == 3){
+                $category = [
+                    'category' => ['Pembayaran_SPP','Pembayaran_Gaji','Exam','Event','Pengumuman_Sekolah']
+                ];
+            }else{
+                $category = [
+                    'category' => ['Pembayaran_Gaji','Exam','Event']
+                ];
+            }
+            
+            $dataNotice = $container->db->select('tbl_notifications', '*', $category, $condition);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
@@ -1429,19 +1480,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view'
             // return var_dump($request->getParam('search'));
-            $dataNotice = $container->db->select('tbl_notifications', [
-                'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
-                'id_notification',
-                'title',
-                'details',
-                'posted_by',
-                'date_notice',
-                'category'
-            ], 
-            Medoo::raw("WHERE
-            date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW() 
-            ORDER BY `id_notification` DESC")
-            );
+            $dataNotice = $container->notif;
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
@@ -1824,7 +1863,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $data = $request->getParsedBody();
-            $addPhoto = '20221205040116-20220929-133008.jpg';
+            $addPhoto = 'default.png';
             // return var_dump($data);
 
             $insert = $container->db->insert('tbl_users', [
