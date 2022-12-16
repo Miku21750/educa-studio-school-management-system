@@ -162,7 +162,8 @@ class TransportController
             $transport = $app->db->select(
                 'tbl_transports',
                 '*',
-                $limit
+                // $limit
+                $conditions
             );
             $totaldata = count($transport);
             $totalfiltered = $totaldata;

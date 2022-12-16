@@ -4637,6 +4637,9 @@ ul {
 .pseudo-bg-yellow:after {
   background-color: #ffaa01;
 }
+.pseudo-bg-green:after {
+  background-color: #54B435;
+}
 .pseudo-bg-red:after {
   background-color: #ff0000;
 }

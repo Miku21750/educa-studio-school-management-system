@@ -219,19 +219,21 @@
         >
 
         <ul class="nav sub-group-menu">
-          {% if  session.type == "1" or session.type == 3 or session.type == 2  %}
+          {% if  session.type == 1 or session.type == 3 or session.type == 2  %}
           <li class="nav-item">
             <a href="/exam-schedule" class="nav-link"
               ><i class="fas fa-angle-right"></i>Exam Schedule</a
             >
           </li>
+          {% endif %}
+          {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/exam-grade" class="nav-link"
               ><i class="fas fa-angle-right"></i>Exam Grades</a
             >
           </li>
           {% endif %}
-          {% if  session.type == "Student" or session.type == 3 or session.type == 2 or session.type == 4 %}
+          {% if  session.type == 1 or session.type == 3 or session.type == 2 or session.type == 4 %}
           <li class="nav-item">
             <a href="/exam-result" class="nav-link"
               ><i class="fas fa-angle-right"></i>Exam Result</a
@@ -322,7 +324,6 @@
           ><i class="flaticon-planet-earth"></i><span>Map</span></a
         >
       </li>
-      {% endif %}
 
 
       {% if session.type == 3 %}

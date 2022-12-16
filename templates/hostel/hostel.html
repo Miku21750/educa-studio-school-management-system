@@ -67,9 +67,9 @@
     <!-- Add Room Area End Here -->
     {% endif %}
     <!-- All Room List Area Start Here -->
-    <div class="col-8-xxxl col-12">
 
-        {% if session.type == 3 %}
+    {% if session.type == 3 %}
+    <div class="col-8-xxxl col-12">
         <div class="card height-auto">
             <div class="card-body">
                 <div class="heading-layout1">
@@ -108,7 +108,6 @@
                 </div>
             </div>
         </div>
-        {% endif %}
 
         {% if session.type == 1 or session.type == 2 %}
         <div class="card height-auto">
@@ -139,7 +138,7 @@
                                 <th>Tipe Kamar</th>
                                 <th>No Kasur</th>
                                 <th>Harga per Kasur</th>
-                                <th></th>
+                                <!-- <th></th> -->
                             </tr>
                         </thead>
                         <tbody id="show_hostel">
@@ -151,6 +150,50 @@
         </div>
         {% endif %}
     </div>
+    {% endif %}
+
+    {% if session.type == 1 or session.type == 2 %}
+    <div class="col-12-xxxl col-12">
+        <div class="card height-auto">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Daftar Kamar Asrama</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="data_hostellS" class="table display text-nowrap">
+                        <thead class="text-center">
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Asrama</th>
+                                <th>No Kamar</th>
+                                <th>Tipe Kamar</th>
+                                <th>No Kasur</th>
+                                <th>Harga per Kasur</th>
+                                <!-- <th></th> -->
+                            </tr>
+                        </thead>
+                        <tbody id="show_hostel">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <!-- All Room List Area End Here -->
 </div>
 

@@ -224,12 +224,12 @@ class ClassRoutineController
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item class_routine_remove" data="' . $m['id_class_routine'] . '"><button type="button" class="btn btn-light btn-lg" class="modal-trigger" data-toggle="modal"
-                    data-target="#confirmation-modalC"><i class="fas fa-trash text-orange-red"></i>
+                    <a class="dropdown-item class_routine_remove btn btn-light btn-lg text-center my-2" data-toggle="modal"
+                    data-target="#confirmation-modalC" data="' . $m['id_class_routine'] . '"><i class="fas fa-trash text-orange-red"></i>
                             Hapus
                         </button></a>
-                    <a class="btn dropdown-item class_routine_detail" data="' . $m['id_class_routine'] . '" ><button type="button" id="show_class_routine"  class="btn btn-light btn-lg"  data-toggle="modal" data-target="#detail_class_routine"><i
-                            class="fas fa-edit text-dark-pastel-green"></i>
+                    <a class="btn dropdown-item class_routine_detail btn btn-light btn-lg text-center my-2" data-target="#detail_class_routine" data="' . $m['id_class_routine'] . '" >
+                    <i class="fas fa-edit text-dark-pastel-green"></i>
                             Ubah
                         </button></a>
                 </div>
@@ -409,7 +409,7 @@ class ClassRoutineController
             '*',
             [
                 "id_user" => $_SESSION['id_user']
-                ]
+            ]
         );
         // return var_dump($result);
 
@@ -473,7 +473,7 @@ class ClassRoutineController
                     'start_time',
                     'end_time',
                 ],
-               
+
                 $conditions
             );
             $totaldata = count($result);

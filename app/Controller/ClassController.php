@@ -216,7 +216,8 @@ class ClassController
         $conditions = [
             "LIMIT" => [$start, $limit],
             "id_user_type" => 1,
-            "id_class" => $kelas
+            "id_class" => $kelas,
+            "ORDER" => ['first_name' => 'ASC']
 
         ];
 

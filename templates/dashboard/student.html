@@ -236,11 +236,11 @@
                     <canvas id="absent-student-doughnut-chart" width="100" height="270"></canvas>
                 </div>
                 <div class="student-report">
-                    <div class="student-count pseudo-bg-blue">
+                    <div class="student-count pseudo-bg-red">
                         <h4 class="item-title">Tidak Hadir</h4>
                         <div class="item-number">{{presentaseAbsen1}}%</div>
                     </div>
-                    <div class="student-count pseudo-bg-yellow">
+                    <div class="student-count pseudo-bg-green">
                         <h4 class="item-title">Hadir</h4>
                         <div class="item-number">{{presentaseKehadiran3}}%</div>
                     </div>
@@ -776,7 +776,7 @@
                     var doughnutChartData = {
                         labels: ["Tidak Hadir", "Hadir"],
                         datasets: [{
-                            backgroundColor: ["#304ffe", "#ffa601"],
+                            backgroundColor: ["#EB455F", "#54B435"],
                             data: [absen, kehadiran],
                             label: "Total Absensi"
                         },]
