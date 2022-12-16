@@ -1,5 +1,5 @@
-{% extends "/layout/master.html" %} 
-{% set title = "Class Routine" %} 
+{% extends "/layout/master.html" %}
+{% set title = "Class Routine" %}
 {% set typeFrontEnd = "Class Routine" %}
 {% set section_type = "Class Routine" %}
 {% block content %}
@@ -131,8 +131,8 @@
             </div>
           </div>
         </div>
-        <div class="table-box-nowrap">
-          <table class="display" id="class_routine">
+        <div class="table-responsive">
+          <table class="table display text-nowrap" id="class_routine">
             <thead>
               <tr>
                 <th><label class="form-check-label">Hari</label></th>
@@ -171,8 +171,8 @@
             </div>
           </div>
         </div>
-        <div class="table-box-nowrap">
-          <table class="display" id="class_routine1">
+        <div class="table-responsive">
+          <table class="table display text-nowrap" id="class_routine1">
             <thead>
               <tr>
                 <th><label class="form-check-label">Hari</label></th>
@@ -612,6 +612,9 @@
       dataType: "JSON",
       data: { id_class_routine: id },
       success: function (data) {
+        $('#show_class_routine').on('shown.bs.modal', function () {
+          $('select').focus();
+        });
         $('#detail_class_routine').modal('show');
         $('[name="id_class_routine"]').val(data.id_class_routine);
         $('[name="starttime"]').val(data.start_time);
