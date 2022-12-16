@@ -570,13 +570,13 @@ $(document).ready(function () {
       },
       "columnDefs": [
         { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 1, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
-        { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 7, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "15%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "15%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "15%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 6, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 7, className: "text-center", "orderable": false },
         { "width": "5%", "targets": 8, className: "text-center", "orderable": false }
 
       ],
@@ -625,13 +625,13 @@ $(document).ready(function () {
       },
       "columnDefs": [
         { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 1, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 2, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
-        { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 7, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "15%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "15%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "15%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 6, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 7, className: "text-center", "orderable": false },
         // { "width": "5%", "targets": 8, className: "text-center", "orderable": false }
 
       ],
