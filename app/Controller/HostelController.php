@@ -86,7 +86,7 @@ class HostelController
                 $datas['room_number'] = $m['room_number'];
                 $datas['room_type'] = $m['room_type'];
                 $datas['number_of_bed'] = $m['number_of_bed'];
-                $datas['cost_per_bed'] = $m['cost_per_bed'];
+                $datas['cost_per_bed'] = number_format($m['cost_per_bed'],0,',','.');
                 $datas['aksi'] =  '<div class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
@@ -161,7 +161,8 @@ class HostelController
             $hostel = $app->db->select(
                 'tbl_hostels',
                 '*',
-                $limit
+                // $limit
+                $conditions
             );
             $totaldata = count($hostel);
             $totalfiltered = $totaldata;
@@ -180,7 +181,7 @@ class HostelController
                 $datas['room_number'] = $m['room_number'];
                 $datas['room_type'] = $m['room_type'];
                 $datas['number_of_bed'] = $m['number_of_bed'];
-                $datas['cost_per_bed'] = $m['cost_per_bed'];
+                $datas['cost_per_bed'] = number_format($m['cost_per_bed'],0,',','.');
             //     $datas['aksi'] =  '<div class="dropdown">
             //     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
             //         aria-expanded="false">

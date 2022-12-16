@@ -416,6 +416,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getExamGradeS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_data_gradeS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/exam-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
@@ -1314,14 +1321,23 @@ return function (App $app) {
                     ]
                 ]);
                 return $response->withJson(array(
-                    'viewStudentAttend' => $viewStudentAttend, 'dateStudentAttend' => $tanggal, 'subjectStudentAttend' => $subjectStudentAttend, 'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
-                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend
+                    'viewStudentAttend' => $viewStudentAttend, 
+                    'dateStudentAttend' => $tanggal, 
+                    'subjectStudentAttend' => $subjectStudentAttend, 
+                    'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
+                    'typeUser' => $_SESSION['type']
                 ));
             } else {
                 return $response->withJson(array(
-                    'viewStudentAttend' => $viewStudentAttend, 'dateStudentAttend' => $tanggal, 'subjectStudentAttend' => $subjectStudentAttend, 'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
-                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend
+                    'viewStudentAttend' => $viewStudentAttend, 
+                    'dateStudentAttend' => $tanggal, 
+                    'subjectStudentAttend' => $subjectStudentAttend, 
+                    'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
+                    'typeUser' => $_SESSION['type'],
                 ));
+                
             }
         }
     )->add(new Auth());
@@ -1417,7 +1433,7 @@ return function (App $app) {
         '/getNotice',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view'
-            // return var_dump($request->getParam('search'));
+            // return die(var_dump($_SESSION));
 
             $condition = [
                 'ORDER' => [
@@ -1431,9 +1447,37 @@ return function (App $app) {
                     'title[~]' => '%' . $search . '%',
                     'date_notice' => Medoo::raw("1 OR (date_notice BETWEEN '" . $search . "' AND '" . $search . " 23:59:59')"),
                 ];
+            }else if(!empty($_SESSION['type'])){
+                $user_type = $_SESSION['type'];
+                if($user_type != '3'){
+                    switch($user_type){
+                        case '1':{
+                                $condition += [
+                                    'category[!]'=>['Pembayaran_SPP','Pembayaran_Gaji']
+                                ];
+                        }
+                        break;
+                        case '2':{
+                                $condition += [
+                                    'category[!]'=>'Pembayaran_SPP'
+                                ];
+                        }
+                        break;
+                        case '4':{
+                                $condition += [
+                                    'category'=>['Pembayaran_SPP','Exam']
+                                ];
+                        }
+                        break;
+                        default:{
+
+                        }
+                        break;
+                    }
+                }
             }
             $dataNotice = $container->db->select('tbl_notifications', '*', $condition);
-            //return var_dump($dataNotice);
+            // return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
     )->add(new Auth());

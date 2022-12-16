@@ -89,7 +89,7 @@ class SubjectController
             $no = $request->getParam('start') + 1;
             foreach ($result as $m) {
 
-                $datas['ID'] = $no. '.';
+                $datas['ID'] = $no . '.';
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['subject_type'] = $m['subject_type'];
                 $datas[''] = '<div class="dropdown">
@@ -98,14 +98,14 @@ class SubjectController
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item subject_remove" data="' . $m['id_subject'] . '"><button type="button" class="btn btn-light btn-lg" class="modal-trigger" data-toggle="modal"
-                    data-target="#confirmation-modalS"><i class="fas fa-trash text-orange-red"></i>
+                    <a class="dropdown-item btn btn-light btn-lg subject_remove text-center my-2" data="' . $m['id_subject'] . '" data-target="#confirmation-modalS">
+                    <i class="fas fa-trash text-orange-red"></i>
                             Hapus
-                        </button></a>
-                    <a class="btn dropdown-item subject_detail" data="' . $m['id_subject'] . '" ><button type="button" id="show_subject"  class="btn btn-light btn-lg"  data-toggle="modal" data-target="#detail_subject"><i
+                        </a>
+                    <a class="btn dropdown-item btn btn-light btn-lg subject_detail text-center my-2" data="' . $m['id_subject'] . '" data-target="#detail_subject"><i
                             class="fas fa-edit text-dark-pastel-green"></i>
                             Ubah
-                        </button></a>
+                            </a>
                 </div>
             </div>';
 
@@ -141,7 +141,8 @@ class SubjectController
         echo json_encode($json_data);
     }
 
-    public static function detail($app, $request, $response, $id_subject) {
+    public static function detail($app, $request, $response, $id_subject)
+    {
         $data = $app->db->get('tbl_subjects', [
             "id_subject",
             "subject_name",
@@ -155,7 +156,8 @@ class SubjectController
         return $response->withJson($data);
     }
 
-    public static function update_subject($app, $request, $response, $args) {
+    public static function update_subject($app, $request, $response, $args)
+    {
 
         $data = $args['data'];
         // return var_dump($data);
@@ -171,10 +173,10 @@ class SubjectController
             "draw" => intval($request->getParam('draw')),
         );
         echo json_encode($json_data);
-
     }
 
-    public static function delete_subject($app, $request, $response, $args) {
+    public static function delete_subject($app, $request, $response, $args)
+    {
         $id = $args['data'];
         // return var_dump($id);
 

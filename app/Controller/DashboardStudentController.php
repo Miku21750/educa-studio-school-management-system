@@ -41,29 +41,29 @@ class DashboardStudentController
 
 
         //BERDASARKAN ID USER = ID NOTIF 
-        $data_student_notification = $app->db->count('tbl_users', [
-            "[><]tbl_notifications" => ["id_user" => "id_notification"]
-        ], '*', [
-            "username" => $args['username']
-        ]);
+        // $data_student_notification = $app->db->count('tbl_users', [
+        //     "[><]tbl_notifications" => ["id_user" => "id_notification"]
+        // ], '*', [
+        //     "username" => $args['username']
+        // ]);
 
 
-        $id_notif = $app->db->select('tbl_notifications', 'id_notification', [
-            "category" => "event"
-        ]);
+        // $id_notif = $app->db->select('tbl_notifications', 'id_notification', [
+        //     "category" => "event"
+        // ]);
 
         $data_notice = $app->db->count('tbl_notifications', '*', [
-            "category[!]" => "pembayaran"
+            "category[!]" => ["Pembayaran_Gaji","Pembayaran_SPP"]
         ]);
-        $view_noticeEx = $app->db->select('tbl_notifications', '*', [
-            "category" => "exam"
-        ]);
-        $view_noticeEv = $app->db->select('tbl_notifications', '*', [
-            "category" => "event"
-        ]);
-        $view_noticeP = $app->db->select('tbl_notifications', '*', [
-            "category" => "Pengumuman_Sekolah"
-        ]);
+        // $view_noticeEx = $app->db->select('tbl_notifications', '*', [
+        //     "category" => "exam"
+        // ]);
+        // $view_noticeEv = $app->db->select('tbl_notifications', '*', [
+        //     "category" => "event"
+        // ]);
+        // $view_noticeP = $app->db->select('tbl_notifications', '*', [
+        //     "category" => "Pengumuman_Sekolah"
+        // ]);
         $event_notice = $app->db->count('tbl_notifications', '*', [
             "category" => "Event"
         ]);
@@ -72,12 +72,12 @@ class DashboardStudentController
 
         // JOIN
         //BERDASARKAN ID USER = ID NOTIF 
-        $view_student_notification = $app->db->select('tbl_users', [
-            "[><]tbl_notifications" => ["id_user" => "id_notification"]
-        ], '*', [
-            // "id_user" => $student_array['id_user'],
-            "username" => $args["username"]
-        ]);
+        // $view_student_notification = $app->db->select('tbl_users', [
+        //     "[><]tbl_notifications" => ["id_user" => "id_notification"]
+        // ], '*', [
+        //     // "id_user" => $student_array['id_user'],
+        //     "username" => $args["username"]
+        // ]);
 
 
 
@@ -153,15 +153,11 @@ class DashboardStudentController
 
         return $app->get('view')->render($response, 'dashboard/student.html', array(
             // "data2" => $data2,
-            "id_notif" => $id_notif,
             "data_student" => $data_student,
             "data_parentS" => $data_parentS,
-            "data_student_notification" => $data_student_notification,
-            "view_student_notification" => $view_student_notification,
+            // "data_student_notification" => $data_student_notification,
+            // "view_student_notification" => $view_student_notification,
             "data_notice" => $data_notice,
-            "view_noticeEx" => $view_noticeEx,
-            "view_noticeEv" => $view_noticeEv,
-            "view_noticeP" => $view_noticeP,
             "event_notice" => $event_notice,
             "data_student_attendance" => $data_student_attendanceP,
             "presentaseKehadiran1" => $presentaseKehadiran1,

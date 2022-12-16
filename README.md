@@ -1,29 +1,48 @@
 # Educa Studio School Management System
 
-Ini adalah dokumentasi Singkat Educa Studio School Management System 
-
-
 ## Daftar Isi  
 
 - [Educa Studio School Management System](#educa-studio-school-management-system)
   - [Daftar Isi](#daftar-isi)
+  - [Deskripsi](#deskripsi)
+  - [Contributor](#contributor)
+  - [Requirement](#requirement)
+  - [Deployment](#deployment)
   - [User Role](#user-role)
-  - [Route Documentation](#route-documentation)
-  - [Rest Api](#rest-api)
-  - [Authors and acknowledgment](#authors-and-acknowledgment)
-  - [License](#license)
-  - [Project status](#project-status)
-  - [Suggestions for a good README](#suggestions-for-a-good-readme)
-  - [Name](#name)
-  - [Description](#description)
-  - [Badges](#badges)
-  - [Visuals](#visuals)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Support](#support)
-  - [Contributing](#contributing)
+  - [View Route](#view-route)
+  - [Rest Api Route](#rest-api-route)
 
 
+## Deskripsi   
+
+Ini adalah dokumentasi Singkat Educa Studio School Management System 
+
+## Contributor  
+- Ahmad Catur Yulianto @CaturSkak
+- Miku21 @Miku21750
+- Khusanda @Khusanda
+- Muhammad Najib RB @najibdani21
+- Rizqi Pratama @rizqidev
+
+## Requirement
+
+- PHP 7.4 / 8
+- Mysql / MariaDB 
+- composer
+
+## Deployment 
+
+Production Server / Shared Hosting / Virtual Private Server
+- Pointkan root vhost kedalam folder `public` 
+- Lalu hubungkan dengan database.
+
+Development Server
+- clone
+- bila vendornya belum ada ketik `composer update` atau `composer install`
+- ketikan perintah `composer start` atau `php -S localhost:8200 -t ./public`
+
+Docker 
+- ketikkan perintah `docker compose up` (dokumentasi belum selesai)
 
 
 ## User Role  
@@ -35,7 +54,9 @@ Ini adalah dokumentasi Singkat Educa Studio School Management System
 | Admin   |    3    | Semua fungsi/action terbuka                   |
 | Parent  |    4    | Sebagian fungsi/action yang dikhususkan saja. |  
 
-## Route Documentation  
+<hr>
+
+## View Route
 
 | Tingkatan Akses | Sidebar Menu  | Rute                | Deskripsi                                           |
 |-----------------|---------------|---------------------|-----------------------------------------------------|
@@ -68,47 +89,114 @@ Ini adalah dokumentasi Singkat Educa Studio School Management System
 |    1*,2*,3,4*   | Notice        | /notice-board       | Pemberitahuan                                       |
 |        3        | Account       | /all-account        | Melihat Semua Akun                                  |
 |        3        | Account       | /add-account        | Menambah Akun Baru                                  |
+  
+<hr>
 
-## Rest Api  
-Belum.
+## Rest Api Route  
+Berikut ini adalalah daftar api yang digunakan :   
+untuk pengujian harus ditambahkan parameter input yang dibutuhkan.
 
-## Authors and acknowledgment
-Belum.
+Misal :  
+Url : 
+`{{baseUrl}}/api/kelas/add-kelas`  
+Parameter : `{ "kelas": 1, "bagian": 1, "idTeacher": 23, }`  
+Hasil :  `{ "status": "success", "details": { "inserted to class": "17", "updated to users": "23"} }`  
 
-## License
-Company Confedential.
+*Untuk api yang telah diberi auth harus ditambahkan konfigurasi manual.  
+**Untuk Parameter input sedang didokumentasikan.
 
-## Project status
-On Going.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
+      '/api',
+            '/login',
+            '/register'
+            '/user',
+                    '/account-setting',
+            '/admin',
+                    '/apidata',
+                    '/chart',     
+            '/kelas',
+                    '/hapus-kelas',
+                    '/getallclassdt',
+                    '/getallclassS',
+                    '/{id}detail',
+                    '/updateclass',
+            '/library',
+                    '/getBook',
+                    '/getBookS',
+                    '/{id}/book-detail',
+                    '/update-book-detail',
+                    '/delete-book',
+                    '/add-book',
+            '/subject',
+                    '/{id}/subject-detail',
+            '/class-routine',
+                    '/{id}/class-routine-detail',
+            '/transport',
+                    '/getTransport',
+                    '/getTransportS',
+                    '/{id}/transport-detail',
+                    '/update-transport-detail',
+                    '/delete-transport',
+                    '/add-transport',
+            '/hostel',
+                    '/getHostel',
+                    '/getHostelS',
+                    '/{id}/hostel-detail',
+                    '/update-hostel-detail',
+                    '/delete-hostel',
+                    '/add-hostel',
+            '/exam',
+                    '/getExam',
+                    '/getExamS',
+                    '/getExamGrade',
+                    '/{id}/exam-detail',
+                    '/{id}/grade-detail',
+                    '/update-exam-detail',
+                    '/update-grade-detail',
+                    '/delete-exam',
+                    '/add-exam',
+                    '/add-exam-result',
+            '/student',
+                    '/apidata',
+            '/{id}/examResult',
+            '/{id}/select',
+            '/{id}/result',
+            '/allparents',
+            '/allsubject',
+            '/addsubject',
+            '/deletesubject',
+            '/updatesubject',
+            '/allclassroutine',
+            '/allclassroutine1',
+            '/allclassroutineguru',
+            '/addclassroutine',
+            '/deleteclassroutine',
+            '/updateclassroutine',
+            '/{id}/detail',
+            '/parent-detail/{id}',
+            '/update-parent-detail',
+            '/delete-parent',
+            '/add-parent',
+            '/dashboard-teacher',
+            '/allstudents',
+            '/delete-student',
+            '/student-detail/{id}',
+            '/update-student-detail',
+            '/add-student',
+            '/add-promotion',
+            '/admission/{id}',
+            '/allteachers',
+            '/teacher_detail/{id}',
+            '/delete-teacher',
+            '/update-teacher-detail',
+            '/add-teacher',
+            '/allpayment',
+            '/allfees',
+            '/delete-fees',
+            '/{id}/payment-detail',
+            '/update-payment-detail',
+            '/allexpense',
+            '/add-payment',
+            '/all-result',
+            '/delete-result',
+            '/{id}/result-detail',
+            '/update-result-detail', 

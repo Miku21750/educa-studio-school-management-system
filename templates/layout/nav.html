@@ -53,9 +53,9 @@
             </h5>
             <span>{{ session.type_user }}</span>
           </div>
-          <div class="admin-img">
-            <img src="/uploads/Profile/{{session.photo_user}}" style="width: 40px" alt="Admin" />
-          </div>
+            <div class="admin-img">
+              <img src="/uploads/Profile/{{session.photo_user}}" style="" class="" alt="Admin" />
+            </div>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <div class="item-header">
@@ -155,7 +155,7 @@
           <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
           <span id="iconTotalNotification">{{notif[0].totalNotif}}</span>
         </a>
-
+        {# {{notif|json_encode()|raw}} #}
         {% set notifCount = notif[0].totalNotif %}
         <script>
           notifCount = '{{notifCount}}';
@@ -362,7 +362,7 @@
         },
         dataType: "JSON",
         success: function (response) {
-          //console.log(response[0])
+          console.log(response)
           $('#notice-list').empty();
           $.each(response, function (i, data) {
             data += data[i]
