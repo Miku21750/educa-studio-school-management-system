@@ -2037,6 +2037,17 @@ return function (App $app) {
             return $response->withRedirect('/all-account');
         }
     );
+    $app->post('/editDataAdditionalProfile', function (Request $request, Response $response, array $args) use ($container) {
+        $data = $request->getParsedBody();
+        // return var_dump($data);
+        $delete = $container->db->delete('tbl_users', [
+            'id_user' => $data['id'],
+        ]);
+        return $response->withJson(array("success"));
+
+        // return var_dump($data);
+    }
+    );
     $app->post(
         '/account-delete-data',
         function (Request $request, Response $response, array $args) use ($container) {

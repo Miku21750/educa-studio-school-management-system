@@ -30,7 +30,7 @@
                         {{ data.username }}
                         {% else %}
                         {{ data.first_name ~" "~ data.last_name }}
-                    {% endif %}</h3>
+                        {% endif %}</h3>
                     <div class="header-elements">
                         <ul>
                             <li>
@@ -91,7 +91,7 @@
                             <tr>
                                 <td>Blood Group:</td>
                                 <td class="font-medium text-dark-medium">{{ data.blood_group }}</td>
-                            </tr> 
+                            </tr>
                             <tr>
                                 <td>Occupation:</td>
                                 <td class="font-medium text-dark-medium">{{data.occupation}}</td>
@@ -133,184 +133,257 @@
         </div>
         <div class="single-info-details">
             <form action="/editDataProfile" method="post" class="new-added-form" enctype="multipart/form-data">
-            <div class="item-img">
-                {# <img src="img/figure/student1.jpg" alt="student" /> #}
-                <input type="text" value="{{data.photo_user}}" name ="imageDefault" hidden>
-                    <div class="avatar-upload">
+                <div class="item-img">
+                    {# <img src="img/figure/student1.jpg" alt="student" /> #}
+                    <input type="text" value="{{data.photo_user}}" name="imageDefault" hidden>
+                    <div class="avatar-upload" >
                         <div class="avatar-edit">
-                            <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg"/>
+                            <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg" />
                             <label for="imageUpload"></label>
                         </div>
                         <div class="avatar-preview">
-                            <div id="imagePreview" style="background-image: url(uploads/Profile/{{data.photo_user|replace({' ' : '%20'})}});">
+                            <div id="imagePreview"
+                                style="background-image: url(uploads/Profile/{{data.photo_user|replace({' ' : '%20'})}});">
                             </div>
                         </div>
-                </div>
-                <script>
-                    function readURL(input) {
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();
-                            reader.onload = function(e) {
-                                $('#imagePreview').css('background-image', 'url('+e.target.result +')');
-                                $('#imagePreview').hide();
-                                $('#imagePreview').fadeIn(650);
-                            }
-                            reader.readAsDataURL(input.files[0]);
-                            
-                        }
-                    }
-                    $("#imageUpload").change(function() {
-                        readURL(this);
-                    });
-                </script>
-            </div>
-            <div class="item-content">
-                <div class="header-inline item-header">
-                    <h3 class="text-dark-medium font-medium">{% if data.first_name == '' %}
-                        {{ data.username }}
-                        {% else %}
-                        {{ data.first_name ~" "~ data.last_name }}
-                    {% endif %}</h3>
-                    <div class="header-elements">
-                        <ul>
-                            <li>
-                                <a href="" id="viewButton"><i class="far fa-edit"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-print"></i></a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fas fa-download"></i></a>
-                            </li>
-                        </ul>
                     </div>
+                    <script>
+                        function readURL(input) {
+                            if (input.files && input.files[0]) {
+                                var reader = new FileReader();
+                                reader.onload = function (e) {
+                                    $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
+                                    $('#imagePreview').hide();
+                                    $('#imagePreview').fadeIn(650);
+                                }
+                                reader.readAsDataURL(input.files[0]);
+
+                            }
+                        }
+                        $("#imageUpload").change(function () {
+                            readURL(this);
+                        });
+                    </script>
                 </div>
-                <p>Bio : <br>
-                    <textarea name="data_short_bio" cols="120" rows="5" class="form-control">{{ data.short_bio }}</textarea>
-                    {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
+                <div class="item-content">
+                    <div class="header-inline item-header">
+                        <h3 class="text-dark-medium font-medium">{% if data.first_name == '' %}
+                            {{ data.username }}
+                            {% else %}
+                            {{ data.first_name ~" "~ data.last_name }}
+                            {% endif %}</h3>
+                        <div class="header-elements">
+                            <ul>
+                                <li>
+                                    <a href="" id="viewButton"><i class="far fa-edit"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-print"></i></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fas fa-download"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p>Bio : <br>
+                        <div class="form-group">
+                            <textarea name="data_short_bio" cols="200" rows="5"
+                                class="form-control textarea">{{ data.short_bio }}</textarea>
+                        </div>
+                        {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
                     word moun taiery.Aliquam erat volutpaturabiene natis massa sedde
                     sodale word moun taiery. #}
-                </p>
-                <div class="info-table table-responsive">
-                    <table class="table text-nowrap">
-                        <tbody>
-                            <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
-                            <tr class="form-group">
-                                <label for="first_name">Nama Depan: </label>
-                                <input type="text" placeholder="Masukan nama depan" name="first_name" class="form-control" value="{{ data.first_name }}">
-                            </tr>
-                            <tr class="form-group">
-                                <label for="last_name">Nama Belakang:</label>
-                                <input type="text" placeholder="Masukan nama belakang" name="last_name" class="form-control" value="{{ data.last_name }}">
-                            </tr>
-                            <tr class="form-group">
-                                <label for="gender">Gender:</label>
-                                <select name="gender" id="selectGenderEditProfile" class="form-control">
-                                    <option value="">Pilih gender</option>
-                                    <option value="Laki-laki">Laki-Laki</option>
-                                    <option value="Perempuan">Perempuan</option>
-                                </select>
-                                {# <input type="text" name="gender" id="genderProfile_Edit" list="gender">
-                                <datalist id="gender">
-                                    <option value="Male">Laki-Laki</option>
-                                    <option value="Female">Perempuan</option>
-                                </datalist> #}
-                            </tr>
-                            {# <tr>
-                                <td>Father Name:</td>
-                                <td class="font-medium text-dark-medium">Steve Jones</td>
-                            </tr>
-                            <tr>
-                                <td>Mother Name:</td>
-                                <td class="font-medium text-dark-medium">Naomi Rose</td>
-                            </tr> #}
-                            <tr class="form-group">
-                                <label>Tanggal Lahir:</label>
-                                <input type="date" name="date_of_birth" class="form-control" value="{{data.date_of_birth}}">
-                            </tr>
-                            <tr>
-                                <label>Agama:</label>
-                                <input type="text" placeholder="Masukan Agamamu" name="religion" class="form-control" value="{{ data.religion }}">
-                            </tr>
-                            <tr>
-                                <label>Username:</label>
-                                <input type="text" placeholder="username" name="username" class="form-control bg-light" value="{{ data.username }}" readonly>
-                            </tr>
-                            <tr>
-                                <label>E-mail:</label>
-                                <input type="email" name="email" class="form-control bg-light" value="{{ data.email }}" readonly>
-                            </tr>
-                            <tr>
-                                
-                                <label>Golongan Darah:</label>
-                                <select id="selectBloodGroupEditProfile" name="blood_group" class="form-control" >
-                                    <option value="">Pilih Golongan darah</option>
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="AB">AB</option>
-                                    <option value="O">O</option>
-                                </select>
-                            </tr> 
-                            <tr>
-                                <label>Pekerjaan:</label>
-                                <input type="text" name="occupation" placeholder="Masukan Pekerjaan Kamu" class="form-control" value="{{data.occupation}}">
-                            </tr>
-                            <tr>
-                                <label>Alamat:</label>
-                                <input type="text" name="address_user" placeholder="Masukan Alamat" class="form-control" value="{{ data.address_user }}">
-                            </tr>
-                            <tr>
-                                <label>No Telepon:</label>
-                                <input type="text" name="phone_user" placeholder="Masukan No Telepon (62-888-8888-8888)" class="form-control" value="{{ data.phone_user }}">
-                            </tr>
-                        </tbody>
-                    </table>
-                    <input type="submit" value="Edit Profil" class="btn btn-warning">
-                </form>
-                </div>
-            </div>
+                    </p>
+                    <div class="row form-group">
+                        <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
+                        <div class="col-6 my-3">
+                            <label for="first_name">Nama Depan: </label>
+                            <input type="text" placeholder="Masukan nama depan" name="first_name" class="form-control"
+                                value="{{ data.first_name }}">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label for="last_name">Nama Belakang:</label>
+                            <input type="text" placeholder="Masukan nama belakang" name="last_name" class="form-control"
+                                value="{{ data.last_name }}">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label for="gender">Gender:</label>
+                            <select name="gender" id="selectGenderEditProfile" class="form-control">
+                                <option value="">Pilih gender</option>
+                                <option value="Laki-laki">Laki-Laki</option>
+                                <option value="Perempuan">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="col-6 my-3">
+                            <label>Tanggal Lahir:</label>
+                            <input type="date" name="date_of_birth" class="form-control" value="{{data.date_of_birth}}">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label>Agama:</label>
+                            <input type="text" placeholder="Masukan Agamamu" name="religion" class="form-control"
+                                value="{{ data.religion }}">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label>Username:</label>
+                            <input type="text" placeholder="username" name="username" class="form-control"
+                                value="{{ data.username }}" readonly>
+                        </div>
+                        <div class="col-6 my-3">
+                            <label>E-mail:</label>
+                            <input type="email" name="email" class="form-control" value="{{ data.email }}" readonly>
+                        </div>
+                        <div class="col-6 my-3">
+
+                            <label>Golongan Darah:</label>
+                            <select id="selectBloodGroupEditProfile" name="blood_group" class="form-control">
+                                <option value="">Pilih Golongan darah</option>
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="AB">AB</option>
+                                <option value="O">O</option>
+                            </select>
+                        </div>
+                        <div class="col-6 my-3">
+                            <label>Pekerjaan:</label>
+                            <input type="text" name="occupation" placeholder="Masukan Pekerjaan Kamu"
+                                class="form-control" value="{{data.occupation}}">
+                        </div>
+
+                        <div class="col-6 my-3">
+                            <label>No Telepon:</label>
+                            <input type="text" name="phone_user" placeholder="Masukan No Telepon (62-888-8888-8888)"
+                                class="form-control" value="{{ data.phone_user }}">
+                        </div>
+                        <div class="col-12 my-3">
+                            <label>Alamat:</label>
+                            <input type="text" name="address_user" placeholder="Masukan Alamat" class="form-control"
+                                value="{{ data.address_user }}">
+                        </div>
+                    </div>
+                    <input type="submit" value="Simpan Profil" class="btn-lg btn-warning float-right">
+                    <input id="viewAdditionalSetting" value="Additional Setting" class="btn-lg btn-secondary mx-3 float-right">
+            </form>
         </div>
     </div>
 </div>
+</div>
 <!-- Profile Settings Edit Area End Here -->
+<!-- Profile Additional Settings Edit Area Start Here -->
+<div class="card height-auto" id="editDataAdditionalAccountSetting">
+    <div class="card-body">
+        <div class="heading-layout1">
+            <div class="item-title">
+                <h3>Edit Account Additional</h3>
+            </div>
+        </div>
+        <div class="single-info-details" style="display: block!important;">
+            <form action="/editDataAdditionalProfile" method="post" class="new-added-form" >
+                <div class="item-content">
+                    <div class="header-inline item-header">
+                        <h3 class="text-dark-medium font-medium">{% if data.first_name == '' %}
+                            {{ data.username }}
+                            {% else %}
+                            {{ data.first_name ~" "~ data.last_name }}
+                            {% endif %}</h3>
+                        <div class="header-elements">
+                            <ul>
+                                <li>
+                                    <a href="" id="viewButtonAdditional"><i class="far fa-edit"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
+                        <div class="col-6 my-3">
+                            <label for="username">Username</label>
+                            <input type="text" placeholder="" name="username" class="form-control"
+                                value="{{ data.username }}">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label for="email">Email:</label>
+                            <input type="email" placeholder="  " name="email" class="form-control"
+                                value="{{ data.email }}">
+                        </div>
+                        {# <input type="text" name="current_password" value="{{data.password}}"> #}
+                        <div class="col-6 my-3">
+                            <label>Password:</label>
+                            <input type="password" placeholder="New Password" name="password" class="form-control">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label>Confirm Password:</label>
+                            <input type="password" placeholder="Confirm Password" name="confirm-pass" class="form-control">
+                        </div>
+                    </div>
+                    <input type="submit" value="Simpan Pengaturan" class="btn-lg btn-warning float-right">
+                    {# <input type="submit" value="Additional Setting" class="btn-lg btn-secondary mx-3 float-right"> #}
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Profile Additional Settings Edit Area End Here -->
 
 
 <style>
     @media print {
+
         /* Hide everything in the body when printing... */
-        body.printing * { display: none!important; }
+        body.printing * {
+            display: none !important;
+        }
+
         /* ...except our special div. */
-        body.printing #print-me { display: block!important; }
+        body.printing #print-me {
+            display: block !important;
+        }
     }
-    
+
     @media screen {
+
         /* Hide the special layer from the screen. */
-        #print-me { display: none; }
+        #print-me {
+            display: none;
+        }
     }
 </style>
 <!-- Script for jquery Edit Form -->
 <script>
     $(document).ready(function () {
         $('#editDataDetailAccountSetting').toggle();
-        $('#editButton').click(function (e) { 
+        $('#editDataAdditionalAccountSetting').toggle();
+        $('#editButton').click(function (e) {
             e.preventDefault();
             //console.log(data)
             $('#showDataDetailAccountSetting').toggle();
             $('#editDataDetailAccountSetting').toggle();
         });
-        $('#viewButton').click(function (e) { 
+        $('#viewButton').click(function (e) {
             e.preventDefault();
             //console.log(data)
             $('#showDataDetailAccountSetting').toggle();
             $('#editDataDetailAccountSetting').toggle();
+        });
+        $('#viewButtonAdditional').click(function (e) {
+            e.preventDefault();
+            //console.log(data)
+            $('#editDataAdditionalAccountSetting').toggle();
+            $('#showDataDetailAccountSetting').toggle();
+        });
+        $('#viewAdditionalSetting').click(function (e) {
+            e.preventDefault();
+            //console.log(data)
+            $('#editDataDetailAccountSetting').toggle();
+            $('#editDataAdditionalAccountSetting').toggle();
         });
         var gend = "{{ data.gender }}";
         var BlGroup = "{{ data.blood_group }}";
 
         $('#selectGenderEditProfile').val(gend).change();
         $('#selectBloodGroupEditProfile').val(BlGroup).change();
-        $('#printPdfMyProfile').click(function (e) { 
-            
+        $('#printPdfMyProfile').click(function (e) {
+
             $('#myProfilePrintableArea').clone().appendTo("#print-me");
 
             console.log($('#print-me').html())
@@ -320,8 +393,8 @@
             $("body").removeClass("printing");
             //Clear up the div.
             $("#print-me").empty();
-          //  e.preventDefault();
-           // w=window.open();
+            //  e.preventDefault();
+            // w=window.open();
             //w.document.write($('#showDataDetailAccountSetting').html());
             //w.print();
             //w.close();
