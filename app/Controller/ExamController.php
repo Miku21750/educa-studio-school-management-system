@@ -683,14 +683,6 @@ class ExamController
         $data = $app->db->get('tbl_exam_grades', '*', [
             'id_exam_grade' => $id_exam_grade
         ]);
-<<<<<<< HEAD
-        
-      
-=======
-        // return var_dump($data);
-
->>>>>>> a22ed66022dc5688e5279e9966c57658d7e737e8
-
         return $response->withJson($data);
     }
 
@@ -714,12 +706,7 @@ class ExamController
         );
         echo json_encode($json_data);
 
-<<<<<<< HEAD
     }   
-=======
-        // return var_dump($update);
-    }
->>>>>>> a22ed66022dc5688e5279e9966c57658d7e737e8
 
     public static function result_detail($app, $request, $response, $args)
     {
