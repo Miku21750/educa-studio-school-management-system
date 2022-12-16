@@ -170,7 +170,62 @@
 
 
         }
+
+        ResultS = function () {
+
+            Result = $("#all-resultS").on('preXhr.dt', function (e, settings, data) {
+
+
+            }).on('draw.dt', function () {
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-end", "orderable": false },
+                    { "targets": 6, className: "text-end", "orderable": false },
+                    { "targets": 7, className: "text-end", "orderable": false },
+                    // { "targets": 8, className: "text-end", "orderable": false },
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/all-resultS",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'nisn' },
+                    { 'data': 'nama' },
+                    { 'data': 'ujian' },
+                    { 'data': 'mapel' },
+                    { 'data': 'kelas' },
+                    { 'data': 'nilai' },
+                    { 'data': 'grade' },
+                    { 'data': 'tanggal' },
+                    // { 'data': 'aksi' },
+                ]
+
+
+            });
+
+
+
+        }
         Result(false)
+        ResultS(false)
 
         //GET HAPUS
         $('#show_result').on('click', '.item_hapus', function () {
@@ -337,14 +392,14 @@
                     console.log(data);
                     $('#detail-result').on('shown.bs.modal', function (e) {
                         $('#mScoreExamInput').focus();
-                     }).modal('show');
-                   
+                    }).modal('show');
+
                     $('[name="id_result"]').val(data.id_result);
                     $('[name="id_user"]').val(data.id_user).change();
                     $('[name="id_exam"]').val(data.id_exam).change();
                     $('[name="id_grade"]').val(data.id_exam_grade).change();
                     $('[name="mScore"]').val(data.score);
-                  
+
                     // });
                 }
             });
