@@ -1,13 +1,15 @@
-{% extends "/layout/master.html" %}
-{% set title = "Class Routine" %}
-{% set typeFrontEnd = "Class Routine" %}
+{% extends "/layout/master.html" %} 
+{% set title = "Class Routine" %} 
 {% set section_type = "Class Routine" %}
 {% block content %}
 
 <!-- Class Routine Area Start Here -->
 <div class="row">
   {# if admin start here #}
-  {% if session.type == 3 %}
+
+
+
+  {% if session.type == 3  %}
 
   <div class="col-4-xxxl col-12">
     <div class="card height-auto">
@@ -113,7 +115,7 @@
   {% endif %}
   {# End if Admin only #}
 
-  {% if session.type == 3 or session.type == 2 %}
+  {% if session.type == 3 %}
   <div class="col-8-xxxl col-12">
     <div class="card height-auto">
       <div class="card-body">
@@ -185,6 +187,45 @@
               </tr>
             </thead>
             <tbody id="show_class_routine1">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {% if session.type == 2 %}
+  <div class="col-8-xxxl col-12">
+    <div class="card height-auto">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Jadwal Guru</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <div class="table-box-nowrap">
+          <table class="display" id="class_routine_guru">
+            <thead>
+              <tr>
+                <th>Hari</label></th>
+                <th>Kelas</th>
+                <th>Mata Pelajaran</th>
+                <th>Bagian</th>
+                <th>Guru</th>
+                <th>Waktu</th>
+              </tr>
+            </thead>
+            <tbody id="show_class_routine_guru">
             </tbody>
           </table>
         </div>
@@ -688,6 +729,54 @@
     });
     return false;
   });
+
+  Guru = function () {
+
+    guru = $("#class_routine_guru").on('preXhr.dt', function (e, settings, data) {
+
+      console.log('loading ....');
+
+    }).on('draw.dt', function () {
+      console.log('dapat data ....');
+
+    }).DataTable({
+      responsive: {
+        details: {
+          type: 'column'
+        }
+      },
+      "columnDefs": [
+        { "width": "5%", "targets": 0, className: "text-center", "orderable": false },
+        { "width": "15%", "targets": 1, className: "text-start", "orderable": false },
+        { "width": "25%", "targets": 2, className: "text-start", "orderable": false },
+        { "width": "5%", "targets": 3, className: "text-start", "orderable": false },
+        { "width": "20%", "targets": 4, className: "text-start", "orderable": false },
+        { "width": "20%", "targets": 5, className: "text-start", "orderable": false },
+
+
+      ],
+      'pageLength': 10,
+      'processing': true,
+      'serverSide': true,
+      'select': true,
+      'responsive': true,
+      'ajax': {
+        url: "/api" + "/allclassroutineguru",
+        type: 'GET',
+      },
+      'columns': [
+        { 'data': 'school_day' },
+        { 'data': 'class' },
+        { 'data': 'subject_name' },
+        { 'data': 'section' },
+        { 'data': 'teacher_name' },
+        { 'data': 'time' },
+      ],
+    });
+
+  }
+
+  Guru();
 
 </script>
 

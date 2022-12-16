@@ -75,12 +75,13 @@
               ><i class="fas fa-angle-right"></i>Add Teacher</a
             >
           </li>
+          {% endif %}
+
           <li class="nav-item">
             <a href="/teacher-payment" class="nav-link"
               ><i class="fas fa-angle-right"></i>Payment</a
             >
           </li>
-          {% endif %}
         </ul>
       </li>
       {% endif %} {% if session.type == 4 or  session.type == 3  %}
@@ -163,7 +164,7 @@
         </ul>
       </li>
       {% endif %} 
-      {% if session.type == 3 or session.type == 2 or session.type == 1 %}
+      {% if session.type == 3 or session.type == 1 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i
@@ -187,8 +188,7 @@
         </ul>
       </li>
       {% endif %}
-
-      {% if session.type == 3 or session.type == 2 %}
+      {% if session.type == 3  %}
       <li class="nav-item">
         <a href="/all-subject" class="nav-link"
           ><i class="flaticon-open-book"></i><span>Subject</span></a
@@ -275,8 +275,7 @@
       </li>
       {% endif %}
 
-      {% if session.type == 3 or session.type == 1 %}
-      <li class="nav-item sidebar-nav-item">
+      {# <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i class="flaticon-menu-1"></i><span>UI Elements</span></a
         >
@@ -317,7 +316,7 @@
             >
           </li>
         </ul>
-      </li>
+      </li> #}
       <li class="nav-item">
         <a href="/map" class="nav-link"
           ><i class="flaticon-planet-earth"></i><span>Map</span></a

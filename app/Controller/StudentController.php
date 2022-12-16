@@ -14,7 +14,7 @@ class StudentController
         $user = $args['user'];
         $type = $args['type'];
         $id_user = $args['id_user'];
-        // return var_dump($id_parent);
+        // return var_dump($id_student);
 
 
 
@@ -39,30 +39,16 @@ class StudentController
         $type = 1;
         $tbl_classes = 'tbl_classes';
 
-        // $parent = $app->db->select('tbl_users(a)', [
-        //     '[><]tbl_classes' => 'id_class',
-        //     '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
-        //     '[><]tbl_users(b)' => ['a.id_parent' => 'id_user']
-        // ], [
-        //     'a.id_user(id_user)',
-        //     'a.NISN(nisn)',
-        //     'a.photo_user(foto)',
-        //     'a.first_name(first_name_student)',
-        //     'a.last_name(last_name_student)',
-        //     'a.gender(gender)',
-        //     'class(class)',
-        //     'section(section)',
-        //     'a.address_user(alamat)',
-        //     'a.date_of_birth(tanggal_lahir)',
-        //     'a.phone_user(telepon)',
-        //     'a.email(email)',
-        //     'b.first_name(first_name_parent)',
-        //     'b.last_name(last_name_parent)',
-        // ]);
+        
 
 
-        $parent = $app->db->select('tbl_users', '*', [
+        $student = $app->db->select('tbl_users',[
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+        ], '*', [
             'id_user_type' => $type,
+            'tbl_users.id_class[!]' => 99,
         ]);
 
 
@@ -70,7 +56,7 @@ class StudentController
             0 => 'id',
         );
 
-        $totaldata = count($parent);
+        $totaldata = count($student);
         $totalfiltered = $totaldata;
         $limit = $req->getParam('length');
         $start = $req->getParam('start');
@@ -83,6 +69,7 @@ class StudentController
         $conditions = [
             "LIMIT" => [$start, $limit],
             'id_user_type' => $type,
+            'tbl_users.id_class[!]' => 99,
 
         ];
 
@@ -100,33 +87,43 @@ class StudentController
             $limit = [
                 "LIMIT" => [$start, $limit],
                 'id_user_type' => $type,
+                'tbl_users.id_class[!]' => 99,
 
             ];
 
-            $parent = $app->db->select(
-                'tbl_users',
+            $student = $app->db->select(
+                'tbl_users',[
+                    '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+                    '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+                    '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+                ],
                 '*',
                 $limit
             );
-            $totaldata = count($parent);
+            $totaldata = count($student);
             $totalfiltered = $totaldata;
             // return var_dump($totaldata);
         }
 
-        $parent = $app->db->select('tbl_users', '*', $conditions);
+        $student = $app->db->select('tbl_users', [
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+        ],'*', $conditions);
 
         $data = array();
 
 
-        if (!empty($parent)) {
+        if (!empty($student)) {
             $no = $req->getParam('start') + 1;
 
-            foreach ($parent as $m) {
+            foreach ($student as $m) {
 
                 $datas['no'] = $no . '.';
                 $datas['nisn'] = $m['NISN'];
                 $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
                 $datas['gender'] = $m['gender'];
+                $datas['class'] = $m['class'] . ' ' .$m['section']  ;
 
                 $username = $app->db->select('tbl_users', 'first_name', [
                     'id_user' => $m['id_user']
@@ -205,7 +202,7 @@ class StudentController
                 $no++;
             }
         }
-        // return var_dump($parent);
+        // return var_dump($student);
 
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
@@ -227,7 +224,7 @@ class StudentController
         $data = $app->db->select('tbl_users(a)', [
             '[><]tbl_classes' => ['a.id_class' => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
-            '[><]tbl_users(b)' => ['a.id_parent' => 'id_user']
+            '[><]tbl_users(b)' => ['a.id_parent' => 'id_user'],
         ], [
             'a.id_user(id_user)',
             'a.NISN(nisn)',
@@ -235,7 +232,8 @@ class StudentController
             'a.first_name(first_name_student)',
             'a.last_name(last_name_student)',
             'a.gender(gender)',
-            'a.id_parent(id_parent)',
+            'a.id_class(kelas)',
+            'a.id_parent(parent)',
             'class(class)',
             'section(section)',
             'a.address_user(alamat)',
@@ -247,8 +245,8 @@ class StudentController
             'a.date_of_birth(tanggal_lahir)',
             'a.phone_user(telepon)',
             'a.email(email)',
-            'b.first_name(first_name_parent)',
-            'b.last_name(last_name_parent)',
+            'b.first_name(first_name_ortu)',
+            'b.last_name(last_name_ortu)',
         ], [
             'a.id_user' => $id
 
@@ -331,7 +329,6 @@ class StudentController
             "date_of_birth" => $data['date_of_birth'],
             "religion" => $data['religion'],
             "blood_group" => $data['blood_group'],
-            "occupation" => $data['occupation'],
             "phone_user" => $data['phone_user'],
             "address_user" => $data['address_user'],
             "short_bio" => $data['data_short_bio'],
@@ -339,7 +336,7 @@ class StudentController
         ], [
             "id_user" => $data['id_user']
         ]);
-        // return var_dump($update);
+        // return die(var_dump($update));
         $_SESSION['berhasil'] = true;
         return $response->withRedirect('/api/student-detail/' . $data['id_user']);
     }
@@ -347,7 +344,7 @@ class StudentController
     {
 
         $type = 4;
-        $parent = $app->db->select('tbl_users', '*', [
+        $student = $app->db->select('tbl_users', '*', [
             'id_user_type' => $type,
 
         ]);
@@ -358,7 +355,7 @@ class StudentController
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
         $app->view->render($rsp, 'students/admit-form.html', [
-            'parent' =>  $parent,
+            'student' =>  $student,
             'class' =>  $class,
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
@@ -397,19 +394,17 @@ class StudentController
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
-            "username" => $data['first_name'],
-            "password" => $data['last_name'],
-            "id_section" => $data['id_section'],
+            "password" => $data['nisn'],
             "id_class" => $data['id_class'],
             "id_parent" => $data['id_parent'],
             "NISN" => $data['nisn'],
             "date_of_birth" => $data['date_of_birth'],
             "religion" => $data['religion'],
             "blood_group" => $data['blood_group'],
+            "session" => $data['session'],
             "email" => $data['email'],
             "phone_user" => $data['phone_user'],
             "address_user" => $data['address_user'],
-            "short_bio" => $data['data_short_bio'],
             "photo_user" => $addUpdate,
             "id_user_type" => 1,
             "status" => 1,

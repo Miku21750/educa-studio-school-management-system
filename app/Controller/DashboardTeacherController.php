@@ -56,10 +56,8 @@ class DashboardTeacherController
         $pendapatanTotal = DashboardTeacherController::hitungPendapatanTotal($app, $request, $response, $args);
         $id = $_SESSION['id_user'];
 
-        $notif = $app->db->select('tbl_users', [
-            "[><]tbl_notifications" => "id_user"
-        ],'*', [
-            "id_user" => $id,
+        $notif = $app->db->select('tbl_notifications','*',[
+            'category' => 'Pengumuman_Sekolah'
         ]);
 
         $totallulus = $app->db->count('tbl_users', [
@@ -112,13 +110,12 @@ class DashboardTeacherController
             'a.email(email)',
             'b.first_name(first_name_parent)',
             'b.last_name(last_name_parent)',
+        ],[
+            "a.id_class[!]" => 99
         ]);
         // return var_dump($parent);
         // die();
-        // $parent = $app->db->select('tbl_users', '*', [
-        //     'id_user_type' => $type,
-        // ]);
-
+      
 
         $columns = array(
             0 => 'id',
@@ -136,6 +133,7 @@ class DashboardTeacherController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
+            "a.id_class[!]" => 99
 
         ];
 
@@ -144,6 +142,7 @@ class DashboardTeacherController
             $limit = [
                 "LIMIT" => [$start, $limit],
                 'id_user_type' => $type,
+                "a.id_class[!]" => 99
 
             ];
             $conditions['OR'] = [

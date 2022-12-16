@@ -21,20 +21,31 @@ class DashbordParentController
         ],'*', [
             "id_parent" => $id_parent,
         ]);
-        $totalnotif = $app->db->count('tbl_notifications','*');
-        $notif = $app->db->select('tbl_notifications','*');
-        $totaltagihan = $app->db->sum('tbl_users', [
+        $totalnotif = $app->db->count('tbl_notifications','*',[
+            'OR'=>[
+                'category' => ['Pembayaran','Exam'],
+            ]
+        ]);
+        $notif = $app->db->select('tbl_notifications','*',[
+            'OR'=>[
+                'category' => ['Pembayaran','Exam'],
+            ]
+        ]);
+        // return die(var_dump($notif));
+        $tagihan = $app->db->sum('tbl_users', [
             "[><]tbl_finances" => "id_user"
         ], 'amount_payment',[
             "id_parent" => $id_parent,
             'status_pembayaran' => "BELUM BAYAR"
         ]);
-        $totalpembayaran = $app->db->sum('tbl_users', [
+        $pembayaran = $app->db->sum('tbl_users', [
             "[><]tbl_finances" => "id_user"
         ], 'amount_payment',[
             "id_parent" => $id_parent,
             'status_pembayaran' => "DIBAYAR"
         ]);
+      $totaltagihan  = 'Rp. ' . number_format($tagihan,0,',','.');
+      $totalpembayaran  = 'Rp. ' . number_format($pembayaran,0,',','.');
         // var_dump($data);
 
         $app->view->render($response, 'dashboard/parent.html', [
@@ -121,7 +132,7 @@ class DashbordParentController
                 $datas['NISN'] = $m['NISN'];
                 $datas['Nama'] = $m['first_name'].' '.$m['last_name'];
                 $datas['payment_type_name'] = $m['payment_type_name'];
-                $datas['amount_payment'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
+                $datas['amount_payment'] = 'Rp. ' . number_format($m['amount_payment'],0,',','.') ;
                 // $datas['status_pembayaran'] = $m['status_pembayaran'];
                 if($m['status_pembayaran'] == "Belum Bayar"){
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
