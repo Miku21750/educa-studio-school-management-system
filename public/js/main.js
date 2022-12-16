@@ -2016,13 +2016,10 @@ $('#show_grade').on('click', '.grade_detail', function () {
         const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
             "September", "Oktober", "November", "Desember"
         ];
-        //drawNotice();
+        // drawNotice();
         $.ajax({
             type: "GET",
-            url: "/getNoticeS",
-            data: {
-                search: s
-            },
+            url: "/getNotice",
             dataType: "JSON",
             success: function (response) {
                 //console.log(response[0])
@@ -2045,14 +2042,14 @@ $('#show_grade').on('click', '.grade_detail', function () {
                         difference = minus.days + ' hari lalu';
                     }
 
-                    //console.log(response[i].category)
+                    console.log('response[i].category')
                     var classCategory;
                     switch (response[i].category) {
                         case 'Exam': {
                             classCategory = 'bg-warning'
                         }
                             break;
-                        case 'Pembayaran': {
+                        case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
                             classCategory = 'bg-success'
                         }
                             break;
@@ -2097,7 +2094,7 @@ $('#show_grade').on('click', '.grade_detail', function () {
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         $.ajax({
             type: "GET",
-            url: "/getNoticeDetailsS",
+            url: "/getNoticeDetails",
             data: {
                 id: recipient
             },
@@ -2127,7 +2124,7 @@ $('#show_grade').on('click', '.grade_detail', function () {
                         classCategory = 'bg-warning'
                     }
                         break;
-                    case 'Pembayaran': {
+                    case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
                         classCategory = 'bg-success'
                     }
                         break;

@@ -253,7 +253,7 @@
                         $('#studentFormAttendViewSheet').append('<th data-idStudent="' + viewStudent[i].id_user+'">' + viewStudent[i].first_name + ' ' + viewStudent[i].last_name + '</th>')
                     }
                     let resultTbl = '';
-                    console.log(response.dateStudentAttend[0]);
+                    let typeUser = response.typeUser;
                     for(let i = 0; i < response.dateStudentAttend.length; i++){
                         resultTbl += '<tr onclick="selectAll(event)"><th>'+response.dateStudentAttend[i]+'</th>';
                         for(let j = 0; j <  viewStudent.length;j++){
@@ -273,9 +273,11 @@
 
                     today = yyyy + '-' + mm + '-' + dd;
                     console.log(today)
-                    //Lanjutkan membuat if date != now, disabled the checkbox
-                    $('input[type="checkbox"]').not($('input[data-idCallDate="'+today+'"]')).attr('disabled',true)
-                    $('input[type="checkbox"]').not($('input[data-idCallDate="'+today+'"]')).addClass('bg-secondary')
+                    //if date != now && userType != admin, disabled
+                    if(typeUser !== '3'){
+                        $('input[type="checkbox"]').not($('input[data-idCallDate="'+today+'"]')).attr('disabled',true)
+                        $('input[type="checkbox"]').not($('input[data-idCallDate="'+today+'"]')).addClass('bg-secondary')
+                    }
                 }
             });
         });
