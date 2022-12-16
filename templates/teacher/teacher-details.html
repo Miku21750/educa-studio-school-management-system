@@ -136,10 +136,10 @@
                     <td>Golongan Darah:</td>
                     <td class="font-medium text-dark-medium">{{ data.blood_group }}</td>
                   </tr>
-                  <tr>
+                  {# <tr>
                     <td>Wali Kelas:</td>
                     <td class="font-medium text-dark-medium">{{data.class}} {{data.section}}</td>
-                  </tr>
+                  </tr> #}
                   <tr>
                     <td>Mata Pelajaran:</td>
                     <td class="font-medium text-dark-medium">{{data.subject_name}} ({{data.subject_type}})</td>
@@ -298,7 +298,7 @@
                         <option value="O">O</option>
                       </select>
                     </tr>
-                    <tr>
+                    {# <tr>
                       <label>Wali Kelas:</label>
                       <select name="id_class" class="form-control" id="kelas">
                         <option>Pilih Kelas</option>
@@ -306,7 +306,7 @@
                         <option value="{{data.id_class}}">{{data.class}}  {{data.section}}</option>
                         {% endfor %}
                       </select>
-                    </tr>
+                    </tr> #}
                     <tr>
                       <label>Mata Pelajaran:</label>
                       <select name="id_subject" class="form-control" id="subject" >

@@ -1982,9 +1982,17 @@ ul {
     justify-content: flex-end;
   }
 }
-.header-main-menu .navbar-nav .header-admin .navbar-nav-link .admin-img img {
+.header-main-menu .navbar-nav .header-admin .navbar-nav-link .admin-img {
   border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
 }
+
+.header-main-menu .navbar-nav .header-admin .navbar-nav-link .admin-img img {
+  width: 100%;
+}
+
 .header-main-menu .navbar-nav .header-admin .navbar-nav-link .admin-title {
   text-align: right;
   padding-right: 26px;

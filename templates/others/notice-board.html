@@ -104,7 +104,7 @@
                         </div>
                     </div>
                 </form>
-                <div class="notice-board-wrap" id="notice-list">
+                <div class="notice-board-wrap" id="noticeBoard-list">
                     {# Notice List start here #}
 
                 </div>
@@ -113,7 +113,7 @@
     </div>
     <!-- All Notice Area End Here -->
     <!-- Modal Area Start Here -->
-    <div class="modal fade" id="noticeModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="noticeBoardModalShow" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -122,7 +122,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="notice-board-wrap" id="notice-list">
+                <div class="notice-board-wrap" id="noticeBoard-list">
                     <div class="modal-body" id="noticeDetailModal">
                         
                     </div>
@@ -272,7 +272,7 @@
                 success: function (response) {
                     console.log(response);
                     $('#titlesendNotice').focus();
-                    $('#notice-list').empty();
+                    $('#noticeBoard-list').empty();
                     drawNotice();
                     Swal.fire({
                             icon: 'success',
@@ -283,14 +283,13 @@
                         .then((result) => {
                             if (true) {
 
-
                                 //$('html, body').animate({ scrollTop: $('#titleMessageForm').offset().top }, 'fast');
                             }
                         })
                 }
             });
         });
-        $('#noticeModal').on('show.bs.modal', function (event) {
+        $('#noticeBoardModalShow').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var recipient = button.data('id') // Extract info from data-* attributes
             const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
@@ -396,7 +395,7 @@
                 success: function (response) {
                     console.log(response);
                     $('#titlesendNotice').focus();
-                    $('#notice-list').empty();
+                    $('#noticeBoard-list').empty();
                     drawNotice();
                     Swal.fire({
                             icon: 'success',
@@ -432,9 +431,9 @@
                 $('#detailsNoticeEditBoard').val(response[0].details)
                 $('#categoryNoticeEditBoard').val(response[0].category).change();
                 switch(response[0].category){
-                    case 'Event': case 'Pembayaran':case 'Exam':{
+                    case 'Event': case 'Pembayaran_Gaji':case 'Pembayaran_SPP':case 'Exam':{
                         const pad = (i) => i < 10 ? `0${i}` : i;
-                        const time = new Date(response[0].date_notice); // ensure date object
+                        const time = new Date(response[0].date_event); // ensure date object
                         const timeString = `${time.getFullYear()}-${pad(time.getMonth() + 1)}-${pad(time.getDate())}T${pad(time.getHours())}:${pad(time.getMinutes())}`;
                         console.log(timeString);
                         $('#datetimeEventNoticeEditBoard').val(timeString); 
@@ -479,7 +478,7 @@
                     success: function (response) {
                         
                         $('#titlesendNotice').focus();
-                        $('#notice-list').empty();
+                        $('#noticeBoard-list').empty();
                         swalWithBootstrapButtons.fire(
                           'Deleted!',
                           'Your file has been deleted.',
@@ -561,7 +560,7 @@
             dataType: "JSON",
             success: function (response) {
                 //console.log(response[0])
-                $('#notice-list').empty();
+                $('#noticeBoard-list').empty();
                 $.each(response, function (i, data) {
                     data += data[i]
                     var dAwal = new Date(response[i].date_notice)
@@ -604,10 +603,10 @@
                     }
                     break;
                     }
-                    $('#notice-list').append(
+                    $('#noticeBoard-list').append(
                         '<div class="notice-list noticeBoardToModal" data-id="' +
                         response[i].id_notification +
-                        '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                        '" data-toggle="modal" data-target="#noticeBoardModalShow"><div class="post-date ' +
                         classCategory + '">' +
                         tanggal + ' ' + bulan + ', ' + tahun +
                         '</div><h6 class="notice-title"><a href="#">' + response[i]

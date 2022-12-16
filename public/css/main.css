@@ -285,3 +285,7 @@ textarea {
         page-break-after: avoid;
     }
 }
+
+.admin-img {
+    border-radius: 50%;
+}
