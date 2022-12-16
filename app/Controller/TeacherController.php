@@ -14,7 +14,7 @@ class TeacherController
         $user = $args['user'];
         $type = $args['type'];
         $id_user = $args['id_user'];
-        // return var_dump($id_parent);
+        // return var_dump($id_teacher);
 
 
 
@@ -42,7 +42,7 @@ class TeacherController
         
 
 
-        $parent = $app->db->select('tbl_users',[
+        $teacher = $app->db->select('tbl_users',[
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
@@ -55,7 +55,7 @@ class TeacherController
             0 => 'id',
         );
 
-        $totaldata = count($parent);
+        $totaldata = count($teacher);
         $totalfiltered = $totaldata;
         $limit = $req->getParam('length');
         $start = $req->getParam('start');
@@ -88,7 +88,7 @@ class TeacherController
 
             ];
 
-            $parent = $app->db->select(
+            $teacher = $app->db->select(
                 'tbl_users',[
                     '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
                     '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
@@ -97,12 +97,12 @@ class TeacherController
                 '*',
                 $limit
             );
-            $totaldata = count($parent);
+            $totaldata = count($teacher);
             $totalfiltered = $totaldata;
             // return var_dump($totaldata);
         }
 
-        $parent = $app->db->select('tbl_users',[
+        $teacher = $app->db->select('tbl_users',[
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
@@ -111,10 +111,10 @@ class TeacherController
         $data = array();
 
 
-        if (!empty($parent)) {
+        if (!empty($teacher)) {
             $no = $req->getParam('start') + 1;
 
-            foreach ($parent as $m) {
+            foreach ($teacher as $m) {
 
                 $datas['no'] = $no . '.';
                 $datas['nisn'] = $m['NISN'];
@@ -165,7 +165,7 @@ class TeacherController
                 $no++;
             }
         }
-        // return var_dump($parent);
+        // return var_dump($teacher);
 
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
@@ -266,9 +266,7 @@ class TeacherController
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
-            "id_class" => $data['id_class'],
             "id_subject" => $data['id_subject'],
-            "id_parent" => $data['id_parent'],
             "NISN" => $data['NISN'],
             "date_of_birth" => $data['date_of_birth'],
             "religion" => $data['religion'],
@@ -332,7 +330,7 @@ class TeacherController
         }
 
         // return var_dump($uploadedFiles);
-        $student = $app->db->insert('tbl_users', [
+        $teacher = $app->db->insert('tbl_users', [
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
@@ -358,56 +356,8 @@ class TeacherController
         $_SESSION['berhasil'] = true;
         return $rsp->withRedirect('/add-teacher');
     }
-    public static function student_promotion($app, $request, $response, $args)
-    {
-        $id = $args['data'];
-
-        $data = $app->db->select('tbl_users', [
-            '[><]tbl_sections' => 'id_section',
-            '[><]tbl_classes' => 'id_class'
-        ], '*', [
-            'id_user' => $id
-
-        ]);
-
-        $class = $app->db->select('tbl_classes', [
-            '[><]tbl_sections' =>  'id_section',
-        ], '*');
-
-        $berhasil = isset($_SESSION['berhasil']);
-        unset($_SESSION['berhasil']);
-        // return var_dump($data);
-
-        $app->view->render($response, 'students/student-promotion.html', [
-            'data' =>  $data[0],
-            'class' =>  $class,
-            'type' => $_SESSION['type'],
-            'berhasil' => $berhasil
-
-
-        ]);
-    }
-    public static function add_promotion($app, $req, $rsp, $args)
-    {
-        $data = $args['data'];
-        // return var_dump($data);
-
-
-
-        // return var_dump($uploadedFiles);
-        $student = $app->db->update('tbl_users', [
-
-            "session" => $data['session'],
-            "id_class" => $data['id_class'],
-        ], [
-            "id_user" => $data['id_user']
-        ]);
-
-
-        // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/all-students');
-    }
+    
+    
     public static function page_payment($app, $req, $rsp, $args)
     {
         $app->view->render($rsp, 'teacher/teacher-payment.html', [
@@ -421,7 +371,7 @@ class TeacherController
         $tbl_classes = 'tbl_classes';
 
 
-        $parent = $app->db->select('tbl_users', [
+        $teacher = $app->db->select('tbl_users', [
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
             
@@ -429,13 +379,13 @@ class TeacherController
             'id_user_type' => $type
         ]);
 
-        // return var_dump($parent);
+        // return var_dump($teacher);
         // die();
         $columns = array(
             0 => 'id',
         );
 
-        $totaldata = count($parent);
+        $totaldata = count($teacher);
         $totalfiltered = $totaldata;
         $limit = $req->getParam('length');
         $start = $req->getParam('start');
@@ -468,18 +418,18 @@ class TeacherController
 
             ];
 
-            $parent = $app->db->select('tbl_users', [
+            $teacher = $app->db->select('tbl_users', [
                 '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
                 '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
                
             ],'*', $limit);
     
-            $totaldata = count($parent);
+            $totaldata = count($teacher);
             $totalfiltered = $totaldata;
             // return var_dump($totaldata);
         }
 
-        $parent = $app->db->select('tbl_users', [
+        $teacher = $app->db->select('tbl_users', [
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
             
@@ -489,10 +439,10 @@ class TeacherController
         $data = array();
 
 
-        if (!empty($parent)) {
+        if (!empty($teacher)) {
             $no = $req->getParam('start') + 1;
 
-            foreach ($parent as $m) {
+            foreach ($teacher as $m) {
 
                 $datas['no'] = $no . '.';
                 $datas['nisn'] = $m['NISN'];
@@ -516,7 +466,7 @@ class TeacherController
                 $no++;
             }
         }
-        // return var_dump($parent);
+        // return var_dump($teacher);
 
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
