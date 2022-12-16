@@ -477,4 +477,118 @@ class TeacherController
         // return var_dump($data);
         echo json_encode($json_data);
     }
+    public static function tampil_data_payment_teacher($app, $req, $rsp, $args)
+    {
+        $type = 2;
+        $tbl_classes = 'tbl_classes';
+
+
+        $teacher = $app->db->select('tbl_users', [
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
+            
+        ],'*',[
+            'id_user_type' => $type,
+            'tbl_users.id_user' => $_SESSION['id_user']
+        ]);
+
+        // return var_dump($teacher);
+        // die();
+        $columns = array(
+            0 => 'id',
+        );
+
+        $totaldata = count($teacher);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+        $order = $req->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $req->getParam('order');
+        $dir = $dir[0]['dir'];
+
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+            'id_user_type' => $type,
+            'tbl_users.id_user' => $_SESSION['id_user']
+        ];
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+
+            $conditions['OR'] = [
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+                'tbl_users.NISN[~]' => '%' . $search . '%',
+                'tbl_users.gender[~]' => '%' . $search . '%',
+
+            ];
+
+            $limit = [
+                "LIMIT" => [$start, $limit],
+                'id_user_type' => $type,
+                'tbl_users.id_user' => $_SESSION['id_user']
+
+            ];
+
+            $teacher = $app->db->select('tbl_users', [
+                '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+                '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
+               
+            ],'*', $limit);
+    
+            $totaldata = count($teacher);
+            $totalfiltered = $totaldata;
+            // return var_dump($totaldata);
+        }
+
+        $teacher = $app->db->select('tbl_users', [
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_finances' => ['tbl_users.id_user' => 'id_user'],
+            
+        ],'*',
+ $conditions);
+
+        $data = array();
+
+
+        if (!empty($teacher)) {
+            $no = $req->getParam('start') + 1;
+
+            foreach ($teacher as $m) {
+
+                $datas['no'] = $no . '.';
+                $datas['nisn'] = $m['NISN'];
+                $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
+                $datas['nama'] = $m['first_name'] . '  ' . $m['last_name'];
+                $datas['gender'] = $m['gender'];
+                $datas['subject'] = $m['subject_name'] . '(' . $m['subject_type'] . ')';
+                $datas['gaji'] = 'Rp. ' . number_format($m['amount_payment'],2,',','.') ;
+                
+                
+                if($m['status_pembayaran'] == "Belum Bayar"){
+                    $datas['status'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
+                }else{
+                    $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
+                }
+                
+                $datas['telepon'] = $m['phone_user'];
+                $datas['email'] = $m['email'];                   
+               
+                $data[] = $datas;
+                $no++;
+            }
+        }
+        // return var_dump($teacher);
+
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        echo json_encode($json_data);
+    }
 }

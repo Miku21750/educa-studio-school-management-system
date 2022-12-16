@@ -92,9 +92,7 @@
             </div>
             <p> Bio : <br>
               {{ data.short_bio }}
-              {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
-              word moun taiery.Aliquam erat volutpaturabiene natis massa sedde
-              sodale word moun taiery. #}
+
             </p>
             <div class="info-table table-responsive">
               <table class="table text-nowrap">
@@ -113,7 +111,7 @@
                     <td>Jenis Kelamin:</td>
                     <td class="font-medium text-dark-medium">{{data.gender}}</td>
                   </tr>
-                  
+
                   <tr>
                     <td>Tanggal Lahir:</td>
                     <td class="font-medium text-dark-medium">{{data.date_of_birth |date("j F Y")}}</td>
@@ -144,8 +142,8 @@
                     <td>Mata Pelajaran:</td>
                     <td class="font-medium text-dark-medium">{{data.subject_name}} ({{data.subject_type}})</td>
                   </tr>
-                  
-                  
+
+
                   <tr>
                     <td>Alamat:</td>
                     <td class="font-medium text-dark-medium">
@@ -192,7 +190,8 @@
                   <label for="imageUpload"></label>
                 </div>
                 <div class="avatar-preview">
-                  <div id="imagePreview" style="background-image: url(/uploads/Profile/{{data.photo_user|replace({' ' : '%20'})}});">
+                  <div id="imagePreview"
+                    style="background-image: url(/uploads/Profile/{{data.photo_user|replace({' ' : '%20'})}});">
                   </div>
                 </div>
               </div>
@@ -233,102 +232,103 @@
                   </ul>
                 </div>
               </div>
-              <p>Bio : <br>
-                <textarea name="data_short_bio" cols="120" rows="5" class="form-control">{{ data.short_bio }}</textarea>
-                {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
-                word moun taiery.Aliquam erat volutpaturabiene natis massa sedde
-                sodale word moun taiery. #}
-              </p>
-              <div class="info-table table-responsive">
-                <table class="table text-nowrap">
-                  <tbody>
-                    <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
-                    <tr class="form-group">
-                      <label for="first_name">Nama Depan:</label>
-                      <input type="text" placeholder="Masukan nama depan" name="first_name" class="form-control"
-                        value="{{ data.first_name }}">
-                    </tr>
-                    <tr class="form-group">
-                      <label for="last_name">Nama Belakang:</label>
-                      <input type="text" placeholder="Masukan nama belakang" name="last_name" class="form-control"
-                        value="{{ data.last_name }}">
-                    </tr>
-                    <tr class="form-group">
-                      <label for="last_name">NIP:</label>
-                      <input type="text" placeholder="Masukan nama belakang" name="NISN" class="form-control"
-                        value="{{ data.NISN }}">
-                    </tr>
-                    <tr class="form-group">
-                      <label for="gender">Jenis Kelamin:</label>
-                      <select name="gender" id="selectGenderEditProfile" class="form-control">
-                        <option value="">Pilih gender</option>
-                        <option value="Laki-laki">Laki-Laki</option>
-                        <option value="Perempuan">Perempuan</option>
-                      </select>
+              <div class="row form-grup col-12 my-3 ">
 
-                    </tr>
-                    
+                <p>Bio : <br>
+                  <textarea name="data_short_bio" cols="120" rows="5"
+                    class="form-control">{{ data.short_bio }}</textarea>
 
-                    <tr class="form-group">
-                      <label>Tanggal Lahir:</label>
-                      <input type="date" name="date_of_birth" class="form-control" value="{{data.date_of_birth}}">
-                    </tr>
-                    <tr>
-                      <label>Agama:</label>
-                      <input type="text" placeholder="Masukan Agamamu" name="religion" class="form-control"
-                        value="{{ data.religion }}">
-                    </tr>
-                    <tr>
-                      <label>Username:</label>
-                      <input type="text" placeholder="username" name="username" class="form-control bg-light"
-                        value="{{ data.username }}" readonly>
-                    </tr>
-                    <tr>
-                      <label>E-mail:</label>
-                      <input type="email" name="email" class="form-control bg-light" value="{{ data.email }}" readonly>
-                    </tr>
-                    <tr>
+                </p>
+              </div>
 
-                      <label>Golongan Darah:</label>
-                      <select id="selectBloodGroupEditProfile" name="blood_group" class="form-control">
-                        <option value="">Pilih Golongan darah</option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                        <option value="AB">AB</option>
-                        <option value="O">O</option>
-                      </select>
-                    </tr>
-                    {# <tr>
-                      <label>Wali Kelas:</label>
-                      <select name="id_class" class="form-control" id="kelas">
-                        <option>Pilih Kelas</option>
-                        {% for data in class %}
-                        <option value="{{data.id_class}}">{{data.class}}  {{data.section}}</option>
-                        {% endfor %}
-                      </select>
-                    </tr> #}
-                    <tr>
-                      <label>Mata Pelajaran:</label>
-                      <select name="id_subject" class="form-control" id="subject" >
-                        <option>Pilih Mapel</option>
-                        {% for data in subject %}
-                        <option value="{{data.id_subject}}">{{data.subject_name}} ({{data.subject_type}})</option>
-                        {% endfor %}
-                      </select>
-                    </tr>
-                    <tr>
-                      <label>Alamat:</label>
-                      <input type="text" name="address_user" placeholder="Masukan Alamat" class="form-control"
-                        value="{{ data.address_user }}">
-                    </tr>
-                    <tr>
-                      <label>No Telepon:</label>
-                      <input type="text" name="phone_user" placeholder="Masukan No Telepon (62-888-8888-8888)"
-                        class="form-control" value="{{ data.phone_user }}">
-                    </tr>
-                  </tbody>
-                </table>
-                <input type="submit" value="Edit Profil" class="btn btn-warning">
+              <div class="row form-group">
+
+                <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
+                <div class="col-6 my-3">
+
+                  <label for="first_name">Nama Depan:</label>
+                  <input type="text" placeholder="Masukan nama depan" name="first_name" class="form-control"
+                    value="{{ data.first_name }}">
+                </div>
+                <div class="col-6 my-3">
+
+                  <label for="last_name">Nama Belakang:</label>
+                  <input type="text" placeholder="Masukan nama belakang" name="last_name" class="form-control"
+                    value="{{ data.last_name }}">
+                </div>
+                <div class="col-6 my-3">
+
+                  <label for="last_name">NIP:</label>
+                  <input type="text" placeholder="Masukan nama belakang" name="NISN" class="form-control"
+                    value="{{ data.NISN }}">
+                </div>
+                <div class="col-6 my-3">
+
+                  <label for="gender">Jenis Kelamin:</label>
+                  <select name="gender" id="selectGenderEditProfile" class="form-control">
+                    <option value="">Pilih gender</option>
+                    <option value="Laki-laki">Laki-Laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                  </select>
+
+                </div>
+
+
+                <div class="col-6 my-3">
+
+                  <label>Tanggal Lahir:</label>
+                  <input type="date" name="date_of_birth" class="form-control" value="{{data.date_of_birth}}">
+                </div>
+                <div class="col-6 my-3">
+                  <label>Agama:</label>
+                  <input type="text" placeholder="Masukan Agamamu" name="religion" class="form-control"
+                    value="{{ data.religion }}">
+                </div>
+                <div class="col-6 my-3">
+                  <label>Username:</label>
+                  <input type="text" placeholder="username" name="username" class="form-control"
+                    value="{{ data.username }}" readonly>
+                </div>
+                <div class="col-6 my-3">
+                  <label>E-mail:</label>
+                  <input type="email" name="email" class="form-control" value="{{ data.email }}" readonly>
+                </div>
+                <div class="col-6 my-3">
+
+                  <label>Golongan Darah:</label>
+                  <select id="selectBloodGroupEditProfile" name="blood_group" class="form-control">
+                    <option value="">Pilih Golongan darah</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="AB">AB</option>
+                    <option value="O">O</option>
+                  </select>
+                </div>
+
+                <div class="col-6 my-3">
+                  <label>Mata Pelajaran:</label>
+                  <select name="id_subject" class="form-control" id="subject">
+                    <option>Pilih Mapel</option>
+                    {% for data in subject %}
+                    <option value="{{data.id_subject}}">{{data.subject_name}} ({{data.subject_type}})</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-6 my-3">
+                  <label>Alamat:</label>
+                  <input type="text" name="address_user" placeholder="Masukan Alamat" class="form-control"
+                    value="{{ data.address_user }}">
+                </div>
+                <div class="col-6 my-3">
+                  <label>No Telepon:</label>
+                  <input type="text" name="phone_user" placeholder="Masukan No Telepon (62-888-8888-8888)"
+                    class="form-control" value="{{ data.phone_user }}">
+                </div>
+              </div>
+              <div class="col-6 my-3">
+
+                <input type="submit" value="Edit Data" class="btn btn-warning">
+              </div>
           </form>
         </div>
       </div>
@@ -344,7 +344,7 @@
 <script>
   $(document).ready(function () {
 
-    
+
 
     var gend = "{{ data.gender }}";
     var BlGroup = "{{ data.blood_group }}";

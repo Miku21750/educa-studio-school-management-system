@@ -53,7 +53,7 @@ class DashboardStudentController
         // ]);
 
         $data_notice = $app->db->count('tbl_notifications', '*', [
-            "category[!]" => ["Pembayaran_Gaji","Pembayaran_SPP"]
+            "category[!]" => ["Pembayaran_Gaji", "Pembayaran_SPP"]
         ]);
         // $view_noticeEx = $app->db->select('tbl_notifications', '*', [
         //     "category" => "exam"
@@ -234,17 +234,31 @@ class DashboardStudentController
     public static function view_data_exam($app, $req, $rsp, $args)
     {
 
-        $result = $app->db->select('tbl_exam_results', [
-            '[>]tbl_classes' => ['id_class' => 'id_class'],
-            '[>]tbl_users' => ['id_user' => 'id_user'],
-            '[>]tbl_subjects' => ['id_subject' => 'id_subject']
-        ], '*', [
-            "tbl_exam_results.id_user" => $_SESSION['id_user'],
-            "ORDER" => [
-                "subject_name" => "ASC",
-                "score" => "ASC"
+        $result = $app->db->select(
+            'tbl_exam_results'
+            // 'tbl_exams'
+            ,
+            [
+                '[><]tbl_exams' => 'id_exam',
+                // '[>]tbl_classes' => ['id_class' => 'id_class'],
+                // '[>]tbl_users' => ['id_user' => 'id_user'],
+                // '[>]tbl_subjects' => ['id_subject' => 'id_subject'],
+                '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+                '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+                '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+                '[><]tbl_users' => 'id_user',
+                '[><]tbl_exam_grades' => 'id_exam_grade',
+
+            ],
+            '*',
+            [
+                "tbl_exam_results.id_user" => $_SESSION['id_user'],
+                "ORDER" => [
+                    "subject_name" => "ASC",
+                    "score" => "ASC"
+                ]
             ]
-        ]);
+        );
         // return var_dump($result);
 
 
@@ -292,9 +306,17 @@ class DashboardStudentController
                     // '[>]tbl_users' => 'id_user',
                     // '[>]tbl_subjects' => 'id_subject',
                     // '[>]tbl_exams' => 'id_exam'
-                    '[>]tbl_classes' => ['id_class' => 'id_class'],
-                    '[>]tbl_users' => ['id_user' => 'id_user'],
-                    '[>]tbl_subjects' => ['id_subject' => 'id_subject']
+
+                    // '[>]tbl_classes' => ['id_class' => 'id_class'],
+                    // '[>]tbl_users' => ['id_user' => 'id_user'],
+                    // '[>]tbl_subjects' => ['id_subject' => 'id_subject']
+
+                    '[><]tbl_exams' => 'id_exam',
+                    '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+                    '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+                    '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+                    '[><]tbl_users' => 'id_user',
+                    '[><]tbl_exam_grades' => 'id_exam_grade',
 
                 ],
                 '*',
@@ -306,14 +328,20 @@ class DashboardStudentController
         }
 
         $result = $app->db->select('tbl_exam_results', [
-            '[>]tbl_sections' => 'id_section',
+            // '[>]tbl_sections' => 'id_section',
             // '[>]tbl_classes' => 'id_class',
             // '[>]tbl_users' => 'id_user',
             // '[>]tbl_subjects' => 'id_subject',
-            '[>]tbl_exams' => 'id_exam',
-            '[>]tbl_classes' => ['id_class' => 'id_class'],
-            '[>]tbl_users' => ['id_user' => 'id_user'],
-            '[>]tbl_subjects' => ['id_subject' => 'id_subject']
+            // '[>]tbl_exams' => 'id_exam',
+            // '[>]tbl_classes' => ['id_class' => 'id_class'],
+            // '[>]tbl_users' => ['id_user' => 'id_user'],
+            // '[>]tbl_subjects' => ['id_subject' => 'id_subject']
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+            '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+            '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_exam_grades' => 'id_exam_grade',
 
         ], '*', $conditions);
 

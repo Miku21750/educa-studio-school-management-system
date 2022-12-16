@@ -2309,6 +2309,7 @@ ul {
     position: static;
     overflow: visible;
     width: auto;
+    height: 100vh;
   }
 }
 .sidebar-collapsed .nav-bar-header-one {
@@ -3369,6 +3370,7 @@ ul {
   left: 0;
   right: 0;
   /* max-height: 100%; */
+  height: 100vh;
   overflow-y: auto;
   width: 100%;
   

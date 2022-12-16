@@ -1,9 +1,67 @@
 {% extends "/layout/master.html" %}
 {% set title = "Teacher Payment" %}
-{% set typeFrontEnd = "Teacher" %}
 {% set section_type = "Teacher Payment" %}
 {% block content %}
-    <!-- Teacher Payment Area Start Here -->
+
+  {% if session.type == 2 %}
+<!-- Teacher Payment Area Start Here -->
+<div class="card height-auto">
+    <div class="card-body">
+      <div class="heading-layout1">
+        <div class="item-title">
+          <h3>History Pembayaran Gaji Guru</h3>
+        </div>
+        <div class="dropdown">
+          <a
+            class="dropdown-toggle"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            >...</a
+          >
+  
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="#"
+              ><i class="fas fa-times text-orange-red"></i>Close</a
+            >
+            <a class="dropdown-item" href="#"
+              ><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a
+            >
+            <a class="dropdown-item" href="#"
+              ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a
+            >
+          </div>
+        </div>
+      </div>
+      
+      <div class="table-responsive">
+        <table class="table  text-nowrap" id="payment_teacher">
+          <thead>
+            <tr>
+              
+              <th>No</th>
+              <th>NISN</th>
+              <th>Photo</th>
+              <th>Name</th>
+              <th>Gender</th>
+              <th>Mata Pelajaran</th>
+              <th>Gaji</th>
+              <th>Status</th>
+              <th>Phone</th>
+              <th>E-mail</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% if session.type == 3 %}
+<!-- Teacher Payment Area Start Here -->
 <div class="card height-auto">
     <div class="card-body">
       <div class="heading-layout1">
@@ -58,6 +116,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
   <!-- Teacher Payment Area End Here -->
 {% include "teacher/ajax.html" %}
 {% block ajax %}
