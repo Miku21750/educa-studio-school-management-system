@@ -24,13 +24,11 @@
               ><i class="fas fa-angle-right"></i>All Students</a
             >
           </li>
-          {% if session.type == 4 %}
-          {# <li class="nav-item">
-            <a href="/student-details" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Student Details</a
+          <li class="nav-item">
+            <a href="/all-alumni" class="nav-link"
+              ><i class="fas fa-angle-right"></i>Alumni</a
             >
-          </li> #}
-          {% else %}
+          </li>
          
           {# <li class="nav-item">
             <a href="/student-details" class="nav-link"
@@ -49,7 +47,6 @@
               ><i class="fas fa-angle-right"></i>Student Promotion</a
             >
           </li> #}
-          {% endif %}
         </ul>
       </li>
       {% endif %} {% if session.type == 3 or session.type == 2 %}

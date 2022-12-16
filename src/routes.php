@@ -685,6 +685,12 @@ return function (App $app) {
                     return StudentController::tampil_data($this, $request, $response, $args);
                 }
             );
+            $app->get(
+                '/all-alumni',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return StudentController::tampil_alumni($this, $request, $response, $args);
+                }
+            );
             $app->post(
                 '/delete-student',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -797,6 +803,13 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
 
                     return TeacherController::tampil_data_payment($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/allpayment-teacher',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return TeacherController::tampil_data_payment_teacher($this, $request, $response, $args);
                 }
             );
             $app->get(
@@ -1021,6 +1034,18 @@ return function (App $app) {
     );
     // Forgot Password end here
     // //student
+    $app->get(
+        '/all-alumni',
+        function (Request $request, Response $response, array $args) use ($container) {
+
+            return StudentController::all_alumni($this, $request, $response, [
+                'user' => $_SESSION['username'],
+                'id_user' => $_SESSION['id_user'],
+                'type' => $_SESSION['type'],
+                'type_user' => $_SESSION['type_user'],
+            ]);
+        }
+    )->add(new Auth());
     $app->get(
         '/all-students',
         function (Request $request, Response $response, array $args) use ($container) {
