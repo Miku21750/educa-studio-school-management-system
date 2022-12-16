@@ -860,6 +860,13 @@ return function (App $app) {
                     return ExamController::tampil_data_result($this, $request, $response, $args);
                 }
             );
+            $app->get(
+                '/all-resultS',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    // return var_dump($data);
+                    return ExamController::tampil_data_resultS($this, $request, $response, $args);
+                }
+            );
             $app->post(
                 '/delete-result',
                 function (Request $request, Response $response, array $args) use ($app) {

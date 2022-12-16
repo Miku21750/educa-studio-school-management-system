@@ -87,8 +87,9 @@
 
   {% endif %}
   {# if end here #}
+
+  {% if session.type == 3 or session.type == 2 %}
   <div class="col-8-xxxl col-12">
-    {% if session.type == 3 or session.type == 2 %}
     <div class="card height-auto">
       <div class="card-body">
         <div class="heading-layout1">
@@ -126,9 +127,51 @@
         </div>
       </div>
     </div>
-    {% endif %}
 
     {% if session.type == 1 %}
+    <!-- <div class="card height-auto">
+      <div class="card-body">
+        <div class="heading-layout1">
+          <div class="item-title">
+            <h3>Daftar Ujian</h3>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+              <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table display text-nowrap" id="data_examS">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Ujian</th>
+                <th>Mata Pelajaran</th>
+                <th>Kelas</th>
+                <th>Tanggal Ujian</th>
+                <th>Pukul</th>
+              </tr>
+            </thead>
+            <tbody id="show_examS">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div> -->
+    {% endif %}
+
+  </div>
+  {% endif %}
+
+  {% if session.type == 1 %}
+  <div class="col-12-xxxl col-12">
+    
     <div class="card height-auto">
       <div class="card-body">
         <div class="heading-layout1">
@@ -166,9 +209,11 @@
         </div>
       </div>
     </div>
-    {% endif %}
 
   </div>
+  {% endif %}
+
+
 </div>
 <!-- Exam Schedule Area End Here -->
 

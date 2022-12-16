@@ -60,7 +60,7 @@ class ExamController
             $search = $req->getParam('search')['value'];
             $limit = [
                 "LIMIT" => [$start, $limit],
-    
+
 
             ];
             $conditions['OR'] = [
@@ -160,6 +160,7 @@ class ExamController
             '[><]tbl_classes' => 'id_class',
             '[><]tbl_subjects' => 'id_subject',
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+            '[>]tbl_users' => ['id_class' => 'id_class']
         ], [
             'id_exam(id_exam)',
             'exam_name(exam_name)',
@@ -169,6 +170,8 @@ class ExamController
             'exam_date(exam_date)',
             'exam_start(exam_start)',
             'exam_end(exam_end)',
+        ], [
+            'id_user' => $_SESSION['id_user']
         ]);
 
 
@@ -180,6 +183,7 @@ class ExamController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
+            'id_user' => $_SESSION['id_user']
 
         ];
 
@@ -187,7 +191,7 @@ class ExamController
             $search = $req->getParam('search')['value'];
             $limit = [
                 "LIMIT" => [$start, $limit],
-    
+
 
             ];
             $conditions['OR'] = [
@@ -205,6 +209,7 @@ class ExamController
                     '[><]tbl_classes' => 'id_class',
                     '[><]tbl_subjects' => 'id_subject',
                     '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+                    '[>]tbl_users' => ['id_class' => 'id_class']
                 ],
                 [
                     'exam_name(exam_name)',
@@ -215,7 +220,7 @@ class ExamController
                     'exam_start(exam_start)',
                     'exam_end(exam_end)',
                 ],
-    
+
                 $conditions
             );
             $totaldata = count($exam);
@@ -226,6 +231,7 @@ class ExamController
             '[><]tbl_classes' => 'id_class',
             '[><]tbl_subjects' => 'id_subject',
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+            '[>]tbl_users' => ['id_class' => 'id_class']
         ], [
             'id_exam(id_exam)',
             'exam_name(exam_name)',
@@ -261,7 +267,7 @@ class ExamController
             "recordsFiltered" => intval($totalfiltered),
             "data"            => $data
         );
-        
+
         echo json_encode($json_data);
     }
 
@@ -310,10 +316,10 @@ class ExamController
             foreach ($grade as $m) {
                 $datas['No'] = $no . '.';
                 $datas['grade_name'] = $m['grade_name'];
-                $datas['percent_from'] = $m['percent_from'] . ' - ' . $m['percent_upto'].'%';
+                $datas['percent_from'] = $m['percent_from'] . ' - ' . $m['percent_upto'] . '%';
                 $datas['grade_desc'] = $m['grade_desc'];
                 $datas['grade_point'] = $m['grade_point'];
-                $datas['aksi'] ='
+                $datas['aksi'] = '
                 <button type="button" id="show_book"  class="btn btn-light grade_detail" data="' . $m['id_exam_grade'] . '  data-toggle="modal" data-target="detail_book">
                 <i class="fas fa-edit text-dark-pastel-green"></i>
                         Ubah
@@ -329,7 +335,7 @@ class ExamController
             "recordsFiltered" => intval($totalfiltered),
             "data"            => $data
         );
-        
+
         echo json_encode($json_data);
     }
 
@@ -409,7 +415,7 @@ class ExamController
         // return var_dump($json_data);
         echo json_encode($json_data);
     }
-    
+
 
     public static function detail($app, $request, $response, $id_exam)
     {
@@ -425,13 +431,12 @@ class ExamController
         ], [
             'id_exam' => $id_exam
         ]);
-        
+
         $json_data = array(
             'data' => $data
         );
 
         return $response->withJson($data);
-
     }
 
     public static function delete($app, $req, $rsp, $args)
@@ -665,14 +670,139 @@ class ExamController
                 $data[] = $datas;
             }
         }
-        
+
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
             "recordsTotal"    => intval($totaldata),
             "recordsFiltered" => intval($totalfiltered),
             "data"            => $data
         );
-        
+
+        echo json_encode($json_data);
+    }
+
+    public static function tampil_data_resultS($app, $req, $rsp, $args)
+    {
+        $kelas = $app->db->select('tbl_users', 'id_class', [
+            'id_user' => $_SESSION['id_user']
+        ]);
+
+        $result = $app->db->select('tbl_exam_results', [
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+            '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+            '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_exam_grades' => 'id_exam_grade',
+        ], '*', [
+            'tbl_users.id_class' => $kelas
+        ]);
+
+        $columns = array(
+            0 => 'id',
+        );
+
+        $totaldata = count($result);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+        $order = $req->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $req->getParam('order');
+        $dir = $dir[0]['dir'];
+
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+            // 'id_user' => $_SESSION['id_user'],
+            'tbl_users.id_class' => $kelas
+        ];
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+            $limit = [
+                "LIMIT" => [$start, $limit],
+
+            ];
+            $conditions['OR'] = [
+                'tbl_users.NISN[~]' => '%' . $search . '%',
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+
+            ];
+            $result = $app->db->select(
+                'tbl_exam_results',
+                [
+                    '[><]tbl_exams' => 'id_exam',
+                    '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+                    '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+                    '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+                    '[><]tbl_users' => 'id_user',
+                    '[><]tbl_exam_grades' => 'id_exam_grade',
+
+                ],
+                '*',
+                // $limit
+                $conditions
+            );
+            $totaldata = count($result);
+            $totalfiltered = $totaldata;
+        }
+
+        $result = $app->db->select('tbl_exam_results', [
+            '[><]tbl_exams' => 'id_exam',
+            '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+            '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+            '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_exam_grades' => 'id_exam_grade',
+
+        ], '*', $conditions);
+
+        $data = array();
+
+        if (!empty($result)) {
+            foreach ($result as $m) {
+
+                $datas['nisn'] = $m['NISN'];
+                $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
+                $datas['ujian'] = $m['exam_name'];
+                $datas['mapel'] = $m['subject_name'];
+                $datas['kelas'] = $m['class'] . ' ' . $m['section'];
+                $datas['nilai'] = $m['score'];
+                $datas['grade'] = $m['grade_name'];
+                $datas['tanggal'] = $m['date_result'];
+
+                //     $datas['aksi'] = '<div class="dropdown">
+
+                //     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                //         aria-expanded="false">
+                //         <span class="flaticon-more-button-of-three-dots"></span>
+                //     </a>
+                //     <div class="dropdown-menu dropdown-menu-right">
+                //         <a class="dropdown-item"  ><i
+                //                 class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light hapus item_hapus" data="' . $m['id_result'] . '"">
+                //                 Hapus
+                //             </button></a>
+                //         <a class="dropdown-item " ><i
+                //                 class="fas fa-solid fa-edit text-orange-peel"></i><button type="button" class="btn btn-light result_detail"  data="' . $m['id_result'] . '"" >
+                //                 Ubah
+                //             </button></a>
+
+                //     </div>
+                // </div>';
+
+                $data[] = $datas;
+            }
+        }
+
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+
         echo json_encode($json_data);
     }
 
@@ -699,14 +829,13 @@ class ExamController
         ], [
             "id_exam_grade" => $data['id_exam_grade']
         ]);
-        
+
 
         $json_data = array(
             "draw"            => intval($request->getParam('draw')),
         );
         echo json_encode($json_data);
-
-    }   
+    }
 
     public static function result_detail($app, $request, $response, $args)
     {
@@ -739,6 +868,5 @@ class ExamController
             "draw"            => intval($request->getParam('draw')),
         );
         echo json_encode($json_data);
-
     }
 }
