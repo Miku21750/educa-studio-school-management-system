@@ -587,10 +587,7 @@
             //drawNotice();
             $.ajax({
                 type: "GET",
-                url: "/getNoticeS",
-                data: {
-                    search: s
-                },
+                url: "/getNotice",
                 dataType: "JSON",
                 success: function (response) {
                     //console.log(response[0])
@@ -677,7 +674,7 @@
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
             $.ajax({
                 type: "GET",
-                url: "/getNoticeDetailsS",
+                url: "/getNoticeDetails",
                 data: {
                     id: recipient
                 },

@@ -89,7 +89,7 @@ return function (App $app) {
                 break;
                 case 2:{
                     $dataNotice = $app->db->select('tbl_notifications', [
-                        'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
+                        'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE category NOT IN('Pembayaran_SPP') AND date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
                         'id_notification',
                         'title',
                         'details',
@@ -123,7 +123,7 @@ return function (App $app) {
                 break;
                 case 4:{
                     $dataNotice = $app->db->select('tbl_notifications', [
-                        'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
+                        'totalNotif'=> Medoo::raw("(SELECT COUNT(id_notification) FROM `tbl_notifications` AS `m` WHERE category IN('Pembayaran_SPP', 'Exam') AND date_notice BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW())"),
                         'id_notification',
                         'title',
                         'details',

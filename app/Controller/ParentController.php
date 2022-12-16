@@ -98,9 +98,7 @@ class ParentController
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
                 $datas['gender'] = $m['gender'];
                 $datas['pekerjaan'] = $m['occupation'];
-                $datas['alamat'] = $m['address_user'];
                 $datas['telepon'] = $m['phone_user'];
-                $datas['email'] = $m['email'];
 
                 if(  $_SESSION['type'] == 3){
                     $datas['aksi'] = '<div class="dropdown">

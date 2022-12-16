@@ -21,11 +21,7 @@ class DashbordParentController
         ],'*', [
             "id_parent" => $id_parent,
         ]);
-        $totalnotif = $app->db->count('tbl_notifications','*',[
-            'OR'=>[
-                'category' => ['Pembayaran','Exam'],
-            ]
-        ]);
+        $totalnotif = count($app->notif);
         $notif = $app->db->select('tbl_notifications','*',[
             'OR'=>[
                 'category' => ['Pembayaran','Exam'],
@@ -50,7 +46,7 @@ class DashbordParentController
 
         $app->view->render($response, 'dashboard/parent.html', [
             'data' =>  $data,
-            'notif' =>  $notif,
+            // 'notif' =>  $notif,
             'totalexam' =>  $totalexam,
             'totalnotif' =>  $totalnotif,
             'totaltagihan' => $totaltagihan,

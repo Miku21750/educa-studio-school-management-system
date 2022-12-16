@@ -2055,10 +2055,82 @@ $(document).ready(function () {
       report.innerHTML = `Awaiting next XMas 🙂 (${diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
             <br>In other words, until next XMas lasts&hellip;<br>
             In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
-      setTimeout(diff, 200);
-    };
-    return difference2Parts(nextChristmas - new Date());
-  }
+            setTimeout(diff, 200);
+        };
+        return difference2Parts(nextChristmas - new Date());
+    }
+            
+
+    function drawNotice(s) {
+        //console.log(s);
+        const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+            "September", "Oktober", "November", "Desember"
+        ];
+        // drawNotice();
+        $.ajax({
+            type: "GET",
+            url: "/getNotice",
+            dataType: "JSON",
+            success: function (response) {
+                //console.log(response[0])
+                $('#notice-list').empty();
+                $.each(response, function (i, data) {
+                    data += data[i]
+                    var dAwal = new Date(response[i].date_notice)
+                    var bulan = months[dAwal.getMonth()];
+                    var tanggal = dAwal.getDate();
+                    var tahun = dAwal.getFullYear();
+                    var minus = untilXMas(dAwal);
+                    //console.log(minus)
+                    //console.log(minus.minutesTotal);
+                    var difference;
+                    if (minus.minutesTotal <= 60) {
+                        difference = minus.minutesTotal + ' menit lalu';
+                    } else if (minus.hoursTotal <= 24) {
+                        difference = minus.hoursTotal + ' jam lalu';
+                    } else {
+                        difference = minus.days + ' hari lalu';
+                    }
+
+                    console.log('response[i].category')
+                    var classCategory;
+                    switch (response[i].category) {
+                        case 'Exam': {
+                            classCategory = 'bg-warning'
+                        }
+                            break;
+                        case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
+                            classCategory = 'bg-success'
+                        }
+                            break;
+                        case 'Event': {
+                            classCategory = 'bg-danger'
+                        }
+                            break;
+                        case 'Pengumuman_Sekolah': {
+                            classCategory = 'bg-primary'
+                        }
+                            break;
+                        default: {
+
+                        }
+                            break;
+                    }
+                    $('#notice-list').append(
+                        '<div class="notice-list noticeBoardToModal" data-id="' +
+                        response[i].id_notification +
+                        '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
+                        classCategory + '">' +
+                        tanggal + ' ' + bulan + ', ' + tahun +
+                        '</div><h6 class="notice-title"><a href="#">' + response[i]
+                            .title +
+                        '</a></h6> <div class="entry-meta">  ' + response[i]
+                            .posted_by +
+                        ' / <span>' + difference + '</span></div></div>')
+                });
+            },
+            complete: function () { }
+        });
 
   function drawNotice(s) {
     //console.log(s);
@@ -2218,6 +2290,7 @@ $(document).ready(function () {
     $('#detailsNoticeBoard').val('');
 
   });
+}
 })
 
 /*-------------------------------------
