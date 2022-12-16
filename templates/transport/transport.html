@@ -98,8 +98,8 @@
     <!-- Add Transport Area End Here -->
     {% endif %}
     <!-- All Transport List Area Start Here -->
+    {% if session.type == 3 %}
     <div class="col-8-xxxl col-12">
-        {% if session.type == 3 %}
         <div class="card height-auto">
             <div class="card-body">
                 <div class="heading-layout1">
@@ -145,9 +145,12 @@
                 </div>
             </div>
         </div>
-        {% endif %}
 
-        {% if session.type == 1 %}
+    </div>
+    {% endif %}
+
+    {% if session.type == 1 %}
+    <div class="col-12-xxxl col-12">
         <div class="card height-auto">
             <div class="card-body">
                 <div class="heading-layout1">
@@ -193,10 +196,11 @@
                 </div>
             </div>
         </div>
-        {% endif %}
 
     </div>
+    {% endif %}
     <!-- All Transport List Area End Here -->
+
 </div>
 {% include "transport/modal-edit-transport.html" %}
 {% block modal %}

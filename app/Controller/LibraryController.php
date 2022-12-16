@@ -168,7 +168,8 @@ class LibraryController
                     '[><]tbl_classes' => 'id_class',
                 ],
                 '*',
-                $limit
+                // $limit
+                $conditions
             );
             $totaldata = count($book);
             $totalfiltered = $totaldata;

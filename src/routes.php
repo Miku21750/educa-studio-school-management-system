@@ -416,6 +416,13 @@ return function (App $app) {
                     );
 
                     $app->get(
+                        '/getExamGradeS',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return ExamController::tampil_data_gradeS($this, $request, $response, $args);
+                        }
+                    );
+
+                    $app->get(
                         '/{id}/exam-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
                             $data = $args['id'];
