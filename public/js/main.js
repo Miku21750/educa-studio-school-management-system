@@ -217,11 +217,11 @@
         datasets: [{
           data: [0, ...data.in],
           // backgroundColor: '#ff0000',
-          borderColor: '#54B435',
+          borderColor: '#417dfc',
           borderWidth: 2,
           pointRadius: 3,
           pointBackgroundColor: '#ffffff',
-          pointBorderColor: '#54B435',
+          pointBorderColor: '#417dfc',
           pointHoverRadius: 6,
           pointHoverBorderWidth: 3,
           fill: 'origin',
