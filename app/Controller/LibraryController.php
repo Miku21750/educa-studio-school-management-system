@@ -368,4 +368,132 @@ class LibraryController
             'berhasil' => $berhasil,
         ]);
     }
+    public static function peminjaman($app, $req, $rsp, $args)
+    {
+        // $class = $app->db->query("SELECT class FROM tbl_classes")->fetchAll();
+        $class = $app->db->select('tbl_classes', [
+            'class',
+            'id_class',
+        ], [
+            'GROUP' => [
+                'class',
+            ],
+        ]);
+        $subject = $app->db->select('tbl_subjects', '*');
+
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
+
+        $app->view->render($rsp, 'library/all-peminjaman.html', [
+            'class' => $class,
+            'subject' => $subject,
+            'berhasil' => $berhasil,
+        ]);
+    }
+    public static function tampil_data_peminjaman($app, $req, $rsp, $args)
+    {
+        $book = $app->db->select(
+            'tbl_peminjaman',
+            [
+                '[><]tbl_books' => 'id_book',
+                '[><]tbl_users' => 'id_users',
+            ],
+            '*'
+        );
+        // return var_dump($book);
+
+        $totaldata = count($book);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+
+        ];
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+            $limit = [
+                "LIMIT" => [$start, $limit],
+                // 'id_book_type' => $type,
+
+            ];
+            $conditions['OR'] = [
+                'tbl_books.name_book[~]' => '%' . $search . '%',
+                'tbl_books.code_book[~]' => '%' . $search . '%',
+                'tbl_books.writer_book[~]' => '%' . $search . '%',
+                'tbl_books.publish_date[~]' => '%' . $search . '%',
+                'tbl_books.upload_date[~]' => '%' . $search . '%',
+
+            ];
+            $book = $app->db->select(
+                'tbl_peminjaman',
+                [
+                    '[><]tbl_books' => 'id_book',
+                    '[><]tbl_users' => 'id_users',
+                ],
+                '*',
+                // $limit
+                $conditions
+            );
+            $totaldata = count($book);
+            $totalfiltered = $totaldata;
+        }
+
+        $book = $app->db->select( 'tbl_peminjaman',
+        [
+            '[><]tbl_books' => 'id_book',
+            '[><]tbl_users' => 'id_users',
+        ],'*', $conditions);
+
+        $data = array();
+
+        if (!empty($book)) {
+            $no = $req->getParam('start') + 1;
+            foreach ($book as $m) {
+
+                $datas['no'] = $no . '.';
+                $datas['nisn'] = $m['NISN'];
+                $datas['nama'] = $m['first_name'] . ' ' . $m['lasst_name'];
+                $datas['kelas'] = $m['id_class'];
+                $datas['judul'] = $m['writer_book'];
+                $datas['penulis'] = $m['writer_book'];
+                $datas['tanggal_pinjam'] = $m['tanggal_peminjaman'];
+                $datas['tanggal_pengembalian'] = $m['tanggal_pengembalian'];
+                $datas['status'] = $m['status'];
+                $datas['aksi'] = '<div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item book_remove" data="' . $m['id_book'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+                    data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
+                            Hapus
+                        </button></a>
+                    <a class="btn dropdown-item book_detail" data="' . $m['id_book'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
+                            class="fas fa-edit text-dark-pastel-green"></i>
+                            Ubah
+                        </button></a>
+                </div>
+            </div>';
+                $data[] = $datas;
+                $no++;
+            }
+        }
+        // return var_dump($book);
+        // return var_dump($book);
+
+        $json_data = array(
+            "draw" => intval($req->getParam('draw')),
+            "recordsTotal" => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data" => $data,
+        );
+        // return var_dump($data);
+        // return var_dump($json_data);
+        echo json_encode($json_data);
+    }
+    
 }

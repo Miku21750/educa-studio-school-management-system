@@ -910,6 +910,14 @@ return function (App $app) {
                     ]);
                 }
             );
+            //Peminjaman buku
+            $app->get(
+                '/all-peminjaman',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    // return var_dump($data);
+                    return LibraryController::tampil_data_peminjaman($this, $request, $response, $args);
+                }
+            );
         }
     );
 
@@ -1143,6 +1151,13 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             return LibraryController::option_book_detail($this, $request, $response, $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/all-peminjaman',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            return LibraryController::peminjaman($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(
