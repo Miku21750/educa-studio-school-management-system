@@ -610,7 +610,7 @@ $(document).ready(function () {
 
 
   libary = function () {
-    Libtable = $("#data_bookS").on('preXhr.dt', function (e, settings, data) {
+    Libtable1 = $("#data_bookS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 
@@ -874,7 +874,7 @@ $(document).ready(function () {
   transport();
 
   transportS = function () {
-    transTable = $("#data_transportS").on('preXhr.dt', function (e, settings, data) {
+    transTable1 = $("#data_transportS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 
@@ -1215,7 +1215,7 @@ $(document).ready(function () {
   hostel();
 
   hostelS = function () {
-    hostelTable = $("#data_hostellS").on('preXhr.dt', function (e, settings, data) {
+    hostelTable1 = $("#data_hostellS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 
@@ -1543,7 +1543,7 @@ $(document).ready(function () {
   exam();
 
   examS = function () {
-    examTable = $("#data_examS").on('preXhr.dt', function (e, settings, data) {
+    examTable1 = $("#data_examS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 
