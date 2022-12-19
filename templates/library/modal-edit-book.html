@@ -1,5 +1,27 @@
 {% block modal %}
 
+<!-- Confirmation Pengembalian Modal -->
+<div class="modal fade" id="pengembalian-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog success-modal-content" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="success-message">
+                    <input type="text" name="pengembalian" id="pengembalian" value="" hidden>
+                    <h3 class="item-title">Apa kamu ingin mengembalikan buku ini ?</h3>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="footer-btn bg-linkedin" id="btn_pengembalian">Ok</button>
+                <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Confirmation Pinjam Modal -->
 <div class="modal fade" id="pinjam-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog success-modal-content" role="document">
@@ -199,8 +221,9 @@
                                             <option value="">Pilih Aksi *</option>
                                             <option value="Proses">Proses</option>
                                             <option value="Dipinjam">Dipinjam</option>
-                                            <option value="Nunggak">Nunggak</option>
+                                            <option value="Denda">Denda</option>
                                             <option value="Dikembalikan">Dikembalikan</option>
+                                            <option value="Proses Pengembalian">Proses Pengembalian</option>
                                         </select>
                                     </div>
 

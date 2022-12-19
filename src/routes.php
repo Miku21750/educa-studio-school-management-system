@@ -929,6 +929,16 @@ return function (App $app) {
                 }
             );
             $app->post(
+                '/pengembalian',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return LibraryController::pengembalian($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
                 '/delete-peminjaman',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $request->getParsedBody();
@@ -954,6 +964,16 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return LibraryController::update_peminjaman($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/{id}/pinjam_siswa',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return LibraryController::tampil_data_peminjaman_siswa($this, $request, $response, [
                         'data' => $data
                     ]);
                 }
@@ -2122,15 +2142,34 @@ return function (App $app) {
             return $response->withRedirect('/all-account');
         }
     );
-    $app->post(
-        '/editDataAdditionalProfile',
-        function (Request $request, Response $response, array $args) use ($container) {
-            $data = $request->getParsedBody();
-            // return var_dump($data);
-            $delete = $container->db->delete('tbl_users', [
-                'id_user' => $data['id'],
-            ]);
-            return $response->withJson(array("success"));
+    $app->post('/editDataAdditionalProfile', function (Request $request, Response $response, array $args) use ($container) {
+        $data = $request->getParsedBody();
+        // return var_dump($data);
+        $updated = [];
+        $selectAvaliable = $container->db->select('tbl_users',[
+            'username',
+            'email',
+            'password'
+        ],[
+            'id_user' => $data['id_user']
+        ]);
+        if($data['password'] != ''){
+            array_push($updated,array('password'=>$data['password']));
+            // return var_dump($selectAvaliable[0]['password'] == $data['password']);
+            if($selectAvaliable[0]['password'] == $data['password']){
+                $_SESSION['passSame'] = true;
+                return $response->withRedirect('/profile-setting');
+            }
+            
+        }
+        // if($data['password'] == $selectAvaliable[0]){
+
+        // }
+        // $delete = $container->db->delete('tbl_users', [
+        //     'id_user' => $data['id'],
+        // ]);
+        
+        return $response->withJson(array("success"));
 
             // return var_dump($data);
         }
