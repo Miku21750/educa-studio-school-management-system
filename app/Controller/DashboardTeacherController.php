@@ -74,7 +74,7 @@ class DashboardTeacherController
             'siswaTotal' => $siswaTotal,
             'siswaLulus' => $totallulus,
             'ujianTotal' => $totalUjian,
-            'pendapatanTotal' => $pendapatanTotal,
+            'pendapatanTotal' => 'Rp ' . number_format($pendapatanTotal,0,',','.'),
             'siswaLakiLaki' => $siswaLakiLaki,
             'siswaPerempuan' => $siswaPerempuan,
             'user' => $args['user'],
@@ -138,7 +138,7 @@ class DashboardTeacherController
             $search = $req->getParam('search')['value'];
             $limit = [
                 "LIMIT" => [$start, $limit],
-                'id_user_type' => $type,
+                'a.id_user_type' => $type,
                 "a.id_class[!]" => 99
 
             ];
@@ -175,7 +175,7 @@ class DashboardTeacherController
             );
             $totaldata = count($parent);
             $totalfiltered = $totaldata;
-            // return var_dump($totaldata);
+            // return die(var_dump($parent));
         }
 
         $parent = $app->db->select('tbl_users(a)', [

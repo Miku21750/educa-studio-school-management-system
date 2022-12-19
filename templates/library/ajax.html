@@ -1,0 +1,410 @@
+{% block ajax %}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        libary = function () {
+            Buku = $("#data_buku").on('preXhr.dt', function (e, settings, data) {
+
+                console.log('loading ....');
+
+            }).on('draw.dt', function () {
+                console.log('dapat data ....');
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-start", "orderable": false },
+                    { "targets": 5, className: "text-center", "orderable": false },
+                    { "targets": 6, className: "text-center", "orderable": false },
+                    { "targets": 7, className: "text-center", "orderable": false },
+                    { "targets": 8, className: "text-center", "orderable": false },
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/library/getBookS",
+                    'dataType:': 'json',
+                    'type': 'get',
+                },
+                'columns': [
+                    { 'data': 'No' },
+                    { 'data': 'code_book' },
+                    { 'data': 'name_book' },
+                    { 'data': 'subject' },
+                    { 'data': 'writer' },
+                    { 'data': 'class' },
+                    { 'data': 'creating_date' },
+                    { 'data': 'status' },
+                    { 'data': 'aksi' }
+
+                ]
+
+
+            });
+
+        }
+        libary();
+
+
+
+
+
+
+
+
+
+        var id = $('#idd').attr('data-result');
+        Siswa = function () {
+
+            table2 = $("#Result").on('preXhr.dt', function (e, settings, data) {
+
+
+            }).on('draw.dt', function () {
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-end", "orderable": false },
+                    { "targets": 6, className: "text-end", "orderable": false },
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api" + "/" + id + "/result",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'nisn' },
+                    { 'data': 'nama' },
+                    { 'data': 'ujian' },
+                    { 'data': 'mapel' },
+                    { 'data': 'kelas' },
+                    { 'data': 'nilai' },
+                    { 'data': 'grade' },
+                    { 'data': 'tanggal' }
+                ]
+
+
+            });
+
+
+        }
+
+        Siswa(false)
+
+        Admin = function () {
+
+            Admin = $("#data_peminjaman").on('preXhr.dt', function (e, settings, data) {
+
+
+            }).on('draw.dt', function () {
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-end", "orderable": false },
+                    { "targets": 6, className: "text-end", "orderable": false },
+                    { "targets": 7, className: "text-end", "orderable": false },
+                    { "targets": 8, className: "text-end", "orderable": false },
+                    { "targets": 9, className: "text-end", "orderable": false },
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/all-peminjaman",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'no' },
+                    { 'data': 'nisn' },
+                    { 'data': 'nama' },
+                    { 'data': 'kelas' },
+                    { 'data': 'id_buku' },
+                    { 'data': 'judul' },
+                    { 'data': 'penulis' },
+                    { 'data': 'status' },
+                    { 'data': 'tanggal_pinjam' },
+                    { 'data': 'tanggal_pengembalian' },
+                    { 'data': 'telat' },
+                    { 'data': 'denda' },
+                    { 'data': 'aksi' },
+                ]
+
+
+            });
+
+
+
+        }
+
+
+        Admin(false)
+
+        //Hapus Data
+        $('#btn_remove_pinjam').on('click', function () {
+            var kode = $('#id_peminjaman').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/delete-peminjaman",
+                dataType: "JSON",
+                data: { kode: kode },
+                success: function (data) {
+                    if (data) {
+                        $('#hapus-pinjam-modal').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+
+                        }).then((result) => {
+                            Admin.draw(false)
+
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah dihapus.',
+                                }
+
+                            )
+                        })
+
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+
+
+                }
+            });
+            return false;
+        });
+
+        //GET Pinjam
+        $('#show_buku').on('click', '.item_pinjam', function () {
+            var id = $(this).attr('data');
+            $('#pinjam-modal').modal('show');
+            $('[name="pinjam"]').val(id);
+        });
+
+        //Pinjam Buku
+        $('#btn_pinjam').on('click', function () {
+            var kode = $('#pinjam').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/pinjam",
+                dataType: "JSON",
+                data: { kode: kode },
+                success: function (data) {
+                    if (data) {
+                        $('#pinjam-modal').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+
+                        }).then((result) => {
+                            Buku.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah dihapus.',
+                                }
+
+                            )
+                            Buku.draw(false)
+
+                        })
+
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+
+
+                }
+            });
+            return false;
+        });
+
+        //GET HAPUS
+        $('#show_pinjam').on('click', '.item_hapus', function () {
+            var id = $(this).attr('data');
+            $('#hapus-pinjam-modal').modal('show');
+            $('[name="id_peminjaman"]').val(id);
+        });
+
+        //Show_Pinjam_Buku
+        $('#show_pinjam').on('click', '.item_ubah_pinjam', function () {
+            var id = $(this).attr('data');
+            $.ajax({
+                type: "GET",
+                url: "/" + "api" + "/" + id + "/pinjam-detail",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (data) {
+                    console.log(data);
+                    $('#detail-pinjam').on('shown.bs.modal', function (e) {
+                        // $('#mScoreExamInput').focus();
+                    }).modal('show');
+
+                    $('[name="id_peminjaman"]').val(data.id_peminjaman);
+                    $('[name="judul"]').val(data.name_book);
+                    $('[name="id_buku"]').val(data.code_book);
+                    $('[name="NISN"]').val(data.NISN);
+                    $('[name="nama"]').val(data.first_name + ' ' + data.last_name);
+                    $('[name="penulis"]').val(data.writer_book);
+                    $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
+                    $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
+                    $('[name="ket"]').val(data.ket).change();
+                    $('[name="id_book"]').val(data.id_book).change();
+
+
+                    // });
+                }
+            });
+            return false;
+        });
+
+        //Update Peminjaman
+        $('#btn_update_pinjam').click(function (e) {
+            var id_peminjaman = $('#id_peminjaman').val();
+            var tgl_pinjam = $('#tgl_pinjam').val();
+            var ket = $('#ket').val();
+            var id_book = $('#id_book').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/api/update-peminjaman",
+                dataType: "JSON",
+                data: { id_peminjaman: id_peminjaman, tgl_pinjam: tgl_pinjam, ket: ket, id_book: id_book },
+                success: function (data) {
+                    if (data) {
+                        $('#detail-pinjam').modal('hide');
+
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            Admin.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah diubah.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
+
+                            )
+                        })
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+                }
+            });
+            return false;
+        });
+
+
+    });
+
+</script>
+
+
+
+{% endblock ajax %}
