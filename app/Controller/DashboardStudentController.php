@@ -20,10 +20,12 @@ class DashboardStudentController
         $data_student = $app->db->select('tbl_users', [
             "[>]tbl_admissions" => ["id_user" => "id_user"]
         ], '*', [
-            "username" => $args["username"]
+            // "email" => $args["email"]
+            'tbl_users.id_user' => $_SESSION['id_user']
         ]);
 
         // return var_dump($data_student);
+        // die($data_student);
         $student_array = $data_student[0];
         // return var_dump($student_array);
 
