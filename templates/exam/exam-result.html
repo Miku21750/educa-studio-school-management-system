@@ -84,7 +84,7 @@
               <select class="select2" id="siswa">
                 <option value="0">Pilih Siswa*</option>
                 {% for i in user %}
-                <option value="{{ i.id_user }}">{{ i.first_name}} {{ i.last_name}} Kelas {{i.class}}</option>
+                <option value="{{ i.id_user }}">{{ i.first_name}} {{ i.last_name}} Kelas {{i.class}} {{i.section}}</option>
                 {% endfor %}
               </select>
             </div>
@@ -94,7 +94,7 @@
               <select class="select2" id="exam_name">
                 <option value="0">Pilih Ujian *</option>
                 {% for i in exam %}
-                <option value="{{ i.id_exam }}">{{ i.exam_name }} {{ i.subject_name }} Kelas {{ i.class }}</option>
+                <option value="{{ i.id_exam }}">{{ i.exam_name }} {{ i.subject_name }} Kelas {{ i.class }} {{i.section}}</option>
                 {% endfor %}
               </select>
             </div>

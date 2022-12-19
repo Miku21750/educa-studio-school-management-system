@@ -234,6 +234,20 @@ class DashboardStudentController
     public static function view_data_exam($app, $req, $rsp, $args)
     {
 
+        $kelas = $app->db->select('tbl_users', 'id_class', [
+            'id_user' => $_SESSION['id_user']
+        ]);
+        $bagian = $app->db->select(
+            'tbl_sections',
+            [
+                '[><]tbl_classes' => 'id_section'
+            ],
+            'id_section',
+            [
+                'id_class' => $kelas
+            ]
+        );
+
         $result = $app->db->select(
             'tbl_exam_results'
             // 'tbl_exams'
@@ -252,6 +266,8 @@ class DashboardStudentController
             ],
             '*',
             [
+                'tbl_users.id_class' => $kelas,
+                'tbl_sections.id_section' => $bagian,
                 "tbl_exam_results.id_user" => $_SESSION['id_user'],
                 "ORDER" => [
                     "subject_name" => "ASC",
@@ -278,6 +294,8 @@ class DashboardStudentController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
+            'tbl_users.id_class' => $kelas,
+            'tbl_sections.id_section' => $bagian,
             'tbl_exam_results.id_user' => $_SESSION['id_user'],
             "ORDER" => [
                 "subject_name" => "ASC",
