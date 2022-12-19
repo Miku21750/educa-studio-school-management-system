@@ -143,21 +143,20 @@ class ClassController
                 $datas['phone_user'] = $i['phone_user'];
                 $datas['email'] = $i['email'];
                 $datas[' '] = '<div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
 
-                    <a class="dropdown-item " > 
-                    <i class="fas fa-trash text-orange-red" ></i>
-                    <button type="button" class="btn btn-light btn-lg item_hapus" data="' . $i['id_class'] . '" >
-                     Hapus </button></a>
-
-                    <a class="btn dropdown-item "  >
-                    <i class="fas fa-edit text-dark-pastel-green"></i>
-                    <button type="button" class="btn btn-light btn-lg kelas_detail" data="' . $i['id_user'] . '"> Ubah
-                        </button></a>
+                    <a class="dropdown-item btn btn-light btn-lg item_hapus" data="' . $i['id_class'] . '"> 
+                        <i class="fas fa-trash text-orange-red" ></i>
+                        Hapus
+                    </a>
+                    <a class="btn dropdown-item btn btn-light btn-lg kelas_detail" data="' . $i['id_user'] . '">
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
+                        Ubah
+                    </a>
                 </div>
             </div>';
 
@@ -271,8 +270,8 @@ class ClassController
                 $datas['gender'] = $i['gender'];
                 $datas['kelas'] = $i['class'];
                 $datas['bagian'] = $i['section'];
-                $datas['phone_user'] = $i['phone_user'];
-                $datas['email'] = $i['email'];
+                // $datas['phone_user'] = $i['phone_user'];
+                // $datas['email'] = $i['email'];
 
 
                 $data[] = $datas;

@@ -127,15 +127,16 @@ class ExamController
                         aria-expanded="false">
                         <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item exam_remove" data="' . $m['id_exam'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                        data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
-                                Hapus
-                            </button></a>
-                        <a class="btn dropdown-item exam_detail" data="' . $m['id_exam'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
-                                class="fas fa-edit text-dark-pastel-green"></i>
-                                Ubah
-                            </button></a>
+                    <div class="dropdown-menu dropdown-menu-right p-3">
+                        <a class="dropdown-item exam_remove btn btn-light" class="modal-trigger" data-toggle="modal"
+                        data-target="#confirmation-modal" data="' . $m['id_exam'] . '">
+                            <i class="fas fa-trash text-orange-red"></i>
+                            Hapus
+                        </a>
+                        <a class="btn dropdown-item exam_detail btn btn-light"  data-toggle="modal" data-target="detail_book" id="show_book" data="' . $m['id_exam'] . '" >
+                            <i class="fas fa-edit text-dark-pastel-green"></i>
+                            Ubah
+                        </a>
                     </div>
                 </div>';
                 $data[] = $datas;
@@ -525,6 +526,7 @@ class ExamController
     {
         $user = $app->db->select('tbl_users', [
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[>]tbl_sections' => 'id_section'
         ], '*', [
             'id_user_type' => 1
         ]);
@@ -533,6 +535,7 @@ class ExamController
             [
                 '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
                 '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+                '[>]tbl_sections' => 'id_section'
             ],
             '*'
         );
@@ -618,7 +621,8 @@ class ExamController
 
                 ],
                 '*',
-                $limit
+                // $limit
+                $conditions
             );
             $totaldata = count($result);
             $totalfiltered = $totaldata;
@@ -654,15 +658,15 @@ class ExamController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light hapus item_hapus" data="' . $m['id_result'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item " ><i
-                            class="fas fa-solid fa-edit text-orange-peel"></i><button type="button" class="btn btn-light result_detail"  data="' . $m['id_result'] . '"" >
-                            Ubah
-                        </button></a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item" btn btn-light hapus item_hapus" data="' . $m['id_result'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light result_detail"  data="' . $m['id_result'] . '">
+                        <i class="fas fa-solid fa-edit text-orange-peel"></i>
+                        Ubah
+                    </a>
                    
                 </div>
             </div>';
@@ -687,16 +691,29 @@ class ExamController
             'id_user' => $_SESSION['id_user']
         ]);
         $bagian = $app->db->select(
-            'tbl_sections', 'id_section', [
+            'tbl_sections',
+            [
+                '[><]tbl_classes' => 'id_section'
+            ],
+            'id_section',
+            [
                 'id_class' => $kelas
             ]
         );
         $result = $app->db->select(
             'tbl_exam_results',
             [
+                // '[><]tbl_exams' => 'id_exam',
+                // '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+                // '[><]tbl_sections' => 'id_section',
+                // '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+                // '[><]tbl_users' => 'id_user',
+                // '[><]tbl_exam_grades' => 'id_exam_grade',
+
+
                 '[><]tbl_exams' => 'id_exam',
                 '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
-                '[><]tbl_sections' => 'id_section',
+                '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
                 '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
                 '[><]tbl_users' => 'id_user',
                 '[><]tbl_exam_grades' => 'id_exam_grade',
@@ -704,7 +721,10 @@ class ExamController
             '*',
             [
                 'tbl_users.id_class' => $kelas,
-                // 'id_section' => $bagian
+                'tbl_sections.id_section' => $bagian,
+                'ORDER' => [
+                    'first_name' => 'ASC'
+                ]
             ]
         );
 
@@ -738,7 +758,11 @@ class ExamController
         $conditions = [
             "LIMIT" => [$start, $limit],
             // 'id_user' => $_SESSION['id_user'],
-            'tbl_users.id_class' => $kelas
+            'tbl_users.id_class' => $kelas,
+            'tbl_sections.id_section' => $bagian,
+            'ORDER' => [
+                'first_name' => 'ASC'
+            ]
         ];
 
         if (!empty($req->getParam('search')['value'])) {
@@ -756,6 +780,14 @@ class ExamController
             $result = $app->db->select(
                 'tbl_exam_results',
                 [
+                    // '[><]tbl_exams' => 'id_exam',
+                    // '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+                    // '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+                    // '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+                    // '[><]tbl_users' => 'id_user',
+                    // '[><]tbl_exam_grades' => 'id_exam_grade',
+
+
                     '[><]tbl_exams' => 'id_exam',
                     '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
                     '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
@@ -773,6 +805,14 @@ class ExamController
         }
 
         $result = $app->db->select('tbl_exam_results', [
+            // '[><]tbl_exams' => 'id_exam',
+            // '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+            // '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+            // '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+            // '[><]tbl_users' => 'id_user',
+            // '[><]tbl_exam_grades' => 'id_exam_grade',
+
+
             '[><]tbl_exams' => 'id_exam',
             '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
             '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],

@@ -93,19 +93,19 @@ class LibraryController
                 $datas['published'] = $m['publish_date'];
                 $datas['creating_date'] = $m['upload_date'];
                 $datas['aksi'] = '<div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item book_remove" data="' . $m['id_book'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                    data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
-                            Hapus
-                        </button></a>
-                    <a class="btn dropdown-item book_detail" data="' . $m['id_book'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
-                            class="fas fa-edit text-dark-pastel-green"></i>
-                            Ubah
-                        </button></a>
+                    <a class="dropdown-item book_remove btn btn-light" data="' . $m['id_book'] . '" data-target="#confirmation-modal">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="btn dropdown-item book_detail btn btn-light" data="' . $m['id_book'] . '" id="show_book" data-toggle="modal" data-target="detail_book">
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
+                        Ubah
+                    </a>
                 </div>
             </div>';
                 $data[] = $datas;
@@ -209,16 +209,15 @@ class LibraryController
                     $datas['aksi'] = '';
                 } else {
                     $datas['aksi'] = '<div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                         aria-expanded="false">
                         <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                    class="fas fa-book text-success"></i>
-                    <button type="button" class="btn btn-light item_pinjam" data="' . $m['id_book'] . '"">
-                    Ajukan Pinjaman
-                    </button></a>
+                    <a class="dropdown-item btn btn-light item_pinjam" data="' . $m['id_book'] . '">
+                        <i class="fas fa-book text-success"></i>
+                        Ajukan Pinjaman
+                    </a>
                         
                     </div>
                 </div>';
@@ -524,21 +523,19 @@ class LibraryController
                 }
 
                 $datas['aksi'] = '<div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item"  ><i
-                class="fas fa-trash text-danger"></i>
-                <button type="button" class="btn btn-light item_hapus" data="' . $m['id_peminjaman'] . '"">
-                 Hapus
-                </button></a>
-                <a class="dropdown-item"  ><i
-                class="fas fa-edit text-info"></i>
-                <button type="button" class="btn btn-light item_ubah_pinjam" data="' . $m['id_peminjaman'] . '"">
-                 Ubah
-                </button></a>
+                <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_peminjaman'] . '">
+                    <i class="fas fa-trash text-danger"></i>
+                    Hapus
+                </a>
+                <a class="dropdown-item btn btn-light item_ubah_pinjam" data="' . $m['id_peminjaman'] . '">
+                    <i class="fas fa-edit text-info"></i>
+                    Ubah
+                </a>
                     
                    
                 </div>
