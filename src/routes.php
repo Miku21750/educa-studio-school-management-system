@@ -24,7 +24,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Http\UploadedFile;
 use App\Controller\AcconuntController;
-
+use App\Controller\UserCredentialController;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -89,6 +89,12 @@ return function (App $app) {
                 function () use ($app) {
                     $app->post(
                         '/account-setting',
+                        function (Request $request, Response $response, array $args) use ($app) {
+                            return 0;
+                        }
+                    );
+                    $app->post(
+                        '/update-password',
                         function (Request $request, Response $response, array $args) use ($app) {
                             return 0;
                         }
@@ -1939,40 +1945,7 @@ return function (App $app) {
         '/profile-setting',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            // return var_dump($_SESSION['freshAccount']);
-            // $_SESSION['myProfile'] = true;
-            $data = $container->db->select('tbl_users', [
-                "[>]tbl_classes" => "id_class",
-                "[>]tbl_hostels" => "id_hostel",
-                "[>]tbl_transports" => ["id_trans" => "id_transport"],
-                "[>]tbl_user_types" => "id_user_type",
-            ], [
-                "tbl_users.id_user",
-                "tbl_classes.class",
-                "tbl_hostels.hostel_name",
-                "id_user_type",
-                "first_name",
-                "last_name",
-                "gender",
-                "date_of_birth",
-                "religion",
-                "username",
-                "email",
-                "password",
-                "photo_user",
-                "blood_group",
-                "occupation",
-                "phone_user",
-                "address_user",
-                "short_bio",
-            ], [
-                'id_user' => $_SESSION['id_user'],
-            ]);
-            // return var_dump($data);
-            $container->view->render($response, 'others/profile-setting.html', [
-                'data' => $data[0],
-                'myProfile' => true,
-            ]);
+            return UserCredentialController::profilesetting($this, $request, $response, $args);  
         }
     )->add(new Auth());
 
@@ -2122,38 +2095,24 @@ return function (App $app) {
             return $response->withRedirect('/all-account');
         }
     );
-    $app->post('/editDataAdditionalProfile', function (Request $request, Response $response, array $args) use ($container) {
-        $data = $request->getParsedBody();
-        // return var_dump($data);
-        $updated = [];
-        $selectAvaliable = $container->db->select('tbl_users',[
-            'username',
-            'email',
-            'password'
-        ],[
-            'id_user' => $data['id_user']
-        ]);
-        if($data['password'] != ''){
-            array_push($updated,array('password'=>$data['password']));
-            // return var_dump($selectAvaliable[0]['password'] == $data['password']);
-            if($selectAvaliable[0]['password'] == $data['password']){
-                $_SESSION['passSame'] = true;
-                return $response->withRedirect('/profile-setting');
-            }
-            
-        }
-        // if($data['password'] == $selectAvaliable[0]){
-
-        // }
-        // $delete = $container->db->delete('tbl_users', [
-        //     'id_user' => $data['id'],
-        // ]);
-        
-        return $response->withJson(array("success"));
-
-            // return var_dump($data);
+    $app->post('/ubah-password', function (Request $request, Response $response, array $args) use ($container) {
+        return $response->withJson(UserCredentialController::ubahPassword($this, $request, $response, $args));
         }
     );
+    $app->post('/ubah-email', function (Request $request, Response $response, array $args) use ($container) {
+        return UserCredentialController::sendEmailVerification($this, $request, $response, $args);
+        }
+    );
+    $app->get('/verifEmailChange/{key}/{email}', function (Request $request, Response $response, array $args) use ($container) {
+        // return die(var_dump($args));
+        return UserCredentialController::ubahEmail($this, $request, $response, $args);
+        }
+    );
+    $app->post('/ubah-username', function (Request $request, Response $response, array $args) use ($container) {
+        return $response->withJson(UserCredentialController::ubahUsername($this, $request, $response, $args));
+        }
+    );
+
     $app->post(
         '/account-delete-data',
         function (Request $request, Response $response, array $args) use ($container) {

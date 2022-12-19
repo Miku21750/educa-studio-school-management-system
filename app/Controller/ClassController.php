@@ -295,7 +295,7 @@ class ClassController
     }
 
 
-    public function getTeacherMod($app, $request, $response, $args)
+    public static function getTeacherMod($app, $request, $response, $args)
     {
         $response = $app->db->select("tbl_users", [
             "id_user",
@@ -312,7 +312,7 @@ class ClassController
         return $response;
     }
 
-    public function getSectionMod($app, $request, $response, $args)
+    public static function getSectionMod($app, $request, $response, $args)
     {
         $response = $app->db->select("tbl_sections", [
             "id_section",
@@ -322,7 +322,7 @@ class ClassController
         return $response;
     }
 
-    public function getSubjectMod($app, $request, $response, $args)
+    public static function getSubjectMod($app, $request, $response, $args)
     {
         $response = $app->db->select("tbl_subjects", [
             "id_subject",
