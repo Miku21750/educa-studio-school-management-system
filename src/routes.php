@@ -2087,9 +2087,30 @@ return function (App $app) {
     $app->post('/editDataAdditionalProfile', function (Request $request, Response $response, array $args) use ($container) {
         $data = $request->getParsedBody();
         // return var_dump($data);
-        $delete = $container->db->delete('tbl_users', [
-            'id_user' => $data['id'],
+        $updated = [];
+        $selectAvaliable = $container->db->select('tbl_users',[
+            'username',
+            'email',
+            'password'
+        ],[
+            'id_user' => $data['id_user']
         ]);
+        if($data['password'] != ''){
+            array_push($updated,array('password'=>$data['password']));
+            // return var_dump($selectAvaliable[0]['password'] == $data['password']);
+            if($selectAvaliable[0]['password'] == $data['password']){
+                $_SESSION['passSame'] = true;
+                return $response->withRedirect('/profile-setting');
+            }
+            
+        }
+        // if($data['password'] == $selectAvaliable[0]){
+
+        // }
+        // $delete = $container->db->delete('tbl_users', [
+        //     'id_user' => $data['id'],
+        // ]);
+        
         return $response->withJson(array("success"));
 
         // return var_dump($data);
