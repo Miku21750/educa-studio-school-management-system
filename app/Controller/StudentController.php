@@ -173,7 +173,7 @@ class StudentController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right p-3">
                     <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
                         <i class="fas fa-trash text-orange-red"></i>
                         Hapus
@@ -198,25 +198,24 @@ class StudentController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                            data-target="#large-modal" data="' . $m['id_user'] . '"">
-                            Detail
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'student-promotion' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i><button type="button" class="btn btn-light"  data="' . $m['id_user'] . '"">
-                            Student Promotion
-                        </button></a>
-                    
-                    <a class="dropdown-item" ><i
-                            class="fas fa-sharp fa-solid fa-school text-primary"></i><button type="button" class="btn btn-light btn_terima_siswa" id="btn_terima_siswa" data="' . $m['id_user'] . '"">
-                            Terima Siswa
-                        </button></a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" class="modal-trigger" data-toggle="modal"
+                    data-target="#large-modal" data="' . $m['id_user'] . '" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        Detail
+                    </a>
+                    <a class="dropdown-item btn btn-light"  data="' . $m['id_user'] . '" href="' . 'student-promotion' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i>
+                        Student Promotion
+                    </a>
+                    <a class="dropdown-item btn btn-light btn_terima_siswa" id="btn_terima_siswa" data="' . $m['id_user'] . '">
+                        <i class="fas fa-sharp fa-solid fa-school text-primary"></i>
+                        Terima Siswa
+                    </a>
 
                 </div>
             </div>';
@@ -351,7 +350,7 @@ class StudentController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right p-3">
                     <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
                         <i class="fas fa-trash text-orange-red"></i>
                         Hapus
@@ -372,7 +371,7 @@ class StudentController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right p-3">
                     <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
                         <i class="fas fa-trash text-orange-red"></i>
                         Hapus
