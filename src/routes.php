@@ -1300,41 +1300,19 @@ return function (App $app) {
         }
     )->add(new Auth());
     $app->get(
-        '/admin-student-attendence',
-        function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            // $class = $container->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
-            $class = $container->db->select('tbl_classes', [
-                '[>]tbl_sections' => 'id_section'
-            ], '*');
-            $subject = $container->db->select('tbl_subjects', '*');
-            // SELECT session FROM `tbl_users` WHERE session != 0 GROUP BY session
-            $sessionAttend = $container->db->select('tbl_users', 'session', [
-                'session[!]' => 0,
-                'GROUP' => [
-                    'session'
-                ]
-            ]);
-            // return die(var_dump($sessionAttend));
-            $container->view->render($response, 'others/admin-student-attendance.html', [
-                'class' => $class,
-                'subject' => $subject,
-                'sessionAttend' => $sessionAttend
-            ]);
-        }
-    )->add(new Auth());
-    $app->get(
         '/viewAttendSheet',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $dataRequest = $request->getParams();
             $tanggal = $container->db->select('tbl_attendances', 'tanggal', [
+                'id_class' => $dataRequest['class'],
                 'id_subject' => $dataRequest['subject'],
                 'GROUP' => [
                     'tanggal'
                 ]
             ]);
             $checkTodayIfAdd = $container->db->select('tbl_attendances', 'tanggal', [
+                'id_class' => $dataRequest['class'],
                 'id_subject' => $dataRequest['subject'],
                 'tanggal' => Medoo::raw('CURRENT_DATE')
             ]);
@@ -1353,7 +1331,8 @@ return function (App $app) {
                 'tbl_attendances.id_attendance',
                 'tbl_attendances.tanggal'
             ], [
-                'id_class' => $dataRequest['class'],
+                'tbl_users.id_class' => $dataRequest['class'],
+                // 'id_subject' => $dataRequest['subject'],
                 'session' => $dataRequest['session']
             ]);
             $dataStudentArrivedInAttend = $container->db->select('tbl_users', [
@@ -1371,7 +1350,7 @@ return function (App $app) {
                 'tbl_attendances.id_attendance',
                 'tbl_attendances.tanggal'
             ], [
-                'id_class' => $dataRequest['class'],
+                'tbl_users.id_class' => $dataRequest['class'],
                 'session' => $dataRequest['session'],
                 'GROUP' => [
                     'id_user'
@@ -1382,6 +1361,7 @@ return function (App $app) {
             for ($i = 0; $i < $checkTotalStudent; $i++) {
                 $checkValidTotalStudent = $container->db->select('tbl_attendances', 'tanggal', [
                     'id_subject' => $dataRequest['subject'],
+                    'id_class' => $dataRequest['class'],
                     'id_user' => $dataStudentArrivedInAttend[$i]['id_user'],
                     'absence' => 1
                 ]);
@@ -1395,14 +1375,19 @@ return function (App $app) {
             $subjectStudentAttend = $container->db->select('tbl_subjects', '*', [
                 'id_subject' => $dataRequest['subject']
             ]);
+            $classStudentAttend = $container->db->select('tbl_classes', '*', [
+                'id_class' => $dataRequest['class']
+            ]);
             if ($checkTodayIfAdd == null) {
                 $insert = $container->db->insert('tbl_attendances', [
                     'id_subject' => $dataRequest['subject'],
+                    'id_class'=>$dataRequest['class'],
                     'tanggal' => Medoo::raw('CURRENT_TIMESTAMP')
                 ]);
                 // return die(var_dump($insert));
                 $tanggal = $container->db->select('tbl_attendances', 'tanggal', [
                     'id_subject' => $dataRequest['subject'],
+                    'id_class' => $dataRequest['class'],
                     'GROUP' => [
                         'tanggal'
                     ]
@@ -1410,6 +1395,7 @@ return function (App $app) {
                 return $response->withJson(array(
                     'viewStudentAttend' => $viewStudentAttend,
                     'dateStudentAttend' => $tanggal,
+                    'classStudentAttend'=> $classStudentAttend,
                     'subjectStudentAttend' => $subjectStudentAttend,
                     'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
                     'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
@@ -1419,6 +1405,7 @@ return function (App $app) {
                 return $response->withJson(array(
                     'viewStudentAttend' => $viewStudentAttend,
                     'dateStudentAttend' => $tanggal,
+                    'classStudentAttend'=> $classStudentAttend, 
                     'subjectStudentAttend' => $subjectStudentAttend,
                     'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
                     'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
@@ -1438,6 +1425,7 @@ return function (App $app) {
             for ($i = 0; $i < $allValues; $i++) {
                 $checkIfExistUpdate = $container->db->select('tbl_attendances', 'id_attendance', [
                     'id_user' => $dataRequest['user'][$i],
+                    'id_class'=> $dataRequest['subject'][2],
                     'id_subject' => $dataRequest['subject'][1],
                     'tanggal' => $dataRequest['date'][$i]
                 ]);
@@ -1451,6 +1439,7 @@ return function (App $app) {
                 } else {
                     $container->db->insert('tbl_attendances', [
                         'id_user' => $dataRequest['user'][$i],
+                        'id_class'=> $dataRequest['subject'][2],
                         'id_subject' => $dataRequest['subject'][1],
                         'tanggal' => $dataRequest['date'][$i],
                         'absence' => $dataRequest['absence'][$i]
@@ -1482,6 +1471,230 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             return ExamController::exam_result($this, $request, $response, $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/tugas',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $class = $container->db->select('tbl_classes', [
+                '[>]tbl_sections' => 'id_section'
+            ], '*');
+            $subject = $container->db->select('tbl_subjects', '*');
+            // SELECT session FROM `tbl_users` WHERE session != 0 GROUP BY session
+            $sessionAttend = $container->db->select('tbl_users', 'session', [
+                'session[!]' => 0,
+                'GROUP' => [
+                    'session'
+                ]
+            ]);
+            // return die(var_dump($sessionAttend));
+            return $container->view->render($response, 'exam/tugas.html', [
+                'class' => $class,
+                'subject' => $subject,
+                'sessionAttend' => $sessionAttend
+            ]);
+            // $container->view->render($response, 'exam/tugas.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/viewTaskSheet',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParams();
+            // $tanggal = $container->db->select('tbl_attendances', 'tanggal', [
+            //     'id_subject' => $dataRequest['subject'],
+            //     'GROUP' => [
+            //         'tanggal'
+            //     ]
+            // ]);
+            // $checkTodayIfAdd = $container->db->select('tbl_attendances', 'tanggal', [
+            //     'id_subject' => $dataRequest['subject'],
+            //     'tanggal' => Medoo::raw('CURRENT_DATE')
+            // ]);
+            // return die(var_dump($dataRequest));
+            $viewStudentAttend = $container->db->select('tbl_users', [
+                '[>]tbl_classes' => 'id_class',
+                '[>]tbl_sections' => ['tbl_classes.id_section' => 'id_section'],
+                '[>]tbl_subjects' => 'id_subject',
+                '[>]tbl_tasks' => 'id_user'
+            ], [
+                'id_user',
+                'first_name',
+                'last_name',
+                'tbl_classes.class',
+                'tbl_sections.section',
+                'tbl_subjects.subject_name',
+                'tbl_tasks.id_task',
+                'tbl_tasks.task_name',
+                'tbl_tasks.score',
+            ], [
+                'tbl_users.id_class' => $dataRequest['class'],
+                'session' => $dataRequest['session']
+            ]);
+            switch ($dataRequest['taskType']){
+                case 'TGS':{
+                    $dataAvaliable = $container->db->select('tbl_tasks', '*', 
+                    Medoo::raw("WHERE
+                        task_type='".$dataRequest["taskType"]."' 
+                            HAVING 
+                        (date(created_at) = '".$dataRequest["date"]."')
+                    ")
+                     );
+                    $taskName = "TUGAS";
+                    $lastData = '';
+                    $data_id = [];
+                    // return die(var_dump($dataAvaliable));
+                    if($dataAvaliable == null){
+                        $selectStudent = $container->db->select('tbl_users', 'id_user',[
+                            'id_class'=>$dataRequest['class'],
+                            'session'=>$dataRequest['session'],
+                        ]);
+                        for($i=0;$i<count($selectStudent);$i++){
+                            $insert = $container->db->insert('tbl_tasks', [
+                                'id_class'=>$dataRequest['class'],
+                                'id_subject'=>$dataRequest['subject'],
+                                'id_user'=>$selectStudent[$i],
+                                'task_type'=>$dataRequest['taskType']
+                            ]);
+                            // array_push($insert->inser)
+                        }
+                        $dataAvaliable = $container->db->select('tbl_tasks', '*', 
+                    Medoo::raw("WHERE
+                        task_type='".$dataRequest["taskType"]."' 
+                            HAVING 
+                        (date(created_at) = '".$dataRequest["date"]."')
+                    ")
+                     );
+                        $lastData = count($dataAvaliable);
+                    }else{
+                        $lastData = count($dataAvaliable);
+                    }
+                }break;
+                case 'UH':{
+                    $dataAvaliable = $container->db->select('tbl_tasks', '*', 
+                    Medoo::raw("WHERE
+                        task_type='".$dataRequest["taskType"]."' 
+                            HAVING 
+                        (date(created_at) = '".$dataRequest["date"]."')
+                            
+                    ")
+                     );
+                    $lastData = '';
+                    $taskName = "UH";
+                    if($dataAvaliable == null){
+                        $selectStudent = $container->db->select('tbl_users', 'id_user',[
+                            'id_class'=>$dataRequest['class'],
+                            'session'=>$dataRequest['session'],
+                        ]);
+                        for($i=0;$i<count($selectStudent);$i++){
+                            $insert = $container->db->insert('tbl_tasks', [
+                                'id_class'=>$dataRequest['class'],
+                                'id_subject'=>$dataRequest['subject'],
+                                'id_user'=>$selectStudent[$i]
+                            ]);
+                        }
+                        $dataAvaliable = $container->db->debug()->select('tbl_tasks', '*', 
+                    Medoo::raw("WHERE
+                        task_type='".$dataRequest["taskType"]."' 
+                            HAVING 
+                        (date(created_at) = '".$dataRequest["date"]."')
+                    ")
+                     );
+                        $lastData = count($dataAvaliable);
+                    }else{
+                        $lastData = count($dataAvaliable);
+                    }
+                }
+                break;
+                default:
+                break;
+            }
+            // $dataAvaliable = $container->db->debug()->select('tbl_tasks', '*', 
+            //         Medoo::raw("WHERE
+            //             task_type='".$dataRequest["taskType"]."' 
+            //                 HAVING 
+            //             (date(created_at) = '".$dataRequest["date"]."')
+            //         ")
+            //          );
+            for($j = 0; $j < count($dataAvaliable); $j++){
+                $updateTaskName = $container->db->debug()->update('tbl_tasks',[
+                    'task_name'=> $taskName . ' '. ($lastData+1)
+                ],[
+                    'id_task'=> $dataAvaliable[$j]['id_task']
+                ]);
+                return die(var_dump($updateTaskName));
+            }
+            $dataStudentTaskSuccess = $container->db->select('tbl_users', [
+                '[>]tbl_classes' => 'id_class',
+                '[>]tbl_sections' => ['tbl_classes.id_section' => 'id_section'],
+                '[>]tbl_subjects' => 'id_subject',
+                '[>]tbl_tasks' => 'id_user'
+            ], [
+                'id_user',
+                'first_name',
+                'last_name',
+                'tbl_classes.class',
+                'tbl_sections.section',
+                'tbl_subjects.subject_name',
+                'tbl_tasks.id_task',
+                'tbl_tasks.task_name',
+                'tbl_tasks.score',
+            ], [
+                'tbl_users.id_class' => $dataRequest['class'],
+                'session' => $dataRequest['session'],
+                'GROUP' => [
+                    'id_user'
+                ]
+            ]);
+            $checkTotalStudent = count($dataStudentTaskSuccess);
+            $checkStudentDateIfExistChecklist = [];
+            for ($i = 0; $i < $checkTotalStudent; $i++) {
+                $checkValidTotalStudent = $container->db->debug()->select('tbl_tasks', 'task_name', [
+                    'id_subject' => $dataRequest['subject'],
+                    'id_user' => $dataStudentTaskSuccess[$i]['id_user'],
+                    'score[!]' => null
+                ]);
+                // $checkStudentDateIfExistChecklist = $checkValidTotalStudent;
+                array_push($checkStudentDateIfExistChecklist, $checkValidTotalStudent);
+                // if($checkValidTotalStudent);
+                return die(var_dump($checkValidTotalStudent));
+            }
+            // return die(var_dump($dataStudentArrivedInAttend));
+
+            $subjectStudentAttend = $container->db->select('tbl_subjects', '*', [
+                'id_subject' => $dataRequest['subject']
+            ]);
+            if ($dataStudentTaskSuccess == null) {
+                $insert = $container->db->insert('tbl_tasks', [
+                    'id_subject' => $dataRequest['subject'],
+                    'tanggal' => Medoo::raw('CURRENT_TIMESTAMP')
+                ]);
+                // return die(var_dump($insert));
+                $tanggal = $container->db->select('tbl_attendances', 'tanggal', [
+                    'id_subject' => $dataRequest['subject'],
+                    'GROUP' => [
+                        'tanggal'
+                    ]
+                ]);
+                return $response->withJson(array(
+                    'viewStudentAttend' => $viewStudentAttend,
+                    'dateStudentAttend' => $tanggal,
+                    'subjectStudentAttend' => $subjectStudentAttend,
+                    'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
+                    'typeUser' => $_SESSION['type']
+                ));
+            } else {
+                return $response->withJson(array(
+                    'viewStudentAttend' => $viewStudentAttend,
+                    'dateStudentAttend' => $tanggal,
+                    'subjectStudentAttend' => $subjectStudentAttend,
+                    'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
+                    'typeUser' => $_SESSION['type'],
+                ));
+            }
         }
     )->add(new Auth());
     //End Exam
