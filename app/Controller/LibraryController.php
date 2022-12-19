@@ -199,8 +199,7 @@ class LibraryController
 
                 $siswa = $app->db->select('tbl_peminjaman','*', [
                     'id_user' => $_SESSION['id_user'],
-                    'ket' => 'Dipinjam',
-                    'ket' => 'Proses',
+                    'ket' => ['Dipinjam','Proses', 'Proses Pengembalian', 'Denda'],
                 ]);
 
                 if ($m['status_buku'] == 'Dipinjam') {
