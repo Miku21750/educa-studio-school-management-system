@@ -206,9 +206,9 @@
       let totalOut = data.out.reduce((val, nilaiSekarang) => {
         return val + nilaiSekarang
       }, 0)
-      
-      $('#in').attr('data-num',totalIn).html(new Intl.NumberFormat('id-ID').format(totalIn));
-      $('#out').attr('data-num',totalOut).html(new Intl.NumberFormat('id-ID').format(totalOut));
+
+      $('#in').attr('data-num', totalIn).html(new Intl.NumberFormat('id-ID').format(totalIn));
+      $('#out').attr('data-num', totalOut).html(new Intl.NumberFormat('id-ID').format(totalOut));
 
       for (let i = 1; i <= 12; i++) {
         if (data.in[i] == null) {
@@ -1411,60 +1411,73 @@ $(document).ready(function () {
     var number_of_bed = $('#enumber_of_bed').val();
     var cost_per_bed = $('#ecost_per_bed').val();
     console.log(hostel_name)
-    $.ajax({
-      type: "POST",
-      url: "/api/hostel/add-hostel",
-      dataType: "JSON",
-      data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
-      success: function (data) {
-        if (data) {
-          console.log(data)
-          let timerInterval
-          Swal.fire({
-            title: 'Memuat Data...',
-            html: 'Tunggu  <b></b>  Detik.',
-            timer: 300,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading()
-              const b = Swal.getHtmlContainer().querySelector('b')
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
-              }, 100)
-            },
-            willClose: () => {
-              clearInterval(timerInterval)
-            }
-          }).then((result) => {
-            $('#ehostel_name').val('');
-            $('#eroom_number').val('');
-            $('#eroom_type').val('').change();
-            $('#enumber_of_bed').val('');
-            $('#ecost_per_bed').val('');
-            hostelTable.draw(false)
-            Swal.fire(
-              {
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data telah ditambahkan.',
-                //footer: '<a href="">Why do I have this issue?</a>'
+    if (hostel_name == ""
+      || room_number == ""
+      || room_type == ""
+      || number_of_bed == ""
+      || cost_per_bed == ""
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Data harus diisi semua!'
+      })
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "/api/hostel/add-hostel",
+        dataType: "JSON",
+        data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
+        success: function (data) {
+          if (data) {
+            console.log(data)
+            let timerInterval
+            Swal.fire({
+              title: 'Memuat Data...',
+              html: 'Tunggu  <b></b>  Detik.',
+              timer: 300,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
               }
+            }).then((result) => {
+              $('#ehostel_name').val('');
+              $('#eroom_number').val('');
+              $('#eroom_type').val('').change();
+              $('#enumber_of_bed').val('');
+              $('#ecost_per_bed').val('');
+              hostelTable.draw(false)
+              Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: 'Data telah ditambahkan.',
+                  //footer: '<a href="">Why do I have this issue?</a>'
+                }
 
-            )
+              )
 
-          })
+            })
 
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Ada yang eror!',
-            //footer: '<a href="">Why do I have this issue?</a>'
-          })
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ada yang eror!',
+              //footer: '<a href="">Why do I have this issue?</a>'
+            })
+          }
+
         }
-
-      }
-    });
+      });
+    }
     return false;
   });
 
