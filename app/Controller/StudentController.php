@@ -199,22 +199,24 @@ class StudentController
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
-                        <i class="fas fa-trash text-orange-red"></i>
-                        Hapus
-                    </a>
-                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
-                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
-                        Detail
-                    </a>
-                    <a class="dropdown-item btn btn-light" href="' . 'student-promotion' . '/' . $m['id_user']  . '">
-                        <i class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i>
-                        Student Promotion
-                    </a>
-                    <a class="dropdown-item" href="' . 'api' . '/'  . 'admission' . '/' . $m['id_user']  . '">
-                        <i class="fas fa-sharp fa-solid fa-school text-primary"></i>
-                        Terima Siswa
-                    </a>
+                    <a class="dropdown-item"  ><i
+                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
+                            Hapus
+                        </button></a>
+                    <a class="dropdown-item" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '"><i
+                            class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
+                            data-target="#large-modal" data="' . $m['id_user'] . '"">
+                            Detail
+                        </button></a>
+                    <a class="dropdown-item" href="' . 'student-promotion' . '/' . $m['id_user']  . '"><i
+                            class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i><button type="button" class="btn btn-light"  data="' . $m['id_user'] . '"">
+                            Student Promotion
+                        </button></a>
+                    
+                    <a class="dropdown-item" ><i
+                            class="fas fa-sharp fa-solid fa-school text-primary"></i><button type="button" class="btn btn-light btn_terima_siswa" id="btn_terima_siswa" data="' . $m['id_user'] . '"">
+                            Terima Siswa
+                        </button></a>
 
                 </div>
             </div>';
@@ -669,7 +671,7 @@ class StudentController
     {
         $data = $args['data'];
         // return var_dump($data);
-
+        // die(var_dump($data));
 
         $tanggal = date("Y-m-d ");
 
@@ -681,8 +683,10 @@ class StudentController
         ]);
 
 
-        // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/all-students');
+        $json_data = array(
+            "draw" => intval($req->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
     }
 }
