@@ -199,6 +199,17 @@
     }
 
     function drawChart(data, ifExist) {
+      let totalIn = data.in.reduce((val, nilaiSekarang) => {
+        return val + nilaiSekarang
+      }, 0)
+
+      let totalOut = data.out.reduce((val, nilaiSekarang) => {
+        return val + nilaiSekarang
+      }, 0)
+
+      $('#in').attr('data-num', totalIn).html(new Intl.NumberFormat('id-ID').format(totalIn));
+      $('#out').attr('data-num', totalOut).html(new Intl.NumberFormat('id-ID').format(totalOut));
+
       for (let i = 1; i <= 12; i++) {
         if (data.in[i] == null) {
           data.in[i] = 0;
@@ -610,7 +621,7 @@ $(document).ready(function () {
 
 
   libary = function () {
-    Libtable = $("#data_bookS").on('preXhr.dt', function (e, settings, data) {
+    Libtable1 = $("#data_bookS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 
@@ -771,7 +782,6 @@ $(document).ready(function () {
 
             )
           })
-
           Libtable.draw(false)
         } else {
           Swal.fire({
@@ -807,7 +817,7 @@ $('#show_book').on('click', '.book_detail', function () {
       $('[name="ebook_name"]').val(data[0].name_book);
       $('[name="esubject"]').val(data[0].id_subject).change();
       $('[name="ewriter_book"]').val(data[0].writer_book);
-      $('[name="eclass"]').val(data[0].id_class).change();
+      $('[name="eclass_book"]').val(data[0].id_class).change();
       $('[name="epublish_date"]').val(data[0].publish_date);
       $('[name="eupload_date"]').val(data[0].upload_date);
       $('[name="ecode_book"]').val(data[0].code_book);
@@ -837,13 +847,12 @@ $(document).ready(function () {
       },
       "columnDefs": [
         { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 1, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 1, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 2, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
-        { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
-        { "width": "15%", "targets": 7, className: "text-center", "orderable": false }
+        { "width": "15%", "targets": 5, className: "text-end", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -861,7 +870,6 @@ $(document).ready(function () {
         { 'data': 'route_name' },
         { 'data': 'vehicle_number' },
         { 'data': 'driver_name' },
-        { 'data': 'license_number' },
         { 'data': 'phone_number' },
         { 'data': 'aksi' }
 
@@ -874,7 +882,7 @@ $(document).ready(function () {
   transport();
 
   transportS = function () {
-    transTable = $("#data_transportS").on('preXhr.dt', function (e, settings, data) {
+    transTable1 = $("#data_transportS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 
@@ -1184,7 +1192,7 @@ $(document).ready(function () {
         { "width": "1%", "targets": 2, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
         { "width": "1%", "targets": 4, className: "text-center", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-right", "orderable": false },
         { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
 
       ],
@@ -1215,7 +1223,7 @@ $(document).ready(function () {
   hostel();
 
   hostelS = function () {
-    hostelTable = $("#data_hostellS").on('preXhr.dt', function (e, settings, data) {
+    hostelTable1 = $("#data_hostellS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 
@@ -1234,7 +1242,7 @@ $(document).ready(function () {
         { "targets": 2, className: "text-center", "orderable": false },
         { "targets": 3, className: "text-center", "orderable": false },
         { "targets": 4, className: "text-center", "orderable": false },
-        { "targets": 5, className: "text-center", "orderable": false },
+        { "targets": 5, className: "text-right", "orderable": false },
         // { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
 
       ],
@@ -1403,60 +1411,73 @@ $(document).ready(function () {
     var number_of_bed = $('#enumber_of_bed').val();
     var cost_per_bed = $('#ecost_per_bed').val();
     console.log(hostel_name)
-    $.ajax({
-      type: "POST",
-      url: "/api/hostel/add-hostel",
-      dataType: "JSON",
-      data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
-      success: function (data) {
-        if (data) {
-          console.log(data)
-          let timerInterval
-          Swal.fire({
-            title: 'Memuat Data...',
-            html: 'Tunggu  <b></b>  Detik.',
-            timer: 300,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading()
-              const b = Swal.getHtmlContainer().querySelector('b')
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
-              }, 100)
-            },
-            willClose: () => {
-              clearInterval(timerInterval)
-            }
-          }).then((result) => {
-            $('#ehostel_name').val('');
-            $('#eroom_number').val('');
-            $('#eroom_type').val('').change();
-            $('#enumber_of_bed').val('');
-            $('#ecost_per_bed').val('');
-            hostelTable.draw(false)
-            Swal.fire(
-              {
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data telah ditambahkan.',
-                //footer: '<a href="">Why do I have this issue?</a>'
+    if (hostel_name == ""
+      || room_number == ""
+      || room_type == ""
+      || number_of_bed == ""
+      || cost_per_bed == ""
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Data harus diisi semua!'
+      })
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "/api/hostel/add-hostel",
+        dataType: "JSON",
+        data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
+        success: function (data) {
+          if (data) {
+            console.log(data)
+            let timerInterval
+            Swal.fire({
+              title: 'Memuat Data...',
+              html: 'Tunggu  <b></b>  Detik.',
+              timer: 300,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
               }
+            }).then((result) => {
+              $('#ehostel_name').val('');
+              $('#eroom_number').val('');
+              $('#eroom_type').val('').change();
+              $('#enumber_of_bed').val('');
+              $('#ecost_per_bed').val('');
+              hostelTable.draw(false)
+              Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: 'Data telah ditambahkan.',
+                  //footer: '<a href="">Why do I have this issue?</a>'
+                }
 
-            )
+              )
 
-          })
+            })
 
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Ada yang eror!',
-            //footer: '<a href="">Why do I have this issue?</a>'
-          })
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ada yang eror!',
+              //footer: '<a href="">Why do I have this issue?</a>'
+            })
+          }
+
         }
-
-      }
-    });
+      });
+    }
     return false;
   });
 
@@ -1479,7 +1500,7 @@ $('#show_hostel').on('click', '.hostel_detail', function () {
       $('[name="id_hostel"]').val(data.id_hostel);
       $('[name="ehostel_name"]').val(data.hostel_name);
       $('[name="eroom_number"]').val(data.room_number);
-      $('[name="eroom_type"]').val(data.room_type);
+      $('[name="eroom_type"]').val(data.room_type).change();
       $('[name="enumber_of_bed"]').val(data.number_of_bed);
       $('[name="ecost_per_bed"]').val(data.cost_per_bed);
 
@@ -1543,7 +1564,7 @@ $(document).ready(function () {
   exam();
 
   examS = function () {
-    examTable = $("#data_examS").on('preXhr.dt', function (e, settings, data) {
+    examTable1 = $("#data_examS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 

@@ -137,12 +137,15 @@ class DashboardAdminController
         ]);
 
         $year = $app->db->query("
-        SELECT DISTINCT `year` FROM `tbl_finances` WHERE YEAR(date_payment)")->fetchAll();
+        SELECT YEAR(date_payment) FROM `tbl_finances` WHERE YEAR(date_payment) GROUP BY YEAR(date_payment)")->fetchAll();
+
+        // $totalTahun = count($year);
 
         return $res->withJson(array(
             'tahun' => $year,
             "totalSiswaMale" => $totalSiswaMale,
             "totalSiswaFemale" => $totalSiswaFemale,
+            // "totalTahun" => $totalTahun,
         ));
     }
 
@@ -163,7 +166,7 @@ class DashboardAdminController
         
         return $res->withJson([
             'in' => $in,
-            'out' => $out
+            'out' => $out,
         ]);
     }
 }

@@ -747,7 +747,7 @@ return function (App $app) {
                     ]);
                 }
             );
-            $app->get(
+            $app->POST(
                 '/admission/{id}',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $args['id'];
@@ -935,6 +935,16 @@ return function (App $app) {
                 }
             );
             $app->post(
+                '/pengembalian',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return LibraryController::pengembalian($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
                 '/delete-peminjaman',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $request->getParsedBody();
@@ -960,6 +970,16 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return LibraryController::update_peminjaman($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/{id}/pinjam_siswa',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return LibraryController::tampil_data_peminjaman_siswa($this, $request, $response, [
                         'data' => $data
                     ]);
                 }

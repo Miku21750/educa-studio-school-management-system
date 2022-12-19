@@ -97,15 +97,15 @@ class SubjectController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item btn btn-light btn-lg subject_remove text-center my-2" data="' . $m['id_subject'] . '" data-target="#confirmation-modalS">
-                    <i class="fas fa-trash text-orange-red"></i>
-                            Hapus
-                        </a>
-                    <a class="btn dropdown-item btn btn-light btn-lg subject_detail text-center my-2" data="' . $m['id_subject'] . '" data-target="#detail_subject"><i
-                            class="fas fa-edit text-dark-pastel-green"></i>
-                            Ubah
-                            </a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light btn-lg subject_remove my-2" data="' . $m['id_subject'] . '" data-target="#confirmation-modalS">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="btn dropdown-item btn btn-light btn-lg subject_detail my-2" data="' . $m['id_subject'] . '" data-target="#detail_subject">
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
+                        Ubah
+                    </a>
                 </div>
             </div>';
 

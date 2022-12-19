@@ -140,16 +140,16 @@ class TeacherController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'api' . '/' . 'teacher_detail' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                            data-target="#large-modal" data="' . $m['id_user'] . '"">
-                            Detail
-                        </button></a>
+                <div class="dropdown-menu dropdown-menu-right" data="' . $m['id_user'] . '">
+                    <a class="dropdown-item btn btn-light item_hapus"  >
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'teacher_detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        
+                        Detail
+                        </a>
                    
                 </div>
             </div>';                } else {

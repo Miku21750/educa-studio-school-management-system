@@ -39,6 +39,41 @@
 </script>
 
 {% endif %}
+
+{% if email == true %}
+<script>
+
+  let timer
+  Swal.fire({
+    title: 'Memuat Data...',
+    html: 'Tunggu  <b></b>  Detik.',
+    timer: 400,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading()
+      const b = Swal.getHtmlContainer().querySelector('b')
+      timer = setInterval(() => {
+        b.textContent = Swal.getTimerLeft()
+      }, 300)
+    },
+    willClose: () => {
+      clearInterval(timer)
+    }
+  }).then((result) => {
+    if (result.dismiss === Swal.DismissReason.timer) {
+      Swal.fire(
+        {
+          icon: 'error',
+          title: 'Gagal',
+          text: 'Email telah digunakan',
+        }
+
+      )
+    }
+  })
+</script>
+
+{% endif %}
 <!-- Admit Form Area Start Here -->
 <div class="card height-auto">
   <div class="card-body">
