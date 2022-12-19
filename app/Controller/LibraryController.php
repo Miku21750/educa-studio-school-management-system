@@ -199,8 +199,7 @@ class LibraryController
 
                 $siswa = $app->db->select('tbl_peminjaman','*', [
                     'id_user' => $_SESSION['id_user'],
-                    'ket' => 'Dipinjam',
-                    'ket' => 'Proses',
+                    'ket' => ['Dipinjam','Proses', 'Proses Pengembalian', 'Denda'],
                 ]);
 
                 if ($m['status_buku'] == 'Dipinjam') {
@@ -803,7 +802,7 @@ class LibraryController
         $Peminjaman = $app->db->select('tbl_peminjaman', [
             '[><]tbl_books' => 'id_book',
             '[><]tbl_users' => 'id_user',
-            '[><]tbl_classes' => ["tbl_users.id_user" => 'id_class'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
 
         ], '*', [
