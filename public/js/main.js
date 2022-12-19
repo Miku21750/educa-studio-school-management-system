@@ -1500,7 +1500,7 @@ $('#show_hostel').on('click', '.hostel_detail', function () {
       $('[name="id_hostel"]').val(data.id_hostel);
       $('[name="ehostel_name"]').val(data.hostel_name);
       $('[name="eroom_number"]').val(data.room_number);
-      $('[name="eroom_type"]').val(data.room_type);
+      $('[name="eroom_type"]').val(data.room_type).change();
       $('[name="enumber_of_bed"]').val(data.number_of_bed);
       $('[name="ecost_per_bed"]').val(data.cost_per_bed);
 
