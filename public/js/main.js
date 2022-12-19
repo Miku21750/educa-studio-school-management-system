@@ -1224,7 +1224,7 @@ $(document).ready(function () {
   hostel();
 
   hostelS = function () {
-    hostelTable = $("#data_hostellS").on('preXhr.dt', function (e, settings, data) {
+    hostelSTable = $("#data_hostellS").on('preXhr.dt', function (e, settings, data) {
 
       console.log('loading ....');
 
@@ -1442,7 +1442,6 @@ $(document).ready(function () {
             $('#eroom_type').val('').change();
             $('#enumber_of_bed').val('');
             $('#ecost_per_bed').val('');
-            hostelTable.draw(false)
             Swal.fire(
               {
                 icon: 'success',
@@ -1450,9 +1449,10 @@ $(document).ready(function () {
                 text: 'Data telah ditambahkan.',
                 //footer: '<a href="">Why do I have this issue?</a>'
               }
-
-            )
-
+              
+              )
+              
+              hostelTable.draw(false)
           })
 
         } else {
