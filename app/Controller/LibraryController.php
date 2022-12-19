@@ -684,13 +684,11 @@ class LibraryController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                <a class="dropdown-item"  ><i
-                class="fas fa-book text-success"></i>
-                <button type="button" class="btn btn-light item_pengembalian" data="' . $m['id_peminjaman'] . '"">
-                Ajukan Pengembalian
-                </button></a>
-                    
+                <div class="dropdown-menu dropdown-menu-right btn btn-light item_pengembalian" data="' . $m['id_peminjaman'] . '">
+                    <a class="dropdown-item"  >
+                        <i class="fas fa-book text-success"></i>
+                        Ajukan Pengembalian
+                    </a>    
                 </div>
                 </div>';                
                 } else {
