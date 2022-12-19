@@ -609,57 +609,7 @@ $(document).ready(function () {
   libary();
 
 
-  libary = function () {
-    Libtable = $("#data_bookS").on('preXhr.dt', function (e, settings, data) {
-
-      console.log('loading ....');
-
-    }).on('draw.dt', function () {
-      console.log('dapat data ....');
-
-    }).DataTable({
-      responsive: {
-        details: {
-          type: 'column'
-        }
-      },
-      "columnDefs": [
-        { "targets": 0, className: "text-center", "orderable": false },
-        { "targets": 1, className: "text-start", "orderable": false },
-        { "targets": 2, className: "text-start", "orderable": false },
-        { "targets": 3, className: "text-start", "orderable": false },
-        { "targets": 4, className: "text-start", "orderable": false },
-        { "targets": 5, className: "text-center", "orderable": false },
-        { "targets": 6, className: "text-center", "orderable": false },
-        { "targets": 7, className: "text-center", "orderable": false },
-
-      ],
-      'pageLength': 10,
-      'responsive': true,
-      'processing': true,
-      'serverSide': true,
-      'ajax': {
-        'url': "/api/library/getBookS",
-        'dataType:': 'json',
-        'type': 'get',
-      },
-      'columns': [
-        { 'data': 'No' },
-        { 'data': 'code_book' },
-        { 'data': 'name_book' },
-        { 'data': 'subject' },
-        { 'data': 'writer' },
-        { 'data': 'class' },
-        { 'data': 'creating_date' },
-        { 'data': 'aksi' }
-
-      ]
-
-
-    });
-
-  }
-  libary();
+  
 
   //GET HAPUS
   $('#show_book').on('click', '.book_remove', function () {
@@ -771,7 +721,6 @@ $(document).ready(function () {
 
             )
           })
-
           Libtable.draw(false)
         } else {
           Swal.fire({

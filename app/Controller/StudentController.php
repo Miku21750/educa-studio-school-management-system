@@ -214,8 +214,8 @@ class StudentController
                             Student Promotion
                         </button></a>
                     
-                    <a class="dropdown-item" href="' . 'api' . '/'  . 'admission' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-sharp fa-solid fa-school text-primary"></i><button type="button" class="btn btn-light"  data="' . $m['id_user'] . '"">
+                    <a class="dropdown-item" ><i
+                            class="fas fa-sharp fa-solid fa-school text-primary"></i><button type="button" class="btn btn-light btn_terima_siswa" id="btn_terima_siswa" data="' . $m['id_user'] . '"">
                             Terima Siswa
                         </button></a>
 
@@ -676,7 +676,7 @@ class StudentController
     {
         $data = $args['data'];
         // return var_dump($data);
-
+        // die(var_dump($data));
 
         $tanggal = date("Y-m-d ");
 
@@ -688,8 +688,10 @@ class StudentController
         ]);
 
 
-        // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/all-students');
+        $json_data = array(
+            "draw" => intval($req->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
     }
 }
