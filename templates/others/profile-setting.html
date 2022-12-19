@@ -3,6 +3,23 @@
 {% set typeFrontEnd = "My Profile" %}
 {% set section_type = "My Profile" %}
 {% block content %}
+{% if changeEmailSuccess == true %}
+<script>
+    Swal.fire(
+        'Berhasil',
+        'Silahkan cek email kamu untuk memproses',
+        'success'
+    )
+</script>
+{% elseif emailChangeSuccess == true %}
+<script>
+    Swal.fire(
+        'Berhasil',
+        'Email kamu berhasil diganti',
+        'success'
+    )
+</script>
+{% endif %}
 <!-- Profile Settings Area Start Here -->
 <div class="card height-auto" id="showDataDetailAccountSetting">
     <div class="card-body">
@@ -136,7 +153,7 @@
                 <div class="item-img">
                     {# <img src="img/figure/student1.jpg" alt="student" /> #}
                     <input type="text" value="{{data.photo_user}}" name="imageDefault" hidden>
-                    <div class="avatar-upload" >
+                    <div class="avatar-upload">
                         <div class="avatar-edit">
                             <input type='file' name="profileImage" id="imageUpload" accept=".png, .jpg, .jpeg" />
                             <label for="imageUpload"></label>
@@ -187,11 +204,11 @@
                         </div>
                     </div>
                     <p>Bio : <br>
-                        <div class="form-group">
-                            <textarea name="data_short_bio" cols="200" rows="5"
-                                class="form-control textarea">{{ data.short_bio }}</textarea>
-                        </div>
-                        {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
+                    <div class="form-group">
+                        <textarea name="data_short_bio" cols="200" rows="5"
+                            class="form-control textarea">{{ data.short_bio }}</textarea>
+                    </div>
+                    {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
                     word moun taiery.Aliquam erat volutpaturabiene natis massa sedde
                     sodale word moun taiery. #}
                     </p>
@@ -262,7 +279,8 @@
                         </div>
                     </div>
                     <input type="submit" value="Simpan Profil" class="btn-lg btn-warning float-right">
-                    <input id="viewAdditionalSetting" value="Additional Setting" class="btn-lg btn-secondary mx-3 float-right">
+                    <input id="viewAdditionalSetting" value="Additional Setting"
+                        class="btn-lg btn-secondary mx-3 float-right">
             </form>
         </div>
     </div>
@@ -270,58 +288,86 @@
 </div>
 <!-- Profile Settings Edit Area End Here -->
 <!-- Profile Additional Settings Edit Area Start Here -->
+
+<!-- Username -->
 <div class="card height-auto" id="editDataAdditionalAccountSetting">
     <div class="card-body">
-        <div class="heading-layout1">
-            <div class="item-title">
-                <h3>Edit Account Additional</h3>
-            </div>
-        </div>
         <div class="single-info-details" style="display: block!important;">
-            <form action="/editDataAdditionalProfile" method="post" class="new-added-form" >
+            <form id="additionalSetting" class="new-added-form">
                 <div class="item-content">
+                    <h1>Additional Setting</h1>
                     <div class="header-inline item-header">
-                        <h3 class="text-dark-medium font-medium">{% if data.first_name == '' %}
-                            {{ data.username }}
-                            {% else %}
-                            {{ data.first_name ~" "~ data.last_name }}
-                            {% endif %}</h3>
-                        <div class="header-elements">
-                            <ul>
-                                <li>
-                                    <a href="" id="viewButtonAdditional"><i class="far fa-edit"></i></a>
-                                </li>
-                            </ul>
-                        </div>
+                        <h3 class="text-dark-medium font-medium">Ubah Username</h3>
                     </div>
                     <div class="row form-group">
                         <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
                         <div class="col-6 my-3">
                             <label for="username">Username</label>
-                            <input type="text" placeholder="" name="username" class="form-control"
+                            <input id="username" type="text" placeholder="" name="username" class="form-control"
                                 value="{{ data.username }}">
                         </div>
-                        <div class="col-6 my-3">
-                            <label for="email">Email:</label>
-                            <input type="email" placeholder="  " name="email" class="form-control"
-                                value="{{ data.email }}">
-                        </div>
-                        {# <input type="text" name="current_password" value="{{data.password}}"> #}
-                        <div class="col-6 my-3">
-                            <label>Password:</label>
-                            <input type="password" placeholder="New Password" name="password" class="form-control">
-                        </div>
-                        <div class="col-6 my-3">
-                            <label>Confirm Password:</label>
-                            <input type="password" placeholder="Confirm Password" name="confirm-pass" class="form-control">
-                        </div>
                     </div>
-                    <input type="submit" value="Simpan Pengaturan" class="btn-lg btn-warning float-right">
+                    <button id="usernameBtn" type="submit" type="button" type="button"
+                        class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah Username</button>
                     {# <input type="submit" value="Additional Setting" class="btn-lg btn-secondary mx-3 float-right"> #}
             </form>
         </div>
     </div>
 </div>
+
+<!-- Email -->
+<div class="card height-auto" id="editDataAdditionalAccountSetting">
+    <div class="card-body">
+        <div class="single-info-details" style="display: block!important;">
+            <form id="additionalSetting" class="new-added-form">
+                <div class="item-content">
+                    <div class="header-inline item-header">
+                        <h3 class="text-dark-medium font-medium">Ubah Email</h3>
+                    </div>
+                    <div class="row form-group">
+                        <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
+                        <div class="col-6 my-3">
+                            <label for="email">Email:</label>
+                            <input id="email" type="email" placeholder="  " name="email" class="form-control"
+                                value="{{ data.email }}">
+                        </div>
+                    </div>
+                    <button id="emailBtn" type="submit" type="button" type="button"
+                        class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah Email</button>
+                    {# <input type="submit" value="Additional Setting" class="btn-lg btn-secondary mx-3 float-right"> #}
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- password -->
+<div class="card height-auto" id="editDataAdditionalAccountSetting">
+    <div class="card-body">
+        <div class="single-info-details" style="display: block!important;">
+            <form id="additionalSetting" class="new-added-form">
+                <div class="item-content">
+                    <div class="header-inline item-header">
+                        <h3 class="text-dark-medium font-medium">Ubah Password</h3>
+                    </div>
+                    <div class="row form-group">
+                        {# <input type="text" name="current_password" value="{{data.password}}"> #}
+                        <div class="col-6 my-3">
+                            <label>Password:</label>
+                            <input id="pass1" type="password" placeholder="New Password" name="password"
+                                class="form-control">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label>Confirm Password:</label>
+                            <input id="pass2" type="password" placeholder="Confirm Password" name="confirm-pass"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <button id="passwordBtn" type="submit" type="button" type="button"
+                        class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah Password</button>
+                    {# <input type="submit" value="Additional Setting" class="btn-lg btn-secondary mx-3 float-right"> #}
+            </form>
+        </div>
+    </div>
 </div>
 <!-- Profile Additional Settings Edit Area End Here -->
 
@@ -400,5 +446,193 @@
             //w.close();
         });
     });
+
+    // emailBtn
+    // usernameBtn
+
+    $("#emailBtn").click(function (e) {
+        // e.preventDefault();
+
+        var username = '{{ data.username }}';
+        var id_user = '{{ data.id_user }}';
+        var email = $("#email").val();
+
+        if (email.length == 0) {
+            Swal.fire({
+                type: 'warning',
+                title: 'Oops...',
+                text: 'Email Tidak Boleh Kosong'
+            });
+
+            return false;
+        }
+        else {
+
+            $.ajax({
+                url: "/ubah-email",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "username": username,
+                    "email": email,
+                    'id_user': id_user
+                },
+                success: function (response) {
+                    // let status = response.status;
+                    console.log(response);
+
+                    // return false;
+
+                    if (status != 'success') {
+                        Swal.fire({
+                            type: 'warning',
+                            title: 'Oops...',
+                            text: 'Email Terdaftar'
+                        });
+                    }
+                    else
+                    {
+                        Swal.fire(
+                            'Verifikasi Email Telah terikirm',
+                            'Silahkan cek email kamu untuk memproses',
+                            'success'
+                        ).then((result)=>{
+                            window.location.reload();
+                        });
+
+                    }
+                },
+            });
+        }
+    });
+
+    $("#usernameBtn").click(function (e) {
+        e.preventDefault();
+
+        var username = $("#username").val();
+        var email = '{{ data.email }}';
+
+        if (username.length == 0) {
+            Swal.fire({
+                type: 'warning',
+                title: 'Oops...',
+                text: 'Username Tidak Boleh Kosong'
+            });
+
+            return false;
+        }
+        else {
+
+            $.ajax({
+                url: "/ubah-username",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "username": username,
+                    "email": email,
+                },
+                success: function (response) {
+                    let status = response.status;
+                    console.log(status);
+
+                    // return false;
+
+                    if (status != 'success') {
+                        Swal.fire({
+                            type: 'warning',
+                            title: 'Oops...',
+                            text: 'Username Terdaftar'
+                        });
+                    }
+                    else
+                    {
+                        Swal.fire(
+                            'Berhasil',
+                            'Username Berhasil Diubah',
+                            'success'
+                        ).then((result)=>{
+                            window.location.reload();
+                        });
+
+                    }
+                },
+            });
+        }
+    });
+
+
+    $("#passwordBtn").click(function (e) {
+        // e.preventDefault();
+
+        var pass1 = $("#pass1").val();
+        var pass2 = $("#pass2").val();
+        var username = '{{ data.username }}';
+
+        if (pass1 != pass2) {
+            Swal.fire({
+                type: 'warning',
+                title: 'Oops...',
+                text: 'Password Tidak Sama!'
+            });
+
+            return false;
+
+
+            // remove attr sesudah submit
+            $(function () {
+                $('.submitBtn').click(function () {
+                    $(':input', '#additionalSetting')
+                        .not(':button, :submit, :reset, :hidden')
+                        .val('')
+                        .removeAttr('checked')
+                        .removeAttr('selected')
+                        .removeAttr('input');
+                });
+            });
+        }
+        if (pass1.length == 0) {
+            Swal.fire({
+                type: 'warning',
+                title: 'Oops...',
+                text: 'Password Tidak Boleh Kosong'
+            });
+
+            return false;
+
+
+            // remove attr sesudah submit
+            $(function () {
+                $('.submitBtn').click(function () {
+                    $(':input', '#additionalSetting')
+                        .not(':button, :submit, :reset, :hidden')
+                        .val('')
+                        .removeAttr('checked')
+                        .removeAttr('selected')
+                        .removeAttr('input');
+                });
+            });
+        }
+        else {
+
+            $.ajax({
+                url: "/ubah-password",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "username": username,
+                    "password": pass1,
+                },
+                success: function (response) {
+                    Swal.fire(
+                        'Berhasil',
+                        'Password Berhasil Diubah',
+                        'success'
+                    );
+                },
+            });
+        }
+    });
+
+
 </script>
 {% endblock content %}
