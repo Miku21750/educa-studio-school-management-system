@@ -203,21 +203,19 @@ class AcconuntController
 
                 $datas['aksi'] = '<div class="dropdown">
 
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i>
-                            <button type="button" class="btn btn-light item_hapus" data="' . $m['id_finance'] . '"">
-                            Hapus
-                        </button></a>
-                        
-                    <a class="dropdown-item " ><i
-                            class="fas fa-solid fa-edit text-orange-peel"></i><button type="button" class="btn btn-light payment_detail"  data="' . $m['id_finance'] . '"" >
-                            Ubah
-                        </button></a>
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_finance'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light payment_detail" data="' . $m['id_finance'] . '">
+                        <i class="fas fa-solid fa-edit text-orange-peel"></i>
+                        Ubah
+                    </a>
                    
                 </div>
             </div>';
@@ -445,19 +443,19 @@ class AcconuntController
                 $datas['date'] = date('j F Y', strtotime($m['date_payment']));
                 $datas['aksi'] = '<div class="dropdown">
 
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_finance'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item " ><i
-                            class="fas fa-solid fa-edit text-orange-peel"></i><button type="button" class="btn btn-light payment_detail"  data="' . $m['id_finance'] . '"" >
-                            Ubah
-                        </button></a>
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_finance'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light payment_detail" data="' . $m['id_finance'] . '">
+                        <i class="fas fa-solid fa-edit text-orange-peel"></i>
+                        Ubah
+                    </a>
                    
                 </div>
             </div>';

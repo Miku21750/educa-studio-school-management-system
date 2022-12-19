@@ -85,7 +85,6 @@ class TransportController
                 $datas['route_name'] = $m['route_name'];
                 $datas['vehicle_number'] = $m['vehicle_number'];
                 $datas['driver_name'] = $m['driver_name'];
-                $datas['license_number'] = $m['license_number'];
                 $datas['phone_number'] = $m['phone_number'];
                 $datas['id_driver'] = $m['id_driver'];
                 $datas['aksi'] = '<div class="dropdown">
@@ -93,15 +92,16 @@ class TransportController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item transport_remove" data="' . $m['id_transport'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                    data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
-                            Hapus
-                        </button></a>
-                    <a class="btn dropdown-item transport_detail" data="' . $m['id_transport'] . '" ><button type="button" id="show_transport"  class="btn btn-light"  data-toggle="modal" data-target="detail_transport"><i
-                            class="fas fa-edit text-dark-pastel-green"></i>
-                            Ubah
-                        </button></a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item transport_remove btn btn-light" class="modal-trigger" data-toggle="modal"
+                    data-target="#confirmation-modal" data="' . $m['id_transport'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a id="show_transport" class="btn dropdown-item transport_detail btn btn-light"  data-toggle="modal" data-target="detail_transport" data="' . $m['id_transport'] . '" >
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
+                        Ubah
+                    </a>
                 </div>
             </div>';
                 $data[] = $datas;

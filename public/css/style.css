@@ -2309,7 +2309,8 @@ ul {
     position: static;
     overflow: visible;
     width: auto;
-    height: 100vh;
+    /* height: 100vh; */
+    height: auto;
   }
 }
 .sidebar-collapsed .nav-bar-header-one {
@@ -3580,6 +3581,7 @@ ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  height: 100vh;
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;

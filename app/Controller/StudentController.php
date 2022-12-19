@@ -169,24 +169,23 @@ class StudentController
                     
                     $datas['aksi'] = '<div class="dropdown">
 
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                            data-target="#large-modal" data="' . $m['id_user'] . '"">
-                            Detail
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'student-promotion' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i><button type="button" class="btn btn-light"  data="' . $m['id_user'] . '"">
-                            Student Promotion
-                        </button></a>   
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        Detail
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'student-promotion' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i>
+                        Student Promotion
+                    </a>   
                 </div>
             </div>';
                 } else if( $_SESSION['type'] != 3) {
@@ -195,29 +194,28 @@ class StudentController
                 }else{
                     $datas['aksi'] = '<div class="dropdown">
 
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                            data-target="#large-modal" data="' . $m['id_user'] . '"">
-                            Detail
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'student-promotion' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i><button type="button" class="btn btn-light"  data="' . $m['id_user'] . '"">
-                            Student Promotion
-                        </button></a>
-                    
-                    <a class="dropdown-item" href="' . 'api' . '/'  . 'admission' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-sharp fa-solid fa-school text-primary"></i><button type="button" class="btn btn-light"  data="' . $m['id_user'] . '"">
-                            Terima Siswa
-                        </button></a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" class="modal-trigger" data-toggle="modal"
+                    data-target="#large-modal" data="' . $m['id_user'] . '" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        Detail
+                    </a>
+                    <a class="dropdown-item btn btn-light"  data="' . $m['id_user'] . '" href="' . 'student-promotion' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i>
+                        Student Promotion
+                    </a>
+                    <a class="dropdown-item btn btn-light btn_terima_siswa" id="btn_terima_siswa" data="' . $m['id_user'] . '">
+                        <i class="fas fa-sharp fa-solid fa-school text-primary"></i>
+                        Terima Siswa
+                    </a>
 
                 </div>
             </div>';
@@ -346,23 +344,21 @@ class StudentController
 
                 if ($admission != null && $_SESSION['type'] == 3) {
                     
-                    $datas['aksi'] = '<div class="dropdown">
+                    $datas['aksi'] = '<div class="dropdown p-3">
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                            data-target="#large-modal" data="' . $m['id_user'] . '"">
-                            Detail
-                        </button></a>
-                    
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        Detail
+                    </a>
                 </div>
             </div>';
                 } else if( $_SESSION['type'] != 3) {
@@ -371,29 +367,27 @@ class StudentController
                 }else{
                     $datas['aksi'] = '<div class="dropdown">
 
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light item_hapus" data="' . $m['id_user'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-solid fa-bars text-orange-peel"></i><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                            data-target="#large-modal" data="' . $m['id_user'] . '"">
-                            Detail
-                        </button></a>
-                    <a class="dropdown-item" href="' . 'student-promotion' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i><button type="button" class="btn btn-light"  data="' . $m['id_user'] . '"">
-                            Student Promotion
-                        </button></a>
-                    
-                    <a class="dropdown-item" href="' . 'api' . '/'  . 'admission' . '/' . $m['id_user']  . '"><i
-                            class="fas fa-sharp fa-solid fa-school text-primary"></i><button type="button" class="btn btn-light"  data="' . $m['id_user'] . '"">
-                            Terima Siswa
-                        </button></a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        Detail
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'student-promotion' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i>
+                        Student Promotion
+                    </a>
+                    <a class="dropdown-item" href="' . 'api' . '/'  . 'admission' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-sharp fa-solid fa-school text-primary"></i>
+                        Terima Siswa
+                    </a>
 
                 </div>
             </div>';
@@ -519,6 +513,8 @@ class StudentController
             }
         }
 
+        
+
         // return var_dump($uploadedFiles);
         $update = $app->db->update('tbl_users', [
             "first_name" => $data['first_name'],
@@ -555,11 +551,14 @@ class StudentController
 
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
+        $email = isset($_SESSION['email']);
+        unset($_SESSION['email']);
         $app->view->render($rsp, 'students/admit-form.html', [
             'student' =>  $student,
             'class' =>  $class,
             'type' => $_SESSION['type'],
-            'berhasil' => $berhasil
+            'berhasil' => $berhasil,
+            'email' => $email,
         ]);
     }
     public static function add_student($app, $req, $rsp, $args)
@@ -589,9 +588,13 @@ class StudentController
                 unlink('../public/uploads/Profile/' . $fileDefault);
             }
         }
+        $cek = $app->db->select('tbl_users', '*', [
+            'email' => $data['email']
+        ]);
 
-        // return var_dump($uploadedFiles);
-        $student = $app->db->insert('tbl_users', [
+        if ($cek == null ) {
+            // return var_dump($uploadedFiles);
+            $student = $app->db->insert('tbl_users', [
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
@@ -609,7 +612,9 @@ class StudentController
             "photo_user" => $addUpdate,
             "id_user_type" => 1,
             "status" => 1,
+            
         ]);
+
         $last_id = $app->db->id();
         $tanggal = date("Y-m-d ");
 
@@ -617,9 +622,17 @@ class StudentController
             "id_user" => $last_id,
             "admission_date" => $tanggal
         ]);
+        $_SESSION['berhasil'] = true;
+
+        }else{
+        $_SESSION['email'] = true;
+
+        }
+
+        
+        
 
         // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
         return $rsp->withRedirect('/admit-form');
     }
     public static function student_promotion($app, $request, $response, $args)
@@ -676,7 +689,7 @@ class StudentController
     {
         $data = $args['data'];
         // return var_dump($data);
-
+        // die(var_dump($data));
 
         $tanggal = date("Y-m-d ");
 
@@ -688,8 +701,10 @@ class StudentController
         ]);
 
 
-        // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
-        return $rsp->withRedirect('/all-students');
+        $json_data = array(
+            "draw" => intval($req->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
     }
 }
