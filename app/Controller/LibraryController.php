@@ -803,7 +803,7 @@ class LibraryController
         $Peminjaman = $app->db->select('tbl_peminjaman', [
             '[><]tbl_books' => 'id_book',
             '[><]tbl_users' => 'id_user',
-            '[><]tbl_classes' => ["tbl_users.id_user" => 'id_class'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
 
         ], '*', [
