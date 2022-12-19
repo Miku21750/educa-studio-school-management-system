@@ -67,7 +67,7 @@
     </div>
     <!-- dataTable book start here -->
     <div class="table-responsive">
-      <table class="table display text-nowrap" id="data_bookS">
+      <table class="table display " id="data_buku">
         <thead class="text-center">
           <tr>
             <th>No</th>
@@ -77,18 +77,24 @@
             <th>Penulis</th>
             <th>Kelas</th>
             <th>Publish</th>
-            <th>upload</th>
-            <!-- <th></th> -->
+            <th>Status</th>
+            <th></th>
           </tr>
         </thead>
-        <tbody id="show_book">
+        <tbody id="show_buku">
 
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
+
 {% endif %}
+
+{% include "library/ajax.html" %}
+{% block ajax %}
+{% endblock ajax %}
 
 {% include "library/modal-edit-book.html" %}
 {% block modal %}

@@ -686,17 +686,40 @@ class ExamController
         $kelas = $app->db->select('tbl_users', 'id_class', [
             'id_user' => $_SESSION['id_user']
         ]);
+        $bagian = $app->db->select(
+            'tbl_sections', 'id_section', [
+                'id_class' => $kelas
+            ]
+        );
+        $result = $app->db->select(
+            'tbl_exam_results',
+            [
+                '[><]tbl_exams' => 'id_exam',
+                '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+                '[><]tbl_sections' => 'id_section',
+                '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+                '[><]tbl_users' => 'id_user',
+                '[><]tbl_exam_grades' => 'id_exam_grade',
+            ],
+            '*',
+            [
+                'tbl_users.id_class' => $kelas,
+                // 'id_section' => $bagian
+            ]
+        );
 
-        $result = $app->db->select('tbl_exam_results', [
-            '[><]tbl_exams' => 'id_exam',
-            '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
-            '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
-            '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
-            '[><]tbl_users' => 'id_user',
-            '[><]tbl_exam_grades' => 'id_exam_grade',
-        ], '*', [
-            'tbl_users.id_class' => $kelas
-        ]);
+        // $result = $app->db->debug()->select('tbl_users', [
+        //     '[><]tbl_exams' => ['id_class' => 'id_exam'],
+        //     '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+        //     '[><]tbl_sections' => 'id_section',
+        //     '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+        //     '[><]tbl_exam_results' => 'id_user',
+        //     '[><]tbl_exam_grades' => 'id_exam_grade',
+        // ], 
+        // '*'
+        // , [
+        //     'tbl_users.id_class' => $kelas
+        // ]);
 
         $columns = array(
             0 => 'id',
