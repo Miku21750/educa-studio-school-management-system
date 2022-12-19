@@ -127,15 +127,16 @@ class ExamController
                         aria-expanded="false">
                         <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item exam_remove" data="' . $m['id_exam'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                        data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
-                                Hapus
-                            </button></a>
-                        <a class="btn dropdown-item exam_detail" data="' . $m['id_exam'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
-                                class="fas fa-edit text-dark-pastel-green"></i>
-                                Ubah
-                            </button></a>
+                    <div class="dropdown-menu dropdown-menu-right p-3">
+                        <a class="dropdown-item exam_remove btn btn-light" class="modal-trigger" data-toggle="modal"
+                        data-target="#confirmation-modal" data="' . $m['id_exam'] . '">
+                            <i class="fas fa-trash text-orange-red"></i>
+                            Hapus
+                        </a>
+                        <a class="btn dropdown-item exam_detail btn btn-light"  data-toggle="modal" data-target="detail_book" id="show_book" data="' . $m['id_exam'] . '" >
+                            <i class="fas fa-edit text-dark-pastel-green"></i>
+                            Ubah
+                        </a>
                     </div>
                 </div>';
                 $data[] = $datas;
@@ -654,15 +655,15 @@ class ExamController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item"  ><i
-                            class="fas fa-trash text-orange-red"></i><button type="button" class="btn btn-light hapus item_hapus" data="' . $m['id_result'] . '"">
-                            Hapus
-                        </button></a>
-                    <a class="dropdown-item " ><i
-                            class="fas fa-solid fa-edit text-orange-peel"></i><button type="button" class="btn btn-light result_detail"  data="' . $m['id_result'] . '"" >
-                            Ubah
-                        </button></a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item" btn btn-light hapus item_hapus" data="' . $m['id_result'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light result_detail"  data="' . $m['id_result'] . '">
+                        <i class="fas fa-solid fa-edit text-orange-peel"></i>
+                        Ubah
+                    </a>
                    
                 </div>
             </div>';

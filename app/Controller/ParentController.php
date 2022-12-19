@@ -114,7 +114,7 @@ class ParentController
                         <a class="dropdown-item mt-3" href="' . 'api' . '/' . 'parent-detail' . '/' . $m['id_user']  . '">
                             <i class="fas fa-solid fa-bars text-orange-peel"></i>
                             Detail
-                       </a>
+                        </a>
                     </div>
                 </div>';
                 }else{

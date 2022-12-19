@@ -163,7 +163,7 @@ class DashboardAdminController
         
         return $res->withJson([
             'in' => $in,
-            'out' => $out
+            'out' => $out,
         ]);
     }
 }

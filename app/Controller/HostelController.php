@@ -86,21 +86,22 @@ class HostelController
                 $datas['room_number'] = $m['room_number'];
                 $datas['room_type'] = $m['room_type'];
                 $datas['number_of_bed'] = $m['number_of_bed'];
-                $datas['cost_per_bed'] = number_format($m['cost_per_bed'],0,',','.');
+                $datas['cost_per_bed'] = 'Rp '. number_format($m['cost_per_bed'],0,',','.');
                 $datas['aksi'] =  '<div class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item hostel_remove" data="' . $m['id_hostel'] . '"><button type="button" class="btn btn-light" class="modal-trigger" data-toggle="modal"
-                    data-target="#confirmation-modal"><i class="fas fa-trash text-orange-red"></i>
-                            Hapus
-                        </button></a>
-                    <a class="btn dropdown-item hostel_detail" data="' . $m['id_hostel'] . '" ><button type="button" id="show_book"  class="btn btn-light"  data-toggle="modal" data-target="detail_book"><i
-                            class="fas fa-edit text-dark-pastel-green"></i>
-                            Ubah
-                        </button></a>
+                    <a class="dropdown-item hostel_remove btn btn-light" class="modal-trigger" data-toggle="modal"
+                    data-target="#confirmation-modal" data="' . $m['id_hostel'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a id="show_book" class="btn dropdown-item hostel_detail btn btn-light"  data-toggle="modal" data-target="detail_book" data="' . $m['id_hostel'] . '" >
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
+                        Ubah
+                    </a>
                 </div>
             </div>';
                 $data[] = $datas;
@@ -181,7 +182,7 @@ class HostelController
                 $datas['room_number'] = $m['room_number'];
                 $datas['room_type'] = $m['room_type'];
                 $datas['number_of_bed'] = $m['number_of_bed'];
-                $datas['cost_per_bed'] = number_format($m['cost_per_bed'],0,',','.');
+                $datas['cost_per_bed'] = 'Rp '. number_format($m['cost_per_bed'],0,',','.');
             //     $datas['aksi'] =  '<div class="dropdown">
             //     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
             //         aria-expanded="false">
