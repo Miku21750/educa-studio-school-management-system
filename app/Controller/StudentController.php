@@ -514,6 +514,8 @@ class StudentController
             }
         }
 
+        
+
         // return var_dump($uploadedFiles);
         $update = $app->db->update('tbl_users', [
             "first_name" => $data['first_name'],
@@ -550,11 +552,14 @@ class StudentController
 
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
+        $email = isset($_SESSION['email']);
+        unset($_SESSION['email']);
         $app->view->render($rsp, 'students/admit-form.html', [
             'student' =>  $student,
             'class' =>  $class,
             'type' => $_SESSION['type'],
-            'berhasil' => $berhasil
+            'berhasil' => $berhasil,
+            'email' => $email,
         ]);
     }
     public static function add_student($app, $req, $rsp, $args)
@@ -584,9 +589,13 @@ class StudentController
                 unlink('../public/uploads/Profile/' . $fileDefault);
             }
         }
+        $cek = $app->db->select('tbl_users', '*', [
+            'email' => $data['email']
+        ]);
 
-        // return var_dump($uploadedFiles);
-        $student = $app->db->insert('tbl_users', [
+        if ($cek == null ) {
+            // return var_dump($uploadedFiles);
+            $student = $app->db->insert('tbl_users', [
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
@@ -604,7 +613,9 @@ class StudentController
             "photo_user" => $addUpdate,
             "id_user_type" => 1,
             "status" => 1,
+            
         ]);
+
         $last_id = $app->db->id();
         $tanggal = date("Y-m-d ");
 
@@ -612,9 +623,17 @@ class StudentController
             "id_user" => $last_id,
             "admission_date" => $tanggal
         ]);
+        $_SESSION['berhasil'] = true;
+
+        }else{
+        $_SESSION['email'] = true;
+
+        }
+
+        
+        
 
         // return var_dump($tanggal);
-        $_SESSION['berhasil'] = true;
         return $rsp->withRedirect('/admit-form');
     }
     public static function student_promotion($app, $request, $response, $args)
