@@ -741,7 +741,7 @@ return function (App $app) {
                     ]);
                 }
             );
-            $app->get(
+            $app->POST(
                 '/admission/{id}',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $args['id'];

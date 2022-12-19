@@ -10,7 +10,7 @@ class DashboardTeacherController
     public static function hitungUjian($app, $request, $response, $args, $Pelajaran)
     {
         // Pelajaran Lihat di daftar mata pekajaran
-        $response = $app->db->count("tbl_exams");
+        $response = $app->db->count("tbl_exam_results");
         return $response;
     }
 
@@ -20,8 +20,8 @@ class DashboardTeacherController
             $response = $app->db->count('tbl_users', ["id_user_type" => "1", "gender" => "Laki-laki"]);
         } elseif ($gender == "Perempuan") {
             $response = $app->db->count('tbl_users', ["id_user_type" => "1", "gender" => "Perempuan"]);
-        } else {
-            $response = $app->db->count('tbl_users', ["id_user_type" => "1"]);
+        } elseif ($gender == "Semua") {
+            $response = $app->db->count('tbl_users','*', ["id_user_type" => "1"]);
         }
 
         return $response;
@@ -49,7 +49,13 @@ class DashboardTeacherController
 
     public static function view($app, $request, $response, $args)
     {
-        $siswaTotal = DashboardTeacherController::hitungSiswa($app, $request, $response, $args, null);
+        $Totalsiswa = $app->db->count('tbl_users', [
+            "[><]tbl_classes" => "id_class"
+        ],'*', [
+            "id_user_type" => 1,
+            "class[!]" => 'Lulus',
+        ]);
+
         $siswaLakiLaki = $siswaTotal = DashboardTeacherController::hitungSiswa($app, $request, $response, $args, "Laki-laki");
         $siswaPerempuan = $siswaTotal = DashboardTeacherController::hitungSiswa($app, $request, $response, $args, "Perempuan");
         $totalUjian = DashboardTeacherController::hitungUjian($app, $request, $response, $args, null);
@@ -73,6 +79,7 @@ class DashboardTeacherController
             'username' => $_SESSION['username'],
             'siswaTotal' => $siswaTotal,
             'siswaLulus' => $totallulus,
+            'Totalsiswa' => $Totalsiswa,
             'ujianTotal' => $totalUjian,
             'pendapatanTotal' => 'Rp ' . number_format($pendapatanTotal,0,',','.'),
             'siswaLakiLaki' => $siswaLakiLaki,

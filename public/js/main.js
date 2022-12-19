@@ -199,6 +199,17 @@
     }
 
     function drawChart(data, ifExist) {
+      let totalIn = data.in.reduce((val, nilaiSekarang) => {
+        return val + nilaiSekarang
+      }, 0)
+
+      let totalOut = data.out.reduce((val, nilaiSekarang) => {
+        return val + nilaiSekarang
+      }, 0)
+      
+      $('#in').attr('data-num',totalIn).html(new Intl.NumberFormat('id-ID').format(totalIn));
+      $('#out').attr('data-num',totalOut).html(new Intl.NumberFormat('id-ID').format(totalOut));
+
       for (let i = 1; i <= 12; i++) {
         if (data.in[i] == null) {
           data.in[i] = 0;
@@ -771,7 +782,6 @@ $(document).ready(function () {
 
             )
           })
-
           Libtable.draw(false)
         } else {
           Swal.fire({
@@ -807,7 +817,7 @@ $('#show_book').on('click', '.book_detail', function () {
       $('[name="ebook_name"]').val(data[0].name_book);
       $('[name="esubject"]').val(data[0].id_subject).change();
       $('[name="ewriter_book"]').val(data[0].writer_book);
-      $('[name="eclass"]').val(data[0].id_class).change();
+      $('[name="eclass_book"]').val(data[0].id_class).change();
       $('[name="epublish_date"]').val(data[0].publish_date);
       $('[name="eupload_date"]').val(data[0].upload_date);
       $('[name="ecode_book"]').val(data[0].code_book);
@@ -837,13 +847,12 @@ $(document).ready(function () {
       },
       "columnDefs": [
         { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 1, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 1, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 2, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 4, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
-        { "width": "15%", "targets": 6, className: "text-center", "orderable": false },
-        { "width": "15%", "targets": 7, className: "text-center", "orderable": false }
+        { "width": "15%", "targets": 5, className: "text-end", "orderable": false },
+        { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -861,7 +870,6 @@ $(document).ready(function () {
         { 'data': 'route_name' },
         { 'data': 'vehicle_number' },
         { 'data': 'driver_name' },
-        { 'data': 'license_number' },
         { 'data': 'phone_number' },
         { 'data': 'aksi' }
 
@@ -1184,7 +1192,7 @@ $(document).ready(function () {
         { "width": "1%", "targets": 2, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 3, className: "text-center", "orderable": false },
         { "width": "1%", "targets": 4, className: "text-center", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 5, className: "text-right", "orderable": false },
         { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
 
       ],
@@ -1234,7 +1242,7 @@ $(document).ready(function () {
         { "targets": 2, className: "text-center", "orderable": false },
         { "targets": 3, className: "text-center", "orderable": false },
         { "targets": 4, className: "text-center", "orderable": false },
-        { "targets": 5, className: "text-center", "orderable": false },
+        { "targets": 5, className: "text-right", "orderable": false },
         // { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
 
       ],
