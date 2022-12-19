@@ -2,6 +2,68 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
+        libary = function () {
+            Buku = $("#data_buku").on('preXhr.dt', function (e, settings, data) {
+
+                console.log('loading ....');
+
+            }).on('draw.dt', function () {
+                console.log('dapat data ....');
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-start", "orderable": false },
+                    { "targets": 5, className: "text-center", "orderable": false },
+                    { "targets": 6, className: "text-center", "orderable": false },
+                    { "targets": 7, className: "text-center", "orderable": false },
+                    { "targets": 8, className: "text-center", "orderable": false },
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/library/getBookS",
+                    'dataType:': 'json',
+                    'type': 'get',
+                },
+                'columns': [
+                    { 'data': 'No' },
+                    { 'data': 'code_book' },
+                    { 'data': 'name_book' },
+                    { 'data': 'subject' },
+                    { 'data': 'writer' },
+                    { 'data': 'class' },
+                    { 'data': 'creating_date' },
+                    { 'data': 'status' },
+                    { 'data': 'aksi' }
+
+                ]
+
+
+            });
+
+        }
+        libary();
+
+
+
+
+
+
+
+
+
         var id = $('#idd').attr('data-result');
         Siswa = function () {
 
@@ -99,9 +161,11 @@
                     { 'data': 'id_buku' },
                     { 'data': 'judul' },
                     { 'data': 'penulis' },
+                    { 'data': 'status' },
                     { 'data': 'tanggal_pinjam' },
                     { 'data': 'tanggal_pengembalian' },
-                    { 'data': 'status' },
+                    { 'data': 'telat' },
+                    { 'data': 'denda' },
                     { 'data': 'aksi' },
                 ]
 
@@ -112,28 +176,20 @@
 
         }
 
-        
+
         Admin(false)
 
-        //GET HAPUS
-        $('#show_result').on('click', '.item_hapus', function () {
-            var id = $(this).attr('data');
-            $('#hapus-modal').modal('show');
-            $('[name="kode"]').val(id);
-        });
-
-
         //Hapus Data
-        $('#btn_hapus_result').on('click', function () {
-            var kode = $('#textkode').val();
+        $('#btn_remove_pinjam').on('click', function () {
+            var kode = $('#id_peminjaman').val();
             $.ajax({
                 type: "POST",
-                url: "/api/delete-result",
+                url: "/api/delete-peminjaman",
                 dataType: "JSON",
                 data: { kode: kode },
                 success: function (data) {
                     if (data) {
-                        $('#hapus-modal').modal('hide');
+                        $('#hapus-pinjam-modal').modal('hide');
                         let timerInterval
                         Swal.fire({
                             title: 'Memuat Data...',
@@ -152,7 +208,7 @@
                             }
 
                         }).then((result) => {
-                            Result.draw(false)
+                            Admin.draw(false)
 
                             Swal.fire(
                                 {
@@ -181,31 +237,24 @@
             return false;
         });
 
-        // RESET BUTTON
-        $('#reset').click(function (e) {
-            e.preventDefault();
-            $('#siswa').val(0).change();
-            $('#exam_name').val(0).change();
-            $('#ScoreExamInput').val('');
-            $('#gradeExam').val(0).change()
-
+        //GET Pinjam
+        $('#show_buku').on('click', '.item_pinjam', function () {
+            var id = $(this).attr('data');
+            $('#pinjam-modal').modal('show');
+            $('[name="pinjam"]').val(id);
         });
 
-        //tambah Data
-        $('#btn_add_exam_result').on('click', function () {
-            var id_siswa = $('#siswa').val();
-            var id_exam = $('#exam_name').val();
-            var score = $('#ScoreExamInput').val();
-            var id_grade = $('#gradeExam').val();
-            console.log(exam_name)
+        //Pinjam Buku
+        $('#btn_pinjam').on('click', function () {
+            var kode = $('#pinjam').val();
             $.ajax({
                 type: "POST",
-                url: "/api/exam/add-exam-result",
+                url: "/api/pinjam",
                 dataType: "JSON",
-                data: { id_siswa: id_siswa, id_exam: id_exam, score: score, id_grade: id_grade },
+                data: { kode: kode },
                 success: function (data) {
                     if (data) {
-                        console.log(data)
+                        $('#pinjam-modal').modal('hide');
                         let timerInterval
                         Swal.fire({
                             title: 'Memuat Data...',
@@ -222,29 +271,21 @@
                             willClose: () => {
                                 clearInterval(timerInterval)
                             }
+
                         }).then((result) => {
-
-                            Result.draw(false)
-
-                            $('#siswa').val(0).change();
-                            $('#exam_name').val(0).change();
-                            $('#ScoreExamInput').val('');
-                            $('#gradeExam').val(0).change()
-
-
-
-
+                            Buku.draw(false)
                             Swal.fire(
                                 {
                                     icon: 'success',
                                     title: 'Berhasil',
-                                    text: 'Data telah ditambahkan.',
-                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                    text: 'Data telah dihapus.',
                                 }
 
                             )
+                            Buku.draw(false)
 
                         })
+
 
                     } else {
                         Swal.fire({
@@ -255,38 +296,45 @@
                         })
                     }
 
+
+
                 }
             });
-
             return false;
         });
 
+        //GET HAPUS
+        $('#show_pinjam').on('click', '.item_hapus', function () {
+            var id = $(this).attr('data');
+            $('#hapus-pinjam-modal').modal('show');
+            $('[name="id_peminjaman"]').val(id);
+        });
 
-
-
-
-
-        //Show_Nilai_Ujian
-        $('#show_result').on('click', '.result_detail', function () {
+        //Show_Pinjam_Buku
+        $('#show_pinjam').on('click', '.item_ubah_pinjam', function () {
             var id = $(this).attr('data');
             $.ajax({
                 type: "GET",
-                url: "/" + "api" + "/" + id + "/result-detail",
+                url: "/" + "api" + "/" + id + "/pinjam-detail",
                 dataType: "JSON",
                 data: { id: id },
                 success: function (data) {
-
-                    // $.each(data, function (key, val) {
                     console.log(data);
-                    $('#detail-result').on('shown.bs.modal', function (e) {
-                        $('#mScoreExamInput').focus();
+                    $('#detail-pinjam').on('shown.bs.modal', function (e) {
+                        // $('#mScoreExamInput').focus();
                     }).modal('show');
 
-                    $('[name="id_result"]').val(data.id_result);
-                    $('[name="id_user"]').val(data.id_user).change();
-                    $('[name="id_exam"]').val(data.id_exam).change();
-                    $('[name="id_grade"]').val(data.id_exam_grade).change();
-                    $('[name="mScore"]').val(data.score);
+                    $('[name="id_peminjaman"]').val(data.id_peminjaman);
+                    $('[name="judul"]').val(data.name_book);
+                    $('[name="id_buku"]').val(data.code_book);
+                    $('[name="NISN"]').val(data.NISN);
+                    $('[name="nama"]').val(data.first_name + ' ' + data.last_name);
+                    $('[name="penulis"]').val(data.writer_book);
+                    $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
+                    $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
+                    $('[name="ket"]').val(data.ket).change();
+                    $('[name="id_book"]').val(data.id_book).change();
+
 
                     // });
                 }
@@ -294,21 +342,22 @@
             return false;
         });
 
-        //Update Result
-        $('#btn_update_result_edit').click(function (e) {
-            var id_result = $('#id_result').val();
-            var id_user = $('#id_user').val();
-            var id_exam = $('#mexam_name').val();
-            var score = $('#mScoreExamInput').val();
-            var id_exam_grade = $('#mgradeExam').val();
+        //Update Peminjaman
+        $('#btn_update_pinjam').click(function (e) {
+            var id_peminjaman = $('#id_peminjaman').val();
+            var tgl_pinjam = $('#tgl_pinjam').val();
+            var ket = $('#ket').val();
+            var id_book = $('#id_book').val();
+
             $.ajax({
                 type: "POST",
-                url: "/api/update-result-detail",
+                url: "/api/update-peminjaman",
                 dataType: "JSON",
-                data: { id_user: id_user, id_result: id_result, id_exam: id_exam, score: score, id_exam_grade: id_exam_grade },
+                data: { id_peminjaman: id_peminjaman, tgl_pinjam: tgl_pinjam, ket: ket, id_book: id_book },
                 success: function (data) {
                     if (data) {
-                        $('#detail-result').modal('hide');
+                        $('#detail-pinjam').modal('hide');
+
                         let timerInterval
                         Swal.fire({
                             title: 'Memuat Data...',
@@ -326,7 +375,7 @@
                                 clearInterval(timerInterval)
                             }
                         }).then((result) => {
-                            Result.draw(false)
+                            Admin.draw(false)
                             Swal.fire(
                                 {
                                     icon: 'success',
