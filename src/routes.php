@@ -404,7 +404,7 @@ return function (App $app) {
                     $app->get(
                         '/getExamS',
                         function (Request $request, Response $response, array $args) use ($app) {
-                            return ExamController::tampil_dataS ($this, $request, $response, $args);
+                            return ExamController::tampil_dataS($this, $request, $response, $args);
                         }
                     );
 
@@ -430,7 +430,7 @@ return function (App $app) {
                             return ExamController::detail($this, $request, $response, $data);
                         }
                     );
-                    
+
                     $app->get(
                         '/{id}/grade-detail',
                         function (Request $request, Response $response, array $args) use ($app) {
@@ -591,7 +591,7 @@ return function (App $app) {
             $app->get(
                 '/allclassroutineguru',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return $response->withJson(ClassRoutineController::view_data_classroutineguru($this, $request, $response, $args));  
+                    return $response->withJson(ClassRoutineController::view_data_classroutineguru($this, $request, $response, $args));
                 }
             );
             $app->post(
@@ -916,6 +916,46 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
                     // return var_dump($data);
                     return LibraryController::tampil_data_peminjaman($this, $request, $response, $args);
+                }
+            );
+            $app->post(
+                '/pinjam',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return LibraryController::pinjam($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/delete-peminjaman',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return LibraryController::delete_peminjaman($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->get(
+                '/{id}/pinjam-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return LibraryController::peminjaman_detail($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/update-peminjaman',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return LibraryController::update_peminjaman($this, $request, $response, [
+                        'data' => $data
+                    ]);
                 }
             );
         }
@@ -1368,23 +1408,22 @@ return function (App $app) {
                     ]
                 ]);
                 return $response->withJson(array(
-                    'viewStudentAttend' => $viewStudentAttend, 
-                    'dateStudentAttend' => $tanggal, 
-                    'subjectStudentAttend' => $subjectStudentAttend, 
+                    'viewStudentAttend' => $viewStudentAttend,
+                    'dateStudentAttend' => $tanggal,
+                    'subjectStudentAttend' => $subjectStudentAttend,
                     'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
                     'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
                     'typeUser' => $_SESSION['type']
                 ));
             } else {
                 return $response->withJson(array(
-                    'viewStudentAttend' => $viewStudentAttend, 
-                    'dateStudentAttend' => $tanggal, 
-                    'subjectStudentAttend' => $subjectStudentAttend, 
+                    'viewStudentAttend' => $viewStudentAttend,
+                    'dateStudentAttend' => $tanggal,
+                    'subjectStudentAttend' => $subjectStudentAttend,
                     'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
                     'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
                     'typeUser' => $_SESSION['type'],
                 ));
-                
             }
         }
     )->add(new Auth());
@@ -1487,39 +1526,38 @@ return function (App $app) {
                     'id_notification' => 'DESC',
                 ],
             ];
-            
+
             if (!empty($request->getParam('search'))) {
                 $search = $request->getParam('search');
                 $condition['OR'] = [
                     'title[~]' => '%' . $search . '%',
                     'date_notice' => Medoo::raw("1 OR (date_notice BETWEEN '" . $search . "' AND '" . $search . " 23:59:59')"),
                 ];
-            }else if(!empty($_SESSION['type'])){
+            } else if (!empty($_SESSION['type'])) {
                 $user_type = $_SESSION['type'];
-                if($user_type != '3'){
-                    switch($user_type){
-                        case '1':{
+                if ($user_type != '3') {
+                    switch ($user_type) {
+                        case '1': {
                                 $condition += [
-                                    'category[!]'=>['Pembayaran_SPP','Pembayaran_Gaji']
+                                    'category[!]' => ['Pembayaran_SPP', 'Pembayaran_Gaji']
                                 ];
-                        }
-                        break;
-                        case '2':{
+                            }
+                            break;
+                        case '2': {
                                 $condition += [
-                                    'category[!]'=>'Pembayaran_SPP'
+                                    'category[!]' => 'Pembayaran_SPP'
                                 ];
-                        }
-                        break;
-                        case '4':{
+                            }
+                            break;
+                        case '4': {
                                 $condition += [
-                                    'category'=>['Pembayaran_SPP','Exam']
+                                    'category' => ['Pembayaran_SPP', 'Exam']
                                 ];
-                        }
-                        break;
-                        default:{
-
-                        }
-                        break;
+                            }
+                            break;
+                        default: {
+                            }
+                            break;
                     }
                 }
             }
@@ -1541,25 +1579,25 @@ return function (App $app) {
                     // 'category[!]' => 'Pembayaran' 
                 ],
             ];
-            
-            if($_SESSION['type'] == 1){
+
+            if ($_SESSION['type'] == 1) {
                 $category = [
-                    'category[!]' => ['Pembayaran_Gaji','Pembayaran_SPP']
+                    'category[!]' => ['Pembayaran_Gaji', 'Pembayaran_SPP']
                 ];
-            }elseif($_SESSION['type'] == 4){
+            } elseif ($_SESSION['type'] == 4) {
                 $category = [
-                    'category' => ['Pembayaran_SPP','Exam']
+                    'category' => ['Pembayaran_SPP', 'Exam']
                 ];
-            }elseif($_SESSION['type'] == 3){
+            } elseif ($_SESSION['type'] == 3) {
                 $category = [
-                    'category' => ['Pembayaran_SPP','Pembayaran_Gaji','Exam','Event','Pengumuman_Sekolah']
+                    'category' => ['Pembayaran_SPP', 'Pembayaran_Gaji', 'Exam', 'Event', 'Pengumuman_Sekolah']
                 ];
-            }else{
+            } else {
                 $category = [
-                    'category' => ['Pembayaran_Gaji','Exam','Event']
+                    'category' => ['Pembayaran_Gaji', 'Exam', 'Event']
                 ];
             }
-            
+
             $dataNotice = $container->db->select('tbl_notifications', '*', $category, $condition);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
@@ -1611,16 +1649,16 @@ return function (App $app) {
             $dataRequest = $request->getParsedBody();
             // return var_dump($dataRequest);
             $dateEvent = $dataRequest['date_event'];
-            if($dateEvent = ''){
+            if ($dateEvent = '') {
                 $dateEvent = 0;
             }
             $sendNotice = $container->db->insert('tbl_notifications', [
                 'title' => $dataRequest['title'],
                 'details' => $dataRequest['details'],
                 'posted_by' => $dataRequest['UserType'],
-                'date_event'=>$dataRequest['date_event'],
+                'date_event' => $dataRequest['date_event'],
                 'category' => $dataRequest['category'],
-                
+
             ]);
             return $response->withJson(array('success' => true));
             // $container->view->render($response, 'others/notice-board.html', $args);
@@ -1633,17 +1671,17 @@ return function (App $app) {
             $dataRequest = $request->getParsedBody();
             //return var_dump($dataRequest);
             $dateEvent = $dataRequest['date_event'];
-            if($dateEvent = ''){
+            if ($dateEvent = '') {
                 $dateEvent = 0;
             }
             $sendNotice = $container->db->update('tbl_notifications', [
                 'title' => $dataRequest['title'],
                 'details' => $dataRequest['details'],
                 'posted_by' => $dataRequest['UserType'],
-                'date_event'=>$dataRequest['date_event'],
+                'date_event' => $dataRequest['date_event'],
                 'category' => $dataRequest['category'],
-            ],[
-                'id_notification'=> $dataRequest['id']
+            ], [
+                'id_notification' => $dataRequest['id']
             ]);
             return $response->withJson(array('success' => true));
             // $container->view->render($response, 'others/notice-board.html', $args);
@@ -1654,8 +1692,8 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $dataRequest = $request->getParsedBody();
-            $delete = $container->db    ->delete('tbl_notifications', [
-                'id_notification'=>$dataRequest['id_notification']
+            $delete = $container->db->delete('tbl_notifications', [
+                'id_notification' => $dataRequest['id_notification']
             ]);
             //return var_dump($delete);
             return $response->withJson(array('success' => true));
@@ -2084,16 +2122,18 @@ return function (App $app) {
             return $response->withRedirect('/all-account');
         }
     );
-    $app->post('/editDataAdditionalProfile', function (Request $request, Response $response, array $args) use ($container) {
-        $data = $request->getParsedBody();
-        // return var_dump($data);
-        $delete = $container->db->delete('tbl_users', [
-            'id_user' => $data['id'],
-        ]);
-        return $response->withJson(array("success"));
+    $app->post(
+        '/editDataAdditionalProfile',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParsedBody();
+            // return var_dump($data);
+            $delete = $container->db->delete('tbl_users', [
+                'id_user' => $data['id'],
+            ]);
+            return $response->withJson(array("success"));
 
-        // return var_dump($data);
-    }
+            // return var_dump($data);
+        }
     );
     $app->post(
         '/account-delete-data',
@@ -2248,7 +2288,7 @@ return function (App $app) {
             if ($type == 4) {
                 $type = "Parent";
                 $id_parent = $_SESSION['id_user'];
-                
+
                 return DashbordParentController::index($this, $request, $response, [
                     'user' => $_SESSION['user'],
                     'type' => $type,
