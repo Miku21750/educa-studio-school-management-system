@@ -410,7 +410,7 @@ class LibraryController
             [
                 '[><]tbl_books' => 'id_book',
                 '[><]tbl_users' => 'id_user',
-                '[><]tbl_classes' => ["tbl_users.id_user" => 'id_class'],
+                '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
                 '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
 
             ],
@@ -451,7 +451,7 @@ class LibraryController
                 [
                     '[><]tbl_books' => 'id_book',
                     '[><]tbl_users' => 'id_user',
-                    '[><]tbl_classes' => ["tbl_users.id_user" => 'id_class'],
+                    '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
                     '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
 
                 ],
@@ -468,7 +468,7 @@ class LibraryController
             [
                 '[><]tbl_books' => 'id_book',
                 '[><]tbl_users' => 'id_user',
-                '[><]tbl_classes' => ["tbl_users.id_user" => 'id_class'],
+                '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
                 '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
 
             ],
@@ -563,14 +563,14 @@ class LibraryController
         $book = $app->db->select(
             'tbl_peminjaman',
             [
-                '[><]tbl_books' => 'id_book',
                 '[><]tbl_users' => 'id_user',
-                '[><]tbl_classes' => ["tbl_users.id_user" => 'id_class'],
+                '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
                 '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
+                '[><]tbl_books' => 'id_book',
 
             ],
             '*',[
-                'id_user' => $id_user
+                'tbl_users.id_user' => $id_user,
             ]
         );
         // return  var_dump($book);
@@ -607,7 +607,7 @@ class LibraryController
                 [
                     '[><]tbl_books' => 'id_book',
                     '[><]tbl_users' => 'id_user',
-                    '[><]tbl_classes' => ["tbl_users.id_user" => 'id_class'],
+                    '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
                     '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
 
                 ],
@@ -623,7 +623,7 @@ class LibraryController
             [
                 '[><]tbl_books' => 'id_book',
                 '[><]tbl_users' => 'id_user',
-                '[><]tbl_classes' => ["tbl_users.id_user" => 'id_class'],
+                '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
                 '[><]tbl_sections' => ["tbl_classes.id_section" => 'id_section'],
 
             ],
