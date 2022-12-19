@@ -270,8 +270,8 @@ class ClassController
                 $datas['gender'] = $i['gender'];
                 $datas['kelas'] = $i['class'];
                 $datas['bagian'] = $i['section'];
-                $datas['phone_user'] = $i['phone_user'];
-                $datas['email'] = $i['email'];
+                // $datas['phone_user'] = $i['phone_user'];
+                // $datas['email'] = $i['email'];
 
 
                 $data[] = $datas;

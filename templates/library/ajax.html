@@ -64,10 +64,10 @@
 
 
 
-        var id = $('#idd').attr('data-result');
+        var id = $('#id_user').attr('data-pinjam');
         Siswa = function () {
 
-            table2 = $("#Result").on('preXhr.dt', function (e, settings, data) {
+            Siswa = $("#data_peminjaman_siswa").on('preXhr.dt', function (e, settings, data) {
 
 
             }).on('draw.dt', function () {
@@ -86,6 +86,9 @@
                     { "targets": 4, className: "text-center", "orderable": false },
                     { "targets": 5, className: "text-end", "orderable": false },
                     { "targets": 6, className: "text-end", "orderable": false },
+                    { "targets": 7, className: "text-end", "orderable": false },
+                    { "targets": 8, className: "text-end", "orderable": false },
+                    { "targets": 9, className: "text-end", "orderable": false },
 
                 ],
                 'pageLength': 10,
@@ -93,20 +96,25 @@
                 'processing': true,
                 'serverSide': true,
                 'ajax': {
-                    'url': "/api" + "/" + id + "/result",
+                    'url': "/api" + "/" + id + "/pinjam_siswa",
                     'dataType:': 'json',
                     'type': 'get',
 
                 },
                 'columns': [
+                    { 'data': 'no' },
                     { 'data': 'nisn' },
                     { 'data': 'nama' },
-                    { 'data': 'ujian' },
-                    { 'data': 'mapel' },
                     { 'data': 'kelas' },
-                    { 'data': 'nilai' },
-                    { 'data': 'grade' },
-                    { 'data': 'tanggal' }
+                    { 'data': 'id_buku' },
+                    { 'data': 'judul' },
+                    { 'data': 'penulis' },
+                    { 'data': 'status' },
+                    { 'data': 'tanggal_pinjam' },
+                    { 'data': 'tanggal_pengembalian' },
+                    { 'data': 'telat' },
+                    { 'data': 'denda' },
+                    { 'data': 'aksi' },
                 ]
 
 
@@ -237,6 +245,73 @@
             return false;
         });
 
+        //GET Pengembalian Buku
+        $('#show_pinjam_siswa').on('click', '.item_pengembalian', function () {
+            var id = $(this).attr('data');
+            $('#pengembalian-modal').modal('show');
+            $('[name="pengembalian"]').val(id);
+        });
+
+        //Pengembalian Buku
+        $('#btn_pengembalian').on('click', function () {
+            var kode = $('#pengembalian').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/pengembalian",
+                dataType: "JSON",
+                data: { kode: kode },
+                success: function (data) {
+                    if (data) {
+                        $('#pengembalian-modal').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+
+                        }).then((result) => {
+                            Buku.draw(false)
+                            Admin.draw(false)
+                            Siswa.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah dihapus.',
+                                }
+
+                            )
+                            Buku.draw(false)
+
+                        })
+
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+
+
+                }
+            });
+            return false;
+        });
         //GET Pinjam
         $('#show_buku').on('click', '.item_pinjam', function () {
             var id = $(this).attr('data');
@@ -274,6 +349,7 @@
 
                         }).then((result) => {
                             Buku.draw(false)
+                            Admin.draw(false)
                             Swal.fire(
                                 {
                                     icon: 'success',
@@ -376,6 +452,7 @@
                             }
                         }).then((result) => {
                             Admin.draw(false)
+                            Buku.draw(false)
                             Swal.fire(
                                 {
                                     icon: 'success',

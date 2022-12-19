@@ -4,6 +4,54 @@
 {% set section_type = "All Book" %}
 {% block content %}
 
+{% if session.type == 1 %}
+<!-- Teacher Table Area Start Here -->
+<div class="card height-auto">
+  <div class="card-body">
+    <div class="heading-layout1">
+      <div class="item-title">
+        <h3>Semua Peminjaman dan Pengembalian Buku</h3>
+      </div>
+      <div class="dropdown">
+        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+        </div>
+      </div>
+    </div>
+    <!-- dataTable book start here -->
+    <div class="table-responsive">
+      <input type="text" id="id_user" data-pinjam="{{session.id_user}}">
+      <table class="table display text-nowrap" id="data_peminjaman_siswa">
+        <thead class="text-center">
+          <tr>
+            <th>No</th>
+            <th>NISN</th>
+            <th>Nama Peminjam</th>
+            <th>Kelas</th>
+            <th>ID Buku</th>
+            <th>Judul Buku</th>
+            <th>Penulis</th>
+            <th>Status</th>
+            <th>Tanggal Peminjaman</th>
+            <th>Tanggal Pengembalian</th>
+            <th>Terlambat(Hari)</th>
+            <th>Denda</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="show_pinjam_siswa">
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endif %}
+
 {% if session.type == 3 %}
 <!-- Teacher Table Area Start Here -->
 <div class="card height-auto">
