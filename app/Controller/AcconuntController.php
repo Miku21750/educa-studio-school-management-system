@@ -213,7 +213,7 @@ class AcconuntController
                         Hapus
                     </a>
                     <a class="dropdown-item btn btn-light payment_detail" data="' . $m['id_finance'] . '">
-                        <i class="fas fa-solid fa-edit text-orange-peel"></i>
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
                         Ubah
                     </a>
                    
@@ -453,7 +453,7 @@ class AcconuntController
                         Hapus
                     </a>
                     <a class="dropdown-item btn btn-light payment_detail" data="' . $m['id_finance'] . '">
-                        <i class="fas fa-solid fa-edit text-orange-peel"></i>
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
                         Ubah
                     </a>
                    

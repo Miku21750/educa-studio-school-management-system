@@ -138,8 +138,8 @@ h6 {
   padding: 15px 30px 30px;
   background-color: #ffffff;
   border-radius: 4px;
-  -webkit-box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75);
-  box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75);
+  /* -webkit-box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75); */
+  /* box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75); */
 }
 /*=============== 2.2 Dropdown ==================*/
 .dropdown .dropdown-menu {
@@ -1083,7 +1083,8 @@ h6 {
 }
 .select2-container .select2-selection--single .select2-selection__rendered {
   line-height: 50px;
-  color: #b4b4b4;
+  /* color: #b4b4b4; */
+  color: black;
   padding-left: 20px;
   padding-right: 30px;
   font-size: 15px;
@@ -1343,8 +1344,8 @@ h6 {
   display: none;
 }
 #preloader {
-  /* background: #ffffff url('/img/preloader.gif') no-repeat scroll center center; */
-  background: #ffffff url('https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif') no-repeat scroll center center;
+  background: #ffffff url('/img/preloader.gif') no-repeat scroll center center;
+  /* background: #ffffff url('https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif') no-repeat scroll center center; */
   height: 100%;
   left: 0;
   overflow: visible;
@@ -2742,6 +2743,7 @@ ul {
 }
 .account-settings-box .all-user-box .media .item-img img {
   border-radius: 50%;
+  object-fit: cover;
 }
 .account-settings-box .all-user-box .media .media-body .item-title {
   font-weight: 500;

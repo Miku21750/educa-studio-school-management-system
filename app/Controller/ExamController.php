@@ -161,7 +161,7 @@ class ExamController
             '[><]tbl_classes' => 'id_class',
             '[><]tbl_subjects' => 'id_subject',
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
-            '[>]tbl_users' => ['id_class' => 'id_class']
+            '[><]tbl_users' => ['id_class' => 'id_class']
         ], [
             'id_exam(id_exam)',
             'exam_name(exam_name)',
@@ -321,7 +321,7 @@ class ExamController
                 $datas['grade_desc'] = $m['grade_desc'];
                 $datas['grade_point'] = $m['grade_point'];
                 $datas['aksi'] = '
-                <button type="button" id="show_book"  class="btn btn-light grade_detail" data="' . $m['id_exam_grade'] . '  data-toggle="modal" data-target="detail_book">
+                <button type="button" id="show_book"  class="btn btn-light btn-lg grade_detail" data="' . $m['id_exam_grade'] . '  data-toggle="modal" data-target="detail_book">
                 <i class="fas fa-edit text-dark-pastel-green"></i>
                         Ubah
                 </button>';
@@ -662,9 +662,9 @@ class ExamController
                     <a class="dropdown-item" btn btn-light hapus item_hapus" data="' . $m['id_result'] . '">
                         <i class="fas fa-trash text-orange-red"></i>
                         Hapus
-                    </a>
+                    </button>
                     <a class="dropdown-item btn btn-light result_detail"  data="' . $m['id_result'] . '">
-                        <i class="fas fa-solid fa-edit text-orange-peel"></i>
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
                         Ubah
                     </a>
                    
