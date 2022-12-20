@@ -90,8 +90,8 @@ class LibraryController
                 $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
                 $datas['class'] = $m['class'];
-                $datas['published'] = $m['publish_date'];
-                $datas['creating_date'] = $m['upload_date'];
+                $datas['published'] = date('j F Y', strtotime(str_replace('-','/', $m['publish_date'])));
+                $datas['creating_date'] = date('j F Y', strtotime(str_replace('-','/', $m['upload_date'])));
                 $datas['aksi'] = '<div class="dropdown">
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
@@ -194,8 +194,15 @@ class LibraryController
                 $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
                 $datas['class'] = $m['class'];
-                $datas['creating_date'] = $m['upload_date'];
-                $datas['status'] = $m['status_buku'];
+                $tgl = $m['upload_date'];
+                $publish        = date('j F Y', strtotime(str_replace('-','/', $tgl)));
+                $datas['creating_date'] = $publish;
+
+                if ($m['status_buku'] == "Ada") {
+                    $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">' . $m['status_buku'] . '</p>';
+                } else{
+                    $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['status_buku'] . '</p>';
+                }
 
                 $siswa = $app->db->select('tbl_peminjaman','*', [
                     'id_user' => $_SESSION['id_user'],
@@ -504,8 +511,8 @@ class LibraryController
                 $datas['id_buku'] = $m['code_book'];
                 $datas['judul'] = $m['name_book'];
                 $datas['penulis'] = $m['writer_book'];
-                $datas['tanggal_pinjam'] = $m['tgl_pinjam'];
-                $datas['tanggal_pengembalian'] = $m['tgl_kembali'];
+                $datas['tanggal_pinjam'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_pinjam'])));
+                $datas['tanggal_pengembalian'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_kembali'])));
                 $datas['telat'] = $hari;
                 $datas['denda'] = 'Rp. ' . number_format($denda, 0, ',', '.');
 
@@ -659,8 +666,8 @@ class LibraryController
                 $datas['id_buku'] = $m['code_book'];
                 $datas['judul'] = $m['name_book'];
                 $datas['penulis'] = $m['writer_book'];
-                $datas['tanggal_pinjam'] = $m['tgl_pinjam'];
-                $datas['tanggal_pengembalian'] = $m['tgl_kembali'];
+                $datas['tanggal_pinjam'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_pinjam'])));
+                $datas['tanggal_pengembalian'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_kembali'])));
                 $datas['telat'] = $hari;
                 $datas['denda'] = 'Rp. ' . number_format($denda, 0, ',', '.');
 

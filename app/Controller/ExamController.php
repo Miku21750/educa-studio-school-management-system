@@ -120,7 +120,7 @@ class ExamController
                 $datas['exam_name'] = $m['exam_name'];
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['class'] = $m['class'] . ' ' . $m['section'];
-                $datas['exam_date'] = $m['exam_date'];
+                $datas['exam_date'] = date('j F Y', strtotime($m['exam_date']));
                 $datas['exam_time'] = date("H:i", $examStart) . ' - ' . date("H:i", $examEnd);
                 $datas['aksi'] =  '<div class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -255,7 +255,7 @@ class ExamController
                 $datas['exam_name'] = $m['exam_name'];
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['class'] = $m['class'] . ' ' . $m['section'];
-                $datas['exam_date'] = $m['exam_date'];
+                $datas['exam_date'] = date('j F Y', strtotime($m['exam_date']));
                 $datas['exam_time'] = date("H:i", $examStart) . ' - ' . date("H:i", $examEnd);
                 $data[] = $datas;
                 $no++;
@@ -650,7 +650,7 @@ class ExamController
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
                 $datas['nilai'] = $m['score'];
                 $datas['grade'] = $m['grade_name'];
-                $datas['tanggal'] = $m['date_result'];
+                $datas['tanggal'] = date('j F Y', strtotime($m['date_result']));
 
                 $datas['aksi'] = '<div class="dropdown">
 
@@ -834,7 +834,7 @@ class ExamController
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
                 $datas['nilai'] = $m['score'];
                 $datas['grade'] = $m['grade_name'];
-                $datas['tanggal'] = $m['date_result'];
+                $datas['tanggal'] = date('j F Y', strtotime($m['date_result']));
 
                 //     $datas['aksi'] = '<div class="dropdown">
 

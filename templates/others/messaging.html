@@ -36,14 +36,12 @@
                             {# <input type="text" placeholder="" class="form-control"> #}
                             <select name="idReceipentUserMessage" id="nameMessageForm" class="form-control select2">
                                     <option value="">Pilih Nama</option>
-                                {% for data in data %}
-                                    <option value="{{data.id_user}}">{{data.first_name}} {{data.last_name}}</option>
-                                {% endfor %}
+                                
                             </select>
                         </div>
                         <div class="col-12 form-group">
                             <label>Recipient Email</label>
-                            <select name="email" id="emailMessageForm" class="form-control select2">
+                            <select name="email" id="emailMessageForm" class="form-control select2" disabled>
                                 <option value="">Pilih Email</option>
                                 {% for data in data %}
                                     <option value="{{data.id_user}}">{{data.email}}</option>
