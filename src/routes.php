@@ -73,848 +73,850 @@ return function (App $app) {
             $app->post(
                 '/login',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return indexApiController::Login($this, $request, $response, $args);
-                }
+                        return indexApiController::Login($this, $request, $response, $args);
+                    }
             );
 
             $app->post(
                 '/register',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return indexApiController::register($this, $request, $response, $args);
-                }
+                        return indexApiController::register($this, $request, $response, $args);
+                    }
             );
 
             $app->group(
                 '/user',
                 function () use ($app) {
-                    $app->post(
-                        '/account-setting',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return 0;
-                        }
-                    );
-                    $app->post(
-                        '/update-password',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return 0;
-                        }
-                    );
-                }
+                        $app->post(
+                            '/account-setting',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return 0;
+                                        }
+                        );
+                        $app->post(
+                            '/update-password',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return 0;
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/admin',
                 function () use ($app) {
 
-                    $app->get(
-                        '/apidata',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return DashboardAdminController::apiData($this, $request, $response, $args);;
-                        }
-                    );
+                        $app->get(
+                            '/apidata',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return DashboardAdminController::apiData($this, $request, $response, $args);
+                                            ;
+                                        }
+                        );
 
-                    $app->get(
-                        '/chart',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return DashboardAdminController::lineChart($this, $request, $response, $args);;
-                        }
-                    );
-                }
+                        $app->get(
+                            '/chart',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return DashboardAdminController::lineChart($this, $request, $response, $args);
+                                            ;
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/kelas',
                 function () use ($app) {
 
-                    $app->post(
-                        '/tambah-kelas',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return $response->withJson(ClassController::insertClassMod($this, $request, $response, $args));
-                        }
-                    );
+                        $app->post(
+                            '/tambah-kelas',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return $response->withJson(ClassController::insertClassMod($this, $request, $response, $args));
+                                        }
+                        );
 
-                    $app->post(
-                        '/hapus-kelas',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return ClassController::deleteClassMod($this, $request, $response, [
-                                'data' => $data
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/hapus-kelas',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return ClassController::deleteClassMod($this, $request, $response, [
+                                                'data' => $data
+                                            ]);
+                                        }
+                        );
 
-                    $app->get(
-                        '/getallclassdt',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return ClassController::getAllClassDt($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getallclassdt',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return ClassController::getAllClassDt($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/getallclassS',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return ClassController::getAllClassS($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getallclassS',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return ClassController::getAllClassS($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/{id}detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $args['id'];
-                            // return var_dump($data);
-                            return ClassController::modal_detail($this, $request, $response, [
-                                'data' => $data
-                            ]);
-                        }
-                    );
-                    $app->post(
-                        '/updateclass',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return ClassController::update_kelas_detail($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
-                }
+                        $app->get(
+                            '/{id}detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $args['id'];
+                                            // return var_dump($data);
+                                            return ClassController::modal_detail($this, $request, $response, [
+                                                'data' => $data
+                                            ]);
+                                        }
+                        );
+                        $app->post(
+                            '/updateclass',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return ClassController::update_kelas_detail($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/library',
                 function () use ($app) {
 
-                    $app->get(
-                        '/getBook',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return LibraryController::tampil_data($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getBook',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return LibraryController::tampil_data($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/getBookS',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return LibraryController::tampil_dataS($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getBookS',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return LibraryController::tampil_dataS($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/{id}/book-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $args['id'];
-                            // return var_dump($data);
-                            return LibraryController::detail($this, $request, $response, [
-                                'data' => $data
-                            ]);
-                        }
-                    );
+                        $app->get(
+                            '/{id}/book-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $args['id'];
+                                            // return var_dump($data);
+                                            return LibraryController::detail($this, $request, $response, [
+                                                'data' => $data
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/update-book-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return LibraryController::update_book_detail($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/update-book-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return LibraryController::update_book_detail($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/delete-book',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return LibraryController::delete($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/delete-book',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return LibraryController::delete($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/add-book',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return LibraryController::add_book($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
-                }
+                        $app->post(
+                            '/add-book',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return LibraryController::add_book($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/subject',
                 function () use ($app) {
-                    $app->get(
-                        '/{id}/subject-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $args['id'];
-                            // return var_dump($data);
-                            return SubjectController::detail($this, $request, $response, $data);
-                        }
-                    );
-                }
+                        $app->get(
+                            '/{id}/subject-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $args['id'];
+                                            // return var_dump($data);
+                                            return SubjectController::detail($this, $request, $response, $data);
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/class-routine',
                 function () use ($app) {
-                    $app->get(
-                        '/{id}/class-routine-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $args['id'];
-                            return ClassRoutineController::detail($this, $request, $response, $data);
-                        }
-                    );
-                }
+                        $app->get(
+                            '/{id}/class-routine-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $args['id'];
+                                            return ClassRoutineController::detail($this, $request, $response, $data);
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/transport',
                 function () use ($app) {
 
-                    $app->get(
-                        '/getTransport',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return TransportController::tampil_data($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getTransport',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return TransportController::tampil_data($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/getTransportS',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return TransportController::tampil_dataS($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getTransportS',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return TransportController::tampil_dataS($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/{id}/transport-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $args['id'];
-                            // return var_dump($data);
-                            return TransportController::detail($this, $request, $response, $data);
-                        }
-                    );
+                        $app->get(
+                            '/{id}/transport-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $args['id'];
+                                            // return var_dump($data);
+                                            return TransportController::detail($this, $request, $response, $data);
+                                        }
+                        );
 
-                    $app->post(
-                        '/update-transport-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return TransportController::update_transport_detail($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/update-transport-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return TransportController::update_transport_detail($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/delete-transport',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return TransportController::delete($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/delete-transport',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return TransportController::delete($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/add-transport',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return TransportController::add_transport($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
-                }
+                        $app->post(
+                            '/add-transport',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return TransportController::add_transport($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/hostel',
                 function () use ($app) {
 
-                    $app->get(
-                        '/getHostel',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return HostelController::tampil_data($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getHostel',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return HostelController::tampil_data($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/getHostelS',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return HostelController::tampil_dataS($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getHostelS',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return HostelController::tampil_dataS($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/{id}/hostel-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $args['id'];
-                            // return var_dump($data);
-                            return HostelController::detail($this, $request, $response, $data);
-                        }
-                    );
+                        $app->get(
+                            '/{id}/hostel-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $args['id'];
+                                            // return var_dump($data);
+                                            return HostelController::detail($this, $request, $response, $data);
+                                        }
+                        );
 
-                    $app->post(
-                        '/update-hostel-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return HostelController::update_hostel_detail($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/update-hostel-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return HostelController::update_hostel_detail($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/delete-hostel',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return HostelController::delete($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/delete-hostel',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return HostelController::delete($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/add-hostel',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return HostelController::add_hostel($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
-                }
+                        $app->post(
+                            '/add-hostel',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return HostelController::add_hostel($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/exam',
                 function () use ($app) {
 
-                    $app->get(
-                        '/getExam',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return ExamController::tampil_data($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getExam',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return ExamController::tampil_data($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/getExamS',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return ExamController::tampil_dataS($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getExamS',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return ExamController::tampil_dataS($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/getExamGrade',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return ExamController::tampil_data_grade($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getExamGrade',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return ExamController::tampil_data_grade($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/getExamGradeS',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return ExamController::tampil_data_gradeS($this, $request, $response, $args);
-                        }
-                    );
+                        $app->get(
+                            '/getExamGradeS',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return ExamController::tampil_data_gradeS($this, $request, $response, $args);
+                                        }
+                        );
 
-                    $app->get(
-                        '/{id}/exam-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $args['id'];
-                            // return var_dump($data);
-                            return ExamController::detail($this, $request, $response, $data);
-                        }
-                    );
+                        $app->get(
+                            '/{id}/exam-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $args['id'];
+                                            // return var_dump($data);
+                                            return ExamController::detail($this, $request, $response, $data);
+                                        }
+                        );
 
-                    $app->get(
-                        '/{id}/grade-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $args['id'];
-                            // return var_dump($data);
-                            return ExamController::grade_detail($this, $request, $response, $data);
-                        }
-                    );
+                        $app->get(
+                            '/{id}/grade-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $args['id'];
+                                            // return var_dump($data);
+                                            return ExamController::grade_detail($this, $request, $response, $data);
+                                        }
+                        );
 
-                    $app->post(
-                        '/update-exam-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return ExamController::update_exam_detail($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/update-exam-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return ExamController::update_exam_detail($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/update-grade-detail',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return ExamController::update_grade_detail($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/update-grade-detail',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return ExamController::update_grade_detail($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/delete-exam',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return ExamController::delete($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
+                        $app->post(
+                            '/delete-exam',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return ExamController::delete($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
 
-                    $app->post(
-                        '/add-exam',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return var_dump($data);
-                            return ExamController::add_exam($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
-                    $app->post(
-                        '/add-exam-result',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            $data = $request->getParsedBody();
-                            // return die(var_dump($data));
-                            return ExamController::add_exam_result($this, $request, $response, [
-                                'data' => $data,
-                            ]);
-                        }
-                    );
-                }
+                        $app->post(
+                            '/add-exam',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return var_dump($data);
+                                            return ExamController::add_exam($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
+                        $app->post(
+                            '/add-exam-result',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            $data = $request->getParsedBody();
+                                            // return die(var_dump($data));
+                                            return ExamController::add_exam_result($this, $request, $response, [
+                                                'data' => $data,
+                                            ]);
+                                        }
+                        );
+                    }
             );
 
             $app->group(
                 '/student',
                 function () use ($app) {
-                    $app->get(
-                        '/apidata',
-                        function (Request $request, Response $response, array $args) use ($app) {
-                            return DashboardStudentController::apiDataM($this, $request, $response, $args);
-                        }
-                    );
-                }
+                        $app->get(
+                            '/apidata',
+                            function (Request $request, Response $response, array $args) use ($app) {
+                                            return DashboardStudentController::apiDataM($this, $request, $response, $args);
+                                        }
+                        );
+                    }
             );
             $app->get(
                 '/{id}/examResult',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    return DashboardStudentController::view_data_exam($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $args['id'];
+                        return DashboardStudentController::view_data_exam($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
 
             $app->get(
                 '/{id}/select',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    return DashbordParentController::tampil_data($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $args['id'];
+                        return DashbordParentController::tampil_data($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/{id}/result',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    return DashbordParentController::tampil_data_result($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $args['id'];
+                        return DashbordParentController::tampil_data_result($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/allparents',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return ParentController::tampil_data($this, $request, $response, $args);
-                }
+                        return ParentController::tampil_data($this, $request, $response, $args);
+                    }
             );
             $app->get(
                 '/allsubject',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return SubjectController::view_data_subject($this, $request, $response, $args);
-                }
+                        return SubjectController::view_data_subject($this, $request, $response, $args);
+                    }
             );
             $app->post(
                 '/addsubject',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $tambah = $request->getParsedBody();
-                    return SubjectController::add_subject($this, $request, $response, [
-                        'tambah' => $tambah,
-                    ]);
-                }
+                        $tambah = $request->getParsedBody();
+                        return SubjectController::add_subject($this, $request, $response, [
+                            'tambah' => $tambah,
+                        ]);
+                    }
             );
             $app->post(
                 '/deletesubject',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return SubjectController::delete_subject($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return SubjectController::delete_subject($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/updatesubject',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return SubjectController::update_subject($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return SubjectController::update_subject($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/allclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return $response->withJson(ClassRoutineController::view_data_classroutine($this, $request, $response, $args));
-                }
+                        return $response->withJson(ClassRoutineController::view_data_classroutine($this, $request, $response, $args));
+                    }
             );
             $app->get(
                 '/allclassroutine1',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return $response->withJson(ClassRoutineController::view_data_classroutine1($this, $request, $response, $args));
-                }
+                        return $response->withJson(ClassRoutineController::view_data_classroutine1($this, $request, $response, $args));
+                    }
             );
             $app->get(
                 '/allclassroutineguru',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return $response->withJson(ClassRoutineController::view_data_classroutineguru($this, $request, $response, $args));
-                }
+                        return $response->withJson(ClassRoutineController::view_data_classroutineguru($this, $request, $response, $args));
+                    }
             );
             $app->post(
                 '/addclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $tambah = $request->getParsedBody();
-                    return ClassRoutineController::add_class_routine($this, $request, $response, [
-                        'tambah' => $tambah,
-                    ]);
-                }
+                        $tambah = $request->getParsedBody();
+                        return ClassRoutineController::add_class_routine($this, $request, $response, [
+                            'tambah' => $tambah,
+                        ]);
+                    }
             );
             $app->post(
                 '/deleteclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return ClassRoutineController::delete_class_routine($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return ClassRoutineController::delete_class_routine($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->post(
                 '/updateclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return ClassRoutineController::update_class_routine($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return ClassRoutineController::update_class_routine($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->get(
                 '/{id}/detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return ParentController::detail($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return ParentController::detail($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/parent-detail/{id}',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return ParentController::parent_detail($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return ParentController::parent_detail($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/update-parent-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return ParentController::update_parent_detail($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return ParentController::update_parent_detail($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/delete-parent',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return ParentController::delete($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return ParentController::delete($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/add-parent',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return ParentController::add_parent($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return ParentController::add_parent($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/dashboard-teacher',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return DashboardTeacherController::tampil_data($this, $request, $response, $args);
-                }
+                        return DashboardTeacherController::tampil_data($this, $request, $response, $args);
+                    }
             );
             $app->get(
                 '/allstudents',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return StudentController::tampil_data($this, $request, $response, $args);
-                }
+                        return StudentController::tampil_data($this, $request, $response, $args);
+                    }
             );
             $app->get(
                 '/all-alumni',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    return StudentController::tampil_alumni($this, $request, $response, $args);
-                }
+                        return StudentController::tampil_alumni($this, $request, $response, $args);
+                    }
             );
             $app->post(
                 '/delete-student',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return StudentController::delete($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return StudentController::delete($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/student-detail/{id}',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return StudentController::student_detail($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return StudentController::student_detail($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/update-student-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return StudentController::update_student_detail($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return StudentController::update_student_detail($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/add-student',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return StudentController::add_student($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return StudentController::add_student($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/add-promotion',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return StudentController::add_promotion($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return StudentController::add_promotion($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->POST(
                 '/admission/{id}',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return StudentController::add_admission($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return StudentController::add_admission($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/allteachers',
                 function (Request $request, Response $response, array $args) use ($app) {
 
-                    return TeacherController::tampil_data($this, $request, $response, $args);
-                }
+                        return TeacherController::tampil_data($this, $request, $response, $args);
+                    }
             );
             $app->get(
                 '/teacher_detail/{id}',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return TeacherController::teacher_detail($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return TeacherController::teacher_detail($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/delete-teacher',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return TeacherController::delete($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return TeacherController::delete($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/update-teacher-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return TeacherController::update_teacher_detail($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return TeacherController::update_teacher_detail($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->post(
                 '/add-teacher',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return TeacherController::add_teacher($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return TeacherController::add_teacher($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/allpayment',
                 function (Request $request, Response $response, array $args) use ($app) {
 
-                    return TeacherController::tampil_data_payment($this, $request, $response, $args);
-                }
+                        return TeacherController::tampil_data_payment($this, $request, $response, $args);
+                    }
             );
             $app->get(
                 '/allpayment-teacher',
                 function (Request $request, Response $response, array $args) use ($app) {
 
-                    return TeacherController::tampil_data_payment_teacher($this, $request, $response, $args);
-                }
+                        return TeacherController::tampil_data_payment_teacher($this, $request, $response, $args);
+                    }
             );
             $app->get(
                 '/allfees',
                 function (Request $request, Response $response, array $args) use ($app) {
 
-                    return AcconuntController::tampil_data($this, $request, $response, $args);
-                }
+                        return AcconuntController::tampil_data($this, $request, $response, $args);
+                    }
             );
             $app->post(
                 '/delete-fees',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return AcconuntController::delete($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return AcconuntController::delete($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->get(
                 '/{id}/payment-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return AcconuntController::payment_detail($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return AcconuntController::payment_detail($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->post(
                 '/update-payment-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return AcconuntController::update_payment_detail($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return AcconuntController::update_payment_detail($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->get(
                 '/allexpense',
                 function (Request $request, Response $response, array $args) use ($app) {
 
-                    return AcconuntController::tampil_data_expense($this, $request, $response, $args);
-                }
+                        return AcconuntController::tampil_data_expense($this, $request, $response, $args);
+                    }
             );
             $app->post(
                 '/add-payment',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return AcconuntController::add_payment($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return AcconuntController::add_payment($this, $request, $response, [
+                            'data' => $data,
+                        ]);
+                    }
             );
             $app->get(
                 '/all-result',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    // return var_dump($data);
-                    return ExamController::tampil_data_result($this, $request, $response, $args);
-                }
+                        // return var_dump($data);
+                        return ExamController::tampil_data_result($this, $request, $response, $args);
+                    }
             );
             $app->get(
                 '/all-resultS',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    // return var_dump($data);
-                    return ExamController::tampil_data_resultS($this, $request, $response, $args);
-                }
+                        // return var_dump($data);
+                        return ExamController::tampil_data_resultS($this, $request, $response, $args);
+                    }
             );
             $app->post(
                 '/delete-result',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return ExamController::delete_result($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return ExamController::delete_result($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->get(
                 '/{id}/result-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return ExamController::result_detail($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return ExamController::result_detail($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->post(
                 '/update-result-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return ExamController::update_result_detail($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return ExamController::update_result_detail($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             //Peminjaman buku
             $app->get(
@@ -927,62 +929,62 @@ return function (App $app) {
             $app->post(
                 '/pinjam',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return LibraryController::pinjam($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return LibraryController::pinjam($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->post(
                 '/pengembalian',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return LibraryController::pengembalian($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return LibraryController::pengembalian($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->post(
                 '/delete-peminjaman',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return LibraryController::delete_peminjaman($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return LibraryController::delete_peminjaman($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->get(
                 '/{id}/pinjam-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return LibraryController::peminjaman_detail($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return LibraryController::peminjaman_detail($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->post(
                 '/update-peminjaman',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    // return var_dump($data);
-                    return LibraryController::update_peminjaman($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $request->getParsedBody();
+                        // return var_dump($data);
+                        return LibraryController::update_peminjaman($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
             $app->get(
                 '/{id}/pinjam_siswa',
                 function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $args['id'];
-                    // return var_dump($data);
-                    return LibraryController::tampil_data_peminjaman_siswa($this, $request, $response, [
-                        'data' => $data
-                    ]);
-                }
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return LibraryController::tampil_data_peminjaman_siswa($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
             );
         }
     );
@@ -997,14 +999,14 @@ return function (App $app) {
             $container->db->update('tbl_users', [
                 "status" => 1,
             ], [
-                "id_user" => $data['key'],
-            ]);
+                    "id_user" => $data['key'],
+                ]);
             unset($_SESSION['isRegistered']);
             $_SESSION['isValidatingEmail'] = true;
             return $response->withRedirect('/login');
             // echo "<p>Sukses verifikasi, <a href='/login'>Silahkan Login</a></p>";
             // $data = $request->getParams();
-
+    
         }
     );
     // verification email end here
@@ -1062,7 +1064,7 @@ return function (App $app) {
             //Attach file gambar
             //  $mail->addAttachment('images/phpmailer_mini.png');
             //mengirim pesan, mengecek error
-
+    
             if (!$mail->send()) {
                 echo "Email Error: " . $mail->ErrorInfo;
             } else {
@@ -1094,8 +1096,8 @@ return function (App $app) {
                 $changePass = $container->db->update('tbl_users', [
                     'password' => $data['pass'],
                 ], [
-                    'id_user' => $data['id_user'],
-                ]);
+                        'id_user' => $data['id_user'],
+                    ]);
                 $_SESSION['changedPass'] = true;
                 // return var_dump(true);
                 return $response->withRedirect('/login');
@@ -1144,7 +1146,8 @@ return function (App $app) {
         // Render index view
 
         return StudentController::page_add_student($this, $request, $response, $args);
-    });
+    }
+    );
     $app->get('/student-promotion/{id}', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
         $data = $args['id'];
@@ -1152,7 +1155,8 @@ return function (App $app) {
         return StudentController::student_promotion($this, $request, $response, [
             'data' => $data,
         ]);
-    });
+    }
+    );
 
     //Teacher
     $app->get(
@@ -1348,40 +1352,40 @@ return function (App $app) {
                 '[>]tbl_subjects' => 'id_subject',
                 '[>]tbl_attendances' => 'id_user'
             ], [
-                'id_user',
-                'first_name',
-                'last_name',
-                'tbl_classes.class',
-                'tbl_sections.section',
-                'tbl_subjects.subject_name',
-                'tbl_attendances.id_attendance',
-                'tbl_attendances.tanggal'
-            ], [
-                'tbl_users.id_class' => $dataRequest['class'],
-                // 'id_subject' => $dataRequest['subject'],
-                'session' => $dataRequest['session']
-            ]);
+                    'id_user',
+                    'first_name',
+                    'last_name',
+                    'tbl_classes.class',
+                    'tbl_sections.section',
+                    'tbl_subjects.subject_name',
+                    'tbl_attendances.id_attendance',
+                    'tbl_attendances.tanggal'
+                ], [
+                    'tbl_users.id_class' => $dataRequest['class'],
+                    // 'id_subject' => $dataRequest['subject'],
+                    'session' => $dataRequest['session']
+                ]);
             $dataStudentArrivedInAttend = $container->db->select('tbl_users', [
                 '[>]tbl_classes' => 'id_class',
                 '[>]tbl_sections' => ['tbl_classes.id_section' => 'id_section'],
                 '[>]tbl_subjects' => 'id_subject',
                 '[>]tbl_attendances' => 'id_user'
             ], [
-                'id_user',
-                'first_name',
-                'last_name',
-                'tbl_classes.class',
-                'tbl_sections.section',
-                'tbl_subjects.subject_name',
-                'tbl_attendances.id_attendance',
-                'tbl_attendances.tanggal'
-            ], [
-                'tbl_users.id_class' => $dataRequest['class'],
-                'session' => $dataRequest['session'],
-                'GROUP' => [
-                    'id_user'
-                ]
-            ]);
+                    'id_user',
+                    'first_name',
+                    'last_name',
+                    'tbl_classes.class',
+                    'tbl_sections.section',
+                    'tbl_subjects.subject_name',
+                    'tbl_attendances.id_attendance',
+                    'tbl_attendances.tanggal'
+                ], [
+                    'tbl_users.id_class' => $dataRequest['class'],
+                    'session' => $dataRequest['session'],
+                    'GROUP' => [
+                        'id_user'
+                    ]
+                ]);
             $checkTotalStudent = count($dataStudentArrivedInAttend);
             $checkStudentDateIfExistChecklist = [];
             for ($i = 0; $i < $checkTotalStudent; $i++) {
@@ -1397,7 +1401,7 @@ return function (App $app) {
             }
             // return die(var_dump($dataStudentArrivedInAttend));
             // return die(var_dump($checkStudentDateIfExistChecklist));
-
+    
             $subjectStudentAttend = $container->db->select('tbl_subjects', '*', [
                 'id_subject' => $dataRequest['subject']
             ]);
@@ -1407,7 +1411,7 @@ return function (App $app) {
             if ($checkTodayIfAdd == null) {
                 $insert = $container->db->insert('tbl_attendances', [
                     'id_subject' => $dataRequest['subject'],
-                    'id_class'=>$dataRequest['class'],
+                    'id_class' => $dataRequest['class'],
                     'tanggal' => Medoo::raw('CURRENT_TIMESTAMP')
                 ]);
                 // return die(var_dump($insert));
@@ -1418,25 +1422,29 @@ return function (App $app) {
                         'tanggal'
                     ]
                 ]);
-                return $response->withJson(array(
-                    'viewStudentAttend' => $viewStudentAttend,
-                    'dateStudentAttend' => $tanggal,
-                    'classStudentAttend'=> $classStudentAttend,
-                    'subjectStudentAttend' => $subjectStudentAttend,
-                    'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
-                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
-                    'typeUser' => $_SESSION['type']
-                ));
+                return $response->withJson(
+                    array(
+                        'viewStudentAttend' => $viewStudentAttend,
+                        'dateStudentAttend' => $tanggal,
+                        'classStudentAttend' => $classStudentAttend,
+                        'subjectStudentAttend' => $subjectStudentAttend,
+                        'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                        'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
+                        'typeUser' => $_SESSION['type']
+                    )
+                );
             } else {
-                return $response->withJson(array(
-                    'viewStudentAttend' => $viewStudentAttend,
-                    'dateStudentAttend' => $tanggal,
-                    'classStudentAttend'=> $classStudentAttend, 
-                    'subjectStudentAttend' => $subjectStudentAttend,
-                    'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
-                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
-                    'typeUser' => $_SESSION['type'],
-                ));
+                return $response->withJson(
+                    array(
+                        'viewStudentAttend' => $viewStudentAttend,
+                        'dateStudentAttend' => $tanggal,
+                        'classStudentAttend' => $classStudentAttend,
+                        'subjectStudentAttend' => $subjectStudentAttend,
+                        'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                        'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
+                        'typeUser' => $_SESSION['type'],
+                    )
+                );
             }
         }
     )->add(new Auth());
@@ -1451,7 +1459,7 @@ return function (App $app) {
             for ($i = 0; $i < $allValues; $i++) {
                 $checkIfExistUpdate = $container->db->select('tbl_attendances', 'id_attendance', [
                     'id_user' => $dataRequest['user'][$i],
-                    'id_class'=> $dataRequest['subject'][2],
+                    'id_class' => $dataRequest['subject'][2],
                     'id_subject' => $dataRequest['subject'][1],
                     'tanggal' => $dataRequest['date'][$i]
                 ]);
@@ -1460,12 +1468,12 @@ return function (App $app) {
                     $container->db->update('tbl_attendances', [
                         'absence' => $dataRequest['absence'][$i]
                     ], [
-                        'id_attendance' => $checkIfExistUpdate[0]
-                    ]);
+                            'id_attendance' => $checkIfExistUpdate[0]
+                        ]);
                 } else {
                     $container->db->insert('tbl_attendances', [
                         'id_user' => $dataRequest['user'][$i],
-                        'id_class'=> $dataRequest['subject'][2],
+                        'id_class' => $dataRequest['subject'][2],
                         'id_subject' => $dataRequest['subject'][1],
                         'tanggal' => $dataRequest['date'][$i],
                         'absence' => $dataRequest['absence'][$i]
@@ -1545,182 +1553,286 @@ return function (App $app) {
                 '[>]tbl_subjects' => 'id_subject',
                 '[>]tbl_tasks' => 'id_user'
             ], [
-                'id_user',
-                'first_name',
-                'last_name',
-                'tbl_classes.class',
-                'tbl_sections.section',
-                'tbl_subjects.subject_name',
-                'tbl_tasks.id_task',
-                'tbl_tasks.task_name',
-                'tbl_tasks.score',
-            ], [
-                'tbl_users.id_class' => $dataRequest['class'],
-                'session' => $dataRequest['session']
-            ]);
-            switch ($dataRequest['taskType']){
-                case 'TGS':{
-                    $dataAvaliable = $container->db->select('tbl_tasks', '*', 
-                    Medoo::raw("WHERE
-                        task_type='".$dataRequest["taskType"]."' 
+                    'id_user',
+                    'first_name',
+                    'last_name',
+                    'tbl_classes.class',
+                    'tbl_sections.section',
+                    'tbl_subjects.subject_name',
+                    'tbl_tasks.id_task',
+                    'tbl_tasks.task_name',
+                    'tbl_tasks.score',
+                ], [
+                    'tbl_users.id_class' => $dataRequest['class'],
+                    'session' => $dataRequest['session']
+                ]);
+                $dataTimestamp = [];
+            // $dataSearchTimestamp = $container->db->select('tbl_tasks',[
+            //     'created_at'
+            // ],[
+            //     ''
+            // ]);
+            switch ($dataRequest['taskType']) {
+                case 'TGS': {
+                        $dataAvaliable = $container->db->select(
+                            'tbl_tasks',
+                            '*',
+                            Medoo::raw("WHERE
+                        task_type='" . $dataRequest["taskType"] . "'
+                            AND
+                        id_class='".$dataRequest['class']."'
+                            AND
+                        id_subject='".$dataRequest['subject']."'
                             HAVING 
-                        (date(created_at) = '".$dataRequest["date"]."')
+                        (date(created_at) = '" . $dataRequest["date"] . "')
                     ")
-                     );
-                    $taskName = "TUGAS";
-                    $lastData = '';
-                    $data_id = [];
-                    // return die(var_dump($dataAvaliable));
-                    if($dataAvaliable == null){
-                        $selectStudent = $container->db->select('tbl_users', 'id_user',[
+                        );
+                        $taskName = "TUGAS";
+                        $lastData = '';
+                        $data_id = [];
+                        // return die(var_dump($dataAvaliable));
+                        $dataCountTugas = $container->db->select('tbl_tasks', '*', [
+                            'task_type' => $dataRequest['taskType'],
                             'id_class'=>$dataRequest['class'],
-                            'session'=>$dataRequest['session'],
+                            'id_subject'=>$dataRequest['subject'],
+                            'GROUP' => [
+                                'created_at'
+                            ]
                         ]);
-                        for($i=0;$i<count($selectStudent);$i++){
-                            $insert = $container->db->insert('tbl_tasks', [
-                                'id_class'=>$dataRequest['class'],
-                                'id_subject'=>$dataRequest['subject'],
-                                'id_user'=>$selectStudent[$i],
-                                'task_type'=>$dataRequest['taskType']
-                            ]);
-                            // array_push($insert->inser)
-                        }
-                        $dataAvaliable = $container->db->select('tbl_tasks', '*', 
-                    Medoo::raw("WHERE
-                        task_type='".$dataRequest["taskType"]."' 
-                            HAVING 
-                        (date(created_at) = '".$dataRequest["date"]."')
-                    ")
-                     );
-                        $lastData = count($dataAvaliable);
-                    }else{
-                        $lastData = count($dataAvaliable);
+                        // return die(var_dump($dataCountTugas));
+                        $lastData = count($dataCountTugas);
+
                     }
-                }break;
-                case 'UH':{
-                    $dataAvaliable = $container->db->select('tbl_tasks', '*', 
-                    Medoo::raw("WHERE
-                        task_type='".$dataRequest["taskType"]."' 
+                    break;
+                case 'UH': {
+                        $dataAvaliable = $container->db->select(
+                            'tbl_tasks',
+                            '*',
+                            Medoo::raw("WHERE
+                        task_type='" . $dataRequest["taskType"] . "' 
+                            AND
+                        id_class='".$dataRequest['class']."'
+                            AND
+                        id_subject='".$dataRequest['subject']."'
                             HAVING 
-                        (date(created_at) = '".$dataRequest["date"]."')
+                        (date(created_at) = '" . $dataRequest["date"] . "')
                             
                     ")
-                     );
-                    $lastData = '';
-                    $taskName = "UH";
-                    if($dataAvaliable == null){
-                        $selectStudent = $container->db->select('tbl_users', 'id_user',[
+                        );
+                        $lastData = '';
+                        $taskName = "UH";
+                        $dataCountTugas = $container->db->select('tbl_tasks', '*', [
+                            'task_type' => $dataRequest['taskType'],
                             'id_class'=>$dataRequest['class'],
-                            'session'=>$dataRequest['session'],
+                            'id_subject'=>$dataRequest['subject'],
+                            'GROUP' => [
+                                'created_at'
+                            ]
                         ]);
-                        for($i=0;$i<count($selectStudent);$i++){
-                            $insert = $container->db->insert('tbl_tasks', [
-                                'id_class'=>$dataRequest['class'],
-                                'id_subject'=>$dataRequest['subject'],
-                                'id_user'=>$selectStudent[$i]
-                            ]);
-                        }
-                        $dataAvaliable = $container->db->debug()->select('tbl_tasks', '*', 
-                    Medoo::raw("WHERE
-                        task_type='".$dataRequest["taskType"]."' 
-                            HAVING 
-                        (date(created_at) = '".$dataRequest["date"]."')
-                    ")
-                     );
-                        $lastData = count($dataAvaliable);
-                    }else{
-                        $lastData = count($dataAvaliable);
+                        $lastData = count($dataCountTugas);
                     }
-                }
-                break;
+                    break;
                 default:
-                break;
+                    break;
             }
-            // $dataAvaliable = $container->db->debug()->select('tbl_tasks', '*', 
-            //         Medoo::raw("WHERE
-            //             task_type='".$dataRequest["taskType"]."' 
-            //                 HAVING 
-            //             (date(created_at) = '".$dataRequest["date"]."')
-            //         ")
-            //          );
-            for($j = 0; $j < count($dataAvaliable); $j++){
-                $updateTaskName = $container->db->debug()->update('tbl_tasks',[
-                    'task_name'=> $taskName . ' '. ($lastData+1)
-                ],[
-                    'id_task'=> $dataAvaliable[$j]['id_task']
-                ]);
-                return die(var_dump($updateTaskName));
-            }
+            // return die(var_dump($dataAvaliable));
+            // for ($j = 0; $j < count($dataAvaliable); $j++) {
+            //     $updateTaskName = $container->db->update('tbl_tasks', [
+            //         'task_name' => $taskName . ' ' . ($lastData)
+            //     ], [
+            //             'id_task' => $dataAvaliable[$j]['id_task']
+            //         ]);
+            //     // return die(var_dump($updateTaskName));
+            // }
             $dataStudentTaskSuccess = $container->db->select('tbl_users', [
                 '[>]tbl_classes' => 'id_class',
                 '[>]tbl_sections' => ['tbl_classes.id_section' => 'id_section'],
                 '[>]tbl_subjects' => 'id_subject',
                 '[>]tbl_tasks' => 'id_user'
             ], [
-                'id_user',
-                'first_name',
-                'last_name',
-                'tbl_classes.class',
-                'tbl_sections.section',
-                'tbl_subjects.subject_name',
-                'tbl_tasks.id_task',
-                'tbl_tasks.task_name',
-                'tbl_tasks.score',
+                    'id_user',
+                    'first_name',
+                    'last_name',
+                    'tbl_classes.class',
+                    'tbl_sections.section',
+                    'tbl_subjects.subject_name',
+                    'tbl_tasks.id_task',
+                    'tbl_tasks.task_name',
+                    'tbl_tasks.score',
+                ], [
+                    'tbl_users.id_class' => $dataRequest['class'],
+                    'session' => $dataRequest['session'],
+                    'GROUP' => [
+                        'id_user'
+                    ]
+                ]);
+            $checkTotalTask = $container->db->select('tbl_users', [
+                '[>]tbl_classes' => 'id_class',
+                '[>]tbl_sections' => ['tbl_classes.id_section' => 'id_section'],
+                '[>]tbl_subjects' => 'id_subject',
+                '[>]tbl_tasks' => 'id_user'
             ], [
-                'tbl_users.id_class' => $dataRequest['class'],
-                'session' => $dataRequest['session'],
-                'GROUP' => [
-                    'id_user'
-                ]
-            ]);
+                    'id_user',
+                    'first_name',
+                    'last_name',
+                    'tbl_classes.class',
+                    'tbl_sections.section',
+                    'tbl_subjects.subject_name',
+                    'tbl_tasks.id_task',
+                    'tbl_tasks.task_name',
+                    'tbl_tasks.score',
+                ], [
+                    'tbl_users.id_class' => $dataRequest['class'],
+                    'session' => $dataRequest['session']
+                ]);
+
             $checkTotalStudent = count($dataStudentTaskSuccess);
             $checkStudentDateIfExistChecklist = [];
-            for ($i = 0; $i < $checkTotalStudent; $i++) {
-                $checkValidTotalStudent = $container->db->debug()->select('tbl_tasks', 'task_name', [
+            for ($i = 0; $i < count($checkTotalTask); $i++) {
+                $checkValidTotalStudent = $container->db->select('tbl_tasks', 'score', [
+                    'id_class'=>$dataRequest['class'],
                     'id_subject' => $dataRequest['subject'],
-                    'id_user' => $dataStudentTaskSuccess[$i]['id_user'],
-                    'score[!]' => null
+                    'id_user' => $checkTotalTask[$i]['id_user'],
+                    'score[!]' => 0
                 ]);
                 // $checkStudentDateIfExistChecklist = $checkValidTotalStudent;
                 array_push($checkStudentDateIfExistChecklist, $checkValidTotalStudent);
                 // if($checkValidTotalStudent);
-                return die(var_dump($checkValidTotalStudent));
+                // return die(var_dump($checkValidTotalStudent));
             }
-            // return die(var_dump($dataStudentArrivedInAttend));
-
+            // return die(var_dump($checkTotalTask));
+    
+            $taskStudentAlreadyExist = $container->db->select('tbl_tasks', '*', [
+                'task_name' => $taskName . ' ' . ($lastData)
+            ]);
             $subjectStudentAttend = $container->db->select('tbl_subjects', '*', [
                 'id_subject' => $dataRequest['subject']
             ]);
+
             if ($dataStudentTaskSuccess == null) {
-                $insert = $container->db->insert('tbl_tasks', [
-                    'id_subject' => $dataRequest['subject'],
-                    'tanggal' => Medoo::raw('CURRENT_TIMESTAMP')
-                ]);
-                // return die(var_dump($insert));
-                $tanggal = $container->db->select('tbl_attendances', 'tanggal', [
-                    'id_subject' => $dataRequest['subject'],
-                    'GROUP' => [
-                        'tanggal'
-                    ]
-                ]);
-                return $response->withJson(array(
-                    'viewStudentAttend' => $viewStudentAttend,
-                    'dateStudentAttend' => $tanggal,
-                    'subjectStudentAttend' => $subjectStudentAttend,
-                    'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
-                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
-                    'typeUser' => $_SESSION['type']
-                ));
+                // $insert = $container->db->insert('tbl_tasks', [
+                //     'id_subject' => $dataRequest['subject'],
+                //     'tanggal' => Medoo::raw('CURRENT_TIMESTAMP')
+                // ]);
+                return $response->withJson(
+                    array(
+                        'viewStudentAttend' => $viewStudentAttend,
+                        // 'dateStudentAttend' => $tanggal,
+                        'subjectStudentAttend' => $subjectStudentAttend,
+                        'taskStudentAlreadyExist' => $taskStudentAlreadyExist,
+                        'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                        'dataStudentTaskSuccess' => $dataStudentTaskSuccess,
+                        'dataTaskAvailable' => $dataCountTugas,
+                        'totalTask' => $checkTotalTask,
+                        'typeUser' => $_SESSION['type']
+                    )
+                );
             } else {
-                return $response->withJson(array(
-                    'viewStudentAttend' => $viewStudentAttend,
-                    'dateStudentAttend' => $tanggal,
-                    'subjectStudentAttend' => $subjectStudentAttend,
-                    'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
-                    'dataStudentArrivedInAttend' => $dataStudentArrivedInAttend,
-                    'typeUser' => $_SESSION['type'],
-                ));
+                return $response->withJson(
+                    array(
+                        'viewStudentAttend' => $viewStudentAttend,
+                        // 'dateStudentAttend' => $tanggal,
+                        'subjectStudentAttend' => $subjectStudentAttend,
+                        'taskStudentAlreadyExist' => $taskStudentAlreadyExist,
+                        'checkStudentDateIfExistChecklist' => $checkStudentDateIfExistChecklist,
+                        'dataStudentTaskSuccess' => $dataStudentTaskSuccess,
+                        'dataTaskAvailable' => $dataCountTugas,
+                        'totalTask' => $checkTotalTask,
+                        'typeUser' => $_SESSION['type'],
+                    )
+                );
             }
+        }
+    )->add(new Auth());
+    $app->post(
+        '/createNewTask',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $dataRequest = $request->getParsedBody();
+            $selectStudent = $container->db->select('tbl_users', 'id_user',[
+                'id_class'=>$dataRequest['class'],
+                'session'=>$dataRequest['session'],
+            ]);
+            $dataCountTugas = $container->db->select('tbl_tasks', '*', [
+                'task_type' => $dataRequest['taskType'],
+                'id_class'=>$dataRequest['class'],
+                'id_subject'=>$dataRequest['subject'],
+                'GROUP' => [
+                    'created_at'
+                ]
+            ]);
+            $taskName = '';
+            switch ($dataRequest['taskType']){
+                case 'TGS':{
+                        $taskName = 'TUGAS';
+                }
+                break;
+                case 'UH':{
+                    $taskName = 'UH';
+                }
+                break;
+                default:
+                    break;
+            }
+            $lastData = count($dataCountTugas);
+            for($i=0;$i<count($selectStudent);$i++){
+                $insert = $container->db->insert('tbl_tasks', [
+                    'id_class'=>$dataRequest['class'],
+                    'id_subject'=>$dataRequest['subject'],
+                    'task_name' => $taskName . ' ' . ($lastData + 1),
+                    'id_user'=>$selectStudent[$i],
+                    'task_type'=>$dataRequest['taskType']
+                ]);
+                // array_push($insert->inser)
+            }
+        //     $dataAvaliable = $container->db->select('tbl_tasks', '*', 
+        //     Medoo::raw("WHERE
+        //     task_type='".$dataRequest["taskType"]."' 
+        //     HAVING 
+        //         (date(created_at) = '".$dataRequest["date"]."')
+        // ")
+        //  );
+        //     $dataCountTugas = $container->db->select('tbl_tasks', '*', [
+        //         'task_type'=>$dataRequest['taskType'],
+        //         'GROUP'=>[
+        //             'created_at'
+        //         ]
+        //         ]
+        //     );
+            return $response->withJson(array('success' => true));
+            // $lastData = count($dataCountTugas);
+        }
+    );
+    $app->post(
+        '/sendScoreTask',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParsedBody();
+            // return die(var_dump($dataRequest));
+            $allValues = count($dataRequest['id_user']);
+            // return die(var_dump($dataRequest));
+            for ($i = 0; $i < $allValues; $i++) {
+                $checkIfExistUpdate = $container->db->select('tbl_tasks', 'id_task', [
+                    'id_user' => $dataRequest['id_user'][$i],
+                    'task_name' => $dataRequest['id_task'][$i]
+                ]);
+                // return die(var_dump($checkIfExistUpdate));
+                if ($checkIfExistUpdate != null) {
+                    $container->db->update('tbl_tasks', [
+                        'score' => $dataRequest['score'][$i + 1]
+                    ], [
+                            'id_task' => $checkIfExistUpdate[0]
+                        ]);
+                } else {
+                    // $container->db->insert('tbl_tasks', [
+                    //     'id_user' => $dataRequest['user'][$i],
+                    //     'id_class'=> $dataRequest['subject'][2],
+                    //     'id_subject' => $dataRequest['subject'][1],
+                    //     'tanggal' => $dataRequest['date'][$i],
+                    //     'absence' => $dataRequest['absence'][$i]
+                    // ]);
+                }
+            }
+            return $response->withJson(array('success' => true));
         }
     )->add(new Auth());
     //End Exam
@@ -1759,7 +1871,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view'
             // return die(var_dump($_SESSION));
-
+    
             $condition = [
                 'ORDER' => [
                     'id_notification' => 'DESC',
@@ -1811,7 +1923,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view'
             // return var_dump($request->getParam('search'));
-
+    
             $condition = [
                 'ORDER' => [
                     'id_notification' => 'DESC',
@@ -1920,8 +2032,8 @@ return function (App $app) {
                 'date_event' => $dataRequest['date_event'],
                 'category' => $dataRequest['category'],
             ], [
-                'id_notification' => $dataRequest['id']
-            ]);
+                    'id_notification' => $dataRequest['id']
+                ]);
             return $response->withJson(array('success' => true));
             // $container->view->render($response, 'others/notice-board.html', $args);
         }
@@ -1971,8 +2083,8 @@ return function (App $app) {
                 'first_name',
                 'last_name',
             ], [
-                "id_user" => $id,
-            ]);
+                    "id_user" => $id,
+                ]);
             // $container->view->render($response, 'others/messaging.html', $args);
             return $response->withJson($data);
         }
@@ -1987,8 +2099,8 @@ return function (App $app) {
                 'id_user',
                 'email',
             ], [
-                "id_user" => $id,
-            ]);
+                    "id_user" => $id,
+                ]);
             // $container->view->render($response, 'others/messaging.html', $args);
             return $response->withJson($data);
         }
@@ -2004,10 +2116,10 @@ return function (App $app) {
                 'first_name',
                 'last_name',
             ], [
-                "id_user" => $NISN,
-            ]);
+                    "id_user" => $NISN,
+                ]);
             // return var_dump($data);
-
+    
             return $response->withJson($data);
         }
     )->add(new Auth());
@@ -2018,13 +2130,13 @@ return function (App $app) {
             $id_user_type = $request->getParam('id_user_type');
             // return var_dump($request->getParam('id_user'));
             $data = $container->db->select('tbl_users', [
-                '[><]tbl_user_types' =>  'id_user_type',
+                '[><]tbl_user_types' => 'id_user_type',
 
             ], '*', [
-                "id_user_type" => $id_user_type,
-            ]);
+                    "id_user_type" => $id_user_type,
+                ]);
             // return var_dump($data);
-
+    
             return $response->withJson($data);
         }
     )->add(new Auth());
@@ -2040,8 +2152,8 @@ return function (App $app) {
                 'last_name',
                 'username',
             ], [
-                'id_user' => $data['id_sender'],
-            ]);
+                    'id_user' => $data['id_sender'],
+                ]);
             $dataReceipent = $container->db->select('tbl_users', 'email', [
                 'id_user' => $data['id_user'],
             ]);
@@ -2098,20 +2210,21 @@ return function (App $app) {
                 $dataName = $dataSender[0]['username'];
             } else {
                 $dataName = $dataSender[0]['first_name'] . ' ' . $dataSender[0]['last_name'];
-            };
+            }
+            ;
             //Replace plain text body dengan cara manual
             $mail->Body = '<h3>You got message from ' . $dataName . '</h3><br><h1>' . $data['title'] . '</h1><br><br><p>' . $data['message'] . '</p>';
             $mail->AltBody = 'This is a plain-text message body';
             //Attach file gambar
             //  $mail->addAttachment('images/phpmailer_mini.png');
             //mengirim pesan, mengecek error
-
+    
             if (!$mail->send()) {
                 echo "Email Error: " . $mail->ErrorInfo;
             }
             return;
             // kirim email end here
-
+    
             // $container->view->render($response, 'others/messaging.html', $args);
         }
     )->add(new Auth());
@@ -2124,8 +2237,8 @@ return function (App $app) {
             $dataSender = $container->db->update('tbl_messages', [
                 'readed' => 1,
             ], [
-                'id_message' => $data['id_message'],
-            ]);
+                    'id_message' => $data['id_message'],
+                ]);
             // return var_dump($dataSender);
             // $container->view->render($response, 'others/messaging.html', $args);
             return $response->withJson(array('success' => true));
@@ -2140,22 +2253,22 @@ return function (App $app) {
             $dataNotice = $container->db->select('tbl_messages(m)', [
                 '[>]tbl_users' => 'id_user',
             ], [
-                'id_message',
-                'totalMessage' => Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '" . $_SESSION['username'] . "')"),
-                'id_user',
-                'receiver_email',
-                'sender_email',
-                'title',
-                'message',
-                'readed',
-                'photo_sender' => Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
-                'first_name_sender' => Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
-                'last_name_sender' => Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
-                'time_sended',
-            ], [
-                'username' => $_SESSION['username'],
-                'id_message' => $id,
-            ]);
+                    'id_message',
+                    'totalMessage' => Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '" . $_SESSION['username'] . "')"),
+                    'id_user',
+                    'receiver_email',
+                    'sender_email',
+                    'title',
+                    'message',
+                    'readed',
+                    'photo_sender' => Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
+                    'first_name_sender' => Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
+                    'last_name_sender' => Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
+                    'time_sended',
+                ], [
+                    'username' => $_SESSION['username'],
+                    'id_message' => $id,
+                ]);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
         }
@@ -2178,7 +2291,7 @@ return function (App $app) {
         '/profile-setting',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            return UserCredentialController::profilesetting($this, $request, $response, $args);  
+            return UserCredentialController::profilesetting($this, $request, $response, $args);
         }
     )->add(new Auth());
 
@@ -2200,7 +2313,7 @@ return function (App $app) {
             $data = $request->getParsedBody();
             $addPhoto = 'default.png';
             // return var_dump($data);
-
+    
             $insert = $container->db->insert('tbl_users', [
                 "first_name" => $data['first_name'],
                 "last_name" => $data['last_name'],
@@ -2238,7 +2351,7 @@ return function (App $app) {
             $account = $container->db->select('tbl_users', '*');
             // return var_dump($search);
             // die();
-
+    
 
             $totaldata = count($account);
             $totalfiltered = $totaldata;
@@ -2322,27 +2435,35 @@ return function (App $app) {
                 "short_bio" => $data['data_short_bio'],
                 "photo_user" => $addUpdate,
             ], [
-                "id_user" => $data['id_user'],
-            ]);
+                    "id_user" => $data['id_user'],
+                ]);
             // return var_dump($update);
             return $response->withRedirect('/all-account');
         }
     );
-    $app->post('/ubah-password', function (Request $request, Response $response, array $args) use ($container) {
-        return $response->withJson(UserCredentialController::ubahPassword($this, $request, $response, $args));
+    $app->post(
+        '/ubah-password',
+        function (Request $request, Response $response, array $args) use ($container) {
+            return $response->withJson(UserCredentialController::ubahPassword($this, $request, $response, $args));
         }
     );
-    $app->post('/ubah-email', function (Request $request, Response $response, array $args) use ($container) {
-        return UserCredentialController::sendEmailVerification($this, $request, $response, $args);
+    $app->post(
+        '/ubah-email',
+        function (Request $request, Response $response, array $args) use ($container) {
+            return UserCredentialController::sendEmailVerification($this, $request, $response, $args);
         }
     );
-    $app->get('/verifEmailChange/{key}/{email}', function (Request $request, Response $response, array $args) use ($container) {
-        // return die(var_dump($args));
-        return UserCredentialController::ubahEmail($this, $request, $response, $args);
+    $app->get(
+        '/verifEmailChange/{key}/{email}',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // return die(var_dump($args));
+            return UserCredentialController::ubahEmail($this, $request, $response, $args);
         }
     );
-    $app->post('/ubah-username', function (Request $request, Response $response, array $args) use ($container) {
-        return $response->withJson(UserCredentialController::ubahUsername($this, $request, $response, $args));
+    $app->post(
+        '/ubah-username',
+        function (Request $request, Response $response, array $args) use ($container) {
+            return $response->withJson(UserCredentialController::ubahUsername($this, $request, $response, $args));
         }
     );
 
@@ -2405,8 +2526,8 @@ return function (App $app) {
                 "short_bio" => $data['data_short_bio'],
                 "photo_user" => $addUpdate,
             ], [
-                "id_user" => $data['id_user'],
-            ]);
+                    "id_user" => $data['id_user'],
+                ]);
             // return var_dump($update);
             $_SESSION['user'] = '' . $data['first_name'] . ' ' . $data['last_name'];
             $_SESSION['photo_user'] = $addUpdate;
@@ -2446,7 +2567,8 @@ return function (App $app) {
         return dashboardAdminController::apiData($container, $request, $response, [
             'data' => $data
         ]);
-    });
+    }
+    );
     $app->get(
         '/',
         function (Request $request, Response $response, array $args) use ($container) {
