@@ -79,7 +79,175 @@
     <!-- Dashboard summery End Here -->
     <!-- Dashboard Content Start Here -->
     <div class="row">
-        <div class="col-5-xxxl col-12">
+        <!-- <div class="col-5-xxxl col-12">
+            <div class="card dashboard-card-twelve">
+                <div class="card-body">
+                    <div class="heading-layout1">
+                        <div class="item-title">
+                            <h3>Anaku</h3>
+                        </div>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                aria-expanded="false">...</a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kids-details-wrap">
+                        <div class="row">
+                            {% for data in data %}
+                            <div class="col-12-xxxl col-xl-6 col-12">
+                                <div class="kids-details-box mb-5">
+                                    <div class="item-img">
+                                        <img src="uploads/Profile/{{ data.photo_user }}" alt="kids">
+                                    </div>
+                                    <div class="item-content table-responsive">
+                                        <table class="table text-nowrap">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Nama:</td>
+                                                    <td>{{data.first_name}} {{data.last_name}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Jenis Kelamin:</td>
+                                                    <td>{{data.gender}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Kelas:</td>
+                                                    <td>{{data.class}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>NISN:</td>
+                                                    <td>{{data.NISN}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Id Masuk:</td>
+                                                    <td>{{data.id_admission}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Tanggal Masuk:</td>
+                                                    <td>{{data.admission_date |date("j F Y") }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="col-6-xxxl col-12">
+            <div class="card dashboard-card-eleven">
+                <div class="card-body">
+                    <div class="heading-layout1">
+                        <div class="item-title">
+                            <h3>Pembayaran</h3>
+                        </div>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                aria-expanded="false">...</a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-box-wrap">
+                        
+                        <div class="table-responsive expenses-table-box">
+                            <input type="text" class="form-control " id="id" data-id="{{id_parent}}" value="{{id_parent}}"  hidden>
+
+                            <table class="table  text-nowrap" id="data_v2">
+
+                                <thead class="text-center">
+                                    <tr>     
+                                        <th>NISN</th>
+                                        <th>Nama</th>
+                                        <th>Jenis Pembayaran</th>
+                                        <th>Jumlah</th>
+                                        <th>Status</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="show_data">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-12">
+            <div class="card dashboard-card-eleven">
+                <div class="card-body">
+                    <div class="heading-layout1">
+                        <div class="item-title">
+                            <h3>Hasil Ujian</h3>
+                        </div>
+                        <div class="dropdown">
+                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                                aria-expanded="false">...</a>
+
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-times text-orange-red"></i>Close</a>
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                                <a class="dropdown-item" href="#"><i
+                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-box-wrap">
+                        
+                        <div class="table-responsive result-table-box">
+                            <input type="text" class="form-control " id="idd" data-result="{{id_parent}}" value="{{id_parent}}"  hidden>
+
+                            <table class="table text-nowrap" id="Result">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>NISN</th>
+                                        <th>Nama</th>
+                                        <th>Nama Ujian</th>
+                                        <th>Mata Pelajaran</th>
+                                        <th>Kelas</th>
+                                        <th>Nilai</th>
+                                        <th>Grade</th>
+                                        <th>Tanggal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-7-xxxl col-12">
             <div class="card dashboard-card-twelve">
                 <div class="card-body">
                     <div class="heading-layout1">
@@ -147,57 +315,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-7-xxxl col-12">
-            <div class="card dashboard-card-eleven">
-                <div class="card-body">
-                    <div class="heading-layout1">
-                        <div class="item-title">
-                            <h3>Pembayaran</h3>
-                        </div>
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                                aria-expanded="false">...</a>
 
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-times text-orange-red"></i>Close</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                                <a class="dropdown-item" href="#"><i
-                                        class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="table-box-wrap">
-                        
-                        <div class="table-responsive expenses-table-box">
-                            <input type="text" class="form-control " id="id" data-id="{{id_parent}}" value="{{id_parent}}"  hidden>
-
-                            <table class="table  text-nowrap" id="data_v2">
-
-                                <thead class="text-center">
-                                    <tr>     
-                                        <th>NISN</th>
-                                        <th>Nama</th>
-                                        <th>Jenis Pembayaran</th>
-                                        <th>Jumlah</th>
-                                        <th>Status</th>
-                                        <th>Tanggal</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="show_data">
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-   
-        
-    </div>
-    <div class="row">
         <div class="col-xl-5 col-12">
             <div class="card dashboard-card-six">
                 <div class="card-body">
@@ -221,13 +339,12 @@
                     </div>
                     <div class="notice-box-wrap m-height-660"  id="notice-list">
                     
-
                     </div>
-                   
                 </div>
             </div>
         </div>
-        <div class="col-xl-7 col-12">
+
+        <!-- <div class="col-xl-7 col-12">
             <div class="card dashboard-card-eleven">
                 <div class="card-body">
                     <div class="heading-layout1">
@@ -254,7 +371,7 @@
                             <input type="text" class="form-control " id="idd" data-result="{{id_parent}}" value="{{id_parent}}"  hidden>
 
                             <table class="table text-nowrap" id="Result">
-                                <thead>
+                                <thead class="text-center">
                                     <tr>
                                         <th>NISN</th>
                                         <th>Nama</th>
@@ -274,7 +391,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
      <!-- Modal Area Start Here -->

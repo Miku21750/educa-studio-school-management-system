@@ -99,12 +99,12 @@
                             aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" id="closeView"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#" id="editButtonAccount"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#" id="deleteUserAccount"><i
-                                    class="fas fa-trash-alt text-danger"></i>Delete</a>
+                            <a class="dropdown-item" href="#" id="closeView">
+                                <i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#" id="editButtonAccount">
+                                <i class="fas fa-edit text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#" id="deleteUserAccount">
+                                <i class="fas fa-trash-alt text-danger"></i>Delete</a>
                         </div>
                     </div>
                 </div>
@@ -192,12 +192,12 @@
                             aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" id="viewButtonAccount"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#" id="viewButtonAccount"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            <a class="dropdown-item" href="#" id="viewButtonAccount">
+                                <i class="fas fa-times text-orange-red"></i>Tutup</a>
+                            <a class="dropdown-item" href="#" id="viewButtonAccount">
+                                <i class="fas fa-edit text-dark-pastel-green"></i>Ubah</a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
@@ -237,7 +237,103 @@
                                 });
                             </script>
                             <div class="item-content">
-                                <div class="info-table table-responsive">
+                                <div class="row form-group">
+                                    <input type="text" name="id_user" id="idUserEditAccount" hidden>
+                                    <div class="col-6 my-3">
+                                        <label>Bio:</label>
+                                        <textarea id="bioUserEditAccount" name="data_short_bio" cols="120"
+                                            rows="5" class="form-control"></textarea>
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label for="first_name">Nama Depan:</label>
+                                        <input type="text" id="firstNameUserEditAccount"
+                                            placeholder="Masukan nama depan" name="first_name"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label for="last_name">Nama Belakang:</label>
+                                        <input type="text" id="lastNameUserEditAccount"
+                                            placeholder="Masukan nama belakang" name="last_name"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label for="gender">Gender:</label>
+                                        <select name="gender" id="selectGenderUserEditAccount"
+                                            class="form-control">
+                                            <option value="">Pilih gender</option>
+                                            <option value="Laki-Laki">Laki-Laki</option>
+                                            <option value="Prempuan">Perempuan</option>
+                                        </select>
+                                        <!-- {# <input type="text" name="gender" id="genderProfile_Edit"
+                                            list="gender">
+                                        <datalist id="gender">
+                                            <option value="Male">Laki-Laki</option>
+                                            <option value="Female">Perempuan</option>
+                                        </datalist> #} -->
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>User Type:</label>
+                                        <input type="text" id="userTypeEditAccount" placeholder="User_Type"
+                                            name="User_Type" class="form-control" readonly>
+                                    </div>
+                                    <!-- {# <div class="col-6 my-3">
+                                        <td>Father Name:</td>
+                                        <td class="font-medium text-dark-medium">Steve Jones</td>
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <td>Mother Name:</td>
+                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                    </div> #} -->
+                                    <div class="col-6 my-3">
+                                        <label>Tanggal Lahir:</label>
+                                        <input type="date" id="dateBirthUserEditAccount" name="date_of_birth"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>Agama:</label>
+                                        <input type="text" id="religionUserEditAccount"
+                                            placeholder="Masukan Agamamu" name="religion" class="form-control">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>Username:</label>
+                                        <input type="text" id="usernameUserEditAccount" placeholder="username"
+                                            name="username" class="form-control bg-light"
+                                            value="{{ data.username }}" readonly>
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>E-mail:</label>
+                                        <input type="email" id="emailUserEditAccount" name="email"
+                                            class="form-control bg-light" value="{{ data.email }}" readonly>
+                                    </div>
+                                    <!-- {# <div class="col-6 my-3">
+                                        <td>Father Name:</td>
+                                        <td class="font-medium text-dark-medium">Steve Jones</td>
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <td>Mother Name:</td>
+                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                    </div> #} -->
+                                    <div class="col-6 my-3">
+                                        <label>Alamat:</label>
+                                        <input type="text" name="address_user" id="addressUserEditAccount"
+                                            placeholder="Masukan Alamat" class="form-control"
+                                            value="{{ data.address_user }}">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>No Telepon:</label>
+                                        <input type="text" name="phone_user" id="phoneUserEditAccount"
+                                            placeholder="Masukan No Telepon (62-888-8888-8888)"
+                                            class="form-control" value="{{ data.phone_user }}">
+                                    </div>
+                                    
+                                </div>
+                                <div class="btn-footer">
+                                    <button type="submit"  value="Edit Account" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark ">
+                                        Simpan
+                                    </button>
+                                </div>
+
+                                <!-- <div class="info-table table-responsive">
                                     <table class="table ">
                                         <tbody>
                                             <input type="text" name="id_user" id="idUserEditAccount" hidden>
@@ -330,7 +426,7 @@
                                         </tbody>
                                     </table>
                                     <input type="submit" value="Edit Account" class="btn btn-warning">
-                                </div>
+                                </div> -->
                             </div>
                     </form>
                 </div>

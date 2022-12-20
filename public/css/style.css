@@ -815,6 +815,10 @@ h6 {
 .modal-trigger:focus {
   outline: none;
 }
+
+.modal-footer-detail-notif{
+  
+}
 /*=======================================================================
 3. VENDOR CUSTOM STYLE
 =========================================================================*/
@@ -2458,6 +2462,23 @@ ul {
   background-color: #ff9d01;
   color: #fff;
 }
+.item-content .item-header .header-elements ul li a {
+  display: block;
+  background-color: #f0f1f3;
+  border-radius: 4px;
+  color: #646464;
+  font-size: 14px;
+  padding: 7px 12px;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+.item-content .item-header .header-elements ul li a:hover {
+  background-color: #ff9d01;
+  color: #fff;
+}
 .single-info-details .item-content p {
   width: 50%;
 }
@@ -2531,13 +2552,13 @@ ul {
 /*===== ========== 6.2 Notice Board ==================*/
 .notice-board-wrap {
   max-height: 900px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   padding-right: 20px;
 }
 .notice-board-wrap .notice-list {
-  border-bottom: 1px solid #ededed;
+  /* border-bottom: 1px solid #ededed; */
   padding-bottom: 14px;
-  margin-bottom: 18px;
+  margin-bottom: auto;
 }
 .notice-board-wrap .notice-list .post-date {
   display: inline-block;
@@ -3583,7 +3604,7 @@ ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 100vh;
+  height: 100%;
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
