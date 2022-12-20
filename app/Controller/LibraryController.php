@@ -90,8 +90,8 @@ class LibraryController
                 $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
                 $datas['class'] = $m['class'];
-                $datas['published'] = $m['publish_date'];
-                $datas['creating_date'] = $m['upload_date'];
+                $datas['published'] = date('j F Y', strtotime(str_replace('-','/', $m['publish_date'])));
+                $datas['creating_date'] = date('j F Y', strtotime(str_replace('-','/', $m['upload_date'])));
                 $datas['aksi'] = '<div class="dropdown">
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
@@ -194,17 +194,24 @@ class LibraryController
                 $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
                 $datas['class'] = $m['class'];
-                $datas['creating_date'] = $m['upload_date'];
-                $datas['status'] = $m['status_buku'];
+                $tgl = $m['upload_date'];
+                $publish        = date('j F Y', strtotime(str_replace('-','/', $tgl)));
+                $datas['creating_date'] = $publish;
 
-                $siswa = $app->db->select('tbl_peminjaman','*', [
+                if ($m['status_buku'] == "Ada") {
+                    $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">' . $m['status_buku'] . '</p>';
+                } else{
+                    $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['status_buku'] . '</p>';
+                }
+
+                $siswa = $app->db->select('tbl_peminjaman', '*', [
                     'id_user' => $_SESSION['id_user'],
-                    'ket' => ['Dipinjam','Proses', 'Proses Pengembalian', 'Denda'],
+                    'ket' => ['Dipinjam', 'Proses', 'Proses Pengembalian', 'Denda'],
                 ]);
 
                 if ($m['status_buku'] == 'Dipinjam') {
                     $datas['aksi'] = '';
-                }elseif ($siswa != null) {
+                } elseif ($siswa != null) {
                     $datas['aksi'] = '';
                 } else {
                     $datas['aksi'] = '<div class="dropdown">
@@ -504,8 +511,8 @@ class LibraryController
                 $datas['id_buku'] = $m['code_book'];
                 $datas['judul'] = $m['name_book'];
                 $datas['penulis'] = $m['writer_book'];
-                $datas['tanggal_pinjam'] = $m['tgl_pinjam'];
-                $datas['tanggal_pengembalian'] = $m['tgl_kembali'];
+                $datas['tanggal_pinjam'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_pinjam'])));
+                $datas['tanggal_pengembalian'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_kembali'])));
                 $datas['telat'] = $hari;
                 $datas['denda'] = 'Rp. ' . number_format($denda, 0, ',', '.');
 
@@ -515,7 +522,7 @@ class LibraryController
                     $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 } elseif ($m['ket'] == "Dikembalikan") {
                     $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
-                }elseif ($m['ket'] == "Proses Pengembalian") {
+                } elseif ($m['ket'] == "Proses Pengembalian") {
                     $datas['status'] = '<p class="badge badge-pill badge-warning d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 } else {
                     $datas['status'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
@@ -532,7 +539,7 @@ class LibraryController
                     Hapus
                 </a>
                 <a class="dropdown-item btn btn-light item_ubah_pinjam" data="' . $m['id_peminjaman'] . '">
-                    <i class="fas fa-edit text-info"></i>
+                    <i class="fas fa-edit text-dark-pastel-green"></i>
                     Ubah
                 </a>
                     
@@ -557,7 +564,7 @@ class LibraryController
         echo json_encode($json_data);
     }
     public static function tampil_data_peminjaman_siswa($app, $req, $rsp, $args)
-    {   
+    {
         $id_user = $args['data'];
         $book = $app->db->select(
             'tbl_peminjaman',
@@ -568,7 +575,8 @@ class LibraryController
                 '[><]tbl_books' => 'id_book',
 
             ],
-            '*',[
+            '*',
+            [
                 'tbl_users.id_user' => $id_user,
             ]
         );
@@ -659,8 +667,8 @@ class LibraryController
                 $datas['id_buku'] = $m['code_book'];
                 $datas['judul'] = $m['name_book'];
                 $datas['penulis'] = $m['writer_book'];
-                $datas['tanggal_pinjam'] = $m['tgl_pinjam'];
-                $datas['tanggal_pengembalian'] = $m['tgl_kembali'];
+                $datas['tanggal_pinjam'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_pinjam'])));
+                $datas['tanggal_pengembalian'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_kembali'])));
                 $datas['telat'] = $hari;
                 $datas['denda'] = 'Rp. ' . number_format($denda, 0, ',', '.');
 
@@ -670,15 +678,15 @@ class LibraryController
                     $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 } elseif ($m['ket'] == "Dikembalikan") {
                     $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
-                }elseif ($m['ket'] == "Proses Pengembalian") {
+                } elseif ($m['ket'] == "Proses Pengembalian") {
                     $datas['status'] = '<p class="badge badge-pill badge-warning d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 } else {
                     $datas['status'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 }
 
 
-               if ($m['ket'] == 'Dipinjam'  ) {
-                $datas['aksi'] = '<div class="dropdown">
+                if ($m['ket'] == 'Dipinjam') {
+                    $datas['aksi'] = '<div class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
@@ -689,13 +697,13 @@ class LibraryController
                         Ajukan Pengembalian
                     </a>    
                 </div>
-                </div>';                
+                </div>';
                 } else {
                     $datas['aksi'] = '';
                 }
-                    
-                   
-               
+
+
+
                 $data[] = $datas;
                 $no++;
             }
@@ -750,14 +758,14 @@ class LibraryController
     {
         $id_pengembalian = $args['data'];
         // $id_user = $_SESSION['id_user'];
-        
-        
+
+
         $update = $app->db->update('tbl_peminjaman', [
             "ket" => 'Proses Pengembalian',
         ], [
             "id_peminjaman" => $id_pengembalian['kode'],
         ]);
-        
+
         // die(var_dump($update));
 
         // return $rsp->withJson($del);
@@ -849,6 +857,4 @@ class LibraryController
         );
         echo json_encode($json_data);
     }
-
-    
 }

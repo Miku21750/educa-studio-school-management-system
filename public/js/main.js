@@ -1086,55 +1086,69 @@ $(document).ready(function () {
     var phone_number = $('#ephone_number').val();
     var id_driver = $('#eid_driver').val();
     // console.log($('#eroute_name').val())
-    $.ajax({
-      type: "POST",
-      url: "/api/transport/add-transport",
-      dataType: "JSON",
-      data: { route_name: route_name, vehicle_number: vehicle_number, driver_name: driver_name, license_number: license_number, phone_number: phone_number, id_driver: id_driver },
-      success: function (data) {
-        if (data) {
-          console.log(data)
-          let timerInterval
-          Swal.fire({
-            title: 'Memuat Data...',
-            html: 'Tunggu  <b></b>  Detik.',
-            timer: 300,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading()
-              const b = Swal.getHtmlContainer().querySelector('b')
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
-              }, 100)
-            },
-            willClose: () => {
-              clearInterval(timerInterval)
-            }
-          }).then((result) => {
-            transTable.draw(false)
-            Swal.fire(
-              {
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data telah ditambahkan.',
-                //footer: '<a href="">Why do I have this issue?</a>'
+    if (route_name == "" ||
+      vehicle_number == "" ||
+      driver_name == "" ||
+      license_number == "" ||
+      phone_number == "" ||
+      id_driver == ""
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Data harus diisi semua!'
+      })
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "/api/transport/add-transport",
+        dataType: "JSON",
+        data: { route_name: route_name, vehicle_number: vehicle_number, driver_name: driver_name, license_number: license_number, phone_number: phone_number, id_driver: id_driver },
+        success: function (data) {
+          if (data) {
+            console.log(data)
+            let timerInterval
+            Swal.fire({
+              title: 'Memuat Data...',
+              html: 'Tunggu  <b></b>  Detik.',
+              timer: 300,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
               }
+            }).then((result) => {
+              transTable.draw(false)
+              Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: 'Data telah ditambahkan.',
+                  //footer: '<a href="">Why do I have this issue?</a>'
+                }
 
-            )
+              )
 
-          })
+            })
 
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Ada yang eror!',
-            //footer: '<a href="">Why do I have this issue?</a>'
-          })
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ada yang eror!',
+              //footer: '<a href="">Why do I have this issue?</a>'
+            })
+          }
+
         }
-
-      }
-    });
+      });
+    }
     return false;
   });
 
@@ -1410,7 +1424,7 @@ $(document).ready(function () {
     var room_type = $('#eroom_type').val();
     var number_of_bed = $('#enumber_of_bed').val();
     var cost_per_bed = $('#ecost_per_bed').val();
-    console.log(hostel_name)
+    // console.log(hostel_name)
     if (hostel_name == ""
       || room_number == ""
       || room_type == ""
@@ -1753,64 +1767,77 @@ $(document).ready(function () {
     var exam_date = $('#eexam_date').val();
     var exam_start = $('#eexam_start').val();
     var exam_end = $('#eexam_end').val();
-    console.log(id_class);
-    console.log(id_subject);
-    $.ajax({
-      type: "POST",
-      url: "/api/exam/add-exam",
-      dataType: "JSON",
-      data: { exam_name: exam_name, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
-      success: function (data) {
-        if (data) {
-          console.log(data)
-          let timerInterval
-          Swal.fire({
-            title: 'Memuat Data...',
-            html: 'Tunggu  <b></b>  Detik.',
-            timer: 300,
-            timerProgressBar: true,
-            didOpen: () => {
-              Swal.showLoading()
-              const b = Swal.getHtmlContainer().querySelector('b')
-              timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
-              }, 100)
-            },
-            willClose: () => {
-              clearInterval(timerInterval)
-            }
-          }).then((result) => {
-            $('#eexam_name').val('');
-            $('#eclass').val('');
-            $('#esubject').val('').change();
-            $('#eexam_date').val('');
-            $('#eexam_start').val('');
-            $('#eexam_end').val('');
-            examTable.draw(false)
-            Swal.fire(
-              {
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data telah ditambahkan.',
-                //footer: '<a href="">Why do I have this issue?</a>'
+    // console.log(id_class);
+    // console.log(id_subject);
+    if (exam_name == "" ||
+      id_class == "" ||
+      id_subject == "" ||
+      exam_date == "" ||
+      exam_start == "" ||
+      exam_end == ""
+    ) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Data harus diisi semua!'
+      })
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "/api/exam/add-exam",
+        dataType: "JSON",
+        data: { exam_name: exam_name, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
+        success: function (data) {
+          if (data) {
+            console.log(data)
+            let timerInterval
+            Swal.fire({
+              title: 'Memuat Data...',
+              html: 'Tunggu  <b></b>  Detik.',
+              timer: 300,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
               }
+            }).then((result) => {
+              $('#eexam_name').val('');
+              $('#eclass').val('');
+              $('#esubject').val('').change();
+              $('#eexam_date').val('');
+              $('#eexam_start').val('');
+              $('#eexam_end').val('');
+              examTable.draw(false)
+              Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: 'Data telah ditambahkan.',
+                  //footer: '<a href="">Why do I have this issue?</a>'
+                }
 
-            )
+              )
 
-          })
+            })
 
-        } else {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Ada yang eror!',
-            //footer: '<a href="">Why do I have this issue?</a>'
-          })
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ada yang eror!',
+              //footer: '<a href="">Why do I have this issue?</a>'
+            })
+          }
+
         }
-
-      }
-    });
-    z
+      });
+    }
     return false;
   });
 
@@ -2281,6 +2308,172 @@ function googleTranslateElementInit() {
 }
 // JQUERY
 $('document').ready(function () {
+  $("#guru").select2({
+    ajax: {
+        url: "/api/get-guru",
+        method: "get",
+        data: function (params) {
+            return {
+                q: params.term,
+                page: params.page
+            };
+        },
+        processResults: function (data, params) {
+          params.page = params.page || 1;
+          // console.log(data)
+          var results = [];
+          $.each(data, function(k, v) {
+            // console.log(v.id_user);
+              results.push({
+                  id: v.id_user,
+                  text: v.first_name+ ' '+ v.last_name,
+                 
+              });
+          });
+
+          return {
+              results: results,
+              // pagination:
+              // {
+              //     more: true
+              // }
+          };
+            // return {
+            //     results: data
+            // };
+        },
+        cache: true
+    },
+    placeholder: "Pilih Guru",
+}).ready(function () {
+    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+})
+
+$("#get-ortu").select2({
+  ajax: {
+      url: "/api/get-ortu",
+      method: "get",
+      data: function (params) {
+          return {
+              q: params.term,
+              page: params.page
+          };
+      },
+      processResults: function (data, params) {
+        params.page = params.page || 1;
+        console.log(data)
+        var results = [];
+        $.each(data, function(k, v) {
+          // console.log(v.id_user);
+            results.push({
+                id: v.id_user,
+                text: v.first_name+ ' '+ v.last_name,
+               
+            });
+        });
+
+        return {
+            results: results,
+            // pagination:
+            // {
+            //     more: true
+            // }
+        };
+          // return {
+          //     results: data
+          // };
+      },
+      cache: true
+  },
+  // placeholder: "Pilih Orang Tua",
+}).ready(function () {
+  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+})
+$("#get-siswa").select2({
+  ajax: {
+      url: "/api/get-siswa",
+      method: "get",
+      data: function (params) {
+          return {
+              q: params.term,
+              page: params.page
+          };
+      },
+      processResults: function (data, params) {
+        params.page = params.page || 1;
+        console.log(data)
+        var results = [];
+        $.each(data, function(k, v) {
+          // console.log(v.id_user);
+            results.push({
+                id: v.id_user,
+                text: v.first_name+ ' '+ v.last_name,
+               
+            });
+        });
+
+        return {
+            results: results,
+            // pagination:
+            // {
+            //     more: true
+            // }
+        };
+          // return {
+          //     results: data
+          // };
+      },
+      cache: true
+  },
+  // placeholder: "Pilih Orang Tua",
+}).ready(function () {
+  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+})
+$("#nameMessageForm").select2({
+  ajax: {
+      url: "/api/get-all",
+      method: "get",
+      data: function (params) {
+          return {
+              q: params.term,
+              page: params.page
+          };
+      },
+      processResults: function (data, params) {
+        params.page = params.page || 1;
+        console.log(data)
+        var results = [];
+        $.each(data, function(k, v) {
+          // console.log(v.id_user);
+            results.push({
+                id: v.id_user,
+                text: v.first_name+ ' '+ v.last_name,
+               
+            });
+        });
+
+        return {
+            results: results,
+            // pagination:
+            // {
+            //     more: true
+            // }
+        };
+          // return {
+          //     results: data
+          // };
+      },
+      cache: true
+  },
+  // placeholder: "Pilih Orang Tua",
+}).ready(function () {
+  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+})
+  
+  
+
+  
+
   $('#google_translate_element').on("click", function () {
 
     // Change font family and color
@@ -2311,3 +2504,5 @@ $('document').ready(function () {
     });
   });
 });
+
+

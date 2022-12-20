@@ -605,11 +605,12 @@ return function (App $app) {
             $app->post(
                 '/addclassroutine',
                 function (Request $request, Response $response, array $args) use ($app) {
-                        $tambah = $request->getParsedBody();
-                        return ClassRoutineController::add_class_routine($this, $request, $response, [
-                            'tambah' => $tambah,
-                        ]);
-                    }
+                    $tambah = $request->getParsedBody();
+                    // die(var_dump($tambah));
+                    return ClassRoutineController::add_class_routine($this, $request, $response, [
+                        'tambah' => $tambah,
+                    ]);
+                }
             );
             $app->post(
                 '/deleteclassroutine',
@@ -985,6 +986,35 @@ return function (App $app) {
                             'data' => $data
                         ]);
                     }
+            );
+            //Get Data Select2
+            $app->get(
+                '/get-guru',
+                function (Request $request, Response $response, array $args) use ($app) {
+                   
+                    return ClassRoutineController::get_data_guru($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/get-ortu',
+                function (Request $request, Response $response, array $args) use ($app) {
+                   
+                    return StudentController::get_data_ortu($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/get-siswa',
+                function (Request $request, Response $response, array $args) use ($app) {
+                   
+                    return StudentController::get_data_siswa($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/get-all',
+                function (Request $request, Response $response, array $args) use ($app) {
+                   
+                    return StudentController::get_data_all($this, $request, $response, $args);
+                }
             );
         }
     );

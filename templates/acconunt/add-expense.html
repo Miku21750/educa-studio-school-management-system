@@ -7,74 +7,60 @@
 {% if berhasil == true %}
 <script>
 
-    let timerInterval
-    Swal.fire({
-        title: 'Memuat Data...',
-        html: 'Tunggu  <b></b>  Detik.',
-        timer: 400,
-        timerProgressBar: true,
-        didOpen: () => {
-            Swal.showLoading()
-            const b = Swal.getHtmlContainer().querySelector('b')
-            timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
-            }, 300)
-        },
-        willClose: () => {
-            clearInterval(timerInterval)
+  let timerInterval
+  Swal.fire({
+    title: 'Memuat Data...',
+    html: 'Tunggu  <b></b>  Detik.',
+    timer: 400,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading()
+      const b = Swal.getHtmlContainer().querySelector('b')
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft()
+      }, 300)
+    },
+    willClose: () => {
+      clearInterval(timerInterval)
+    }
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      Swal.fire(
+        {
+          icon: 'success',
+          title: 'Berhasil',
+          text: 'Data telah ditambahkan.',
         }
-    }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-          Swal.fire(
-            {
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data telah ditambahkan.',
-            }
 
-        )
-        }
-    })
+      )
+    }
+  })
 </script>
 
 {% endif %}
 
-    <!-- Add Expense Area Start Here -->
+<!-- Add Expense Area Start Here -->
 <div class="card height-auto">
-    <div class="card-body">
-      <div class="heading-layout1">
-        <div class="item-title">
-          <h3>Tambah Pembayaran</h3>
-        </div>
-        <div class="dropdown">
-          <a
-            class="dropdown-toggle"
-            href="#"
-            role="button"
-            data-toggle="dropdown"
-            aria-expanded="false"
-            >...</a
-          >
-  
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-times text-orange-red"></i>Close</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a
-            >
-          </div>
+  <div class="card-body">
+    <div class="heading-layout1">
+      <div class="item-title">
+        <h3>Tambah Pembayaran</h3>
+      </div>
+      <div class="dropdown">
+        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
         </div>
       </div>
-      <form class="new-added-form" action="/api/add-payment" method="post">
-        <div class="row">
+    </div>
+    <form class="new-added-form" action="/api/add-payment" method="post">
+      <div class="row">
 
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            {# {{typei|json_encode()}} #}
+          {# <div class="col-xl-3 col-lg-6 col-12 form-group">
             <label>Tipe Pengguna</label>
             <select class="select2" id="expenseTypeAccount">
             <option>Pilih Tipe Akun </option>
@@ -82,11 +68,11 @@
             <option value="{{data.id_user_type}}">{{data.user_type}} </option>
             {% endfor %}
             </select>          
-          </div>
+          </div> #}
 
           <div class="col-xl-3 col-lg-6 col-12 form-group">
             <label>Nama </label>
-            <select class="select2" id="NamaExpensesInput" name="id_user">
+            <select class="select2" id="nameMessageForm" name="id_user" style="width: 100%;">
             <option>Pilih Name </option>
             </select>          
           </div>
@@ -145,36 +131,89 @@
             </button>
           </div>
         </div>
-      </form>
-    </div>
-  </div>
-  <!-- Add Expense Area End Here -->
 
-  <script>
-    $(document).ready(function () {        
-        $('#expenseTypeAccount').change(function (e) { 
-            e.preventDefault();
-            var id_user_type = $('#expenseTypeAccount').val()
-            //console.log(id_user)
-            $.ajax({
-                type: "GET",
-                url: "/get_id_expenses",
-                data: {
-                    id_user_type: id_user_type 
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    console.log(response);
-                    $('#NamaExpensesInput').empty();
-                    for(i = 0; i < response.length; i++){
-                      $('#NamaExpensesInput').append('<option value="'+response[i].id_user+'">'+response[i].first_name+' '+response[i].last_name+'</option>')
-                    }
-                }
-            });
-        });
-        
-        
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Nama </label>
+          <select class="select2" id="NamaExpensesInput" name="id_user">
+            <option>Pilih Name </option>
+          </select>
+        </div>
+
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Pembayaran </label>
+          <select class="select2" id="pembayaranp" name="pembayaran">
+            <option value="">Pilih Pembayaran</option>
+            {% for data in payment %}
+            <option value="{{data.id_payment_type}}">{{data.payment_type_name}} </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Biaya </label>
+          <input type="text" placeholder="Jumlah Biaya" class="form-control" id="biayap" name="biaya" />
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Tipe Pembayaran </label>
+          <select class="select2" id="tipep" name="tipe">
+            <option>Pilih Tipe Pembayaran</option>
+            <option value="Pemasukan">Pemasukan</option>
+            <option value="Pengeluaran">Pengeluaran</option>
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Status</label>
+          <select class="select2" id="statusp" name="status">
+            <option>Pilih Status</option>
+            <option value="Dibayar">Dibayar</option>
+            <option value="Belum Bayar">Belum Bayar</option>
+          </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Date</label>
+          <input type="text" placeholder="Masukan Tanggal" class="form-control air-datepicker"
+            data-position="bottom right" name="date_payment" id="date" />
+        </div>
+        <div class="col-12 form-group mg-t-8">
+          <button type="submit" id="btnsave" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">
+            Save
+          </button>
+          <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
+            Reset
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Add Expense Area End Here -->
+
+<script>
+  $(document).ready(function () {
+    $('#expenseTypeAccount').change(function (e) {
+      e.preventDefault();
+      var id_user_type = $('#expenseTypeAccount').val()
+      //console.log(id_user)
+      $.ajax({
+        type: "GET",
+        url: "/get_id_expenses",
+        data: {
+          id_user_type: id_user_type
+        },
+        dataType: "JSON",
+        success: function (response) {
+          console.log(response);
+          $('#NamaExpensesInput').empty();
+          for (i = 0; i < response.length; i++) {
+            $('#NamaExpensesInput').append('<option value="' + response[i].id_user + '">' + response[i].first_name + ' ' + response[i].last_name + '</option>')
+          }
+        }
+      });
     });
+
+
+  });
 </script>
-  
+
 {% endblock content %}

@@ -630,6 +630,37 @@ class ClassRoutineController
         );
         return $response->withJson($data);
     }
+    public static function get_data_guru($app, $request, $response, $id_class_routine)
+    {
+       
+        $param = $request->getParams();
+        $condition = [
+            "id_user_type" => 2,
+            "LIMIT" => 5
+        ];
+        if(isset($param['q'])){
+            $search = $param['q'];
+            $condition['OR'] = [
+                'first_name[~]' => '%' . $search . '%',
+                'last_name[~]' => '%' . $search . '%',            
+            ];
+        }
+        $data = $app->db->select(
+            'tbl_users',
+            [
+                'id_user',
+                'NISN',
+                'first_name',
+                'last_name'
+            ],$condition
+        );
+        // die(var_dump($param));
+
+
+
+        
+        return $response->withJson($data);
+    }
 
     public static function update_class_routine($app, $request, $response, $args)
     {

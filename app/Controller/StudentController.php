@@ -203,8 +203,7 @@ class StudentController
                         <i class="fas fa-trash text-orange-red"></i>
                         Hapus
                     </a>
-                    <a class="dropdown-item btn btn-light" class="modal-trigger" data-toggle="modal"
-                    data-target="#large-modal" data="' . $m['id_user'] . '" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
                         <i class="fas fa-solid fa-bars text-orange-peel"></i>
                         Detail
                     </a>
@@ -706,5 +705,94 @@ class StudentController
         );
 
         echo json_encode($json_data);
+    }
+    public static function get_data_ortu($app, $request, $response, $id_class_routine)
+    {
+       
+        $param = $request->getParams();
+        // return die(var_dump($param));
+        $condition = [
+            "id_user_type" => 4,
+            "id_user[!]" => 0,
+            "LIMIT" => 5
+        ];
+        if(isset($param['q'])){
+            $search = $param['q'];
+            $condition['OR'] = [
+                'first_name[~]' => '%' . $search . '%',
+                'last_name[~]' => '%' . $search . '%',            
+            ];
+        }
+        $data = $app->db->select(
+            'tbl_users',
+            [
+                'id_user',
+                'NISN',
+                'first_name',
+                'last_name'
+            ],$condition
+        );
+
+        return $response->withJson($data);
+
+    }
+    public static function get_data_siswa($app, $request, $response, $id_class_routine)
+    {
+       
+        $param = $request->getParams();
+        // return die(var_dump($param));
+        $condition = [
+            "id_user_type" => 1,
+            "id_user[!]" => 0,
+            "LIMIT" => 5
+        ];
+        if(isset($param['q'])){
+            $search = $param['q'];
+            $condition['OR'] = [
+                'first_name[~]' => '%' . $search . '%',
+                'last_name[~]' => '%' . $search . '%',            
+            ];
+        }
+        $data = $app->db->select(
+            'tbl_users',
+            [
+                'id_user',
+                'NISN',
+                'first_name',
+                'last_name'
+            ],$condition
+        );
+
+        return $response->withJson($data);
+
+    }
+    public static function get_data_all($app, $request, $response, $id_class_routine)
+    {
+       
+        $param = $request->getParams();
+        // return die(var_dump($param));
+        $condition = [
+            "id_user[!]" => 0,
+            "LIMIT" => 5
+        ];
+        if(isset($param['q'])){
+            $search = $param['q'];
+            $condition['OR'] = [
+                'first_name[~]' => '%' . $search . '%',
+                'last_name[~]' => '%' . $search . '%',            
+            ];
+        }
+        $data = $app->db->select(
+            'tbl_users',
+            [
+                'id_user',
+                'NISN',
+                'first_name',
+                'last_name'
+            ],$condition
+        );
+
+        return $response->withJson($data);
+
     }
 }

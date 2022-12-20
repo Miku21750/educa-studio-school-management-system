@@ -271,12 +271,10 @@
 
                     </div>
                     <div class="col-6 my-3">
-                      <label for="gender">Orang tua:</label>
+                      <label >Orang tua:</label>
                       <select name="id_parent" class="select2"
-                      id="id_parent_detail">
-                        {% for data in all %}
-                        <option value="{{data.id_user}}">{{data. first_name}} {{data. last_name}}</option>
-                        {% endfor %}
+                      id="get-ortu" style="width: 100%;">
+                        <option value="{{data.id_parent}}">{{data.first_name_ortu}} {{data.last_name_ortu}}</option>
                       </select>
 
                     </div>
@@ -332,7 +330,7 @@
                     </div>
                    
                     <div class="col-12 my-3">
-                      <button type="submit"class="btn bg-warning" > Edit Data</button>  
+                      <button type="submit"class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" > Edit Data</button>  
 
                     </div>
           </form>
@@ -364,7 +362,7 @@
     var id_class = "{{data.kelas}}"
     $('#selectGenderEditProfile').val(gend).change();
     $('#selectBloodGroupEditProfile').val(BlGroup).change();
-    $('#id_parent_detail').val(id_parent).change();
+    $('#get_ortu').val(id_parent).change();
     $('#id_class_detail').val(id_class).change();
   });
 </script>

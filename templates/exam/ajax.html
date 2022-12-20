@@ -296,7 +296,7 @@
         // RESET BUTTON
         $('#reset').click(function (e) {
             e.preventDefault();
-            $('#siswa').val(0).change();
+            $('#get-siswa').val(0).change();
             $('#exam_name').val(0).change();
             $('#ScoreExamInput').val('');
             $('#gradeExam').val(0).change()
@@ -305,7 +305,7 @@
 
         //tambah Data
         $('#btn_add_exam_result').on('click', function () {
-            var id_siswa = $('#siswa').val();
+            var id_siswa = $('#get-siswa').val();
             var id_exam = $('#exam_name').val();
             var score = $('#ScoreExamInput').val();
             var id_grade = $('#gradeExam').val();
@@ -338,7 +338,7 @@
 
                             Result.draw(false)
 
-                            $('#siswa').val(0).change();
+                            $('#get-siswa').val(0).change();
                             $('#exam_name').val(0).change();
                             $('#ScoreExamInput').val('');
                             $('#gradeExam').val(0).change()
