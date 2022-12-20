@@ -127,11 +127,11 @@
                         
                     </div>
                 </div>
-                <div class="modal-footer">
+                <!-- <div class="modal-footer">
                     {# <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
                     <button type="button" class="footer-btn bg-linkedin">Save
                         Changes</button> #}
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -356,7 +356,7 @@
                     .title +
                     '</a></h6> <p>'+response[0].details+'</p> <div class="entry-meta">  ' + response[0]
                     .posted_by +
-                    ' / <span>' + difference + '</span><button id="DeleteNoticeBoardDetails" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark py-3 px-5 float-right mx-3" onclick="deleteNoticeBoard('+response[0].id_notification+')">Delete</button><button id="EditNoticeBoardDetails" class="btn-fill-lg bg-blue-dark btn-hover-yellow py-3 px-5 float-right" onclick="showModalEdit('+response[0].id_notification+')">Edit</button></div></div>');
+                    ' / <span>' + difference + '</span><div class="modal-footer-detail-notif my-3 float-right"><button id="EditNoticeBoardDetails" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-3 mx-4" onclick="showModalEdit('+response[0].id_notification+')">Edit</button><button id="DeleteNoticeBoardDetails" class="btn-fill-lg bg-blue-dark btn-hover-yellow" onclick="deleteNoticeBoard('+response[0].id_notification+')">Delete</button></div></div></div>');
                 }
             });
             // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
@@ -452,7 +452,7 @@
     function deleteNoticeBoard(id){
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-              confirmButton: 'btn btn-success',
+              confirmButton: 'btn btn-success mx-3',
               cancelButton: 'btn btn-danger'
             },
             buttonsStyling: false

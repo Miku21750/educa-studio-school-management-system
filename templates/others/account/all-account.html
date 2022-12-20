@@ -28,14 +28,16 @@
                 <script>
                     var dataIdUserAccountSetting = [];
                 </script>
-                <input type="text" id="searchAccountForm" class="form-control form-control-lg mb-3" placeholder="Search here">
+                <input type="text" id="searchAccountForm" class="form-control form-control-lg mb-3"
+                    placeholder="Search here">
                 <div class="all-user-box" id="userBoxAllAccount">
                     {# {% set idataProfile = 0 %}
                     {% for data in data %}
                     <div class="media media-none--xs" data-id="{{ data.id_user }}">
-                        
+
                         <div class="item-img">
-                            <img src="uploads/Profile/{{data.photo_user}}" class="media-img-auto" style="width: 80px;" alt="user">
+                            <img src="uploads/Profile/{{data.photo_user}}" class="media-img-auto" style="width: 80px;"
+                                alt="user">
                         </div>
                         <div class="media-body space-md" id="idAllUser1">
                             <h5 class="item-title">
@@ -49,7 +51,7 @@
                         </div>
                     </div>
                     {% set idataProfile = idataProfile + 1 %}
-                    
+
                     {% endfor %} #}
 
                 </div>
@@ -90,12 +92,12 @@
                             aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" id="closeView"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#" id="editButtonAccount"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#" id="deleteUserAccount"><i
-                                    class="fas fa-trash-alt text-danger"></i>Delete</a>
+                            <a class="dropdown-item" href="#" id="closeView">
+                                <i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#" id="editButtonAccount">
+                                <i class="fas fa-edit text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#" id="deleteUserAccount">
+                                <i class="fas fa-trash-alt text-danger"></i>Delete</a>
                         </div>
                     </div>
                 </div>
@@ -183,12 +185,12 @@
                             aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="#" id="viewButtonAccount"><i
-                                    class="fas fa-times text-orange-red"></i>Close</a>
-                            <a class="dropdown-item" href="#" id="viewButtonAccount"><i
-                                    class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i
-                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            <a class="dropdown-item" href="#" id="viewButtonAccount">
+                                <i class="fas fa-times text-orange-red"></i>Tutup</a>
+                            <a class="dropdown-item" href="#" id="viewButtonAccount">
+                                <i class="fas fa-edit text-dark-pastel-green"></i>Ubah</a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
@@ -228,7 +230,103 @@
                                 });
                             </script>
                             <div class="item-content">
-                                <div class="info-table table-responsive">
+                                <div class="row form-group">
+                                    <input type="text" name="id_user" id="idUserEditAccount" hidden>
+                                    <div class="col-6 my-3">
+                                        <label>Bio:</label>
+                                        <textarea id="bioUserEditAccount" name="data_short_bio" cols="120"
+                                            rows="5" class="form-control"></textarea>
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label for="first_name">Nama Depan:</label>
+                                        <input type="text" id="firstNameUserEditAccount"
+                                            placeholder="Masukan nama depan" name="first_name"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label for="last_name">Nama Belakang:</label>
+                                        <input type="text" id="lastNameUserEditAccount"
+                                            placeholder="Masukan nama belakang" name="last_name"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label for="gender">Gender:</label>
+                                        <select name="gender" id="selectGenderUserEditAccount"
+                                            class="form-control">
+                                            <option value="">Pilih gender</option>
+                                            <option value="Laki-Laki">Laki-Laki</option>
+                                            <option value="Prempuan">Perempuan</option>
+                                        </select>
+                                        <!-- {# <input type="text" name="gender" id="genderProfile_Edit"
+                                            list="gender">
+                                        <datalist id="gender">
+                                            <option value="Male">Laki-Laki</option>
+                                            <option value="Female">Perempuan</option>
+                                        </datalist> #} -->
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>User Type:</label>
+                                        <input type="text" id="userTypeEditAccount" placeholder="User_Type"
+                                            name="User_Type" class="form-control" readonly>
+                                    </div>
+                                    <!-- {# <div class="col-6 my-3">
+                                        <td>Father Name:</td>
+                                        <td class="font-medium text-dark-medium">Steve Jones</td>
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <td>Mother Name:</td>
+                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                    </div> #} -->
+                                    <div class="col-6 my-3">
+                                        <label>Tanggal Lahir:</label>
+                                        <input type="date" id="dateBirthUserEditAccount" name="date_of_birth"
+                                            class="form-control">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>Agama:</label>
+                                        <input type="text" id="religionUserEditAccount"
+                                            placeholder="Masukan Agamamu" name="religion" class="form-control">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>Username:</label>
+                                        <input type="text" id="usernameUserEditAccount" placeholder="username"
+                                            name="username" class="form-control bg-light"
+                                            value="{{ data.username }}" readonly>
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>E-mail:</label>
+                                        <input type="email" id="emailUserEditAccount" name="email"
+                                            class="form-control bg-light" value="{{ data.email }}" readonly>
+                                    </div>
+                                    <!-- {# <div class="col-6 my-3">
+                                        <td>Father Name:</td>
+                                        <td class="font-medium text-dark-medium">Steve Jones</td>
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <td>Mother Name:</td>
+                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                    </div> #} -->
+                                    <div class="col-6 my-3">
+                                        <label>Alamat:</label>
+                                        <input type="text" name="address_user" id="addressUserEditAccount"
+                                            placeholder="Masukan Alamat" class="form-control"
+                                            value="{{ data.address_user }}">
+                                    </div>
+                                    <div class="col-6 my-3">
+                                        <label>No Telepon:</label>
+                                        <input type="text" name="phone_user" id="phoneUserEditAccount"
+                                            placeholder="Masukan No Telepon (62-888-8888-8888)"
+                                            class="form-control" value="{{ data.phone_user }}">
+                                    </div>
+                                    
+                                </div>
+                                <div class="btn-footer">
+                                    <button type="submit"  value="Edit Account" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark ">
+                                        Simpan
+                                    </button>
+                                </div>
+
+                                <!-- <div class="info-table table-responsive">
                                     <table class="table ">
                                         <tbody>
                                             <input type="text" name="id_user" id="idUserEditAccount" hidden>
@@ -257,11 +355,12 @@
                                                     <option value="Laki-Laki">Laki-Laki</option>
                                                     <option value="Prempuan">Perempuan</option>
                                                 </select>
-                                                {# <input type="text" name="gender" id="genderProfile_Edit" list="gender">
-                                        <datalist id="gender">
-                                            <option value="Male">Laki-Laki</option>
-                                            <option value="Female">Perempuan</option>
-                                        </datalist> #}
+                                                {# <input type="text" name="gender" id="genderProfile_Edit"
+                                                    list="gender">
+                                                <datalist id="gender">
+                                                    <option value="Male">Laki-Laki</option>
+                                                    <option value="Female">Perempuan</option>
+                                                </datalist> #}
                                             </tr>
                                             <tr>
                                                 <label>User Type:</label>
@@ -269,13 +368,13 @@
                                                     name="User_Type" class="form-control" readonly>
                                             </tr>
                                             {# <tr>
-                                        <td>Father Name:</td>
-                                        <td class="font-medium text-dark-medium">Steve Jones</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mother Name:</td>
-                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
-                                    </tr> #}
+                                                <td>Father Name:</td>
+                                                <td class="font-medium text-dark-medium">Steve Jones</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mother Name:</td>
+                                                <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                            </tr> #}
                                             <tr class="form-group">
                                                 <label>Tanggal Lahir:</label>
                                                 <input type="date" id="dateBirthUserEditAccount" name="date_of_birth"
@@ -298,13 +397,13 @@
                                                     class="form-control bg-light" value="{{ data.email }}" readonly>
                                             </tr>
                                             {# <tr>
-                                        <td>Father Name:</td>
-                                        <td class="font-medium text-dark-medium">Steve Jones</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mother Name:</td>
-                                        <td class="font-medium text-dark-medium">Naomi Rose</td>
-                                    </tr> #}
+                                                <td>Father Name:</td>
+                                                <td class="font-medium text-dark-medium">Steve Jones</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mother Name:</td>
+                                                <td class="font-medium text-dark-medium">Naomi Rose</td>
+                                            </tr> #}
                                             <tr>
                                                 <label>Alamat:</label>
                                                 <input type="text" name="address_user" id="addressUserEditAccount"
@@ -320,7 +419,7 @@
                                         </tbody>
                                     </table>
                                     <input type="submit" value="Edit Account" class="btn btn-warning">
-                                </div>
+                                </div> -->
                             </div>
                     </form>
                 </div>
@@ -379,51 +478,51 @@
                         response.account[i].id_user + ',event)" data-id="' +
                         response.account[i].id_user +
                         '"><div class="item-img"><img src="uploads/Profile/' + photo_user +
-                        '" class="media-img-auto" style="width: 80px;" alt="user"></div><div class="media-body space-md" id="idAllUser1"><h5 class="item-title">' +
+                        '" class="media-img-auto" style="width: 80px; height: 80px;" alt="user"></div><div class="media-body space-md" id="idAllUser1"><h5 class="item-title">' +
                         name +
-                        '</h5><div class="item-subtitle">'+type+'</div></div></div></div>');
+                        '</h5><div class="item-subtitle">' + type + '</div></div></div></div>');
                 }
                 pageSize = 5;
                 pagesCount = response.totalData;
                 var totalPages = Math.ceil(pagesCount / pageSize)
-        
+
                 $('.pagination').twbsPagination({
-                totalPages: totalPages,
-                visiblePages: 3,
-                paginationClass: 'd-flex justify-content-end mt-3',
-                firstClass: 'd-none',
-                lastClass: 'd-none',
-                next: '>',
-                prev: '<',
-                first: '<<<',
-                last: '>>>',
-                onPageClick: function(event, page) {
-                    var startIndex = (pageSize * (page - 1))
-                    var endIndex = startIndex + pageSize
-                    $('.line-content').hide().filter(function() {
-                    var idx = $(this).index();
-                    return idx >= startIndex && idx < endIndex;
-                    }).show()
-                }
+                    totalPages: totalPages,
+                    visiblePages: 3,
+                    paginationClass: 'd-flex justify-content-end mt-3',
+                    firstClass: 'd-none',
+                    lastClass: 'd-none',
+                    next: '>',
+                    prev: '<',
+                    first: '<<<',
+                    last: '>>>',
+                    onPageClick: function (event, page) {
+                        var startIndex = (pageSize * (page - 1))
+                        var endIndex = startIndex + pageSize
+                        $('.line-content').hide().filter(function () {
+                            var idx = $(this).index();
+                            return idx >= startIndex && idx < endIndex;
+                        }).show()
+                    }
                 });
             }
         });
         // pageSize = 5;
-//         pagesCount = $("#userBoxAllAccount .media").length;
-//         var totalPages = Math.ceil(pagesCount / pageSize)
+        //         pagesCount = $("#userBoxAllAccount .media").length;
+        //         var totalPages = Math.ceil(pagesCount / pageSize)
 
-//         $('.pagination').twbsPagination({
-//         totalPages: totalPages,
-//         visiblePages: 5,
-//         onPageClick: function(event, page) {
-//             var startIndex = (pageSize * (page - 1))
-//             var endIndex = startIndex + pageSize
-//             $('#userBoxAllAccount .media').hide().filter(function() {
-//             var idx = $(this).index();
-//             return idx >= startIndex && idx < endIndex;
-//             }).show()
-//         }
-//         });
+        //         $('.pagination').twbsPagination({
+        //         totalPages: totalPages,
+        //         visiblePages: 5,
+        //         onPageClick: function(event, page) {
+        //             var startIndex = (pageSize * (page - 1))
+        //             var endIndex = startIndex + pageSize
+        //             $('#userBoxAllAccount .media').hide().filter(function() {
+        //             var idx = $(this).index();
+        //             return idx >= startIndex && idx < endIndex;
+        //             }).show()
+        //         }
+        //         });
         $('#dataDetailsAccount').hide();
         $('#dataEditAccount').hide();
         $('#editButtonAccount').click(function (e) {
@@ -438,14 +537,14 @@
             $('#dataDetailsAccount').hide();
             $('#dataEditAccount').hide();
         });
-        $('#searchAccountForm').keyup(function(e){
+        $('#searchAccountForm').keyup(function (e) {
             var photo_user = '';
             var name = '';
             var s = $('#searchAccountForm').val()
             $.ajax({
                 type: "GET",
                 url: "/getAllAccount",
-                data:{
+                data: {
                     search: s
                 },
                 dataType: "JSON",
@@ -486,32 +585,32 @@
                             response.account[i].id_user + ',event)" data-id="' +
                             response.account[i].id_user +
                             '"><div class="item-img"><img src="uploads/Profile/' + photo_user +
-                            '" class="media-img-auto" style="width: 80px;" alt="user"></div><div class="media-body space-md" id="idAllUser1"><h5 class="item-title">' +
+                            '" class="media-img-auto" style="width: 80px; height: 80px;" alt="user"></div><div class="media-body space-md" id="idAllUser1"><h5 class="item-title">' +
                             name +
-                            '</h5><div class="item-subtitle">'+type+'</div></div></div></div>');
+                            '</h5><div class="item-subtitle">' + type + '</div></div></div></div>');
                     }
                     pageSize = 5;
                     pagesCount = response.totalData;
                     var totalPages = Math.ceil(pagesCount / pageSize)
                     $('.pagination').twbsPagination('destroy');
                     $('.pagination').twbsPagination({
-                    totalPages: totalPages,
-                    visiblePages: 3,
-                    paginationClass: 'd-flex justify-content-end mt-3',
-                    firstClass: 'd-none',
-                    lastClass: 'd-none',
-                    next: '>',
-                    prev: '<',
-                    first: '<<<',
-                    last: '>>>',
-                    onPageClick: function(event, page) {
-                        var startIndex = (pageSize * (page - 1))
-                        var endIndex = startIndex + pageSize
-                        $('.line-content').hide().filter(function() {
-                        var idx = $(this).index();
-                        return idx >= startIndex && idx < endIndex;
-                        }).show()
-                    }
+                        totalPages: totalPages,
+                        visiblePages: 3,
+                        paginationClass: 'd-flex justify-content-end mt-3',
+                        firstClass: 'd-none',
+                        lastClass: 'd-none',
+                        next: '>',
+                        prev: '<',
+                        first: '<<<',
+                        last: '>>>',
+                        onPageClick: function (event, page) {
+                            var startIndex = (pageSize * (page - 1))
+                            var endIndex = startIndex + pageSize
+                            $('.line-content').hide().filter(function () {
+                                var idx = $(this).index();
+                                return idx >= startIndex && idx < endIndex;
+                            }).show()
+                        }
                     });
                 }
             });
@@ -579,61 +678,61 @@
             })
         });
     });
-    function paginationGoTo(pag){
+    function paginationGoTo(pag) {
         var photo_user = '';
         var name = '';
-        
+
         //$('.pagination').empty();
         // $.ajax({
-//     type: "GET",
-//     url: "/getAllAccount",
-//     data:{
-//         page: pag
-//     },
-//     dataType: "JSON",
-//     success: function (response) {
-//         $('#userBoxAllAccount').empty();
-//         for (i = 0; i < response.account.length; i++) {
-//             console.log(response.account[i].username)
-//             if (response.account[i].first_name == '') {
-//                 name = response.account[i].username
-//             } else {
-//                 name = response.account[i].first_name + ' ' + response.account[i].last_name
-//             }
-//             if (response.account[i].photo_user == '') {
-//                 photo_user = 'default.png'
-//             } else {
-//                 photo_user = response.account[i].photo_user
-//             }
-//             $('#userBoxAllAccount').append(
-//                 '<div class="line-content"><div class="media media-none--xs data-id-account" onclick="showDetailMessage(' +
-//                 response.account[i].id_user + ')" data-id="' +
-//                 response.account[i].id_user +
-//                 '"><div class="item-img"><img src="uploads/Profile/' + photo_user +
-//                 '" class="media-img-auto" style="width: 80px;" alt="user"></div><div class="media-body space-md" id="idAllUser1"><h5 class="item-title">' +
-//                 name +
-//                 '</h5><div class="item-subtitle">Super Admin</div></div></div></div>');
-//         }
-//         pageSize = response.limit;
-//         pagesCount = response.page;
-//         var totalPages = Math.ceil(pagesCount / pageSize)
+        //     type: "GET",
+        //     url: "/getAllAccount",
+        //     data:{
+        //         page: pag
+        //     },
+        //     dataType: "JSON",
+        //     success: function (response) {
+        //         $('#userBoxAllAccount').empty();
+        //         for (i = 0; i < response.account.length; i++) {
+        //             console.log(response.account[i].username)
+        //             if (response.account[i].first_name == '') {
+        //                 name = response.account[i].username
+        //             } else {
+        //                 name = response.account[i].first_name + ' ' + response.account[i].last_name
+        //             }
+        //             if (response.account[i].photo_user == '') {
+        //                 photo_user = 'default.png'
+        //             } else {
+        //                 photo_user = response.account[i].photo_user
+        //             }
+        //             $('#userBoxAllAccount').append(
+        //                 '<div class="line-content"><div class="media media-none--xs data-id-account" onclick="showDetailMessage(' +
+        //                 response.account[i].id_user + ')" data-id="' +
+        //                 response.account[i].id_user +
+        //                 '"><div class="item-img"><img src="uploads/Profile/' + photo_user +
+        //                 '" class="media-img-auto" style="width: 80px;" alt="user"></div><div class="media-body space-md" id="idAllUser1"><h5 class="item-title">' +
+        //                 name +
+        //                 '</h5><div class="item-subtitle">Super Admin</div></div></div></div>');
+        //         }
+        //         pageSize = response.limit;
+        //         pagesCount = response.page;
+        //         var totalPages = Math.ceil(pagesCount / pageSize)
 
-//         $('.pagination').twbsPagination({
-//         totalPages: totalPages,
-//         visiblePages: 5,
-//         onPageClick: function(event, page) {
-//             var startIndex = (pageSize * (page - 1))
-//             var endIndex = startIndex + pageSize
-//             $('.line-content').hide().filter(function() {
-//             var idx = $(this).index();
-//             return idx >= startIndex && idx < endIndex;
-//             }).show()
-//         }
-//         });
-//     }
-// });
+        //         $('.pagination').twbsPagination({
+        //         totalPages: totalPages,
+        //         visiblePages: 5,
+        //         onPageClick: function(event, page) {
+        //             var startIndex = (pageSize * (page - 1))
+        //             var endIndex = startIndex + pageSize
+        //             $('.line-content').hide().filter(function() {
+        //             var idx = $(this).index();
+        //             return idx >= startIndex && idx < endIndex;
+        //             }).show()
+        //         }
+        //         });
+        //     }
+        // });
     }
-    function showDetailMessage(data_id,e) {
+    function showDetailMessage(data_id, e) {
         console.log(e)
         $('.active').removeClass('active');
         $(e.currentTarget).addClass('active');
@@ -693,7 +792,7 @@
                 $('#idUserEditAccount').val(response.id_user)
                 $('#imagePreviewAccount').attr('style',
                     'background-image: url(/uploads/Profile/' + response
-                    .photo_user + ');')
+                        .photo_user + ');')
                 $('#bioUserEditAccount').val(response.short_bio)
                 $('#firstNameUserEditAccount').val(response.first_name)
                 $('#lastNameUserEditAccount').val(response.last_name)
