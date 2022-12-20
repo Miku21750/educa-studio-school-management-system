@@ -176,10 +176,10 @@ return function (App $app) {
     $container['db'] = function($c){
         $database = new Medoo([
             'database_type' => 'mysql',
-            'server' => '192.168.137.1',
+            'server' => '127.0.0.1',
             'database_name' => 'educa_db',
-            'username' => 'educa_sms',
-            'password' => 'educa_sms',
+            'username' => 'root',
+            'password' => '',
         ]);
         return $database;
     };
