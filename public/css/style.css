@@ -1343,8 +1343,8 @@ h6 {
   display: none;
 }
 #preloader {
-  /* background: #ffffff url('/img/preloader.gif') no-repeat scroll center center; */
-  background: #ffffff url('https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif') no-repeat scroll center center;
+  background: #ffffff url('/img/preloader.gif') no-repeat scroll center center;
+  /* background: #ffffff url('https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif') no-repeat scroll center center; */
   height: 100%;
   left: 0;
   overflow: visible;
@@ -3581,7 +3581,7 @@ ul {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  height: 100vh;
+  height: 100%;
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
