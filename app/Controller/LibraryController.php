@@ -204,14 +204,14 @@ class LibraryController
                     $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['status_buku'] . '</p>';
                 }
 
-                $siswa = $app->db->select('tbl_peminjaman','*', [
+                $siswa = $app->db->select('tbl_peminjaman', '*', [
                     'id_user' => $_SESSION['id_user'],
-                    'ket' => ['Dipinjam','Proses', 'Proses Pengembalian', 'Denda'],
+                    'ket' => ['Dipinjam', 'Proses', 'Proses Pengembalian', 'Denda'],
                 ]);
 
                 if ($m['status_buku'] == 'Dipinjam') {
                     $datas['aksi'] = '';
-                }elseif ($siswa != null) {
+                } elseif ($siswa != null) {
                     $datas['aksi'] = '';
                 } else {
                     $datas['aksi'] = '<div class="dropdown">
@@ -522,7 +522,7 @@ class LibraryController
                     $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 } elseif ($m['ket'] == "Dikembalikan") {
                     $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
-                }elseif ($m['ket'] == "Proses Pengembalian") {
+                } elseif ($m['ket'] == "Proses Pengembalian") {
                     $datas['status'] = '<p class="badge badge-pill badge-warning d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 } else {
                     $datas['status'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
@@ -539,7 +539,7 @@ class LibraryController
                     Hapus
                 </a>
                 <a class="dropdown-item btn btn-light item_ubah_pinjam" data="' . $m['id_peminjaman'] . '">
-                    <i class="fas fa-edit text-info"></i>
+                    <i class="fas fa-edit text-dark-pastel-green"></i>
                     Ubah
                 </a>
                     
@@ -564,7 +564,7 @@ class LibraryController
         echo json_encode($json_data);
     }
     public static function tampil_data_peminjaman_siswa($app, $req, $rsp, $args)
-    {   
+    {
         $id_user = $args['data'];
         $book = $app->db->select(
             'tbl_peminjaman',
@@ -575,7 +575,8 @@ class LibraryController
                 '[><]tbl_books' => 'id_book',
 
             ],
-            '*',[
+            '*',
+            [
                 'tbl_users.id_user' => $id_user,
             ]
         );
@@ -677,15 +678,15 @@ class LibraryController
                     $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 } elseif ($m['ket'] == "Dikembalikan") {
                     $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
-                }elseif ($m['ket'] == "Proses Pengembalian") {
+                } elseif ($m['ket'] == "Proses Pengembalian") {
                     $datas['status'] = '<p class="badge badge-pill badge-warning d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 } else {
                     $datas['status'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">' . $m['ket'] . '</p>';
                 }
 
 
-               if ($m['ket'] == 'Dipinjam'  ) {
-                $datas['aksi'] = '<div class="dropdown">
+                if ($m['ket'] == 'Dipinjam') {
+                    $datas['aksi'] = '<div class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
@@ -696,13 +697,13 @@ class LibraryController
                         Ajukan Pengembalian
                     </a>    
                 </div>
-                </div>';                
+                </div>';
                 } else {
                     $datas['aksi'] = '';
                 }
-                    
-                   
-               
+
+
+
                 $data[] = $datas;
                 $no++;
             }
@@ -757,14 +758,14 @@ class LibraryController
     {
         $id_pengembalian = $args['data'];
         // $id_user = $_SESSION['id_user'];
-        
-        
+
+
         $update = $app->db->update('tbl_peminjaman', [
             "ket" => 'Proses Pengembalian',
         ], [
             "id_peminjaman" => $id_pengembalian['kode'],
         ]);
-        
+
         // die(var_dump($update));
 
         // return $rsp->withJson($del);
@@ -856,6 +857,4 @@ class LibraryController
         );
         echo json_encode($json_data);
     }
-
-    
 }

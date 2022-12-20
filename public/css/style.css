@@ -138,8 +138,8 @@ h6 {
   padding: 15px 30px 30px;
   background-color: #ffffff;
   border-radius: 4px;
-  -webkit-box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75);
-  box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75);
+  /* -webkit-box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75); */
+  /* box-shadow: 0px 10px 20px 0px rgba(229, 229, 229, 0.75); */
 }
 /*=============== 2.2 Dropdown ==================*/
 .dropdown .dropdown-menu {
@@ -815,6 +815,10 @@ h6 {
 .modal-trigger:focus {
   outline: none;
 }
+
+.modal-footer-detail-notif{
+  
+}
 /*=======================================================================
 3. VENDOR CUSTOM STYLE
 =========================================================================*/
@@ -1085,7 +1089,8 @@ h6 {
 .select2-container .select2-selection--single .select2-selection__rendered {
   
   line-height: 50px;
-  color: #b4b4b4;
+  /* color: #b4b4b4; */
+  color: black;
   padding-left: 20px;
   padding-right: 30px;
   font-size: 15px;
@@ -1345,8 +1350,8 @@ h6 {
   display: none;
 }
 #preloader {
-  /* background: #ffffff url('/img/preloader.gif') no-repeat scroll center center; */
-  background: #ffffff url('https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif') no-repeat scroll center center;
+  background: #ffffff url('/img/preloader.gif') no-repeat scroll center center;
+  /* background: #ffffff url('https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif') no-repeat scroll center center; */
   height: 100%;
   left: 0;
   overflow: visible;
@@ -2459,6 +2464,23 @@ ul {
   background-color: #ff9d01;
   color: #fff;
 }
+.item-content .item-header .header-elements ul li a {
+  display: block;
+  background-color: #f0f1f3;
+  border-radius: 4px;
+  color: #646464;
+  font-size: 14px;
+  padding: 7px 12px;
+  -webkit-transition: all 0.3s ease-out;
+  -moz-transition: all 0.3s ease-out;
+  -ms-transition: all 0.3s ease-out;
+  -o-transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
+}
+.item-content .item-header .header-elements ul li a:hover {
+  background-color: #ff9d01;
+  color: #fff;
+}
 .single-info-details .item-content p {
   width: 50%;
 }
@@ -2532,13 +2554,13 @@ ul {
 /*===== ========== 6.2 Notice Board ==================*/
 .notice-board-wrap {
   max-height: 900px;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
   padding-right: 20px;
 }
 .notice-board-wrap .notice-list {
-  border-bottom: 1px solid #ededed;
+  /* border-bottom: 1px solid #ededed; */
   padding-bottom: 14px;
-  margin-bottom: 18px;
+  margin-bottom: auto;
 }
 .notice-board-wrap .notice-list .post-date {
   display: inline-block;
@@ -2744,6 +2766,7 @@ ul {
 }
 .account-settings-box .all-user-box .media .item-img img {
   border-radius: 50%;
+  object-fit: cover;
 }
 .account-settings-box .all-user-box .media .media-body .item-title {
   font-weight: 500;

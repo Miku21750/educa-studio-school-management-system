@@ -120,7 +120,7 @@
                 </form> -->
                 <div class="table-responsive">
                     <table class="table display text-nowrap" id="subject">
-                        <thead>
+                        <thead class="text-center">
                             <tr>
                                 <th>No</th>
                                 <th>Nama Mata Pelajaran</th>
@@ -163,7 +163,7 @@
 
     <!-- MODAL UPDATE -->
     <div class="modal fade" id="detail_subject" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Detail Subject</h5>
@@ -180,28 +180,24 @@
 
                                 </div>
                                 <div class="info-table table-responsive">
-                                    <table class="table text-nowrap">
-                                        <tbody>
-                                            <input type="text" name="id_subject" id="id_subject" value="" hidden>
-                                            <tr class="form-group">
-                                                <label>Subject Name </label>
-                                                <input type="text" name="subjectnameU" id="subject_nameU" placeholder=""
-                                                    class="form-control form-control-lg" autofocus>
-                                            </tr>
+                                    <input type="text" name="id_subject" id="id_subject" value="" hidden>
+                                    <div class="form-group">
+                                        <label>Subject Name </label>
+                                        <input type="text" name="subjectnameU" id="subject_nameU" placeholder=""
+                                            class="form-control" autofocus>
+                                    </div>
 
-                                            <tr class="form-group">
-                                                <label>Subject Type</label>
-                                                <select class="form-control form-control-lg select2" name="subjecttype"
-                                                    id="subject_typeU">
-                                                    <option value="0">Please Select</option>
-                                                    <option value="Practice">Practice</option>
-                                                    <option value="Mathematic">Mathematic</option>
-                                                    <option value="Theory">Theory</option>
-                                                </select>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <button class="btn btn-warning btn-lg" id="btn_update_subject">Simpan</button>
+                                    <div class="form-group">
+                                        <label>Subject Type</label>
+                                        <select class="form-control form-control-lg select2" name="subjecttypeU"
+                                            id="subject_typeU">
+                                            <option value="0">Please Select</option>
+                                            <option value="Practice">Practice</option>
+                                            <option value="Mathematic">Mathematic</option>
+                                            <option value="Theory">Theory</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn-fill-sm radius-4 text-light btn-gradient-yellow btn-hover-bluedark" id="btn_update_subject">Simpan</button>
                                 </div>
                             </div>
                         </div>
@@ -422,7 +418,7 @@
                 // $('#detail_subject').modal('show');
                 $('[name="id_subject"]').val(data.id_subject);
                 $('[name="subjectnameU"]').val(data.subject_name);
-                $('[name="subjecttype"]').val(data.subject_type);
+                $('[name="subjecttypeU"]').val(data.subject_type);
             }
         });
         return false;

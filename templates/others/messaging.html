@@ -3,7 +3,7 @@
 {% set typeFrontEnd = "Message" %}
 {% set section_type = "Message" %}
 {% block content %}
-    
+
 <div class="row">
     <!-- Add Notice Area Start Here -->
     <div class="col-xl-12">
@@ -13,14 +13,15 @@
                     <div class="item-title">
                         <h3>Write New Message</h3>
                     </div>
-                   <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" 
-                        data-toggle="dropdown" aria-expanded="false">...</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
                             <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
@@ -29,7 +30,8 @@
                         <div class="col-12 form-group">
                             <input type="text" value="{{idSenderDefault}}" name="id_sender" hidden>
                             <label>Title</label>
-                            <input type="text" placeholder="" name="title" id="titleMessageForm" class="form-control">
+                            <input type="text" placeholder="" name="title" id="titleMessageForm" class="form-control"
+                                required>
                         </div>
                         <div class="col-12 form-group">
                             <label>Recipient Name</label>
@@ -44,17 +46,17 @@
                             <select name="email" id="emailMessageForm" class="form-control select2" disabled>
                                 <option value="">Pilih Email</option>
                                 {% for data in data %}
-                                    <option value="{{data.id_user}}">{{data.email}}</option>
+                                <option value="{{data.id_user}}">{{data.email}}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="col-12 form-group">
                             <label>Message</label>
                             <textarea class="textarea form-control" name="message" id="form-message" cols="10"
-                            rows="9"></textarea>
+                                rows="9"></textarea>
                         </div>
                         <div class="col-12 form-group mg-t-8">
-                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" id="submitMessage">Save</button>
+                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" id="submitMessage">Kirim</button>
                             <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow" id="resetMessage">Reset</button>
                         </div>
                     </div>
@@ -71,14 +73,15 @@
                     <div class="item-title">
                         <h3>Successful Message</h3>
                     </div>
-                     <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" 
-                        data-toggle="dropdown" aria-expanded="false">...</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
                             <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
@@ -98,14 +101,15 @@
                     <div class="item-title">
                         <h3>Error Message</h3>
                     </div>
-                     <div class="dropdown">
-                        <a class="dropdown-toggle" href="#" role="button" 
-                        data-toggle="dropdown" aria-expanded="false">...</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
 
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
                             <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-                            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
                     </div>
                 </div>
@@ -123,26 +127,26 @@
     <!-- All Notice Area End Here -->
 </div>
 <script>
-    $(document).ready(function () {        
-        $('#nameMessageForm').change(function (e) { 
+    $(document).ready(function () {
+        $('#nameMessageForm').change(function (e) {
             e.preventDefault();
             var id_user = $('#nameMessageForm').val()
             $.ajax({
                 type: "GET",
                 url: "/getEmailMessage",
                 data: {
-                    id_user: id_user 
+                    id_user: id_user
                 },
                 dataType: "JSON",
                 success: function (response) {
                     console.log(response[0].id_user);
                     $('#emailMessageForm').val(response[0].id_user).change();
-                    $('#emailMessageForm').attr('disabled','disabled');
+                    $('#emailMessageForm').attr('disabled', 'disabled');
                 }
             });
         });
         //action="/messagePost" id="messageFormSend"
-        $('#resetMessage').click(function (e) { 
+        $('#resetMessage').click(function (e) {
             e.preventDefault();
             $('#emailMessageForm').val('').change();
             $('#nameMessageForm').val('').change();
@@ -150,56 +154,75 @@
             $('#form-message').val('');
 
         });
-        $('#messageFormSend').submit(function (e) { 
+        $('#messageFormSend').submit(function (e) {
             e.preventDefault();
             // get all the inputs into an array.
             var $inputs = $('#messageFormSend :input');
-    
+
             // not sure if you wanted this, but I thought I'd add it.
             // get an associative array of just the values.
             var values = {};
-            $inputs.each(function() {
+            $inputs.each(function () {
                 values[this.name] = $(this).val();
             });
-            $.ajax({
-                type: "POST",
-                url: "/messageSend",
-                data: {
-                    id_user : values.idReceipentUserMessage,
-                    id_sender : values.id_sender,
-                    title : values.title,
-                    message : values.message
-                },
-                beforeSend: function(){
-                    //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
-                    Swal.fire({
-                      title: 'Loading...',
-                      text: 'Mengirim data ke server...',
-                      imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
-                      imageWidth: 400,
-                      imageHeight: 200,
-                      imageAlt: 'Custom image',
-                      showConfirmButton: false
-                    })
-                  },
-                success: function (response) {
-                    //Swal.close();
-                    console.log(response);
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Your message was sended',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
-                    .then((result)=>{
-                        if(true){
-                            $('#titleMessageForm').focus();
-                            //$('html, body').animate({ scrollTop: $('#titleMessageForm').offset().top }, 'fast');
-                        }
-                      })
-                }
-            })
-            
+
+            var title = $('#titleMessageForm').val();
+            var recipientN = $('#nameMessageForm').val();
+            var recipientE = $('#emailMessageForm').val();
+            var message = $('#form-message').val();
+            if (title == "" || recipientN == "" || recipientE == "" || message == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Data harus diisi semua!'
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/messageSend",
+                    data: {
+                        id_user: values.idReceipentUserMessage,
+                        id_sender: values.id_sender,
+                        title: values.title,
+                        message: values.message
+                    },
+                    beforeSend: function () {
+                        //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
+                        Swal.fire({
+                            title: 'Loading...',
+                            text: 'Mengirim data ke server...',
+                            //   imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
+                            imageUrl: 'img/preloader.gif',
+                            imageWidth: 400,
+                            imageHeight: 300,
+                            imageAlt: 'Custom image',
+                            showConfirmButton: false
+                        })
+                    },
+                    success: function (response) {
+                        //Swal.close();
+                        console.log(response);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Your message was sended',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                            .then((result) => {
+                                if (true) {
+                                    $('#titleMessageForm').focus();
+                                    //$('html, body').animate({ scrollTop: $('#titleMessageForm').offset().top }, 'fast');
+
+                                    $('#titleMessageForm').val('');
+                                    $('#nameMessageForm').val('').change();
+                                    $('#emailMessageForm').val('').change();
+                                    $('#form-message').val('');
+                                }
+                            })
+                    }
+                })
+            }
+
         });
     });
 </script>
@@ -207,7 +230,7 @@
     .select2-container.select2-container-disabled .select2-choice {
         background-color: #ddd;
         border-color: #a8a8a8;
-      }
+    }
 </style>
 
 {% endblock content %}
