@@ -220,7 +220,7 @@
                     viewStudent = response.dataStudentArrivedInAttend
                     $('#viewAttendSheetButton').attr('disabled', true)
                     $('#attendSheetView').show();
-                    $('#studentFormAttendViewSheet').append('<input type="text" value="'+subjectAttendType+'" hidden></input>')
+                    $('#studentFormAttendViewSheet').append('<input type="text" name="subject" value="'+subjectAttendType+'" hidden></input><input type="text" name="class" value="'+classAttendType+'" hidden></input>')
                     $('#titleAttendSheet').html('Attendence Sheet Of Class ' + viewStudent[0]
                         .class + ' ' + viewStudent[0].section + ': Subject '+response.subjectStudentAttend[0].subject_name);
 //                     var date = new Date();
