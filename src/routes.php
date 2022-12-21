@@ -1713,9 +1713,10 @@ return function (App $app) {
                     'tbl_tasks.score',
                 ], [
                     'tbl_users.id_class' => $dataRequest['class'],
-                    'session' => $dataRequest['session']
+                    'session' => $dataRequest['session'],
+                    'tbl_tasks.task_type'=> $dataRequest['taskType'],
                 ]);
-
+            // return die(var_dump($checkTotalTask));
             $checkTotalStudent = count($dataStudentTaskSuccess);
             $checkStudentDateIfExistChecklist = [];
             for ($i = 0; $i < count($checkTotalTask); $i++) {
@@ -1837,7 +1838,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $dataRequest = $request->getParsedBody();
-            return die(var_dump($dataRequest));
+            // return die(var_dump($dataRequest));
             $allValues = count($dataRequest['id_user']);
             // return die(var_dump($dataRequest));
             for ($i = 0; $i < $allValues; $i++) {
