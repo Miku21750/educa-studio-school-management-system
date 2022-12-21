@@ -60,19 +60,19 @@
     <form class="new-added-form" action="/api/add-payment" method="post">
       <div class="row">
 
-          {# <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <div class="col-xl-3 col-lg-6 col-12 form-group">
             <label>Tipe Pengguna</label>
             <select class="select2" id="expenseTypeAccount">
-            <option>Pilih Tipe Akun </option>
+              <option >Pilih Tipe </option>
             {% for data in typei %}
             <option value="{{data.id_user_type}}">{{data.user_type}} </option>
             {% endfor %}
             </select>          
-          </div> #}
+          </div>
 
           <div class="col-xl-3 col-lg-6 col-12 form-group">
             <label>Nama </label>
-            <select class="select2" id="nameMessageForm" name="id_user" style="width: 100%;">
+            <select class="select2" id="get-tipe" name="id_user" style="width: 100%;" >
             <option>Pilih Name </option>
             </select>          
           </div>
@@ -186,10 +186,9 @@
       </div> -->
     </form>
   </div>
-</div>
 <!-- Add Expense Area End Here -->
 
-<script>
+{# <script>
   $(document).ready(function () {
     $('#expenseTypeAccount').change(function (e) {
       e.preventDefault();
@@ -214,6 +213,6 @@
 
 
   });
-</script>
+</script> #}
 
 {% endblock content %}

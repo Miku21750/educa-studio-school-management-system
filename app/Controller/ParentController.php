@@ -212,11 +212,18 @@ class ParentController
         ], [
             'id_user' => $id_parent
         ]);
+        $date = $app->db->select('tbl_users', 'date_of_birth', [
+            'id_user' => $id_parent
+        ]);
+        $tanggal = AcconuntController::tgl_indo($date[0]);
+        // die(var_dump($tanggal));
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
 
         $app->view->render($response, 'parents/parents-details.html', [
             'data' =>  $data[0],
+            'tanggal' =>  $tanggal,
+
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
 

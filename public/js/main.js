@@ -502,7 +502,7 @@
         // console.log(response)
         var dataEventCalendar = response;
         var event = [];
-        // console.log(dataEventCalendar)
+        // console.log(dataEventCalendar);
         for (var i = 0; i < dataEventCalendar.length; i++) {
           var time_temp = new Date(dataEventCalendar[i].date_event);
           var time = time_temp.getTime();
@@ -532,10 +532,14 @@
           event.push({
             title: dataEventCalendar[i].title,
             start: time,
+            day: dataEventCalendar[i].date_notice,
             color: colorCategory,
+            'data-attributes': {
+              eventDressCode: 'casual'
+            }
           })
         }
-        console.log(dataEventCalendar)
+        // console.log(dataEventCalendar)
         if ($.fn.fullCalendar !== undefined) {
           calendarEvent(event);
         }
@@ -556,9 +560,18 @@ function calendarEvent(event) {
     navLinks: true, // can click day/week names to navigate views
     editable: true,
     eventLimit: true, // allow "more" link when too many events
-    aspectRatio: 1.8,
+    // aspectRatio: 1.8,
     events: event,
-    // defaultView: 'ay'
+    eventClick: function (modal) {
+
+      // alert('Event: ' + modal.title);
+
+      Swal.fire({
+        title: modal.title,
+        html: '<h5>Tanggal : ' + modal.day + '</h5>',
+      });
+
+    }
   });
 }
 /*-------------------------------------
@@ -2142,7 +2155,7 @@ $(document).ready(function () {
             difference = minus.days + ' hari lalu';
           }
 
-          console.log('response[i].category')
+          // console.log('response[i].category')
           var classCategory;
           switch (response[i].category) {
             case 'Exam': {
@@ -2469,14 +2482,61 @@ $('document').ready(function () {
         // };
       },
       cache: true
-    },
-    // placeholder: "Pilih Orang Tua",
-  }).ready(function () {
-    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-  })
+  },
+  // placeholder: "Pilih Orang Tua",
+}).ready(function () {
+  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+})
+  
 
+$('#expenseTypeAccount').change(function (e) {
+  e.preventDefault();
+  var id_user_type = $('#expenseTypeAccount').val()
+  
+$("#get-tipe").select2({
 
+ajax: {
+  url: "/get_id_expenses",
+  method: "get",
+  data: function (params) {
+      return {
+          q: params.term,
+          page: params.page,
+          id_user_type: id_user_type
+      };
+  },
+  processResults: function (data, params) {
+    params.page = params.page || 1;
+    console.log(data)
+    var results = [];
+    $.each(data, function(k, v) {
+      // console.log(v.id_user);
+        results.push({
+            id: v.id_user,
+            text: v.first_name+ ' '+ v.last_name,
+           
+        });
+    });
 
+    return {
+        results: results,
+        // pagination:
+        // {
+        //     more: true
+        // }
+    };
+      // return {
+      //     results: data
+      // };
+  },
+  cache: true
+},
+// placeholder: "Pilih Orang Tua",
+}).ready(function () {
+// $(".select2-selection__placeholder").text("Enter a User ID or Name")
+})
+});
+  
 
 
   $('#google_translate_element').on("click", function () {

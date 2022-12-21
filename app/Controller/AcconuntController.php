@@ -197,7 +197,10 @@ class AcconuntController
 
                 $datas['email'] = $m['email'];
                 $datas['telepon'] = $m['phone_user'];
-                $datas['date'] = date('j F Y', strtotime($m['date_payment']));
+                $tanggal = AcconuntController::tgl_indo($m['date_payment']);
+
+                // $datas['date'] = date('j F Y', strtotime($m['date_payment']));
+                $datas['date'] = $tanggal;
 
 
 
@@ -440,7 +443,8 @@ class AcconuntController
                 $datas['telepon'] = $m['phone_user'];
                 $datas['email'] = $m['email'];
                 $datas['telepon'] = $m['phone_user'];
-                $datas['date'] = date('j F Y', strtotime($m['date_payment']));
+                $tanggal = AcconuntController::tgl_indo($m['date_payment']);
+                $datas['date'] = $tanggal;
                 $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
@@ -497,4 +501,28 @@ class AcconuntController
         $_SESSION['berhasil'] = true;
         return $rsp->withRedirect('/add-expense');
     }
+
+    public static function tgl_indo($tanggal){
+	$bulan = array (
+		1 =>   'Januari',
+		'Februari',
+		'Maret',
+		'April',
+		'Mei',
+		'Juni',
+		'Juli',
+		'Agustus',
+		'September',
+		'Oktober',
+		'November',
+		'Desember'
+	);
+	$pecahkan = explode('-', $tanggal);
+	
+	// variabel pecahkan 0 = tanggal
+	// variabel pecahkan 1 = bulan
+	// variabel pecahkan 2 = tahun
+ 
+	return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+}
 }

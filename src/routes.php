@@ -2158,18 +2158,31 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $id_user_type = $request->getParam('id_user_type');
-            // return var_dump($request->getParam('id_user'));
+            $param = $request->getParams();
+            // return var_dump($request->getParam($param));
+            // die();
+            $condition = [
+                "id_user[!]" => 0,
+                "id_user_type" => $id_user_type,
+                "LIMIT" => 5,
+
+            ];
+            if(isset($param['q'])){
+                $search = $param['q'];
+                $condition['OR'] = [
+                    'first_name[~]' => '%' . $search . '%',
+                    'last_name[~]' => '%' . $search . '%',            
+                ];
+            }
             $data = $container->db->select('tbl_users', [
                 '[><]tbl_user_types' => 'id_user_type',
 
-            ], '*', [
-                    "id_user_type" => $id_user_type,
-                ]);
+            ], '*',$condition);
             // return var_dump($data);
     
             return $response->withJson($data);
         }
-    )->add(new Auth());
+    );
     $app->post(
         '/messageSend',
         function (Request $request, Response $response, array $args) use ($container) {

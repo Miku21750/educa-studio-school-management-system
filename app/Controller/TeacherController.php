@@ -201,12 +201,19 @@ class TeacherController
         ], '*');
         $subject = $app->db->select('tbl_subjects', '*');
 
+        $date = $app->db->select('tbl_users', 'date_of_birth', [
+            'id_user' => $id
+        ]);
+        $tanggal = AcconuntController::tgl_indo($date[0]);
+
+
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
         // return var_dump($data);
 // 
         $app->view->render($response, 'teacher/teacher-details.html', [
             'data' =>  $data[0],
+            'tanggal' =>  $tanggal,
             'class' =>  $class,
             'subject' =>  $subject,
             'type' => $_SESSION['type'],
