@@ -45,6 +45,9 @@
                 <h3>Semua Murid Kelas {{kelas.kelas}} {{kelas.bagian}}</h3>
                 {% endfor %}
                 <!-- <h5>{{kelas.kelas}} {{kelas.bagian}}</h5> -->
+                {% for guru in guru %}
+                <h5>Wali Kelas : {{guru.first_name}} {{guru.last_name}}</h5>
+                {% endfor %}
             </div>
         </div>
         <div class="table">
