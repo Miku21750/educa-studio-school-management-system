@@ -1436,6 +1436,11 @@ $(document).ready(function () {
         title: 'Oops...',
         text: 'Data harus diisi semua!'
       })
+      $('#ehostel_name').val('');
+      $('#eroom_number').val('');
+      $('#eroom_type').val('').change();
+      $('#enumber_of_bed').val('');
+      $('#ecost_per_bed').val('');
     } else {
       $.ajax({
         type: "POST",
@@ -2310,169 +2315,169 @@ function googleTranslateElementInit() {
 $('document').ready(function () {
   $("#guru").select2({
     ajax: {
-        url: "/api/get-guru",
-        method: "get",
-        data: function (params) {
-            return {
-                q: params.term,
-                page: params.page
-            };
-        },
-        processResults: function (data, params) {
-          params.page = params.page || 1;
-          // console.log(data)
-          var results = [];
-          $.each(data, function(k, v) {
-            // console.log(v.id_user);
-              results.push({
-                  id: v.id_user,
-                  text: v.first_name+ ' '+ v.last_name,
-                 
-              });
-          });
+      url: "/api/get-guru",
+      method: "get",
+      data: function (params) {
+        return {
+          q: params.term,
+          page: params.page
+        };
+      },
+      processResults: function (data, params) {
+        params.page = params.page || 1;
+        // console.log(data)
+        var results = [];
+        $.each(data, function (k, v) {
+          // console.log(v.id_user);
+          results.push({
+            id: v.id_user,
+            text: v.first_name + ' ' + v.last_name,
 
-          return {
-              results: results,
-              // pagination:
-              // {
-              //     more: true
-              // }
-          };
-            // return {
-            //     results: data
-            // };
-        },
-        cache: true
+          });
+        });
+
+        return {
+          results: results,
+          // pagination:
+          // {
+          //     more: true
+          // }
+        };
+        // return {
+        //     results: data
+        // };
+      },
+      cache: true
     },
     placeholder: "Pilih Guru",
-}).ready(function () {
+  }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
+  })
 
-$("#get-ortu").select2({
-  ajax: {
+  $("#get-ortu").select2({
+    ajax: {
       url: "/api/get-ortu",
       method: "get",
       data: function (params) {
-          return {
-              q: params.term,
-              page: params.page
-          };
+        return {
+          q: params.term,
+          page: params.page
+        };
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
         console.log(data)
         var results = [];
-        $.each(data, function(k, v) {
+        $.each(data, function (k, v) {
           // console.log(v.id_user);
-            results.push({
-                id: v.id_user,
-                text: v.first_name+ ' '+ v.last_name,
-               
-            });
+          results.push({
+            id: v.id_user,
+            text: v.first_name + ' ' + v.last_name,
+
+          });
         });
 
         return {
-            results: results,
-            // pagination:
-            // {
-            //     more: true
-            // }
+          results: results,
+          // pagination:
+          // {
+          //     more: true
+          // }
         };
-          // return {
-          //     results: data
-          // };
+        // return {
+        //     results: data
+        // };
       },
       cache: true
-  },
-  // placeholder: "Pilih Orang Tua",
-}).ready(function () {
-  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
-$("#get-siswa").select2({
-  ajax: {
+    },
+    // placeholder: "Pilih Orang Tua",
+  }).ready(function () {
+    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+  })
+  $("#get-siswa").select2({
+    ajax: {
       url: "/api/get-siswa",
       method: "get",
       data: function (params) {
-          return {
-              q: params.term,
-              page: params.page
-          };
+        return {
+          q: params.term,
+          page: params.page
+        };
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
         console.log(data)
         var results = [];
-        $.each(data, function(k, v) {
+        $.each(data, function (k, v) {
           // console.log(v.id_user);
-            results.push({
-                id: v.id_user,
-                text: v.first_name+ ' '+ v.last_name,
-               
-            });
+          results.push({
+            id: v.id_user,
+            text: v.first_name + ' ' + v.last_name,
+
+          });
         });
 
         return {
-            results: results,
-            // pagination:
-            // {
-            //     more: true
-            // }
+          results: results,
+          // pagination:
+          // {
+          //     more: true
+          // }
         };
-          // return {
-          //     results: data
-          // };
+        // return {
+        //     results: data
+        // };
       },
       cache: true
-  },
-  // placeholder: "Pilih Orang Tua",
-}).ready(function () {
-  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
-$("#nameMessageForm").select2({
-  ajax: {
+    },
+    // placeholder: "Pilih Orang Tua",
+  }).ready(function () {
+    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+  })
+  $("#nameMessageForm").select2({
+    ajax: {
       url: "/api/get-all",
       method: "get",
       data: function (params) {
-          return {
-              q: params.term,
-              page: params.page
-          };
+        return {
+          q: params.term,
+          page: params.page
+        };
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
         console.log(data)
         var results = [];
-        $.each(data, function(k, v) {
+        $.each(data, function (k, v) {
           // console.log(v.id_user);
-            results.push({
-                id: v.id_user,
-                text: v.first_name+ ' '+ v.last_name,
-               
-            });
+          results.push({
+            id: v.id_user,
+            text: v.first_name + ' ' + v.last_name,
+
+          });
         });
 
         return {
-            results: results,
-            // pagination:
-            // {
-            //     more: true
-            // }
+          results: results,
+          // pagination:
+          // {
+          //     more: true
+          // }
         };
-          // return {
-          //     results: data
-          // };
+        // return {
+        //     results: data
+        // };
       },
       cache: true
-  },
-  // placeholder: "Pilih Orang Tua",
-}).ready(function () {
-  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
-  
-  
+    },
+    // placeholder: "Pilih Orang Tua",
+  }).ready(function () {
+    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+  })
 
-  
+
+
+
 
   $('#google_translate_element').on("click", function () {
 

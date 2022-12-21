@@ -1840,6 +1840,7 @@ ul {
 }
 .header-main-menu .navbar-nav .header-message .dropdown-menu .item-content .media .item-img img {
   border-radius: 50%;
+  object-fit: cover;
 }
 .header-main-menu .navbar-nav .header-message .dropdown-menu .item-content .media .author-online {
   position: relative;
@@ -1994,10 +1995,12 @@ ul {
   width: 40px;
   height: 40px;
   overflow: hidden;
+  line-height: 38px;
 }
 
 .header-main-menu .navbar-nav .header-admin .navbar-nav-link .admin-img img {
   width: 100%;
+  object-fit: cover;
 }
 
 .header-main-menu .navbar-nav .header-admin .navbar-nav-link .admin-title {
@@ -4054,16 +4057,18 @@ ul {
   }
 }
 .dashboard-card-ten .card-body .student-info .media .item-img {
-  background-color: #4dd0e1;
+  /* background-color: #4dd0e1; */
   height: 115px;
   width: 115px;
   /* line-height: 129px; */
+  line-height: 110px;
   text-align: center;
   border-radius: 50%;
   overflow: hidden;
 }
 .dashboard-card-ten .card-body .student-info .media .item-img img {
   margin-right: 5px;
+  object-fit: cover;
 }
 .dashboard-card-ten .card-body .student-info .media .media-body .item-title {
   color: #111111;

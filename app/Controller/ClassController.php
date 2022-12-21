@@ -19,6 +19,13 @@ class ClassController
             "id_user_type" => 2
         ]);
 
+        $kelas = $app->db->select('tbl_users', [
+            '[><]tbl_classes' => 'id_class',
+            '[><]tbl_sections' => 'id_section'
+        ], ['class(kelas)','section(bagian)'], [
+            'id_user' => $_SESSION['id_user'],
+            'id_user_type' => 1
+        ]);
 
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
@@ -28,7 +35,8 @@ class ClassController
             'type_user' => $_SESSION['type_user'],
             'berhasil' => $berhasil,
             'guru' => $guru,
-            'section' => $section
+            'section' => $section,
+            'kelas' => $kelas
 
         ]);
     }

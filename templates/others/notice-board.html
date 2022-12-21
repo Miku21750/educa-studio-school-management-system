@@ -276,7 +276,9 @@
                     console.log(response);
                     $('#titlesendNotice').focus();
                     $('#noticeBoard-list').empty();
+                    $('#noticeModalEdit').modal('hide');
                     drawNotice();
+                    $('#noticeBoardModalShow').modal('hide');
                     Swal.fire({
                         icon: 'success',
                         title: 'Your work has been saved',
@@ -612,8 +614,8 @@
                         classCategory + '">' +
                         tanggal + ' ' + bulan + ', ' + tahun +
                         '</div><h6 class="notice-title"><a href="#">' + response[i]
-                            .title +
-                        '</a></h6> <div class="entry-meta">  ' + response[i]
+                            .title + ' ' +
+                        '<i class="fa fa-info-circle fa-lg ml-2" style="color:#aaaaaa;"></i></a></h6> <div class="entry-meta">  ' + response[i]
                             .posted_by +
                         ' / <span>' + difference + '</span></div></div>')
                 });

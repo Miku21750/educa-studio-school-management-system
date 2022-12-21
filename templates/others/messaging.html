@@ -37,8 +37,8 @@
                             <label>Recipient Name</label>
                             {# <input type="text" placeholder="" class="form-control"> #}
                             <select name="idReceipentUserMessage" id="nameMessageForm" class="form-control select2">
-                                    <option value="">Pilih Nama</option>
-                                
+                                <option value="">Pilih Nama</option>
+
                             </select>
                         </div>
                         <div class="col-12 form-group">
@@ -56,8 +56,10 @@
                                 rows="9"></textarea>
                         </div>
                         <div class="col-12 form-group mg-t-8">
-                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" id="submitMessage">Kirim</button>
-                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow" id="resetMessage">Reset</button>
+                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
+                                id="submitMessage">Kirim</button>
+                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow"
+                                id="resetMessage">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -176,6 +178,10 @@
                     title: 'Oops...',
                     text: 'Data harus diisi semua!'
                 })
+                $('#titleMessageForm').val('');
+                $('#nameMessageForm').val('').change();
+                $('#emailMessageForm').val('').change();
+                $('#form-message').val('');
             } else {
                 $.ajax({
                     type: "POST",
