@@ -291,15 +291,15 @@
 
             today = yyyy + '-' + mm + '-' + dd;
             var date_send = $('input[type=checkbox]').map(function (_, el) {
-                if($(el).attr('data-idcalldate') != today) return
+                //if($(el).attr('data-idcalldate') != today) return
                 return $(el).attr('data-idcalldate');
             }).get();
             var id_user = $('input[type=checkbox]').map(function (_, el) {
-                if($(el).attr('data-idcalldate') != today) return
+                //if($(el).attr('data-idcalldate') != today) return
                 return $(el).attr('data-idUserAttend');
             }).get();
             var abs = $('input[type=checkbox]').map(function (_, el) {
-                if($(el).attr('data-idcalldate') != today) return
+                //if($(el).attr('data-idcalldate') != today) return
                 if ($(el).is(":checked"))
                 {
                     return 1

@@ -67,14 +67,12 @@
               </select>
             </div> -->
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
-              <label>NIP</label>
-              <select class="select2" id="id_user" required>
-                <option value="">Silahkan pilih</option>
-                {% for d in teacher %}
-                <option value="{{d.id_user}}">{{d.NISN}} - {{d.first_name}} {{d.last_name}}</option>
-                {% endfor %}
+              <label>Guru</label>
+              <select class="select2" id="guru" style="width: 100%;">
+                <option value="">Silahkan pilih</option>                
               </select>
             </div>
+            
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Waktu Mulai *</label>
@@ -494,7 +492,7 @@
     var subject_type = $('#subject_type').val();
     var id_class = $('#id_class').val();
     var id_section = $('#id_section').val();
-    var id_user = $('#id_user').val();
+    var id_user = $('#guru').val();
     var start_time = $('#start_time').val();
     var end_time = $('#end_time').val();
     var school_day = $('#school_day').val();

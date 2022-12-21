@@ -102,7 +102,7 @@
                     <div class="row">
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
                             <label>Select Class</label>
-                            <select class="select2" id="classTaskType">
+                            <select class="select2" id="classTaskType" required>
                                 <option value="">Select Class</option>
                                 {% for class in class %}
                                 {% if class.id_class == 0 %}
@@ -114,7 +114,7 @@
                         </div>
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
                             <label>Select Subject</label>
-                            <select class="select2" id="subjectTaskType">
+                            <select class="select2" id="subjectTaskType" required>
                                 <option value="">Select Subject</option>
                                 {% for subject in subject %}
                                     {% if subject.id_subject == 0 %}
@@ -126,7 +126,7 @@
                         </div>
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
                             <label>Select Session</label>
-                            <select class="select2" id="sessionTaskType">
+                            <select class="select2" id="sessionTaskType" required>
                                 <option value="">Select Session</option>
                                 {% for sessionAttend in sessionAttend %}
                                 <option value="{{sessionAttend}}">{{sessionAttend}}</option>
@@ -135,12 +135,20 @@
                         </div>
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
                             <label>Select Task Type</label>
-                            <select class="select2" id="taskType">
+                            <select class="select2" id="taskType" required>
                                 <option value="">Select Task Type</option>
                                 <option value="UH">Ulangan Harian</option>
                                 <option value="TGS">Tugas</option>
                             </select>
                         </div>
+                    </div>
+                    {# <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-12 form-group">
+                            <label>Task Name</label>
+                            <input type="text" name="taskName" id="taskName" class="form-control mb-3" required>
+                        </div>
+                    </div> #}
+                    <div class="row">
                         <div class="col-12 form-group mg-t-8">
                             <button type="submit" id="viewTaskSheetButton"
                                 class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">View</button>
@@ -153,7 +161,7 @@
     </div>
     <!-- Student Attendence Search Area End Here -->
     <!-- Student Attendence Area Start Here -->
-    <div class="col-12" id="attendSheetView">
+    <div class="col-12" id="taskSheetView">
         <div class="card">
             <div class="card-body">
                 <div class="heading-layout1">
@@ -174,7 +182,7 @@
                 </div>
                 {# <input type="checkbox" name="" id=""> #}
                 <div class="table-responsive">
-                    <form method="post" id="taskSheetForm">
+                    <form method="post" id="taskSheetInputForm">
                         <table class="table bs-table table-striped table-bordered text-nowrap">
                             <thead>
                                 <tr id="studentFormTaskViewSheet">
@@ -185,8 +193,9 @@
                             </tbody>
                         </table>
                         <button type="submit"
-                            
-                            class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Send Value</button>
+                            class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-4">Send Value</button>
+                        <button id="createNewTaskBtn"
+                        class="btn-fill-lg btn-fill-lg bg-blue-dark btn-hover-yellow my-4">Create New Task</button>
                     </form>
                 </div>
             </div>
@@ -206,95 +215,10 @@
         //$('#subjectAttendType').val();
         $('#taskSheetForm').submit(function (e) {
             e.preventDefault();
-            if ($('#viewTaskSheetButton').attr('disabled') == true) {
-                return
-            }
-            var classTaskType = $('#classTaskType').val(),
-                subjectTaskType = $('#subjectTaskType').val(),
-                //monthAttendType = $('#monthAttendType').val(),
-                sessionTaskType = $('#sessionTaskType').val(),
-                taskType = $('#taskType').val(),
-                date = new Date(),
-                dateNow = moment().format('YYYY-MM-DD');
-            $.ajax({
-                type: "GET",
-                url: "/viewTaskSheet",
-                data: {
-                    class: classTaskType,
-                    subject: subjectTaskType,
-                    taskType: taskType,
-                    session: sessionTaskType,
-                    date: dateNow,
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    {# console.log(response)
-                    viewStudent = response.dataStudentArrivedInAttend
-                    $('#viewAttendSheetButton').attr('disabled', true)
-                    $('#attendSheetView').show();
-                    $('#studentFormAttendViewSheet').append('<input type="text" value="'+subjectAttendType+'" hidden></input>')
-                    $('#titleAttendSheet').html('Attendence Sheet Of Class ' + viewStudent[0]
-                        .class + ' ' + viewStudent[0].section + ': Subject '+response.subjectStudentAttend[0].subject_name);
-//                     var date = new Date();
-//                     var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-//                     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-//                     var loopUntilLastDay = lastDay.getDate();
-//                     let resultTbl = '';
-//                     for (let i = 0; i < response.length; i++) {
-//                         resultTbl += '<tr data-idStudent="' + response[i].id_user +
-//                             '"><td>' + response[i].first_name + ' ' + response[i]
-//                             .last_name + '</td>'
-//                         for (let j = 0; j < loopUntilLastDay; j++) {
-//                             //save later, if teacher, cannot edit the attend except today
-//                             resultTbl += '<td><input type="checkbox" class="attendCheckbox" data-idUserAttend="'+response[i].id_user+'" data-idDateCheckbox="2022/'+monthAttendType+'/'+(
-//                                 j + 1) +
-//                             '"><span class="checkmark"></span></td>';
-//                         }
-//                         resultTbl += '</tr>';
-                        
-//                     }
-//                     //console.log(resultTbl)
-//                     $('#studentFormAttendViewSheet').html(resultTbl);
-//                     for (let i = 0; i < loopUntilLastDay; i++) {
-//                         $('#dateAttendViewSheet').append(
-//                             '<th class="checkAllAttend" onclick="selectAll(`2022/'+monthAttendType+'/'+(i + 1) +
-//                             '`)">' + (i + 1) + '</th>');
-//                     }
-                    $('#studentFormAttendViewSheet').append('<th class="text-left select-all">Students</th>')
-                    for(let i = 0; i < viewStudent.length;i++){    
-                        $('#studentFormAttendViewSheet').append('<th data-idStudent="' + viewStudent[i].id_user+'">' + viewStudent[i].first_name + ' ' + viewStudent[i].last_name + '</th>')
-                    }
-                    let resultTbl = '';
-                    let typeUser = response.typeUser;
-                    for(let i = 0; i < response.dateStudentAttend.length; i++){
-                        resultTbl += '<tr onclick="selectAll(event)"><th>'+response.dateStudentAttend[i]+'</th>';
-                        for(let j = 0; j <  viewStudent.length;j++){
-                            if(response.checkStudentDateIfExistChecklist[j].includes(response.dateStudentAttend[i])){
-                                resultTbl += '<td><input type="checkbox" data-idCallDate="'+response.dateStudentAttend[i]+'" data-idUserAttend="'+viewStudent[j].id_user+'" class="attendCheckbox" checked></td>'    
-                            }else{
-                                resultTbl += '<td><input type="checkbox" data-idCallDate="'+response.dateStudentAttend[i]+'" data-idUserAttend="'+viewStudent[j].id_user+'" class="attendCheckbox"></td>'
-                            }
-                        }
-                        resultTbl += '</tr>';
-                    }
-                    $('#dateAttendViewSheet').html(resultTbl);
-                    var today = new Date();
-                    var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                    var yyyy = today.getFullYear();
-
-                    today = yyyy + '-' + mm + '-' + dd;
-                    console.log(today)
-                    //if date != now && userType != admin, disabled
-                    if(typeUser !== '3'){
-                        $('input[type="checkbox"]').not($('input[data-idCallDate="'+today+'"]')).attr('disabled',true)
-                        $('input[type="checkbox"]').not($('input[data-idCallDate="'+today+'"]')).addClass('bg-secondary')
-                    } #}
-                }
-            });
+            drawTask();
         });
         
-        $('#attendSheetAbsence').submit(function (e) { 
+        $('#taskSheetInputForm').submit(function (e) { 
             e.preventDefault();
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
@@ -302,24 +226,15 @@
             var yyyy = today.getFullYear();
 
             today = yyyy + '-' + mm + '-' + dd;
-            var date_send = $('input[type=checkbox]').map(function (_, el) {
-                if($(el).attr('data-idcalldate') != today) return
-                return $(el).attr('data-idcalldate');
+            var id_student = $('input[type=text]').map(function (_, el) {
+                //if($(el).attr('data-idcalldate') != today) return
+                return $(el).attr('data-idStudent');
             }).get();
-            var id_user = $('input[type=checkbox]').map(function (_, el) {
-                if($(el).attr('data-idcalldate') != today) return
-                return $(el).attr('data-idUserAttend');
+            var id_task = $('input[type=text]').map(function (_, el) {
+                //if($(el).attr('data-idcalldate') != today) return
+                return $(el).attr('data-idTask');
             }).get();
-            var abs = $('input[type=checkbox]').map(function (_, el) {
-                if($(el).attr('data-idcalldate') != today) return
-                if ($(el).is(":checked"))
-                {
-                    return 1
-                }else{
-                    return 0
-                }
-            }).get();
-            var id_subject = $('input[type=text]').map(function (_, el) {
+            var score = $('input[type=text]').map(function (_, el) {
                 return $(el).val();
             }).get();
             const swalWithBootstrapButtons = Swal.mixin({
@@ -342,22 +257,22 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: "/sendAbsence",
+                        url: "/sendScoreTask",
                         data: {
-                            date:date_send,
-                            user:id_user,
-                            subject:id_subject,
-                            absence:abs,
+                            id_user: id_student,
+                            id_task: id_task,
+                            score:score
                         },
                         dataType: "JSON",
                         success: function (response) {
                             console.log(response)
                             swalWithBootstrapButtons.fire(
-                                'Absence!',
-                                'Absence was sended',
+                                'Sended!',
+                                'Task Score was sended',
                                 'success'
                             ).then((result)=>{
                                 //$('input[type="checkbox"]').attr('disabled',true)
+                                drawTask()
                             })
                         }
                     });
@@ -374,36 +289,162 @@
                 }
               })
         });
-        $('#resetAttendSheetButton').click(function(e){
+        $('#resetTaskSheetButton').click(function(e){
             e.preventDefault();
-            $('#classAttendType').val('').change();
-            $('#subjectAttendType').val('').change();
-            $('#sessionAttendType').val('').change();
-            $('#viewAttendSheetButton').attr('disabled', false)
-            $('#attendSheetView').hide();
-            $('#studentFormAttendViewSheet').empty();
-            $('#dateAttendViewSheet').empty();
+            $('#taskType').val('').change();
+            $('#sessionTaskType').val('').change();
+            $('#subjectTaskType').val('').change();
+            $('#classTaskType').val('').change();
+            $('#viewTaskSheetButton').attr('disabled', false)
+            $('#taskSheetView').hide();
+            $('#studentFormTaskViewSheet').empty();
+            $('#dateTaskViewSheet').empty();
 
         })
+        $('#createNewTaskBtn').click(function(e){
+            e.preventDefault();
+            var classTaskType = $('#classTaskType').val(),
+            subjectTaskType = $('#subjectTaskType').val(),
+            //monthAttendType = $('#monthAttendType').val(),
+            sessionTaskType = $('#sessionTaskType').val(),
+            taskTp = $('#taskType').val(),
+            taskNm =  $('#taskName').val(),
+            date = new Date(),
+            dateNow = moment().format('YYYY-MM-DD');
+            $.ajax({
+                type: "POST",
+                url: "/createNewTask",
+                data: {
+                    class: classTaskType,
+                    subject: subjectTaskType,
+                    taskType: taskTp,
+                    taskName: taskNm,
+                    session: sessionTaskType,
+                    date: dateNow,
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    drawTask();  
+                }
+            });
+        })
     })
-    function selectAll(e){
-        var row = $(e.target).text();
-        console.log(row);
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        var yyyy = today.getFullYear();
+    //function selectAll(e){
+    //    var row = $(e.target).text();
+    //    console.log(row);
+    //    var today = new Date();
+    //    var dd = String(today.getDate()).padStart(2, '0');
+    //    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    //    var yyyy = today.getFullYear();
+//
+    //    today = yyyy + '-' + mm + '-' + dd;
+    //    console.log(today, row)
+    //    if(row !== today) return
+    //    console.log($('input[data-idCallDate="'+ row +'"]'))
+    //    var $checkAll = $('input[data-idCallDate="'+ row +'"]')
+    //    var values=[];
+    //    $.each($checkAll, function(i, item) {
+    //        $(item).prop('checked',true)
+    //    });
+    //    
+    //}
+    function drawTask(){
+        if ($('#viewTaskSheetButton').attr('disabled') == true) {
+            return
+        }
+        $('#studentFormTaskViewSheet').empty();
+        $('#dateTaskViewSheet').empty();
+        var classTaskType = $('#classTaskType').val(),
+            subjectTaskType = $('#subjectTaskType').val(),
+            //monthAttendType = $('#monthAttendType').val(),
+            sessionTaskType = $('#sessionTaskType').val(),
+            taskTp = $('#taskType').val(),
+            taskNm =  $('#taskName').val(),
+            date = new Date(),
+            dateNow = moment().format('YYYY-MM-DD');
+        $.ajax({
+            type: "GET",
+            url: "/viewTaskSheet",
+            data: {
+                class: classTaskType,
+                subject: subjectTaskType,
+                taskType: taskTp,
+                taskName: taskNm,
+                session: sessionTaskType,
+                date: dateNow,
+            },
+            dataType: "JSON",
+            success: function (response) {
+                console.log(response)
+                viewStudent = response.dataStudentTaskSuccess
+                $('#viewTaskSheetButton').attr('disabled', true)
+                $('#taskSheetView').show();
+                //$('#taskSheetForm').append('<input type="text" name="aaaa" value="'+subjectTaskType+'" hidden></input>')
+                $('#titleTaskSheet').html('Task Sheet Of Class ' + viewStudent[0]
+                   .class + ' ' + viewStudent[0].section + ' Subject '+response.subjectStudentAttend[0].subject_name+' : '+response.taskStudentAlreadyExist[0].task_name);
+                //var date = new Date();
+                //var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+                //var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+                //var loopUntilLastDay = lastDay.getDate();
+                //var resultTbl = '';
+                //for (let i = 0; i < response.length; i++) {
+                //    resultTbl += '<tr data-idStudent="' + response.[i].id_user +
+                //        '"><td>' + response[i].first_name + ' ' + response[i]
+                //        .last_name + '</td>'
+                //    for (let j = 0; j < loopUntilLastDay; j++) {
+                //        //save later, if teacher, cannot edit the attend except today
+                //        resultTbl += '<td><input type="checkbox" class="attendCheckbox" data-idUserAttend="'+response[i].id_user+'" data-idDateCheckbox="2022/'+monthAttendType+'/'+(
+                //            j + 1) +
+                //        '"><span class="checkmark"></span></td>';
+                //    }
+                //    resultTbl += '</tr>';
+                //    
+                //}
+                //console.log(resultTbl)
+                //$('#studentFormAttendViewSheet').html(resultTbl);
+                //for (let i = 0; i < loopUntilLastDay; i++) {
+                //    $('#dateAttendViewSheet').append(
+                //        '<th class="checkAllAttend" onclick="selectAll(`2022/'+monthAttendType+'/'+(i + 1) +
+                //        '`)">' + (i + 1) + '</th>');
+                //}
+                $('#studentFormTaskViewSheet').append('<th class="text-left select-all">Students</th>')
+                for(let i = 0; i < viewStudent.length;i++){    
+                    $('#studentFormTaskViewSheet').append('<th data-idStudent="' + viewStudent[i].id_user+'">' + viewStudent[i].first_name + ' ' + viewStudent[i].last_name + '</th>')
+                }
+                let resultTbl = '';
+                let typeUser = response.typeUser;
+                let limitAllStudent = 0;
+                for(let i = 0; i < response.dataTaskAvailable.length; i++){
+                    var h = 0;
+                    resultTbl += '<tr><th>'+response.dataTaskAvailable[i].task_name+'</th>';
+                    h += limitAllStudent;
+                    for(let j = 0; j <  response.dataStudentTaskSuccess.length;j++){
+                        if(response.totalTask[h] != ''){
+                            resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'"  class="form-control attendCheckbox" value="'+response.totalTask[h].score+'"></td>'    
+                        }else{
+                            resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'" class="form-control attendCheckbox"></td>'
+                        }
+                        console.log(response.totalTask[h])
+                        h++;
+                    }
+                    resultTbl += '</tr>';
+                    limitAllStudent += response.dataStudentTaskSuccess.length;
+                }
+                $('#dateTaskViewSheet').html(resultTbl);
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
 
-        today = yyyy + '-' + mm + '-' + dd;
-        console.log(today, row)
-        if(row !== today) return
-        console.log($('input[data-idCallDate="'+ row +'"]'))
-        var $checkAll = $('input[data-idCallDate="'+ row +'"]')
-        var values=[];
-        $.each($checkAll, function(i, item) {
-            $(item).prop('checked',true)
+                today = yyyy + '-' + mm + '-' + dd;
+                console.log(today)
+                //if date != now && userType != admin, disabled
+                if(typeUser !== '3'){
+                    $('#taskSheetView input[type="text"]').not($('input[value="0"]')).attr('readonly',true)
+                    $('#taskSheetView input[type="text"]').not($('input[value="0"]')).addClass('bg-secondary text-light')
+                }
+            }
         });
-        
     }
 </script>
 <!-- Some Jquery End Here -->
