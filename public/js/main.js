@@ -493,7 +493,9 @@
     /*-------------------------------------
           Calender initiate 
       -------------------------------------*/
-
+    const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
+      "September", "Oktober", "November", "Desember"
+    ];
     $.ajax({
       type: "GET",
       url: "/getNotice",
@@ -504,24 +506,33 @@
         var event = [];
         // console.log(dataEventCalendar);
         for (var i = 0; i < dataEventCalendar.length; i++) {
+          var dAwal = new Date(dataEventCalendar[i].date_notice);
+          var bulan = months[dAwal.getMonth()];
+          var tanggal = dAwal.getDate();
+          var tahun = dAwal.getFullYear();
           var time_temp = new Date(dataEventCalendar[i].date_event);
           var time = time_temp.getTime();
           var colorCategory;
+          var colorCategoryCal;
           switch (response[i].category) {
             case 'Exam': {
               colorCategory = '#ffc107'
+              colorCategoryCal = 'bg-warning'
             }
               break;
             case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
               colorCategory = '#28a745'
+              colorCategoryCal = 'bg-success'
             }
               break;
             case 'Event': {
               colorCategory = '#dc3545'
+              colorCategoryCal = 'bg-danger'
             }
               break;
             case 'Pengumuman_Sekolah': {
               colorCategory = '#007bff'
+              colorCategoryCal = 'bg-primary'
             }
               break;
             default: {
@@ -532,7 +543,12 @@
           event.push({
             title: dataEventCalendar[i].title,
             start: time,
-            day: dataEventCalendar[i].date_notice,
+            day: tanggal,
+            bulan: bulan,
+            tahun: tahun,
+            keterangan: dataEventCalendar[i].details,
+            data: dataEventCalendar[i],
+            colorModal: colorCategoryCal,
             color: colorCategory,
             'data-attributes': {
               eventDressCode: 'casual'
@@ -565,15 +581,24 @@ function calendarEvent(event) {
     eventClick: function (modal) {
 
       // alert('Event: ' + modal.title);
+      // modal = data;
+      // Swal.fire({
+      //     title: modal.title,
+      //     html: '<h5>Tanggal : ' + modal.day + ' ' + modal.bulan + ' ' + modal.tahun + '</h5>' + '<br> <h5>Deskripsi : <br>' + modal.keterangan + '</h5>',
+      // });
 
-      Swal.fire({
-        title: modal.title,
-        html: '<h5>Tanggal : ' + modal.day + '</h5>',
-      });
-
+      $("#noticeModal").modal();
+      $("#noticeDetailModal").html(`<div class="notice-list noticeBoardToModal" data-id="` +
+      modal.data.id_notification + 
+      `" data-toggle="modal" data-target="#noticeModal"><div class="post-date ` + 
+      modal.colorModal + `">` +
+      modal.day + ` ` + modal.bulan + ` ` + modal.tahun + 
+      `</div><h6 class="notice-title"><a href="#">` + modal.title +
+      `</a></h6> <p>` + modal.data.details + `</p> <div class="entry-meta">` + modal.data.posted_by + `</div></div>`)
     }
   });
 }
+
 /*-------------------------------------
     DataTable Library
 -------------------------------------*/
@@ -2477,61 +2502,61 @@ $('document').ready(function () {
         // };
       },
       cache: true
-  },
-  // placeholder: "Pilih Orang Tua",
-}).ready(function () {
-  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
-  
+    },
+    // placeholder: "Pilih Orang Tua",
+  }).ready(function () {
+    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+  })
 
-$('#expenseTypeAccount').change(function (e) {
-  e.preventDefault();
-  var id_user_type = $('#expenseTypeAccount').val()
-  
-$("#get-tipe").select2({
 
-ajax: {
-  url: "/get_id_expenses",
-  method: "get",
-  data: function (params) {
-      return {
-          q: params.term,
-          page: params.page,
-          id_user_type: id_user_type
-      };
-  },
-  processResults: function (data, params) {
-    params.page = params.page || 1;
-    console.log(data)
-    var results = [];
-    $.each(data, function(k, v) {
-      // console.log(v.id_user);
-        results.push({
-            id: v.id_user,
-            text: v.first_name+ ' '+ v.last_name,
-           
-        });
-    });
+  $('#expenseTypeAccount').change(function (e) {
+    e.preventDefault();
+    var id_user_type = $('#expenseTypeAccount').val()
 
-    return {
-        results: results,
-        // pagination:
-        // {
-        //     more: true
-        // }
-    };
-      // return {
-      //     results: data
-      // };
-  },
-  cache: true
-},
-// placeholder: "Pilih Orang Tua",
-}).ready(function () {
-// $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
-});
-  
+    $("#get-tipe").select2({
+
+      ajax: {
+        url: "/get_id_expenses",
+        method: "get",
+        data: function (params) {
+          return {
+            q: params.term,
+            page: params.page,
+            id_user_type: id_user_type
+          };
+        },
+        processResults: function (data, params) {
+          params.page = params.page || 1;
+          console.log(data)
+          var results = [];
+          $.each(data, function (k, v) {
+            // console.log(v.id_user);
+            results.push({
+              id: v.id_user,
+              text: v.first_name + ' ' + v.last_name,
+
+            });
+          });
+
+          return {
+            results: results,
+            // pagination:
+            // {
+            //     more: true
+            // }
+          };
+          // return {
+          //     results: data
+          // };
+        },
+        cache: true
+      },
+      // placeholder: "Pilih Orang Tua",
+    }).ready(function () {
+      // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+    })
+  });
+
 
 
   $('#google_translate_element').on("click", function () {
