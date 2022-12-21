@@ -136,7 +136,9 @@ class DashbordParentController
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
                 }
                 $datas['email'] = $m['email'];
-                $datas['date_payment'] = $m['date_payment'];
+                $tgl = AcconuntController::tgl_indo($m['date_payment']);
+
+                $datas['date_payment'] = $tgl;
 
 
                 $data[] = $datas;
@@ -239,7 +241,9 @@ class DashbordParentController
                 $datas['kelas'] = $m['class'].' '.$m['section'];
                 $datas['nilai'] = $m['score'];
                 $datas['grade'] = $m['grade_name'];
-                $datas['tanggal'] = $m['date_result'];
+                $tgl = AcconuntController::tgl_indo($m['date_result']);
+
+                $datas['tanggal'] = $tgl;
                 
 
 
