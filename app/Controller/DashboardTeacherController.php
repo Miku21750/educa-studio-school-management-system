@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use App\Controller\AcconuntController;
+
 
 class DashboardTeacherController
 {
@@ -208,6 +210,7 @@ class DashboardTeacherController
         ], $conditions);
 
         $data = array();
+        // die(var_dump($parent));
 
         if (!empty($parent)) {
             $no = $req->getParam('start') + 1;
@@ -222,11 +225,25 @@ class DashboardTeacherController
                 $datas['section'] = $m['section'];
                 $datas['parent'] = $m['first_name_parent'] . ' ' . $m['last_name_parent'];
                 $datas['alamat'] = $m['alamat'];
-                $datas['tanggal_lahir'] = $m['tanggal_lahir'];
+                $tgl = $m['tanggal_lahir'];
+                $tanggal_lahir = date('d F Y', strtotime($tgl));
+                if ($m['tanggal_lahir'] != '0000-00-00') {
+                    $datee = $app->db->select('tbl_users', 'date_of_birth', [
+                        'id_user' => $m['id_user']
+                    ]);
+                    $date = AcconuntController::tgl_indo($datee[0]);
+                    $datas['tanggal_lahir'] = $date;               
+                 }else {
+                    $datas['tanggal_lahir'] = 'Belum Ada';               
+                 }
+                
+
                 $datas['telepon'] = $m['telepon'];
                 $datas['email'] = $m['email'];
                
                 $data[] = $datas;
+                // die(var_dump($data));
+
                 $no++;
             }
         }
