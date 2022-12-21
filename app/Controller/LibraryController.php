@@ -90,8 +90,11 @@ class LibraryController
                 $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
                 $datas['class'] = $m['class'];
-                $datas['published'] = date('j F Y', strtotime(str_replace('-','/', $m['publish_date'])));
-                $datas['creating_date'] = date('j F Y', strtotime(str_replace('-','/', $m['upload_date'])));
+                $published = AcconuntController::tgl_indo($m['publish_date']);
+                $creating_date = AcconuntController::tgl_indo($m['upload_date']);
+
+                $datas['published'] = $published ;
+                $datas['creating_date'] = $creating_date ;
                 $datas['aksi'] = '<div class="dropdown">
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
@@ -194,8 +197,8 @@ class LibraryController
                 $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
                 $datas['class'] = $m['class'];
-                $tgl = $m['upload_date'];
-                $publish        = date('j F Y', strtotime(str_replace('-','/', $tgl)));
+                $publish = AcconuntController::tgl_indo($m['publish_date']);
+
                 $datas['creating_date'] = $publish;
 
                 if ($m['status_buku'] == "Ada") {
@@ -511,8 +514,11 @@ class LibraryController
                 $datas['id_buku'] = $m['code_book'];
                 $datas['judul'] = $m['name_book'];
                 $datas['penulis'] = $m['writer_book'];
-                $datas['tanggal_pinjam'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_pinjam'])));
-                $datas['tanggal_pengembalian'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_kembali'])));
+                $tanggal_pinjam = AcconuntController::tgl_indo($m['tgl_kembali']);
+                $tanggal_pengembalian = AcconuntController::tgl_indo($m['tgl_kembali']);
+
+                $datas['tanggal_pinjam'] = $tanggal_pinjam ;
+                $datas['tanggal_pengembalian'] = $tanggal_pengembalian ;
                 $datas['telat'] = $hari;
                 $datas['denda'] = 'Rp. ' . number_format($denda, 0, ',', '.');
 
@@ -667,8 +673,11 @@ class LibraryController
                 $datas['id_buku'] = $m['code_book'];
                 $datas['judul'] = $m['name_book'];
                 $datas['penulis'] = $m['writer_book'];
-                $datas['tanggal_pinjam'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_pinjam'])));
-                $datas['tanggal_pengembalian'] = date('j F Y', strtotime(str_replace('-','/', $m['tgl_kembali'])));
+                $tanggal_pinjam = AcconuntController::tgl_indo($m['tgl_kembali']);
+                $tanggal_pengembalian = AcconuntController::tgl_indo($m['tgl_kembali']);
+
+                $datas['tanggal_pinjam'] = $tanggal_pinjam ;
+                $datas['tanggal_pengembalian'] = $tanggal_pengembalian ;
                 $datas['telat'] = $hari;
                 $datas['denda'] = 'Rp. ' . number_format($denda, 0, ',', '.');
 

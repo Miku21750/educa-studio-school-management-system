@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use App\Controller\AcconuntController;
+
 
 use Medoo\Medoo;
 
@@ -452,12 +454,21 @@ class StudentController
         $class = $app->db->select('tbl_classes', [
             '[><]tbl_sections' =>  'id_section',
         ], '*');
+        
+        
+        $date = $app->db->select('tbl_users', 'date_of_birth', [
+            'id_user' => $id
+        ]);
+        $tanggal = AcconuntController::tgl_indo($date[0]);
+        
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
-        // return var_dump($data);
+        // return var_dump($tanggal);
+        // die();
 
         $app->view->render($response, 'students/student-details.html', [
             'data' =>  $data[0],
+            'tanggal' =>  $tanggal,
             'all' =>  $all,
             'class' =>  $class,
             'type' => $_SESSION['type'],
