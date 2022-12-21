@@ -24,6 +24,9 @@ class DashboardStudentController
             'tbl_users.id_user' => $_SESSION['id_user']
         ]);
 
+        $tanggal_lahir = AcconuntController::tgl_indo($data_student[0]['date_of_birth']);
+        $tanggal_masuk = AcconuntController::tgl_indo($data_student[0]['admission_date']);
+
         // return var_dump($data_student);
         // die($data_student);
         $student_array = $data_student[0];
@@ -153,6 +156,7 @@ class DashboardStudentController
             "id_user" => $student_array['id_user']
         ]);
 
+
         return $app->get('view')->render($response, 'dashboard/student.html', array(
             // "data2" => $data2,
             "data_student" => $data_student,
@@ -173,6 +177,8 @@ class DashboardStudentController
             // "data_student_examR" => $data_student_exam_result,
             "user" => $user,
             "type" => $type,
+            "tanggal_lahir" => $tanggal_lahir,
+            "tanggal_masuk" => $tanggal_masuk,
             "id_user" => $student_array['id_user'],
             'type_user' => $_SESSION['type_user'],
             'username' => $_SESSION['username']
@@ -376,7 +382,8 @@ class DashboardStudentController
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
                 $datas['nilai'] = $m['score'];
-                $datas['tanggal'] = $m['date_result'];
+                $tanggal = AcconuntController::tgl_indo($m['date_result']);
+                $datas['tanggal'] = $tanggal;
 
 
 
