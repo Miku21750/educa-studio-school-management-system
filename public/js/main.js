@@ -2389,7 +2389,9 @@ $("#get-ortu").select2({
 }).ready(function () {
   // $(".select2-selection__placeholder").text("Enter a User ID or Name")
 })
+
 $("#get-siswa").select2({
+  
   ajax: {
       url: "/api/get-siswa",
       method: "get",
@@ -2470,6 +2472,54 @@ $("#nameMessageForm").select2({
   // $(".select2-selection__placeholder").text("Enter a User ID or Name")
 })
   
+
+$('#expenseTypeAccount').change(function (e) {
+  e.preventDefault();
+  var id_user_type = $('#expenseTypeAccount').val()
+  
+$("#get-tipe").select2({
+
+ajax: {
+  url: "/get_id_expenses",
+  method: "get",
+  data: function (params) {
+      return {
+          q: params.term,
+          page: params.page,
+          id_user_type: id_user_type
+      };
+  },
+  processResults: function (data, params) {
+    params.page = params.page || 1;
+    console.log(data)
+    var results = [];
+    $.each(data, function(k, v) {
+      // console.log(v.id_user);
+        results.push({
+            id: v.id_user,
+            text: v.first_name+ ' '+ v.last_name,
+           
+        });
+    });
+
+    return {
+        results: results,
+        // pagination:
+        // {
+        //     more: true
+        // }
+    };
+      // return {
+      //     results: data
+      // };
+  },
+  cache: true
+},
+// placeholder: "Pilih Orang Tua",
+}).ready(function () {
+// $(".select2-selection__placeholder").text("Enter a User ID or Name")
+})
+});
   
 
   
