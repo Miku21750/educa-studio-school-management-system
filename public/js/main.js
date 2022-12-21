@@ -502,7 +502,7 @@
         // console.log(response)
         var dataEventCalendar = response;
         var event = [];
-        // console.log(dataEventCalendar)
+        // console.log(dataEventCalendar);
         for (var i = 0; i < dataEventCalendar.length; i++) {
           var time_temp = new Date(dataEventCalendar[i].date_event);
           var time = time_temp.getTime();
@@ -532,10 +532,14 @@
           event.push({
             title: dataEventCalendar[i].title,
             start: time,
+            day: dataEventCalendar[i].date_notice,
             color: colorCategory,
+            'data-attributes': {
+              eventDressCode: 'casual'
+            }
           })
         }
-        console.log(dataEventCalendar)
+        // console.log(dataEventCalendar)
         if ($.fn.fullCalendar !== undefined) {
           calendarEvent(event);
         }
@@ -556,9 +560,18 @@ function calendarEvent(event) {
     navLinks: true, // can click day/week names to navigate views
     editable: true,
     eventLimit: true, // allow "more" link when too many events
-    aspectRatio: 1.8,
+    // aspectRatio: 1.8,
     events: event,
-    // defaultView: 'ay'
+    eventClick: function (modal) {
+
+      // alert('Event: ' + modal.title);
+
+      Swal.fire({
+        title: modal.title,
+        html: '<h5>Tanggal : ' + modal.day + '</h5>',
+      });
+
+    }
   });
 }
 /*-------------------------------------
@@ -2137,7 +2150,7 @@ $(document).ready(function () {
             difference = minus.days + ' hari lalu';
           }
 
-          console.log('response[i].category')
+          // console.log('response[i].category')
           var classCategory;
           switch (response[i].category) {
             case 'Exam': {
@@ -2310,169 +2323,169 @@ function googleTranslateElementInit() {
 $('document').ready(function () {
   $("#guru").select2({
     ajax: {
-        url: "/api/get-guru",
-        method: "get",
-        data: function (params) {
-            return {
-                q: params.term,
-                page: params.page
-            };
-        },
-        processResults: function (data, params) {
-          params.page = params.page || 1;
-          // console.log(data)
-          var results = [];
-          $.each(data, function(k, v) {
-            // console.log(v.id_user);
-              results.push({
-                  id: v.id_user,
-                  text: v.first_name+ ' '+ v.last_name,
-                 
-              });
-          });
+      url: "/api/get-guru",
+      method: "get",
+      data: function (params) {
+        return {
+          q: params.term,
+          page: params.page
+        };
+      },
+      processResults: function (data, params) {
+        params.page = params.page || 1;
+        // console.log(data)
+        var results = [];
+        $.each(data, function (k, v) {
+          // console.log(v.id_user);
+          results.push({
+            id: v.id_user,
+            text: v.first_name + ' ' + v.last_name,
 
-          return {
-              results: results,
-              // pagination:
-              // {
-              //     more: true
-              // }
-          };
-            // return {
-            //     results: data
-            // };
-        },
-        cache: true
+          });
+        });
+
+        return {
+          results: results,
+          // pagination:
+          // {
+          //     more: true
+          // }
+        };
+        // return {
+        //     results: data
+        // };
+      },
+      cache: true
     },
     placeholder: "Pilih Guru",
-}).ready(function () {
+  }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
+  })
 
-$("#get-ortu").select2({
-  ajax: {
+  $("#get-ortu").select2({
+    ajax: {
       url: "/api/get-ortu",
       method: "get",
       data: function (params) {
-          return {
-              q: params.term,
-              page: params.page
-          };
+        return {
+          q: params.term,
+          page: params.page
+        };
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
         console.log(data)
         var results = [];
-        $.each(data, function(k, v) {
+        $.each(data, function (k, v) {
           // console.log(v.id_user);
-            results.push({
-                id: v.id_user,
-                text: v.first_name+ ' '+ v.last_name,
-               
-            });
+          results.push({
+            id: v.id_user,
+            text: v.first_name + ' ' + v.last_name,
+
+          });
         });
 
         return {
-            results: results,
-            // pagination:
-            // {
-            //     more: true
-            // }
+          results: results,
+          // pagination:
+          // {
+          //     more: true
+          // }
         };
-          // return {
-          //     results: data
-          // };
+        // return {
+        //     results: data
+        // };
       },
       cache: true
-  },
-  // placeholder: "Pilih Orang Tua",
-}).ready(function () {
-  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
-$("#get-siswa").select2({
-  ajax: {
+    },
+    // placeholder: "Pilih Orang Tua",
+  }).ready(function () {
+    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+  })
+  $("#get-siswa").select2({
+    ajax: {
       url: "/api/get-siswa",
       method: "get",
       data: function (params) {
-          return {
-              q: params.term,
-              page: params.page
-          };
+        return {
+          q: params.term,
+          page: params.page
+        };
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
         console.log(data)
         var results = [];
-        $.each(data, function(k, v) {
+        $.each(data, function (k, v) {
           // console.log(v.id_user);
-            results.push({
-                id: v.id_user,
-                text: v.first_name+ ' '+ v.last_name,
-               
-            });
+          results.push({
+            id: v.id_user,
+            text: v.first_name + ' ' + v.last_name,
+
+          });
         });
 
         return {
-            results: results,
-            // pagination:
-            // {
-            //     more: true
-            // }
+          results: results,
+          // pagination:
+          // {
+          //     more: true
+          // }
         };
-          // return {
-          //     results: data
-          // };
+        // return {
+        //     results: data
+        // };
       },
       cache: true
-  },
-  // placeholder: "Pilih Orang Tua",
-}).ready(function () {
-  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
-$("#nameMessageForm").select2({
-  ajax: {
+    },
+    // placeholder: "Pilih Orang Tua",
+  }).ready(function () {
+    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+  })
+  $("#nameMessageForm").select2({
+    ajax: {
       url: "/api/get-all",
       method: "get",
       data: function (params) {
-          return {
-              q: params.term,
-              page: params.page
-          };
+        return {
+          q: params.term,
+          page: params.page
+        };
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
         console.log(data)
         var results = [];
-        $.each(data, function(k, v) {
+        $.each(data, function (k, v) {
           // console.log(v.id_user);
-            results.push({
-                id: v.id_user,
-                text: v.first_name+ ' '+ v.last_name,
-               
-            });
+          results.push({
+            id: v.id_user,
+            text: v.first_name + ' ' + v.last_name,
+
+          });
         });
 
         return {
-            results: results,
-            // pagination:
-            // {
-            //     more: true
-            // }
+          results: results,
+          // pagination:
+          // {
+          //     more: true
+          // }
         };
-          // return {
-          //     results: data
-          // };
+        // return {
+        //     results: data
+        // };
       },
       cache: true
-  },
-  // placeholder: "Pilih Orang Tua",
-}).ready(function () {
-  // $(".select2-selection__placeholder").text("Enter a User ID or Name")
-})
-  
-  
+    },
+    // placeholder: "Pilih Orang Tua",
+  }).ready(function () {
+    // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+  })
 
-  
+
+
+
 
   $('#google_translate_element').on("click", function () {
 
