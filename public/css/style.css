@@ -2737,6 +2737,7 @@ ul {
 }
 .account-settings-box .user-details-box .item-img img {
   border-radius: 50%;
+  object-fit: cover;
 }
 .account-settings-box .user-details-box .item-content {
   flex: 1;
