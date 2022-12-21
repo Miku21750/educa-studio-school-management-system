@@ -41,8 +41,10 @@
     <div class="card-body">
         <div class="heading-layout1">
             <div class="item-title">
-                <h3>Semua Murid Kelas</h3>
-                <!-- <h5>{{ kelas.class}}</h5> -->
+                {% for kelas in kelas %}
+                <h3>Semua Murid Kelas {{kelas.kelas}} {{kelas.bagian}}</h3>
+                {% endfor %}
+                <!-- <h5>{{kelas.kelas}} {{kelas.bagian}}</h5> -->
             </div>
         </div>
         <div class="table">

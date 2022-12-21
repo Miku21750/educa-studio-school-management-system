@@ -132,8 +132,58 @@
           </div>
         </div>
 
-        
-      </div>
+        <!-- <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Nama </label>
+          <select class="select2" id="NamaExpensesInput" name="id_user">
+            <option>Pilih Name </option>
+          </select>
+        </div>
+
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Pembayaran </label>
+          <select class="select2" id="pembayaranp" name="pembayaran">
+            <option value="">Pilih Pembayaran</option>
+            {% for data in payment %}
+            <option value="{{data.id_payment_type}}">{{data.payment_type_name}} </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Biaya </label>
+          <input type="text" placeholder="Jumlah Biaya" class="form-control" id="biayap" name="biaya" />
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Tipe Pembayaran </label>
+          <select class="select2" id="tipep" name="tipe">
+            <option>Pilih Tipe Pembayaran</option>
+            <option value="Pemasukan">Pemasukan</option>
+            <option value="Pengeluaran">Pengeluaran</option>
+          </select>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Status</label>
+          <select class="select2" id="statusp" name="status">
+            <option>Pilih Status</option>
+            <option value="Dibayar">Dibayar</option>
+            <option value="Belum Bayar">Belum Bayar</option>
+          </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Date</label>
+          <input type="text" placeholder="Masukan Tanggal" class="form-control air-datepicker"
+            data-position="bottom right" name="date_payment" id="date" />
+        </div>
+        <div class="col-12 form-group mg-t-8">
+          <button type="submit" id="btnsave" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">
+            Save
+          </button>
+          <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
+            Reset
+          </button>
+        </div>
+      </div> -->
     </form>
   </div>
 <!-- Add Expense Area End Here -->

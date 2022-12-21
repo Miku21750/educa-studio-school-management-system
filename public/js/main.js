@@ -1449,6 +1449,11 @@ $(document).ready(function () {
         title: 'Oops...',
         text: 'Data harus diisi semua!'
       })
+      $('#ehostel_name').val('');
+      $('#eroom_number').val('');
+      $('#eroom_type').val('').change();
+      $('#enumber_of_bed').val('');
+      $('#ecost_per_bed').val('');
     } else {
       $.ajax({
         type: "POST",
