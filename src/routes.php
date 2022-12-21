@@ -1489,8 +1489,8 @@ return function (App $app) {
             for ($i = 0; $i < $allValues; $i++) {
                 $checkIfExistUpdate = $container->db->select('tbl_attendances', 'id_attendance', [
                     'id_user' => $dataRequest['user'][$i],
-                    'id_class' => $dataRequest['subject'][2],
-                    'id_subject' => $dataRequest['subject'][1],
+                    'id_class' => $dataRequest['subject'][1],
+                    'id_subject' => $dataRequest['subject'][0],
                     'tanggal' => $dataRequest['date'][$i]
                 ]);
                 // return die(var_dump($checkIfExistUpdate));
@@ -1503,8 +1503,8 @@ return function (App $app) {
                 } else {
                     $container->db->insert('tbl_attendances', [
                         'id_user' => $dataRequest['user'][$i],
-                        'id_class' => $dataRequest['subject'][2],
-                        'id_subject' => $dataRequest['subject'][1],
+                        'id_class' => $dataRequest['subject'][1],
+                        'id_subject' => $dataRequest['subject'][0],
                         'tanggal' => $dataRequest['date'][$i],
                         'absence' => $dataRequest['absence'][$i]
                     ]);
@@ -1837,18 +1837,20 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $dataRequest = $request->getParsedBody();
-            // return die(var_dump($dataRequest));
+            return die(var_dump($dataRequest));
             $allValues = count($dataRequest['id_user']);
             // return die(var_dump($dataRequest));
             for ($i = 0; $i < $allValues; $i++) {
                 $checkIfExistUpdate = $container->db->select('tbl_tasks', 'id_task', [
                     'id_user' => $dataRequest['id_user'][$i],
-                    'task_name' => $dataRequest['id_task'][$i]
+                    'task_name' => $dataRequest['id_task'][$i],
+                    'id_class' => $dataRequest['Subject'][1],
+                    'id_subject'=> $dataRequest['Subject'][0],
                 ]);
                 // return die(var_dump($checkIfExistUpdate));
                 if ($checkIfExistUpdate != null) {
                     $container->db->update('tbl_tasks', [
-                        'score' => $dataRequest['score'][$i + 1]
+                        'score' => $dataRequest['score'][$i+2]
                     ], [
                             'id_task' => $checkIfExistUpdate[0]
                         ]);

@@ -234,7 +234,10 @@
                 //if($(el).attr('data-idcalldate') != today) return
                 return $(el).attr('data-idTask');
             }).get();
-            var score = $('input[type=text]').map(function (_, el) {
+            var score = $('input[type=text]').not($('input[hidden=true]')).map(function (_, el) {
+                return $(el).val();
+            }).get();
+            var AttrAdd = $('input[type=text]').not($('input[hidden=false]')).map(function (_, el) {
                 return $(el).val();
             }).get();
             const swalWithBootstrapButtons = Swal.mixin({
@@ -261,7 +264,8 @@
                         data: {
                             id_user: id_student,
                             id_task: id_task,
-                            score:score
+                            score:score,
+                            Subject: AttrAdd,
                         },
                         dataType: "JSON",
                         success: function (response) {
@@ -379,7 +383,7 @@
                 viewStudent = response.dataStudentTaskSuccess
                 $('#viewTaskSheetButton').attr('disabled', true)
                 $('#taskSheetView').show();
-                //$('#taskSheetForm').append('<input type="text" name="aaaa" value="'+subjectTaskType+'" hidden></input>')
+                $('#studentFormTaskViewSheet').append('<input type="text" name="subject" value="'+subjectTaskType+'" hidden></input><input type="text" name="class" value="'+classTaskType+'" hidden></input>')
                 $('#titleTaskSheet').html('Task Sheet Of Class ' + viewStudent[0]
                    .class + ' ' + viewStudent[0].section + ' Subject '+response.subjectStudentAttend[0].subject_name+' : '+response.taskStudentAlreadyExist[0].task_name);
                 //var date = new Date();
