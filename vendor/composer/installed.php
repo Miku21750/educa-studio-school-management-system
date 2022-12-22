@@ -406,11 +406,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-<<<<<<< HEAD
             'reference' => 'fe727976bf93f107a1f8ae1d56d533180899068b',
-=======
-            'reference' => 'a229ecb1833e047431a4e910bb561c47ad05d972',
->>>>>>> ba8fab8d4188414a8b3b0aad0363230fc001da45
             'dev_requirement' => false,
         ),
         'slim/twig-view' => array(
