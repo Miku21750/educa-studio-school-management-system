@@ -64,7 +64,6 @@ class DashbordParentController
     public static function tampil_data($app, $req, $rsp, $args)
     {
         $id_parent = $args['data'];
-//  var_dump($id_parent);
 
         $payment = $app->db->select('tbl_users', [
             "[><]tbl_finances" => "id_user"
@@ -121,10 +120,12 @@ class DashbordParentController
         ],'*', $conditions);
 
         $data = array();
-
+        // return die(var_dump($payment[0]));
+        // $itemDetail = [];
         if (!empty($payment)) {
             foreach ($payment as $m) {
-
+                
+                
                 $datas['NISN'] = $m['NISN'];
                 $datas['Nama'] = $m['first_name'].' '.$m['last_name'];
                 $datas['payment_type_name'] = $m['payment_type_name'];
