@@ -180,7 +180,8 @@
           Line Chart 
       -------------------------------------*/
     if ($("#earning-line-chart").length) {
-      loadData(2019)
+      let year = $("#target-line-chart").val();
+      loadData(year);
       var earningChart = null
       function loadData(year) {
         $.ajax({
@@ -1162,6 +1163,12 @@ $(document).ready(function () {
                 clearInterval(timerInterval)
               }
             }).then((result) => {
+              $('#eroute_name').val('');
+            $('#evehicle_number').val('');
+            $('#edriver_name').val('');
+            $('#elicense_number').val('');
+            $('#ephone_number').val('');
+            $('#eid_driver').val('');
               transTable.draw(false)
               Swal.fire(
                 {
