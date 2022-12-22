@@ -18,6 +18,11 @@ return function (App $app) {
 
     // Enable 3D-Secure
     Midtrans\Config::$is3ds = true;
+
+
+    
+
+
     
     // view renderer
     $container['renderer'] = function ($c) {
@@ -173,6 +178,7 @@ return function (App $app) {
         if(isset($_SESSION['user'])){
             $environment->addGlobal('auth', $container->auth);
             $environment->addGlobal('notif', $container->notif);
+            $environment->addGlobal('API-Midtrans', $_ENV['MIDTRANS_CLIENT_KEY']);
         }
         // return var_dump(auth);
 

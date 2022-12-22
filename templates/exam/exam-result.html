@@ -83,7 +83,7 @@
               <label>Nama Siswa </label>
               <select class="select2" id="get-siswa" style="width: 100%;">
                 <option value="0">Pilih Siswa*</option>
-                
+
               </select>
             </div>
 
@@ -92,7 +92,8 @@
               <select class="select2" id="exam_name">
                 <option value="0">Pilih Ujian *</option>
                 {% for i in exam %}
-                <option value="{{ i.id_exam }}">{{ i.exam_name }} {{ i.subject_name }} Kelas {{ i.class }} {{i.section}}</option>
+                <option value="{{ i.id_exam }}">{{ i.exam_name }} {{ i.subject_name }} Kelas {{ i.class }} {{i.section}}
+                </option>
                 {% endfor %}
               </select>
             </div>

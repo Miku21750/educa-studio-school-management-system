@@ -93,10 +93,10 @@ class Snap
 
         if (isset($params['item_details'])) {
             $gross_amount = 0;
-            foreach ($params['item_details'] as $item) {
-                $gross_amount += $item['quantity'] * $item['price'];
-            }
+            $data = $params['item_details'];
+            $gross_amount += $data['quantity'] * $data['price'];
             $params['transaction_details']['gross_amount'] = $gross_amount;
+            // return die(var_dump($params));
         }
 
         if (Config::$isSanitized) {

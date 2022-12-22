@@ -36,16 +36,17 @@ class Sanitizer
 
     private static function fieldItemDetails(&$items)
     {
-        foreach ($items as &$item) {
+            // return die(var_dump($items));
             $id = new self;
-            $item['id'] = $id
+
+            $items['id'] = $id
                 ->maxLength(50)
-                ->apply($item['id']);
+                ->apply($items['id']);
             $name = new self;
-            $item['name'] = $name
+            $items['name'] = $name
                 ->maxLength(50)
-                ->apply($item['name']);
-        }
+                ->apply($items['name']);
+        
     }
 
     private static function fieldCustomerDetails(&$field)

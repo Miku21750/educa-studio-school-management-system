@@ -57,7 +57,7 @@
                                 <a href="#" id="printPdfMyProfile"><i class="fas fa-print"></i></a>
                             </li>
                             <li>
-                                <a href="#"><i class="fas fa-download"></i></a>
+                                <a href=""><i class="fas fa-download"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -277,12 +277,12 @@
                         class="btn-lg btn-secondary mx-3 float-right"> -->
 
             </form>
-                    <div class="col-12 form-group mg-t-8">
-                        <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark m-2"
-                            id="submitMessage">Simpan</button>
-                        <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow m-2"
-                            id="viewAdditionalSetting">Additional Setting</button>
-                    </div>
+            <div class="col-12 form-group mg-t-8">
+                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark m-2"
+                    id="submitMessage">Simpan</button>
+                <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow m-2"
+                    id="viewAdditionalSetting">Additional Setting</button>
+            </div>
         </div>
     </div>
 </div>
@@ -298,7 +298,7 @@
                     <h1>Additional Setting</h1>
                     <div class="row">
                         <!-- Username -->
-                        <div class="col-12 col-xl-6 col-6-xxxl mb-5">
+                        <div class="col-12 col-xl-6 col-6-xxxl mb-5" id="username">
                             <div class="header-inline item-header">
                                 <h3 class="text-dark-medium font-medium">Ubah Username</h3>
                             </div>
@@ -311,9 +311,10 @@
                                 </div>
                             </div>
                             <button id="usernameBtn" type="submit" type="button" type="button"
-                                class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah Username</button>
+                                class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah
+                                Username</button>
                         </div>
-                        <div class="col-12 col-xl-6 col-6-xxxl ">
+                        <div class="col-12 col-xl-6 col-6-xxxl " id="email">
                             <div class="header-inline item-header">
                                 <h3 class="text-dark-medium font-medium">Ubah Email</h3>
                             </div>
@@ -327,20 +328,18 @@
                                 </div>
                             </div>
                             <button id="emailBtn" type="submit" type="button" type="button"
-                                class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah Email</button>
+                                class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah
+                                Email</button>
                         </div>
                     </div>
+                </div>
             </form>
         </div>
     </div>
-</div>
-
-<!-- password -->
-<div class="card height-auto" id="editDataAdditionalAccountSetting">
     <div class="card-body">
         <div class="single-info-details" style="display: block!important;">
             <form id="additionalSetting" class="new-added-form">
-                <div class="item-content">
+                <div class="item-content" id="password">
                     <div class="header-inline item-header">
                         <h3 class="text-dark-medium font-medium">Ubah Password</h3>
                     </div>
@@ -359,10 +358,41 @@
                     </div>
                     <button id="passwordBtn" type="submit" type="button" type="button"
                         class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah Password</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
+
+<!-- password -->
+<!-- <div class="card height-auto" id="editDataAdditionalAccountSetting">
+    <div class="card-body">
+        <div class="single-info-details" style="display: block!important;">
+            <form id="additionalSetting" class="new-added-form">
+                <div class="item-content" id="password">
+                    <div class="header-inline item-header">
+                        <h3 class="text-dark-medium font-medium">Ubah Password</h3>
+                    </div>
+                    <div class="row form-group">
+                        {# <input type="text" name="current_password" value="{{data.password}}"> #}
+                        <div class="col-6 my-3">
+                            <label>Password:</label>
+                            <input id="pass1" type="password" placeholder="New Password" name="password"
+                                class="form-control">
+                        </div>
+                        <div class="col-6 my-3">
+                            <label>Confirm Password:</label>
+                            <input id="pass2" type="password" placeholder="Confirm Password" name="confirm-pass"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <button id="passwordBtn" type="submit" type="button" type="button"
+                        class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
 <!-- Profile Additional Settings Edit Area End Here -->
 
 
@@ -624,7 +654,6 @@
             });
         }
     });
-
 
 </script>
 {% endblock content %}

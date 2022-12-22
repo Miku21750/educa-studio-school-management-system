@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-
+use Mpdf\Mpdf;
 
 class ParentController
 {
@@ -94,13 +94,13 @@ class ParentController
             foreach ($parent as $m) {
 
                 $datas['no'] = $no . '.';
-                $datas['foto'] = '<img src="/uploads/Profile/'.$m['photo_user'].'" style="width:30px;"  alt="student">';
+                $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
                 $datas['gender'] = $m['gender'];
                 $datas['pekerjaan'] = $m['occupation'];
                 $datas['telepon'] = $m['phone_user'];
 
-                if(  $_SESSION['type'] == 3){
+                if ($_SESSION['type'] == 3) {
                     $datas['aksi'] = '<div class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                         aria-expanded="false">
@@ -117,13 +117,12 @@ class ParentController
                         </a>
                     </div>
                 </div>';
-                }else{
+                } else {
                     $datas['aksi'] = ' ';
-
                 }
-                
 
-               
+
+
                 $data[] = $datas;
                 $no++;
             }
@@ -227,9 +226,8 @@ class ParentController
             'type' => $_SESSION['type'],
             'berhasil' => $berhasil
 
-           
+
         ]);
-       
     }
 
     public static function delete($app, $req, $rsp, $args)
@@ -253,55 +251,54 @@ class ParentController
     {
         $data = $args['data'];
 
-            // return var_dump($data);
-            // get image
-            $directory = $app->get('upload_directory');
-            $uploadedFiles = $request->getUploadedFiles();
-            // handle single input with single file upload
-            $uploadedFile = $uploadedFiles['profileImage'];
-            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-                $filename = moveUploadedFile($directory, $uploadedFile);
-                $response->write('uploaded ' . $filename . '<br/>');
+        // return var_dump($data);
+        // get image
+        $directory = $app->get('upload_directory');
+        $uploadedFiles = $request->getUploadedFiles();
+        // handle single input with single file upload
+        $uploadedFile = $uploadedFiles['profileImage'];
+        if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+            $filename = moveUploadedFile($directory, $uploadedFile);
+            $response->write('uploaded ' . $filename . '<br/>');
+        }
+        // return var_dump(isset($filename));
+        $addUpdate = $filename;
+        if (!isset($filename)) {
+            $addUpdate = $data['imageDefault'];
+        } else {
+            $fileDefault = $data['imageDefault'];
+            // if default? return'
+            if ($fileDefault == 'default.png') {
+            } else {
+                // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
+                unlink('../public/uploads/Profile/' . $fileDefault);
             }
-            // return var_dump(isset($filename));
-            $addUpdate = $filename;
-            if(!isset($filename)){
-                $addUpdate = $data['imageDefault'];
-            }else{
-                $fileDefault = $data['imageDefault'];
-                // if default? return'
-                if($fileDefault == 'default.png'){
-                    
-                }else{   
-                    // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
-                    unlink('../public/uploads/Profile/'.$fileDefault);
-                }
-            }
-            
-            // return var_dump($uploadedFiles);
-            $update = $app->db->update('tbl_users', [
-                "first_name" => $data['first_name'],
-                "last_name" => $data['last_name'],
-                "gender" => $data['gender'],
-                "date_of_birth" => $data['date_of_birth'],
-                "religion" => $data['religion'],
-                "blood_group" => $data['blood_group'],
-                "occupation" => $data['occupation'],
-                "phone_user" => $data['phone_user'],
-                "address_user" => $data['address_user'],
-                "short_bio" => $data['data_short_bio'],
-                "photo_user" => $addUpdate
-            ], [
-                "id_user" => $data['id_user']
-            ]);
-            // return var_dump($update);
-            $_SESSION['berhasil'] = true;
+        }
 
-            return $response->withRedirect('/api/parent-detail/'. $data['id_user']);
+        // return var_dump($uploadedFiles);
+        $update = $app->db->update('tbl_users', [
+            "first_name" => $data['first_name'],
+            "last_name" => $data['last_name'],
+            "gender" => $data['gender'],
+            "date_of_birth" => $data['date_of_birth'],
+            "religion" => $data['religion'],
+            "blood_group" => $data['blood_group'],
+            "occupation" => $data['occupation'],
+            "phone_user" => $data['phone_user'],
+            "address_user" => $data['address_user'],
+            "short_bio" => $data['data_short_bio'],
+            "photo_user" => $addUpdate
+        ], [
+            "id_user" => $data['id_user']
+        ]);
+        // return var_dump($update);
+        $_SESSION['berhasil'] = true;
+
+        return $response->withRedirect('/api/parent-detail/' . $data['id_user']);
     }
     public static function page_add_parent($app, $req, $rsp, $args)
     {
-        
+
         $type = 1;
         $student = $app->db->select('tbl_users', '*', [
             'id_user_type' => $type,
@@ -320,7 +317,7 @@ class ParentController
     {
         $data = $args['data'];
         $id_student = $data['id_student'];
-       
+
         // return var_dump($data);
         // die();
 
@@ -334,19 +331,18 @@ class ParentController
         }
         // return var_dump(isset($filename));
         $addUpdate = $filename;
-        if(!isset($filename)){
+        if (!isset($filename)) {
             $addUpdate = $data['imageDefault'];
-        }else{
+        } else {
             $fileDefault = $data['imageDefault'];
             // if default? return'
-            if($fileDefault == 'default.png'){
-                
-            }else{   
+            if ($fileDefault == 'default.png') {
+            } else {
                 // return var_dump(file_exists('../public/uploads/Profile/'.$fileDefault));
-                unlink('../public/uploads/Profile/'.$fileDefault);
+                unlink('../public/uploads/Profile/' . $fileDefault);
             }
         }
-        
+
         // return var_dump($uploadedFiles);
         $data = $app->db->insert('tbl_users', [
             "first_name" => $data['first_name'],
@@ -369,18 +365,15 @@ class ParentController
         $last_id = $app->db->id();
         $parent = $app->db->update('tbl_users', [
             "id_parent" => $last_id,
-        ],[
+        ], [
             'id_user' => $id_student
         ]);
 
         // return var_dump($last_id);
-             
+
 
         // return var_dump($data);
         $_SESSION['berhasil'] = true;
         return $rsp->withRedirect('/add-parents');
     }
-
-
-
 }

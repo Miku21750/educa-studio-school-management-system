@@ -12,6 +12,7 @@
                 <div class="heading-layout1">
                     <div class="item-title">
                         <h3>Write New Message</h3>
+                        <!-- {{dataMessageAvailable|json_encode()}} -->
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -130,9 +131,12 @@
 </div>
 <script>
     $(document).ready(function () {
+        
         $('#nameMessageForm').change(function (e) {
             e.preventDefault();
             var id_user = $('#nameMessageForm').val()
+            // dataMessageAvailable = {{dataMessageAvailable|json_encode()}};
+            
             $.ajax({
                 type: "GET",
                 url: "/getEmailMessage",
@@ -196,13 +200,24 @@
                         //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
                         Swal.fire({
                             title: 'Loading...',
-                            text: 'Mengirim data ke server...',
+                            text: 'Mengirim Pesan...',
                             //   imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
-                            imageUrl: 'img/preloader.gif',
-                            imageWidth: 400,
-                            imageHeight: 300,
-                            imageAlt: 'Custom image',
-                            showConfirmButton: false
+                            // imageUrl: 'img/preloader.gif',
+                            // imageWidth: 400,
+                            // imageHeight: 300,
+                            // imageAlt: 'Custom image',
+                            // showConfirmButton: false
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
                         })
                     },
                     success: function (response) {
