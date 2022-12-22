@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use Medoo\Medoo;
+use Midtrans;
+use App\Controller\EmailController;
 
 
 
@@ -504,6 +506,155 @@ class AcconuntController
         // return var_dump($data);
         $_SESSION['berhasil'] = true;
         return $rsp->withRedirect('/add-expense');
+    }
+
+    public static function get_data_midtrans($app, $request, $response, $args)
+    {
+        $id = $request->getParam('id');
+        $getTransaction = $app->db->select('tbl_finances',[
+            '[><]tbl_payment_types'=>'id_payment_type',
+            '[><]tbl_users'=>'id_user',
+        ],'*',[
+            'id_finance'=>$id
+        ]);
+        // return die(var_dump($id));
+        $transaction_detail= array(
+            'order_id'=>rand(),
+            // 'gross_amount' => $getTransaction[0]['amount_payment'],
+       
+        );
+        $price = (int)$getTransaction[0]['amount_payment'];
+        // return die(var_dump($price));
+        $item_Detail = array(
+            'id'=>$getTransaction[0]['id_finance'],
+            'price'=>$price,
+            'quantity'=>1,
+            'name'=>$getTransaction[0]['payment_type_name'],
+        );
+        $customer_details = array(
+            'first_name'=>$getTransaction[0]['first_name'],
+            'last_name'=>$getTransaction[0]['last_name'],
+            'email'=>$getTransaction[0]['email'],
+            'phone'=>$getTransaction[0]['phone_user']
+
+        );
+        $transaction = array(
+            'transaction_details'=> $transaction_detail,
+            'item_details'=>$item_Detail,
+            'customer_details'=>$customer_details,
+        );
+        $snapToken = Midtrans\Snap::getSnapToken($transaction);
+        // $base = $_SERVER['requ']
+        return $response->withJSON(array('token'=>$snapToken));
+        
+        
+
+        // return $response->withJson($data[0]);
+    }
+    public static function update_data_midtrans($app, $request, $response, $args)
+    {
+        $data = $args['data'];
+        if ($data['status_code'] == 200) {
+            $status = 'Dibayar';
+        }elseif ($data['status_code'] == 201) {
+            $status = 'Transaksi sedang diproses';
+        }else {
+            $status = 'Erorr';
+        }
+
+
+
+        // return var_dump($uploadedFiles);
+        $update = $app->db->update('tbl_finances', [
+           
+            "status_pembayaran" => $status,
+            "date_payment" => $data['time'],
+            
+        ], [
+
+            "id_finance" => $data['id'],
+
+        ]);
+        // return var_dump($update);
+        $json_data = array(
+            "draw"            => intval($request->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
+    }
+    public static function notice_midtrans($app, $request, $response, $args)
+    {
+        $notif = new Midtrans\Notification();
+
+        $transaction = $notif->transaction_status;
+        $type = $notif->payment_type;
+        $order_id = $notif->order_id;
+        $fraud = $notif->fraud_status;
+        return die(var_dump($order_id));
+        $message = 'ok';
+
+        if ($transaction == 'capture') {
+            // For credit card transaction, we need to check whether transaction is challenge by FDS or not
+            if ($type == 'credit_card') {
+                if ($fraud == 'challenge') {
+                    // TODO set payment status in merchant's database to 'Challenge by FDS'
+                    // TODO merchant should decide whether this transaction is authorized or not in MAP
+                    $message = "Transaction order_id: " . $order_id ." is challenged by FDS";
+                } else {
+                    // TODO set payment status in merchant's database to 'Success'
+                    $message = "Transaction order_id: " . $order_id ." successfully captured using " . $type;
+                }
+            }
+        } elseif ($transaction == 'settlement') {
+            // TODO set payment status in merchant's database to 'Settlement'
+            
+            $message = "Transaction order_id: " . $order_id ." successfully transfered using " . $type;
+        } elseif ($transaction == 'pending') {
+            // TODO set payment status in merchant's database to 'Pending'
+            $message = "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
+        } elseif ($transaction == 'deny') {
+            // TODO set payment status in merchant's database to 'Denied'
+            $message = "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
+        } elseif ($transaction == 'expire') {
+            // TODO set payment status in merchant's database to 'expire'
+            $message = "Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.";
+        } elseif ($transaction == 'cancel') {
+            // TODO set payment status in merchant's database to 'Denied'
+            $message = "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.";
+        }
+
+        $filename = $order_id . ".txt";
+        $dirpath = 'log';
+        is_dir($dirpath) || mkdir($dirpath, 0777, true);
+
+        $data = $args['data'];
+        if ($data['status_code'] == 200) {
+            $status = 'Dibayar';
+        }elseif ($data['status_code'] == 201) {
+            $status = 'Transaksi sedang diproses';
+        }else {
+            $status = 'Erorr';
+        }
+
+
+
+        // return var_dump($uploadedFiles);
+        $update = $app->db->update('tbl_finances', [
+           
+            "status_pembayaran" => $status,
+            "date_payment" => $data['time'],
+            
+        ], [
+
+            "id_finance" => $data['id'],
+
+        ]);
+        // return var_dump($update);
+        $json_data = array(
+            "draw"            => intval($request->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
     }
 
     public static function tgl_indo($tanggal){

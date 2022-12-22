@@ -2472,6 +2472,186 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
+  //Midtrans start here
+  $('#payment').on('click', '.item_bayar', function (e) {
+    // console.log('itemkeklik')
+    e.preventDefault();
+    // return console.log(this);
+    var id_finance = $(this).attr('data-idFinance');
+    $.ajax({
+        type: "GET",
+        url: "/api/get-midtrans",
+        data: {
+            id: id_finance
+        },
+        dataType: "JSON",
+        success: function (response) {
+          // console.log(response);
+          window.snap.pay(response.token,{
+            onSuccess: function(result){
+              console.log(result);
+              $.ajax({
+                type: "POST",
+                url: "/api/update-midtrans",
+                data: {
+                    id: id_finance,
+                    status_code : result.status_code,
+                    time: result.transaction_time
+                },
+                dataType: "JSON",
+                success: function (data) {
+                  if (data) {
+                      let timerInterval
+                      Swal.fire({
+                          title: 'Memuat Data...',
+                          html: 'Tunggu  <b></b>  Detik.',
+                          timer: 300,
+                          timerProgressBar: true,
+                          didOpen: () => {
+                              Swal.showLoading()
+                              const b = Swal.getHtmlContainer().querySelector('b')
+                              timerInterval = setInterval(() => {
+                                  b.textContent = Swal.getTimerLeft()
+                              }, 100)
+                          },
+                          willClose: () => {
+                              clearInterval(timerInterval)
+                          }
+                      }).then((result) => {
+                          table1.draw(false)
+                          Swal.fire(
+                              {
+                                  icon: 'success',
+                                  title: 'Berhasil',
+                                  text: 'Pembayaran Berhasil.',
+                                  //footer: '<a href="">Why do I have this issue?</a>'
+                              }
+
+                          )
+                      })
+
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Ada yang eror!',
+                          //footer: '<a href="">Why do I have this issue?</a>'
+                      })
+                  }
+              }
+            })
+            },
+            onPending: function(result){
+              console.log(result);
+              $.ajax({
+                type: "POST",
+                url: "/api/update-midtrans",
+                data: {
+                    id: id_finance,
+                    status_code : result.status_code,
+                    time: result.transaction_time
+                },
+                dataType: "JSON",
+                success: function (data) {
+                  if (data) {
+                      let timerInterval
+                      Swal.fire({
+                          title: 'Memuat Data...',
+                          html: 'Tunggu  <b></b>  Detik.',
+                          timer: 300,
+                          timerProgressBar: true,
+                          didOpen: () => {
+                              Swal.showLoading()
+                              const b = Swal.getHtmlContainer().querySelector('b')
+                              timerInterval = setInterval(() => {
+                                  b.textContent = Swal.getTimerLeft()
+                              }, 100)
+                          },
+                          willClose: () => {
+                              clearInterval(timerInterval)
+                          }
+                      }).then((result) => {
+                          table1.draw(false)
+                          Swal.fire(
+                              {
+                                  icon: 'success',
+                                  title: 'Berhasil',
+                                  text: 'Transaksi Sedang Diproses',
+                                  //footer: '<a href="">Why do I have this issue?</a>'
+                              }
+
+                          )
+                      })
+
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Ada yang eror!',
+                          //footer: '<a href="">Why do I have this issue?</a>'
+                      })
+                  }
+              }
+            })
+            },
+            onError: function(result){
+              console.log(result);
+              $.ajax({
+                type: "POST",
+                url: "/api/update-midtrans",
+                data: {
+                    id: id_finance,
+                    status_code : result.status_code,
+                    time: result.transaction_time
+                },
+                dataType: "JSON",
+                success: function (data) {
+                  if (data) {
+                      let timerInterval
+                      Swal.fire({
+                          title: 'Memuat Data...',
+                          html: 'Tunggu  <b></b>  Detik.',
+                          timer: 300,
+                          timerProgressBar: true,
+                          didOpen: () => {
+                              Swal.showLoading()
+                              const b = Swal.getHtmlContainer().querySelector('b')
+                              timerInterval = setInterval(() => {
+                                  b.textContent = Swal.getTimerLeft()
+                              }, 100)
+                          },
+                          willClose: () => {
+                              clearInterval(timerInterval)
+                          }
+                      }).then((result) => {
+                          table1.draw(false)
+                          Swal.fire(
+                              {
+                                  icon: 'error',
+                                  title: 'Gagal',
+                                  text: 'Error.',
+                                  //footer: '<a href="">Why do I have this issue?</a>'
+                              }
+
+                          )
+                      })
+
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Ada yang eror!',
+                          //footer: '<a href="">Why do I have this issue?</a>'
+                      })
+                  }
+              }
+            })
+            },
+          });
+        }
+    });
+  });
+  //Midtrans end here
   $("#nameMessageForm").select2({
     ajax: {
       url: "/api/get-all",

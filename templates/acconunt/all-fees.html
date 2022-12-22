@@ -3,6 +3,9 @@
 {% set typeFrontEnd = "Finance" %}
 {% set section_type = "Semua Pembayaran" %}
 {% block content %}
+<script type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="{{API-Midtrans}}"></script>
 <!-- Fees Table Area Start Here -->
 <div class="card height-auto">
   <div class="card-body">
@@ -38,7 +41,7 @@
                   <th></th>
               </tr>
           </thead>
-          <tbody id="show_data">
+          <tbody id="payment">
               
           </tbody>
       </table>
