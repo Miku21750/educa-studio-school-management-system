@@ -4106,11 +4106,12 @@ ul {
 .dashboard-card-twelve .card-body .kids-details-wrap .kids-details-box .item-img {
   height: 8rem;
   width: 8rem;
-  background-color: #4dd0e1;
+  /* background-color: #4dd0e1; */
   border-radius: 50%;
   text-align: center;
   overflow: hidden;
   margin-right: 3rem;
+  line-height: 8rem;
 }
 @media only screen and (max-width: 575px) {
   .dashboard-card-twelve .card-body .kids-details-wrap .kids-details-box .item-img {

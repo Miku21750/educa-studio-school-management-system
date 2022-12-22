@@ -3,6 +3,7 @@
 use Slim\App;
 use Medoo\Medoo;
 use App\Controller\DbController;
+use Mpdf\Mpdf;
 
 return function (App $app) {
     $container = $app->getContainer();

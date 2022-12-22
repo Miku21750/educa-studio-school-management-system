@@ -12,6 +12,7 @@
                 <div class="heading-layout1">
                     <div class="item-title">
                         <h3>Write New Message</h3>
+                        <!-- {{dataMessageAvailable|json_encode()}} -->
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -130,9 +131,12 @@
 </div>
 <script>
     $(document).ready(function () {
+        
         $('#nameMessageForm').change(function (e) {
             e.preventDefault();
             var id_user = $('#nameMessageForm').val()
+            // dataMessageAvailable = {{dataMessageAvailable|json_encode()}};
+            
             $.ajax({
                 type: "GET",
                 url: "/getEmailMessage",

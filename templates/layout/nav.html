@@ -53,13 +53,14 @@
             </h5>
             <span>{{ session.type_user }}</span>
           </div>
-            <div class="admin-img">
-              <img src="/uploads/Profile/{{session.photo_user}}" style="" class="" alt="Admin" />
-            </div>
+          <div class="admin-img">
+            <img src="/uploads/Profile/{{session.photo_user}}" style="" class="" alt="Admin" />
+          </div>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
           <div class="item-header">
-            <h6 class="item-title">{% if session.user == ' ' %} {{ session.username }} {% else %} {{ session.user }} {% endif %}</h6>
+            <h6 class="item-title">{% if session.user == ' ' %} {{ session.username }} {% else %} {{ session.user }} {%
+              endif %}</h6>
           </div>
           <div class="item-content">
             <ul class="settings-list">
@@ -96,7 +97,7 @@
           <span id="iconCountMessage"></span>
         </a>
         {% endif %}
-        
+
 
         <div class="dropdown-menu dropdown-menu-right">
           <div class="item-header">
@@ -110,39 +111,40 @@
             {% set countMessag = message.totalMessage %}
             {% if message.readed == 1 %}
             <div class="media message_Class" style="opacity: 40%;" data-idMessage="{{message.id_message}}"
-            data-toggle="modal" data-target="#messageViewModal">
+              data-toggle="modal" data-target="#messageViewModal">
               {% else %}
               <div class="media message_Class" data-idMessage="{{message.id_message}}" data-toggle="modal"
                 data-target="#messageViewModal">
                 {% endif %}
                 <div class="item-img bg-skyblue">
-                  <img src="/uploads/Profile/{{message.photo_sender}}" style="width: 40px; height: 40px; object-fit: cover;" alt="img" />
+                  <img src="/uploads/Profile/{{message.photo_sender}}"
+                    style="width: 40px; height: 40px; object-fit: cover;" alt="img" />
                 </div>
                 <div class="media-body space-sm">
                   <div class="item-title">
                     <a href="#">
                       <span class="item-name">{{message.first_name_sender}} {{message.last_name_sender}}</span>
                       <span class="item-time">{{message.time_sended|date("m/d/Y")}}</span>
-                      
+
                     </a>
                   </div>
                   <p>{{message.title}}</p>
                   <p>{{message.time_sender}}</p>
                   {# <p>
-                {{message.message}}
-                </p> #}
+                    {{message.message}}
+                  </p> #}
                 </div>
               </div>
 
               <script>
                 countMessage = "{{countMessag}}";
-                //console.log(countMessage);  
+                //console.log(countMessage);
               </script>
               {% endfor %}
               {# message end here #}
             </div>
           </div>
-        </li>
+      </li>
       <li class="navbar-item dropdown header-notification">
         {% if notif is empty %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
@@ -162,28 +164,22 @@
           console.log(notifCount)
         </script>
         {% endif %}
-        
-        
+
+
         <div class="dropdown-menu dropdown-menu-right ">
           <div class="item-header">
             <h6 class="item-title" id="headerTotalNotification"> Notifications</h6>
           </div>
           <div class="item-content" id="notification-nav">
-              
+
           </div>
         </div>
       </li>
-      
+
       {#
       <li class="navbar-item dropdown header-language">
-        <a
-          class="navbar-nav-link dropdown-toggle"
-          href="#"
-          role="button"
-          data-toggle="dropdown"
-          aria-expanded="false"
-          ><i class="fas fa-globe-americas"></i>EN</a
-        >
+        <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+          aria-expanded="false"><i class="fas fa-globe-americas"></i>EN</a>
         <div class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="#">English</a>
           <a class="dropdown-item" href="#">Spanish</a>
@@ -230,6 +226,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Close</button>
+        <button class="footer-btn bg-primary" id="balasBtn"><i class="fa fa-paper-plane mr-3"
+            aria-hidden="true"></i>Balas</button>
         <!-- <button type="button" class="footer-btn bg-linkedin">Save
           Changes</button> -->
       </div>
@@ -241,17 +239,17 @@
   $(document).ready(function () {
     console.log(countMessage)
     console.log(notifCount)
-    if(countMessage == null || countMessage == 0){
+    if (countMessage == null || countMessage == 0) {
       $('#iconCountMessage').html(countMessage);
       $('#countMessage').html('0 New Message');
-    }else{
+    } else {
       $('#iconCountMessage').html(countMessage);
       $('#countMessage').html('' + countMessage + ' New Message');
     }
-    if(notifCount == null  || countMessage == 0){
+    if (notifCount == null || countMessage == 0) {
       $('#iconTotalNotification').html(notifCount);
       $('#headerTotalNotifications').html('0 New Notifications');
-    }else{
+    } else {
       $('#iconTotalNotification').html(notifCount);
       $('#headerTotalNotification').html('' + notifCount + ' New Notifications');
     }
@@ -268,12 +266,12 @@
         dataType: "JSON",
         success: function (response) {
           console.log(response)
-            $(e.currentTarget).attr('style','opacity: 50%;')
-            console.log(e)
-            countMessage = parseInt(countMessage);
-            //countMessage -= 1;
-            $('#iconCountMessage').html(countMessage);
-            $('#countMessage').html('' + countMessage + ' New Message');
+          $(e.currentTarget).attr('style', 'opacity: 50%;')
+          console.log(e)
+          countMessage = parseInt(countMessage);
+          //countMessage -= 1;
+          $('#iconCountMessage').html(countMessage);
+          $('#countMessage').html('' + countMessage + ' New Message');
         }
       });
     });
@@ -295,13 +293,15 @@
           $('#profileMessageSenderModal').attr('src', '/uploads/Profile/' + response[0].photo_sender)
           $('#nameMessageSenderModal').text(response[0].first_name_sender + ' ' + response[0]
             .last_name_sender)
+          $('#balasBtn').attr('data-idMessage',recipient)
+          $('#balasBtn').attr('onclick','drawMessage('+recipient+')');
           $('#timeMessageSenderModal').text(day.toDateString())
           $('#titleMessageSenderModal').text(response[0].title)
           $('#detailsMessageSenderModal').text(response[0].message)
         }
       });
     })
-
+    
     function difference2Parts(milliseconds) {
       const secs = Math.floor(Math.abs(milliseconds) / 1000);
       const mins = Math.floor(secs / 60);
@@ -320,14 +320,10 @@
         secondsTotal: secs,
         milliSeconds: millisecs,
         get diffStr() {
-          return `${multiple(`day`, this.days)}, ${
-            multiple(`hour`, this.hours)}, ${
-            multiple(`minute`, this.minutes)} and ${
-            multiple(`second`, this.seconds)}`;
+          return `${multiple(`day`, this.days)}, ${multiple(`hour`, this.hours)}, ${multiple(`minute`, this.minutes)} and ${multiple(`second`, this.seconds)}`;
         },
         get diffStrMs() {
-          return `${this.diffStr.replace(` and`, `, `)} and ${
-            multiple(`millisecond`, this.milliSeconds)}`;
+          return `${this.diffStr.replace(` and`, `, `)} and ${multiple(`millisecond`, this.milliSeconds)}`;
         },
       };
     }
@@ -338,11 +334,9 @@
 
       const diff = () => {
         const diffs = difference2Parts(nextChristmas - new Date());
-        report.innerHTML = `Awaiting next XMas 🙂 (${
-          diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
+        report.innerHTML = `Awaiting next XMas 🙂 (${diffs.diffStrMs.replace(/(\d+)/g, a => `<b>${a}</b>`)})<br>
           <br>In other words, until next XMas lasts&hellip;<br>
-          In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${
-          diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
+          In minutes: <b>${diffs.minutesTotal}</b><br>In hours: <b>${diffs.hoursTotal}</b><br>In seconds: <b>${diffs.secondsTotal}</b>`;
         setTimeout(diff, 200);
       };
       return difference2Parts(nextChristmas - new Date());
@@ -390,36 +384,54 @@
                 classCategory = 'bg-warning'
                 iconCategory = 'fas fa-book'
               }
-              break;
-            case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
-              classCategory = 'bg-success'
-              iconCategory = 'fas fa-money-bill'
-            }
-            break;
-            case 'Event': {
-              classCategory = 'bg-danger'
-              iconCategory = 'fas fa-calendar-check'
-            }
-            break;
-            case 'Pengumuman_Sekolah': {
-              classCategory = 'bg-primary'
-              iconCategory = 'fas fa-bell'
-            }
-            break;
-            default: {
+                break;
+              case 'Pembayaran_Gaji': case 'Pembayaran_SPP': {
+                classCategory = 'bg-success'
+                iconCategory = 'fas fa-money-bill'
+              }
+                break;
+              case 'Event': {
+                classCategory = 'bg-danger'
+                iconCategory = 'fas fa-calendar-check'
+              }
+                break;
+              case 'Pengumuman_Sekolah': {
+                classCategory = 'bg-primary'
+                iconCategory = 'fas fa-bell'
+              }
+                break;
+              default: {
 
+              }
+                break;
             }
-            break;
-            }
-            
-            $('#notification-nav').append('<div class="media"><div class="item-icon '+classCategory+'"><i class="'+iconCategory+'"></i></div><div class="media-body space-sm"><div class="post-title">'+response[i].title+'</div><span id="timeNotificationNav">'+difference+'</span></div></div>')
-            
+
+            $('#notification-nav').append('<div class="media"><div class="item-icon ' + classCategory + '"><i class="' + iconCategory + '"></i></div><div class="media-body space-sm"><div class="post-title">' + response[i].title + '</div><span id="timeNotificationNav">' + difference + '</span></div></div>')
+
           });
         },
-        complete: function () {}
+        complete: function () { }
       });
     };
     drawNotice();
+    
   });
+  function drawMessage(id_user){
+    console.log(id_user);
+    $.ajax({
+      type: "GET",
+      url: "/getMessageReply",
+      data: {
+        id_message: id_user
+      },
+      dataType: "JSON",
+      success: function (response) {
+        console.log('AAAA')
+        // window.location.href = '/messaging'
+        window.location.replace("/messaging")
+        //$('#messageModal').html('');
+      }
+    });
+  }
 </script>
 {% endblock nav %}

@@ -324,7 +324,7 @@
   <!-- Modal forgot password start here -->
   <div class="modal fade" id="forgotPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Lupa Password</h5>
@@ -337,7 +337,7 @@
             <div class="form-group">
               <label for="emailForgot" class="col-form-label">Email</label>
               <input type="text" class="form-control" id="emailForgot" name="emailForgot"
-                placeholder="Masukan Email kamu" required>
+                placeholder="Masukan Email kamu" autofocus required>
             </div>
         </div>
         <div class="modal-footer">
@@ -367,37 +367,35 @@
               email: email,
             },
             beforeSend: function () {
-
-
-            //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
-            Swal.fire({
-              title: 'Loading...',
-              text: 'Mengirim data ke server...',
-              // imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
-              imageUrl: 'img/preloader.gif',
-              imageWidth: 400,
-              imageHeight: 200,
-              imageAlt: 'Custom image',
-              showConfirmButton: false
-            })
-          },
+              //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
+              Swal.fire({
+                title: 'Loading...',
+                text: 'Mengirim data ke server...',
+                // imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
+                imageUrl: 'img/preloader.gif',
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: 'Custom image',
+                showConfirmButton: false
+              })
+            },
             success: function (response) {
-                console.log(response)
-                let timerInterval
-                Swal.fire({
-                  title: 'Success!',
-                  icon: 'success',
-                  text: 'Silahkan cek email atau spam kamu untuk melihat link ganti password',
-                  timer: 2000,
-                  willClose: () => {
-                    clearInterval(timerInterval)
-                  }
-                }).then((result) => {
-                  /* Read more about handling dismissals below */
-                  window.location.reload();
-                })
-              }
-            })
+              console.log(response)
+              let timerInterval
+              Swal.fire({
+                title: 'Success!',
+                icon: 'success',
+                text: 'Silahkan cek email atau spam kamu untuk melihat link ganti password',
+                timer: 2000,
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                /* Read more about handling dismissals below */
+                window.location.reload();
+              })
+            }
+          })
         })
       })
       $('#regBtn').on('click', function (e) {

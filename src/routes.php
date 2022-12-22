@@ -25,6 +25,7 @@ use Slim\Http\Response;
 use Slim\Http\UploadedFile;
 use App\Controller\AcconuntController;
 use App\Controller\UserCredentialController;
+use Dotenv\Result\Success;
 
 return function (App $app) {
     $container = $app->getContainer();
@@ -2088,6 +2089,7 @@ return function (App $app) {
         '/messaging',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
+            // return die(var_dump($request->getParams()));
             $data = $container->db->select('tbl_users', [
                 'id_user',
                 'email',
@@ -2096,8 +2098,19 @@ return function (App $app) {
                 'username',
             ]);
             // return var_dump($data);
+            $dataMessageAvailable = [];
+            if(isset($_SESSION['dataMessage'][0]['id_message'])){
+                $dataMessageAvailable = [
+                    'sender_email'=>$_SESSION['dataMessage'][0]['sender_email'],
+                    'title'=>$_SESSION['dataMessage'][0]['title'],
+                ];
+            }
+            // return die(var_dump($dataMessageAvailable));
+            
             $container->view->render($response, 'others/messaging.html', [
                 'data' => $data,
+                'sender_email'=>$_SESSION['dataMessage'][0]['sender_email'],
+                'title'=>$_SESSION['dataMessage'][0]['title'],
                 'idSenderDefault' => $_SESSION['id_user'],
             ]);
         }
@@ -2124,7 +2137,7 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $id = $request->getParam('id_user');
-            // return var_dump($request->getParam('id_user'));
+            return var_dump($request->getParams());
             $data = $container->db->select('tbl_users', [
                 'id_user',
                 'email',
@@ -2314,6 +2327,41 @@ return function (App $app) {
                 ]);
             //return var_dump($dataNotice);
             return $response->withJson($dataNotice);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getMessageReply',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view'
+            // return var_dump($request->getParam('id'));
+            $id = $request->getParam('id_message');
+            // return die(var_dump($request->getParams()));
+            $dataNotice = $container->db->select('tbl_messages(m)', [
+                '[>]tbl_users' => 'id_user',
+            ], [
+                    'id_message',
+                    'totalMessage' => Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '" . $_SESSION['username'] . "')"),
+                    'id_user',
+                    'receiver_email',
+                    'sender_email',
+                    'title',
+                    'message',
+                    'readed',
+                    'photo_sender' => Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
+                    'first_name_sender' => Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
+                    'last_name_sender' => Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
+                    'time_sended',
+                ], [
+                    'username' => $_SESSION['username'],
+                    'id_message' => $id,
+                ]);
+            // return var_dump($dataNotice);
+            // return $response->withJson($dataNotice);
+            $_SESSION['dataMessage'] = $dataNotice;
+            // return die(var_dump($_SESSION));
+            return $response->withJson(array('success'=>true));
+            // return array(Success);
+            // return $response->withRedirect('/messaging');
         }
     )->add(new Auth());
     // End Message
@@ -2509,7 +2557,7 @@ return function (App $app) {
             return $response->withJson(UserCredentialController::ubahUsername($this, $request, $response, $args));
         }
     );
-
+    
     $app->post(
         '/account-delete-data',
         function (Request $request, Response $response, array $args) use ($container) {
