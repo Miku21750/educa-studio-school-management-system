@@ -8,196 +8,169 @@
 {% if berhasil == true %}
 <script>
 
-    let timerInterval
-    Swal.fire({
-        title: 'Memuat Data...',
-        html: 'Tunggu  <b></b>  Detik.',
-        timer: 400,
-        timerProgressBar: true,
-        didOpen: () => {
-            Swal.showLoading()
-            const b = Swal.getHtmlContainer().querySelector('b')
-            timerInterval = setInterval(() => {
-                b.textContent = Swal.getTimerLeft()
-            }, 300)
-        },
-        willClose: () => {
-            clearInterval(timerInterval)
+  let timerInterval
+  Swal.fire({
+    title: 'Memuat Data...',
+    html: 'Tunggu  <b></b>  Detik.',
+    timer: 400,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading()
+      const b = Swal.getHtmlContainer().querySelector('b')
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft()
+      }, 300)
+    },
+    willClose: () => {
+      clearInterval(timerInterval)
+    }
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      Swal.fire(
+        {
+          icon: 'success',
+          title: 'Berhasil',
+          text: 'Data telah ditambahkan.',
         }
-    }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-          Swal.fire(
-            {
-                icon: 'success',
-                title: 'Berhasil',
-                text: 'Data telah ditambahkan.',
-            }
 
-        )
-        }
-    })
+      )
+    }
+  })
 </script>
 
 {% endif %}
-    <!-- Add New Teacher Area Start Here -->
+<!-- Add New Teacher Area Start Here -->
 <div class="card height-auto">
-    <div class="card-body">
-      <div class="heading-layout1">
-        <div class="item-title">
-          <h3>Tambah Data Orang Tua </h3>
-        </div>
-        <div class="dropdown">
-          <a
-            class="dropdown-toggle"
-            href="#"
-            role="button"
-            data-toggle="dropdown"
-            aria-expanded="false"
-            >...</a
-          >
-  
-          <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-times text-orange-red"></i>Close</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a
-            >
-            <a class="dropdown-item" href="#"
-              ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a
-            >
-          </div>
+  <div class="card-body">
+    <div class="heading-layout1">
+      <div class="item-title">
+        <h3>Tambah Data Orang Tua </h3>
+      </div>
+      <div class="dropdown">
+        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+          <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
         </div>
       </div>
-      <form class="new-added-form" action="/api/add-parent" enctype="multipart/form-data" method="post">
-        <div class="row">
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Nama Depan *</label>
-            <input type="text" placeholder="Masukan Nama Depan" class="form-control" name="first_name" required/>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Nama Belakang *</label>
-            <input type="text" placeholder="Masukan Nama Belakang" class="form-control" name="last_name" required/>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Jenis Kelamin *</label>
-            <select class="select2" name="gender">
-              <option value="">Pilih Jenis Kelamin *</option>
-              <option value="Laki-laki">Laki-laki</option>
-              <option value="Perempuan">Perempuan</option>
-            </select>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Pekerjaan</label>
-            <input type="text" placeholder="" class="form-control" name="occupation" required/>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group" >
-            <label>Nama Anak</label>
-            <select class="select2" name="id_student" id="get-siswa" style="width: 100%;">
-              <option >Pilih Anak *</option>
-              
-            </select>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group" hidden>
-            <label>NISN Anak</label>
-            <input  name="nisn_student" id="emailMessageForm" class="form-control">
-             
-          </div>
-          
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Golongan Darah *</label>
-            <select class="select2" name="blood_group">
-              <option value="">Please Select Group *</option>
-              <option value="A">A</option>
-              <option value="B">B</option>
-              <option value="AB">AB</option>
-              <option value="O">O</option>
-            </select>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Agama *</label>
-            <select class="select2" name="religion">
-              <option value="">Pilih Agama *</option>
-              <option value="Islam">Islam</option>
-              <option value="Hindu">Hindu</option>
-              <option value="Christian">Christian</option>
-              <option value="Buddish">Buddish</option>
-              <option value="Others">Others</option>
-            </select>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>E-Mail</label>
-            <input type="email" placeholder="" class="form-control" name="email" required/>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Alamat</label>
-            <input type="text" placeholder="" class="form-control" name="address_user" required/>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Tanggal lahir</label>
-            <input type="date" name="date_of_birth" class="form-control"  name="date_of_birth" required>
-          </div>
-          <div class="col-xl-3 col-lg-6 col-12 form-group">
-            <label>Phone</label>
-            <input type="text" placeholder="" class="form-control" name="phone_user" required/>
-          </div>
-          <div class="col-lg-6 col-12 form-group">
-            <label>Short BIO</label>
-            <textarea
-              class="textarea form-control"
-              cols="10"
-              rows="9"
-              name="data_short_bio"
-              required
-            ></textarea>
-          </div>
-          <div class="col-lg-6 col-12 form-group mg-t-30">
-            <label class="text-dark-medium"
-              >Upload Foto Orang Tua (150px X 150px)</label
-            >
-            <input type="file" class="form-control-file" name="imageUpload" />
-            <input type="text" class="form-control-file" name="imageDefault" value="default.png" hidden/>
-          </div>
-          <div class="col-12 form-group mg-t-8">
-            <button
-              type="submit"
-              class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark "
-            >
-              Save
-            </button>
-            <button
-              type="reset"
-              class="btn-fill-lg bg-blue-dark btn-hover-yellow"
-            >
-              Reset
-            </button>
-          </div>
-        </div>
-      </form>
     </div>
+    <form class="new-added-form" action="/api/add-parent" enctype="multipart/form-data" method="post">
+      <div class="row">
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Nama Depan *</label>
+          <input type="text" placeholder="Masukan Nama Depan" class="form-control" name="first_name" required />
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Nama Belakang *</label>
+          <input type="text" placeholder="Masukan Nama Belakang" class="form-control" name="last_name" required />
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Jenis Kelamin *</label>
+          <select class="select2" name="gender">
+            <option value="">Pilih Jenis Kelamin *</option>
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+          </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Pekerjaan</label>
+          <input type="text" placeholder="" class="form-control" name="occupation" required />
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Nama Anak</label>
+          <select class="select2" name="id_student" id="get-siswa" style="width: 100%;">
+            <option>Pilih Anak *</option>
+
+          </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>NISN Anak</label>
+          <input name="nisn_student" id="emailMessageForm" class="form-control">
+
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Golongan Darah *</label>
+          <select class="select2" name="blood_group">
+            <option value="">Please Select Group *</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="AB">AB</option>
+            <option value="O">O</option>
+          </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Agama *</label>
+          <select class="select2" name="religion">
+            <option value="">Pilih Agama *</option>
+            <option value="Islam">Islam</option>
+            <option value="Hindu">Hindu</option>
+            <option value="Christian">Christian</option>
+            <option value="Buddish">Buddish</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>E-Mail</label>
+          <input type="email" placeholder="" class="form-control" name="email" required />
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Alamat</label>
+          <input type="text" placeholder="" class="form-control" name="address_user" required />
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Tanggal lahir</label>
+          <input type="date" name="date_of_birth" class="form-control" name="date_of_birth" required>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Phone</label>
+          <input type="text" placeholder="" class="form-control" name="phone_user" required />
+        </div>
+        <div class="col-lg-6 col-12 form-group">
+          <label>Short BIO</label>
+          <textarea class="textarea form-control" cols="10" rows="9" name="data_short_bio" required></textarea>
+        </div>
+        <div class="col-lg-6 col-12 form-group mg-t-30">
+          <label class="text-dark-medium">Upload Foto Orang Tua (150px X 150px)</label>
+          <input type="file" class="form-control-file" name="imageUpload" />
+          <input type="text" class="form-control-file" name="imageDefault" value="default.png" hidden />
+        </div>
+        <div class="col-12 form-group mg-t-8">
+          <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark ">
+            Save
+          </button>
+          <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
+            Reset
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
-  <!-- Add New Teacher Area End Here -->
-  <script>
-    $(document).ready(function () {        
-        $('#get-siswa').change(function (e) { 
-            e.preventDefault();
-            var id_user = $('#get-siswa').val()
-            //console.log(id_user)
-            $.ajax({
-                type: "GET",
-                url: "/get_id_ortu",
-                data: {
-                    id_user: id_user 
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    console.log(response[0].NISN);
-                    $('#emailMessageForm').val(response[0].NISN);
-                }
-            });
-        });
-        
+</div>
+<!-- Add New Teacher Area End Here -->
+<script>
+  $(document).ready(function () {
+    $('#get-siswa').change(function (e) {
+      e.preventDefault();
+      var id_user = $('#get-siswa').val()
+      //console.log(id_user)
+      $.ajax({
+        type: "GET",
+        url: "/get_id_ortu",
+        data: {
+          id_user: id_user
+        },
+        dataType: "JSON",
+        success: function (response) {
+          console.log(response[0].NISN);
+          $('#emailMessageForm').val(response[0].NISN);
+        }
+      });
     });
+
+  });
 </script>
 {% endblock content %}

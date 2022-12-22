@@ -121,7 +121,7 @@ class ExamController
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['class'] = $m['class'] . ' ' . $m['section'];
                 $exam_date = AcconuntController::tgl_indo($m['exam_date']);
-               
+
                 $datas['exam_date'] = $exam_date;
                 $datas['exam_time'] = date("H:i", $examStart) . ' - ' . date("H:i", $examEnd);
                 $datas['aksi'] =  '<div class="dropdown">
@@ -946,14 +946,30 @@ class ExamController
         $id_class = $data['class'];
         $id_subject = $data['subject'];
 
-        $final = $app->db->select('tbl_final_scores',[
-            '[><]tbl_users' => ['tbl_final_scores.id_user'=>'id_user'],
-            '[><]tbl_subjects' => ['tbl_final_scores.id_subject'=>'id_subject'],
-            '[><]tbl_classes' => ['tbl_final_scores.id_class'=>'id_class'],
-        ], '*',[
-            'tbl_final_scores.id_class' => $id_class,
-            'tbl_final_scores.id_subject' => $id_subject,
+        $final = $app->db->select('tbl_users', [
+
+            '[><]tbl_classes' => ['tbl_users.id_class' => 'id_class'],
+
+
+        ], '*', [
+            'tbl_users.id_class' => $id_class,
+
+
         ]);
+        // $final = $app->db->debug()->select('tbl_users', [
+        //     '[><]tbl_attendances' => ['tbl_users.id_user' => 'id_user'],
+        //     '[><]tbl_subjects' => ['tbl_attendances.id_subject' => 'id_subject'],
+        //     '[><]tbl_classes' => ['tbl_attendances.id_class' => 'id_class'],
+        //     '[><]tbl_tasks' => ['tbl_users.id_user' => 'id_user'],
+
+
+        // ], '*', [
+        //     'tbl_attendances.id_class' => $id_class,
+        //     'tbl_attendances.id_subject' => $id_subject,
+        //     'tbl_tasks.id_class' => $id_class,
+        //     'tbl_tasks.id_subject' => $id_subject,
+
+        // ]);
         // return var_dump($final);
         // die();
 
@@ -966,8 +982,8 @@ class ExamController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            'tbl_final_scores.id_class' => $id_class,
-            'tbl_final_scores.id_subject' => $id_subject,
+            'tbl_users.id_class' => $id_class,
+
         ];
 
         if (!empty($req->getParam('search')['value'])) {
@@ -979,14 +995,18 @@ class ExamController
             ];
             $conditions['OR'] = [
                 'tbl_users.first_name[~]' => '%' . $search . '%',
-            
+
 
             ];
-            $final = $app->db->select('tbl_final_scores',[
-                '[><]tbl_users' => ['tbl_final_scores.id_user'=>'id_user'],
-                '[><]tbl_subjects' => ['tbl_final_scores.id_subject'=>'id_subject'],
-                '[><]tbl_classes' => ['tbl_final_scores.id_class'=>'id_class'],
-            ], '*',
+            $final = $app->db->select(
+                'tbl_users',
+                [
+
+                    '[><]tbl_classes' => ['tbl_users.id_class' => 'id_class'],
+
+
+                ],
+                '*',
                 // $limit
                 $conditions
             );
@@ -994,10 +1014,11 @@ class ExamController
             $totalfiltered = $totaldata;
         }
 
-        $final = $app->db->select('tbl_final_scores',[
-            '[><]tbl_users' => ['tbl_final_scores.id_user'=>'id_user'],
-            '[><]tbl_subjects' => ['tbl_final_scores.id_subject'=>'id_subject'],
-            '[><]tbl_classes' => ['tbl_final_scores.id_class'=>'id_class'],
+        $final = $app->db->select('tbl_users', [
+
+            '[><]tbl_classes' => ['tbl_users.id_class' => 'id_class'],
+
+
         ], '*', $conditions);
 
         $data = array();
@@ -1009,11 +1030,11 @@ class ExamController
                 $datas['no'] = $no . '.';
                 $datas['nama'] = $m['first_name'];
                 $datas['kehadiran'] = ' ';
-                $datas['tugas'] ='<input type="text" value="'. $m['nilai_1'] .'">';
-                $datas['uts'] = '<input type="text" value="'. $m['nilai_2'] .'">';
-                $datas['uas'] = '<input type="text" value="'. $m['nilai_3'] .'">';
-                $datas['akhir'] = '<input type="text">' ;
-               
+                $datas['tugas'] = '<input type="text" >';
+                $datas['uts'] = '<input type="text" >';
+                $datas['uas'] = '<input type="text" >';
+                $datas['akhir'] = '<input type="text">';
+
                 $data[] = $datas;
                 $no++;
             }
@@ -1031,5 +1052,4 @@ class ExamController
         // return var_dump($json_data);
         echo json_encode($json_data);
     }
-    
 }

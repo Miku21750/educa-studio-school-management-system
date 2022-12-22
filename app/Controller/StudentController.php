@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+
 use App\Controller\AcconuntController;
 
 
@@ -65,10 +66,10 @@ class StudentController
         $type = 1;
         $tbl_classes = 'tbl_classes';
 
-        
 
 
-        $student = $app->db->select('tbl_users',[
+
+        $student = $app->db->select('tbl_users', [
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
@@ -118,7 +119,8 @@ class StudentController
             ];
 
             $student = $app->db->select(
-                'tbl_users',[
+                'tbl_users',
+                [
                     '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
                     '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
                     '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
@@ -135,7 +137,7 @@ class StudentController
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
-        ],'*', $conditions);
+        ], '*', $conditions);
 
         $data = array();
 
@@ -149,7 +151,7 @@ class StudentController
                 $datas['nisn'] = $m['NISN'];
                 $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
                 $datas['gender'] = $m['gender'];
-                $datas['class'] = $m['class'] . ' ' .$m['section']  ;
+                $datas['class'] = $m['class'] . ' ' . $m['section'];
 
                 $username = $app->db->select('tbl_users', 'first_name', [
                     'id_user' => $m['id_user']
@@ -165,10 +167,10 @@ class StudentController
                     'id_user' => $m['id_user']
                 ]);
 
-              
+
 
                 if ($admission != null && $_SESSION['type'] == 3) {
-                    
+
                     $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
@@ -190,10 +192,9 @@ class StudentController
                     </a>   
                 </div>
             </div>';
-                } else if( $_SESSION['type'] != 3) {
+                } else if ($_SESSION['type'] != 3) {
                     $datas['aksi'] = ' ';
-
-                }else{
+                } else {
                     $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
@@ -241,10 +242,10 @@ class StudentController
         $type = 1;
         $tbl_classes = 'tbl_classes';
 
-        
 
 
-        $student = $app->db->select('tbl_users',[
+
+        $student = $app->db->select('tbl_users', [
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
@@ -294,7 +295,8 @@ class StudentController
             ];
 
             $student = $app->db->select(
-                'tbl_users',[
+                'tbl_users',
+                [
                     '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
                     '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
                     '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
@@ -311,7 +313,7 @@ class StudentController
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
-        ],'*', $conditions);
+        ], '*', $conditions);
 
         $data = array();
 
@@ -325,7 +327,7 @@ class StudentController
                 $datas['nisn'] = $m['NISN'];
                 $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
                 $datas['gender'] = $m['gender'];
-                $datas['session'] = $m['session']  ;
+                $datas['session'] = $m['session'];
 
                 $username = $app->db->select('tbl_users', 'first_name', [
                     'id_user' => $m['id_user']
@@ -341,10 +343,10 @@ class StudentController
                     'id_user' => $m['id_user']
                 ]);
 
-              
+
 
                 if ($admission != null && $_SESSION['type'] == 3) {
-                    
+
                     $datas['aksi'] = '<div class="dropdown p-3">
 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"
@@ -362,10 +364,9 @@ class StudentController
                     </a>
                 </div>
             </div>';
-                } else if( $_SESSION['type'] != 3) {
+                } else if ($_SESSION['type'] != 3) {
                     $datas['aksi'] = ' ';
-
-                }else{
+                } else {
                     $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
@@ -454,13 +455,13 @@ class StudentController
         $class = $app->db->select('tbl_classes', [
             '[><]tbl_sections' =>  'id_section',
         ], '*');
-        
-        
+
+
         $date = $app->db->select('tbl_users', 'date_of_birth', [
             'id_user' => $id
         ]);
         $tanggal = AcconuntController::tgl_indo($date[0]);
-        
+
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
         // return var_dump($tanggal);
@@ -523,9 +524,10 @@ class StudentController
             }
         }
 
-        
+
 
         // return var_dump($uploadedFiles);
+
         $update = $app->db->update('tbl_users', [
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
@@ -602,45 +604,43 @@ class StudentController
             'email' => $data['email']
         ]);
 
-        if ($cek == null ) {
+        if ($cek == null) {
             // return var_dump($uploadedFiles);
             $student = $app->db->insert('tbl_users', [
-            "first_name" => $data['first_name'],
-            "last_name" => $data['last_name'],
-            "gender" => $data['gender'],
-            "password" => $data['nisn'],
-            "id_class" => $data['id_class'],
-            "id_parent" => $data['id_parent'],
-            "NISN" => $data['nisn'],
-            "date_of_birth" => $data['date_of_birth'],
-            "religion" => $data['religion'],
-            "blood_group" => $data['blood_group'],
-            "session" => $data['session'],
-            "email" => $data['email'],
-            "phone_user" => $data['phone_user'],
-            "address_user" => $data['address_user'],
-            "photo_user" => $addUpdate,
-            "id_user_type" => 1,
-            "status" => 1,
-            
-        ]);
+                "first_name" => $data['first_name'],
+                "last_name" => $data['last_name'],
+                "gender" => $data['gender'],
+                "password" => $data['nisn'],
+                "id_class" => $data['id_class'],
+                "id_parent" => $data['id_parent'],
+                "NISN" => $data['nisn'],
+                "date_of_birth" => $data['date_of_birth'],
+                "religion" => $data['religion'],
+                "blood_group" => $data['blood_group'],
+                "session" => $data['session'],
+                "email" => $data['email'],
+                "phone_user" => $data['phone_user'],
+                "address_user" => $data['address_user'],
+                "photo_user" => $addUpdate,
+                "id_user_type" => 1,
+                "status" => 1,
 
-        $last_id = $app->db->id();
-        $tanggal = date("Y-m-d ");
+            ]);
 
-        $id_masuk = $app->db->insert('tbl_admissions', [
-            "id_user" => $last_id,
-            "admission_date" => $tanggal
-        ]);
-        $_SESSION['berhasil'] = true;
+            $last_id = $app->db->id();
+            $tanggal = date("Y-m-d ");
 
-        }else{
-        $_SESSION['email'] = true;
-
+            $id_masuk = $app->db->insert('tbl_admissions', [
+                "id_user" => $last_id,
+                "admission_date" => $tanggal
+            ]);
+            $_SESSION['berhasil'] = true;
+        } else {
+            $_SESSION['email'] = true;
         }
 
-        
-        
+
+
 
         // return var_dump($tanggal);
         return $rsp->withRedirect('/admit-form');
@@ -719,7 +719,7 @@ class StudentController
     }
     public static function get_data_ortu($app, $request, $response, $id_class_routine)
     {
-       
+
         $param = $request->getParams();
         // return die(var_dump($param));
         $condition = [
@@ -727,11 +727,11 @@ class StudentController
             "id_user[!]" => 0,
             "LIMIT" => 5
         ];
-        if(isset($param['q'])){
+        if (isset($param['q'])) {
             $search = $param['q'];
             $condition['OR'] = [
                 'first_name[~]' => '%' . $search . '%',
-                'last_name[~]' => '%' . $search . '%',            
+                'last_name[~]' => '%' . $search . '%',
             ];
         }
         $data = $app->db->select(
@@ -741,15 +741,15 @@ class StudentController
                 'NISN',
                 'first_name',
                 'last_name'
-            ],$condition
+            ],
+            $condition
         );
 
         return $response->withJson($data);
-
     }
     public static function get_data_siswa($app, $request, $response, $id_class_routine)
     {
-       
+
         $param = $request->getParams();
         // return die(var_dump($param));
         $condition = [
@@ -757,11 +757,11 @@ class StudentController
             "id_user[!]" => 0,
             "LIMIT" => 5
         ];
-        if(isset($param['q'])){
+        if (isset($param['q'])) {
             $search = $param['q'];
             $condition['OR'] = [
                 'first_name[~]' => '%' . $search . '%',
-                'last_name[~]' => '%' . $search . '%',            
+                'last_name[~]' => '%' . $search . '%',
             ];
         }
         $data = $app->db->select(
@@ -771,26 +771,26 @@ class StudentController
                 'NISN',
                 'first_name',
                 'last_name'
-            ],$condition
+            ],
+            $condition
         );
 
         return $response->withJson($data);
-
     }
     public static function get_data_all($app, $request, $response, $id_class_routine)
     {
-       
+
         $param = $request->getParams();
         // return die(var_dump($param));
         $condition = [
             "id_user[!]" => 0,
             "LIMIT" => 5
         ];
-        if(isset($param['q'])){
+        if (isset($param['q'])) {
             $search = $param['q'];
             $condition['OR'] = [
                 'first_name[~]' => '%' . $search . '%',
-                'last_name[~]' => '%' . $search . '%',            
+                'last_name[~]' => '%' . $search . '%',
             ];
         }
         $data = $app->db->select(
@@ -800,10 +800,10 @@ class StudentController
                 'NISN',
                 'first_name',
                 'last_name'
-            ],$condition
+            ],
+            $condition
         );
 
         return $response->withJson($data);
-
     }
 }
