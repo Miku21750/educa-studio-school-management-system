@@ -12,7 +12,6 @@
                 <div class="heading-layout1">
                     <div class="item-title">
                         <h3>Write New Message</h3>
-                        <!-- {{dataMessageAvailable|json_encode()}} -->
                     </div>
                     <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -130,11 +129,47 @@
     <!-- All Notice Area End Here -->
 </div>
 <script>
+    var sender_email = '';
+    var titleEmailMessage = '';
+</script>
+{% if sender_email == '' %}
+{% else %}
+<script>
+    sender_email = '{{sender_email}}';
+</script>
+{% endif %}
+{% if titleEmailMessage == '' %}
+{% else %}
+<script>
+    titleEmailMessage = '{{titleEmailMessage}}';
+</script>
+{% endif %}
+<script>
     $(document).ready(function () {
-        
+        console.log
+        if(sender_email != ''){
+            $.ajax({
+                type: 'GET',
+                url: '/getIdFromEmail',
+                data:{
+                    email: sender_email,
+                    title: titleEmailMessage,
+                },
+                dataType: 'JSON',
+                success: function (data) {
+                    console.log(data);
+                    $('#titleMessageForm').val('{{session.dataMessage[0].title}}');  
+                    var $newOption = $("<option selected='selected'></option>").val(data[0].id_user).text(data[0].first_name + " " + data[0].last_name)
+                    $("#nameMessageForm").append($newOption).trigger('change');
+                    //$('#nameMessageForm').select2().val(data[0].id_user).change();
+                    $('#emailMessageForm').val(data[0].id_user).change();
+                    $('#emailMessageForm').attr('disabled', 'disabled');
+                }
+            });
+        }
         $('#nameMessageForm').change(function (e) {
-            e.preventDefault();
-            var id_user = $('#nameMessageForm').val()
+                e.preventDefault();
+                var id_user = $('#nameMessageForm').val()
             // dataMessageAvailable = {{dataMessageAvailable|json_encode()}};
             
             $.ajax({

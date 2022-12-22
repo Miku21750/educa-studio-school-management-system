@@ -2192,20 +2192,22 @@ return function (App $app) {
                 'last_name',
                 'username',
             ]);
-            // return var_dump($data);
-            $dataMessageAvailable = [];
-            if(isset($_SESSION['dataMessage'][0]['id_message'])){
-                $dataMessageAvailable = [
-                    'sender_email'=>$_SESSION['dataMessage'][0]['sender_email'],
-                    'title'=>$_SESSION['dataMessage'][0]['title'],
-                ];
-            }
-            // return die(var_dump($dataMessageAvailable));
+            // return var_dump($_SESSION);
+            // $dataMessageAvailable = [];
+            $sender_email = $_SESSION['dataMessage'][0]['sender_email'] ?? '';
+            $title = isset($_SESSION['dataMessage'][0]['title']) ? $_SESSION['dataMessage'][0]['title'] : '';
+            // if(isset($_SESSION['dataMessage'][0]['id_message'])){
+            //     $dataMessageAvailable = [
+            //         'sender_email'=>$_SESSION['dataMessage'][0]['sender_email'],
+            //         'title'=>$_SESSION['dataMessage'][0]['title'],
+            //     ];
+            // }
+            // return die(var_dump($title));
             
             $container->view->render($response, 'others/messaging.html', [
                 'data' => $data,
-                'sender_email'=>$_SESSION['dataMessage'][0]['sender_email'],
-                'title'=>$_SESSION['dataMessage'][0]['title'],
+                'sender_email'=>$sender_email,
+                'titleEmailMessage'=>$title,
                 'idSenderDefault' => $_SESSION['id_user'],
             ]);
         }
@@ -2232,13 +2234,31 @@ return function (App $app) {
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
             $id = $request->getParam('id_user');
-            return var_dump($request->getParams());
+            // return var_dump($request->getParams());
             $data = $container->db->select('tbl_users', [
                 'id_user',
                 'email',
             ], [
                     "id_user" => $id,
                 ]);
+            // $container->view->render($response, 'others/messaging.html', $args);
+            return $response->withJson($data);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/getIdFromEmail',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $email = $request->getParam('email');
+            $data = $container->db->select('tbl_users', [
+                'id_user',
+                'email',
+                'first_name',
+                'last_name'
+            ], [
+                "email" => $email,
+            ]);
+            // return var_dump($data);
             // $container->view->render($response, 'others/messaging.html', $args);
             return $response->withJson($data);
         }
