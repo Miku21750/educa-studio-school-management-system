@@ -49,7 +49,11 @@ class AcconuntController
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
-
+        // Required
+        $transaction_details = array(
+            'order_id' => rand(),
+            'gross_amount' => 94000, // no decimal allowed for creditcard
+        );
         $tbl_users = 'tbl_users';
         $tbl_classes = 'tbl_classes';
 
@@ -171,7 +175,7 @@ class AcconuntController
 
 
         ], $conditions);
-
+        // return die(var_dump($finance));
         $data = array();
 
 
