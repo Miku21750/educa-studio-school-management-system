@@ -1869,6 +1869,68 @@ return function (App $app) {
             return $response->withJson(array('success' => true));
         }
     )->add(new Auth());
+    $app->get(
+        '/final-score',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $class = $container->db->select('tbl_classes', [
+                '[>]tbl_sections' => 'id_section'
+            ], '*');
+            $subject = $container->db->select('tbl_subjects', '*');
+            // SELECT session FROM `tbl_users` WHERE session != 0 GROUP BY session
+            $sessionAttend = $container->db->select('tbl_users', 'session', [
+                'session[!]' => 0,
+                'GROUP' => [
+                    'session'
+                ]
+            ]);
+            // return die(var_dump($sessionAttend));
+            return $container->view->render($response, 'exam/final-score.html', [
+                'class' => $class,
+                'subject' => $subject,
+                'sessionAttend' => $sessionAttend
+            ]);
+            // $container->view->render($response, 'exam/tugas.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/finalscore',
+        function (Request $request, Response $response, array $args) use ($app) {
+            $data = $request->getParams();
+            //     return var_dump($request->getParams());
+            // die();
+                return ExamController::tampil_data_final_score($this, $request, $response, [
+                    'data' => $data
+                ]);
+            }
+    );
+    $app->get(
+        '/get-final-score',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParams();
+            $dataAttendance = $container->db->select('tbl_attendances','*',[
+                'id_class'=>$data['class'],
+                'id_subject'=>$data['subject']
+            ]);
+            $dataTask = $container->db->select('tbl_tasks','*',[
+                'id_class'=>$data['class'],
+                'id_subject'=>$data['subject']
+            ]);
+            $dataStudent = $container->db->select('tbl_users', '*',[
+                'id_class'=>$data['class'],
+                // 'id_subject'=>$data['subject']
+            ]);
+            return $response->withJson(array(
+                'dataAttend'=>$dataAttendance,
+                'dataTask'=>$dataTask,
+                'dataStudent'=>$dataStudent,
+                'typeUser' => $_SESSION['type']
+            ));
+
+            // return die(var_dump($dataStudent));
+            
+        }
+    )->add(new Auth());
     //End Exam
 
     //Transport

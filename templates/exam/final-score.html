@@ -1,0 +1,532 @@
+{% extends "/layout/master.html" %}
+{% set title = "Final Score" %}
+{% set typeFrontEnd = "Exam" %}
+{% set section_type = "Final Score" %}
+{% block content %}
+<style>
+    /* Customize the label (the container) */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input~.checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked~.checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+    /* th on hover */
+    .checkAllAttend:hover {
+        background-color: darkgrey;
+        opacity: 75%;
+    }
+</style>
+<div class="row">
+    <!-- Student Attendence Search Area Start Here -->
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3>Final Score</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                </div>
+                <form class="new-added-form" id="finalScoreSheetForm">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Select Class</label>
+                            <select class="select2" id="classFinalScore" required>
+                                <option value="">Select Class</option>
+                                {% for class in class %}
+                                {% if class.id_class == 0 %}
+                                {% else %}
+                                <option value="{{class.id_class}}">{{class.class}} {{class.section}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Select Subject</label>
+                            <select class="select2" id="subjectFinalScore" required>
+                                <option value="">Select Subject</option>
+                                {% for subject in subject %}
+                                    {% if subject.id_subject == 0 %}
+                                    {% else %}
+                                    <option value="{{subject.id_subject}}">{{subject.subject_name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Select Session</label>
+                            <select class="select2" id="sessionFinalScore" required>
+                                <option value="">Select Session</option>
+                                {% for sessionAttend in sessionAttend %}
+                                <option value="{{sessionAttend}}">{{sessionAttend}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-xl-3 col-lg-6 col-12 form-group">
+                            <label>Select Scoring System</label>
+                            <select class="select2" id="FinalScoreSystem" required>
+                                <option value="">Select Scoring System</option>
+                                <option value="SPK">SPK ([60%]Sikap, [20%]Pengetahuan, [20%]Keterampilan)</option>
+                                <option value="U1">Universal 1 ([30%]Nilai UAS, [30%]Nilai UTS, [30%]Nilai Tugas, [10%]Nilai Kehadiran)</option>
+                                <option value="U2">Universal 2 ([40%]Nilai UAS, [40%]Nilai UTS, [15%]Nilai Tugas, [5%]Nilai Kehadiran)</option>
+                            </select>
+                        </div>
+                    </div>
+                    {# <div class="row">
+                        <div class="col-xl-8 col-lg-6 col-12 form-group">
+                            <label>Task Name</label>
+                            <input type="text" name="taskName" id="taskName" class="form-control mb-3" required>
+                        </div>
+                    </div> #}
+                    <div class="row">
+                        <div class="col-12 form-group mg-t-8">
+                            <button type="submit" id="viewFinalScoreSheetButton"
+                                class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">View</button>
+                            <button type="reset" id="resetFinalScoreSheetButton" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Student Attendence Search Area End Here -->
+    <!-- Student Attendence Area Start Here -->
+    <div class="col-12" id="finalScoreView">
+        <div class="card">
+            <div class="card-body">
+                <div class="heading-layout1">
+                    <div class="item-title">
+                        <h3 id="titleFinalScoreSheet">Task Sheet Of Class One: Section A, April 2019</h3>
+                    </div>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">...</a>
+
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="table-box-wrap">
+
+                    <div class="table-responsive result-table-box">
+                      
+          
+                      <table class="table text-nowrap" id="FinalScore">
+                        <thead class="text-center">
+                          <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Kehadiran</th>
+                            <th>Nilai Tugas</th>
+                            <th>Nilai UTS</th>
+                            <th>Nilai UAS</th>
+                            <th>Nilai Akhir</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+          
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                {# <input type="checkbox" name="" id=""> #}
+                <div class="table-responsive">
+                    <form method="post" id="finalScoreInputForm">
+                        <table class="table bs-table table-striped table-bordered text-nowrap">
+                            <thead>
+                                <tr id="HeaderFinalScore">
+                                    
+                                </tr>
+                            </thead>
+                            <tbody id="finalScoreTable">
+                            </tbody>
+                        </table>
+                        <button type="submit"
+                            class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-4">Send Value</button>
+                        {# <button id="createNewTaskBtn"
+                        class="btn-fill-lg btn-fill-lg bg-blue-dark btn-hover-yellow my-4">Create New Task</button> #}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Student Attendence Area End Here -->
+<!-- Some Jquery Start Here -->
+<script>
+    $(document).ready(function () {
+
+        FinalScore = function () {
+            
+            var classTaskType = $('#classFinalScore').val(),
+            subjectTaskType = $('#subjectFinalScore').val(),
+            sessionTaskType = $('#sessionFinalScore').val(),
+            finalScoreSystem = $('#FinalScoreSystem').val();
+            console.log(classTaskType);
+
+            FinalScore = $("#FinalScore").on('preXhr.dt', function (e, settings, data) {
+
+
+            }).on('draw.dt', function () {
+                //console.log(classTaskType)
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-end", "orderable": false },
+                    { "targets": 6, className: "text-end", "orderable": false },
+
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/finalscore",
+                    'dataType:': 'json',
+                    'type': 'get',
+                    'data': {
+                        'class': classTaskType,
+                        'subject': subjectTaskType,
+                        'session': sessionTaskType,
+                    },
+                   
+
+
+                },
+                'columns': [
+                    { 'data': 'no' },
+                    { 'data': 'nama' },
+                    { 'data': 'kehadiran' },
+                    { 'data': 'tugas' },
+                    { 'data': 'uts' },
+                    { 'data': 'uas' },
+                    { 'data': 'akhir' },
+                ]
+
+
+            });
+
+
+        }
+
+
+
+        //const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+        //var dateMonthRaw;
+        $('#finalScoreView').hide();
+        //setvaluedefault
+        //$('#classAttendType').val();
+        //$('#sessionAttendType').val();
+        //$('#subjectAttendType').val();
+        $('#finalScoreSheetForm').submit(function (e) {
+            e.preventDefault();
+            //console.log(sessionTaskType)
+            FinalScore(false)
+            $('#finalScoreView').show();
+        });
+        
+        $('#finalScoreSheetInputForm').submit(function (e) { 
+            e.preventDefault();
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            var id_student = $('input[type=text]').map(function (_, el) {
+                //if($(el).attr('data-idcalldate') != today) return
+                return $(el).attr('data-idStudent');
+            }).get();
+            var id_task = $('input[type=text]').map(function (_, el) {
+                //if($(el).attr('data-idcalldate') != today) return
+                return $(el).attr('data-idTask');
+            }).get();
+            var score = $('input[type=text]').not($('input[hidden=true]')).map(function (_, el) {
+                return $(el).val();
+            }).get();
+            var AttrAdd = $('input[type=text]').not($('input[hidden=false]')).map(function (_, el) {
+                return $(el).val();
+            }).get();
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                  cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+              })
+              
+              swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, Absence!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/sendScoreTask",
+                        data: {
+                            id_user: id_student,
+                            id_task: id_task,
+                            score:score,
+                            Subject: AttrAdd,
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            console.log(response)
+                            swalWithBootstrapButtons.fire(
+                                'Sended!',
+                                'Task Score was sended',
+                                'success'
+                            ).then((result)=>{
+                                //$('input[type="checkbox"]').attr('disabled',true)
+                                drawTask()
+                            })
+                        }
+                    });
+                  
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Your imaginary file is safe :)',
+                    'error'
+                  )
+                }
+              })
+        });
+        $('#resetTaskSheetButton').click(function(e){
+            e.preventDefault();
+            $('#taskType').val('').change();
+            $('#sessionTaskType').val('').change();
+            $('#subjectTaskType').val('').change();
+            $('#classTaskType').val('').change();
+            $('#viewTaskSheetButton').attr('disabled', false)
+            $('#taskSheetView').hide();
+            $('#studentFormTaskViewSheet').empty();
+            $('#dateTaskViewSheet').empty();
+
+        })
+        $('#createNewTaskBtn').click(function(e){
+            e.preventDefault();
+            var classTaskType = $('#classTaskType').val(),
+            subjectTaskType = $('#subjectTaskType').val(),
+            //monthAttendType = $('#monthAttendType').val(),
+            sessionTaskType = $('#sessionTaskType').val(),
+            taskTp = $('#taskType').val(),
+            taskNm =  $('#taskName').val(),
+            date = new Date(),
+            dateNow = moment().format('YYYY-MM-DD');
+            $.ajax({
+                type: "POST",
+                url: "/createNewTask",
+                data: {
+                    class: classTaskType,
+                    subject: subjectTaskType,
+                    taskType: taskTp,
+                    taskName: taskNm,
+                    session: sessionTaskType,
+                    date: dateNow,
+                },
+                dataType: "JSON",
+                success: function (response) {
+                    drawTask();  
+                }
+            });
+        })
+    })
+    //function selectAll(e){
+    //    var row = $(e.target).text();
+    //    console.log(row);
+    //    var today = new Date();
+    //    var dd = String(today.getDate()).padStart(2, '0');
+    //    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    //    var yyyy = today.getFullYear();
+//
+    //    today = yyyy + '-' + mm + '-' + dd;
+    //    console.log(today, row)
+    //    if(row !== today) return
+    //    console.log($('input[data-idCallDate="'+ row +'"]'))
+    //    var $checkAll = $('input[data-idCallDate="'+ row +'"]')
+    //    var values=[];
+    //    $.each($checkAll, function(i, item) {
+    //        $(item).prop('checked',true)
+    //    });
+    //    
+    //}
+    function drawFinalScore(){
+        if ($('#viewFinalScoreSheetButton').attr('disabled') == true) {
+            return
+        }
+        $('#HeaderFinalScore').empty();
+        $('#finalScoreTable').empty();
+        var classTaskType = $('#classFinalScore').val(),
+            subjectTaskType = $('#subjectFinalScore').val(),
+            sessionTaskType = $('#sessionFinalScore').val(),
+            finalScoreSystem = $('#FinalScoreSystem').val();
+        $.ajax({
+            type: "GET",
+            url: "/get-final-score",
+            data: {
+                class: classTaskType,
+                subject: subjectTaskType,
+                session: sessionTaskType,
+            },
+            dataType: "JSON",
+            success: function (response) {
+                console.log(response)
+                viewStudent = response.dataStudent
+                $('#viewFinalScoreSheetButton').attr('disabled', true)
+                $('#finalScoreView').show();
+                $('#studentFormTaskViewSheet').append('<input type="text" name="subject" value="'+subjectTaskType+'" hidden></input><input type="text" name="class" value="'+classTaskType+'" hidden></input>')
+                $('#titleTaskSheet').html('Final Sheet Sheet Of Class ' + viewStudent[0]
+                   .class + ' ' + viewStudent[0].section + ' Subject '+response.subjectStudentAttend[0].subject_name);
+                $('#studentFormTaskViewSheet').append('<th class="text-left select-all">Students</th>')
+                // for(let i = 0; i < viewStudent.length;i++){    
+                //     $('#studentFormTaskViewSheet').append('<th data-idStudent="' + viewStudent[i].id_user+'">' + viewStudent[i].first_name + ' ' + viewStudent[i].last_name + '</th>')
+                // }
+                switch (finalScoreSystem){
+                    case 'SPK':{
+
+                    }break;
+                    case 'U1':{
+
+                    }break;
+                    case 'U2':{
+
+                    }break;
+                    default:{
+
+                    }break;
+
+                }
+                let resultTbl = '';
+                let typeUser = response.typeUser;
+                let limitAllStudent = 0;
+                for(let i = 0; i < response.dataTaskAvailable.length; i++){
+                    var h = 0;
+                    resultTbl += '<tr><th>'+response.dataTaskAvailable[i].task_name+'</th>';
+                    h += limitAllStudent;
+                    for(let j = 0; j <  response.dataStudentTaskSuccess.length;j++){
+                        if(response.totalTask[h] != ''){
+                            resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'"  class="form-control attendCheckbox" value="'+response.totalTask[h].score+'"></td>'    
+                        }else{
+                            resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'" class="form-control attendCheckbox"></td>'
+                        }
+                        //console.log(response.totalTask[h])
+                        h++;
+                    }
+                    resultTbl += '</tr>';
+                    limitAllStudent += response.dataStudentTaskSuccess.length;
+                }
+                $('#dateTaskViewSheet').html(resultTbl);
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+
+                today = yyyy + '-' + mm + '-' + dd;
+                console.log(today)
+                //if date != now && userType != admin, disabled
+                if(typeUser !== '3'){
+                    $('#taskSheetView input[type="text"]').not($('input[value="0"]')).attr('readonly',true)
+                    $('#taskSheetView input[type="text"]').not($('input[value="0"]')).addClass('bg-secondary text-light')
+                }
+            }
+        });
+    }
+</script>
+<!-- Some Jquery End Here -->
+
+
+{% endblock content %}

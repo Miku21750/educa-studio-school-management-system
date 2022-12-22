@@ -939,4 +939,97 @@ class ExamController
         );
         echo json_encode($json_data);
     }
+    public static function tampil_data_final_score($app, $req, $rsp, $args)
+    {
+        $data = $args['data'];
+        $sesion = $data['session'];
+        $id_class = $data['class'];
+        $id_subject = $data['subject'];
+
+        $final = $app->db->select('tbl_final_scores',[
+            '[><]tbl_users' => ['tbl_final_scores.id_user'=>'id_user'],
+            '[><]tbl_subjects' => ['tbl_final_scores.id_subject'=>'id_subject'],
+            '[><]tbl_classes' => ['tbl_final_scores.id_class'=>'id_class'],
+        ], '*',[
+            'tbl_final_scores.id_class' => $id_class,
+            'tbl_final_scores.id_subject' => $id_subject,
+        ]);
+        // return var_dump($final);
+        // die();
+
+
+        $totaldata = count($final);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+
+
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+            'tbl_final_scores.id_class' => $id_class,
+            'tbl_final_scores.id_subject' => $id_subject,
+        ];
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+            $limit = [
+                "LIMIT" => [$start, $limit],
+                // 'id_exam_type' => $type,
+
+            ];
+            $conditions['OR'] = [
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+            
+
+            ];
+            $final = $app->db->select('tbl_final_scores',[
+                '[><]tbl_users' => ['tbl_final_scores.id_user'=>'id_user'],
+                '[><]tbl_subjects' => ['tbl_final_scores.id_subject'=>'id_subject'],
+                '[><]tbl_classes' => ['tbl_final_scores.id_class'=>'id_class'],
+            ], '*',
+                // $limit
+                $conditions
+            );
+            $totaldata = count($final);
+            $totalfiltered = $totaldata;
+        }
+
+        $final = $app->db->select('tbl_final_scores',[
+            '[><]tbl_users' => ['tbl_final_scores.id_user'=>'id_user'],
+            '[><]tbl_subjects' => ['tbl_final_scores.id_subject'=>'id_subject'],
+            '[><]tbl_classes' => ['tbl_final_scores.id_class'=>'id_class'],
+        ], '*', $conditions);
+
+        $data = array();
+
+
+        if (!empty($final)) {
+            $no = $req->getParam('start') + 1;
+            foreach ($final as $m) {
+                $datas['no'] = $no . '.';
+                $datas['nama'] = $m['first_name'];
+                $datas['kehadiran'] = ' ';
+                $datas['tugas'] ='<input type="text" value="'. $m['nilai_1'] .'">';
+                $datas['uts'] = '<input type="text" value="'. $m['nilai_2'] .'">';
+                $datas['uas'] = '<input type="text" value="'. $m['nilai_3'] .'">';
+                $datas['akhir'] = '<input type="text">' ;
+               
+                $data[] = $datas;
+                $no++;
+            }
+        }
+        // return var_dump($grade);
+        // return var_dump($grade);
+
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        // return var_dump($json_data);
+        echo json_encode($json_data);
+    }
+    
 }
