@@ -139,6 +139,13 @@ class DashbordParentController
                 $tgl = AcconuntController::tgl_indo($m['date_payment']);
 
                 $datas['date_payment'] = $tgl;
+                $datas['aksi'] = '<div >
+
+                <button class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark" data="' . $m['id_finance'] . '">
+               
+                Bayar
+            </button>
+            </div>';
 
 
                 $data[] = $datas;
