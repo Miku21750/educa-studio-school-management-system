@@ -1,24 +1,32 @@
 # Educa Studio School Management System
 
+# Overview  
+
 ## Daftar Isi  
 
 - [Educa Studio School Management System](#educa-studio-school-management-system)
+- [Overview](#overview)
   - [Daftar Isi](#daftar-isi)
   - [Deskripsi](#deskripsi)
   - [Contributor](#contributor)
-  - [Requirement](#requirement)
-  - [Deployment](#deployment)
+  - [Main Software Component](#main-software-component)
+  - [Known/Possible Bug](#knownpossible-bug)
+  - [Struktur File dan Folder](#struktur-file-dan-folder)
   - [Arsitektur Infrastruktur](#arsitektur-infrastruktur)
   - [Arsitektur Aplikasi](#arsitektur-aplikasi)
-  - [Struktur File dan Folder](#struktur-file-dan-folder)
-  - [Main Software Component](#main-software-component)
+- [Konfigurasi](#konfigurasi)
+  - [File Environment .ENV](#file-environment-env)
+  - [Requirement](#requirement)
+  - [Deployment](#deployment)
+- [Frontend](#frontend)
   - [Fonts](#fonts)
   - [CSS](#css)
   - [JavaScript](#javascript)
+- [Route, Api, And Functionality](#route-api-and-functionality)
+  - [Password Generator](#password-generator)
   - [User Role](#user-role)
   - [View Route](#view-route)
   - [Rest Api Route](#rest-api-route)
-  - [Known/Possible Bug](#knownpossible-bug)
 
 ## Deskripsi
 
@@ -32,40 +40,19 @@ Ini adalah dokumentasi Singkat Educa Studio School Management System
 - Muhammad Najib RB @najibdani21
 - Rizqi Pratama @rizqidev
 
-## Requirement
+## Main Software Component
 
-- Apache/Nginx/etc
-- PHP 7.4 / 8
-- Mysql / MariaDB  
-- composer
+- Slim Framework <https://www.slimframework.com/>
+- Medoo <https://medoo.in/>
+- Twig <https://twig.symfony.com/>
+- Phpmailer <https://github.com/PHPMailer/PHPMailer>
+- symfony/dotenv <https://symfony.com/doc/4.1/components/dotenv.html>
+- Midtrans <https://github.com/Midtrans/midtrans-php>
 
-## Deployment
+## Known/Possible Bug
 
-Production Server / Shared Hosting / Virtual Private Server
+- Typo Casse Sensitive
 
-- setup database
-- Pointkan root vhost kedalam folder `public`
-
-Development Purpose Server
-
-- setup database
-- bila vendornya belum ada ketik `composer update` atau `composer install`
-- ketikan perintah `composer start` atau `php -S localhost:8200 -t ./public`
-
-## Arsitektur Infrastruktur
-
-![Infra](./doc/img/infra.png)
-
-*Ubah Diagram diatas di file /doc/diagram/diagram.drawio menggunakan software draw.io
-
-## Arsitektur Aplikasi
-
-- Monolitik
-- MVC Termodifikasi  
-
-![Infra](./doc/img/arch.png)
-
-*Ubah Diagram diatas di file /doc/diagram/diagram.drawio menggunakan software draw.io
 
 ## Struktur File dan Folder
 
@@ -83,12 +70,63 @@ Development Purpose Server
 | public\uploads\Profile | berisi file upload static                                     |
 | public\webfonts        | berisi file font static                                       |
 
-## Main Software Component
 
-- Slim Framework <https://www.slimframework.com/>
-- Medoo <https://medoo.in/>
-- Twig <https://twig.symfony.com/>
-- Phpmailer <https://github.com/PHPMailer/PHPMailer>
+## Arsitektur Infrastruktur
+
+![Infra](./doc/img/infra.png)
+
+*Ubah Diagram diatas di file /doc/diagram/diagram.drawio menggunakan software draw.io
+
+## Arsitektur Aplikasi
+
+- Monolitik
+- MVC Termodifikasi  
+
+![Infra](./doc/img/arch.png)
+
+*Ubah Diagram diatas di file /doc/diagram/diagram.drawio menggunakan software draw.io
+
+
+
+# Konfigurasi
+
+## File Environment .ENV  
+
+File Environment ```.ENV``` digunakan untuk menyimpan credential penting.  
+File ini terletak didalam folder ```src``` tepatnya ```src\.env```.
+
+file .env mungkin akan terhidden bila sudah ada didalam server, bila melalui hosting control panel dapat 
+memilih opsi lihat file tersembunyi, atau bila melalui cli bisa dilihat dengan ```ls -la```
+
+```
+MIDTRANS_MERCHANT_ID=
+MIDTRANS_CLIENT_KEY=
+MIDTRANS_SERVER_KEY=
+SALT=
+```
+
+## Requirement
+
+- Apache/Nginx/etc
+- PHP 7.0.3 - 8.0
+- Mysql / MariaDB  
+- composer
+
+## Deployment
+
+Production Server / Shared Hosting / Virtual Private Server
+
+- setup database
+- Pointkan root vhost kedalam folder `public`
+
+Development Purpose Server
+
+- setup database
+- bila vendornya belum ada ketik `composer update` atau `composer install`
+- ketikan perintah `composer start` atau `php -S localhost:8200 -t ./public`
+
+# Frontend
+
 
 ## Fonts
 
@@ -158,6 +196,24 @@ Development Purpose Server
 
 ```
 
+
+# Route, Api, And Functionality
+
+## Password Generator
+
+Pasword Generator digunakan superadmin untuk mengubah password  
+File nya ada di ```doc\passwordGenerator\passwordGenerator.php```  
+Jalankan di terminal dengan perintah  
+ ```php-cgi -f .\passwordGenerator.php pass={Masukan_Password} salt={Masukan_Salt_disini} email={Masukan_Email}```  
+  
+Catatan : Email Bersifat Opsional.  
+  
+Contohnya :
+![Infra](./doc/img/passwordGenerator.png)
+Lalu segera masukan password kedalam user setelah digenerate.  
+catatan : harap sesuaikan salt dengan yang ada di file .env
+
+
 ## User Role  
 
 | Tipe    | Id Tipe | Deskripsi                                     |
@@ -166,6 +222,8 @@ Development Purpose Server
 | Teacher |    2    | Sebagian fungsi/action yang dikhususkan saja. |
 | Admin   |    3    | Semua fungsi/action terbuka                   |
 | Parent  |    4    | Sebagian fungsi/action yang dikhususkan saja. |  
+
+
 
 ## View Route
 
@@ -311,7 +369,3 @@ Hasil :  ```json { "status": "success", "details": { "inserted to class": "17", 
             '/{id}/result-detail',
             '/update-result-detail', 
 ```
-
-## Known/Possible Bug
-
-- Typo Casse Sensitive

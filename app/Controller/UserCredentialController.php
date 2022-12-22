@@ -50,8 +50,10 @@ class UserCredentialController
     $username =  $request->getParam('username');
     $password = $request->getParam('password');
 
+    $encryptedPassword = indexApiController::encrypt($password, $_ENV['SALT']);
+
     $app->db->update("tbl_users", [
-      "password" => $password,
+      "password" => $encryptedPassword,
     ], [
       "username" => $username,
     ]);
@@ -111,15 +113,10 @@ class UserCredentialController
       "username" => $username,
     ]);
 
-    $getLastUpdatedUsers = $app->db->query("select email from tbl_users order by update_at desc limit 1")->fetch();
-
-    // $response = [
-    //   'status' => 'success',
-    //   'details' => ['last update email' => $getLastUpdatedUsers]
-    // ];
     $_SESSION['emailChangeSuccess'] = true;
     return $response->withRedirect('/profile-setting');
   }
+  
   public static function sendEmailVerification($app, $request, $response, $args){
       $username =  $request->getParam('username');
       $email = $request->getParam('email');

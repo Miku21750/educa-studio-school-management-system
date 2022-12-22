@@ -193,7 +193,7 @@
                             </tbody>
                         </table>
                         <button type="submit"
-                            class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-4">Send Value</button>
+                            class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-4 mr-4">Send Value</button>
                         <button id="createNewTaskBtn"
                         class="btn-fill-lg btn-fill-lg bg-blue-dark btn-hover-yellow my-4">Create New Task</button>
                     </form>
@@ -242,7 +242,7 @@
             }).get();
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
-                  confirmButton: 'btn btn-success',
+                  confirmButton: 'btn btn-success mx-3',
                   cancelButton: 'btn btn-danger'
                 },
                 buttonsStyling: false
@@ -253,8 +253,8 @@
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, Absence!',
-                cancelButtonText: 'No, cancel!',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
                 reverseButtons: true
               }).then((result) => {
                 if (result.isConfirmed) {
