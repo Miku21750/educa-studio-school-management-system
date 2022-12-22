@@ -233,16 +233,19 @@
                   </ul>
                 </div>
               </div>
-              <div class="row form-grup col-12 my-3 ">
+              <!-- <div class="row form-grup col-12 my-3 ">
 
                 <p>Bio : <br>
                   <textarea name="data_short_bio" cols="120" rows="5"
                     class="form-control">{{ data.short_bio }}</textarea>
-                  {# Aliquam erat volutpat. Curabiene natis massa sedde lacu stiquen sodale
-                  word moun taiery.Aliquam erat volutpaturabiene natis massa sedde
-                  sodale word moun taiery. #}
                 </p>
+              </div> -->
+              <p>Bio : <br>
+              <div class="form-group">
+                  <textarea name="data_short_bio" cols="200" rows="5"
+                      class="form-control textarea">{{ data.short_bio }}</textarea>
               </div>
+
               <div class="row form-group">
                 <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
                 <div class="col-6 my-3">

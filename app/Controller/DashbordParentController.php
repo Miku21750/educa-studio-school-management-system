@@ -121,7 +121,7 @@ class DashbordParentController
         ],'*', $conditions);
 
         $data = array();
-
+        // return die(var_dump($payment));
         if (!empty($payment)) {
             foreach ($payment as $m) {
 
@@ -132,13 +132,33 @@ class DashbordParentController
                 // $datas['status_pembayaran'] = $m['status_pembayaran'];
                 if($m['status_pembayaran'] == "Belum Bayar"){
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
-                }else{
+                }elseif ($m['status_pembayaran'] == "Transaksi sedang diproses") {
+                    $datas['status_pembayaran'] = '<p class="badge badge-pill badge-warning d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
+                
+                }elseif ($m['status_pembayaran'] == "Dibayar") {
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
+                }else{
+                    $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
                 }
                 $datas['email'] = $m['email'];
                 $tgl = AcconuntController::tgl_indo($m['date_payment']);
 
                 $datas['date_payment'] = $tgl;
+                $datas['aksi'] = '<div class="dropdown">
+
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item btn btn-light item_bayar" data-idFinance="' . $m['id_finance'] . '">
+                        <i class="fas fa-money text-success"></i>
+                        Bayar
+                    </a>
+                   
+                   
+                </div>
+            </div>';
 
 
                 $data[] = $datas;

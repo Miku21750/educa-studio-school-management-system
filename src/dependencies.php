@@ -3,11 +3,27 @@
 use Slim\App;
 use Medoo\Medoo;
 use App\Controller\DbController;
-use Mpdf\Mpdf;
+use Symfony\Component\Dotenv\Dotenv;
 
 return function (App $app) {
     $container = $app->getContainer();
+    $dotenv = new Dotenv();
+    $dotenv->load(__DIR__.'/.env');
+    // $dbUser = $_ENV['DB_USER'];
+    Midtrans\Config::$serverKey = $_ENV['MIDTRANS_SERVER_KEY'];
+    $clientKey = $_ENV['MIDTRANS_CLIENT_KEY'];
+    // return die(var_dump(Midtrans\Config));
+    // Enable sanitization
+    Midtrans\Config::$isSanitized = true;
 
+    // Enable 3D-Secure
+    Midtrans\Config::$is3ds = true;
+
+
+    
+
+
+    
     // view renderer
     $container['renderer'] = function ($c) {
         $settings = $c->get('settings')['renderer'];
@@ -162,6 +178,7 @@ return function (App $app) {
         if(isset($_SESSION['user'])){
             $environment->addGlobal('auth', $container->auth);
             $environment->addGlobal('notif', $container->notif);
+            $environment->addGlobal('API-Midtrans', $_ENV['MIDTRANS_CLIENT_KEY']);
         }
         // return var_dump(auth);
 

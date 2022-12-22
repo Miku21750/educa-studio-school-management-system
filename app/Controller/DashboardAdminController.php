@@ -61,7 +61,8 @@ class DashboardAdminController
 
         $totalDana = $danaMasuk - $danaKeluar;
 
-        $year = $app->db->query("SELECT DISTINCT YEAR(date_payment) as tahun FROM tbl_finances")->fetchAll();
+        $year = $app->db->query("
+        SELECT YEAR(date_payment) AS tahun FROM `tbl_finances` WHERE YEAR(date_payment) GROUP BY YEAR(date_payment) DESC")->fetchAll();
 
         // Add message for navbar
         $message = $app->db->select('tbl_messages(m)', [

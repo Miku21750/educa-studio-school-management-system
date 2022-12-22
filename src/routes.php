@@ -26,8 +26,10 @@ use Slim\Http\UploadedFile;
 use App\Controller\AcconuntController;
 use App\Controller\UserCredentialController;
 use Dotenv\Result\Success;
+use App\Controller\EmailController;
 
 return function (App $app) {
+    
     $container = $app->getContainer();
 
     $app->get(
@@ -1017,6 +1019,34 @@ return function (App $app) {
                     return StudentController::get_data_all($this, $request, $response, $args);
                 }
             );
+            //Get Payment Midtrans
+            $app->get(
+                '/get-midtrans',
+                function (Request $request, Response $response, array $args) use ($app) {
+                   
+                    return AcconuntController::get_data_midtrans($this, $request, $response, $args);
+                }
+            );
+            $app->POST(
+                '/update-midtrans',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // die(var_dump($data));
+                    return AcconuntController::update_data_midtrans($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->post(
+                '/notice-midtrans',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    die(var_dump($data));
+                    return AcconuntController::notice_midtrans($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
         }
     );
 
@@ -1490,8 +1520,8 @@ return function (App $app) {
             for ($i = 0; $i < $allValues; $i++) {
                 $checkIfExistUpdate = $container->db->select('tbl_attendances', 'id_attendance', [
                     'id_user' => $dataRequest['user'][$i],
-                    'id_class' => $dataRequest['subject'][2],
-                    'id_subject' => $dataRequest['subject'][1],
+                    'id_class' => $dataRequest['subject'][1],
+                    'id_subject' => $dataRequest['subject'][0],
                     'tanggal' => $dataRequest['date'][$i]
                 ]);
                 // return die(var_dump($checkIfExistUpdate));
@@ -1504,8 +1534,8 @@ return function (App $app) {
                 } else {
                     $container->db->insert('tbl_attendances', [
                         'id_user' => $dataRequest['user'][$i],
-                        'id_class' => $dataRequest['subject'][2],
-                        'id_subject' => $dataRequest['subject'][1],
+                        'id_class' => $dataRequest['subject'][1],
+                        'id_subject' => $dataRequest['subject'][0],
                         'tanggal' => $dataRequest['date'][$i],
                         'absence' => $dataRequest['absence'][$i]
                     ]);
@@ -1714,9 +1744,10 @@ return function (App $app) {
                     'tbl_tasks.score',
                 ], [
                     'tbl_users.id_class' => $dataRequest['class'],
-                    'session' => $dataRequest['session']
+                    'session' => $dataRequest['session'],
+                    'tbl_tasks.task_type'=> $dataRequest['taskType'],
                 ]);
-
+            // return die(var_dump($checkTotalTask));
             $checkTotalStudent = count($dataStudentTaskSuccess);
             $checkStudentDateIfExistChecklist = [];
             for ($i = 0; $i < count($checkTotalTask); $i++) {
@@ -1844,12 +1875,14 @@ return function (App $app) {
             for ($i = 0; $i < $allValues; $i++) {
                 $checkIfExistUpdate = $container->db->select('tbl_tasks', 'id_task', [
                     'id_user' => $dataRequest['id_user'][$i],
-                    'task_name' => $dataRequest['id_task'][$i]
+                    'task_name' => $dataRequest['id_task'][$i],
+                    'id_class' => $dataRequest['Subject'][1],
+                    'id_subject'=> $dataRequest['Subject'][0],
                 ]);
                 // return die(var_dump($checkIfExistUpdate));
                 if ($checkIfExistUpdate != null) {
                     $container->db->update('tbl_tasks', [
-                        'score' => $dataRequest['score'][$i + 1]
+                        'score' => $dataRequest['score'][$i+2]
                     ], [
                             'id_task' => $checkIfExistUpdate[0]
                         ]);
@@ -2223,44 +2256,11 @@ return function (App $app) {
                 'message' => $data['message'],
                 'readed' => 0,
             ]);
-
-            // kirim email
-            $mail = new PHPMailer(true);
-            //Memberi tahu PHPMailer untuk menggunakan SMTP
-            $mail->isSMTP();
-            //Mengaktifkan SMTP debugging
-            // 0 = off (digunakan untuk production)
-            // 1 = pesan client
-            // 2 = pesan client dan server
-            $mail->SMTPDebug = 2;
-            //HTML-friendly debug output
-            $mail->Debugoutput = 'html';
-            //hostname dari mail server
-            $mail->Host = 'smtp.gmail.com';
-            // gunakan
-            // $mail->Host = gethostbyname('smtp.gmail.com');
-            // jika jaringan Anda tidak mendukung SMTP melalui IPv6
-            //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
-            $mail->Port = 587;
-            //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
-            $mail->SMTPSecure = 'tls';
-            //SMTP authentication
-            $mail->SMTPAuth = true;
-            //Username yang digunakan untuk SMTP authentication - gunakan email gmail
-            $mail->Username = "rafaelfarizi1@gmail.com";
-            //Password yang digunakan untuk SMTP authentication
-            $mail->Password = "dqwuvxffdphlgdml";
-            //Email pengirim
-            $mail->setFrom('rafaelfarizi1@gmail.com', 'Miku21 Margareth');
-            //  //Alamat email alternatif balasan
-            //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
-            //Email tujuan
-            $mail->addAddress($dataSender[0]['email']);
-            //Subject email
-            $mail->Subject = 'PHPMailer GMail SMTP test';
-            //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
-            //Mengubah HTML menjadi basic plain-text
-            //  $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+            $addressSender = $dataSender[0]['email'];
+            //$mail->addAddress($dataSender[0]['email']);
+            ////Subject email
+            $subject = $data['title'];
+            //$mail->Subject = 'PHPMailer GMail SMTP test';
             $dataName = '';
             if ($dataSender[0]['first_name'] == '') {
                 $dataName = $dataSender[0]['username'];
@@ -2268,17 +2268,21 @@ return function (App $app) {
                 $dataName = $dataSender[0]['first_name'] . ' ' . $dataSender[0]['last_name'];
             }
             ;
-            //Replace plain text body dengan cara manual
-            $mail->Body = '<h3>You got message from ' . $dataName . '</h3><br><h1>' . $data['title'] . '</h1><br><br><p>' . $data['message'] . '</p>';
-            $mail->AltBody = 'This is a plain-text message body';
-            //Attach file gambar
-            //  $mail->addAttachment('images/phpmailer_mini.png');
-            //mengirim pesan, mengecek error
-    
-            if (!$mail->send()) {
-                echo "Email Error: " . $mail->ErrorInfo;
-            }
-            return;
+            ////Replace plain text body dengan cara manual
+            $bodyEmail = '<h3>You got message from ' . $dataName . '</h3><br><h1>' . $data['title'] . '</h1><br><br><p>' . $data['message'] . '</p>';
+            //$mail->Body = '<h3>You got message from ' . $dataName . '</h3><br><h1>' . $data['title'] . '</h1><br><br><p>' . $data['message'] . '</p>';
+            $altBody = 'This is a plain-text message body';
+            ////mengirim pesan, mengecek error
+            return EmailController::emailConfig($container, $request, $response,[
+                'addressEmail'=>$addressSender,
+                'subjectEmail'=>$subject,
+                'bodyEmail'=>$bodyEmail,
+                'altBody'=>$altBody,
+            ]);
+            //if (!$mail->send()) {
+            //    echo "Email Error: " . $mail->ErrorInfo;
+            //}
+            //return;
             // kirim email end here
     
             // $container->view->render($response, 'others/messaging.html', $args);

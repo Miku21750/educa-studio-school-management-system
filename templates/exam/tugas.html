@@ -193,7 +193,7 @@
                             </tbody>
                         </table>
                         <button type="submit"
-                            class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-4">Send Value</button>
+                            class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-4 mr-4">Send Value</button>
                         <button id="createNewTaskBtn"
                         class="btn-fill-lg btn-fill-lg bg-blue-dark btn-hover-yellow my-4">Create New Task</button>
                     </form>
@@ -234,12 +234,15 @@
                 //if($(el).attr('data-idcalldate') != today) return
                 return $(el).attr('data-idTask');
             }).get();
-            var score = $('input[type=text]').map(function (_, el) {
+            var score = $('input[type=text]').not($('input[hidden=true]')).map(function (_, el) {
+                return $(el).val();
+            }).get();
+            var AttrAdd = $('input[type=text]').not($('input[hidden=false]')).map(function (_, el) {
                 return $(el).val();
             }).get();
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
-                  confirmButton: 'btn btn-success',
+                  confirmButton: 'btn btn-success mx-3',
                   cancelButton: 'btn btn-danger'
                 },
                 buttonsStyling: false
@@ -250,8 +253,8 @@
                 text: "You won't be able to revert this!",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Yes, Absence!',
-                cancelButtonText: 'No, cancel!',
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
                 reverseButtons: true
               }).then((result) => {
                 if (result.isConfirmed) {
@@ -261,7 +264,8 @@
                         data: {
                             id_user: id_student,
                             id_task: id_task,
-                            score:score
+                            score:score,
+                            Subject: AttrAdd,
                         },
                         dataType: "JSON",
                         success: function (response) {
@@ -379,7 +383,7 @@
                 viewStudent = response.dataStudentTaskSuccess
                 $('#viewTaskSheetButton').attr('disabled', true)
                 $('#taskSheetView').show();
-                //$('#taskSheetForm').append('<input type="text" name="aaaa" value="'+subjectTaskType+'" hidden></input>')
+                $('#studentFormTaskViewSheet').append('<input type="text" name="subject" value="'+subjectTaskType+'" hidden></input><input type="text" name="class" value="'+classTaskType+'" hidden></input>')
                 $('#titleTaskSheet').html('Task Sheet Of Class ' + viewStudent[0]
                    .class + ' ' + viewStudent[0].section + ' Subject '+response.subjectStudentAttend[0].subject_name+' : '+response.taskStudentAlreadyExist[0].task_name);
                 //var date = new Date();
@@ -424,7 +428,7 @@
                         }else{
                             resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'" class="form-control attendCheckbox"></td>'
                         }
-                        console.log(response.totalTask[h])
+                        //console.log(response.totalTask[h])
                         h++;
                     }
                     resultTbl += '</tr>';

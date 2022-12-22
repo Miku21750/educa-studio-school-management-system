@@ -28,6 +28,15 @@
             'reference' => '8e884e78f9f0eb1329e445619e04456e64d8051d',
             'dev_requirement' => true,
         ),
+        'midtrans/midtrans-php' => array(
+            'pretty_version' => '2.5.2',
+            'version' => '2.5.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../midtrans/midtrans-php',
+            'aliases' => array(),
+            'reference' => 'a1ad0c824449ca8c68c4cf11b3417ad518311d2b',
+            'dev_requirement' => false,
+        ),
         'monolog/monolog' => array(
             'pretty_version' => '1.27.1',
             'version' => '1.27.1.0',
@@ -397,7 +406,11 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
+<<<<<<< HEAD
             'reference' => 'fe727976bf93f107a1f8ae1d56d533180899068b',
+=======
+            'reference' => 'a229ecb1833e047431a4e910bb561c47ad05d972',
+>>>>>>> ba8fab8d4188414a8b3b0aad0363230fc001da45
             'dev_requirement' => false,
         ),
         'slim/twig-view' => array(
@@ -407,6 +420,15 @@
             'install_path' => __DIR__ . '/../slim/twig-view',
             'aliases' => array(),
             'reference' => '47bd5cc1cbbdf5196d0873ece0ee97c6c7b352e9',
+            'dev_requirement' => false,
+        ),
+        'symfony/dotenv' => array(
+            'pretty_version' => 'v3.4.47',
+            'version' => '3.4.47.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/dotenv',
+            'aliases' => array(),
+            'reference' => '1022723ac4f56b001d99691d96c6025dbf1404f1',
             'dev_requirement' => false,
         ),
         'symfony/polyfill-ctype' => array(

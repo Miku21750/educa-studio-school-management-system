@@ -11,34 +11,60 @@ use PHPMailer\PHPMailer\SMTP;
 class indexApiController
 {
 
+    public static function encrypt($data, $password){
+        $iv = substr(sha1(mt_rand()), 0, 16);
+        $password = sha1($password);
+    
+        $salt = sha1(mt_rand());
+        $saltWithPassword = hash('sha256', $password.$salt);
+    
+        // ABAIKAN NULL, TIDAK APA APA.
+        $encrypted = openssl_encrypt(
+          "$data", 'aes-256-cbc', "$saltWithPassword", null, $iv
+        );
+        $msg_encrypted_bundle = "$iv:$salt:$encrypted";
+        return $msg_encrypted_bundle;
+    }
+    
+    
+    public static function decrypt($msg_encrypted_bundle, $password){
+        $password = sha1($password);
+    
+        $components = explode( ':', $msg_encrypted_bundle );
+        $iv            = $components[0];
+        $salt          = hash('sha256', $password.$components[1]);
+        $encrypted_msg = $components[2];
+    
+        // ABAIKAN NULL, TIDAK APA APA.
+        $decrypted_msg = openssl_decrypt(
+          $encrypted_msg, 'aes-256-cbc', $salt, null, $iv
+        );
+    
+        if ( $decrypted_msg === false )
+            return false;
+        return $decrypted_msg;
+    }
+
+
     public static function Login($app, $request, $response, $args)
     {
-        // 
-        // return var_dump($request->getParsedBody());
-        // get the requested data
         $data = $request->getParsedBody();
-        // if(isset($_COOKIE['user'])&&isset($_COOKIE['pass'])){
-        //     $data =[
-        //         $_COOKIE['user'],
-        //         $_COOKIE['pass']
-        //     ];
-        // }
-        // return var_dump($_COOKIE);
-        // select the user db 
+
         $verAwal = $app->db->select('tbl_users',[
             "[><]tbl_user_types" => "id_user_type"
         ], '*', [
-            "AND" => [
                 "OR" => [
                     "username" => $data["user"],
                     "email" => $data["user"]
                 ],
-                "password" => $data["pass"]
             ]
-        ]);
-        // return var_dump($verAwal);
-        // if exist, login
-        if ($verAwal != null) {
+        );
+
+        $storedPassword = $verAwal[0]['password'];
+
+        $decryptPassword = indexApiController::decrypt($storedPassword, $_ENV['SALT']);
+        
+        if ($data['pass'] == $decryptPassword) {
             // return var_dump($verAwal[0]['username']);
             $_SESSION['user'] = $verAwal[0]['first_name'] . ' ' . $verAwal[0]['last_name'];
             $_SESSION['username'] = $verAwal[0]['username'];
@@ -62,6 +88,7 @@ class indexApiController
         }
     }
 
+
     public static function register($app, $request, $response, $args)
     {
         // 
@@ -84,10 +111,11 @@ class indexApiController
 
         } //Else if not exist, register
         else {
+            $encryptedPassword = indexApiController::encrypt($data["password"], $_ENV['SALT']);
             $insert = $app->db->insert('tbl_users', [
                 "username" => $data["user"],
                 "email" => $data["email"],
-                "password" => $data["password"],
+                "password" => $encryptedPassword,
                 "id_user_type" => $data['type'],
                 "photo_user"=> 'default.png',
                 "status" => 0

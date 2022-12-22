@@ -200,13 +200,24 @@
                         //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
                         Swal.fire({
                             title: 'Loading...',
-                            text: 'Mengirim data ke server...',
+                            text: 'Mengirim Pesan...',
                             //   imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
-                            imageUrl: 'img/preloader.gif',
-                            imageWidth: 400,
-                            imageHeight: 300,
-                            imageAlt: 'Custom image',
-                            showConfirmButton: false
+                            // imageUrl: 'img/preloader.gif',
+                            // imageWidth: 400,
+                            // imageHeight: 300,
+                            // imageAlt: 'Custom image',
+                            // showConfirmButton: false
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
                         })
                     },
                     success: function (response) {
