@@ -79,11 +79,12 @@ class UserCredentialController
       "username" => $username,
     ]);
     // return die(var_dump(isset($validation[0]['username'])));
-    if (isset($validation[0]['username'])){
-      $response = ['status' => 'failed',
-      'details' => ['messege' => "Username Terdaftar"]];
-    }
-    else {
+    if (isset($validation[0]['username'])) {
+      $response = [
+        'status' => 'failed',
+        'details' => ['messege' => "Username Terdaftar"]
+      ];
+    } else {
       $app->db->update("tbl_users", [
         "username" => $username,
       ], [
@@ -95,7 +96,6 @@ class UserCredentialController
         'status' => 'success',
         'details' => ['last update username' => $getLastUpdatedUsers]
       ];
-      
     }
     return $response;
   }
@@ -106,7 +106,7 @@ class UserCredentialController
     $username =  $args['key'];
     $email = $args['email'];
     $email .= '.com';
-    
+
     $app->db->update("tbl_users", [
       "email" => $email,
     ], [
@@ -117,74 +117,74 @@ class UserCredentialController
     return $response->withRedirect('/profile-setting');
   }
   
+
   public static function sendEmailVerification($app, $request, $response, $args){
-      $username =  $request->getParam('username');
-      $email = $request->getParam('email');
-      $id_user = $request->getParam('id_user');
-      // return die(var_dump($id_user));
-      $validation = $app->db->select("tbl_users", [
-        "email",
-      ], [
-        "email" => $email,
-      ]);
-  
-      if (isset($validation[0]['email'])){
-        $response = ['status' => 'failed',
-        'details' => ['messege' => "email Terdaftar"]];
-      }else{
-            $mail = new PHPMailer;
-            //Memberi tahu PHPMailer untuk menggunakan SMTP
-            $mail->isSMTP();
-            //Mengaktifkan SMTP debugging
-            // 0 = off (digunakan untuk production)
-            // 1 = pesan client
-            // 2 = pesan client dan server
-            $mail->SMTPDebug = 2;
-            //HTML-friendly debug output
-            $mail->Debugoutput = 'html';
-            //hostname dari mail server
-            $mail->Host = $_ENV['SMTP_HOST'];
-            // gunakan
-            // $mail->Host = gethostbyname('smtp.gmail.com');
-            // jika jaringan Anda tidak mendukung SMTP melalui IPv6
-            //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
-            $mail->Port = $_ENV['SMTP_PORT'];
-            //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
-            $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
-            //SMTP authentication
-            $mail->SMTPAuth = $_ENV['SMTP_AUTH'];
-            //Username yang digunakan untuk SMTP authentication - gunakan email gmail
-            $mail->Username = $_ENV['EMAIL_SENDER'];
-            //Password yang digunakan untuk SMTP authentication
-            $mail->Password = $_ENV['PASSWORD_OAUTH2'];
-            //Email pengirim
-            $mail->setFrom($_ENV['EMAIL_SENDER'], 'Educa System Noreply');
-            //  //Alamat email alternatif balasan
-            //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
-            //Email tujuan
-            $mail->addAddress($email);
-            //Subject email
-            $mail->Subject = 'Educa Change Email';
-            //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
-            //Mengubah HTML menjadi basic plain-text
-            //  $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
-            //Replace plain text body dengan cara manual
-            $mail->Body = '<a href="'.$_ENV['HOST_PROTOCOL'].'://'.$_ENV['HOSTNAME'].'/verifEmailChange?key=' . $username . '&email=' . $email . '">Klik link ini untuk ganti Email</a>';
-            $mail->AltBody = 'This is a plain-text message body';
-            //Attach file gambar
-            //  $mail->addAttachment('images/phpmailer_mini.png');
-            //mengirim pesan, mengecek error
+    $username =  $request->getParam('username');
+    $email = $request->getParam('email');
+    $id_user = $request->getParam('id_user');
+    // return die(var_dump($id_user));
+    $validation = $app->db->select("tbl_users", [
+      "email",
+    ], [
+      "email" => $email,
+    ]);
 
-            if (!$mail->send()) {
-                echo "Email Error: " . $mail->ErrorInfo;
-            } else {
-                $_SESSION['changeEmailSuccess'] = true;
-                // $response = ['status'=>'success'];
-                return $response->withRedirect('/profile-setting');
-            }
-
+    if (isset($validation[0]['email'])){
+      $response = ['status' => 'failed',
+      'details' => ['messege' => "email Terdaftar"]];
+    }else{
+          $mail = new PHPMailer;
+          //Memberi tahu PHPMailer untuk menggunakan SMTP
+          $mail->isSMTP();
+          //Mengaktifkan SMTP debugging
+          // 0 = off (digunakan untuk production)
+          // 1 = pesan client
+          // 2 = pesan client dan server
+          $mail->SMTPDebug = 2;
+          //HTML-friendly debug output
+          $mail->Debugoutput = 'html';
+          //hostname dari mail server
+          $mail->Host = $_ENV['SMTP_HOST'];
+          // gunakan
+          // $mail->Host = gethostbyname('smtp.gmail.com');
+          // jika jaringan Anda tidak mendukung SMTP melalui IPv6
+          //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
+          $mail->Port = $_ENV['SMTP_PORT'];
+          //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
+          $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
+          //SMTP authentication
+          $mail->SMTPAuth = $_ENV['SMTP_AUTH'];
+          //Username yang digunakan untuk SMTP authentication - gunakan email gmail
+          $mail->Username = $_ENV['EMAIL_SENDER'];
+          //Password yang digunakan untuk SMTP authentication
+          $mail->Password = $_ENV['PASSWORD_OAUTH2'];
+          //Email pengirim
+          $mail->setFrom($_ENV['EMAIL_SENDER'], 'Educa System Noreply');
+          //  //Alamat email alternatif balasan
+          //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
+          //Email tujuan
+          $mail->addAddress($email);
+          //Subject email
+          $mail->Subject = 'Educa Change Email';
+          //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
+          //Mengubah HTML menjadi basic plain-text
+          //  $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+          //Replace plain text body dengan cara manual
+          $mail->Body = '<a href="'.$_ENV['HOST_PROTOCOL'].'://'.$_ENV['HOSTNAME'].'/verifEmailChange?key=' . $username . '&email=' . $email . '">Klik link ini untuk ganti Email</a>';
+          $mail->AltBody = 'This is a plain-text message body';
+          //Attach file gambar
+          //  $mail->addAttachment('images/phpmailer_mini.png');
+          //mengirim pesan, mengecek error
+          
+      if (!$mail->send()) {
+        echo "Email Error: " . $mail->ErrorInfo;
+      } else {
+        $_SESSION['changeEmailSuccess'] = true;
+        // $response = ['status'=>'success'];
+        return $response->withRedirect('/profile-setting');
       }
-      return $response;
+    }
+    return $response;
   }
 
 
@@ -222,15 +222,20 @@ class UserCredentialController
     ], [
       'id_user' => $_SESSION['id_user'],
     ]);
+
+
+    $tanggal_lahir = AcconuntController::tgl_indo($data[0]['date_of_birth']);
+
     // return var_dump($response);
     $changeEmailSuccess = isset($_SESSION['changeEmailSuccess']);
     unset($_SESSION['changeEmailSuccess']);
-    
+
     $app->view->render($response, 'others/profile-setting.html', [
       'data' => $data[0],
       'myProfile' => true,
       'changeEmailSuccess' => $changeEmailSuccess,
-      'emailChangeSuccess' => $emailChangeSuccess
+      'emailChangeSuccess' => $emailChangeSuccess,
+      'tanggal_lahir'=> $tanggal_lahir
     ]);
   }
 }

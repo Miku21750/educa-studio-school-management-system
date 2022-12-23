@@ -359,6 +359,13 @@
         $('#forgotPassword').modal('show')
         $('#sendEmail').on('click', function (e) {
           const email = $('#emailForgot').val();
+          if (email === '') {
+            return Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Silahkan masukan email kamu!'
+            })
+          }
           console.log(email);
           $.ajax({
             type: "POST",
@@ -369,12 +376,12 @@
             beforeSend: function () {
               //https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif
               Swal.fire({
-                title: 'Loading...',
-                text: 'Mengirim data ke server...',
+                // title: 'Loading...',
+                // text: 'Mengirim data ke server...',
                 // imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
                 imageUrl: 'img/preloader.gif',
                 imageWidth: 400,
-                imageHeight: 200,
+                imageHeight: 300,
                 imageAlt: 'Custom image',
                 showConfirmButton: false
               })
@@ -433,9 +440,10 @@
               Swal.fire({
                 title: 'Loading...',
                 text: 'Mengirim data ke server...',
-                imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
+                // imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
+                imageUrl: 'img/preloader.gif',
                 imageWidth: 400,
-                imageHeight: 200,
+                imageHeight: 300,
                 imageAlt: 'Custom image',
                 showConfirmButton: false
               })

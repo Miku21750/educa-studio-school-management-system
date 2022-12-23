@@ -1564,6 +1564,7 @@ return function (App $app) {
             $container->view->render($response, 'exam/exam-grade.html', $args);
         }
     )->add(new Auth());
+   
     $app->get(
         '/exam-result',
         function (Request $request, Response $response, array $args) use ($container) {

@@ -23,7 +23,7 @@
 <!-- Profile Settings Area Start Here -->
 <div class="card height-auto" id="showDataDetailAccountSetting">
     <div class="card-body">
-        <div class="heading-layout1">
+        <div class="heading-layout1" id="dropdown-aksi">
             <div class="item-title">
                 <h3>Profil Kamu</h3>
             </div>
@@ -48,7 +48,7 @@
                         {% else %}
                         {{ data.first_name ~" "~ data.last_name }}
                         {% endif %}</h3>
-                    <div class="header-elements">
+                    <div class="header-elements" id="btn-profile">
                         <ul>
                             <li>
                                 <a href="" id="editButton"><i class="far fa-edit"></i></a>
@@ -56,9 +56,9 @@
                             <li>
                                 <a href="#" id="printPdfMyProfile"><i class="fas fa-print"></i></a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href=""><i class="fas fa-download"></i></a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                             </tr> #}
                             <tr>
                                 <td>Tanggal Lahir:</td>
-                                <td class="font-medium text-dark-medium">{{data.date_of_birth}}</td>
+                                <td class="font-medium text-dark-medium">{{tanggal_lahir}}</td>
                             </tr>
                             <tr>
                                 <td>Religion:</td>
@@ -148,7 +148,7 @@
                 </div>
             </div>
         </div>
-        <div class="single-info-details">
+        <div class="">
             <form action="/editDataProfile" method="post" class="new-added-form" enctype="multipart/form-data">
                 <div class="item-img">
                     {# <img src="img/figure/student1.jpg" alt="student" /> #}
@@ -191,11 +191,11 @@
                     {{ data.first_name ~" "~ data.last_name }}
                     {% endif %}</h3>
                 <div class="header-elements">
-                    <ul>
+                    <!-- <ul>
                         <li>
                             <a href="" id="editButton"><i class="far fa-edit"></i></a>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
             <p>Bio : <br>
@@ -276,12 +276,12 @@
                     <input id="viewAdditionalSetting" value="Additional Setting"
                         class="btn-lg btn-secondary mx-3 float-right"> -->
 
-                        <div class="col-12 form-group mg-t-8">
-                            <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark m-2"
-                                id="submitMessage">Simpan</button>
-                            <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow m-2"
-                                id="viewAdditionalSetting">Additional Setting</button>
-                        </div>
+            <div class="col-12 form-group mg-t-8">
+                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark m-2"
+                    id="submitMessage">Simpan</button>
+                <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow m-2"
+                    id="viewAdditionalSetting">Additional Setting</button>
+            </div>
             </form>
         </div>
     </div>
@@ -305,12 +305,12 @@
                             <div class="form-group row">
                                 <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
                                 <div class="col-12 my-3">
-                                    <label for="username">Username</label>
-                                    <input id="username" type="text" placeholder="" name="username" class="form-control"
+                                    <label for="usernamex">Username</label>
+                                    <input id="usernamex" type="text" placeholder="" name="username" class="form-control"
                                         value="{{ data.username }}">
                                 </div>
                             </div>
-                            <button id="usernameBtn" type="submit" type="button" type="button"
+                            <button id="usernameBtnx" type="submit" type="button" type="button"
                                 class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah
                                 Username</button>
                         </div>
@@ -322,12 +322,12 @@
                             <div class="row form-group">
                                 <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
                                 <div class="col-12 my-3">
-                                    <label for="email">Email:</label>
-                                    <input id="email" type="email" placeholder="  " name="email" class="form-control"
+                                    <label for="emailx">Email:</label>
+                                    <input id="emailx" type="email" placeholder="  " name="email" class="form-control"
                                         value="{{ data.email }}">
                                 </div>
                             </div>
-                            <button id="emailBtn" type="submit" type="button" type="button"
+                            <button id="emailBtnx" type="submit" type="button" type="button"
                                 class="btn-fill-lg font-normal radius-4 text-light btn-gradient-yellow">Ubah
                                 Email</button>
                         </div>
@@ -454,9 +454,9 @@
         $('#selectBloodGroupEditProfile').val(BlGroup).change();
         $('#printPdfMyProfile').click(function (e) {
 
-            $('#myProfilePrintableArea').clone().appendTo("#print-me");
+            $('#myProfilePrintableArea').clone("#print-me");
 
-            console.log($('#print-me').html())
+            // console.log($('#print-me').html())
             //Print the window.
             window.print();
             //Restore the styles.
@@ -474,12 +474,12 @@
     // emailBtn
     // usernameBtn
 
-    $("#emailBtn").click(function (e) {
+    $("#emailBtnx").click(function (e) {
         // e.preventDefault();
 
         var username = '{{ data.username }}';
         var id_user = '{{ data.id_user }}';
-        var email = $("#email").val();
+        var email = $("#emailx").val();
 
         if (email.length == 0) {
             Swal.fire({
@@ -529,10 +529,10 @@
         }
     });
 
-    $("#usernameBtn").click(function (e) {
+    $("#usernameBtnx").click(function (e) {
         e.preventDefault();
 
-        var username = $("#username").val();
+        var username = $("#usernamex").val();
         var email = '{{ data.email }}';
 
         if (username.length == 0) {

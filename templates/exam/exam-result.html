@@ -81,7 +81,7 @@
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Nama Siswa </label>
-              <select class="select2" id="get-siswa" style="width: 100%;">
+              <select class="select2" id="get-siswa" style="width: 100%;" required>
                 <option value="0">Pilih Siswa*</option>
 
               </select>
@@ -89,7 +89,7 @@
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Nama Ujian </label>
-              <select class="select2" id="exam_name">
+              <select class="select2" id="exam_name" required>
                 <option value="0">Pilih Ujian *</option>
                 {% for i in exam %}
                 <option value="{{ i.id_exam }}">{{ i.exam_name }} {{ i.subject_name }} Kelas {{ i.class }} {{i.section}}
@@ -102,7 +102,7 @@
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Score</label>
-              <input type="text" placeholder="Masukan Nilai" class="form-control" name="Score" id="ScoreExamInput" />
+              <input type="text" placeholder="Masukan Nilai" class="form-control" name="Score" id="ScoreExamInput" required/>
             </div>
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
