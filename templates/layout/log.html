@@ -372,11 +372,22 @@
                 title: 'Loading...',
                 text: 'Mengirim data ke server...',
                 // imageUrl: 'https://media.tenor.com/RVvnVPK-6dcAAAAC/reload-cat.gif',
-                imageUrl: 'img/preloader.gif',
-                imageWidth: 400,
-                imageHeight: 200,
-                imageAlt: 'Custom image',
-                showConfirmButton: false
+                // imageUrl: 'img/preloader.gif',
+                // imageWidth: 400,
+                // imageHeight: 200,
+                // imageAlt: 'Custom image',
+                // showConfirmButton: false
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
               })
             },
             success: function (response) {
@@ -385,7 +396,7 @@
               Swal.fire({
                 title: 'Success!',
                 icon: 'success',
-                text: 'Silahkan cek email atau spam kamu untuk melihat link ganti password',
+                text: 'Silahkan cek Email atau Spam kamu untuk konfirmasi',
                 timer: 2000,
                 willClose: () => {
                   clearInterval(timerInterval)
