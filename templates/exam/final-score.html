@@ -232,7 +232,7 @@
 <script>
     $(document).ready(function () {
 
-        FinalScore = function () {
+        FinalScoree = function () {
             
             var classTaskType = $('#classFinalScore').val(),
             subjectTaskType = $('#subjectFinalScore').val(),
@@ -305,11 +305,22 @@
         //$('#subjectAttendType').val();
         $('#finalScoreSheetForm').submit(function (e) {
             e.preventDefault();
+            $('#FinalScore').DataTable().clear().destroy();           
+            FinalScoree();
             //console.log(sessionTaskType)
-            FinalScore(false)
+            //FinalScore(false)
             $('#finalScoreView').show();
         });
-        
+        $('#resetFinalScoreSheetButton').click(function(e){
+            e.preventDefault();
+            $('#classFinalScore').val('').change();
+            $('#subjectFinalScore').val('').change();
+            $('#sessionFinalScore').val('').change();
+            $('#FinalScoreSystem').val('').change();
+           
+            FinalScore.destroy();
+
+        })
         $('#finalScoreSheetInputForm').submit(function (e) { 
             e.preventDefault();
             var today = new Date();
@@ -444,7 +455,7 @@
     //    });
     //    
     //}
-    function drawFinalScore(){
+    /*function drawFinalScore(){
         if ($('#viewFinalScoreSheetButton').attr('disabled') == true) {
             return
         }
@@ -524,7 +535,23 @@
                 }
             }
         });
-    }
+    }*/
+    function maxLengthCheck(object) {
+        if (object.value.length > object.max.length)
+          object.value = object.value.slice(0, object.max.length)
+      }
+        
+      function isNumeric (evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode (key);
+        var regex = /[0-9]|\./;
+        if ( !regex.test(key) ) {
+          theEvent.returnValue = false;
+          if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+      }
+    
 </script>
 <!-- Some Jquery End Here -->
 
