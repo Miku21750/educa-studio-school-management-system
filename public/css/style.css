@@ -5293,3 +5293,12 @@ body {
   background-position: center;
 }
 
+@media print {
+  #sidebar, #btn-profile, #dropdown-aksi, #nav-breadcrumbs, #footer, #tablistPrint {
+    display: none;
+  }
+
+  #myProfilePrintableArea {
+    margin: 50px;
+  }
+}

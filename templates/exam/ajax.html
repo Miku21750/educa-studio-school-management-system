@@ -310,65 +310,76 @@
             var score = $('#ScoreExamInput').val();
             var id_grade = $('#gradeExam').val();
             console.log(exam_name)
-            $.ajax({
-                type: "POST",
-                url: "/api/exam/add-exam-result",
-                dataType: "JSON",
-                data: { id_siswa: id_siswa, id_exam: id_exam, score: score, id_grade: id_grade },
-                success: function (data) {
-                    if (data) {
-                        console.log(data)
-                        let timerInterval
-                        Swal.fire({
-                            title: 'Memuat Data...',
-                            html: 'Tunggu  <b></b>  Detik.',
-                            timer: 300,
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                Swal.showLoading()
-                                const b = Swal.getHtmlContainer().querySelector('b')
-                                timerInterval = setInterval(() => {
-                                    b.textContent = Swal.getTimerLeft()
-                                }, 100)
-                            },
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        }).then((result) => {
-
-                            Result.draw(false)
-
-                            $('#get-siswa').val(0).change();
-                            $('#exam_name').val(0).change();
-                            $('#ScoreExamInput').val('');
-                            $('#gradeExam').val(0).change()
-
-
-
-
-                            Swal.fire(
-                                {
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: 'Data telah ditambahkan.',
-                                    //footer: '<a href="">Why do I have this issue?</a>'
+            if (id_siswa == ""
+                || id_exam == ""
+                || score == ""
+                || id_grade == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Data harus diisi semua!'
+                })
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/exam/add-exam-result",
+                    dataType: "JSON",
+                    data: { id_siswa: id_siswa, id_exam: id_exam, score: score, id_grade: id_grade },
+                    success: function (data) {
+                        if (data) {
+                            console.log(data)
+                            let timerInterval
+                            Swal.fire({
+                                title: 'Memuat Data...',
+                                html: 'Tunggu  <b></b>  Detik.',
+                                timer: 300,
+                                timerProgressBar: true,
+                                didOpen: () => {
+                                    Swal.showLoading()
+                                    const b = Swal.getHtmlContainer().querySelector('b')
+                                    timerInterval = setInterval(() => {
+                                        b.textContent = Swal.getTimerLeft()
+                                    }, 100)
+                                },
+                                willClose: () => {
+                                    clearInterval(timerInterval)
                                 }
+                            }).then((result) => {
 
-                            )
+                                Result.draw(false)
 
-                        })
+                                $('#get-siswa').val(0).change();
+                                $('#exam_name').val(0).change();
+                                $('#ScoreExamInput').val('');
+                                $('#gradeExam').val(0).change()
 
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Ada yang eror!',
-                            //footer: '<a href="">Why do I have this issue?</a>'
-                        })
+
+
+
+                                Swal.fire(
+                                    {
+                                        icon: 'success',
+                                        title: 'Berhasil',
+                                        text: 'Data telah ditambahkan.',
+                                        //footer: '<a href="">Why do I have this issue?</a>'
+                                    }
+
+                                )
+
+                            })
+
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'Ada yang eror!',
+                                //footer: '<a href="">Why do I have this issue?</a>'
+                            })
+                        }
+
                     }
-
-                }
-            });
+                });
+            }
 
             return false;
         });
