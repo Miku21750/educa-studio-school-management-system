@@ -126,7 +126,6 @@
     if (namaGuru.val() != nip.val()) {
       $("#nip").val(namaGuru.val()).change();
       $("#jenisKelamin").val(namaGuru.val()).change();
-      $("#nip").val(namaGuru.val()).change();
       $("#nohp").val(namaGuru.val()).change();
       $("#email").val(namaGuru.val()).change();
     }
@@ -135,7 +134,11 @@
   function resetBtn() {
     $("#kelas").val("").change();
     $("#bagian").val("").change();
-    $("#namaGuru").val("").change();
+    $("#guru").val("").change();
+    $("#nip").val("").change();
+    $("#jenisKelamin").val("").change();
+    $("#nohp").val("").change();
+    $("#email").val("").change();
 
   }
 
