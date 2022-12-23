@@ -246,6 +246,24 @@
 
             }).on('draw.dt', function () {
                 //console.log(classTaskType)
+                switch(finalScoreSystem){
+                    case 'SPK':{
+                        $('#FinalScore #N1').html('Sikap')
+                        $('#FinalScore #N2').html('Pengetahuan')
+                        $('#FinalScore #N3').html('Keterampilan')
+                    }break;
+                    case 'U1':{
+                        $('#FinalScore #N1').html('Nilai Tugas')
+                        $('#FinalScore #N2').html('Nilai UTS')
+                        $('#FinalScore #N3').html('Nilai UAS')
+                    }break
+                    case 'U2':{
+                        $('#FinalScore #N1').html('Nilai Tugas')
+                        $('#FinalScore #N2').html('Nilai UTS')
+                        $('#FinalScore #N3').html('Nilai UAS')
+                    }break
+                    default: break;
+                }
             }).DataTable({
                 responsive: {
                     details: {
@@ -274,6 +292,7 @@
                         'class': classTaskType,
                         'subject': subjectTaskType,
                         'session': sessionTaskType,
+                        'finalScoreSystem' : finalScoreSystem
                     },
                    
 
@@ -310,6 +329,7 @@
         $('#FinalScoreSystem').on('change',function(e){
             finalScoreSystem= $('#FinalScoreSystem').val();
         })
+        
         //const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         //var dateMonthRaw;
         $('#finalScoreView').hide();
@@ -321,9 +341,22 @@
             e.preventDefault();
             $('#FinalScore').DataTable().clear().destroy();           
             FinalScoree();
-            //console.log(sessionTaskType)
-            //FinalScore(false)
-            $('#finalScoreView').show();
+
+            $('#finalScoreView').show(function(){
+                switch($('#FinalScoreSystem').val()){
+                    case 'SPK':{
+                        $('#NA1').attr('readonly',false);
+                    }break;
+                    case 'U1':{
+                        $('#NA1').attr('readonly',true);
+                    }break;
+                    case 'U2':{
+                        $('#NA1').attr('readonly',true);
+    
+                    }break;
+                    default: break;
+                }
+            });
         });
         $('#resetFinalScoreSheetButton').click(function(e){
             e.preventDefault();
@@ -576,6 +609,30 @@
           if(theEvent.preventDefault) theEvent.preventDefault();
         }
       }
+      function rateFinalScore(e){
+        console.log($('#N1').val())
+        var val = e.target.value;
+            switch($('#FinalScoreSystem').val()){
+                case 'SPK':{
+                    var n1 = 60,
+                    n2 = 20,
+                    n3 = 20,
+                    nInput = val;
+                }break;
+                case 'U1':{
+                    var n1 = 30,
+                    n2 = 30,
+                    n3 = 30,
+                    nAbs = 10,
+                    nInput = val;
+                }break;
+                case 'U2':{
+                    $('#NA1').attr('readonly',true);
+                    
+                }break;
+                default: break;
+      }
+    }
     
 </script>
 <!-- Some Jquery End Here -->
