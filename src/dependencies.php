@@ -16,6 +16,7 @@ use Symfony\Component\Dotenv\Dotenv;
     Midtrans\Config::$isSanitized = true;
     // Enable 3D-Secure
     Midtrans\Config::$is3ds = true;
+   
     
     // view renderer
     $container['renderer'] = function ($c) {

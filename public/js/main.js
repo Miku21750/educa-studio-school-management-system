@@ -2503,7 +2503,8 @@ $('document').ready(function () {
                 data: {
                     id: id_finance,
                     status_code : result.status_code,
-                    time: result.transaction_time
+                    time: result.transaction_time,
+                    order_id: result.order_id,
                 },
                 dataType: "JSON",
                 success: function (data) {
@@ -2556,7 +2557,9 @@ $('document').ready(function () {
                 data: {
                     id: id_finance,
                     status_code : result.status_code,
-                    time: result.transaction_time
+                    time: result.transaction_time,
+                    order_id: result.order_id,
+
                 },
                 dataType: "JSON",
                 success: function (data) {
@@ -2609,7 +2612,9 @@ $('document').ready(function () {
                 data: {
                     id: id_finance,
                     status_code : result.status_code,
-                    time: result.transaction_time
+                    time: result.transaction_time,
+                    order_id: result.order_id,
+
                 },
                 dataType: "JSON",
                 success: function (data) {
