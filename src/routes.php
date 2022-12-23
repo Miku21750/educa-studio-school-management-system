@@ -1094,33 +1094,33 @@ return function (App $app) {
             //HTML-friendly debug output
             $mail->Debugoutput = 'html';
             //hostname dari mail server
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = $_ENV['SMTP_HOST'];
             // gunakan
             // $mail->Host = gethostbyname('smtp.gmail.com');
             // jika jaringan Anda tidak mendukung SMTP melalui IPv6
             //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
-            $mail->Port = 587;
+            $mail->Port = $_ENV['SMTP_PORT'];
             //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
-            $mail->SMTPSecure = 'tls';
+            $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
             //SMTP authentication
-            $mail->SMTPAuth = true;
+            $mail->SMTPAuth = $_ENV['SMTP_AUTH'];
             //Username yang digunakan untuk SMTP authentication - gunakan email gmail
-            $mail->Username = "rafaelfarizi1@gmail.com";
+            $mail->Username = $_ENV['EMAIL_SENDER'];
             //Password yang digunakan untuk SMTP authentication
-            $mail->Password = "dqwuvxffdphlgdml";
+            $mail->Password = $_ENV['PASSWORD_OAUTH2'];
             //Email pengirim
-            $mail->setFrom('rafaelfarizi1@gmail.com', 'Miku21 Margareth');
+            $mail->setFrom($_ENV['EMAIL_SENDER'], 'Educa System Noreply');
             //  //Alamat email alternatif balasan
             //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
             //Email tujuan
             $mail->addAddress($isValid['email']);
             //Subject email
-            $mail->Subject = 'PHPMailer GMail SMTP test';
+            $mail->Subject = 'Educa Forgot Password';
             //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
             //Mengubah HTML menjadi basic plain-text
             //  $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
             //Replace plain text body dengan cara manual
-            $mail->Body = '<a href="http://localhost:8200/changePass?key=' . $isValid['id_user'] . '&email=' . $isValid['email'] . '">Klik link ini untuk ganti password</a>';
+            $mail->Body = '<a href="'.$_ENV['HOST_PROTOCOL'].'://'.$_ENV['HOSTNAME'].'/changePass?key=' . $isValid['id_user'] . '&email=' . $isValid['email'] . '">Klik link ini untuk ganti password</a>';
             $mail->AltBody = 'This is a plain-text message body';
             //Attach file gambar
             //  $mail->addAttachment('images/phpmailer_mini.png');
@@ -1965,6 +1965,26 @@ return function (App $app) {
             
         }
     )->add(new Auth());
+    $app->post(
+        '/update-final-score',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParams();
+            $update = $container->db->update('tbl_final_scores',[
+                'nilai_abs'=>$data['nAbs'],
+                'nilai_1'=>$data['n1'],
+                'nilai_2'=>$data['n2'],
+                'nilai_3'=>$data['n3'],
+                'nilai_akhir'=>$data['nFinal'],
+            ],[
+                'id_final_score'=>$data['id_final_score']
+            ]);
+            // return die(var_dump($update));
+            return $response->withJson(array('success'=>true));
+            // return die(var_dump($dataStudent));
+            
+        }
+    )->add(new Auth());
+    
     //End Exam
 
     //Transport

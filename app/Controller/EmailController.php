@@ -16,16 +16,16 @@ class EmailController{
             //HTML-friendly debug output
             $mail->Debugoutput = 'html';
             //hostname dari mail server
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = $_ENV['SMTP_HOST'];
             // gunakan
             // $mail->Host = gethostbyname('smtp.gmail.com');
             // jika jaringan Anda tidak mendukung SMTP melalui IPv6
             //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
-            $mail->Port = 587;
+            $mail->Port = $_ENV['SMTP_PORT'];
             //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
-            $mail->SMTPSecure = 'tls';
+            $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
             //SMTP authentication
-            $mail->SMTPAuth = true;
+            $mail->SMTPAuth = $_ENV['SMTP_AUTH'];
             //Username yang digunakan untuk SMTP authentication - gunakan email gmail
             $mail->Username = $_ENV['EMAIL_SENDER'];
             //Password yang digunakan untuk SMTP authentication

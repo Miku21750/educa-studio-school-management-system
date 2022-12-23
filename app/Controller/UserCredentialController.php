@@ -116,9 +116,9 @@ class UserCredentialController
     $_SESSION['emailChangeSuccess'] = true;
     return $response->withRedirect('/profile-setting');
   }
+  
 
-  public static function sendEmailVerification($app, $request, $response, $args)
-  {
+  public static function sendEmailVerification($app, $request, $response, $args){
     $username =  $request->getParam('username');
     $email = $request->getParam('email');
     $id_user = $request->getParam('id_user');
@@ -129,55 +129,53 @@ class UserCredentialController
       "email" => $email,
     ]);
 
-    if (isset($validation[0]['email'])) {
-      $response = [
-        'status' => 'failed',
-        'details' => ['messege' => "email Terdaftar"]
-      ];
-    } else {
-      $mail = new PHPMailer;
-      //Memberi tahu PHPMailer untuk menggunakan SMTP
-      $mail->isSMTP();
-      //Mengaktifkan SMTP debugging
-      // 0 = off (digunakan untuk production)
-      // 1 = pesan client
-      // 2 = pesan client dan server
-      $mail->SMTPDebug = 2;
-      //HTML-friendly debug output
-      $mail->Debugoutput = 'html';
-      //hostname dari mail server
-      $mail->Host = 'smtp.gmail.com';
-      // gunakan
-      // $mail->Host = gethostbyname('smtp.gmail.com');
-      // jika jaringan Anda tidak mendukung SMTP melalui IPv6
-      //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
-      $mail->Port = 587;
-      //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
-      $mail->SMTPSecure = 'tls';
-      //SMTP authentication
-      $mail->SMTPAuth = true;
-      //Username yang digunakan untuk SMTP authentication - gunakan email gmail
-      $mail->Username = "rafaelfarizi1@gmail.com";
-      //Password yang digunakan untuk SMTP authentication
-      $mail->Password = "dqwuvxffdphlgdml";
-      //Email pengirim
-      $mail->setFrom('rafaelfarizi1@gmail.com', 'Miku21 Margareth');
-      //  //Alamat email alternatif balasan
-      //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
-      //Email tujuan
-      $mail->addAddress($email);
-      //Subject email
-      $mail->Subject = 'PHPMailer GMail SMTP test';
-      //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
-      //Mengubah HTML menjadi basic plain-text
-      //  $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
-      //Replace plain text body dengan cara manual
-      $mail->Body = '<a href="http://localhost:8200/verifEmailChange?key=' . $username . '&email=' . $email . '">Klik link ini untuk ganti Email</a>';
-      $mail->AltBody = 'This is a plain-text message body';
-      //Attach file gambar
-      //  $mail->addAttachment('images/phpmailer_mini.png');
-      //mengirim pesan, mengecek error
-
+    if (isset($validation[0]['email'])){
+      $response = ['status' => 'failed',
+      'details' => ['messege' => "email Terdaftar"]];
+    }else{
+          $mail = new PHPMailer;
+          //Memberi tahu PHPMailer untuk menggunakan SMTP
+          $mail->isSMTP();
+          //Mengaktifkan SMTP debugging
+          // 0 = off (digunakan untuk production)
+          // 1 = pesan client
+          // 2 = pesan client dan server
+          $mail->SMTPDebug = 2;
+          //HTML-friendly debug output
+          $mail->Debugoutput = 'html';
+          //hostname dari mail server
+          $mail->Host = $_ENV['SMTP_HOST'];
+          // gunakan
+          // $mail->Host = gethostbyname('smtp.gmail.com');
+          // jika jaringan Anda tidak mendukung SMTP melalui IPv6
+          //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
+          $mail->Port = $_ENV['SMTP_PORT'];
+          //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
+          $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
+          //SMTP authentication
+          $mail->SMTPAuth = $_ENV['SMTP_AUTH'];
+          //Username yang digunakan untuk SMTP authentication - gunakan email gmail
+          $mail->Username = $_ENV['EMAIL_SENDER'];
+          //Password yang digunakan untuk SMTP authentication
+          $mail->Password = $_ENV['PASSWORD_OAUTH2'];
+          //Email pengirim
+          $mail->setFrom($_ENV['EMAIL_SENDER'], 'Educa System Noreply');
+          //  //Alamat email alternatif balasan
+          //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
+          //Email tujuan
+          $mail->addAddress($email);
+          //Subject email
+          $mail->Subject = 'Educa Change Email';
+          //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
+          //Mengubah HTML menjadi basic plain-text
+          //  $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
+          //Replace plain text body dengan cara manual
+          $mail->Body = '<a href="'.$_ENV['HOST_PROTOCOL'].'://'.$_ENV['HOSTNAME'].'/verifEmailChange?key=' . $username . '&email=' . $email . '">Klik link ini untuk ganti Email</a>';
+          $mail->AltBody = 'This is a plain-text message body';
+          //Attach file gambar
+          //  $mail->addAttachment('images/phpmailer_mini.png');
+          //mengirim pesan, mengecek error
+          
       if (!$mail->send()) {
         echo "Email Error: " . $mail->ErrorInfo;
       } else {
