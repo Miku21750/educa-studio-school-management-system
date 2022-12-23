@@ -1965,6 +1965,26 @@ return function (App $app) {
             
         }
     )->add(new Auth());
+    $app->post(
+        '/update-final-score',
+        function (Request $request, Response $response, array $args) use ($container) {
+            $data = $request->getParams();
+            $update = $container->db->update('tbl_final_scores',[
+                'nilai_abs'=>$data['nAbs'],
+                'nilai_1'=>$data['n1'],
+                'nilai_2'=>$data['n2'],
+                'nilai_3'=>$data['n3'],
+                'nilai_akhir'=>$data['nFinal'],
+            ],[
+                'id_final_score'=>$data['id_final_score']
+            ]);
+            // return die(var_dump($update));
+            return $response->withJson(array('success'=>true));
+            // return die(var_dump($dataStudent));
+            
+        }
+    )->add(new Auth());
+    
     //End Exam
 
     //Transport

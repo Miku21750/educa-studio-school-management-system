@@ -184,10 +184,10 @@
                 </div>
                 <div class="table-box-wrap">
 
-                    <div class="table-responsive result-table-box">
+                    <div class="table-responsive">
                       
           
-                      <table class="table text-nowrap" id="FinalScore">
+                      <table class="table" id="FinalScore">
                         <thead class="text-center">
                           <tr>
                             <th>No</th>
@@ -272,12 +272,12 @@
                 },
                 "columnDefs": [
                     { "targets": 0, className: "text-center", "orderable": false },
-                    { "targets": 1, className: "text-start", "orderable": false },
-                    { "targets": 2, className: "text-start", "orderable": false },
-                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 1, className: "text-center", "orderable": false },
+                    { "targets": 2, className: "text-center", "orderable": false },
+                    { "targets": 3, className: "text-center", "orderable": false },
                     { "targets": 4, className: "text-center", "orderable": false },
-                    { "targets": 5, className: "text-end", "orderable": false },
-                    { "targets": 6, className: "text-end", "orderable": false },
+                    { "targets": 5, className: "text-center", "orderable": false },
+                    { "targets": 6, className: "text-center", "orderable": false },
 
                 ],
                 'pageLength': 10,
@@ -329,7 +329,45 @@
         $('#FinalScoreSystem').on('change',function(e){
             finalScoreSystem= $('#FinalScoreSystem').val();
         })
-        
+        switch($('#FinalScoreSystem').val()){
+            case 'SPK':{
+                var n1 = 0.6,
+                n2 = 0.2,
+                n3 = 0.2;
+                n1Val = $('#NA1[data-idUser="'+e+'"]').val()
+                n2Val = $('#NA2[data-idUser="'+e+'"]').val()
+                n3Val = $('#NA3[data-idUser="'+e+'"]').val()
+                nAbsenVal = $('#NAbs[data-idUser="'+e+'"]').html()
+                nFinal = (n1Val * n1) + (n2Val * n2) + (n3Val * n3)
+                $('#NA[data-idUser="'+e+'"]').html(nFinal);
+            }break;
+            case 'U1':{
+                var n1 = 0.3,
+                n2 = 0.3,
+                n3 = 0.3,
+                nAbs = 0.1,
+                n1Val = $('#NA1[data-idUser="'+e+'"]').val()
+                n2Val = $('#NA2[data-idUser="'+e+'"]').val()
+                n3Val = $('#NA3[data-idUser="'+e+'"]').val()
+                nAbsenVal = $('#NAbs[data-idUser="'+e+'"]').html()
+                nFinal = (n1Val * n1) + (n2Val * n2) + (n3Val * n3) + (nAbsenVal * nAbs)
+                $('#NA[data-idUser="'+e+'"]').val(nFinal);
+            }break;
+            case 'U2':{
+                var n1 = 0.4,
+                n2 = 0.4,
+                n3 = 0.15,
+                nAbs = 0.05,
+                n1Val = $('#NA1[data-idUser="'+e+'"]').val()
+                n2Val = $('#NA2[data-idUser="'+e+'"]').val()
+                n3Val = $('#NA3[data-idUser="'+e+'"]').val()
+                nAbsenVal = $('#NAbs[data-idUser="'+e+'"]').html()
+                nFinal = (n1Val * n1) + (n2Val * n2) + (n3Val * n3) + (nAbsenVal * nAbs)
+                $('#NA[data-idUser="'+e+'"]').val(nFinal);
+                
+            }break;
+            default: break;
+        }
         //const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         //var dateMonthRaw;
         $('#finalScoreView').hide();
@@ -610,24 +648,93 @@
         }
       }
       function rateFinalScore(e){
-        console.log($('#N1').val())
-        var val = e.target.value;
+        console.log(e);
             switch($('#FinalScoreSystem').val()){
                 case 'SPK':{
-                    var n1 = 60,
-                    n2 = 20,
-                    n3 = 20,
-                    nInput = val;
+                    var n1 = 0.6,
+                    n2 = 0.2,
+                    n3 = 0.2;
+                    n1Val = $('#NA1[data-idUser="'+e+'"]').val()
+                    n2Val = $('#NA2[data-idUser="'+e+'"]').val()
+                    n3Val = $('#NA3[data-idUser="'+e+'"]').val()
+                    nAbsenVal = $('#NAbs[data-idUser="'+e+'"]').html()
+                    nFinal = (n1Val * n1) + (n2Val * n2) + (n3Val * n3)
+                    $('#NA[data-idUser="'+e+'"]').html(nFinal);
+                    $.ajax({
+                        type: "POST",
+                        url: "/update-final-score",
+                        data: {
+                            n1: n1Val,
+                            n2: n2Val,
+                            n3: n3Val,
+                            nAbs: nAbsenVal,
+                            nFinal: nFinal,
+                            id_final_score: e, 
+                        }
+                        ,
+                        dataType: "JSON",
+                        success: function (response) {
+                            
+                        }
+                    });
                 }break;
                 case 'U1':{
-                    var n1 = 30,
-                    n2 = 30,
-                    n3 = 30,
-                    nAbs = 10,
-                    nInput = val;
+                    var n1 = 0.3,
+                    n2 = 0.3,
+                    n3 = 0.3,
+                    nAbs = 0.1,
+                    n1Val = $('#NA1[data-idUser="'+e+'"]').html()
+                    n2Val = $('#NA2[data-idUser="'+e+'"]').val()
+                    n3Val = $('#NA3[data-idUser="'+e+'"]').val()
+                    nAbsenVal = $('#NAbs[data-idUser="'+e+'"]').html()
+                    nFinal = (n1Val * n1) + (n2Val * n2) + (n3Val * n3) + (nAbsenVal * nAbs)
+                    $('#NA[data-idUser="'+e+'"]').html(nFinal);
+                    $.ajax({
+                        type: "POST",
+                        url: "/update-final-score",
+                        data: {
+                            n1: n1Val,
+                            n2: n2Val,
+                            n3: n3Val,
+                            nAbs: nAbsenVal,
+                            nFinal: nFinal,
+                            id_final_score: e, 
+                        }
+                        ,
+                        dataType: "JSON",
+                        success: function (response) {
+                            
+                        }
+                    });
                 }break;
                 case 'U2':{
-                    $('#NA1').attr('readonly',true);
+                    var n1 = 0.4,
+                    n2 = 0.4,
+                    n3 = 0.15,
+                    nAbs = 0.05,
+                    n1Val = $('#NA1[data-idUser="'+e+'"]').html()
+                    n2Val = $('#NA2[data-idUser="'+e+'"]').val()
+                    n3Val = $('#NA3[data-idUser="'+e+'"]').val()
+                    nAbsenVal = $('#NAbs[data-idUser="'+e+'"]').html()
+                    nFinal = (n1Val * n1) + (n2Val * n2) + (n3Val * n3) + (nAbsenVal * nAbs)
+                    $('#NA[data-idUser="'+e+'"]').html(nFinal);
+                    $.ajax({
+                        type: "POST",
+                        url: "/update-final-score",
+                        data: {
+                            n1: n1Val,
+                            n2: n2Val,
+                            n3: n3Val,
+                            nAbs: nAbsenVal,
+                            nFinal: nFinal,
+                            id_final_score: e, 
+                        }
+                        ,
+                        dataType: "JSON",
+                        success: function (response) {
+                            
+                        }
+                    });
                     
                 }break;
                 default: break;
