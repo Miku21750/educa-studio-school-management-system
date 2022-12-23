@@ -5,24 +5,17 @@ use Medoo\Medoo;
 use App\Controller\DbController;
 use Symfony\Component\Dotenv\Dotenv;
 
-return function (App $app) {
+    //midtrans
+    return function (App $app) {
     $container = $app->getContainer();
     $dotenv = new Dotenv();
     $dotenv->load(__DIR__.'/.env');
-    // $dbUser = $_ENV['DB_USER'];
     Midtrans\Config::$serverKey = $_ENV['MIDTRANS_SERVER_KEY'];
     $clientKey = $_ENV['MIDTRANS_CLIENT_KEY'];
-    // return die(var_dump(Midtrans\Config));
     // Enable sanitization
     Midtrans\Config::$isSanitized = true;
-
     // Enable 3D-Secure
     Midtrans\Config::$is3ds = true;
-
-
-    
-
-
     
     // view renderer
     $container['renderer'] = function ($c) {
@@ -168,6 +161,7 @@ return function (App $app) {
 
     };
 
+    //twig-view
     $container['view'] = function ($container) {
         $view = new \Slim\Views\Twig('../templates', [
             'cache' => false
@@ -180,9 +174,6 @@ return function (App $app) {
             $environment->addGlobal('notif', $container->notif);
             $environment->addGlobal('API-Midtrans', $_ENV['MIDTRANS_CLIENT_KEY']);
         }
-        // return var_dump(auth);
-
-
         $router = $container->get('router');
         $uri = \Slim\Http\Uri::createFromEnvironment(new \Slim\Http\Environment($_SERVER));
         $view->addExtension(new \Slim\Views\TwigExtension($router, $uri));
@@ -193,24 +184,12 @@ return function (App $app) {
     // Konfigurasi Medoo 
     $container['db'] = function($c){
         $database = new Medoo([
-            'database_type' => 'mysql',
-            'server' => '127.0.0.1',
-            'database_name' => 'educa_db',
-            'username' => 'root',
-            'password' => '',
+            'database_type' => $_ENV['DB_TYPE'], 
+            'server' => $_ENV['DB_HOST'], 
+            'database_name' => $_ENV['DB_NAME'],
+            'username' => $_ENV['DB_USER'],
+            'password' => $_ENV['DB_PASS'],
         ]);
         return $database;
     };
-    // $container['db'] = function($c){
-    //     $database = new Medoo([
-    //         'database_type' => 'mysql',
-    //         'server' => '103.150.196.234',
-    //         'port' => '33090',
-    //         'database_name' => 'educa_db',
-    //         'username' => 'educational_purpose_user',
-    //         'password' => '{%login=true%}',
-    //     ]);
-    //     return $database;
-    // };
-
 };

@@ -1154,8 +1154,11 @@ return function (App $app) {
             $data = $request->getParsedBody();
             // return var_dump($data);
             if ($data['pass'] == $data['pass2']) {
+
+                $encryptedPassword = indexApiController::encrypt($data['pass'], $_ENV['SALT']);
+
                 $changePass = $container->db->update('tbl_users', [
-                    'password' => $data['pass'],
+                    'password' => $encryptedPassword,
                 ], [
                         'id_user' => $data['id_user'],
                     ]);
