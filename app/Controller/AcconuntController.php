@@ -585,12 +585,14 @@ class AcconuntController
     public static function notice_midtrans($app, $request, $response, $args)
     {
         $notif = new Midtrans\Notification();
+        
 
         $transaction = $notif->transaction_status;
+        $snapToken = Midtrans\Snap::getSnapToken($transaction);
         $type = $notif->payment_type;
         $order_id = $notif->order_id;
         $fraud = $notif->fraud_status;
-        return die(var_dump($order_id));
+        return die(var_dump($snapToken));
         $message = 'ok';
 
         if ($transaction == 'capture') {
