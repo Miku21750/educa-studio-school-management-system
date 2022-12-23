@@ -1,3 +1,5 @@
 .vscode
 /logs/*
 !/logs/README.md
+js/
+ngrok.exe

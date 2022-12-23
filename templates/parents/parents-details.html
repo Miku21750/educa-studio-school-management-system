@@ -41,7 +41,7 @@
 
 {% endif %}
 <div class="basic-tab bg-light">
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="nav nav-tabs" role="tablist" id="tablistPrint">
     <li class="nav-item">
       <a class="nav-link active" data-toggle="tab" href="#tab1" role="tab" aria-selected="true">Detail</a>
     </li>
@@ -54,7 +54,7 @@
     <div class="tab-pane fade show active" id="tab1" role="tabpanel" class="card height-auto"
       id="showDataDetailAccountSetting">
       <div class="card-body">
-        <div class="heading-layout1">
+        <div class="heading-layout1" id="dropdown-aksi">
           <div class="item-title">
             <h3>Profil Kamu</h3>
           </div>
@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-        <div class="single-info-details">
+        <div class="single-info-details" id="#myProfilePrintableAreaP">
           <div class="item-img">
             {# <p>{{data.photo_user}}</p> #}
             <img src="/uploads/Profile/{{data.photo_user}}" style="width: 280px;" alt="student" />
@@ -80,15 +80,15 @@
                 {% else %}
                 {{ data.first_name ~" "~ data.last_name }}
                 {% endif %}</h3>
-              <div class="header-elements">
+              <div class="header-elements" id="btn-profile">
                 <ul>
 
-                  <!-- <li>
-                    <a href="#"><i class="fas fa-print"></i></a>
-                  </li> -->
                   <li>
-                    <a href=""><i class="fas fa-download"></i></a>
+                    <a href="#"><i class="fas fa-print" id="printPdfMyProfile"></i></a>
                   </li>
+                  <!-- <li>
+                    <a href=""><i class="fas fa-download"></i></a>
+                  </li> -->
                 </ul>
               </div>
             </div>
@@ -221,7 +221,7 @@
                   {% else %}
                   {{ data.first_name ~" "~ data.last_name }}
                   {% endif %}</h3>
-                <div class="header-elements">
+                <!-- <div class="header-elements">
                   <ul>
 
                     <li>
@@ -231,7 +231,7 @@
                       <a href="#"><i class="fas fa-download"></i></a>
                     </li>
                   </ul>
-                </div>
+                </div> -->
               </div>
               <!-- <div class="row form-grup col-12 my-3 ">
 
@@ -242,8 +242,8 @@
               </div> -->
               <p>Bio : <br>
               <div class="form-group">
-                  <textarea name="data_short_bio" cols="200" rows="5"
-                      class="form-control textarea">{{ data.short_bio }}</textarea>
+                <textarea name="data_short_bio" cols="200" rows="5"
+                  class="form-control textarea">{{ data.short_bio }}</textarea>
               </div>
 
               <div class="row form-group">
@@ -283,12 +283,12 @@
                 </div>
                 <div class="col-6 my-3">
                   <label>Username:</label>
-                  <input type="text" name="username" class="form-control"
-                    value="{{ data.username }}" class="form-control" readonly>
+                  <input type="text" name="username" class="form-control" value="{{ data.username }}"
+                    class="form-control" readonly>
                 </div>
                 <div class="col-6 my-3">
                   <label>E-mail:</label>
-                  <input type="email" name="email" class="form-control " value="{{ data.email }}"  readonly>
+                  <input type="email" name="email" class="form-control " value="{{ data.email }}" readonly>
                 </div>
                 <div class="col-6 my-3">
 
@@ -329,6 +329,31 @@
 
 <!-- Profile Settings Edit Area End Here -->
 
+
+<!-- <style>
+  @media print {
+
+    /* Hide everything in the body when printing... */
+    body.printing * {
+      display: none !important;
+    }
+
+    /* ...except our special div. */
+    body.printing #print-me {
+      display: block !important;
+    }
+
+  }
+
+  @media screen {
+
+    /* Hide the special layer from the screen. */
+    #print-me {
+      display: none;
+    }
+  }
+</style> -->
+
 <!-- Script for jquery Edit Form -->
 <script>
   $(document).ready(function () {
@@ -346,6 +371,24 @@
 
     $('#selectGenderEditProfile').val(gend).change();
     $('#selectBloodGroupEditProfile').val(BlGroup).change();
+
+    $('#printPdfMyProfile').click(function (e) {
+
+      $('#myProfilePrintableAreaP').clone("#print-me");
+
+      // console.log($('#print-me').html())
+      //Print the window.
+      window.print();
+      //Restore the styles.
+      $("body").removeClass("printing");
+      //Clear up the div.
+      $("#print-me").empty();
+      //  e.preventDefault();
+      // w=window.open();
+      //w.document.write($('#showDataDetailAccountSetting').html());
+      //w.print();
+      //w.close();
+    });
   });
 </script>
 {% endblock content %}

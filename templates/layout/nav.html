@@ -117,7 +117,7 @@
                 data-target="#messageViewModal">
                 {% endif %}
                 <div class="item-img bg-skyblue">
-                  <img src="/uploads/Profile/{{message.photo_sender}}"
+                  <img src="/uploads/Profile/{{message.photo_sender}} "
                     style="width: 40px; height: 40px; object-fit: cover;" alt="img" />
                 </div>
                 <div class="media-body space-sm">
@@ -208,17 +208,17 @@
       </div>
       <div class="modal-body" id="messageModal">
         <div class="media message_class">
-          <div class="item-img bg-skyblue">
-            <img src="" style="width: 60px;" alt="img" id="profileMessageSenderModal" />
+          <div class="item-img">
+            <img src="" style="width: 60px; height: 60px; object-fit: cover;" class="rounded-circle" alt="img" id="profileMessageSenderModal" />
           </div>
           <div class="media-body space-sm">
             <div class="item-title">
-              <a href="#">
+              <p href="#" class="text-uppercase font-weight-bold text-primary ml-3">
                 <span class="item-name" id="nameMessageSenderModal"></span>
                 <br>
-              </a>
+              </p>
             </div>
-            <p id="titleMessageSenderModal" class="font-weight-bold">AAAAA</p>
+            <p id="titleMessageSenderModal" class="font-weight-bold ml-3">AAAAA</p>
           </div>
           <span class="item-time" style="text-align: right;" id="timeMessageSenderModal"></span>
         </div>

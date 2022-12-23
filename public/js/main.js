@@ -1469,7 +1469,7 @@ $(document).ready(function () {
     var room_type = $('#eroom_type').val();
     var number_of_bed = $('#enumber_of_bed').val();
     var cost_per_bed = $('#ecost_per_bed').val();
-    // console.log(hostel_name)
+    console.log(hostel_name)
     if (hostel_name == ""
       || room_number == ""
       || room_type == ""
@@ -1564,7 +1564,7 @@ $('#show_hostel').on('click', '.hostel_detail', function () {
       $('[name="id_hostel"]').val(data.id_hostel);
       $('[name="ehostel_name"]').val(data.hostel_name);
       $('[name="eroom_number"]').val(data.room_number);
-      $('[name="eroom_type"]').val(data.room_type).change();
+      $('[name="eroom_type_edit"]').val(data.room_type).change();
       $('[name="enumber_of_bed"]').val(data.number_of_bed);
       $('[name="ecost_per_bed"]').val(data.cost_per_bed);
 
