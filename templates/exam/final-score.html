@@ -193,9 +193,9 @@
                             <th>No</th>
                             <th>Nama</th>
                             <th>Kehadiran</th>
-                            <th>Nilai Tugas</th>
-                            <th>Nilai UTS</th>
-                            <th>Nilai UAS</th>
+                            <th id="N1"></th>
+                            <th id="N2"></th>
+                            <th id="N3"></th>
                             <th>Nilai Akhir</th>
                           </tr>
                         </thead>
@@ -230,9 +230,10 @@
 <!-- Student Attendence Area End Here -->
 <!-- Some Jquery Start Here -->
 <script>
+    var classTaskType,subjectTaskType,sessionTaskType,finalScoreSystem;
     $(document).ready(function () {
 
-        FinalScore = function () {
+        FinalScoree = function () {
             
             var classTaskType = $('#classFinalScore').val(),
             subjectTaskType = $('#subjectFinalScore').val(),
@@ -245,6 +246,24 @@
 
             }).on('draw.dt', function () {
                 //console.log(classTaskType)
+                switch(finalScoreSystem){
+                    case 'SPK':{
+                        $('#FinalScore #N1').html('Sikap')
+                        $('#FinalScore #N2').html('Pengetahuan')
+                        $('#FinalScore #N3').html('Keterampilan')
+                    }break;
+                    case 'U1':{
+                        $('#FinalScore #N1').html('Nilai Tugas')
+                        $('#FinalScore #N2').html('Nilai UTS')
+                        $('#FinalScore #N3').html('Nilai UAS')
+                    }break
+                    case 'U2':{
+                        $('#FinalScore #N1').html('Nilai Tugas')
+                        $('#FinalScore #N2').html('Nilai UTS')
+                        $('#FinalScore #N3').html('Nilai UAS')
+                    }break
+                    default: break;
+                }
             }).DataTable({
                 responsive: {
                     details: {
@@ -273,6 +292,7 @@
                         'class': classTaskType,
                         'subject': subjectTaskType,
                         'session': sessionTaskType,
+                        'finalScoreSystem' : finalScoreSystem
                     },
                    
 
@@ -296,6 +316,20 @@
 
 
 
+        $('#classFinalScore').on('change',function(e){
+            console.log($('#classFinalScore').val())
+            classTaskType = $('#classFinalScore').val();
+        })
+        $('#subjectFinalScore').on('change',function(e){
+            subjectTaskType = $('#subjectFinalScore').val();
+        })
+        $('#sessionFinalScore').on('change',function(e){
+            sessionTaskType = $('#sessionFinalScore').val();
+        })
+        $('#FinalScoreSystem').on('change',function(e){
+            finalScoreSystem= $('#FinalScoreSystem').val();
+        })
+        
         //const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
         //var dateMonthRaw;
         $('#finalScoreView').hide();
@@ -305,11 +339,35 @@
         //$('#subjectAttendType').val();
         $('#finalScoreSheetForm').submit(function (e) {
             e.preventDefault();
-            //console.log(sessionTaskType)
-            FinalScore(false)
-            $('#finalScoreView').show();
+            $('#FinalScore').DataTable().clear().destroy();           
+            FinalScoree();
+
+            $('#finalScoreView').show(function(){
+                switch($('#FinalScoreSystem').val()){
+                    case 'SPK':{
+                        $('#NA1').attr('readonly',false);
+                    }break;
+                    case 'U1':{
+                        $('#NA1').attr('readonly',true);
+                    }break;
+                    case 'U2':{
+                        $('#NA1').attr('readonly',true);
+    
+                    }break;
+                    default: break;
+                }
+            });
         });
-        
+        $('#resetFinalScoreSheetButton').click(function(e){
+            e.preventDefault();
+            $('#classFinalScore').val('').change();
+            $('#subjectFinalScore').val('').change();
+            $('#sessionFinalScore').val('').change();
+            $('#FinalScoreSystem').val('').change();
+           
+            FinalScore.destroy();
+
+        })
         $('#finalScoreSheetInputForm').submit(function (e) { 
             e.preventDefault();
             var today = new Date();
@@ -385,45 +443,18 @@
                 }
               })
         });
-        $('#resetTaskSheetButton').click(function(e){
+        $('#resetFinalScoreSheetButton').click(function(e){
             e.preventDefault();
-            $('#taskType').val('').change();
-            $('#sessionTaskType').val('').change();
-            $('#subjectTaskType').val('').change();
-            $('#classTaskType').val('').change();
-            $('#viewTaskSheetButton').attr('disabled', false)
-            $('#taskSheetView').hide();
-            $('#studentFormTaskViewSheet').empty();
-            $('#dateTaskViewSheet').empty();
-
+            $('#FinalScoreSystem').val('').change();
+            $('#sessionFinalScore').val('').change();
+            $('#subjectFinalScore').val('').change();
+            $('#classFinalScore').val('').change();
+            $('#viewFinalScoreSheetButton').attr('disabled', false)
+            $('#finalScoreView').hide();
+            //$('#FinalScore').DataTable().clear().destroy();
+            //$('#FinalScore').DataTable().clear().destroy();
         })
-        $('#createNewTaskBtn').click(function(e){
-            e.preventDefault();
-            var classTaskType = $('#classTaskType').val(),
-            subjectTaskType = $('#subjectTaskType').val(),
-            //monthAttendType = $('#monthAttendType').val(),
-            sessionTaskType = $('#sessionTaskType').val(),
-            taskTp = $('#taskType').val(),
-            taskNm =  $('#taskName').val(),
-            date = new Date(),
-            dateNow = moment().format('YYYY-MM-DD');
-            $.ajax({
-                type: "POST",
-                url: "/createNewTask",
-                data: {
-                    class: classTaskType,
-                    subject: subjectTaskType,
-                    taskType: taskTp,
-                    taskName: taskNm,
-                    session: sessionTaskType,
-                    date: dateNow,
-                },
-                dataType: "JSON",
-                success: function (response) {
-                    drawTask();  
-                }
-            });
-        })
+        
     })
     //function selectAll(e){
     //    var row = $(e.target).text();
@@ -444,7 +475,7 @@
     //    });
     //    
     //}
-    function drawFinalScore(){
+    /*function drawFinalScore(){
         if ($('#viewFinalScoreSheetButton').attr('disabled') == true) {
             return
         }
@@ -478,53 +509,131 @@
                 switch (finalScoreSystem){
                     case 'SPK':{
 
-                    }break;
-                    case 'U1':{
-
-                    }break;
-                    case 'U2':{
-
-                    }break;
-                    default:{
-
-                    }break;
-
-                }
-                let resultTbl = '';
-                let typeUser = response.typeUser;
-                let limitAllStudent = 0;
-                for(let i = 0; i < response.dataTaskAvailable.length; i++){
-                    var h = 0;
-                    resultTbl += '<tr><th>'+response.dataTaskAvailable[i].task_name+'</th>';
-                    h += limitAllStudent;
-                    for(let j = 0; j <  response.dataStudentTaskSuccess.length;j++){
-                        if(response.totalTask[h] != ''){
-                            resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'"  class="form-control attendCheckbox" value="'+response.totalTask[h].score+'"></td>'    
-                        }else{
-                            resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'" class="form-control attendCheckbox"></td>'
-                        }
-                        //console.log(response.totalTask[h])
-                        h++;
-                    }
-                    resultTbl += '</tr>';
-                    limitAllStudent += response.dataStudentTaskSuccess.length;
-                }
-                $('#dateTaskViewSheet').html(resultTbl);
-                var today = new Date();
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                var yyyy = today.getFullYear();
-
-                today = yyyy + '-' + mm + '-' + dd;
-                console.log(today)
-                //if date != now && userType != admin, disabled
-                if(typeUser !== '3'){
-                    $('#taskSheetView input[type="text"]').not($('input[value="0"]')).attr('readonly',true)
-                    $('#taskSheetView input[type="text"]').not($('input[value="0"]')).addClass('bg-secondary text-light')
-                }
+//             today = yyyy + '-' + mm + '-' + dd;
+//             console.log(today)
+//             //if date != now && userType != admin, disabled
+//             if(typeUser !== '3'){
+//                 $('#taskSheetView input[type="text"]').not($('input[value="0"]')).attr('readonly',true)
+//                 $('#taskSheetView input[type="text"]').not($('input[value="0"]')).addClass('bg-secondary text-light')
+//             }
+//         }
+//     });
+// }
+    
+    FinalScore = function (e,dataFinalScore) {
+        console.log(e)
+       
+        FinalScore = $("#FinalScore").on('preXhr.dt', function (e, settings, data) {
+            console.log(e,settings,data)
+        }).on('draw.dt', function () {
+            $('#classFinalScore').val();
+            $('#subjectFinalScore').val();
+            $('#sessionFinalScore').val();
+            $('#FinalScoreSystem').val();
+            switch(finalScoreSystem){
+                case 'SPK':{
+                    $('#FinalScore #N1').html('Sikap')
+                    $('#FinalScore #N2').html('Pengetahuan')
+                    $('#FinalScore #N3').html('Keterampilan')
+                }break;
+                case 'U1':{
+                    $('#FinalScore #N1').html('Nilai Tugas')
+                    $('#FinalScore #N2').html('Nilai UTS')
+                    $('#FinalScore #N3').html('Nilai UAS')
+                }break
+                case 'U2':{
+                    $('#FinalScore #N1').html('Nilai Tugas')
+                    $('#FinalScore #N2').html('Nilai UTS')
+                    $('#FinalScore #N3').html('Nilai UAS')
+                }break
+                default: break;
             }
+        }).DataTable({
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            "columnDefs": [
+                { "targets": 0, className: "text-center", "orderable": false },
+                { "targets": 1, className: "text-start", "orderable": false },
+                { "targets": 2, className: "text-start", "orderable": false },
+                { "targets": 3, className: "text-start", "orderable": false },
+                { "targets": 4, className: "text-center", "orderable": false },
+                { "targets": 5, className: "text-end", "orderable": false },
+                { "targets": 6, className: "text-end", "orderable": false },
+
+            ],
+            'pageLength': 10,
+            'responsive': true,
+            'processing': true,
+            'serverSide': true,
+            'ajax': {
+                'url': "/finalscore",
+                'dataType:': 'json',
+                'type': 'get',
+                'data': {
+                    'class': classTaskType,
+                    'subject': subjectTaskType,
+                    'session': sessionTaskType,
+                },
+               
+
+
+            },
+            'columns': [
+                { 'data': 'no' },
+                { 'data': 'nama' },
+                { 'data': 'kehadiran' },
+                { 'data': 'tugas' },
+                { 'data': 'uts' },
+                { 'data': 'uas' },
+                { 'data': 'akhir' },
+            ]
+
+
         });
+    }*/
+    function maxLengthCheck(object) {
+        if (object.value.length > object.max.length)
+          object.value = object.value.slice(0, object.max.length)
+      }
+        
+      function isNumeric (evt) {
+        var theEvent = evt || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode (key);
+        var regex = /[0-9]|\./;
+        if ( !regex.test(key) ) {
+          theEvent.returnValue = false;
+          if(theEvent.preventDefault) theEvent.preventDefault();
+        }
+      }
+      function rateFinalScore(e){
+        console.log($('#N1').val())
+        var val = e.target.value;
+            switch($('#FinalScoreSystem').val()){
+                case 'SPK':{
+                    var n1 = 60,
+                    n2 = 20,
+                    n3 = 20,
+                    nInput = val;
+                }break;
+                case 'U1':{
+                    var n1 = 30,
+                    n2 = 30,
+                    n3 = 30,
+                    nAbs = 10,
+                    nInput = val;
+                }break;
+                case 'U2':{
+                    $('#NA1').attr('readonly',true);
+                    
+                }break;
+                default: break;
+      }
     }
+    
 </script>
 <!-- Some Jquery End Here -->
 

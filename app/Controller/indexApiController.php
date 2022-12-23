@@ -60,6 +60,7 @@ class indexApiController
             ]
         );
 
+
         $storedPassword = $verAwal[0]['password'];
 
         $decryptPassword = indexApiController::decrypt($storedPassword, $_ENV['SALT']);
