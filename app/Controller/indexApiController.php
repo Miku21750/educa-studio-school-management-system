@@ -60,6 +60,7 @@ class indexApiController
             ]
         );
 
+
         $storedPassword = $verAwal[0]['password'];
 
         $decryptPassword = indexApiController::decrypt($storedPassword, $_ENV['SALT']);
@@ -135,33 +136,33 @@ class indexApiController
             //HTML-friendly debug output
             $mail->Debugoutput = 'html';
             //hostname dari mail server
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = $_ENV['SMTP_HOST'];
             // gunakan
             // $mail->Host = gethostbyname('smtp.gmail.com');
             // jika jaringan Anda tidak mendukung SMTP melalui IPv6
             //Atur SMTP port - 587 untuk dikonfirmasi TLS, a.k.a. RFC4409 SMTP submission
-            $mail->Port = 587;
+            $mail->Port = $_ENV['SMTP_PORT'];
             //Set sistem enkripsi untuk menggunakan - ssl (deprecated) atau tls
-            $mail->SMTPSecure = 'tls';
+            $mail->SMTPSecure = $_ENV['SMTP_ENCRYPTION'];
             //SMTP authentication
-            $mail->SMTPAuth = true;
+            $mail->SMTPAuth = $_ENV['SMTP_AUTH'];
             //Username yang digunakan untuk SMTP authentication - gunakan email gmail
-            $mail->Username = "rafaelfarizi1@gmail.com";
+            $mail->Username = $_ENV['EMAIL_SENDER'];
             //Password yang digunakan untuk SMTP authentication
-            $mail->Password = "dqwuvxffdphlgdml";
+            $mail->Password = $_ENV['PASSWORD_OAUTH2'];
             //Email pengirim
-            $mail->setFrom('rafaelfarizi1@gmail.com', 'Miku21 Margareth');
+            $mail->setFrom($_ENV['EMAIL_SENDER'], 'Educa Vertif - Noreply');
             //  //Alamat email alternatif balasan
             //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
             //Email tujuan
             $mail->addAddress($data['email']);
             //Subject email
-            $mail->Subject = 'PHPMailer GMail SMTP test';
+            $mail->Subject = 'Educa Email Vertification';
             //Membaca isi pesan HTML dari file eksternal, mengkonversi gambar yang di embed,
             //Mengubah HTML menjadi basic plain-text
             //  $mail->msgHTML(file_get_contents('contents.html'), dirname(__FILE__));
             //Replace plain text body dengan cara manual
-            $mail->Body = '<a href="http://localhost:8200/verifEmail?key=' . $id_inserted . '&email='.$data['email'].'">Klik link ini untuk verifikasi email</a>';
+            $mail->Body = '<a href="'.$_ENV['HOST_PROTOCOL'].'://'.$_ENV['HOSTNAME'].'/verifEmail?key=' . $id_inserted . '&email='.$data['email'].'">Klik link ini untuk verifikasi email</a>';
             $mail->AltBody = 'This is a plain-text message body';
             //Attach file gambar
             //  $mail->addAttachment('images/phpmailer_mini.png');

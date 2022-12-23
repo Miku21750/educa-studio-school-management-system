@@ -6,7 +6,7 @@
       <a href="/"><img src="/img/logo1.png" alt="logo" /></a>
     </div>
   </div>
-  <div class="sidebar-menu-content">
+  <div class="sidebar-menu-content" id="sidebar">
     <ul class="nav nav-sidebar-menu sidebar-toggle-view">
       <li class="nav-item">
         <a href="/" class="nav-link"
@@ -166,7 +166,7 @@
         </ul>
       </li>
       {% endif %} 
-      {% if session.type == 3 or session.type == 1 %}
+      {% if session.type == 3 or session.type == 1  or session.type == 2 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
           ><i
@@ -175,13 +175,16 @@
           ><span>Class</span></a
         >
         <ul class="nav sub-group-menu">
+          {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/all-class" class="nav-link"
               ><i class="fas fa-angle-right"></i>All Classes</a
             >
           </li>
+        {% endif %}
 
-          {% if session.type == "1" or session.type == 3 or session.type == 2 %}
+
+          {% if session.type == 1 or session.type == 3 or session.type == 2 %}
           <li class="nav-item">
             <a href="/class-routine" class="nav-link"
               ><i class="fas fa-angle-right"></i>Class Routine</a

@@ -945,7 +945,8 @@ class ExamController
         $sesion = $data['session'];
         $id_class = $data['class'];
         $id_subject = $data['subject'];
-
+        $finalScoreSystem = $data['finalScoreSystem'];
+        // return die(var_dump(($data)));
         $final = $app->db->select('tbl_users', [
 
             '[><]tbl_classes' => ['tbl_users.id_class' => 'id_class'],
@@ -953,7 +954,7 @@ class ExamController
 
         ], '*', [
             'tbl_users.id_class' => $id_class,
-
+            'tbl_users.session'=>$sesion
 
         ]);
         // $final = $app->db->debug()->select('tbl_users', [
@@ -983,6 +984,7 @@ class ExamController
         $conditions = [
             "LIMIT" => [$start, $limit],
             'tbl_users.id_class' => $id_class,
+            'tbl_users.session'=>$sesion
 
         ];
 
@@ -1022,19 +1024,75 @@ class ExamController
         ], '*', $conditions);
 
         $data = array();
-
+        
 
         if (!empty($final)) {
             $no = $req->getParam('start') + 1;
             foreach ($final as $m) {
+                $kehadiran = $app->db->count('tbl_attendances',[
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                ]);
+                $AbsenceExist = $app->db->count('tbl_attendances',[
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                    'absence'=>1
+                ]);
+                if($kehadiran == 0){
+                    $AbsencePercent = '0';
+                }else{
+                    $AbsencePercent = number_format((float) $AbsenceExist / $kehadiran * 100, 1, '.', '');
+                }
+                $scoreSum = $app->db->sum('tbl_tasks','score',[
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                ]);
+                
+                switch($finalScoreSystem){
+                    case 'SPK':{
+                        $scoreAverage = '';
+                        $readonly = false;
+                    }break;
+                    case 'U1':{
+                        $scoreCount = $app->db->count('tbl_tasks',[
+                            'id_user'=>$m['id_user'],
+                            'id_class'=>$id_class,
+                            'id_subject'=>$id_subject,
+                        ]);
+                        if($scoreCount == 0){
+                            $scoreAverage = '0.0';
+                        }else{
+                            $scoreAverage = number_format((float) $scoreSum / $scoreCount, 1, '.', '');
+                        }   
+                        $readonly = true;
+                    }break;
+                    case 'U2':{
+                        $scoreCount = $app->db->count('tbl_tasks',[
+                            'id_user'=>$m['id_user'],
+                            'id_class'=>$id_class,
+                            'id_subject'=>$id_subject,
+                        ]);
+                        if($scoreCount == 0){
+                            $scoreAverage = '0.0';
+                        }else{
+                            $scoreAverage = number_format((float) $scoreSum / $scoreCount, 1, '.', '');
+                        }   
+                        $readonly = true;
+                    }break;
+                    default: break;
+                }
+                // return die(var_dump($kehadiran));
                 $datas['no'] = $no . '.';
                 $datas['nama'] = $m['first_name'];
-                $datas['kehadiran'] = ' ';
-                $datas['tugas'] = '<input type="text" >';
-                $datas['uts'] = '<input type="text" >';
-                $datas['uas'] = '<input type="text" >';
-                $datas['akhir'] = '<input type="text">';
-
+                $datas['kehadiran'] = $AbsencePercent.'%';
+                $datas['tugas'] = '<input type="number" id="NA1" min="0.01" max=100.00" value="'.$scoreAverage.'" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(event)" oninput="maxLengthCheck(this)">';;
+                $datas['uts'] = '<input type="number" id="NA2" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(event)" oninput="maxLengthCheck(this)" >';
+                $datas['uas'] = '<input type="number" id="NA3" min="1"  max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(event)" oninput="maxLengthCheck(this)" >';
+                $datas['akhir'] = '<input type="number" id="NA" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(event)" oninput="maxLengthCheck(this)">';
+                
                 $data[] = $datas;
                 $no++;
             }
