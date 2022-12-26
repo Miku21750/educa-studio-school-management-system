@@ -251,7 +251,7 @@ class StudentController
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], '*', [
             'id_user_type' => $type,
-            'tbl_users.id_class' => 99,
+            'tbl_users.id_class' => [99, 100],
         ]);
 
 
@@ -272,7 +272,7 @@ class StudentController
         $conditions = [
             "LIMIT" => [$start, $limit],
             'id_user_type' => $type,
-            'tbl_users.id_class' => 99,
+            'tbl_users.id_class' => [99, 100],
 
         ];
 
@@ -328,6 +328,8 @@ class StudentController
                 $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
                 $datas['gender'] = $m['gender'];
                 $datas['session'] = $m['session'];
+                $datas['class'] = $m['class'];
+                $datas['occupation'] = $m['occupation'];
 
                 $username = $app->db->select('tbl_users', 'first_name', [
                     'id_user' => $m['id_user']
@@ -444,6 +446,8 @@ class StudentController
             'a.email(email)',
             'b.first_name(first_name_ortu)',
             'b.last_name(last_name_ortu)',
+            'a.occupation',
+            'a.occupation_place'
         ], [
             'a.id_user' => $id
 
@@ -541,7 +545,9 @@ class StudentController
             "phone_user" => $data['phone_user'],
             "address_user" => $data['address_user'],
             "short_bio" => $data['data_short_bio'],
-            "photo_user" => $addUpdate
+            "photo_user" => $addUpdate,
+            "occupation" => $data['occupation'],
+            "occupation_place" => $data['occupation_place'],
         ], [
             "id_user" => $data['id_user']
         ]);

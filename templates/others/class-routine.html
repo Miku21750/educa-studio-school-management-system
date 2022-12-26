@@ -18,7 +18,7 @@
           <div class="item-title">
             <h3>Tambahkan Rutinitas Kelas</h3>
           </div>
-          <div class="dropdown">
+          <!-- <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
@@ -26,7 +26,7 @@
               <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
               <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
-          </div>
+          </div> -->
         </div>
         <form class="new-added-form">
           <div class="row">
@@ -121,7 +121,7 @@
           <div class="item-title">
             <h3>Rutinitas Kelas</h3>
           </div>
-          <div class="dropdown">
+          <!-- <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
@@ -129,7 +129,7 @@
               <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
               <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="table-responsive">
           <table class="table display text-nowrap" id="class_routine">
@@ -161,7 +161,7 @@
           <div class="item-title">
             <h3>Rutinitas Kelas</h3>
           </div>
-          <div class="dropdown">
+          <!-- <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
@@ -169,7 +169,7 @@
               <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
               <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
-          </div>
+          </div> -->
         </div>
         <div class="table-responsive">
           <table class="table display text-nowrap" id="class_routine1">
@@ -194,14 +194,14 @@
   {% endif %}
 
   {% if session.type == 2 %}
-  <div class="col-8-xxxl col-12">
+  <div class="col-12-xxxl col-12">
     <div class="card height-auto">
       <div class="card-body">
         <div class="heading-layout1">
           <div class="item-title">
             <h3>Jadwal Guru</h3>
           </div>
-          <div class="dropdown">
+          <!-- <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
@@ -209,10 +209,10 @@
               <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
               <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
-          </div>
+          </div> -->
         </div>
-        <div class="table-box-nowrap">
-          <table class="display" id="class_routine_guru">
+        <div class="table-responsive">
+          <table class="table display text-nowrap" id="class_routine_guru">
             <thead class="text-center">
               <tr>
                 <th>Hari</label></th>
@@ -500,7 +500,7 @@
       || subject_type == ""
       || id_class == ""
       || id_section == ""
-      || id_user == ""
+      // || id_user == ""
       || start_time == ""
       || end_time == ""
       || school_day == ""
@@ -541,7 +541,7 @@
               $('#subject_type').val('').change();
               $('#id_class').val('').change();
               $('#id_section').val('').change();
-              $('#id_user').val('').change();
+              $('#guru').val('').change();
               $('#start_time').val('');
               $('#end_time').val('');
               $('#school_day').val('').change();
@@ -574,7 +574,7 @@
     $('#subject_name').val('').change();
     $('#subject_type').val('').change();
     $('#id_class').val('').change();
-    $('#id_user').val('').change();
+    $('#guru').val('').change();
     $('#start_time').val('');
     $('#end_time').val('');
     $('#school_day').val('').change();

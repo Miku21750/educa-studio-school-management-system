@@ -11,9 +11,9 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Create A Notice</h3>
+                        <h3>Buat Pemberitahuan</h3>
                     </div>
-                    <div class="dropdown">
+                    <!-- <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">...</a>
 
@@ -23,25 +23,25 @@
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <form class="new-added-form" id="formNoticeAdd">
                     <div class="row">
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Title</label>
+                            <label>Judul</label>
                             <input type="text" placeholder="" name="Title" id="titleNoticeBoard" class="form-control"
                                 required>
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Details</label>
+                            <label>Detail</label>
                             <input type="text" placeholder="" name="details" id="detailsNoticeBoard"
                                 class="form-control" required>
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group" id="categoryDivWantToBeChangedInJquery">
-                            <label>Category</label>
+                            <label>Kategori</label>
                             {# <input type="text" placeholder="" name="category" class="form-control"> #}
                             <select name="category" class="select2" id="categoryNoticeBoard" required>
-                                <option value="">Select Category</option>
+                                <option value="">Pilih Kategori</option>
                                 <option value="Pengumuman_Sekolah">Pengumuman Sekolah</option>
                                 <option value="Event">Event</option>
                                 <option value="Pembayaran_Gaji">Pembayaran Gaji</option>
@@ -50,12 +50,12 @@
                             </select>
                         </div>
                         <div class="col-12-xxxl col-lg-3 col-12 form-group" id="datetimeEventDiv">
-                            <label>Date And Time Event</label>
+                            <label>Tanggal Dan Waktu Acara</label>
                             <input type="datetime-local" class="form-control" id="datetimeEventNoticeBoard"
                                 name="datetimeEvent">
                         </div>
                         <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                            <label>Posted By</label>
+                            <label>Diposting oleh</label>
                             {# <input type="text" placeholder="" name="category" class="form-control"> #}
                             <select name="userType" class="select2" id="userTypeNoticeBoard">
                                 <option value="{{session.user}}">{{session.user}}</option>
@@ -80,9 +80,9 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Notice Board</h3>
+                        <h3>Papan peringatan</h3>
                     </div>
-                    <div class="dropdown">
+                    <!-- <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">...</a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -91,7 +91,7 @@
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <form class="mg-b-20">
                     <div class="row gutters-8">
@@ -118,7 +118,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"> Notifications Detail</h5>
+                    <h5 class="modal-title"> Detil Notifikasi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -142,7 +142,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title"> Edit Notifications Detail</h5>
+                    <h5 class="modal-title"> Edit Detail Notifikasi</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -152,21 +152,21 @@
                         <form class="new-added-form" id="formNoticeEdit">
                             <div class="row">
                                 <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                    <label>Title</label>
+                                    <label>Judul</label>
                                     <input type="text" placeholder="" name="Title" id="titleNoticeEditBoard"
                                         class="form-control" required>
                                 </div>
                                 <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                    <label>Details</label>
+                                    <label>Detail</label>
                                     <input type="text" placeholder="" name="details" id="detailsNoticeEditBoard"
                                         class="form-control" required>
                                 </div>
                                 <div class="col-12-xxxl col-lg-6 col-12 form-group"
                                     id="categoryDivWantToBeChangedInJqueryEdit">
-                                    <label>Category</label>
+                                    <label>Kategori</label>
                                     {# <input type="text" placeholder="" name="category" class="form-control"> #}
                                     <select name="category" class="select2" id="categoryNoticeEditBoard" required>
-                                        <option value="">Select Category</option>
+                                        <option value="">Pilih Kategori</option>
                                         <option value="Pengumuman_Sekolah">Pengumuman Sekolah</option>
                                         <option value="Event">Event</option>
                                         <option value="Pembayaran_Gaji">Pembayaran Gaji</option>
@@ -175,12 +175,12 @@
                                     </select>
                                 </div>
                                 <div class="col-12-xxxl col-lg-3 col-12 form-group" id="datetimeEditEventDiv">
-                                    <label>Date And Time Event</label>
+                                    <label>Tanggal Dan Waktu Acara</label>
                                     <input type="datetime-local" class="form-control" id="datetimeEventNoticeEditBoard"
                                         name="datetimeEvent">
                                 </div>
                                 <div class="col-12-xxxl col-lg-6 col-12 form-group">
-                                    <label>Posted By</label>
+                                    <label>Diposting oleh</label>
                                     {# <input type="text" placeholder="" name="category" class="form-control"> #}
                                     <select name="userType" class="select2" id="userTypeNoticeEditBoard">
                                         <option value="{{session.user}}">{{session.user}}</option>
@@ -189,7 +189,7 @@
                                 </div>
                                 <div class="col-12 form-group mg-t-8">
                                     <button type="submit"
-                                        class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Save</button>
+                                        class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">Simpan</button>
                                     <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow"
                                         id="resetFormNoticeEditBoard">Reset</button>
                                 </div>
