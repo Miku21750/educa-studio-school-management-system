@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use PharIo\Manifest\Library;
 use Slim\App;
 
 class LibraryController
@@ -27,10 +28,6 @@ class LibraryController
     {
         $book = $app->db->select(
             'tbl_books',
-            [
-                '[><]tbl_subjects' => 'id_subject',
-                '[><]tbl_classes' => 'id_class',
-            ],
             '*'
         );
         // return var_dump($book);
@@ -62,10 +59,6 @@ class LibraryController
             ];
             $book = $app->db->select(
                 'tbl_books',
-                [
-                    '[><]tbl_subjects' => 'id_subject',
-                    '[><]tbl_classes' => 'id_class',
-                ],
                 '*',
                 $limit
             );
@@ -73,10 +66,7 @@ class LibraryController
             $totalfiltered = $totaldata;
         }
 
-        $book = $app->db->select('tbl_books', [
-            '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_classes' => 'id_class',
-        ], '*', $conditions);
+        $book = $app->db->select('tbl_books', '*', $conditions);
 
         $data = array();
 
@@ -87,14 +77,13 @@ class LibraryController
                 $datas['No'] = $no . '.';
                 $datas['code_book'] = $m['code_book'];
                 $datas['name_book'] = $m['name_book'];
-                $datas['subject'] = $m['subject_name'];
                 $datas['writer'] = $m['writer_book'];
-                $datas['class'] = $m['class'];
+                $datas['kategori'] = $m['kategori'];
                 $published = AcconuntController::tgl_indo($m['publish_date']);
                 $creating_date = AcconuntController::tgl_indo($m['upload_date']);
 
-                $datas['published'] = $published ;
-                $datas['creating_date'] = $creating_date ;
+                $datas['published'] = $published;
+                $datas['creating_date'] = $creating_date;
                 $datas['aksi'] = '<div class="dropdown">
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                     aria-expanded="false">
@@ -133,10 +122,6 @@ class LibraryController
     {
         $book = $app->db->select(
             'tbl_books',
-            [
-                '[><]tbl_subjects' => 'id_subject',
-                '[><]tbl_classes' => 'id_class',
-            ],
             '*'
         );
         // return var_dump($book);
@@ -163,15 +148,10 @@ class LibraryController
                 'tbl_books.code_book[~]' => '%' . $search . '%',
                 'tbl_books.writer_book[~]' => '%' . $search . '%',
                 'tbl_books.publish_date[~]' => '%' . $search . '%',
-                'tbl_subjects.subject_name[~]' => '%' . $search . '%',
 
             ];
             $book = $app->db->select(
                 'tbl_books',
-                [
-                    '[><]tbl_subjects' => 'id_subject',
-                    '[><]tbl_classes' => 'id_class',
-                ],
                 '*',
                 // $limit
                 $conditions
@@ -180,12 +160,11 @@ class LibraryController
             $totalfiltered = $totaldata;
         }
 
-        $book = $app->db->select('tbl_books', [
-            '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_classes' => 'id_class',
-        ], '*', $conditions);
+        $book = $app->db->select('tbl_books', '*', $conditions);
 
         $data = array();
+
+        // return var_dump($req->getParam('id_user'));
 
         if (!empty($book)) {
             $no = $req->getParam('start') + 1;
@@ -194,21 +173,20 @@ class LibraryController
                 $datas['No'] = $no . '.';
                 $datas['code_book'] = $m['code_book'];
                 $datas['name_book'] = $m['name_book'];
-                $datas['subject'] = $m['subject_name'];
+                $datas['kategori'] = $m['kategori'];
                 $datas['writer'] = $m['writer_book'];
-                $datas['class'] = $m['class'];
                 $publish = AcconuntController::tgl_indo($m['publish_date']);
 
                 $datas['creating_date'] = $publish;
 
                 if ($m['status_buku'] == "Ada") {
                     $datas['status'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">' . $m['status_buku'] . '</p>';
-                } else{
+                } else {
                     $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['status_buku'] . '</p>';
                 }
 
                 $siswa = $app->db->select('tbl_peminjaman', '*', [
-                    'id_user' => $_SESSION['id_user'],
+                    'id_user' => $req->getParam('id_user'),
                     'ket' => ['Dipinjam', 'Proses', 'Proses Pengembalian', 'Denda'],
                 ]);
 
@@ -255,10 +233,7 @@ class LibraryController
         $id_book = $args['data'];
         // return var_dump($id_book);
 
-        $book = $app->db->select('tbl_books', [
-            '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_classes' => 'id_class',
-        ], '*', [
+        $book = $app->db->select('tbl_books', '*', [
             'id_book' => $id_book,
         ]);
 
@@ -298,12 +273,10 @@ class LibraryController
 
         $update = $app->db->update('tbl_books', [
             "name_book" => $data['name_book'],
-            "id_subject" => $data['subject'],
+            "kategori" => $data['kategori'],
             "writer_book" => $data['writer_book'],
-            "id_class" => $data['class_book'],
             "publish_date" => $data['publish_date'],
             "upload_date" => $data['upload_date'],
-            "code_book" => $data['code_book'],
         ], [
             "id_book" => $data['id_book'],
         ]);
@@ -317,33 +290,41 @@ class LibraryController
         // return $response->withRedirect('/api/library/getBook');
     }
 
+
+    // Untuk Mengenerate Kode Buku
+    public static function SKU_gen($string, $panjang_akronim, $id, $panjang_desimal)
+    {
+        $results = ''; // empty string
+        $vowels = array('a', 'e', 'i', 'o', 'u', 'y'); // vowels
+        preg_match_all('/[A-Z][a-z]*/', ucfirst($string), $m); // Match every word that begins with a capital letter, added ucfirst() in case there is no uppercase letter
+        foreach ($m[0] as $substring) {
+            $substring = str_replace($vowels, '', strtolower($substring)); // String to lower case and remove all vowels
+            $results .= preg_replace('/([a-z]{' . $panjang_akronim . '})(.*)/', '$1', $substring); // Extract the first N letters.
+        }
+        $results .= '-' . str_pad($id, $panjang_desimal, 0, STR_PAD_LEFT); // Add the ID
+        return $results;
+    }
+
     public static function add_book($app, $req, $rsp, $args)
     {
         $data = $args['data'];
-        // return var_dump($data);
+
+        $getLastId = $app->db->query("SELECT id_book FROM tbl_books ORDER BY create_at DESC LIMIT 1")->fetch();
+
+        $kodeBuku = strtoupper(LibraryController::SKU_gen($data['name_book'], 2, $getLastId['id_book'] + 1, 4));
 
         $data = $app->db->insert('tbl_books', [
             "name_book" => $data['name_book'],
-            "id_subject" => $data['subject'],
+            "kategori" => $data['kategori'],
             "writer_book" => $data['writer_book'],
-            "id_class" => $data['class_book'],
             "publish_date" => $data['publish_date'],
             "upload_date" => $data['upload_date'],
-            "code_book" => $data['code_book'],
+            "code_book" => $kodeBuku,
         ]);
-        // return die(var_dump($data));
+
         $_SESSION['berhasil'] = true;
-        // unset($_SESSION['berhasil']);
 
         return $rsp->withRedirect('/add-book');
-
-        // $berhasil = isset($_SESSION['berhasil']);
-        // unset($_SESSION['berhasil']);
-
-        // $app->view->render($rsp, 'library/add-book.html', [
-        //     'type' => $_SESSION['type'],
-        //     'berhasil' => $berhasil,
-        // ]);
     }
 
     public static function option_book($app, $req, $rsp, $args)
@@ -517,8 +498,8 @@ class LibraryController
                 $tanggal_pinjam = AcconuntController::tgl_indo($m['tgl_kembali']);
                 $tanggal_pengembalian = AcconuntController::tgl_indo($m['tgl_kembali']);
 
-                $datas['tanggal_pinjam'] = $tanggal_pinjam ;
-                $datas['tanggal_pengembalian'] = $tanggal_pengembalian ;
+                $datas['tanggal_pinjam'] = $tanggal_pinjam;
+                $datas['tanggal_pengembalian'] = $tanggal_pengembalian;
                 $datas['telat'] = $hari;
                 $datas['denda'] = 'Rp. ' . number_format($denda, 0, ',', '.');
 
@@ -676,8 +657,8 @@ class LibraryController
                 $tanggal_pinjam = AcconuntController::tgl_indo($m['tgl_kembali']);
                 $tanggal_pengembalian = AcconuntController::tgl_indo($m['tgl_kembali']);
 
-                $datas['tanggal_pinjam'] = $tanggal_pinjam ;
-                $datas['tanggal_pengembalian'] = $tanggal_pengembalian ;
+                $datas['tanggal_pinjam'] = $tanggal_pinjam;
+                $datas['tanggal_pengembalian'] = $tanggal_pengembalian;
                 $datas['telat'] = $hari;
                 $datas['denda'] = 'Rp. ' . number_format($denda, 0, ',', '.');
 

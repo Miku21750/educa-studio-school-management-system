@@ -1574,6 +1574,13 @@ return function (App $app) {
         }
     )->add(new Auth());
     $app->get(
+        '/getExamBasedOnStudent',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            return ExamController::getExamBasedOnStudent($this, $request, $response, $args);
+        }
+    )->add(new Auth());
+    $app->get(
         '/tugas',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
@@ -1970,6 +1977,7 @@ return function (App $app) {
         '/update-final-score',
         function (Request $request, Response $response, array $args) use ($container) {
             $data = $request->getParams();
+
             $update = $container->db->update('tbl_final_scores',[
                 'nilai_abs'=>$data['nAbs'],
                 'nilai_1'=>$data['n1'],

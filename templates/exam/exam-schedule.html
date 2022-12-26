@@ -15,7 +15,7 @@
           <div class="item-title">
             <h3>Add New Exam</h3>
           </div>
-          <div class="dropdown">
+          <!-- <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
@@ -23,18 +23,39 @@
               <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
               <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
-          </div>
+          </div> -->
         </div>
         <form class="new-added-form">
           <div class="row">
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
-              <label>Nama Ujian</label>
-              <input type="text" placeholder="" class="form-control" id="eexam_name" name="eexam_name" />
+              <label>Tipe Ujian *</label>
+              <select name="typeExam" id="typeExam" class="select2" required>
+                 <option value="">Pilih Tipe Ujian</option>
+                 <option value="UTS">Ulangan Tengah Semester</option>
+                 <option value="UAS">Ulangan Akhir Semester</option>
+              </select>
             </div>
-
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Semester *</label>
+              <select name="semester" id="semester" class="select2" required>
+                 <option value="">Pilih Semester</option>
+                 <option value="Semester 1">Semester 1</option>
+                 <option value="Semester 2">Semester 2</option>
+              </select>
+            </div>
+            <div class="col-12-xxxl col-lg-6 col-12 form-group">
+              <label>Tahun Ajaran *</label>
+              <select name="schYearExam" id="schYearExam" class="select2" required>
+                 <option value="">Pilih Tahun Ajaran</option>
+                 {% for s in schYear %}
+                    {% set i = 0 %}
+                    <option value="{{s}}">{{s}}</option>
+                 {% endfor %}
+              </select>
+            </div>
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Mata Pelajaran *</label>
-              <select class="select2" id="esubject">
+              <select class="select2" id="esubject" required>
                 <option value="0">Pilih Mata Pelajaran *</option>
                 {% for i in subject %}
                 <option value="{{ i.id_subject }}">{{ i.subject_name }}</option>
@@ -44,7 +65,7 @@
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Kelas *</label>
-              <select class="select2" id="eclass">
+              <select class="select2" id="eclass" required>
                 <option value="0">Pilih Kelas *</option>
                 {% for i in class %}
                 <option value="{{ i.id_class }}">{{ i.class }} {{ i.section }}</option>
@@ -54,19 +75,19 @@
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Tanggal Ujian</label>
-              <input type="date" placeholder="dd/mm/yyyy" class="form-control" name="exam_date" id="eexam_date" />
+              <input type="date" placeholder="dd/mm/yyyy" class="form-control" name="exam_date" id="eexam_date" required/>
               <!-- <i class="far fa-calendar-alt"></i> -->
             </div>
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Jam Mulai</label>
-              <input type="time" placeholder="" class="form-control" name="exam_start" id="eexam_start" />
+              <input type="time" placeholder="" class="form-control" name="exam_start" id="eexam_start" required/>
               <!-- <i class="far fa-clock"></i> -->
             </div>
 
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Jam Selesai</label>
-              <input type="time" placeholder="" class="form-control" name="end" id="eexam_end" />
+              <input type="time" placeholder="" class="form-control" name="end" id="eexam_end" required/>
               <!-- <i class="far fa-clock"></i> -->
             </div>
 
@@ -96,7 +117,7 @@
           <div class="item-title">
             <h3>Daftar Ujian</h3>
           </div>
-          <div class="dropdown">
+          <!-- <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
@@ -104,7 +125,7 @@
               <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
               <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- table start here -->
         <div class="table-responsive">
@@ -115,6 +136,7 @@
                 <th>Nama Ujian</th>
                 <th>Mata Pelajaran</th>
                 <th>Kelas</th>
+                <th>Tahun Ajaran</th>
                 <th>Tanggal Ujian</th>
                 <th>Pukul</th>
                 <th></th>
@@ -178,7 +200,7 @@
           <div class="item-title">
             <h3>Daftar Ujian</h3>
           </div>
-          <div class="dropdown">
+          <!-- <div class="dropdown">
             <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
             <div class="dropdown-menu dropdown-menu-right">
@@ -186,7 +208,7 @@
               <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
               <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
             </div>
-          </div>
+          </div> -->
         </div>
         <!-- table start here -->
         <div class="table-responsive">

@@ -71,6 +71,7 @@
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
     }
+
     /* th on hover */
     .checkAllAttend:hover {
         background-color: darkgrey;
@@ -84,9 +85,9 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Task</h3>
+                        <h3>Tugas</h3>
                     </div>
-                    <div class="dropdown">
+                    <!-- <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">...</a>
 
@@ -96,14 +97,14 @@
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <form class="new-added-form" id="taskSheetForm">
                     <div class="row">
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
-                            <label>Select Class</label>
+                            <label>Pilih Kelas</label>
                             <select class="select2" id="classTaskType" required>
-                                <option value="">Select Class</option>
+                                <option value="">Pilih Kelas</option>
                                 {% for class in class %}
                                 {% if class.id_class == 0 %}
                                 {% else %}
@@ -113,30 +114,30 @@
                             </select>
                         </div>
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
-                            <label>Select Subject</label>
+                            <label>Pilih Mata Pelajaran</label>
                             <select class="select2" id="subjectTaskType" required>
-                                <option value="">Select Subject</option>
+                                <option value="">Pilih Mata Pelajaran</option>
                                 {% for subject in subject %}
-                                    {% if subject.id_subject == 0 %}
-                                    {% else %}
-                                    <option value="{{subject.id_subject}}">{{subject.subject_name}}</option>
-                                    {% endif %}
+                                {% if subject.id_subject == 0 %}
+                                {% else %}
+                                <option value="{{subject.id_subject}}">{{subject.subject_name}}</option>
+                                {% endif %}
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
-                            <label>Select Session</label>
+                            <label>Pilih Tahun Ajaran</label>
                             <select class="select2" id="sessionTaskType" required>
-                                <option value="">Select Session</option>
+                                <option value="">Pilih Tahun Ajaran</option>
                                 {% for sessionAttend in sessionAttend %}
                                 <option value="{{sessionAttend}}">{{sessionAttend}}</option>
                                 {% endfor %}
                             </select>
                         </div>
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
-                            <label>Select Task Type</label>
+                            <label>Pilih Jenis Tugas</label>
                             <select class="select2" id="taskType" required>
-                                <option value="">Select Task Type</option>
+                                <option value="">Pilih Jenis Tugas</option>
                                 <option value="UH">Ulangan Harian</option>
                                 <option value="TGS">Tugas</option>
                             </select>
@@ -152,7 +153,8 @@
                         <div class="col-12 form-group mg-t-8">
                             <button type="submit" id="viewTaskSheetButton"
                                 class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">View</button>
-                            <button type="reset" id="resetTaskSheetButton" class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
+                            <button type="reset" id="resetTaskSheetButton"
+                                class="btn-fill-lg bg-blue-dark btn-hover-yellow">Reset</button>
                         </div>
                     </div>
                 </form>
@@ -168,7 +170,7 @@
                     <div class="item-title">
                         <h3 id="titleTaskSheet">Task Sheet Of Class One: Section A, April 2019</h3>
                     </div>
-                    <div class="dropdown">
+                    <!-- <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">...</a>
 
@@ -178,7 +180,7 @@
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 {# <input type="checkbox" name="" id=""> #}
                 <div class="table-responsive">
@@ -186,16 +188,16 @@
                         <table class="table bs-table table-striped table-bordered text-nowrap">
                             <thead>
                                 <tr id="studentFormTaskViewSheet">
-                                    
+
                                 </tr>
                             </thead>
                             <tbody id="dateTaskViewSheet">
                             </tbody>
                         </table>
-                        <button type="submit"
-                            class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-4 mr-4">Send Value</button>
+                        <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark my-4 mr-4">Send
+                            Value</button>
                         <button id="createNewTaskBtn"
-                        class="btn-fill-lg btn-fill-lg bg-blue-dark btn-hover-yellow my-4">Create New Task</button>
+                            class="btn-fill-lg btn-fill-lg bg-blue-dark btn-hover-yellow my-4">Create New Task</button>
                     </form>
                 </div>
             </div>
@@ -217,11 +219,8 @@
             e.preventDefault();
             drawTask();
         });
-        $('#viewTaskSheetButton').click(function(e){
-            e.preventDefault();
-            drawTask();
-        })
-        $('#taskSheetInputForm').submit(function (e) { 
+
+        $('#taskSheetInputForm').submit(function (e) {
             e.preventDefault();
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
@@ -245,13 +244,13 @@
             }).get();
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
-                  confirmButton: 'btn btn-success mx-3',
-                  cancelButton: 'btn btn-danger'
+                    confirmButton: 'btn btn-success mx-3',
+                    cancelButton: 'btn btn-danger'
                 },
                 buttonsStyling: false
-              })
-              
-              swalWithBootstrapButtons.fire({
+            })
+
+            swalWithBootstrapButtons.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -259,7 +258,7 @@
                 confirmButtonText: 'Yes',
                 cancelButtonText: 'No',
                 reverseButtons: true
-              }).then((result) => {
+            }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
@@ -267,7 +266,7 @@
                         data: {
                             id_user: id_student,
                             id_task: id_task,
-                            score:score,
+                            score: score,
                             Subject: AttrAdd,
                         },
                         dataType: "JSON",
@@ -277,26 +276,26 @@
                                 'Sended!',
                                 'Task Score was sended',
                                 'success'
-                            ).then((result)=>{
+                            ).then((result) => {
                                 //$('input[type="checkbox"]').attr('disabled',true)
                                 drawTask()
                             })
                         }
                     });
-                  
+
                 } else if (
-                  /* Read more about handling dismissals below */
-                  result.dismiss === Swal.DismissReason.cancel
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
                 ) {
-                  swalWithBootstrapButtons.fire(
-                    'Cancelled',
-                    'Your imaginary file is safe :)',
-                    'error'
-                  )
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your imaginary file is safe :)',
+                        'error'
+                    )
                 }
-              })
+            })
         });
-        $('#resetTaskSheetButton').click(function(e){
+        $('#resetTaskSheetButton').click(function (e) {
             e.preventDefault();
             $('#taskType').val('').change();
             $('#sessionTaskType').val('').change();
@@ -308,16 +307,16 @@
             $('#dateTaskViewSheet').empty();
 
         })
-        $('#createNewTaskBtn').click(function(e){
+        $('#createNewTaskBtn').click(function (e) {
             e.preventDefault();
             var classTaskType = $('#classTaskType').val(),
-            subjectTaskType = $('#subjectTaskType').val(),
-            //monthAttendType = $('#monthAttendType').val(),
-            sessionTaskType = $('#sessionTaskType').val(),
-            taskTp = $('#taskType').val(),
-            taskNm =  $('#taskName').val(),
-            date = new Date(),
-            dateNow = moment().format('YYYY-MM-DD');
+                subjectTaskType = $('#subjectTaskType').val(),
+                //monthAttendType = $('#monthAttendType').val(),
+                sessionTaskType = $('#sessionTaskType').val(),
+                taskTp = $('#taskType').val(),
+                taskNm = $('#taskName').val(),
+                date = new Date(),
+                dateNow = moment().format('YYYY-MM-DD');
             $.ajax({
                 type: "POST",
                 url: "/createNewTask",
@@ -331,7 +330,7 @@
                 },
                 dataType: "JSON",
                 success: function (response) {
-                    drawTask();  
+                    drawTask();
                 }
             });
         })
@@ -343,7 +342,7 @@
     //    var dd = String(today.getDate()).padStart(2, '0');
     //    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
     //    var yyyy = today.getFullYear();
-//
+    //
     //    today = yyyy + '-' + mm + '-' + dd;
     //    console.log(today, row)
     //    if(row !== today) return
@@ -355,7 +354,7 @@
     //    });
     //    
     //}
-    function drawTask(){
+    function drawTask() {
         if ($('#viewTaskSheetButton').attr('disabled') == true) {
             return
         }
@@ -366,7 +365,7 @@
             //monthAttendType = $('#monthAttendType').val(),
             sessionTaskType = $('#sessionTaskType').val(),
             taskTp = $('#taskType').val(),
-            taskNm =  $('#taskName').val(),
+            taskNm = $('#taskName').val(),
             date = new Date(),
             dateNow = moment().format('YYYY-MM-DD');
         $.ajax({
@@ -386,9 +385,9 @@
                 viewStudent = response.dataStudentTaskSuccess
                 $('#viewTaskSheetButton').attr('disabled', true)
                 $('#taskSheetView').show();
-                $('#studentFormTaskViewSheet').append('<input type="text" name="subject" value="'+subjectTaskType+'" hidden></input><input type="text" name="class" value="'+classTaskType+'" hidden></input>')
+                $('#studentFormTaskViewSheet').append('<input type="text" name="subject" value="' + subjectTaskType + '" hidden></input><input type="text" name="class" value="' + classTaskType + '" hidden></input>')
                 $('#titleTaskSheet').html('Task Sheet Of Class ' + viewStudent[0]
-                   .class + ' ' + viewStudent[0].section + ' Subject '+response.subjectStudentAttend[0].subject_name+' : '+response.taskStudentAlreadyExist[0].task_name);
+                    .class + ' ' + viewStudent[0].section + ' Subject ' + response.subjectStudentAttend[0].subject_name + ' : ' + response.taskStudentAlreadyExist[0].task_name);
                 //var date = new Date();
                 //var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
                 //var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
@@ -415,21 +414,21 @@
                 //        '`)">' + (i + 1) + '</th>');
                 //}
                 $('#studentFormTaskViewSheet').append('<th class="text-left select-all">Students</th>')
-                for(let i = 0; i < viewStudent.length;i++){    
-                    $('#studentFormTaskViewSheet').append('<th data-idStudent="' + viewStudent[i].id_user+'">' + viewStudent[i].first_name + ' ' + viewStudent[i].last_name + '</th>')
+                for (let i = 0; i < viewStudent.length; i++) {
+                    $('#studentFormTaskViewSheet').append('<th data-idStudent="' + viewStudent[i].id_user + '">' + viewStudent[i].first_name + ' ' + viewStudent[i].last_name + '</th>')
                 }
                 let resultTbl = '';
                 let typeUser = response.typeUser;
                 let limitAllStudent = 0;
-                for(let i = 0; i < response.dataTaskAvailable.length; i++){
+                for (let i = 0; i < response.dataTaskAvailable.length; i++) {
                     var h = 0;
-                    resultTbl += '<tr><th>'+response.dataTaskAvailable[i].task_name+'</th>';
+                    resultTbl += '<tr><th>' + response.dataTaskAvailable[i].task_name + '</th>';
                     h += limitAllStudent;
-                    for(let j = 0; j <  response.dataStudentTaskSuccess.length;j++){
-                        if(response.totalTask[h] != ''){
-                            resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'"  class="form-control attendCheckbox" value="'+response.totalTask[h].score+'"></td>'    
-                        }else{
-                            resultTbl += '<td><input type="text" data-idStudent="'+response.totalTask[h].id_user+'" data-idTask="'+response.dataTaskAvailable[i].task_name+'" class="form-control attendCheckbox"></td>'
+                    for (let j = 0; j < response.dataStudentTaskSuccess.length; j++) {
+                        if (response.totalTask[h] != '') {
+                            resultTbl += '<td><input type="text" data-idStudent="' + response.totalTask[h].id_user + '" data-idTask="' + response.dataTaskAvailable[i].task_name + '"  class="form-control attendCheckbox" value="' + response.totalTask[h].score + '"></td>'
+                        } else {
+                            resultTbl += '<td><input type="text" data-idStudent="' + response.totalTask[h].id_user + '" data-idTask="' + response.dataTaskAvailable[i].task_name + '" class="form-control attendCheckbox"></td>'
                         }
                         //console.log(response.totalTask[h])
                         h++;
@@ -446,8 +445,8 @@
                 today = yyyy + '-' + mm + '-' + dd;
                 console.log(today)
                 //if date != now && userType != admin, disabled
-                if(typeUser !== '3'){
-                    $('#taskSheetView input[type="text"]').not($('input[value="0"]')).attr('readonly',true)
+                if (typeUser !== '3') {
+                    $('#taskSheetView input[type="text"]').not($('input[value="0"]')).attr('readonly', true)
                     $('#taskSheetView input[type="text"]').not($('input[value="0"]')).addClass('bg-secondary text-light')
                 }
             }
