@@ -84,8 +84,9 @@
                     { "targets": 2, className: "text-start", "orderable": false },
                     { "targets": 3, className: "text-start", "orderable": false },
                     { "targets": 4, className: "text-center", "orderable": false },
-                    { "targets": 5, className: "text-end", "orderable": false },
+                    { "targets": 5, className: "text-center", "orderable": false },
                     { "targets": 6, className: "text-end", "orderable": false },
+                    { "targets": 7, className: "text-end", "orderable": false },
 
                 ],
                 'pageLength': 10,
@@ -104,6 +105,7 @@
                     { 'data': 'ujian' },
                     { 'data': 'mapel' },
                     { 'data': 'kelas' },
+                    { 'data': 'session' },
                     { 'data': 'nilai' },
                     { 'data': 'grade' },
                     { 'data': 'tanggal' }
@@ -158,6 +160,7 @@
                     { 'data': 'ujian' },
                     { 'data': 'mapel' },
                     { 'data': 'kelas' },
+                    { 'data': 'session' },
                     { 'data': 'nilai' },
                     { 'data': 'grade' },
                     { 'data': 'tanggal' },
@@ -303,7 +306,25 @@
 
         });
 
-        //tambah Data
+        //tambah Data Exam Result
+        $('#get-siswa').on('change', function(){
+            //console.log($('#get-siswa').val());
+            var id_siswa = $('#get-siswa').val();
+            $.ajax({
+                type: "GET",
+                url: "/getExamBasedOnStudent",
+                data: {
+                    id: id_siswa
+                },
+                dataType: "JSON",
+                success: function (response) {
+                  //console.log(response)
+                  for(var i = 0; i < response.examData.length; i++){
+                    $('#exam_name').append('<option value="'+response.examData[i].id_exam+'">'+response.examData[i].exam_type+' '+response.examData[i].subject_name+' '+response.examData[i].semester+'</option>')
+                  }
+                }
+              });
+        })
         $('#btn_add_exam_result').on('click', function () {
             var id_siswa = $('#get-siswa').val();
             var id_exam = $('#exam_name').val();
@@ -398,16 +419,29 @@
                 dataType: "JSON",
                 data: { id: id },
                 success: function (data) {
-
                     // $.each(data, function (key, val) {
                     console.log(data);
                     $('#detail-result').on('shown.bs.modal', function (e) {
                         $('#mScoreExamInput').focus();
                     }).modal('show');
-
+                    
                     $('[name="id_result"]').val(data.id_result);
                     $('[name="id_user"]').val(data.id_user).change();
-                    $('[name="id_exam"]').val(data.id_exam).change();
+                    $.ajax({
+                        type: "GET",
+                        url: "/getExamBasedOnStudent",
+                        data: {
+                            id: data.id_user
+                        },
+                        dataType: "JSON",
+                        success: function (response) {
+                            //console.log(response)
+                            for(var i = 0; i < response.examData.length; i++){
+                            $('[name="id_exam"]').append('<option value="'+response.examData[i].id_exam+'">'+response.examData[i].exam_type+' '+response.examData[i].subject_name+' '+response.examData[i].semester+'</option>')
+                            }
+                            $('[name="id_exam"]').val(data.id_exam).change();
+                        }
+                    });
                     $('[name="id_grade"]').val(data.id_exam_grade).change();
                     $('[name="mScore"]').val(data.score);
 
@@ -473,6 +507,7 @@
             });
             return false;
         });
+        
 
 
     });

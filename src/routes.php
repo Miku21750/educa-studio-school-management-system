@@ -1573,6 +1573,13 @@ return function (App $app) {
         }
     )->add(new Auth());
     $app->get(
+        '/getExamBasedOnStudent',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            return ExamController::getExamBasedOnStudent($this, $request, $response, $args);
+        }
+    )->add(new Auth());
+    $app->get(
         '/tugas',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view

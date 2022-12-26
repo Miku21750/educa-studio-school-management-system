@@ -44,9 +44,29 @@
                             <div class="info-table table-responsive">
                                 <input type="text" name="id_exam" id="id_exam" value="{{ data.id_exam }}" hidden>
                                 <div class="form-group">
-                                    <label>Nama Ujian</label>
-                                    <input type="text" placeholder="" class="form-control" id="eexam_name_edit"
-                                        name="eexam_name_edit" autofocus/>
+                                    <label>Type Ujian</label>
+                                    <select name="typeExamEdit" id="typeExamEdit" class="select2">
+                                        <option value="">Pilih tipe ujian</option>
+                                        <option value="UTS">Ulangan Tengah Semester</option>
+                                        <option value="UAS">Ulangan Akhir Semester</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Semester</label>
+                                    <select name="semesterEdit" id="semesterEdit" class="select2">
+                                        <option value="">Pilih Semester</option>
+                                        <option value="Semester 1">Semester 1</option>
+                                        <option value="Semester 2">Semester 2</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tahun Ajaran</label>
+                                    <select name="sessionEdit" id="sessionEdit" class="select2">
+                                    <option value="">Pilih Tahun Ajaran</option>
+                                    {% for s in schYear %}
+                                        <option value="{{s}}">{{s}}</option>
+                                    {% endfor %}
+                                    </select>
                                 </div>
 
                                 <div class="form-group">

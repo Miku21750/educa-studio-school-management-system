@@ -40,6 +40,7 @@
                   <th>Nama Ujian</th>
                   <th>Mata Pelajaran</th>
                   <th>Kelas</th>
+                  <th>Tahun Ajaran</th>
                   <th>Nilai</th>
                   <th>Grade</th>
                   <th>Tanggal</th>
@@ -91,10 +92,10 @@
               <label>Nama Ujian </label>
               <select class="select2" id="exam_name" required>
                 <option value="0">Pilih Ujian *</option>
-                {% for i in exam %}
+                {# {% for i in exam %}
                 <option value="{{ i.id_exam }}">{{ i.exam_name }} {{ i.subject_name }} Kelas {{ i.class }} {{i.section}}
                 </option>
-                {% endfor %}
+                {% endfor %} #}
               </select>
             </div>
 
@@ -160,6 +161,7 @@
                 <th>Nama Ujian</th>
                 <th>Mata Pelajaran</th>
                 <th>Kelas</th>
+                <th>Tahun Ajaran</th>
                 <th>Nilai</th>
                 <th>Grade</th>
                 <th>Tanggal</th>
@@ -204,6 +206,7 @@
                 <th>Nama Ujian</th>
                 <th>Mata Pelajaran</th>
                 <th>Kelas</th>
+                <th>Tahun Ajaran</th>
                 <th>Nilai</th>
                 <th>Grade</th>
                 <th>Tanggal</th>
@@ -282,10 +285,10 @@
                     <label>Nama Ujian </label>
                     <select class="select2" name="id_exam" id="mexam_name">
                       <option value="0">Pilih Ujian *</option>
-                      {% for i in exam %}
+                      {# {% for i in exam %}
                       <option value="{{ i.id_exam }}">{{ i.exam_name }} {{ i.subject_name }} Kelas {{ i.class }}
                       </option>
-                      {% endfor %}
+                      {% endfor %} #}
                     </select>
                   </div>
 

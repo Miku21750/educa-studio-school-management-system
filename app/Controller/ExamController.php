@@ -35,7 +35,9 @@ class ExamController
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], [
             'id_exam(id_exam)',
-            'exam_name(exam_name)',
+            'exam_type(exam_type)',
+            'semester(semester)',
+            'session(session)',
             'subject_name(subject_name)',
             'class(class)',
             'section(section)',
@@ -64,7 +66,9 @@ class ExamController
 
             ];
             $conditions['OR'] = [
-                'tbl_exams.exam_name[~]' => '%' . $search . '%',
+                'tbl_exams.exam_type[~]' => '%' . $search . '%',
+                'tbl_exams.semester[~]' => '%' . $search . '%',
+                'tbl_exams.session[~]' => '%' . $search . '%',
                 'tbl_subjects.subject_name[~]' => '%' . $search . '%',
                 'tbl_classes.class[~]' => '%' . $search . '%',
                 'tbl_exams.exam_date[~]' => '%' . $search . '%',
@@ -80,7 +84,9 @@ class ExamController
                     '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
                 ],
                 [
-                    'exam_name(exam_name)',
+                    'exam_type(exam_type)',
+                    'semester(semester)',
+                    'session(session)',
                     'subject_name(subject_name)',
                     'class(class)',
                     'section(section)',
@@ -100,7 +106,9 @@ class ExamController
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], [
             'id_exam(id_exam)',
-            'exam_name(exam_name)',
+            'exam_type(exam_type)',
+            'semester(semester)',
+            'session(session)',
             'subject_name(subject_name)',
             'class(class)',
             'section(section)',
@@ -117,11 +125,11 @@ class ExamController
                 $examStart = strtotime($m['exam_start']);
                 $examEnd = strtotime($m['exam_end']);
                 $datas['No'] = $no . '.';
-                $datas['exam_name'] = $m['exam_name'];
+                $datas['exam_name'] = $m['exam_type'] . ' '. $m['semester'];
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['class'] = $m['class'] . ' ' . $m['section'];
+                $datas['session'] = $m['session'];
                 $exam_date = AcconuntController::tgl_indo($m['exam_date']);
-
                 $datas['exam_date'] = $exam_date;
                 $datas['exam_time'] = date("H:i", $examStart) . ' - ' . date("H:i", $examEnd);
                 $datas['aksi'] =  '<div class="dropdown">
@@ -429,7 +437,9 @@ class ExamController
             "id_exam",
             "id_class",
             "id_subject",
-            "exam_name",
+            "exam_type",
+            "semester",
+            "session",
             "exam_date",
             "exam_start",
             "exam_end"
@@ -465,7 +475,9 @@ class ExamController
         $data = $args['data'];
 
         $update = $app->db->update('tbl_exams', [
-            "exam_name" => $data['exam_name'],
+            "exam_type" => $data['exam_type'],
+            "semester" => $data['semester'],
+            "session" => $data['session'],
             "id_class" => $data['id_class'],
             "id_subject" => $data['id_subject'],
             "exam_date" => $data['exam_date'],
@@ -486,7 +498,9 @@ class ExamController
         $data = $args['data'];
 
         $data = $app->db->insert('tbl_exams', [
-            "exam_name" => $data['exam_name'],
+            "exam_type" => $data['exam_type'],
+            "semester" => $data['semester'],
+            "session" => $data['session'],
             "id_class" => $data['id_class'],
             "id_subject" => $data['id_subject'],
             "exam_date" => $data['exam_date'],
@@ -519,10 +533,16 @@ class ExamController
     {
         $class = $app->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section")->fetchAll();
         $subject = $app->db->select('tbl_subjects', '*');
-
+        $schYear = $app->db->select('tbl_users', 'session', [
+            'GROUP'=>[
+                'session'
+            ],
+        ]);
+        // return die(var_dump($schYear));
         $app->view->render($rsp, 'exam/exam-schedule.html', [
             'class' => $class,
             'subject' => $subject,
+            'schYear' => $schYear,
         ]);
     }
 
@@ -534,15 +554,15 @@ class ExamController
         ], '*', [
             'id_user_type' => 1
         ]);
-        $exam = $app->db->select(
-            'tbl_exams',
-            [
-                '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
-                '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
-                '[>]tbl_sections' => 'id_section'
-            ],
-            '*'
-        );
+        // $exam = $app->db->select(
+        //     'tbl_exams',
+        //     [
+        //         '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+        //         '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+        //         '[>]tbl_sections' => 'id_section'
+        //     ],
+        //     '*'
+        // );
         $grade = $app->db->select(
             'tbl_exam_grades',
             '*'
@@ -550,7 +570,7 @@ class ExamController
 
         $app->view->render($rsp, 'exam/exam-result.html', [
             'user' => $user,
-            'exam' => $exam,
+            // 'exam' => $exam,
             'grade' => $grade,
         ]);
     }
@@ -649,9 +669,10 @@ class ExamController
 
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
-                $datas['ujian'] = $m['exam_name'];
+                $datas['ujian'] = $m['exam_type']. ' '. $m['semester'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
+                $datas['session'] = $m['session'];
                 $datas['nilai'] = $m['score'];
                 $datas['grade'] = $m['grade_name'];
                 $tanggal = AcconuntController::tgl_indo($m['date_result']);
@@ -910,7 +931,7 @@ class ExamController
     public static function result_detail($app, $request, $response, $args)
     {
         $id_result = $args['data'];
-
+        
         $data = $app->db->get('tbl_exam_results', [
             '[><]tbl_users' => 'id_user',
 
@@ -957,22 +978,6 @@ class ExamController
             'tbl_users.session'=>$sesion
 
         ]);
-        // $final = $app->db->debug()->select('tbl_users', [
-        //     '[><]tbl_attendances' => ['tbl_users.id_user' => 'id_user'],
-        //     '[><]tbl_subjects' => ['tbl_attendances.id_subject' => 'id_subject'],
-        //     '[><]tbl_classes' => ['tbl_attendances.id_class' => 'id_class'],
-        //     '[><]tbl_tasks' => ['tbl_users.id_user' => 'id_user'],
-
-
-        // ], '*', [
-        //     'tbl_attendances.id_class' => $id_class,
-        //     'tbl_attendances.id_subject' => $id_subject,
-        //     'tbl_tasks.id_class' => $id_class,
-        //     'tbl_tasks.id_subject' => $id_subject,
-
-        // ]);
-        // return var_dump($final);
-        // die();
 
 
         $totaldata = count($final);
@@ -1109,5 +1114,30 @@ class ExamController
         // return var_dump($data);
         // return var_dump($json_data);
         echo json_encode($json_data);
+    }
+    public static function getExamBasedOnStudent($app, $req, $rsp, $args){
+        $id = $req->getParam('id');
+        $class = $app->db->select('tbl_users', 'id_class', [
+            'id_user' => $id
+        ]);
+        $examData = $app->db->select('tbl_exams',[
+            '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+            '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+            '[>]tbl_sections' => 'id_section'
+        ],
+        '*',[
+            'tbl_exams.id_class'=>$class[0]
+        ]);
+        $grade = $app->db->select(
+            'tbl_exam_grades',
+            '*'
+        );
+        // return die(var_dump($examData));
+        $data = array(
+            'examData'=> $examData,
+            'grade'=>$grade,
+        );
+        return $rsp->withJson($data);
+
     }
 }
