@@ -979,6 +979,7 @@ class ExamController
             'tbl_users.session'=>$sesion
             
         ]);
+        // return die(var_dump($final));
         foreach($final as $f){
             $checkFinalScoreIfExistAdd = $app->db->select('tbl_final_scores','*',[
                 'id_class'=>$id_class,
@@ -986,13 +987,13 @@ class ExamController
                 'id_user'=>$f['id_user']
             ]); 
             
-            // return die(var_dump(empty($checkFinalScoreIfExistAdd)));
             if(empty($checkFinalScoreIfExistAdd)){
                 $insert = $app->db->insert('tbl_final_scores',[
                     'id_class'=>$id_class,
                     'id_subject'=>$id_subject,
                     'id_user'=>$f['id_user']
                 ]); 
+                // var_dump($insert);
             }
         }
         $final_score = $app->db->select('tbl_final_scores', '*', [
@@ -1074,47 +1075,131 @@ class ExamController
                     'id_subject'=>$id_subject,
                     'absence'=>1
                 ]);
+                $kehadiranSum = 0;
                 if($kehadiran == 0){
                     $AbsencePercent = '<p id="NAbs" data-idUser="'.$m['id_final_score'].'">0</p>';
+                    $kehadiranSum = 0;
                 }else{
-                    $AbsencePercent = '<p id="NAbs" data-idUser="'.$m['id_final_score'].'">'.(int) $AbsenceExist / $kehadiran * 100 .'</p>';
+                    $kehadiranSum = (int) $AbsenceExist / $kehadiran * 100;
+                    $AbsencePercent = '<p id="NAbs" data-idUser="'.$m['id_final_score'].'">'. $kehadiranSum .'</p>';
                 }
                 $scoreSum = $app->db->sum('tbl_tasks','score',[
                     'id_user'=>$m['id_user'],
                     'id_class'=>$id_class,
                     'id_subject'=>$id_subject,
                 ]);
+                $scoreCount = $app->db->count('tbl_tasks',[
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                ]);
+                $examUTS = $app->db->select('tbl_exam_results',[
+                    '[><]tbl_exams'=>'id_exam'
+                ], '*',[
+                    'exam_type'=>'UTS',
+                    'session'=>$sesion,
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                ]);
                 
+                if(count($examUTS) == 0){
+                    $examUTS[0]['score']=0;
+                }
+                $examUAS = $app->db->select('tbl_exam_results',[
+                    '[><]tbl_exams'=>'id_exam'
+                ], '*',[
+                    'exam_type'=>'UAS',
+                    'session'=>$sesion,
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                ]);
+                if(count($examUAS) == 0){
+                    $examUAS[0]['score']=0;
+                }
+                // return die(var_dump(array('examUTS' => $examUTS, 'examUAS' => $examUAS)));
+                $nilaiAkhir = '';
                 switch($finalScoreSystem){
                     case 'SPK':{
                         $scoreAverage = '<input type="number" data-idUser="'.$m['id_final_score'].'" id="NA1" min="0.01" max=100.00" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" value="'.$m['nilai_1'].'">';
+                        $n2 = '<input data-idUser="' . $m['id_final_score'] . '"  value="' . $m['nilai_2'] . '" type="number" id="NA2" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(' . $m['id_final_score'] . ')" oninput="maxLengthCheck(this)" >';
+                        $n3 = '<input data-idUser="' . $m['id_final_score'] . '"  value="' . $m['nilai_3'] . '" type="number" id="NA3" min="1"  max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(' . $m['id_final_score'] . ')" oninput="maxLengthCheck(this)" >';
                         $readonly = false;
+                        $nilaiAkhir = '<p data-idUser="' . $m['id_final_score'] . '" id="NA"></p>';
                     }break;
                     case 'U1':{
-                        $scoreCount = $app->db->count('tbl_tasks',[
-                            'id_user'=>$m['id_user'],
-                            'id_class'=>$id_class,
-                            'id_subject'=>$id_subject,
-                        ]);
+                        $n1rate = 0.3;
+                        $n2rate = 0.3;
+                        $n3rate = 0.3;
+                        $nAbsrate = 0.1;
                         if($scoreCount == 0){
                             $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">0.0</p>';
+                                $n1 = 0;
                         }else{
                             $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">'.number_format((float) $scoreSum / $scoreCount, 1, '.', '').'</p>';
-                        }   
+                            $n1 = number_format((float) $scoreSum / $scoreCount, 1, '.', '');
+                        }
+                            // return die(var_dump($examUAS));
+                        if(count($examUTS) != 0){
+                                $n2 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA2">' . $examUTS[0]['score'] . '</p>';
+                        }else{
+                                $n2 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA2">0.0</p>';
+                        }
+                        if(count($examUAS) != 0){
+                                $n3 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA3">' . $examUAS[0]['score'] . '</p>';
+                        }else{
+                                $n3 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA3">0.0</p>';
+                        }
                         $readonly = true;
+                        $update = $app->db->update('tbl_final_scores',[
+                            'nilai_abs'=>$kehadiranSum,
+                            'nilai_1'=>$n1,
+                            'nilai_2'=>$examUTS[0]['score'],
+                            'nilai_3'=>$examUAS[0]['score'],
+                            'nilai_akhir'=>($n1 * $n1rate) + ( (int)$examUTS[0]['score'] * $n2rate) + ( (int)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)
+                        ],[
+                            'id_final_score'=>$m['id_final_score']
+                        ]);
+                        // return die(var_dump($examUTS));
+                            // return die(var_dump('<p data-idUser="' . $m['id_final_score'] . '" id="NA">' . ceil(($n1 * $n1rate) + ( (float)$examUTS[0]['score'] * $n2rate) + ( (float)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)) . '</p>'));
+                            // return var_dump(($n1 * $n1rate) + ( (float)$examUTS[0]['score'] * $n2rate) + ( (float)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate));
+                            $nilaiAkhir = '<p data-idUser="'.$m['id_final_score'].'" id="NA">'.ceil(($n1 * $n1rate) + ( (int)$examUTS[0]['score'] * $n2rate) + ( (int)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)).'</p>';
                     }break;
                     case 'U2':{
-                        $scoreCount = $app->db->count('tbl_tasks',[
-                            'id_user'=>$m['id_user'],
-                            'id_class'=>$id_class,
-                            'id_subject'=>$id_subject,
-                        ]);
+                        $n1rate = 0.4;
+                        $n2rate = 0.4;
+                        $n3rate = 0.15;
+                        $nAbsrate = 0.05;
                         if($scoreCount == 0){
                             $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">0.0</p>';
+                                $n1 = 0;
                         }else{
                             $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">'.number_format((float) $scoreSum / $scoreCount, 1, '.', '').'</p>';
+                                $n1 = number_format((float) $scoreSum / $scoreCount, 1, '.', '');
                         }   
+                        if(count($examUTS) != 0){
+                                $n2 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA2">' . $examUTS[0]['score'] . '</p>';
+                        }else{
+                                $n2 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA2">0.0</p>';
+                        }
+                        if(count($examUAS) != 0){
+                                $n3 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA3">' . $examUAS[0]['score'] . '</p>';
+                        }else{
+                                $n3 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA3">0.0</p>';
+                        }
                         $readonly = true;
+                        $update = $app->db->update('tbl_final_scores',[
+                            'nilai_abs'=>$kehadiranSum,
+                            'nilai_1'=>$n1,
+                            'nilai_2'=>$examUTS[0]['score'],
+                            'nilai_3'=>$examUAS[0]['score'],
+                            //(n1Val * n1) + (n2Val * n2) + (n3Val * n3)
+                            'nilai_akhir'=>($n1 * $n1rate) + ( (int)$examUTS[0]['score'] * $n2rate) + ( (int)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)
+                        ],[
+                            'id_final_score'=>$m['id_final_score']
+                        ]);
+                        $nilaiAkhir = '<p data-idUser="'.$m['id_final_score'].'" id="NA">'.ceil(($n1 * $n1rate) + ((int)$examUTS[0]['score'] * $n2rate) + ((int)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)).'</p>';
                     }break;
                     default: break;
                 }
@@ -1123,14 +1208,16 @@ class ExamController
                 $datas['nama'] = '<p data-idUser="'.$m['id_final_score'].'">'.$m['first_name'].' '.$m['last_name'].'</p>';
                 $datas['kehadiran'] = $AbsencePercent;
                 $datas['tugas'] = $scoreAverage;
-                $datas['uts'] = '<input data-idUser="'.$m['id_final_score'].'"  value="'.$m['nilai_2'].'" type="number" id="NA2" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" >';
-                $datas['uas'] = '<input data-idUser="'.$m['id_final_score'].'"  value="'.$m['nilai_3'].'" type="number" id="NA3" min="1"  max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" >';
-                $datas['akhir'] = '<p data-idUser="'.$m['id_final_score'].'" id="NA"></p>';
+                $datas['uts'] = $n2;
+                $datas['uas'] = $n3;
+                $datas['akhir'] = $nilaiAkhir;
                 
                 $data[] = $datas;
                 $no++;
+                
             }
         }
+        
         // return var_dump($grade);
         // return var_dump($grade);
 

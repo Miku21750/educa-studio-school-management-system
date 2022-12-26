@@ -232,7 +232,7 @@
 <script>
     var classTaskType,subjectTaskType,sessionTaskType,finalScoreSystem;
     $(document).ready(function () {
-
+        
         FinalScoree = function () {
             
             var classTaskType = $('#classFinalScore').val(),
@@ -376,7 +376,7 @@
             e.preventDefault();
             $('#FinalScore').DataTable().clear().destroy();           
             FinalScoree();
-
+            
             $('#finalScoreView').show(function(){
                 switch($('#FinalScoreSystem').val()){
                     case 'SPK':{
@@ -387,7 +387,7 @@
                     }break;
                     case 'U2':{
                         $('#NA1').attr('readonly',true);
-    
+                        
                     }break;
                     default: break;
                 }
@@ -681,8 +681,8 @@
                     n3 = 0.3,
                     nAbs = 0.1,
                     n1Val = $('#NA1[data-idUser="'+e+'"]').html()
-                    n2Val = $('#NA2[data-idUser="'+e+'"]').val()
-                    n3Val = $('#NA3[data-idUser="'+e+'"]').val()
+                    n2Val = $('#NA2[data-idUser="'+e+'"]').html()
+                    n3Val = $('#NA3[data-idUser="'+e+'"]').html()
                     nAbsenVal = $('#NAbs[data-idUser="'+e+'"]').html()
                     nFinal = (n1Val * n1) + (n2Val * n2) + (n3Val * n3) + (nAbsenVal * nAbs)
                     $('#NA[data-idUser="'+e+'"]').html(nFinal);
@@ -710,8 +710,8 @@
                     n3 = 0.15,
                     nAbs = 0.05,
                     n1Val = $('#NA1[data-idUser="'+e+'"]').html()
-                    n2Val = $('#NA2[data-idUser="'+e+'"]').val()
-                    n3Val = $('#NA3[data-idUser="'+e+'"]').val()
+                    n2Val = $('#NA2[data-idUser="'+e+'"]').html()
+                    n3Val = $('#NA3[data-idUser="'+e+'"]').html()
                     nAbsenVal = $('#NAbs[data-idUser="'+e+'"]').html()
                     nFinal = (n1Val * n1) + (n2Val * n2) + (n3Val * n3) + (nAbsenVal * nAbs)
                     $('#NA[data-idUser="'+e+'"]').html(nFinal);
@@ -737,7 +737,9 @@
                 default: break;
       }
     }
-    
+    $(document).ready(function(){
+        
+    })
 </script>
 <!-- Some Jquery End Here -->
 

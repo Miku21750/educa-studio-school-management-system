@@ -1976,6 +1976,7 @@ return function (App $app) {
         '/update-final-score',
         function (Request $request, Response $response, array $args) use ($container) {
             $data = $request->getParams();
+
             $update = $container->db->update('tbl_final_scores',[
                 'nilai_abs'=>$data['nAbs'],
                 'nilai_1'=>$data['n1'],
