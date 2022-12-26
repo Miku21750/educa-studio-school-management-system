@@ -109,6 +109,10 @@ class LibraryController
                         <i class="fas fa-edit text-dark-pastel-green"></i>
                         Ubah
                     </a>
+                    <a class="dropdown-item btn btn-light get_pinjam" data="' . $m['id_book'] . '">
+                        <i class="fas fa-book text-success"></i>
+                        Ajukan Pinjaman
+                    </a>
                 </div>
             </div>';
                 $data[] = $datas;
@@ -133,10 +137,6 @@ class LibraryController
     {
         $book = $app->db->select(
             'tbl_books',
-            [
-                '[><]tbl_subjects' => 'id_subject',
-                '[><]tbl_classes' => 'id_class',
-            ],
             '*'
         );
         // return var_dump($book);
@@ -168,10 +168,7 @@ class LibraryController
             ];
             $book = $app->db->select(
                 'tbl_books',
-                [
-                    '[><]tbl_subjects' => 'id_subject',
-                    '[><]tbl_classes' => 'id_class',
-                ],
+                
                 '*',
                 // $limit
                 $conditions
@@ -180,10 +177,7 @@ class LibraryController
             $totalfiltered = $totaldata;
         }
 
-        $book = $app->db->select('tbl_books', [
-            '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_classes' => 'id_class',
-        ], '*', $conditions);
+        $book = $app->db->select('tbl_books', '*', $conditions);
 
         $data = array();
 
@@ -194,9 +188,8 @@ class LibraryController
                 $datas['No'] = $no . '.';
                 $datas['code_book'] = $m['code_book'];
                 $datas['name_book'] = $m['name_book'];
-                $datas['subject'] = $m['subject_name'];
+                $datas['kategori'] = $m['kategori'];
                 $datas['writer'] = $m['writer_book'];
-                $datas['class'] = $m['class'];
                 $publish = AcconuntController::tgl_indo($m['publish_date']);
 
                 $datas['creating_date'] = $publish;
@@ -207,29 +200,24 @@ class LibraryController
                     $datas['status'] = '<p class="badge badge-pill badge-info d-block my-2 py-3 px-4">' . $m['status_buku'] . '</p>';
                 }
 
-                $siswa = $app->db->select('tbl_peminjaman', '*', [
-                    'id_user' => $_SESSION['id_user'],
-                    'ket' => ['Dipinjam', 'Proses', 'Proses Pengembalian', 'Denda'],
-                ]);
+               
 
-                if ($m['status_buku'] == 'Dipinjam') {
-                    $datas['aksi'] = '';
-                } elseif ($siswa != null) {
-                    $datas['aksi'] = '';
-                } else {
+                if ($m['status_buku'] == 'Ada' && $_SESSION['type'] == 3 ) {
                     $datas['aksi'] = '<div class="dropdown">
                     <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                         aria-expanded="false">
                         <span class="flaticon-more-button-of-three-dots"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item btn btn-light item_pinjam" data="' . $m['id_book'] . '">
+                    <a class="dropdown-item btn btn-light get_pinjam" data="' . $m['id_book'] . '">
                         <i class="fas fa-book text-success"></i>
                         Ajukan Pinjaman
                     </a>
                         
                     </div>
                 </div>';
+                } else {
+                    $datas['aksi'] = '';
                 }
 
                 $data[] = $datas;
@@ -257,7 +245,7 @@ class LibraryController
 
         $book = $app->db->select('tbl_books', [
             '[><]tbl_subjects' => 'id_subject',
-            '[><]tbl_classes' => 'id_class',
+            
         ], '*', [
             'id_book' => $id_book,
         ]);
@@ -694,23 +682,7 @@ class LibraryController
                 }
 
 
-                if ($m['ket'] == 'Dipinjam') {
-                    $datas['aksi'] = '<div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                    aria-expanded="false">
-                    <span class="flaticon-more-button-of-three-dots"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right btn btn-light item_pengembalian" data="' . $m['id_peminjaman'] . '">
-                    <a class="dropdown-item"  >
-                        <i class="fas fa-book text-success"></i>
-                        Ajukan Pengembalian
-                    </a>    
-                </div>
-                </div>';
-                } else {
-                    $datas['aksi'] = '';
-                }
-
+                
 
 
                 $data[] = $datas;
@@ -732,25 +704,26 @@ class LibraryController
     }
     public static function pinjam($app, $req, $rsp, $args)
     {
-        $id_buku = $args['data'];
-        $id_user = $_SESSION['id_user'];
-        $tgl_pinjam = date("Y-m-d ");
+        $data = $args['data'];
+        $id_user = $data['id_user'];
+        $tgl_pinjam = $data['tgl_pinjam'];
         $tujuh_hari = mktime(0, 0, 0, date("n"), date("j") + 7, date("Y"));
         $kembali        = date("Y-m-d", $tujuh_hari);
-
+        
+        // die(var_dump($kembali));
         $update = $app->db->update('tbl_books', [
             "status_buku" => 'Dipinjam',
         ], [
-            "id_book" => $id_buku['kode'],
+            "id_book" => $data['id_book'],
         ]);
 
 
         $data = $app->db->insert('tbl_peminjaman', [
-            "id_book" => $id_buku['kode'],
+            "id_book" => $data['id_book'],
             "id_user" => $id_user,
             "tgl_pinjam" => $tgl_pinjam,
             "tgl_kembali" => $kembali,
-            "ket" => "Proses",
+            "ket" => "Dipinjam",
         ]);
 
 
@@ -824,6 +797,19 @@ class LibraryController
 
         ], '*', [
             'id_peminjaman' => $id_peminjaman,
+        ]);
+
+
+
+
+        return $response->withJson($Peminjaman[0]);
+    }
+    public static function get_pinjam($app, $request, $response, $args)
+    {
+        $id_peminjaman = $args['data'];
+
+        $Peminjaman = $app->db->select('tbl_books', '*', [
+            'id_book' => $id_peminjaman,
         ]);
 
 

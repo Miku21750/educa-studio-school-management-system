@@ -2,7 +2,57 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-    
+        calon = function () {
+
+            calonmurid = $("#calon").on('preXhr.dt', function (e, settings, data) {
+
+                console.log('loading ....');
+
+            }).on('draw.dt', function () {
+                console.log('dapat data ....');
+
+            }).DataTable({
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    {  "targets": 1, className: "text-center", "orderable": false },
+                    {  "targets": 2, className: "text-center", "orderable": false },
+                    {  "targets": 3, className: "text-center", "orderable": false },
+                    {  "targets": 4, className: "text-center", "orderable": false },
+                    {  "targets": 5, className: "text-center", "orderable": false },
+                    {  "targets": 6, className: "text-center", "orderable": false },
+                  
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/studentacc",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'no' },
+                    { 'data': 'nisn' },
+                    { 'data': 'foto' },
+                    { 'data': 'nama' },
+                    { 'data': 'gender' },
+                    { 'data': 'session' },
+                    { 'data': 'aksi' }
+
+                ]
+
+
+            });
+
+        }
+        calon();
         
         student = function () {
 
@@ -117,6 +167,8 @@
         }
         alumni();
 
+        
+
         //GET HAPUS
         $('#show_data').on('click', '.item_hapus', function () {
             var id = $(this).attr('data');
@@ -214,6 +266,7 @@
 
                 }).then((result) => {
                     table.draw(false)
+                    calonmurid.draw(false)
                     
                     Swal.fire(
                         {

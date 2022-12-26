@@ -2439,6 +2439,7 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
+  
   $("#get-siswa").select2({
     ajax: {
       url: "/api/get-siswa",
@@ -2480,6 +2481,24 @@ $('document').ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
   //Midtrans start here
+  $('#payment').on('click', '.item_cek', function (e) {
+    // console.log('itemkeklik')
+    e.preventDefault();
+    // return console.log(this);
+    var id_finance = $(this).attr('data-cek');
+    $.ajax({
+        type: "GET",
+        url: "/api/cek-midtrans",
+        data: {
+            id: id_finance
+        },
+        dataType: "JSON",
+        success: function (response) {
+          console.log(response);
+          
+        }
+    });
+  });
   $('#payment').on('click', '.item_bayar', function (e) {
     // console.log('itemkeklik')
     e.preventDefault();
