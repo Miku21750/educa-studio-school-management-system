@@ -1612,7 +1612,7 @@ $(document).ready(function () {
 
       'columns': [
         { 'data': 'No' },
-        { 'data': 'exam_name' },
+        { 'data': 'exam_type' },
         { 'data': 'subject_name' },
         { 'data': 'class' },
         { 'data': 'session' },
@@ -1663,7 +1663,7 @@ $(document).ready(function () {
 
       'columns': [
         { 'data': 'No' },
-        { 'data': 'exam_name' },
+        { 'data': 'exam_type' },
         { 'data': 'subject_name' },
         { 'data': 'class' },
         { 'data': 'exam_date' },
@@ -1680,7 +1680,7 @@ $(document).ready(function () {
   // RESET BUTTON
   $('#reset_exam').click(function (e) {
     e.preventDefault();
-    $('#eexam_name').val('');
+    $('#eexam_type').val('');
     $('#eclass').val('');
     $('#esubject').val('').change();
     $('#eexam_date').val('');
@@ -1912,7 +1912,7 @@ $('#show_exam').on('click', '.exam_detail', function () {
     success: function (data) {
       // console.log(data);
       $('#detail-exam').on('shown.bs.modal', function () {
-        $('#eexam_name').focus();
+        $('#eexam_type').focus();
       });
       $('#detail-exam').modal('show');
       $('[name="id_exam"]').val(data.id_exam);

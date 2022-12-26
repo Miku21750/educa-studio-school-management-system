@@ -148,7 +148,7 @@ class DashboardStudentController
             "[><]tbl_exam_results" => ["id_exam" => "id_exam"]
         ], [
             "tbl_exams.id_exam",
-            "tbl_exams.exam_name",
+            "tbl_exams.exam_type",
             "tbl_exams.exam_date",
             "tbl_exam_results.id_subject",
             "tbl_exam_results.score"

@@ -235,7 +235,7 @@ INSERT INTO `tbl_class_routines` (`id_class_routine`, `id_class`, `id_subject`, 
 CREATE TABLE `tbl_exams` (
   `id_exam` int(11) NOT NULL,
   `id_class` int(11) NOT NULL,
-  `exam_name` varchar(50) NOT NULL,
+  `exam_type` varchar(50) NOT NULL,
   `exam_date` date DEFAULT NULL,
   `exam_start` time DEFAULT NULL,
   `exam_end` time NOT NULL,
@@ -246,7 +246,7 @@ CREATE TABLE `tbl_exams` (
 -- Dumping data untuk tabel `tbl_exams`
 --
 
-INSERT INTO `tbl_exams` (`id_exam`, `id_class`, `exam_name`, `exam_date`, `exam_start`, `exam_end`, `id_subject`) VALUES
+INSERT INTO `tbl_exams` (`id_exam`, `id_class`, `exam_type`, `exam_date`, `exam_start`, `exam_end`, `id_subject`) VALUES
 (1, 1, 'Ujian Semester 1 ', '2022-12-01', '10:00:00', '11:00:00', 1),
 (2, 2, 'Ujian Semester 1', '2020-10-24', '14:59:00', '15:59:00', 2),
 (3, 4, 'Ujian Khusus', '2022-12-20', '03:00:00', '04:00:00', 1);
