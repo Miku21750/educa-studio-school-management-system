@@ -66,7 +66,7 @@
             </div>
           </div> -->
         </div>
-        <div class="single-info-details">
+        <div class="single-info-details" id="#myProfilePrintableAreaP">
           <div class="item-img">
             {# <p>{{data.photo_user}}</p> #}
             <img src="/uploads/Profile/{{data.foto}}" style="width: 280px;" alt="student" />
@@ -81,12 +81,12 @@
               <div class="header-elements">
                 <ul>
 
-                  <li>
-                    <a href="#"><i class="fas fa-print"></i></a>
-                  </li>
-                  <li>
+                  {# <li>
+                    <a href="#"><i class="fas fa-print" id="printPdfMyProfile"></i></a>
+                  </li> #}
+                  {# <li>
                     <a href="#"><i class="fas fa-download"></i></a>
-                  </li>
+                  </li> #}
                 </ul>
               </div>
             </div>
@@ -231,12 +231,12 @@
                 <div class="header-elements">
                   <ul>
 
-                    <li>
+                    {# <li>
                       <a href="#"><i class="fas fa-print"></i></a>
                     </li>
                     <li>
                       <a href="#"><i class="fas fa-download"></i></a>
-                    </li>
+                    </li> #}
                   </ul>
                 </div>
               </div>
@@ -378,6 +378,23 @@
     $('#selectGenderEditProfile').val(gend).change();
     $('#selectBloodGroupEditProfile').val(BlGroup).change();
     $('#id_class_detail').val(id_class).change();
+    $('#printPdfMyProfile').click(function (e) {
+
+      $('#myProfilePrintableAreaP').clone("#print-me");
+
+      // console.log($('#print-me').html())
+      //Print the window.
+      window.print();
+      //Restore the styles.
+      $("body").removeClass("printing");
+      //Clear up the div.
+      $("#print-me").empty();
+      //  e.preventDefault();
+      // w=window.open();
+      //w.document.write($('#showDataDetailAccountSetting').html());
+      //w.print();
+      //w.close();
+    });
   });
 </script>
 {% endblock content %}
