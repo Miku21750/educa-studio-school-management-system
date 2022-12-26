@@ -217,7 +217,10 @@
             e.preventDefault();
             drawTask();
         });
-        
+        $('#viewTaskSheetButton').click(function(e){
+            e.preventDefault();
+            drawTask();
+        })
         $('#taskSheetInputForm').submit(function (e) { 
             e.preventDefault();
             var today = new Date();

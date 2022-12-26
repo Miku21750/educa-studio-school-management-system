@@ -16,6 +16,7 @@ use App\Controller\StudentController;
 use App\Controller\SubjectController;
 use App\Controller\TeacherController;
 use App\Controller\TransportController;
+use App\Controller\PrintPDFController;
 use App\middleware\Auth;
 use Medoo\Medoo;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -2485,6 +2486,16 @@ return function (App $app) {
         }
     )->add(new Auth());
     // End Map
+
+    // Print PDF
+    $app->get(
+        '/printPDF',
+        function (Request $request, Response $response, array $args) use ($container) {
+            return PrintPDFController::tampil_data($this, $request, $response, $args);
+            // $container->view->render($response, 'others/printPdf.html', $args);
+        }
+    );
+    // End Print PDF
 
     // Account
     // Set profile setting
