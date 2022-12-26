@@ -968,15 +968,37 @@ class ExamController
         $id_subject = $data['subject'];
         $finalScoreSystem = $data['finalScoreSystem'];
         // return die(var_dump(($data)));
+        // TODO make session in where clause
         $final = $app->db->select('tbl_users', [
-
+            
             '[><]tbl_classes' => ['tbl_users.id_class' => 'id_class'],
-
-
+            
+            
         ], '*', [
             'tbl_users.id_class' => $id_class,
             'tbl_users.session'=>$sesion
-
+            
+        ]);
+        foreach($final as $f){
+            $checkFinalScoreIfExistAdd = $app->db->select('tbl_final_scores','*',[
+                'id_class'=>$id_class,
+                'id_subject'=>$id_subject,
+                'id_user'=>$f['id_user']
+            ]); 
+            
+            // return die(var_dump(empty($checkFinalScoreIfExistAdd)));
+            if(empty($checkFinalScoreIfExistAdd)){
+                $insert = $app->db->insert('tbl_final_scores',[
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                    'id_user'=>$f['id_user']
+                ]); 
+            }
+        }
+        $final_score = $app->db->select('tbl_final_scores', '*', [
+            'id_class' => $id_class,
+            'id_subject'=>$id_subject
+            
         ]);
 
 
@@ -988,8 +1010,8 @@ class ExamController
 
         $conditions = [
             "LIMIT" => [$start, $limit],
-            'tbl_users.id_class' => $id_class,
-            'tbl_users.session'=>$sesion
+            'tbl_final_scores.id_class' => $id_class,
+            'tbl_final_scores.id_subject'=>$id_subject
 
         ];
 
@@ -1002,14 +1024,15 @@ class ExamController
             ];
             $conditions['OR'] = [
                 'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
 
 
             ];
             $final = $app->db->select(
-                'tbl_users',
+                'tbl_final_scores',
                 [
 
-                    '[><]tbl_classes' => ['tbl_users.id_class' => 'id_class'],
+                    '[><]tbl_users' => 'id_user'
 
 
                 ],
@@ -1021,15 +1044,21 @@ class ExamController
             $totalfiltered = $totaldata;
         }
 
-        $final = $app->db->select('tbl_users', [
+        $final = $app->db->select(
+            'tbl_final_scores',
+            [
 
-            '[><]tbl_classes' => ['tbl_users.id_class' => 'id_class'],
+                '[><]tbl_users' => 'id_user'
 
 
-        ], '*', $conditions);
+            ],
+            '*',
+            // $limit
+            $conditions
+        );
 
         $data = array();
-        
+        // return die($final);
 
         if (!empty($final)) {
             $no = $req->getParam('start') + 1;
@@ -1046,9 +1075,9 @@ class ExamController
                     'absence'=>1
                 ]);
                 if($kehadiran == 0){
-                    $AbsencePercent = '0';
+                    $AbsencePercent = '<p id="NAbs" data-idUser="'.$m['id_final_score'].'">0</p>';
                 }else{
-                    $AbsencePercent = number_format((float) $AbsenceExist / $kehadiran * 100, 1, '.', '');
+                    $AbsencePercent = '<p id="NAbs" data-idUser="'.$m['id_final_score'].'">'.(int) $AbsenceExist / $kehadiran * 100 .'</p>';
                 }
                 $scoreSum = $app->db->sum('tbl_tasks','score',[
                     'id_user'=>$m['id_user'],
@@ -1058,7 +1087,7 @@ class ExamController
                 
                 switch($finalScoreSystem){
                     case 'SPK':{
-                        $scoreAverage = '';
+                        $scoreAverage = '<input type="number" data-idUser="'.$m['id_final_score'].'" id="NA1" min="0.01" max=100.00" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" value="'.$m['nilai_1'].'">';
                         $readonly = false;
                     }break;
                     case 'U1':{
@@ -1068,9 +1097,9 @@ class ExamController
                             'id_subject'=>$id_subject,
                         ]);
                         if($scoreCount == 0){
-                            $scoreAverage = '0.0';
+                            $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">0.0</p>';
                         }else{
-                            $scoreAverage = number_format((float) $scoreSum / $scoreCount, 1, '.', '');
+                            $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">'.number_format((float) $scoreSum / $scoreCount, 1, '.', '').'</p>';
                         }   
                         $readonly = true;
                     }break;
@@ -1081,9 +1110,9 @@ class ExamController
                             'id_subject'=>$id_subject,
                         ]);
                         if($scoreCount == 0){
-                            $scoreAverage = '0.0';
+                            $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">0.0</p>';
                         }else{
-                            $scoreAverage = number_format((float) $scoreSum / $scoreCount, 1, '.', '');
+                            $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">'.number_format((float) $scoreSum / $scoreCount, 1, '.', '').'</p>';
                         }   
                         $readonly = true;
                     }break;
@@ -1091,12 +1120,12 @@ class ExamController
                 }
                 // return die(var_dump($kehadiran));
                 $datas['no'] = $no . '.';
-                $datas['nama'] = $m['first_name'];
-                $datas['kehadiran'] = $AbsencePercent.'%';
-                $datas['tugas'] = '<input type="number" id="NA1" min="0.01" max=100.00" value="'.$scoreAverage.'" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(event)" oninput="maxLengthCheck(this)">';;
-                $datas['uts'] = '<input type="number" id="NA2" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(event)" oninput="maxLengthCheck(this)" >';
-                $datas['uas'] = '<input type="number" id="NA3" min="1"  max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(event)" oninput="maxLengthCheck(this)" >';
-                $datas['akhir'] = '<input type="number" id="NA" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(event)" oninput="maxLengthCheck(this)">';
+                $datas['nama'] = '<p data-idUser="'.$m['id_final_score'].'">'.$m['first_name'].' '.$m['last_name'].'</p>';
+                $datas['kehadiran'] = $AbsencePercent;
+                $datas['tugas'] = $scoreAverage;
+                $datas['uts'] = '<input data-idUser="'.$m['id_final_score'].'"  value="'.$m['nilai_2'].'" type="number" id="NA2" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" >';
+                $datas['uas'] = '<input data-idUser="'.$m['id_final_score'].'"  value="'.$m['nilai_3'].'" type="number" id="NA3" min="1"  max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" >';
+                $datas['akhir'] = '<p data-idUser="'.$m['id_final_score'].'" id="NA"></p>';
                 
                 $data[] = $datas;
                 $no++;
