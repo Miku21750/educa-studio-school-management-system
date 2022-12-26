@@ -627,7 +627,6 @@ $(document).ready(function () {
         { "width": "5%", "targets": 5, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 6, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 7, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 8, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -643,9 +642,8 @@ $(document).ready(function () {
         { 'data': 'No' },
         { 'data': 'code_book' },
         { 'data': 'name_book' },
-        { 'data': 'subject' },
+        { 'data': 'kategori' },
         { 'data': 'writer' },
-        { 'data': 'class' },
         { 'data': 'published' },
         { 'data': 'creating_date' },
         { 'data': 'aksi' }
@@ -780,7 +778,7 @@ $(document).ready(function () {
     var id_book = $('#id_book').val();
     var name_book = $('#ebook_name').val();
     var code_book = $('#ecode_book').val();
-    var subject = $('#esubject').val();
+    var kategori = $('#esubject').val();
     var writer_book = $('#ewriter_book').val();
     var class_book = $('#eclass_book').val();
     var publish_date = $('#epublish_date').val();
@@ -790,7 +788,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/library/update-book-detail",
       dataType: "JSON",
-      data: { id_book: id_book, name_book: name_book, subject: subject, writer_book: writer_book, class_book: class_book, publish_date: publish_date, upload_date: upload_date, code_book: code_book },
+      data: { id_book: id_book, name_book: name_book, kategori: kategori, writer_book: writer_book, class_book: class_book, publish_date: publish_date, upload_date: upload_date, code_book: code_book },
       success: function (data) {
         if (data) {
           $('#detail-book').modal('hide');
@@ -842,7 +840,7 @@ $('#show_book').on('click', '.book_detail', function () {
   $('#detail-book').modal('show');
   $.ajax({
     type: "GET",
-    url: "/" + "api" + "/" + "library" + "/" + id + "/book-detail",
+    url: "/api/" + "library" + "/" + id + "/book-detail",
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
