@@ -378,7 +378,7 @@ class DashboardStudentController
 
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
-                $datas['ujian'] = $m['exam_name'];
+                $datas['ujian'] = $m['exam_type']. ' ' . $m['semester'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
                 $datas['nilai'] = $m['score'];
