@@ -252,6 +252,41 @@ class ClassRoutineController
 
     public static function view_data_classroutine1($app, $request, $response, $args)
     {
+        $hari = date ("D");
+ 
+	switch($hari){
+		case 'Sun':
+			$hari_ini = "Minggu";
+		break;
+ 
+		case 'Mon':			
+			$hari_ini = "Senin";
+		break;
+ 
+		case 'Tue':
+			$hari_ini = "Selasa";
+		break;
+ 
+		case 'Wed':
+			$hari_ini = "Rabu";
+		break;
+ 
+		case 'Thu':
+			$hari_ini = "Kamis";
+		break;
+ 
+		case 'Fri':
+			$hari_ini = "Jumat";
+		break;
+ 
+		case 'Sat':
+			$hari_ini = "Sabtu";
+		break;
+		
+		default:
+			$hari_ini = "Tidak di ketahui";		
+		break;
+	}
 
         $class = $app->db->select('tbl_users', 'id_class', [
             "id_user" => $_SESSION['id_user']
@@ -267,7 +302,8 @@ class ClassRoutineController
             ],
             '*',
             [
-                "tbl_classes.id_class" => $class
+                "tbl_classes.id_class" => $class,
+                "tbl_class_routines.school_day" => $hari_ini
             ]
         );
         // return var_dump($result);
@@ -291,7 +327,8 @@ class ClassRoutineController
                 "school_day" => "ASC",
                 "start_time" => "ASC"
             ],
-            "tbl_classes.id_class" => $class
+            "tbl_classes.id_class" => $class,
+            "tbl_class_routines.school_day" => $hari_ini
 
         ];
 
@@ -398,6 +435,41 @@ class ClassRoutineController
     }
     public static function view_data_classroutineguru($app, $request, $response, $args)
     {
+        $hari = date ("D");
+ 
+        switch($hari){
+            case 'Sun':
+                $hari_ini = "Minggu";
+            break;
+     
+            case 'Mon':			
+                $hari_ini = "Senin";
+            break;
+     
+            case 'Tue':
+                $hari_ini = "Selasa";
+            break;
+     
+            case 'Wed':
+                $hari_ini = "Rabu";
+            break;
+     
+            case 'Thu':
+                $hari_ini = "Kamis";
+            break;
+     
+            case 'Fri':
+                $hari_ini = "Jumat";
+            break;
+     
+            case 'Sat':
+                $hari_ini = "Sabtu";
+            break;
+            
+            default:
+                $hari_ini = "Tidak di ketahui";		
+            break;
+        }
 
         $result = $app->db->select(
             'tbl_class_routines',
@@ -409,7 +481,8 @@ class ClassRoutineController
             ],
             '*',
             [
-                "id_user" => $_SESSION['id_user']
+                "id_user" => $_SESSION['id_user'],
+                "tbl_class_routines.school_day" => $hari_ini
             ]
         );
         // return var_dump($result);
@@ -433,7 +506,8 @@ class ClassRoutineController
                 "school_day" => "ASC",
                 "start_time" => "ASC"
             ],
-            "id_user" => $_SESSION['id_user']
+            "id_user" => $_SESSION['id_user'],
+            "tbl_class_routines.school_day" => $hari_ini
 
         ];
 

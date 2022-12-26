@@ -2,8 +2,8 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-    
-        
+
+
         student = function () {
 
             table = $("#student").on('preXhr.dt', function (e, settings, data) {
@@ -20,14 +20,14 @@
                     }
                 },
                 "columnDefs": [
-                    {  "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-                    {  "targets": 1, className: "text-start", "orderable": false },
-                    {  "targets": 2, className: "text-start", "orderable": false },
-                    {  "targets": 3, className: "text-start", "orderable": false },
-                    {  "targets": 4, className: "text-center", "orderable": false },
-                    {  "targets": 5, className: "text-center", "orderable": false },
-                    {  "targets": 6, className: "text-center", "orderable": false },
-                  
+                    { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-center", "orderable": false },
+                    { "targets": 6, className: "text-center", "orderable": false },
+
                 ],
                 'pageLength': 10,
                 'responsive': true,
@@ -72,16 +72,16 @@
                     }
                 },
                 "columnDefs": [
-                    {  "width": "1%", "targets": 0, className: "text-center", "orderable": false },
-                    {  "targets": 1, className: "text-start", "orderable": false },
-                    {  "targets": 2, className: "text-start", "orderable": false },
-                    {  "targets": 3, className: "text-start", "orderable": false },
-                    {  "targets": 4, className: "text-center", "orderable": false },
-                    {  "targets": 5, className: "text-center", "orderable": false },
-                    {  "targets": 6, className: "text-center", "orderable": false },
-                   /* {  "targets": 7, className: "text-start", "orderable": false },
+                    { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-center", "orderable": false },
+                    { "targets": 6, className: "text-center", "orderable": false },
+                    { "targets": 7, className: "text-start", "orderable": false },
                     {  "targets": 8, className: "text-end", "orderable": false },
-                    {  "targets": 9, className: "text-end", "orderable": false },
+                    /* {  "targets": 9, className: "text-end", "orderable": false },
                     {  "targets": 10, className: "text-end", "orderable": false },
                     {  "targets": 11, className: "text-end", "orderable": false },*/
                 ],
@@ -102,11 +102,11 @@
                     { 'data': 'nama' },
                     { 'data': 'gender' },
                     { 'data': 'session' },
-                   /* { 'data': 'parent' },
-                    { 'data': 'alamat' },
-                    { 'data': 'tanggal_lahir' },
-                    { 'data': 'telepon' },
-                    { 'data': 'email' },*/
+                    { 'data': 'class' },
+                    { 'data': 'occupation' },
+                    /* { 'data': 'tanggal_lahir' },
+                     { 'data': 'telepon' },
+                     { 'data': 'email' },*/
                     { 'data': 'aksi' }
 
                 ]
@@ -182,67 +182,67 @@
             return false;
         });
 
-       
+
     });
 
-   //Pengembalian Buku
-   $('#show_data').on('click', '.btn_terima_siswa', function () {
-    var id = $(this).attr('data');
-    $.ajax({
-        type: "POST",
-        url: "/api/admission/" + id ,
-        dataType: "JSON",
-        data: { id: id },
-        success: function (data) {
-            if (data) {
-                let timerInterval
-                Swal.fire({
-                    title: 'Memuat Data...',
-                    html: 'Tunggu  <b></b>  Detik.',
-                    timer: 300,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                        const b = Swal.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                            b.textContent = Swal.getTimerLeft()
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    }
-
-                }).then((result) => {
-                    table.draw(false)
-                    
-                    Swal.fire(
-                        {
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: 'Data telah ditambahkan.',
+    //Pengembalian Buku
+    $('#show_data').on('click', '.btn_terima_siswa', function () {
+        var id = $(this).attr('data');
+        $.ajax({
+            type: "POST",
+            url: "/api/admission/" + id,
+            dataType: "JSON",
+            data: { id: id },
+            success: function (data) {
+                if (data) {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Memuat Data...',
+                        html: 'Tunggu  <b></b>  Detik.',
+                        timer: 300,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
                         }
 
-                    )
-                    Buku.draw(false)
+                    }).then((result) => {
+                        table.draw(false)
 
-                })
+                        Swal.fire(
+                            {
+                                icon: 'success',
+                                title: 'Berhasil',
+                                text: 'Data telah ditambahkan.',
+                            }
+
+                        )
+                        Buku.draw(false)
+
+                    })
 
 
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Ada yang eror!',
-                    //footer: '<a href="">Why do I have this issue?</a>'
-                })
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Ada yang eror!',
+                        //footer: '<a href="">Why do I have this issue?</a>'
+                    })
+                }
+
+
+
             }
-
-
-
-        }
+        });
+        return false;
     });
-    return false;
-});
 
 
 
