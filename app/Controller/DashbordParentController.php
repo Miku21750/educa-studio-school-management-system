@@ -260,9 +260,10 @@ class DashbordParentController
 
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'].' '.$m['last_name'];
-                $datas['ujian'] = $m['exam_name'];
+                $datas['ujian'] = $m['exam_type']  .' '.$m['semester'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'].' '.$m['section'];
+                $datas['session'] = $m['session'];
                 $datas['nilai'] = $m['score'];
                 $datas['grade'] = $m['grade_name'];
                 $tgl = AcconuntController::tgl_indo($m['date_result']);

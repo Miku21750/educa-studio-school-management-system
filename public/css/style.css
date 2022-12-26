@@ -5302,3 +5302,25 @@ body {
     margin: 50px;
   }
 }
+
+.headerPdf{
+  /* background-color: #00c853; */
+  margin-bottom: 25px;
+}
+
+.rapor-name{
+  /* background-color: #00c853; */
+  margin: 25px 0;
+}
+.rapor-nilai{
+  /* background-color: red; */
+  margin-top: 25px;
+}
+
+.text-print{
+  font-size: 12pt;
+}
+
+.pdf-cetak{
+  /* padding: 0 30px; */
+}

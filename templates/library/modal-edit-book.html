@@ -116,18 +116,15 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="code_book">ID Buku:</label>
-                                    <input name="ecode_book" id="ecode_book" type="text" placeholder="Masukan ID Buku"
-                                        class="form-control">
-                                </div>
-
-                                <div class="form-group">
                                     <label for="subject">Kategori Buku:</label>
                                     <select class="select2" name="esubject" id="esubject">
-                                        <option value="">Pilih Mata Pelajaran *</option>
-                                        {% for i in subject %}
-                                        <option value="{{i.id_subject}}">{{ i.subject_name }}</option>
-                                        {% endfor %}
+                                        <option value="Lainnya">Pilih Mata Pelajaran *</option>
+                                        <option value="Umum">Umum</option>
+                                        <option value="Buku Pelajaran">Buku Pelajaran</option>
+                                        <option value="Buku Guru">Buku Guru</option>
+                                        <option value="Jurnal">Jurnal</option>
+                                        <option value="Majalah">Majalah</option>
+                                        <option value="Novel">Novel</option>
                                     </select>
                                 </div>
 
@@ -135,16 +132,6 @@
                                     <label for="writer_book">Penulis Buku:</label>
                                     <input name="ewriter_book" id="ewriter_book" type="text"
                                         placeholder="Masukan Penulis Buku" class="form-control">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="class_book">Kelas:</label>
-                                    <select class="select2" name="eclass_book" id="eclass_book">
-                                        <option value="">Pilih Kelas *</option>
-                                        {% for i in class %}
-                                        <option value="{{i.id_class}}">{{ i.class }}</option>
-                                        {% endfor %}
-                                    </select>
                                 </div>
 
                                 <div class="form-group">
@@ -159,7 +146,9 @@
 
                                 <div class="modal-footer">
                                     <!-- <button class="footer-btn bg-warning btn btn-fill-lg" id="btn_update_book">Simpan</button> -->
-                                    <button type="button" class="btn-fill-sm radius-4 text-light btn-gradient-yellow btn-hover-bluedark" id="btn_update_book">Simpan</button>
+                                    <button type="button"
+                                        class="btn-fill-sm radius-4 text-light btn-gradient-yellow btn-hover-bluedark"
+                                        id="btn_update_book">Simpan</button>
                                 </div>
                             </div>
                         </div>

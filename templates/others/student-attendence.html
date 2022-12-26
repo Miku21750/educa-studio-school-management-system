@@ -84,9 +84,9 @@
             <div class="card-body">
                 <div class="heading-layout1">
                     <div class="item-title">
-                        <h3>Student Attendence</h3>
+                        <h3>Kehadiran Siswa</h3>
                     </div>
-                    <div class="dropdown">
+                    <!-- <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">...</a>
 
@@ -96,14 +96,14 @@
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <form class="new-added-form" id="attendSheetCheckForm">
                     <div class="row">
                         <div class="col-xl-4 col-lg-12 col-12 form-group">
-                            <label>Select Class</label>
+                            <label>Pilih Kelas</label>
                             <select class="select2" id="classAttendType" required>
-                                <option value="">Select Class</option>
+                                <option value="">Pilih Kelas</option>
                                 {% for class in class %}
                                 {% if class.id_class == 0 %}
                                 {% else %}
@@ -113,9 +113,9 @@
                             </select>
                         </div>
                         <div class="col-xl-4 col-lg-12 col-12 form-group">
-                            <label>Select Subject</label>
+                            <label>Pilih Mata Pelajaran</label>
                             <select class="select2" id="subjectAttendType" required>
-                                <option value="">Select Subject</option>
+                                <option value="">Pilih Mata Pelajaran</option>
                                 {% for subject in subject %}
                                     {% if subject.id_subject == 0 %}
                                     {% else %}
@@ -125,9 +125,9 @@
                             </select>
                         </div>
                         <div class="col-xl-4 col-lg-12 col-12 form-group">
-                            <label>Select Session</label>
+                            <label>Pilih Tahun Ajaran</label>
                             <select class="select2" id="sessionAttendType" required>
-                                <option value="">Select Session</option>
+                                <option value="">Pilih Tahun Ajaran</option>
                                 {% for sessionAttend in sessionAttend %}
                                 <option value="{{sessionAttend}}">{{sessionAttend}}</option>
                                 {% endfor %}
@@ -152,7 +152,7 @@
                     <div class="item-title">
                         <h3 id="titleAttendSheet">Attendence Sheet Of Class One: Section A, April 2019</h3>
                     </div>
-                    <div class="dropdown">
+                    <!-- <div class="dropdown">
                         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">...</a>
 
@@ -162,7 +162,7 @@
                             <a class="dropdown-item" href="#"><i
                                     class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 {# <input type="checkbox" name="" id=""> #}
                 <div class="table-responsive">

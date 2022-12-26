@@ -627,7 +627,6 @@ $(document).ready(function () {
         { "width": "5%", "targets": 5, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 6, className: "text-center", "orderable": false },
         { "width": "10%", "targets": 7, className: "text-center", "orderable": false },
-        { "width": "5%", "targets": 8, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -643,9 +642,8 @@ $(document).ready(function () {
         { 'data': 'No' },
         { 'data': 'code_book' },
         { 'data': 'name_book' },
-        { 'data': 'subject' },
+        { 'data': 'kategori' },
         { 'data': 'writer' },
-        { 'data': 'class' },
         { 'data': 'published' },
         { 'data': 'creating_date' },
         { 'data': 'aksi' }
@@ -780,7 +778,7 @@ $(document).ready(function () {
     var id_book = $('#id_book').val();
     var name_book = $('#ebook_name').val();
     var code_book = $('#ecode_book').val();
-    var subject = $('#esubject').val();
+    var kategori = $('#esubject').val();
     var writer_book = $('#ewriter_book').val();
     var class_book = $('#eclass_book').val();
     var publish_date = $('#epublish_date').val();
@@ -790,7 +788,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/library/update-book-detail",
       dataType: "JSON",
-      data: { id_book: id_book, name_book: name_book, subject: subject, writer_book: writer_book, class_book: class_book, publish_date: publish_date, upload_date: upload_date, code_book: code_book },
+      data: { id_book: id_book, name_book: name_book, kategori: kategori, writer_book: writer_book, class_book: class_book, publish_date: publish_date, upload_date: upload_date, code_book: code_book },
       success: function (data) {
         if (data) {
           $('#detail-book').modal('hide');
@@ -842,7 +840,7 @@ $('#show_book').on('click', '.book_detail', function () {
   $('#detail-book').modal('show');
   $.ajax({
     type: "GET",
-    url: "/" + "api" + "/" + "library" + "/" + id + "/book-detail",
+    url: "/api/" + "library" + "/" + id + "/book-detail",
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
@@ -1597,8 +1595,9 @@ $(document).ready(function () {
         { "width": "5%", "targets": 2, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
         { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
-        { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+        { "width": "5%", "targets": 5, className: "text-start", "orderable": false },
+        { "width": "10%", "targets":6, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 7, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -1613,9 +1612,10 @@ $(document).ready(function () {
 
       'columns': [
         { 'data': 'No' },
-        { 'data': 'exam_name' },
+        { 'data': 'exam_type' },
         { 'data': 'subject_name' },
         { 'data': 'class' },
+        { 'data': 'session' },
         { 'data': 'exam_date' },
         { 'data': 'exam_time' },
         { 'data': 'aksi' }
@@ -1663,7 +1663,7 @@ $(document).ready(function () {
 
       'columns': [
         { 'data': 'No' },
-        { 'data': 'exam_name' },
+        { 'data': 'exam_type' },
         { 'data': 'subject_name' },
         { 'data': 'class' },
         { 'data': 'exam_date' },
@@ -1680,7 +1680,7 @@ $(document).ready(function () {
   // RESET BUTTON
   $('#reset_exam').click(function (e) {
     e.preventDefault();
-    $('#eexam_name').val('');
+    $('#eexam_type').val('');
     $('#eclass').val('');
     $('#esubject').val('').change();
     $('#eexam_date').val('');
@@ -1752,7 +1752,9 @@ $(document).ready(function () {
   //Update exam
   $('#btn_update_exam').click(function (e) {
     var id_exam = $('#id_exam').val();
-    var exam_name = $('#eexam_name_edit').val();
+    var exam_type = $('[name="typeExamEdit"]').val();
+    var semester = $('[name="semesterEdit"]').val();
+    var session = $('[name="sessionEdit"]').val();
     var id_subject = $('#esubject_edit').val();
     var id_class = $('#eclass_edit').val();
     var exam_date = $('#eexam_date_send').val();
@@ -1762,7 +1764,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/exam/update-exam-detail",
       dataType: "JSON",
-      data: { id_exam: id_exam, exam_name: exam_name, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
+      data: { id_exam: id_exam, exam_type: exam_type,semester: semester,session: session, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
       success: function (data) {
         if (data) {
           $('#detail-exam').modal('hide');
@@ -1811,7 +1813,9 @@ $(document).ready(function () {
   //tambah Data
   $('#btn_add_exam').on('click', function () {
     // var id_exam = $('#id_exam').val();
-    var exam_name = $('#eexam_name').val();
+    var exam_type = $('#typeExam').val();
+    var semester = $('#semester').val();
+    var session = $('#schYearExam').val();
     var id_class = $('#eclass').val();
     var id_subject = $('#esubject').val();
     var exam_date = $('#eexam_date').val();
@@ -1819,7 +1823,9 @@ $(document).ready(function () {
     var exam_end = $('#eexam_end').val();
     // console.log(id_class);
     // console.log(id_subject);
-    if (exam_name == "" ||
+    if (exam_type == "" ||
+      semester == "" ||
+      session == "" ||
       id_class == "" ||
       id_subject == "" ||
       exam_date == "" ||
@@ -1836,7 +1842,7 @@ $(document).ready(function () {
         type: "POST",
         url: "/api/exam/add-exam",
         dataType: "JSON",
-        data: { exam_name: exam_name, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
+        data: { exam_type : exam_type, semester : semester, session : session, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
         success: function (data) {
           if (data) {
             console.log(data)
@@ -1857,12 +1863,14 @@ $(document).ready(function () {
                 clearInterval(timerInterval)
               }
             }).then((result) => {
-              $('#eexam_name').val('');
-              $('#eclass').val('');
-              $('#esubject').val('').change();
-              $('#eexam_date').val('');
-              $('#eexam_start').val('');
-              $('#eexam_end').val('');
+              // $('#typeExam').val('').change();
+              // $('#semester').val('').change();
+              // $('#schYearExam').val('').change();
+              // $('#eclass').val('');
+              // $('#esubject').val('').change();
+              // $('#eexam_date').val('');
+              // $('#eexam_start').val('');
+              // $('#eexam_end').val('');
               examTable.draw(false)
               Swal.fire(
                 {
@@ -1904,11 +1912,13 @@ $('#show_exam').on('click', '.exam_detail', function () {
     success: function (data) {
       // console.log(data);
       $('#detail-exam').on('shown.bs.modal', function () {
-        $('#eexam_name').focus();
+        $('#eexam_type').focus();
       });
       $('#detail-exam').modal('show');
       $('[name="id_exam"]').val(data.id_exam);
-      $('[name="eexam_name_edit"]').val(data.exam_name);
+      $('[name="typeExamEdit"]').val(data.exam_type).change();
+      $('[name="semesterEdit"]').val(data.semester).change();
+      $('[name="sessionEdit"]').val(data.session).change();
       $('[name="esubject"]').val(data.id_subject).change();
       $('[name="eclass"]').val(data.id_class).change();
       $('[name="eexam_date"]').val(data.exam_date);
@@ -2480,6 +2490,7 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
+  
   //Midtrans start here
   $('#payment').on('click', '.item_cek', function (e) {
     // console.log('itemkeklik')

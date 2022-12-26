@@ -16,6 +16,7 @@ use App\Controller\StudentController;
 use App\Controller\SubjectController;
 use App\Controller\TeacherController;
 use App\Controller\TransportController;
+use App\Controller\PrintPDFController;
 use App\middleware\Auth;
 use Medoo\Medoo;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -1633,6 +1634,13 @@ return function (App $app) {
         }
     )->add(new Auth());
     $app->get(
+        '/getExamBasedOnStudent',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            return ExamController::getExamBasedOnStudent($this, $request, $response, $args);
+        }
+    )->add(new Auth());
+    $app->get(
         '/tugas',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
@@ -2029,6 +2037,7 @@ return function (App $app) {
         '/update-final-score',
         function (Request $request, Response $response, array $args) use ($container) {
             $data = $request->getParams();
+
             $update = $container->db->update('tbl_final_scores',[
                 'nilai_abs'=>$data['nAbs'],
                 'nilai_1'=>$data['n1'],
@@ -2545,6 +2554,16 @@ return function (App $app) {
         }
     )->add(new Auth());
     // End Map
+
+    // Print PDF
+    $app->get(
+        '/printPDF',
+        function (Request $request, Response $response, array $args) use ($container) {
+            return PrintPDFController::tampil_data($this, $request, $response, $args);
+            // $container->view->render($response, 'others/printPdf.html', $args);
+        }
+    );
+    // End Print PDF
 
     // Account
     // Set profile setting
