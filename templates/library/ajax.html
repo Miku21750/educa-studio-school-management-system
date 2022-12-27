@@ -25,7 +25,6 @@
                     { "targets": 5, className: "text-center", "orderable": false },
                     { "targets": 6, className: "text-center", "orderable": false },
                     { "targets": 7, className: "text-center", "orderable": false },
-                    { "targets": 8, className: "text-center", "orderable": false },
 
                 ],
                 'pageLength': 10,
@@ -41,9 +40,8 @@
                     { 'data': 'No' },
                     { 'data': 'code_book' },
                     { 'data': 'name_book' },
-                    { 'data': 'subject' },
+                    { 'data': 'kategori' },
                     { 'data': 'writer' },
-                    { 'data': 'class' },
                     { 'data': 'creating_date' },
                     { 'data': 'status' },
                     { 'data': 'aksi' }
@@ -88,7 +86,6 @@
                     { "targets": 6, className: "text-end", "orderable": false },
                     { "targets": 7, className: "text-end", "orderable": false },
                     { "targets": 8, className: "text-end", "orderable": false },
-                    { "targets": 9, className: "text-end", "orderable": false },
 
                 ],
                 'pageLength': 10,
@@ -114,7 +111,6 @@
                     { 'data': 'tanggal_pengembalian' },
                     { 'data': 'telat' },
                     { 'data': 'denda' },
-                    { 'data': 'aksi' },
                 ]
 
 
@@ -321,15 +317,17 @@
 
         //Pinjam Buku
         $('#btn_pinjam').on('click', function () {
-            var kode = $('#pinjam').val();
+            var id_user = $('#get-siswa').val();
+            var id_book = $('#id_book').val();
+            var tanggal_pinjam = $('#get_tgl_pinjam').val();
             $.ajax({
                 type: "POST",
                 url: "/api/pinjam",
                 dataType: "JSON",
-                data: { kode: kode },
+                data: { id_user: id_user, id_book : id_book, tgl_pinjam: tanggal_pinjam },
                 success: function (data) {
                     if (data) {
-                        $('#pinjam-modal').modal('hide');
+                        $('#get-pinjam').modal('hide');
                         let timerInterval
                         Swal.fire({
                             title: 'Memuat Data...',
@@ -358,7 +356,7 @@
                                 }
 
                             )
-                            Buku.draw(false)
+                            Siswa.draw(false)
 
                         })
 
@@ -386,6 +384,37 @@
             $('[name="id_peminjaman"]').val(id);
         });
 
+        //Get_Pinjam_Buku
+        $('#show_buku').on('click', '.get_pinjam', function () {
+            var id = $(this).attr('data');
+            $.ajax({
+                type: "GET",
+                url: "/" + "api" + "/" + id + "/get-pinjam",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (data) {
+                    console.log(data);
+                    $('#get-pinjam').on('shown.bs.modal', function (e) {
+                        // $('#mScoreExamInput').focus();
+                    }).modal('show');
+
+                    $('[name="id_peminjaman"]').val(data.id_peminjaman);
+                    $('[name="judul"]').val(data.name_book);
+                    $('[name="id_buku"]').val(data.code_book);
+                    $('[name="NISN"]').val(data.NISN);
+                    $('[name="nama"]').val(data.first_name + ' ' + data.last_name);
+                    $('[name="penulis"]').val(data.writer_book);
+                    $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
+                    $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
+                    $('[name="ket"]').val(data.ket).change();
+                    $('[name="id_book"]').val(data.id_book).change();
+
+
+                    // });
+                }
+            });
+            return false;
+        });
         //Show_Pinjam_Buku
         $('#show_pinjam').on('click', '.item_ubah_pinjam', function () {
             var id = $(this).attr('data');

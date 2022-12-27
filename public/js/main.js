@@ -1612,7 +1612,7 @@ $(document).ready(function () {
 
       'columns': [
         { 'data': 'No' },
-        { 'data': 'exam_name' },
+        { 'data': 'exam_type' },
         { 'data': 'subject_name' },
         { 'data': 'class' },
         { 'data': 'session' },
@@ -1663,7 +1663,7 @@ $(document).ready(function () {
 
       'columns': [
         { 'data': 'No' },
-        { 'data': 'exam_name' },
+        { 'data': 'exam_type' },
         { 'data': 'subject_name' },
         { 'data': 'class' },
         { 'data': 'exam_date' },
@@ -1680,7 +1680,7 @@ $(document).ready(function () {
   // RESET BUTTON
   $('#reset_exam').click(function (e) {
     e.preventDefault();
-    $('#eexam_name').val('');
+    $('#eexam_type').val('');
     $('#eclass').val('');
     $('#esubject').val('').change();
     $('#eexam_date').val('');
@@ -1912,7 +1912,7 @@ $('#show_exam').on('click', '.exam_detail', function () {
     success: function (data) {
       // console.log(data);
       $('#detail-exam').on('shown.bs.modal', function () {
-        $('#eexam_name').focus();
+        $('#eexam_type').focus();
       });
       $('#detail-exam').modal('show');
       $('[name="id_exam"]').val(data.id_exam);
@@ -2449,6 +2449,7 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
+  
   $("#get-siswa").select2({
     ajax: {
       url: "/api/get-siswa",
@@ -2491,6 +2492,24 @@ $('document').ready(function () {
   })
   
   //Midtrans start here
+  $('#payment').on('click', '.item_cek', function (e) {
+    // console.log('itemkeklik')
+    e.preventDefault();
+    // return console.log(this);
+    var id_finance = $(this).attr('data-cek');
+    $.ajax({
+        type: "GET",
+        url: "/api/cek-midtrans",
+        data: {
+            id: id_finance
+        },
+        dataType: "JSON",
+        success: function (response) {
+          console.log(response);
+          
+        }
+    });
+  });
   $('#payment').on('click', '.item_bayar', function (e) {
     // console.log('itemkeklik')
     e.preventDefault();

@@ -125,10 +125,12 @@
                     <td>Agama:</td>
                     <td class="font-medium text-dark-medium">{{data.religion}}</td>
                   </tr>
+                  {% if session.type == 3 %}
                   <tr>
                     <td>Username:</td>
                     <td class="font-medium text-dark-medium">{{data.username}}</td>
                   </tr>
+                  {% endif %}
                   <tr>
                     <td>E-mail:</td>
                     <td class="font-medium text-dark-medium">
@@ -139,10 +141,13 @@
                     <td>Golongan Darah:</td>
                     <td class="font-medium text-dark-medium">{{ data.blood_group }}</td>
                   </tr>
+                  {% if session.type == 3 %}
                   <tr>
                     <td>Kelas:</td>
                     <td class="font-medium text-dark-medium">{{data.class}} {{data.section}}</td>
                   </tr>
+                  {% endif %}
+                 
                   <tr>
                     <td>Keterangan :</td>
                     <td class="font-medium text-dark-medium">{{data.occupation}} {{data.occupation_place}}</td>
@@ -276,6 +281,8 @@
                   </select>
 
                 </div>
+                {% if session.type == 3 %}
+
                 <div class="col-6 my-3">
                   <label>Orang tua:</label>
                   <select name="id_parent" class="select2" id="get-ortu" style="width: 100%;">
@@ -284,6 +291,15 @@
                   </select>
 
                 </div>
+                {% endif %}
+
+                {% if session.type == 4 %}
+                <div class="col-xl-3 col-lg-6 col-12 form-group" hidden>
+                  <label>Kelas *</label>
+                  <input name="id_parent" type="text" value="{{session.id_user}}">
+                </div>
+                {% endif %}
+
 
 
                 <div class="col-6 my-3">
@@ -295,11 +311,14 @@
                   <input type="text" placeholder="Masukan Agamamu" name="religion" class="form-control"
                     value="{{ data.religion }}">
                 </div>
+                {% if session.type == 3 %}
                 <div class="col-6 my-3">
                   <label>Username:</label>
                   <input type="text" placeholder="username" name="username" class="form-control"
                     value="{{ data.username }}" readonly>
                 </div>
+                {% endif %}
+               
                 <div class="col-6 my-3">
                   <label>E-mail:</label>
                   <input type="email" name="email" class="form-control" value="{{ data.email }}" readonly>
@@ -315,6 +334,7 @@
                     <option value="O">O</option>
                   </select>
                 </div>
+                {% if session.type == 3 %}
                 <div class="col-6 my-3">
                   <label>Kelas:</label>
                   <select name="id_class" class="select2" id="id_class_detail">
@@ -323,6 +343,14 @@
                     {% endfor %}
                   </select>
                 </div>
+                {% endif %}
+                {% if session.type == 4 %}
+                <div class="col-xl-3 col-lg-6 col-12 form-group" hidden>
+                  <label>Kelas *</label>
+                  <input name="id_class" type="text" value="0">
+                </div>
+                {% endif %}
+
                 <div class="col-6 my-3">
                   <label>Status :</label>
                   <input type="text" name="occupation" placeholder="Silahkan Masukan Data" class="form-control"

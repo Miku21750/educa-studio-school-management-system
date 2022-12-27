@@ -704,6 +704,7 @@ return function (App $app) {
                         return StudentController::tampil_alumni($this, $request, $response, $args);
                     }
             );
+            
             $app->post(
                 '/delete-student',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -764,6 +765,15 @@ return function (App $app) {
                         ]);
                     }
             );
+
+            $app->get(
+                '/studentacc',
+                function (Request $request, Response $response, array $args) use ($app) {
+                        return StudentController::tampil_acc($this, $request, $response, $args);
+                    }
+            );
+
+            //teacher
             $app->get(
                 '/allteachers',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -971,6 +981,16 @@ return function (App $app) {
                         ]);
                     }
             );
+            $app->get(
+                '/{id}/get-pinjam',
+                function (Request $request, Response $response, array $args) use ($app) {
+                        $data = $args['id'];
+                        // return var_dump($data);
+                        return LibraryController::get_pinjam($this, $request, $response, [
+                            'data' => $data
+                        ]);
+                    }
+            );
             $app->post(
                 '/update-peminjaman',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -1021,6 +1041,40 @@ return function (App $app) {
                 }
             );
             //Get Payment Midtrans
+            $app->get(
+                '/cek-midtrans',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $id = $request->getParsedBody();
+                    $serverkey = 'SB-Mid-server-txkDtjC1C1GzpkZVcvQYyJZB';
+                        
+                    $curl = curl_init();
+
+                    curl_setopt_array($curl, array(
+                      CURLOPT_URL => 'https://api.sandbox.midtrans.com/v2/'. $id .'/status',
+                      CURLOPT_RETURNTRANSFER => true,
+                      CURLOPT_ENCODING => "",
+                      CURLOPT_MAXREDIRS => 10,
+                      CURLOPT_TIMEOUT => 0,
+                      CURLOPT_FOLLOWLOCATION => true,
+                      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                      CURLOPT_CUSTOMREQUEST => "GET",
+                      CURLOPT_POSTFIELDS =>"\n\n",
+                      CURLOPT_HTTPHEADER => array(
+                        "Accept: application/json",
+                        "Content-Type: application/json",
+                        "Authorization: {SB-Mid-server-txkDtjC1C1GzpkZVcvQYyJZB}"
+                      ),
+                    ));
+                    
+                    $response = curl_exec($curl);
+                    
+                    curl_close($curl);
+
+                    echo $response;
+                    // echo json_encode($response);
+                    // return AcconuntController::get_data_midtrans($this, $request, $response, $args);
+                }
+            );
             $app->get(
                 '/get-midtrans',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -1220,6 +1274,12 @@ return function (App $app) {
         return StudentController::student_promotion($this, $request, $response, [
             'data' => $data,
         ]);
+    }
+    );
+    $app->get('/student-acc', function (Request $request, Response $response, array $args) use ($container) {
+     
+
+        return StudentController::student_acc($this, $request, $response, $args);
     }
     );
 

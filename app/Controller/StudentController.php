@@ -72,6 +72,7 @@ class StudentController
         $student = $app->db->select('tbl_users', [
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_admissions' => ["tbl_users.id_user" => 'id_user'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], '*', [
             'id_user_type' => $type,
@@ -123,6 +124,7 @@ class StudentController
                 [
                     '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
                     '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+                    '[><]tbl_admissions' => ["tbl_users.id_user" => 'id_user'],
                     '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
                 ],
                 '*',
@@ -136,6 +138,7 @@ class StudentController
         $student = $app->db->select('tbl_users', [
             '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_admissions' => ["tbl_users.id_user" => 'id_user'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], '*', $conditions);
 
@@ -411,6 +414,205 @@ class StudentController
         // return var_dump($data);
         echo json_encode($json_data);
     }
+    public static function tampil_acc($app, $req, $rsp, $args)
+    {
+        $type = 1;
+        $tbl_classes = 'tbl_classes';
+        // $type_user = $SESSION['type'];
+
+
+        if ($_SESSION['type'] == 3) {
+            $student = $app->db->select('tbl_users', [
+                '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+                '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+            ], '*', [
+                'id_user_type' => $type,
+                'tbl_users.id_class' => 0,
+            ]);        
+        }else{
+            $student = $app->db->select('tbl_users', [
+                '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+                '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+            ], '*', [
+                'id_user_type' => $type,
+                'tbl_users.id_class' => 0,
+                'id_parent' => $_SESSION['id_user'],
+            ]);  
+        }
+
+       
+        
+        // return die(var_dump($type_user));
+
+
+        $columns = array(
+            0 => 'id',
+        );
+
+        $totaldata = count($student);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+        $order = $req->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $req->getParam('order');
+        $dir = $dir[0]['dir'];
+
+        if ($_SESSION['type'] == 3) {
+            $conditions = [
+                "LIMIT" => [$start, $limit],
+                'id_user_type' => $type,
+                'tbl_users.id_class' => 0,
+    
+            ];
+        }else {
+            $conditions = [
+                "LIMIT" => [$start, $limit],
+                'id_user_type' => $type,
+                'tbl_users.id_class' => 0,
+                'id_parent' => $_SESSION['id_user'],
+            ];
+        }
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+
+            $conditions['OR'] = [
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+                'tbl_users.NISN[~]' => '%' . $search . '%',
+                'tbl_users.gender[~]' => '%' . $search . '%',
+
+            ];
+            if ($_SESSION['type'] == 3) {
+                $limit = [
+                    "LIMIT" => [$start, $limit],
+                    'id_user_type' => $type,
+                    'tbl_users.id_class' => 0,
+    
+                ];            
+            }else {
+                $limit = [
+                    "LIMIT" => [$start, $limit],
+                    'id_user_type' => $type,
+                    'tbl_users.id_class' => 0,
+                    'id_parent' => $_SESSION['id_user'],
+                ];            
+            }
+           
+            
+            $student = $app->db->select(
+                'tbl_users',
+                [
+                    '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+                    '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+                ],
+                '*',
+                $limit
+            );
+            $totaldata = count($student);
+            $totalfiltered = $totaldata;
+            // return var_dump($totaldata);
+        }
+
+        $student = $app->db->select('tbl_users', [
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+        ], '*', $conditions);
+
+        $data = array();
+
+
+        if (!empty($student)) {
+            $no = $req->getParam('start') + 1;
+
+            foreach ($student as $m) {
+                $admission = $app->db->select('tbl_admissions', '*', [
+                    'id_user' => $m['id_user']
+                ]);
+                if ($admission == null) {
+               
+
+                $datas['no'] = $no . '.';
+                $datas['nisn'] = $m['NISN'];
+                $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
+                $datas['gender'] = $m['gender'];
+                $datas['session'] = $m['session'];
+
+                $username = $app->db->select('tbl_users', 'first_name', [
+                    'id_user' => $m['id_user']
+                ]);
+                if ($username[0] == '') {
+                    $datas['nama'] = $m['username'];
+                } else {
+                    $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
+                }
+
+
+              
+
+
+
+                if ($admission == null && $_SESSION['type'] == 3) {
+
+                    $datas['aksi'] = '<div class="dropdown p-3">
+
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        Detail
+                    </a>
+                    <a class="dropdown-item btn btn-light btn_terima_siswa" id="btn_terima_siswa" data="' . $m['id_user'] . '">
+                    <i class="fas fa-sharp fa-solid fa-school text-primary"></i>
+                    Terima Siswa
+                </a>
+                  
+                </div>
+            </div>';
+                } else if ($_SESSION['type'] != 3) {
+                    $datas['aksi'] = '<div class="dropdown p-3">
+
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                        aria-expanded="false">
+                        <span class="flaticon-more-button-of-three-dots"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right p-3">
+                        <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                            <i class="fas fa-trash text-orange-red"></i>
+                            Hapus
+                        </a>
+                        <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                            <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                            Detail
+                        </a>
+                       
+                      
+                    </div>
+                </div>';                }
+                $data[] = $datas;
+                $no++;
+            }
+        }
+        }
+        // return var_dump($student);
+
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        echo json_encode($json_data);
+    }
 
 
     public static function student_detail($app, $request, $response, $args)
@@ -632,14 +834,15 @@ class StudentController
                 "status" => 1,
 
             ]);
-
-            $last_id = $app->db->id();
-            $tanggal = date("Y-m-d ");
-
-            $id_masuk = $app->db->insert('tbl_admissions', [
-                "id_user" => $last_id,
-                "admission_date" => $tanggal
-            ]);
+            if ($_SESSION['type'] == 3) {
+                $last_id = $app->db->id();
+                $tanggal = date("Y-m-d ");
+    
+                $id_masuk = $app->db->insert('tbl_admissions', [
+                    "id_user" => $last_id,
+                    "admission_date" => $tanggal
+                ]);            }
+           
             $_SESSION['berhasil'] = true;
         } else {
             $_SESSION['email'] = true;
@@ -678,6 +881,21 @@ class StudentController
             'berhasil' => $berhasil
 
 
+        ]);
+    }
+    public static function student_acc($app, $request, $response, $args)
+    {
+        $id = $args['data'];
+
+       
+
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
+        // return var_dump($data);
+
+        $app->view->render($response, 'students/acc-student.html', [
+            'type' => $_SESSION['type'],
+            'berhasil' => $berhasil
         ]);
     }
     public static function add_promotion($app, $req, $rsp, $args)

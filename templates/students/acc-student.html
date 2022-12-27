@@ -1,0 +1,82 @@
+{% extends "layout/master.html" %}
+{% set title = "All Student" %}
+{% set typeFrontEnd = "Student" %}
+{% set section_type = "Acc Student" %}
+{% block content %}
+{% if berhasil == true %}
+<script>
+
+  let timerInterval
+  Swal.fire({
+    title: 'Memuat Data...',
+    html: 'Tunggu  <b></b>  Detik.',
+    timer: 400,
+    timerProgressBar: true,
+    didOpen: () => {
+      Swal.showLoading()
+      const b = Swal.getHtmlContainer().querySelector('b')
+      timerInterval = setInterval(() => {
+        b.textContent = Swal.getTimerLeft()
+      }, 300)
+    },
+    willClose: () => {
+      clearInterval(timerInterval)
+    }
+  }).then((result) => {
+    /* Read more about handling dismissals below */
+    if (result.dismiss === Swal.DismissReason.timer) {
+      Swal.fire(
+        {
+          icon: 'success',
+          title: 'Berhasil',
+          text: 'Data telah ditambahkan.',
+        }
+
+      )
+    }
+  })
+</script>
+{% endif %}
+
+<!-- Student Table Area Start Here -->
+<div class="card height-auto">
+  <div class="card-body">
+    <div class="heading-layout1">
+      <div class="item-title">
+        <h3>Data Calon Siswa</h3>
+      </div>
+
+    </div>
+
+    <div class="table-responsive expenses-table-box">
+      <table class="table text-nowrap" id="calon">
+        <thead class="text-center">
+          <tr>
+
+            <th>No</th>
+            <th>NISN</th>
+            <th>Foto</th>
+            <th>Nama</th>
+            <th>Jenis Kelamin</th>
+            <th>Periode</th>
+            <th></th>
+           
+          </tr>
+        </thead>
+        <tbody id="show_data">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Student Table Area End Here -->
+<!-- Teacher Table Area End Here -->
+{% include "students/modal.html" %}
+{% block modal %}
+
+{% endblock modal %}
+{% include "students/ajaxstudent.html" %}
+{% block ajax %}
+{% endblock ajax %}
+
+{% endblock content %}

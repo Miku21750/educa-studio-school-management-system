@@ -113,6 +113,7 @@
             <option value="Perempuan">Perempuan</option>
           </select>
         </div>
+        {% if session.type == 3 %}
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Kelas *</label>
           <select class="select2" name="id_class">
@@ -123,6 +124,14 @@
 
           </select>
         </div>
+        {% endif %}
+        {% if session.type == 4 %}
+        <div class="col-xl-3 col-lg-6 col-12 form-group" hidden>
+          <label>Kelas *</label>
+          <input name="id_class" type="text" value="0">
+        </div>
+        {% endif %}
+        
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Promote Session *</label>
           <select name="session" class="form-control select2" id="dropdownYear">
@@ -132,13 +141,22 @@
 
         </div>
         
-       
+        {% if session.type == 3 %}
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Orang Tua</label>
               <select class="select2" name="id_parent" id="get-ortu" style="width: 100%;">
                 <option value="">Silahkan pilih</option>                
               </select>
         </div>
+        {% endif %}
+
+        {% if session.type == 4 %}
+        <div class="col-xl-3 col-lg-6 col-12 form-group" hidden>
+          <label>Kelas *</label>
+          <input name="id_parent" type="text" value="{{session.id_user}}">
+        </div>
+        {% endif %}
+
 
        
 

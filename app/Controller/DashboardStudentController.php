@@ -148,7 +148,7 @@ class DashboardStudentController
             "[><]tbl_exam_results" => ["id_exam" => "id_exam"]
         ], [
             "tbl_exams.id_exam",
-            "tbl_exams.exam_name",
+            "tbl_exams.exam_type",
             "tbl_exams.exam_date",
             "tbl_exam_results.id_subject",
             "tbl_exam_results.score"
@@ -378,7 +378,7 @@ class DashboardStudentController
 
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
-                $datas['ujian'] = $m['exam_name'];
+                $datas['ujian'] = $m['exam_type']. ' ' . $m['semester'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
                 $datas['nilai'] = $m['score'];

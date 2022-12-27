@@ -155,6 +155,10 @@ class DashbordParentController
                         <i class="fas fa-money text-success"></i>
                         Bayar
                     </a>
+                    <a class="dropdown-item btn btn-light item_cek" data-cek="' . $m['order_id'] . '">
+                        <i class="fas fa-money text-success"></i>
+                        Cek
+                    </a>
                    
                    
                 </div>

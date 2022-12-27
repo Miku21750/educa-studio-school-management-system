@@ -125,7 +125,7 @@ class ExamController
                 $examStart = strtotime($m['exam_start']);
                 $examEnd = strtotime($m['exam_end']);
                 $datas['No'] = $no . '.';
-                $datas['exam_name'] = $m['exam_type'] . ' '. $m['semester'];
+                $datas['exam_type'] = $m['exam_type'] . ' '. $m['semester'];
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['class'] = $m['class'] . ' ' . $m['section'];
                 $datas['session'] = $m['session'];
@@ -174,7 +174,7 @@ class ExamController
             '[><]tbl_users' => ['id_class' => 'id_class']
         ], [
             'id_exam(id_exam)',
-            'exam_name(exam_name)',
+            'exam_type(exam_type)',
             'subject_name(subject_name)',
             'class(class)',
             'section(section)',
@@ -206,7 +206,7 @@ class ExamController
 
             ];
             $conditions['OR'] = [
-                'tbl_exams.exam_name[~]' => '%' . $search . '%',
+                'tbl_exams.exam_type[~]' => '%' . $search . '%',
                 'tbl_subjects.subject_name[~]' => '%' . $search . '%',
                 'tbl_classes.class[~]' => '%' . $search . '%',
                 'tbl_exams.exam_date[~]' => '%' . $search . '%',
@@ -223,7 +223,7 @@ class ExamController
                     '[>]tbl_users' => ['id_class' => 'id_class']
                 ],
                 [
-                    'exam_name(exam_name)',
+                    'exam_type(exam_type)',
                     'subject_name(subject_name)',
                     'class(class)',
                     'section(section)',
@@ -245,7 +245,7 @@ class ExamController
             '[>]tbl_users' => ['id_class' => 'id_class']
         ], [
             'id_exam(id_exam)',
-            'exam_name(exam_name)',
+            'exam_type(exam_type)',
             'subject_name(subject_name)',
             'class(class)',
             'section(section)',
@@ -262,7 +262,7 @@ class ExamController
                 $examStart = strtotime($m['exam_start']);
                 $examEnd = strtotime($m['exam_end']);
                 $datas['No'] = $no . '.';
-                $datas['exam_name'] = $m['exam_name'];
+                $datas['exam_type'] = $m['exam_type'];
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['class'] = $m['class'] . ' ' . $m['section'];
                 $exam_date = AcconuntController::tgl_indo($m['exam_date']);
@@ -856,7 +856,7 @@ class ExamController
 
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
-                $datas['ujian'] = $m['exam_name'];
+                $datas['ujian'] = $m['exam_type'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
                 $datas['nilai'] = $m['score'];
