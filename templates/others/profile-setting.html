@@ -53,9 +53,11 @@
                             <li>
                                 <a href="" id="editButton"><i class="far fa-edit"></i></a>
                             </li>
+                            {% if session.type == 1 %}
                             <li>
                                 <a href="#" id="printPdfMyProfile"><i class="fas fa-print"></i></a>
                             </li>
+                            {% endif %}
                             <!-- <li>
                                 <a href=""><i class="fas fa-download"></i></a>
                             </li> -->
@@ -208,7 +210,7 @@
             sodale word moun taiery. #}
             </p>
             <div class="row form-group">
-                <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
+                <input type="text" name="id_user" id="id_user_kode" value="{{ data.id_user }}" hidden>
                 <div class="col-6 my-3">
                     <label for="first_name">Nama Depan: </label>
                     <input type="text" placeholder="Masukan nama depan" name="first_name" class="form-control"
@@ -276,12 +278,12 @@
                     <input id="viewAdditionalSetting" value="Additional Setting"
                         class="btn-lg btn-secondary mx-3 float-right"> -->
 
-                <div class="col-12 form-group mg-t-8">
-                    <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark m-2"
-                        id="submitMessage">Simpan</button>
-                    <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow m-2"
-                        id="viewAdditionalSetting">Additional Setting</button>
-                </div>
+            <div class="col-12 form-group mg-t-8">
+                <button type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark m-2"
+                    id="submitMessage">Simpan</button>
+                <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow m-2"
+                    id="viewAdditionalSetting">Additional Setting</button>
+            </div>
             </form>
         </div>
     </div>
@@ -452,17 +454,25 @@
 
         $('#selectGenderEditProfile').val(gend).change();
         $('#selectBloodGroupEditProfile').val(BlGroup).change();
+        
         $('#printPdfMyProfile').click(function (e) {
 
-            $('#myProfilePrintableArea').clone("#print-me");
+            const id = $('#id_user_kode').val();
+            window.open('/cetakPDF/'+id,'_blank');
+
+            // $('#myProfilePrintableArea').clone("#print-me");
 
             // console.log($('#print-me').html())
+
             //Print the window.
-            window.print();
+            // window.print();
+
             //Restore the styles.
-            $("body").removeClass("printing");
+            // $("body").removeClass("printing");
+
             //Clear up the div.
-            $("#print-me").empty();
+            // $("#print-me").empty();
+
             //  e.preventDefault();
             // w=window.open();
             //w.document.write($('#showDataDetailAccountSetting').html());

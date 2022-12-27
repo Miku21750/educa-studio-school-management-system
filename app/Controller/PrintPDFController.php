@@ -26,6 +26,7 @@ class PrintPDFController
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
+        
         $tbl_classes = 'tbl_classes';
 
         $rapor = $app->db->select('tbl_final_scores', [
@@ -49,15 +50,6 @@ class PrintPDFController
         ],[
             'id_user' => '4'
         ]);
-        // return die(var_dump($rapor));
-
-        // $json_data = array(
-        //     "draw"            => intval($req->getParam('draw')),
-        //     "recordsTotal"    => intval($totaldata),
-        //     "recordsFiltered" => intval($totalfiltered),
-        //     "data"            => $data
-        // );
-        // echo json_encode($json_data);
         
         $app->view->render($rsp, 'others/printPdf.html', [
             'rapor' => $rapor,
@@ -65,6 +57,61 @@ class PrintPDFController
             'nisn' => $rapor[0]['nisn'],
             'kelas' => $rapor[0]['class']. ' ' . $rapor[0]['section'],
             'scyear' => $rapor[0]['session'],
+        ]);
+    }
+    
+    public static function printPDF($app, $req, $rsp, $args)
+    {
+        $id = $args['data'];
+        $tbl_classes = 'tbl_classes';
+
+        $rapor = $app->db->select('tbl_final_scores', [
+            '[><]tbl_classes' => 'id_class',
+            '[><]tbl_subjects' => 'id_subject',
+            // '[><]tbl_exam_grades' => 'id_exam_grade',
+            '[><]tbl_users' => 'id_user',
+            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+        ], [
+            'first_name(first_name)',
+            'last_name(last_name)',
+            'nisn(nisn)',
+            'photo_user(photo_user)',
+            'session(session)',
+            'class(class)',
+            'section(section)',
+            'subject_name(subject_name)',
+            'nilai_abs(nilai_abs)',
+            'nilai_1(nilai_1)',
+            'nilai_2(nilai_2)',
+            'nilai_3(nilai_3)',
+            'nilai_akhir(nilai_akhir)',
+            // 'grade_name(grade_name)',
+        ],[
+            'id_user' => $id
+        ]);
+
+        $jumlahData = count($rapor);
+
+        $jumlahNilai = 0;
+        foreach ($rapor as $r) {
+            $jumlahNilai += $r['nilai_akhir'];
+        }
+
+        $rata2 = round($jumlahNilai/$jumlahData, 2);
+
+        // return $rsp->withJson($jumlahNilai);
+
+        // die(var_dump($jumlahNilai));
+
+        $app->view->render($rsp, 'others/printPdf.html', [
+            'rapor' => $rapor,
+            'nama' => $rapor[0]['first_name'] . ' ' . $rapor[0]['last_name'],
+            'nisn' => $rapor[0]['nisn'],
+            'kelas' => $rapor[0]['class']. ' ' . $rapor[0]['section'],
+            'scyear' => $rapor[0]['session'],
+            'foto' => $rapor[0]['photo_user'],
+            'jmlNilai' => $jumlahNilai,
+            'average' => $rata2,
         ]);
     }
 }
