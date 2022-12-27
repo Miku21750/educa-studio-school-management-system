@@ -355,9 +355,7 @@
     //    
     //}
     function drawTask() {
-        if ($('#viewTaskSheetButton').attr('disabled') == true) {
-            return
-        }
+        
         $('#studentFormTaskViewSheet').empty();
         $('#dateTaskViewSheet').empty();
         var classTaskType = $('#classTaskType').val(),
@@ -383,7 +381,7 @@
             success: function (response) {
                 console.log(response)
                 viewStudent = response.dataStudentTaskSuccess
-                $('#viewTaskSheetButton').attr('disabled', true)
+                //$('#viewTaskSheetButton').attr('disabled', true)
                 $('#taskSheetView').show();
                 $('#studentFormTaskViewSheet').append('<input type="text" name="subject" value="' + subjectTaskType + '" hidden></input><input type="text" name="class" value="' + classTaskType + '" hidden></input>')
                 $('#titleTaskSheet').html('Task Sheet Of Class ' + viewStudent[0]

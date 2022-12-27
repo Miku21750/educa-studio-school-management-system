@@ -996,7 +996,7 @@ class ExamController
                 // var_dump($insert);
             }
         }
-        $final_score = $app->db->select('tbl_final_scores', '*', [
+        $final = $app->db->select('tbl_final_scores', '*', [
             'id_class' => $id_class,
             'id_subject'=>$id_subject
             
@@ -1026,8 +1026,6 @@ class ExamController
             $conditions['OR'] = [
                 'tbl_users.first_name[~]' => '%' . $search . '%',
                 'tbl_users.last_name[~]' => '%' . $search . '%',
-
-
             ];
             $final = $app->db->select(
                 'tbl_final_scores',

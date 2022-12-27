@@ -33,7 +33,6 @@
             <option value="XII">XII</option>
           </select>
         </div>
-
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Bagian</label>
           <select id="bagian" class="select2">
@@ -43,6 +42,14 @@
             {% endfor %}
           </select>
         </div>
+        {# <div class="col-xl-3 col-lg-6 col-12 form-group">
+          <label>Semester</label>
+          <select id="semester" class="select2">
+            <option value="">Mohon Dipilih</option>
+            <option value="Semester 1">Semester 1</option>
+            <option value="Semester 2">Semester 2</option>
+          </select>
+        </div> #}
         <div class="col-xl-3 col-lg-6 col-12 form-group">
           <label>Wali Kelas</label>
           <select class="select2" id="guru" style="width: 100%;">
@@ -101,7 +108,7 @@
         </div>
 
         <div class="col-12 form-group mg-t-8">
-          <button return false;" type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
+          <button type="button" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark"
             id="submitBtn">
             Save
           </button>
@@ -148,6 +155,7 @@
     var namaGuru = $("#guru").val();
     var kelas = $("#kelas").val();
     var bagian = $("#bagian").val();
+    var semester = $('#semester').val();
 
     if (kelas.length == "" || bagian.length == "" || namaGuru.length == "") {
       Swal.fire({
@@ -180,9 +188,10 @@
             'success'
           );
 
-          $("#kelas").val("").change();
-          $("#bagian").val("").change();
-          $("#guru").val("").change();
+          //$("#kelas").val("").change();
+          //$("#bagian").val("").change();
+          //$("#guru").val("").change();
+          //$("#semester").val("").change();
 
           // remove attr sesudah submit
           $(function () {
