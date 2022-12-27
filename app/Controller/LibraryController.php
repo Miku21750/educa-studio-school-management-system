@@ -192,7 +192,7 @@ class LibraryController
 
                
 
-                if ($m['status_buku'] == 'Ada' && $_SESSION['type'] == 3 ) {
+                if ($m['status_buku'] == 'Ada' && $_SESSION['type'] != 4  ) {
                     $datas['aksi'] = '<div class="dropdown">
                     <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                         aria-expanded="false">
