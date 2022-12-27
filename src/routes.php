@@ -2593,17 +2593,25 @@ return function (App $app) {
             $data = $request->getParsedBody();
             $addPhoto = 'default.png';
             // return var_dump($data);
+
+            $getDate=explode("/",$data['date_of_birth']);
+            $date= $getDate[2].'-'.$getDate[1].'-'.$getDate[0];
+            $encryptedPassword = indexApiController::encrypt($date, $_ENV['SALT']);
+
+            // return var_dump($date);
     
             $insert = $container->db->insert('tbl_users', [
                 "first_name" => $data['first_name'],
                 "last_name" => $data['last_name'],
                 "gender" => $data['gender'],
-                "date_of_birth" => $data['date_of_birth'],
+                "date_of_birth" => $date,
                 "religion" => $data['religion'],
                 "phone_user" => $data['phone_user'],
                 "address_user" => $data['address_user'],
                 "id_user_type" => 3,
                 "status" => 1,
+                "email" => $data['email'],
+                "password" => $encryptedPassword,
                 "photo_user" => $addPhoto,
             ]);
             $_SESSION['successAddingAccount'] = true;

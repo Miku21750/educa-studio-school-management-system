@@ -812,13 +812,16 @@ class StudentController
             'email' => $data['email']
         ]);
 
+
+        $encryptedPassword = indexApiController::encrypt($data['date_of_birth'], $_ENV['SALT']);
+        
         if ($cek == null) {
             // return var_dump($uploadedFiles);
             $student = $app->db->insert('tbl_users', [
                 "first_name" => $data['first_name'],
                 "last_name" => $data['last_name'],
                 "gender" => $data['gender'],
-                "password" => $data['nisn'],
+                "password" => $encryptedPassword,
                 "id_class" => $data['id_class'],
                 "id_parent" => $data['id_parent'],
                 "NISN" => $data['nisn'],
