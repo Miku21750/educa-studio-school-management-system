@@ -81,12 +81,12 @@
               <div class="header-elements">
                 <ul>
 
-                  {# <li>
-                    <a href="#"><i class="fas fa-print" id="printPdfMyProfile"></i></a>
-                  </li> #}
-                  {# <li>
+                  <li id="printPdfMyProfile">
+                    <a href="#"><i class="fas fa-print"></i></a>
+                  </li>
+                  <!-- <li>
                     <a href="#"><i class="fas fa-download"></i></a>
-                  </li> #}
+                  </li> -->
                 </ul>
               </div>
             </div>
@@ -100,6 +100,7 @@
               <table class="table text-nowrap">
                 <tbody>
                   <tr>
+                    <input type="text" name="id_user" id="id_user_kode" value="{{ data.id_user }}" hidden>
                     <td>Nama:</td>
                     <td class="font-medium text-dark-medium">{{ data.first_name_student ~' '~ data.last_name_student }}
                     </td>
@@ -147,7 +148,7 @@
                     <td class="font-medium text-dark-medium">{{data.class}} {{data.section}}</td>
                   </tr>
                   {% endif %}
-                 
+
                   <tr>
                     <td>Keterangan :</td>
                     <td class="font-medium text-dark-medium">{{data.occupation}} {{data.occupation_place}}</td>
@@ -318,7 +319,7 @@
                     value="{{ data.username }}" readonly>
                 </div>
                 {% endif %}
-               
+
                 <div class="col-6 my-3">
                   <label>E-mail:</label>
                   <input type="email" name="email" class="form-control" value="{{ data.email }}" readonly>
@@ -407,22 +408,12 @@
     $('#selectBloodGroupEditProfile').val(BlGroup).change();
     $('#id_class_detail').val(id_class).change();
     $('#printPdfMyProfile').click(function (e) {
-
-      $('#myProfilePrintableAreaP').clone("#print-me");
-
-      // console.log($('#print-me').html())
-      //Print the window.
-      window.print();
-      //Restore the styles.
-      $("body").removeClass("printing");
-      //Clear up the div.
-      $("#print-me").empty();
-      //  e.preventDefault();
-      // w=window.open();
-      //w.document.write($('#showDataDetailAccountSetting').html());
-      //w.print();
-      //w.close();
+  
+      const id = $('#id_user_kode').val();
+      window.open('/cetakPDF/' + id, '_blank');
+  
     });
   });
+
 </script>
 {% endblock content %}

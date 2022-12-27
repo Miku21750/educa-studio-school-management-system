@@ -15,7 +15,7 @@
     <div class="p-5">
         <div class="row headerPdf">
             <div class="col-3 d-flex align-items-center justify-content-center p-3">
-                <img src="img/tut-wuri-handayani-7783.png" style="height: 150px; width: auto;" alt="">
+                <img src="/img/tut-wuri-handayani-7783.png" style="height: 150px; width: auto;" alt="">
             </div>
             <div class="row align-middle col-6 justify-content-center p-5 font-weight-bold">
                 <div class="col-12 d-flex align-items-center justify-content-center">
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div class="col-3 d-flex align-items-center justify-content-center p-3">
-                <img src="img/logo-icon.png" style="height: 150px; width: auto;" alt="">
+                <img src="/img/logo-icon.png" style="height: 150px; width: auto;" alt="">
             </div>
         </div>
 
@@ -64,7 +64,7 @@
                 </table>
             </div>
             <div class="col-3 d-flex align-items-center justify-content-center p-3">
-                <img src="img/figure/student1.jpg" style="height: 250px; width: auto;" alt="">
+                <img src="/uploads/Profile/{{ foto }}" style="height: 250px; width: auto;" alt="">
             </div>
         </div>
 
@@ -74,11 +74,10 @@
                     <tr class="text-center">
                         <th scope="col" style="width: 5%;"></th>
                         <th scope="col">Mata Pelajaran</th>
-                        <th scope="col" style="width: 10%;">Nilai Tugas</th>
-                        <th scope="col" style="width: 10%;">Nilai UTS</th>
-                        <th scope="col" style="width: 10%;">Nilai UAS</th>
-                        <th scope="col" style="width: 10%;">Nilai Akhir</th>
-                        <th scope="col" style="width: 15%;">Keterangan</th>
+                        <th scope="col" style="width: 15%;">Nilai Tugas</th>
+                        <th scope="col" style="width: 15%;">Nilai UTS</th>
+                        <th scope="col" style="width: 15%;">Nilai UAS</th>
+                        <th scope="col" style="width: 15%;">Nilai Akhir</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,25 +96,22 @@
                     <tr>
                         <td style="width: 5%;" class="text-center">1</td>
                         <td>{{ i.subject_name }}</td>
-                        <td style="width: 10%;" class="text-center">{{ i.nilai_1 }}</td>
-                        <td style="width: 10%;" class="text-center">{{ i.nilai_2 }}</td>
-                        <td style="width: 10%;" class="text-center">{{ i.nilai_3 }}</td>
-                        <td style="width: 10%;" class="text-center">{{ i.nilai_akhir }}</td>
-                        <td style="width: 15%;" class="text-center">Very Good</td>
+                        <td class="text-center">{{ i.nilai_1 }}</td>
+                        <td class="text-center">{{ i.nilai_2 }}</td>
+                        <td class="text-center">{{ i.nilai_3 }}</td>
+                        <td class="text-center">{{ i.nilai_akhir }}</td>
                     </tr>
                     {% endfor %}
 
                     <!-- end nilai rapor -->
 
                     <tr>
-                        <td colspan="5" style="width: 10%;" class="text-center">Jumlah Nilai</td>
-                        <td style="width: 10%;" class="text-center">120</td>
-                        <td style="width: 20%;" class="text-center"></td>
+                        <td colspan="5" class="text-center">Jumlah Nilai</td>
+                        <td class="text-center">{{ jmlNilai }}</td>
                     </tr>
                     <tr>
                         <td colspan="5" style="width: 10%;" class="text-center">Rata-rata</td>
-                        <td style="width: 10%;" class="text-center">83</td>
-                        <td style="width: 20%;" class="text-center"></td>
+                        <td class="text-center">{{ average }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -127,6 +123,10 @@
             <div class="col-3 ">ttd Kepsek</div>
         </div>
     </div>
+
+    <script>
+        window.print();
+    </script>
 </body>
 
 </html>
