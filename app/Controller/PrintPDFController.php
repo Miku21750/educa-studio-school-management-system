@@ -64,7 +64,7 @@ class PrintPDFController
     {
         $id = $args['data'];
         $tbl_classes = 'tbl_classes';
-
+        
         $rapor = $app->db->select('tbl_final_scores', [
             '[><]tbl_classes' => 'id_class',
             '[><]tbl_subjects' => 'id_subject',
@@ -89,7 +89,8 @@ class PrintPDFController
         ],[
             'id_user' => $id
         ]);
-
+        
+        // die(var_dump($id));
         $jumlahData = count($rapor);
 
         $jumlahNilai = 0;
@@ -101,7 +102,6 @@ class PrintPDFController
 
         // return $rsp->withJson($jumlahNilai);
 
-        // die(var_dump($jumlahNilai));
 
         $app->view->render($rsp, 'others/printPdf.html', [
             'rapor' => $rapor,
