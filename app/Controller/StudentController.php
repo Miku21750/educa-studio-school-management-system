@@ -441,8 +441,6 @@ class StudentController
         }
 
        
-        
-        // return die(var_dump($type_user));
 
 
         $columns = array(
@@ -519,6 +517,8 @@ class StudentController
             '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], '*', $conditions);
+
+        // return var_dump($student)
 
         $data = array();
 

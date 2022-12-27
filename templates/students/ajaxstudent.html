@@ -56,7 +56,7 @@
         
         student = function () {
 
-            table = $("#student").on('preXhr.dt', function (e, settings, data) {
+            table = $("#student-viewx").on('preXhr.dt', function (e, settings, data) {
 
                 console.log('loading ....');
 
@@ -275,7 +275,7 @@
                             text: 'Data telah ditambahkan.',
                         }
 
-                    }).then((result) => {
+                    ).then((result) => {
                         table.draw(false)
 
                         Swal.fire(
@@ -291,7 +291,7 @@
                     })
 
 
-                } else {
+                })}else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
