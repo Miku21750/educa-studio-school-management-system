@@ -343,13 +343,14 @@ class ParentController
             }
         }
 
+        $encryptedPassword = indexApiController::encrypt($data['date_of_birth'], $_ENV['SALT']);
         // return var_dump($uploadedFiles);
         $data = $app->db->insert('tbl_users', [
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
             "username" => $data['nisn_student'],
-            "password" => $data['nisn_student'],
+            "password" => $encryptedPassword,
             "date_of_birth" => $data['date_of_birth'],
             "religion" => $data['religion'],
             "blood_group" => $data['blood_group'],
