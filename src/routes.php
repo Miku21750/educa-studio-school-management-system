@@ -1082,7 +1082,7 @@ return function (App $app) {
                     return AcconuntController::get_data_midtrans($this, $request, $response, $args);
                 }
             );
-            $app->POST(
+            $app->post(
                 '/update-midtrans',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $request->getParsedBody();
@@ -1573,6 +1573,118 @@ return function (App $app) {
             }
         }
     )->add(new Auth());
+    $app->get(
+        '/viewAttendSheetDataTable',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // Render index view
+            $dataRequest = $request->getParams();
+            $final = $container->db->select('tbl_users', [
+            
+                '[><]tbl_classes' => ['tbl_users.id_class' => 'id_class'],
+                
+                
+            ], '*', [
+                'tbl_users.id_class' => $dataRequest['class'],
+                'tbl_users.session'=>$dataRequest['session']
+                
+            ]);
+            foreach($final as $f){
+                $checkAttendancesIfExistChecklist = $container->db->select('tbl_attendances','*',[
+                    'id_class'=>$dataRequest['class'],
+                    'id_subject'=>$dataRequest['subject'],
+                    'id_user'=>$f['id_user'],
+                    'tanggal'=>$dataRequest['date'],
+                ]);
+                if(empty($checkAttendancesIfExistChecklist)){
+                    $insert = $container->db->insert('tbl_attendances', [
+                        'id_class' => $dataRequest['class'],
+                        'id_subject' => $dataRequest['subject'],
+                        'id_user' => $f['id_user'],
+                        'tanggal'=>$dataRequest['date'],
+                        'absence'=>0
+                    ]);
+                }
+                // return die(var_dump($dataRequest));
+            }
+            $totalAttendance = $container->db->select('tbl_attendances','*',[
+                'id_class'=>$dataRequest['class'],
+                'id_subject'=>$dataRequest['subject'],
+                'tanggal'=>$dataRequest['date'],
+            ]);
+            $totaldata = count($totalAttendance);
+            $totalfiltered = $totaldata;
+            $limit = $request->getParam('length');
+            $start = $request->getParam('start');
+            $conditions = [
+                'tbl_attendances.id_class' => $dataRequest['class'],
+                'tbl_attendances.id_subject' => $dataRequest['subject'],
+                'tanggal'=>$dataRequest['date'],
+            ];
+            if(!empty($request->getParam('search')['value'])){
+                $search = $request->getParam('search')['value'];
+                $conditions['OR'] = [
+                    'tbl_users.first_name[~]' => '%' . $search . '%',
+                    'tbl_users.last_name[~]' => '%' . $search . '%',
+                ];
+                $totalAttendance = $container->db->select(
+                    'tbl_attendances',
+                    [
+    
+                        '[><]tbl_users' => 'id_user'
+    
+    
+                    ],
+                    '*',
+                    // $limit
+                    $conditions
+                );
+                $totaldata = count($final);
+                $totalfiltered = $totaldata;
+            }
+            $final = $container->db->select(
+                'tbl_attendances',
+                [
+    
+                    '[><]tbl_users' => 'id_user'
+    
+    
+                ],
+                '*',
+                // $limit
+                $conditions
+            );
+            // return die(var_dump($final));
+            $data = array();
+            if(!empty($final)){
+                $no = $request->getParam('start') + 1;
+                foreach ($final as $f){
+                    $absenceChecklist = '<input type="checkbox" data-idCallDate="'.$dataRequest['date'].'" data-idUser="'.$f['id_user'].'"></input>';
+                    if($f['absence'] == 1){
+                        $absenceChecklist = '<input type="checkbox" data-idCallDate="'.$dataRequest['date'].'" data-idUser="'.$f['id_user'].'" checked></input>';
+                    }
+                    $datas['no'] = $no . '.';
+                    $datas['nisn'] = $f['NISN'];
+                    $datas['nama'] = $f['first_name'] . ' ' . $f['last_name'];
+                    $datas['absen'] = $absenceChecklist;
+                    $data[] = $datas;
+                    $no++;
+                }
+            }
+            $json_data = array(
+                "draw"            => intval($request->getParam('draw')),
+                "recordsTotal"    => intval($totaldata),
+                "recordsFiltered" => intval($totalfiltered),
+                "data"            => $data
+            );
+            // return var_dump($data);
+            // return var_dump($json_data);
+            echo json_encode($json_data);
+    
+            // return die($final);
+    
+
+        }
+    )->add(new Auth());
     $app->post(
         '/sendAbsence',
         function (Request $request, Response $response, array $args) use ($container) {
@@ -1584,8 +1696,8 @@ return function (App $app) {
             for ($i = 0; $i < $allValues; $i++) {
                 $checkIfExistUpdate = $container->db->select('tbl_attendances', 'id_attendance', [
                     'id_user' => $dataRequest['user'][$i],
-                    'id_class' => $dataRequest['subject'][1],
-                    'id_subject' => $dataRequest['subject'][0],
+                    'id_class' => $dataRequest['class'],
+                    'id_subject' => $dataRequest['subject'],
                     'tanggal' => $dataRequest['date'][$i]
                 ]);
                 // return die(var_dump($checkIfExistUpdate));
@@ -1679,15 +1791,14 @@ return function (App $app) {
             //     'id_subject' => $dataRequest['subject'],
             //     'tanggal' => Medoo::raw('CURRENT_DATE')
             // ]);
-            // return die(var_dump($dataRequest));
             $viewStudentAttend = $container->db->select('tbl_users', [
                 '[>]tbl_classes' => 'id_class',
                 '[>]tbl_sections' => ['tbl_classes.id_section' => 'id_section'],
                 '[>]tbl_subjects' => 'id_subject',
                 '[>]tbl_tasks' => 'id_user'
             ], [
-                    'id_user',
-                    'first_name',
+                'id_user',
+                'first_name',
                     'last_name',
                     'tbl_classes.class',
                     'tbl_sections.section',
@@ -1697,9 +1808,11 @@ return function (App $app) {
                     'tbl_tasks.score',
                 ], [
                     'tbl_users.id_class' => $dataRequest['class'],
-                    'session' => $dataRequest['session']
+                    'session' => $dataRequest['session'],
+                    'tbl_tasks.id_subject' => $dataRequest['subject'],
                 ]);
                 $dataTimestamp = [];
+                // return die(var_dump( $viewStudentAttend));
             // $dataSearchTimestamp = $container->db->select('tbl_tasks',[
             //     'created_at'
             // ],[
@@ -1795,6 +1908,7 @@ return function (App $app) {
                 ], [
                     'tbl_users.id_class' => $dataRequest['class'],
                     'session' => $dataRequest['session'],
+                    'tbl_tasks.id_subject' => $dataRequest['subject'],
                     'GROUP' => [
                         'id_user'
                     ]
@@ -1818,6 +1932,7 @@ return function (App $app) {
                     'tbl_users.id_class' => $dataRequest['class'],
                     'session' => $dataRequest['session'],
                     'tbl_tasks.task_type'=> $dataRequest['taskType'],
+                    'tbl_tasks.id_subject' => $dataRequest['subject'],
                 ]);
             // return die(var_dump($checkTotalTask));
             $checkTotalStudent = count($dataStudentTaskSuccess);

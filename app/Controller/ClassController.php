@@ -356,6 +356,7 @@ class ClassController
         $kelas = $request->getParam('kelas');
         $bagian = $request->getParam('bagian');
         $idTeacher = $request->getParam('idTeacher');
+        // return die(var_dump($request->getParams()));
         // $testUpate = $request->getParam('test');
 
         $app->db->insert("tbl_classes", [
