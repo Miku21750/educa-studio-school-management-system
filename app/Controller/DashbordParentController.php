@@ -144,6 +144,9 @@ class DashbordParentController
                 $tgl = AcconuntController::tgl_indo($m['date_payment']);
 
                 $datas['date_payment'] = $tgl;
+                if ($m['status_pembayaran'] == 'Dibayar'){
+                    $datas['aksi'] = ' ';
+                }else
                 $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
@@ -155,7 +158,7 @@ class DashbordParentController
                         <i class="fas fa-money text-success"></i>
                         Bayar
                     </a>
-                    <a class="dropdown-item btn btn-light item_cek" data-cek="' . $m['order_id'] . '">
+                    <a class="dropdown-item btn btn-light item_cek" data-cek="' . $m['order_id'] . '" data-idFinance="' . $m['id_finance'] . '">
                         <i class="fas fa-money text-success"></i>
                         Cek
                     </a>

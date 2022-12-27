@@ -29,6 +29,8 @@ use App\Controller\UserCredentialController;
 use Dotenv\Result\Success;
 use App\Controller\EmailController;
 
+
+
 return function (App $app) {
     
     $container = $app->getContainer();
@@ -1040,39 +1042,53 @@ return function (App $app) {
                     return StudentController::get_data_all($this, $request, $response, $args);
                 }
             );
+            $app->get(
+                '/cek-all',
+                function (Request $request, Response $response, array $args) use ($app) {
+                   
+                    return AcconuntController::cek_all_data_midtrans($this, $request, $response, $args);
+                }
+            );
             //Get Payment Midtrans
             $app->get(
                 '/cek-midtrans',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $id = $request->getParsedBody();
-                    $serverkey = 'SB-Mid-server-txkDtjC1C1GzpkZVcvQYyJZB';
-                        
-                    $curl = curl_init();
-
-                    curl_setopt_array($curl, array(
-                      CURLOPT_URL => 'https://api.sandbox.midtrans.com/v2/'. $id .'/status',
-                      CURLOPT_RETURNTRANSFER => true,
-                      CURLOPT_ENCODING => "",
-                      CURLOPT_MAXREDIRS => 10,
-                      CURLOPT_TIMEOUT => 0,
-                      CURLOPT_FOLLOWLOCATION => true,
-                      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                      CURLOPT_CUSTOMREQUEST => "GET",
-                      CURLOPT_POSTFIELDS =>"\n\n",
-                      CURLOPT_HTTPHEADER => array(
-                        "Accept: application/json",
-                        "Content-Type: application/json",
-                        "Authorization: {SB-Mid-server-txkDtjC1C1GzpkZVcvQYyJZB}"
-                      ),
-                    ));
                     
-                    $response = curl_exec($curl);
-                    
-                    curl_close($curl);
+                    // $get_status = Midtrans\transaction::status($id);
+                    // return die(var_dump($get_status));
+                    // return $response->withJSON(array('status'=>$get_status));
 
-                    echo $response;
+                    
+                   
+                    // $curl = curl_init();
+
+                    // curl_setopt_array($curl, array(
+                    //   CURLOPT_URL => 'https://api.sandbox.midtrans.com/v2/'. $id .'/status',
+                    //   CURLOPT_RETURNTRANSFER => true,
+                    //   CURLOPT_ENCODING => "",
+                    //   CURLOPT_MAXREDIRS => 10,
+                    //   CURLOPT_TIMEOUT => 0,
+                    //   CURLOPT_FOLLOWLOCATION => true,
+                    //   CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    //   CURLOPT_CUSTOMREQUEST => "GET",
+                    //   CURLOPT_POSTFIELDS =>"\n\n",
+                    //   CURLOPT_HTTPHEADER => array(
+                    //     "Accept: application/json",
+                    //     "Content-Type: application/json",
+                    //     "Authorization: {SB-Mid-client-lVMsQP2WeSZKKSb4}"
+                    //   ),
+                    // ));
+                    
+                    // $response = curl_exec($curl);
+                    
+                    // curl_close($curl);
+
+                    // echo $response;
                     // echo json_encode($response);
-                    // return AcconuntController::get_data_midtrans($this, $request, $response, $args);
+                    return AcconuntController::cek_data_midtrans($this, $request, $response, [
+                        'id' => $id
+                    ]);
                 }
             );
             $app->get(
@@ -1088,6 +1104,16 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // die(var_dump($data));
                     return AcconuntController::update_data_midtrans($this, $request, $response, [
+                        'data' => $data
+                    ]);
+                }
+            );
+            $app->POST(
+                '/update-pay-midtrans',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // die(var_dump($data));
+                    return AcconuntController::update_pay_data_midtrans($this, $request, $response, [
                         'data' => $data
                     ]);
                 }

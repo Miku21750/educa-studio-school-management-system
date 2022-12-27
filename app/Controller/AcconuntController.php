@@ -20,7 +20,7 @@ class AcconuntController
 
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
-
+        
         $app->view->render($response, 'acconunt/all-fees.html', [
 
             'type_user' => $_SESSION['type_user'],
@@ -70,6 +70,7 @@ class AcconuntController
             'gender',
             'class',
             'section',
+            'order_id',
             'payment_type_name',
             'amount_payment',
             'status_pembayaran',
@@ -134,6 +135,8 @@ class AcconuntController
                 'gender',
                 'class',
                 'section',
+                'order_id',
+
                 'payment_type_name',
                 'amount_payment',
                 'status_pembayaran',
@@ -163,6 +166,7 @@ class AcconuntController
             'gender',
             'class',
             'section',
+            'order_id',
             'payment_type_name',
             'amount_payment',
             'status_pembayaran',
@@ -214,7 +218,7 @@ class AcconuntController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right item_cek" data-cek="' . $m['order_id'] . '" data-idFinance="' . $m['id_finance'] . '">
                     <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_finance'] . '">
                         <i class="fas fa-trash text-orange-red"></i>
                         Hapus
@@ -549,32 +553,119 @@ class AcconuntController
 
         // return $response->withJson($data[0]);
     }
+    public static function cek_all_data_midtrans($app, $request, $response, $args)
+    {
+        $data = $app->db->select('tbl_finances', ['order_id'],[
+            'order_id[!]' => 0
+        ]);
+        foreach ($data as $m) {
+            $id = $m['order_id'];
+            $getStatus = Midtrans\Transaction::status($id);
+            $cek[] = $getStatus;
+            
+        }
+    //     if (!empty($data)) {
+    //     foreach ($data as $m) {
+        
+        //     $getStatus = Midtrans\Transaction::status($m['order_id']);
+    //     // $base = $_SERVER['requ']
+    //     }
+    //     $cek[] = $getStatus;
+    // }
+    return $response->withJSON(array($cek));
+    // die(var_dump($cek));
+    
+
+        
+        
+
+        // return $response->withJson($data[0]);
+    }
+    public static function cek_data_midtrans($app, $request, $response, $args)
+    {
+        $id = $request->getParam('id');
+        
+        $getStatus = Midtrans\Transaction::status($id);
+        // $base = $_SERVER['requ']
+        return $response->withJSON(array($getStatus));
+        
+        
+
+        // return $response->withJson($data[0]);
+    }
     public static function update_data_midtrans($app, $request, $response, $args)
     {
         $data = $args['data'];
         if ($data['status_code'] == 200) {
             $status = 'Dibayar';
+            $tgl = $data['time'];
+            
         }elseif ($data['status_code'] == 201) {
             $status = 'Transaksi sedang diproses';
-        }else {
-            $status = 'Erorr';
+            $tgl = $data['time'];
+        }elseif ($data['status_code'] == 407)  {
+            $status = 'Kadaluarsa';
+            $tgl = $data['time'];
         }
-
-
-
+        
+        
+        
         // return var_dump($uploadedFiles);
         $update = $app->db->update('tbl_finances', [
-           
+            
             "status_pembayaran" => $status,
-            "date_payment" => $data['time'],
+            "date_payment" => $tgl,
             "order_id" => $data['order_id'],
             
         ], [
-
+            
             "id_finance" => $data['id'],
-
+            
         ]);
+        // return die(var_dump($update));
         // return var_dump($update);
+        $json_data = array(
+            "draw"            => intval($request->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
+    }
+    public static function update_pay_data_midtrans($app, $request, $response, $args)
+    {
+        $data = $args['data'];
+        $i = 0;
+        foreach ($data['data'] as $m) {
+        
+        if ($m[$i]['status_code'] == 200) {
+            $status = 'Dibayar';
+            $tgl = $m[$i]['transaction_time'];
+            
+        }elseif ($m[$i]['status_code'] == 201) {
+            $status = 'Transaksi sedang diproses';
+            $tgl = $m[$i]['transaction_time'];
+        }elseif ($m[$i]['status_code'] == 407)  {
+            $status = 'Kadaluarsa';
+            $tgl = $m[$i]['transaction_time'];
+        }else{
+            $status = 'Belum Bayar';
+            $tgl = $m[$i]['transaction_time'];
+        }
+        
+        
+        
+        // return var_dump($uploadedFiles);
+        $update = $app->db->update('tbl_finances', [
+            
+            "status_pembayaran" => $status,
+            "date_payment" => $tgl,            
+        ], [
+            
+            "order_id" => $m[$i]['order_id'],
+            
+        ]);
+        // return  die(var_dump($update));
+        $i++;
+    }
         $json_data = array(
             "draw"            => intval($request->getParam('draw')),
         );

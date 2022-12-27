@@ -6,6 +6,7 @@
 <script type="text/javascript"
       src="https://app.sandbox.midtrans.com/snap/snap.js"
       data-client-key="{{API-Midtrans}}"></script>
+script
 <!-- Fees Table Area Start Here -->
 <div class="card height-auto">
   <div class="card-body">
@@ -13,15 +14,14 @@
       <div class="item-title">
         <h3>Semua Biaya Pemasukan</h3>
       </div>
-      <!-- <div class="dropdown">
+      <div class="dropdown">
         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
 
         <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
-          <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
-          <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+          
+          <a class="btn dropdown-item  btn-refresh" ><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
         </div>
-      </div> -->
+      </div>
     </div>
     {% if session.type == 4 %}
     <div class="table-responsive expenses-table-box">

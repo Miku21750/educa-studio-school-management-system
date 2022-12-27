@@ -2492,11 +2492,165 @@ $('document').ready(function () {
   })
   
   //Midtrans start here
+  setInterval(ajaxCalll, 15000); //300000 MS == 5 minutes
+
+  function ajaxCalll() {
+    $.ajax({
+      type: "GET",
+      url: "/api/cek-all",
+      dataType: "JSON",
+      success: function (data) {
+        console.log(data)
+        $.ajax({
+          type: "POST",
+          url: "/api/update-pay-midtrans",
+          data: {
+              data : data
+          },
+          dataType: "JSON",
+          success: function (data) {
+          console.log(data)
+          table1.draw(false)
+        }
+      })
+
+
+
+    }
+  });
+
+
+  }
+  function ajaxCall() {
+    table1.draw(false)
+
+    $('.item_cek').each((e,el)=>{
+      var id_finance = $(el).attr('data-cek');
+      var id = $(el).attr('data-idFinance');
+
+
+      $.ajax({
+        type: "GET",
+        url: "/api/cek-midtrans",
+        data: {
+            id: id_finance
+        },
+        dataType: "JSON",
+        success: function (data) {
+          console.log(data)
+          $.ajax({
+            type: "POST",
+            url: "/api/update-midtrans",
+            data: {
+                id: id,
+                status_code : data[0].status_code,
+                order_id: data[0].order_id,
+                time: data[0].transaction_time,
+            },
+            dataType: "JSON",
+            success: function (data) {
+            console.log(data)
+          }
+        })
+
+
+
+      }
+    });
+
+   })
+   
+    
+  }
+  
+
+  $('.dropdown').on('click', '.btn-refresh', function (e) {
+    // console.log('itemkeklik')
+    e.preventDefault();
+    // return console.log(this);
+    
+    $('.item_cek').each((e,el)=>{
+      var id_finance = $(el).attr('data-cek');
+      var id = $(el).attr('data-idFinance');
+
+
+      $.ajax({
+        type: "GET",
+        url: "/api/cek-midtrans",
+        data: {
+            id: id_finance
+        },
+        dataType: "JSON",
+        success: function (data) {
+          console.log(data)
+          $.ajax({
+            type: "POST",
+            url: "/api/update-midtrans",
+            data: {
+                id: id,
+                status_code : data[0].status_code,
+                order_id: data[0].order_id,
+                time: data[0].transaction_time,
+            },
+            dataType: "JSON",
+            success: function (data) {
+              if (data) {
+                  
+                table1.draw(false)
+
+              } else {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: 'Ada yang eror!',
+                      //footer: '<a href="">Why do I have this issue?</a>'
+                  })
+              }
+          }
+        })
+
+
+
+      }
+    });
+
+   })
+   let timerInterval
+                  Swal.fire({
+                      title: 'Memuat Data...',
+                      html: 'Tunggu  <b></b>  Detik.',
+                      timer: 300,
+                      timerProgressBar: true,
+                      didOpen: () => {
+                          Swal.showLoading()
+                          const b = Swal.getHtmlContainer().querySelector('b')
+                          timerInterval = setInterval(() => {
+                              b.textContent = Swal.getTimerLeft()
+                          }, 100)
+                      },
+                      willClose: () => {
+                          clearInterval(timerInterval)
+                      }
+                  }).then((result) => {
+                      table1.draw(false)
+                      Swal.fire(
+                          {
+                              icon: 'success',
+                              title: 'Berhasil',
+                              text: 'Pengecekan Berhasil.',
+                              //footer: '<a href="">Why do I have this issue?</a>'
+                          }
+
+                      )
+                  })
+    
+  });
   $('#payment').on('click', '.item_cek', function (e) {
     // console.log('itemkeklik')
     e.preventDefault();
     // return console.log(this);
     var id_finance = $(this).attr('data-cek');
+    var id = $(this).attr('data-idFinance');
     $.ajax({
         type: "GET",
         url: "/api/cek-midtrans",
@@ -2504,10 +2658,63 @@ $('document').ready(function () {
             id: id_finance
         },
         dataType: "JSON",
-        success: function (response) {
-          console.log(response);
-          
-        }
+        success: function (data) {
+          console.log(data)
+          $.ajax({
+            type: "POST",
+            url: "/api/update-midtrans",
+            data: {
+                id: id,
+                status_code : data[0].status_code,
+                order_id: data[0].order_id,
+                time: data[0].transaction_time,
+            },
+            dataType: "JSON",
+            success: function (data) {
+              if (data) {
+                  let timerInterval
+                  Swal.fire({
+                      title: 'Memuat Data...',
+                      html: 'Tunggu  <b></b>  Detik.',
+                      timer: 300,
+                      timerProgressBar: true,
+                      didOpen: () => {
+                          Swal.showLoading()
+                          const b = Swal.getHtmlContainer().querySelector('b')
+                          timerInterval = setInterval(() => {
+                              b.textContent = Swal.getTimerLeft()
+                          }, 100)
+                      },
+                      willClose: () => {
+                          clearInterval(timerInterval)
+                      }
+                  }).then((result) => {
+                      table1.draw(false)
+                      Swal.fire(
+                          {
+                              icon: 'success',
+                              title: 'Berhasil',
+                              text: 'Pembayaran Berhasil.',
+                              //footer: '<a href="">Why do I have this issue?</a>'
+                          }
+
+                      )
+                  })
+
+              } else {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: 'Ada yang eror!',
+                      //footer: '<a href="">Why do I have this issue?</a>'
+                  })
+              }
+          }
+        })
+
+
+
+      }
     });
   });
   $('#payment').on('click', '.item_bayar', function (e) {
