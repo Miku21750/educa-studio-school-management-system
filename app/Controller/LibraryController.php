@@ -98,10 +98,7 @@ class LibraryController
                         <i class="fas fa-edit text-dark-pastel-green"></i>
                         Ubah
                     </a>
-                    <a class="dropdown-item btn btn-light get_pinjam" data="' . $m['id_book'] . '">
-                        <i class="fas fa-book text-success"></i>
-                        Ajukan Pinjaman
-                    </a>
+                   
                 </div>
             </div>';
                 $data[] = $datas;
@@ -192,7 +189,7 @@ class LibraryController
 
                
 
-                if ($m['status_buku'] == 'Ada' && $_SESSION['type'] != 4  ) {
+                if ($m['status_buku'] == 'Ada' && $_SESSION['type']  == 3  ) {
                     $datas['aksi'] = '<div class="dropdown">
                     <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
                         aria-expanded="false">

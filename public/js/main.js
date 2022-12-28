@@ -2492,7 +2492,7 @@ $('document').ready(function () {
   })
   
   //Midtrans start here
-  setInterval(ajaxCalll, 15000); //300000 MS == 5 minutes
+  setInterval(ajaxCalll, 30000); //300000 MS == 5 minutes
 
   function ajaxCalll() {
     $.ajax({
@@ -2511,6 +2511,7 @@ $('document').ready(function () {
           success: function (data) {
           console.log(data)
           table1.draw(false)
+          table.draw(false)
         }
       })
 

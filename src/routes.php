@@ -1117,16 +1117,7 @@ return function (App $app) {
                     ]);
                 }
             );
-            $app->post(
-                '/notice-midtrans',
-                function (Request $request, Response $response, array $args) use ($app) {
-                    $data = $request->getParsedBody();
-                    die(var_dump($data));
-                    return AcconuntController::notice_midtrans($this, $request, $response, [
-                        'data' => $data,
-                    ]);
-                }
-            );
+           
         }
     );
 
