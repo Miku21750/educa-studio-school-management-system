@@ -1595,8 +1595,9 @@ $(document).ready(function () {
         { "width": "5%", "targets": 2, className: "text-start", "orderable": false },
         { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
         { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
-        { "width": "10%", "targets": 5, className: "text-center", "orderable": false },
-        { "width": "15%", "targets": 6, className: "text-center", "orderable": false }
+        { "width": "5%", "targets": 5, className: "text-start", "orderable": false },
+        { "width": "10%", "targets":6, className: "text-center", "orderable": false },
+        { "width": "5%", "targets": 7, className: "text-center", "orderable": false }
 
       ],
       'pageLength': 10,
@@ -1611,9 +1612,10 @@ $(document).ready(function () {
 
       'columns': [
         { 'data': 'No' },
-        { 'data': 'exam_name' },
+        { 'data': 'exam_type' },
         { 'data': 'subject_name' },
         { 'data': 'class' },
+        { 'data': 'session' },
         { 'data': 'exam_date' },
         { 'data': 'exam_time' },
         { 'data': 'aksi' }
@@ -1661,7 +1663,7 @@ $(document).ready(function () {
 
       'columns': [
         { 'data': 'No' },
-        { 'data': 'exam_name' },
+        { 'data': 'exam_type' },
         { 'data': 'subject_name' },
         { 'data': 'class' },
         { 'data': 'exam_date' },
@@ -1678,7 +1680,7 @@ $(document).ready(function () {
   // RESET BUTTON
   $('#reset_exam').click(function (e) {
     e.preventDefault();
-    $('#eexam_name').val('');
+    $('#eexam_type').val('');
     $('#eclass').val('');
     $('#esubject').val('').change();
     $('#eexam_date').val('');
@@ -1750,7 +1752,9 @@ $(document).ready(function () {
   //Update exam
   $('#btn_update_exam').click(function (e) {
     var id_exam = $('#id_exam').val();
-    var exam_name = $('#eexam_name_edit').val();
+    var exam_type = $('[name="typeExamEdit"]').val();
+    var semester = $('[name="semesterEdit"]').val();
+    var session = $('[name="sessionEdit"]').val();
     var id_subject = $('#esubject_edit').val();
     var id_class = $('#eclass_edit').val();
     var exam_date = $('#eexam_date_send').val();
@@ -1760,7 +1764,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/exam/update-exam-detail",
       dataType: "JSON",
-      data: { id_exam: id_exam, exam_name: exam_name, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
+      data: { id_exam: id_exam, exam_type: exam_type,semester: semester,session: session, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
       success: function (data) {
         if (data) {
           $('#detail-exam').modal('hide');
@@ -1809,7 +1813,9 @@ $(document).ready(function () {
   //tambah Data
   $('#btn_add_exam').on('click', function () {
     // var id_exam = $('#id_exam').val();
-    var exam_name = $('#eexam_name').val();
+    var exam_type = $('#typeExam').val();
+    var semester = $('#semester').val();
+    var session = $('#schYearExam').val();
     var id_class = $('#eclass').val();
     var id_subject = $('#esubject').val();
     var exam_date = $('#eexam_date').val();
@@ -1817,7 +1823,9 @@ $(document).ready(function () {
     var exam_end = $('#eexam_end').val();
     // console.log(id_class);
     // console.log(id_subject);
-    if (exam_name == "" ||
+    if (exam_type == "" ||
+      semester == "" ||
+      session == "" ||
       id_class == "" ||
       id_subject == "" ||
       exam_date == "" ||
@@ -1834,7 +1842,7 @@ $(document).ready(function () {
         type: "POST",
         url: "/api/exam/add-exam",
         dataType: "JSON",
-        data: { exam_name: exam_name, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
+        data: { exam_type : exam_type, semester : semester, session : session, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
         success: function (data) {
           if (data) {
             console.log(data)
@@ -1855,12 +1863,14 @@ $(document).ready(function () {
                 clearInterval(timerInterval)
               }
             }).then((result) => {
-              $('#eexam_name').val('');
-              $('#eclass').val('');
-              $('#esubject').val('').change();
-              $('#eexam_date').val('');
-              $('#eexam_start').val('');
-              $('#eexam_end').val('');
+              // $('#typeExam').val('').change();
+              // $('#semester').val('').change();
+              // $('#schYearExam').val('').change();
+              // $('#eclass').val('');
+              // $('#esubject').val('').change();
+              // $('#eexam_date').val('');
+              // $('#eexam_start').val('');
+              // $('#eexam_end').val('');
               examTable.draw(false)
               Swal.fire(
                 {
@@ -1902,11 +1912,13 @@ $('#show_exam').on('click', '.exam_detail', function () {
     success: function (data) {
       // console.log(data);
       $('#detail-exam').on('shown.bs.modal', function () {
-        $('#eexam_name').focus();
+        $('#eexam_type').focus();
       });
       $('#detail-exam').modal('show');
       $('[name="id_exam"]').val(data.id_exam);
-      $('[name="eexam_name_edit"]').val(data.exam_name);
+      $('[name="typeExamEdit"]').val(data.exam_type).change();
+      $('[name="semesterEdit"]').val(data.semester).change();
+      $('[name="sessionEdit"]').val(data.session).change();
       $('[name="esubject"]').val(data.id_subject).change();
       $('[name="eclass"]').val(data.id_class).change();
       $('[name="eexam_date"]').val(data.exam_date);
@@ -2437,6 +2449,7 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
+  
   $("#get-siswa").select2({
     ajax: {
       url: "/api/get-siswa",
@@ -2477,7 +2490,233 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
+  
   //Midtrans start here
+  setInterval(ajaxCalll, 15000); //300000 MS == 5 minutes
+
+  function ajaxCalll() {
+    $.ajax({
+      type: "GET",
+      url: "/api/cek-all",
+      dataType: "JSON",
+      success: function (data) {
+        console.log(data)
+        $.ajax({
+          type: "POST",
+          url: "/api/update-pay-midtrans",
+          data: {
+              data : data
+          },
+          dataType: "JSON",
+          success: function (data) {
+          console.log(data)
+          table1.draw(false)
+        }
+      })
+
+
+
+    }
+  });
+
+
+  }
+  function ajaxCall() {
+    table1.draw(false)
+
+    $('.item_cek').each((e,el)=>{
+      var id_finance = $(el).attr('data-cek');
+      var id = $(el).attr('data-idFinance');
+
+
+      $.ajax({
+        type: "GET",
+        url: "/api/cek-midtrans",
+        data: {
+            id: id_finance
+        },
+        dataType: "JSON",
+        success: function (data) {
+          console.log(data)
+          $.ajax({
+            type: "POST",
+            url: "/api/update-midtrans",
+            data: {
+                id: id,
+                status_code : data[0].status_code,
+                order_id: data[0].order_id,
+                time: data[0].transaction_time,
+            },
+            dataType: "JSON",
+            success: function (data) {
+            console.log(data)
+          }
+        })
+
+
+
+      }
+    });
+
+   })
+   
+    
+  }
+  
+
+  $('.dropdown').on('click', '.btn-refresh', function (e) {
+    // console.log('itemkeklik')
+    e.preventDefault();
+    // return console.log(this);
+    
+    $('.item_cek').each((e,el)=>{
+      var id_finance = $(el).attr('data-cek');
+      var id = $(el).attr('data-idFinance');
+
+
+      $.ajax({
+        type: "GET",
+        url: "/api/cek-midtrans",
+        data: {
+            id: id_finance
+        },
+        dataType: "JSON",
+        success: function (data) {
+          console.log(data)
+          $.ajax({
+            type: "POST",
+            url: "/api/update-midtrans",
+            data: {
+                id: id,
+                status_code : data[0].status_code,
+                order_id: data[0].order_id,
+                time: data[0].transaction_time,
+            },
+            dataType: "JSON",
+            success: function (data) {
+              if (data) {
+                  
+                table1.draw(false)
+
+              } else {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: 'Ada yang eror!',
+                      //footer: '<a href="">Why do I have this issue?</a>'
+                  })
+              }
+          }
+        })
+
+
+
+      }
+    });
+
+   })
+   let timerInterval
+                  Swal.fire({
+                      title: 'Memuat Data...',
+                      html: 'Tunggu  <b></b>  Detik.',
+                      timer: 300,
+                      timerProgressBar: true,
+                      didOpen: () => {
+                          Swal.showLoading()
+                          const b = Swal.getHtmlContainer().querySelector('b')
+                          timerInterval = setInterval(() => {
+                              b.textContent = Swal.getTimerLeft()
+                          }, 100)
+                      },
+                      willClose: () => {
+                          clearInterval(timerInterval)
+                      }
+                  }).then((result) => {
+                      table1.draw(false)
+                      Swal.fire(
+                          {
+                              icon: 'success',
+                              title: 'Berhasil',
+                              text: 'Pengecekan Berhasil.',
+                              //footer: '<a href="">Why do I have this issue?</a>'
+                          }
+
+                      )
+                  })
+    
+  });
+  $('#payment').on('click', '.item_cek', function (e) {
+    // console.log('itemkeklik')
+    e.preventDefault();
+    // return console.log(this);
+    var id_finance = $(this).attr('data-cek');
+    var id = $(this).attr('data-idFinance');
+    $.ajax({
+        type: "GET",
+        url: "/api/cek-midtrans",
+        data: {
+            id: id_finance
+        },
+        dataType: "JSON",
+        success: function (data) {
+          console.log(data)
+          $.ajax({
+            type: "POST",
+            url: "/api/update-midtrans",
+            data: {
+                id: id,
+                status_code : data[0].status_code,
+                order_id: data[0].order_id,
+                time: data[0].transaction_time,
+            },
+            dataType: "JSON",
+            success: function (data) {
+              if (data) {
+                  let timerInterval
+                  Swal.fire({
+                      title: 'Memuat Data...',
+                      html: 'Tunggu  <b></b>  Detik.',
+                      timer: 300,
+                      timerProgressBar: true,
+                      didOpen: () => {
+                          Swal.showLoading()
+                          const b = Swal.getHtmlContainer().querySelector('b')
+                          timerInterval = setInterval(() => {
+                              b.textContent = Swal.getTimerLeft()
+                          }, 100)
+                      },
+                      willClose: () => {
+                          clearInterval(timerInterval)
+                      }
+                  }).then((result) => {
+                      table1.draw(false)
+                      Swal.fire(
+                          {
+                              icon: 'success',
+                              title: 'Berhasil',
+                              text: 'Pembayaran Berhasil.',
+                              //footer: '<a href="">Why do I have this issue?</a>'
+                          }
+
+                      )
+                  })
+
+              } else {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: 'Ada yang eror!',
+                      //footer: '<a href="">Why do I have this issue?</a>'
+                  })
+              }
+          }
+        })
+
+
+
+      }
+    });
+  });
   $('#payment').on('click', '.item_bayar', function (e) {
     // console.log('itemkeklik')
     e.preventDefault();

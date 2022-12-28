@@ -336,13 +336,14 @@ class TeacherController
             }
         }
 
+        $encryptedPassword = indexApiController::encrypt($data['date_of_birth'], $_ENV['SALT']);
         // return var_dump($uploadedFiles);
         $teacher = $app->db->insert('tbl_users', [
             "first_name" => $data['first_name'],
             "last_name" => $data['last_name'],
             "gender" => $data['gender'],
             "username" => $data['nisn'],
-            "password" => $data['nisn'],
+            "password" => $encryptedPassword,
             "id_class" => $data['id_class'],
             "id_subject" => $data['id_subject'],
             "NISN" => $data['nisn'],

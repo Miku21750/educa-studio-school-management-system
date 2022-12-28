@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print PDF</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+</head>
+
+<body class="pdf-cetak">
+    <div class="p-5">
+        <div class="row headerPdf">
+            <div class="col-3 d-flex align-items-center justify-content-center p-3">
+                <img src="/img/tut-wuri-handayani-7783.png" style="height: 150px; width: auto;" alt="">
+            </div>
+            <div class="row align-middle col-6 justify-content-center p-5 font-weight-bold">
+                <div class="col-12 d-flex align-items-center justify-content-center">
+                    <h1>GAMELAB INDONESIA</h1>
+                </div>
+                <div class="col-12 d-flex align-items-center justify-content-center py-3 px-5">
+                    <h3 class="text-center">Jl. Gilingrejo No. 10, Desa/Kelurahan Gendongan, Kec. Tingkir, Kota
+                        Salatiga, Provinsi Jawa Tengah, Kode Pos: 50743</h3>
+                </div>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-center p-3">
+                <img src="/img/logo-icon.png" style="height: 150px; width: auto;" alt="">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row px-5 rapor-name">
+            <div class="col-9 justify-content-center align-middle">
+                <table class="table table-borderless" style="height: 100%;">
+                    <tr>
+                        <td class="text-print font-weight-bold">NISN </td>
+                        <td class="font-weight-bold text-print" style="width: 10px;">:</td>
+                        <td class="text-print">{{ nisn }}</td>
+                    </tr>
+                    <tr class="">
+                        <td class="text-print font-weight-bold" style="width: 250px;">Nama Lengkap </td>
+                        <td class="font-weight-bold text-print" style="width: 10px;">:</td>
+                        <td class="text-print">{{ nama }}</td>
+                    </tr>
+                    <tr>
+                        <td class="text-print font-weight-bold">Kelas </td>
+                        <td class="font-weight-bold text-print" style="width: 10px;">:</td>
+                        <td class="text-print">{{ kelas }}</td>
+                    </tr>
+                    <!-- <tr>
+                        <td class="text-print font-weight-bold">Semester </td>
+                        <td class="font-weight-bold text-print" style="width: 10px;">:</td>
+                        <td class="text-print">1</td>
+                    </tr> -->
+                    <tr>
+                        <td class="text-print font-weight-bold">Tahun Ajaran </td>
+                        <td class="font-weight-bold text-print" style="width: 10px;">:</td>
+                        <td class="text-print">{{ scyear }}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-3 d-flex align-items-center justify-content-center p-3">
+                <img src="/uploads/Profile/{{ foto }}" style="height: 250px; width: auto;" alt="">
+            </div>
+        </div>
+
+        <div class="row px-5 rapor-nilai text-print">
+            <table class="table table-bordered" style="width: 100%;">
+                <thead>
+                    <tr class="text-center">
+                        <th scope="col" style="width: 5%;"></th>
+                        <th scope="col">Mata Pelajaran</th>
+                        <th scope="col" style="width: 15%;">Nilai Tugas</th>
+                        <th scope="col" style="width: 15%;">Nilai UTS</th>
+                        <th scope="col" style="width: 15%;">Nilai UAS</th>
+                        <th scope="col" style="width: 15%;">Nilai Akhir</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- start nilai rapor -->
+
+                    <!-- <tr>
+                        <td style="width: 5%;" class="text-center">1</td>
+                        <td>Matematika</td>
+                        <td style="width: 10%;" class="text-center">75</td>
+                        <td style="width: 10%;" class="text-center">85</td>
+                        <td style="width: 10%;" class="text-center">80</td>
+                        <td style="width: 10%;" class="text-center">83</td>
+                        <td style="width: 15%;" class="text-center">Very Good</td>
+                    </tr> -->
+                    {% for i in rapor %}
+                    <tr>
+                        <td style="width: 5%;" class="text-center">1</td>
+                        <td>{{ i.subject_name }}</td>
+                        <td class="text-center">{{ i.nilai_1 }}</td>
+                        <td class="text-center">{{ i.nilai_2 }}</td>
+                        <td class="text-center">{{ i.nilai_3 }}</td>
+                        <td class="text-center">{{ i.nilai_akhir }}</td>
+                    </tr>
+                    {% endfor %}
+
+                    <!-- end nilai rapor -->
+
+                    <tr>
+                        <td colspan="5" class="text-center">Jumlah Nilai</td>
+                        <td class="text-center">{{ jmlNilai }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="width: 10%;" class="text-center">Rata-rata</td>
+                        <td class="text-center">{{ average }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row px-5 rapor-nilai text-print text-center">
+            <div class="col-3 ">ttd Ortu</div>
+            <div class="col-6 ">Mengetahui,</div>
+            <div class="col-3 ">ttd Kepsek</div>
+        </div>
+    </div>
+
+    <script>
+        window.print();
+    </script>
+</body>
+
+</html>

@@ -20,7 +20,7 @@ class AcconuntController
 
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
-
+        
         $app->view->render($response, 'acconunt/all-fees.html', [
 
             'type_user' => $_SESSION['type_user'],
@@ -51,11 +51,7 @@ class AcconuntController
 
     public static function tampil_data($app, $req, $rsp, $args)
     {
-        // Required
-        $transaction_details = array(
-            'order_id' => rand(),
-            'gross_amount' => 94000, // no decimal allowed for creditcard
-        );
+        
         $tbl_users = 'tbl_users';
         $tbl_classes = 'tbl_classes';
 
@@ -74,6 +70,7 @@ class AcconuntController
             'gender',
             'class',
             'section',
+            'order_id',
             'payment_type_name',
             'amount_payment',
             'status_pembayaran',
@@ -138,6 +135,8 @@ class AcconuntController
                 'gender',
                 'class',
                 'section',
+                'order_id',
+
                 'payment_type_name',
                 'amount_payment',
                 'status_pembayaran',
@@ -167,6 +166,7 @@ class AcconuntController
             'gender',
             'class',
             'section',
+            'order_id',
             'payment_type_name',
             'amount_payment',
             'status_pembayaran',
@@ -197,8 +197,10 @@ class AcconuntController
 
                 if ($m['status_pembayaran'] == "Belum Bayar") {
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">' . $m['status_pembayaran'] . '</p>';
-                } else {
+                }elseif ($m['status_pembayaran'] == "Dibayar") {
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-success d-block my-2 py-3 px-4">' . $m['status_pembayaran'] . '</p>';
+                } else {
+                    $datas['status_pembayaran'] = '<p class="badge badge-pill badge-warning d-block my-2 py-3 px-4">' . $m['status_pembayaran'] . '</p>';
                 }
 
                 $datas['email'] = $m['email'];
@@ -216,7 +218,7 @@ class AcconuntController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right item_cek" data-cek="' . $m['order_id'] . '" data-idFinance="' . $m['id_finance'] . '">
                     <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_finance'] . '">
                         <i class="fas fa-trash text-orange-red"></i>
                         Hapus
@@ -551,32 +553,119 @@ class AcconuntController
 
         // return $response->withJson($data[0]);
     }
+    public static function cek_all_data_midtrans($app, $request, $response, $args)
+    {
+        $data = $app->db->select('tbl_finances', ['order_id'],[
+            'order_id[!]' => 0
+        ]);
+        foreach ($data as $m) {
+            $id = $m['order_id'];
+            $getStatus = Midtrans\Transaction::status($id);
+            $cek[] = $getStatus;
+            
+        }
+    //     if (!empty($data)) {
+    //     foreach ($data as $m) {
+        
+        //     $getStatus = Midtrans\Transaction::status($m['order_id']);
+    //     // $base = $_SERVER['requ']
+    //     }
+    //     $cek[] = $getStatus;
+    // }
+    return $response->withJSON(array($cek));
+    // die(var_dump($cek));
+    
+
+        
+        
+
+        // return $response->withJson($data[0]);
+    }
+    public static function cek_data_midtrans($app, $request, $response, $args)
+    {
+        $id = $request->getParam('id');
+        
+        $getStatus = Midtrans\Transaction::status($id);
+        // $base = $_SERVER['requ']
+        return $response->withJSON(array($getStatus));
+        
+        
+
+        // return $response->withJson($data[0]);
+    }
     public static function update_data_midtrans($app, $request, $response, $args)
     {
         $data = $args['data'];
         if ($data['status_code'] == 200) {
             $status = 'Dibayar';
+            $tgl = $data['time'];
+            
         }elseif ($data['status_code'] == 201) {
             $status = 'Transaksi sedang diproses';
-        }else {
-            $status = 'Erorr';
+            $tgl = $data['time'];
+        }elseif ($data['status_code'] == 407)  {
+            $status = 'Kadaluarsa';
+            $tgl = $data['time'];
         }
-
-
-
+        
+        
+        
         // return var_dump($uploadedFiles);
         $update = $app->db->update('tbl_finances', [
-           
+            
             "status_pembayaran" => $status,
-            "date_payment" => $data['time'],
+            "date_payment" => $tgl,
             "order_id" => $data['order_id'],
             
         ], [
-
+            
             "id_finance" => $data['id'],
-
+            
         ]);
+        // return die(var_dump($update));
         // return var_dump($update);
+        $json_data = array(
+            "draw"            => intval($request->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
+    }
+    public static function update_pay_data_midtrans($app, $request, $response, $args)
+    {
+        $data = $args['data'];
+        $i = 0;
+        foreach ($data['data'] as $m) {
+        
+        if ($m[$i]['status_code'] == 200) {
+            $status = 'Dibayar';
+            $tgl = $m[$i]['transaction_time'];
+            
+        }elseif ($m[$i]['status_code'] == 201) {
+            $status = 'Transaksi sedang diproses';
+            $tgl = $m[$i]['transaction_time'];
+        }elseif ($m[$i]['status_code'] == 407)  {
+            $status = 'Kadaluarsa';
+            $tgl = $m[$i]['transaction_time'];
+        }else{
+            $status = 'Belum Bayar';
+            $tgl = $m[$i]['transaction_time'];
+        }
+        
+        
+        
+        // return var_dump($uploadedFiles);
+        $update = $app->db->update('tbl_finances', [
+            
+            "status_pembayaran" => $status,
+            "date_payment" => $tgl,            
+        ], [
+            
+            "order_id" => $m[$i]['order_id'],
+            
+        ]);
+        // return  die(var_dump($update));
+        $i++;
+    }
         $json_data = array(
             "draw"            => intval($request->getParam('draw')),
         );
@@ -585,51 +674,7 @@ class AcconuntController
     }
     public static function notice_midtrans($app, $request, $response, $args)
     {
-        $notif = new Midtrans\Notification();
         
-
-        $transaction = $notif->transaction_status;
-        $snapToken = Midtrans\Snap::getSnapToken($transaction);
-        $type = $notif->payment_type;
-        $order_id = $notif->order_id;
-        $fraud = $notif->fraud_status;
-        return die(var_dump($snapToken));
-        $message = 'ok';
-
-        if ($transaction == 'capture') {
-            // For credit card transaction, we need to check whether transaction is challenge by FDS or not
-            if ($type == 'credit_card') {
-                if ($fraud == 'challenge') {
-                    // TODO set payment status in merchant's database to 'Challenge by FDS'
-                    // TODO merchant should decide whether this transaction is authorized or not in MAP
-                    $message = "Transaction order_id: " . $order_id ." is challenged by FDS";
-                } else {
-                    // TODO set payment status in merchant's database to 'Success'
-                    $message = "Transaction order_id: " . $order_id ." successfully captured using " . $type;
-                }
-            }
-        } elseif ($transaction == 'settlement') {
-            // TODO set payment status in merchant's database to 'Settlement'
-            
-            $message = "Transaction order_id: " . $order_id ." successfully transfered using " . $type;
-        } elseif ($transaction == 'pending') {
-            // TODO set payment status in merchant's database to 'Pending'
-            $message = "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
-        } elseif ($transaction == 'deny') {
-            // TODO set payment status in merchant's database to 'Denied'
-            $message = "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
-        } elseif ($transaction == 'expire') {
-            // TODO set payment status in merchant's database to 'expire'
-            $message = "Payment using " . $type . " for transaction order_id: " . $order_id . " is expired.";
-        } elseif ($transaction == 'cancel') {
-            // TODO set payment status in merchant's database to 'Denied'
-            $message = "Payment using " . $type . " for transaction order_id: " . $order_id . " is canceled.";
-        }
-
-        $filename = $order_id . ".txt";
-        $dirpath = 'log';
-        is_dir($dirpath) || mkdir($dirpath, 0777, true);
-
         $data = $args['data'];
         if ($data['status_code'] == 200) {
             $status = 'Dibayar';

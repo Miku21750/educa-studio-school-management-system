@@ -1,7 +1,7 @@
 {% extends "layout/master.html" %}
 {% set title = "All Student" %}
 {% set typeFrontEnd = "Student" %}
-{% set section_type = "All Student" %}
+{% set section_type = "Acc Student" %}
 {% block content %}
 {% if berhasil == true %}
 <script>
@@ -43,13 +43,13 @@
   <div class="card-body">
     <div class="heading-layout1">
       <div class="item-title">
-        <h3>Semua Data Siswa</h3>
+        <h3>Data Calon Siswa</h3>
       </div>
 
     </div>
 
     <div class="table-responsive expenses-table-box">
-      <table class="table text-nowrap" id="student-viewx">
+      <table class="table text-nowrap" id="calon">
         <thead class="text-center">
           <tr>
 
@@ -58,13 +58,9 @@
             <th>Foto</th>
             <th>Nama</th>
             <th>Jenis Kelamin</th>
-            <th>Kelas</th>
+            <th>Periode</th>
             <th></th>
-            {# <th>Orang tua</th>
-            <th>Alamat</th>
-            <th>Tanggal Lahir</th>
-            <th>Telepon</th>
-            <th>E-mail</th> #}
+           
           </tr>
         </thead>
         <tbody id="show_data">

@@ -144,6 +144,9 @@ class DashbordParentController
                 $tgl = AcconuntController::tgl_indo($m['date_payment']);
 
                 $datas['date_payment'] = $tgl;
+                if ($m['status_pembayaran'] == 'Dibayar'){
+                    $datas['aksi'] = ' ';
+                }else
                 $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
@@ -154,6 +157,10 @@ class DashbordParentController
                     <a class="dropdown-item btn btn-light item_bayar" data-idFinance="' . $m['id_finance'] . '">
                         <i class="fas fa-money text-success"></i>
                         Bayar
+                    </a>
+                    <a class="dropdown-item btn btn-light item_cek" data-cek="' . $m['order_id'] . '" data-idFinance="' . $m['id_finance'] . '">
+                        <i class="fas fa-money text-success"></i>
+                        Cek
                     </a>
                    
                    
@@ -256,9 +263,10 @@ class DashbordParentController
 
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'].' '.$m['last_name'];
-                $datas['ujian'] = $m['exam_name'];
+                $datas['ujian'] = $m['exam_type']  .' '.$m['semester'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'].' '.$m['section'];
+                $datas['session'] = $m['session'];
                 $datas['nilai'] = $m['score'];
                 $datas['grade'] = $m['grade_name'];
                 $tgl = AcconuntController::tgl_indo($m['date_result']);

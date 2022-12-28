@@ -35,7 +35,9 @@ class ExamController
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], [
             'id_exam(id_exam)',
-            'exam_name(exam_name)',
+            'exam_type(exam_type)',
+            'semester(semester)',
+            'session(session)',
             'subject_name(subject_name)',
             'class(class)',
             'section(section)',
@@ -64,7 +66,9 @@ class ExamController
 
             ];
             $conditions['OR'] = [
-                'tbl_exams.exam_name[~]' => '%' . $search . '%',
+                'tbl_exams.exam_type[~]' => '%' . $search . '%',
+                'tbl_exams.semester[~]' => '%' . $search . '%',
+                'tbl_exams.session[~]' => '%' . $search . '%',
                 'tbl_subjects.subject_name[~]' => '%' . $search . '%',
                 'tbl_classes.class[~]' => '%' . $search . '%',
                 'tbl_exams.exam_date[~]' => '%' . $search . '%',
@@ -80,7 +84,9 @@ class ExamController
                     '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
                 ],
                 [
-                    'exam_name(exam_name)',
+                    'exam_type(exam_type)',
+                    'semester(semester)',
+                    'session(session)',
                     'subject_name(subject_name)',
                     'class(class)',
                     'section(section)',
@@ -100,7 +106,9 @@ class ExamController
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], [
             'id_exam(id_exam)',
-            'exam_name(exam_name)',
+            'exam_type(exam_type)',
+            'semester(semester)',
+            'session(session)',
             'subject_name(subject_name)',
             'class(class)',
             'section(section)',
@@ -117,11 +125,11 @@ class ExamController
                 $examStart = strtotime($m['exam_start']);
                 $examEnd = strtotime($m['exam_end']);
                 $datas['No'] = $no . '.';
-                $datas['exam_name'] = $m['exam_name'];
+                $datas['exam_type'] = $m['exam_type'] . ' '. $m['semester'];
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['class'] = $m['class'] . ' ' . $m['section'];
+                $datas['session'] = $m['session'];
                 $exam_date = AcconuntController::tgl_indo($m['exam_date']);
-
                 $datas['exam_date'] = $exam_date;
                 $datas['exam_time'] = date("H:i", $examStart) . ' - ' . date("H:i", $examEnd);
                 $datas['aksi'] =  '<div class="dropdown">
@@ -166,7 +174,7 @@ class ExamController
             '[><]tbl_users' => ['id_class' => 'id_class']
         ], [
             'id_exam(id_exam)',
-            'exam_name(exam_name)',
+            'exam_type(exam_type)',
             'subject_name(subject_name)',
             'class(class)',
             'section(section)',
@@ -198,7 +206,7 @@ class ExamController
 
             ];
             $conditions['OR'] = [
-                'tbl_exams.exam_name[~]' => '%' . $search . '%',
+                'tbl_exams.exam_type[~]' => '%' . $search . '%',
                 'tbl_subjects.subject_name[~]' => '%' . $search . '%',
                 'tbl_classes.class[~]' => '%' . $search . '%',
                 'tbl_exams.exam_date[~]' => '%' . $search . '%',
@@ -215,7 +223,7 @@ class ExamController
                     '[>]tbl_users' => ['id_class' => 'id_class']
                 ],
                 [
-                    'exam_name(exam_name)',
+                    'exam_type(exam_type)',
                     'subject_name(subject_name)',
                     'class(class)',
                     'section(section)',
@@ -237,7 +245,7 @@ class ExamController
             '[>]tbl_users' => ['id_class' => 'id_class']
         ], [
             'id_exam(id_exam)',
-            'exam_name(exam_name)',
+            'exam_type(exam_type)',
             'subject_name(subject_name)',
             'class(class)',
             'section(section)',
@@ -254,7 +262,7 @@ class ExamController
                 $examStart = strtotime($m['exam_start']);
                 $examEnd = strtotime($m['exam_end']);
                 $datas['No'] = $no . '.';
-                $datas['exam_name'] = $m['exam_name'];
+                $datas['exam_type'] = $m['exam_type'];
                 $datas['subject_name'] = $m['subject_name'];
                 $datas['class'] = $m['class'] . ' ' . $m['section'];
                 $exam_date = AcconuntController::tgl_indo($m['exam_date']);
@@ -429,7 +437,9 @@ class ExamController
             "id_exam",
             "id_class",
             "id_subject",
-            "exam_name",
+            "exam_type",
+            "semester",
+            "session",
             "exam_date",
             "exam_start",
             "exam_end"
@@ -465,7 +475,9 @@ class ExamController
         $data = $args['data'];
 
         $update = $app->db->update('tbl_exams', [
-            "exam_name" => $data['exam_name'],
+            "exam_type" => $data['exam_type'],
+            "semester" => $data['semester'],
+            "session" => $data['session'],
             "id_class" => $data['id_class'],
             "id_subject" => $data['id_subject'],
             "exam_date" => $data['exam_date'],
@@ -486,7 +498,9 @@ class ExamController
         $data = $args['data'];
 
         $data = $app->db->insert('tbl_exams', [
-            "exam_name" => $data['exam_name'],
+            "exam_type" => $data['exam_type'],
+            "semester" => $data['semester'],
+            "session" => $data['session'],
             "id_class" => $data['id_class'],
             "id_subject" => $data['id_subject'],
             "exam_date" => $data['exam_date'],
@@ -519,10 +533,16 @@ class ExamController
     {
         $class = $app->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section")->fetchAll();
         $subject = $app->db->select('tbl_subjects', '*');
-
+        $schYear = $app->db->select('tbl_users', 'session', [
+            'GROUP'=>[
+                'session'
+            ],
+        ]);
+        // return die(var_dump($schYear));
         $app->view->render($rsp, 'exam/exam-schedule.html', [
             'class' => $class,
             'subject' => $subject,
+            'schYear' => $schYear,
         ]);
     }
 
@@ -534,15 +554,15 @@ class ExamController
         ], '*', [
             'id_user_type' => 1
         ]);
-        $exam = $app->db->select(
-            'tbl_exams',
-            [
-                '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
-                '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
-                '[>]tbl_sections' => 'id_section'
-            ],
-            '*'
-        );
+        // $exam = $app->db->select(
+        //     'tbl_exams',
+        //     [
+        //         '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+        //         '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+        //         '[>]tbl_sections' => 'id_section'
+        //     ],
+        //     '*'
+        // );
         $grade = $app->db->select(
             'tbl_exam_grades',
             '*'
@@ -550,7 +570,7 @@ class ExamController
 
         $app->view->render($rsp, 'exam/exam-result.html', [
             'user' => $user,
-            'exam' => $exam,
+            // 'exam' => $exam,
             'grade' => $grade,
         ]);
     }
@@ -649,9 +669,10 @@ class ExamController
 
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
-                $datas['ujian'] = $m['exam_name'];
+                $datas['ujian'] = $m['exam_type']. ' '. $m['semester'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
+                $datas['session'] = $m['session'];
                 $datas['nilai'] = $m['score'];
                 $datas['grade'] = $m['grade_name'];
                 $tanggal = AcconuntController::tgl_indo($m['date_result']);
@@ -835,7 +856,7 @@ class ExamController
 
                 $datas['nisn'] = $m['NISN'];
                 $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
-                $datas['ujian'] = $m['exam_name'];
+                $datas['ujian'] = $m['exam_type'];
                 $datas['mapel'] = $m['subject_name'];
                 $datas['kelas'] = $m['class'] . ' ' . $m['section'];
                 $datas['nilai'] = $m['score'];
@@ -910,7 +931,7 @@ class ExamController
     public static function result_detail($app, $request, $response, $args)
     {
         $id_result = $args['data'];
-
+        
         $data = $app->db->get('tbl_exam_results', [
             '[><]tbl_users' => 'id_user',
 
@@ -958,6 +979,7 @@ class ExamController
             'tbl_users.session'=>$sesion
             
         ]);
+        // return die(var_dump($final));
         foreach($final as $f){
             $checkFinalScoreIfExistAdd = $app->db->select('tbl_final_scores','*',[
                 'id_class'=>$id_class,
@@ -965,36 +987,20 @@ class ExamController
                 'id_user'=>$f['id_user']
             ]); 
             
-            // return die(var_dump(empty($checkFinalScoreIfExistAdd)));
             if(empty($checkFinalScoreIfExistAdd)){
                 $insert = $app->db->insert('tbl_final_scores',[
                     'id_class'=>$id_class,
                     'id_subject'=>$id_subject,
                     'id_user'=>$f['id_user']
                 ]); 
+                // var_dump($insert);
             }
         }
-        $final_score = $app->db->select('tbl_final_scores', '*', [
+        $final = $app->db->select('tbl_final_scores', '*', [
             'id_class' => $id_class,
             'id_subject'=>$id_subject
             
         ]);
-        // $final = $app->db->debug()->select('tbl_users', [
-        //     '[><]tbl_attendances' => ['tbl_users.id_user' => 'id_user'],
-        //     '[><]tbl_subjects' => ['tbl_attendances.id_subject' => 'id_subject'],
-        //     '[><]tbl_classes' => ['tbl_attendances.id_class' => 'id_class'],
-        //     '[><]tbl_tasks' => ['tbl_users.id_user' => 'id_user'],
-
-
-        // ], '*', [
-        //     'tbl_attendances.id_class' => $id_class,
-        //     'tbl_attendances.id_subject' => $id_subject,
-        //     'tbl_tasks.id_class' => $id_class,
-        //     'tbl_tasks.id_subject' => $id_subject,
-
-        // ]);
-        // return var_dump($final);
-        // die();
 
 
         $totaldata = count($final);
@@ -1020,8 +1026,6 @@ class ExamController
             $conditions['OR'] = [
                 'tbl_users.first_name[~]' => '%' . $search . '%',
                 'tbl_users.last_name[~]' => '%' . $search . '%',
-
-
             ];
             $final = $app->db->select(
                 'tbl_final_scores',
@@ -1069,47 +1073,131 @@ class ExamController
                     'id_subject'=>$id_subject,
                     'absence'=>1
                 ]);
+                $kehadiranSum = 0;
                 if($kehadiran == 0){
                     $AbsencePercent = '<p id="NAbs" data-idUser="'.$m['id_final_score'].'">0</p>';
+                    $kehadiranSum = 0;
                 }else{
-                    $AbsencePercent = '<p id="NAbs" data-idUser="'.$m['id_final_score'].'">'.(int) $AbsenceExist / $kehadiran * 100 .'</p>';
+                    $kehadiranSum = (int) $AbsenceExist / $kehadiran * 100;
+                    $AbsencePercent = '<p id="NAbs" data-idUser="'.$m['id_final_score'].'">'. $kehadiranSum .'</p>';
                 }
                 $scoreSum = $app->db->sum('tbl_tasks','score',[
                     'id_user'=>$m['id_user'],
                     'id_class'=>$id_class,
                     'id_subject'=>$id_subject,
                 ]);
+                $scoreCount = $app->db->count('tbl_tasks',[
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                ]);
+                $examUTS = $app->db->select('tbl_exam_results',[
+                    '[><]tbl_exams'=>'id_exam'
+                ], '*',[
+                    'exam_type'=>'UTS',
+                    'session'=>$sesion,
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                ]);
                 
+                if(count($examUTS) == 0){
+                    $examUTS[0]['score']=0;
+                }
+                $examUAS = $app->db->select('tbl_exam_results',[
+                    '[><]tbl_exams'=>'id_exam'
+                ], '*',[
+                    'exam_type'=>'UAS',
+                    'session'=>$sesion,
+                    'id_user'=>$m['id_user'],
+                    'id_class'=>$id_class,
+                    'id_subject'=>$id_subject,
+                ]);
+                if(count($examUAS) == 0){
+                    $examUAS[0]['score']=0;
+                }
+                // return die(var_dump(array('examUTS' => $examUTS, 'examUAS' => $examUAS)));
+                $nilaiAkhir = '';
                 switch($finalScoreSystem){
                     case 'SPK':{
                         $scoreAverage = '<input type="number" data-idUser="'.$m['id_final_score'].'" id="NA1" min="0.01" max=100.00" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" value="'.$m['nilai_1'].'">';
+                        $n2 = '<input data-idUser="' . $m['id_final_score'] . '"  value="' . $m['nilai_2'] . '" type="number" id="NA2" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(' . $m['id_final_score'] . ')" oninput="maxLengthCheck(this)" >';
+                        $n3 = '<input data-idUser="' . $m['id_final_score'] . '"  value="' . $m['nilai_3'] . '" type="number" id="NA3" min="1"  max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore(' . $m['id_final_score'] . ')" oninput="maxLengthCheck(this)" >';
                         $readonly = false;
+                        $nilaiAkhir = '<p data-idUser="' . $m['id_final_score'] . '" id="NA"></p>';
                     }break;
                     case 'U1':{
-                        $scoreCount = $app->db->count('tbl_tasks',[
-                            'id_user'=>$m['id_user'],
-                            'id_class'=>$id_class,
-                            'id_subject'=>$id_subject,
-                        ]);
+                        $n1rate = 0.3;
+                        $n2rate = 0.3;
+                        $n3rate = 0.3;
+                        $nAbsrate = 0.1;
                         if($scoreCount == 0){
                             $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">0.0</p>';
+                                $n1 = 0;
                         }else{
                             $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">'.number_format((float) $scoreSum / $scoreCount, 1, '.', '').'</p>';
-                        }   
+                            $n1 = number_format((float) $scoreSum / $scoreCount, 1, '.', '');
+                        }
+                            // return die(var_dump($examUAS));
+                        if(count($examUTS) != 0){
+                                $n2 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA2">' . $examUTS[0]['score'] . '</p>';
+                        }else{
+                                $n2 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA2">0.0</p>';
+                        }
+                        if(count($examUAS) != 0){
+                                $n3 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA3">' . $examUAS[0]['score'] . '</p>';
+                        }else{
+                                $n3 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA3">0.0</p>';
+                        }
                         $readonly = true;
+                        $update = $app->db->update('tbl_final_scores',[
+                            'nilai_abs'=>$kehadiranSum,
+                            'nilai_1'=>$n1,
+                            'nilai_2'=>$examUTS[0]['score'],
+                            'nilai_3'=>$examUAS[0]['score'],
+                            'nilai_akhir'=>($n1 * $n1rate) + ( (int)$examUTS[0]['score'] * $n2rate) + ( (int)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)
+                        ],[
+                            'id_final_score'=>$m['id_final_score']
+                        ]);
+                        // return die(var_dump($examUTS));
+                            // return die(var_dump('<p data-idUser="' . $m['id_final_score'] . '" id="NA">' . ceil(($n1 * $n1rate) + ( (float)$examUTS[0]['score'] * $n2rate) + ( (float)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)) . '</p>'));
+                            // return var_dump(($n1 * $n1rate) + ( (float)$examUTS[0]['score'] * $n2rate) + ( (float)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate));
+                            $nilaiAkhir = '<p data-idUser="'.$m['id_final_score'].'" id="NA">'.ceil(($n1 * $n1rate) + ( (int)$examUTS[0]['score'] * $n2rate) + ( (int)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)).'</p>';
                     }break;
                     case 'U2':{
-                        $scoreCount = $app->db->count('tbl_tasks',[
-                            'id_user'=>$m['id_user'],
-                            'id_class'=>$id_class,
-                            'id_subject'=>$id_subject,
-                        ]);
+                        $n1rate = 0.4;
+                        $n2rate = 0.4;
+                        $n3rate = 0.15;
+                        $nAbsrate = 0.05;
                         if($scoreCount == 0){
                             $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">0.0</p>';
+                                $n1 = 0;
                         }else{
                             $scoreAverage = '<p id="NA1" data-idUser="'.$m['id_final_score'].'">'.number_format((float) $scoreSum / $scoreCount, 1, '.', '').'</p>';
+                                $n1 = number_format((float) $scoreSum / $scoreCount, 1, '.', '');
                         }   
+                        if(count($examUTS) != 0){
+                                $n2 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA2">' . $examUTS[0]['score'] . '</p>';
+                        }else{
+                                $n2 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA2">0.0</p>';
+                        }
+                        if(count($examUAS) != 0){
+                                $n3 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA3">' . $examUAS[0]['score'] . '</p>';
+                        }else{
+                                $n3 = '<p data-idUser="' . $m['id_final_score'] . '" id="NA3">0.0</p>';
+                        }
                         $readonly = true;
+                        $update = $app->db->update('tbl_final_scores',[
+                            'nilai_abs'=>$kehadiranSum,
+                            'nilai_1'=>$n1,
+                            'nilai_2'=>$examUTS[0]['score'],
+                            'nilai_3'=>$examUAS[0]['score'],
+                            //(n1Val * n1) + (n2Val * n2) + (n3Val * n3)
+                            'nilai_akhir'=>($n1 * $n1rate) + ( (int)$examUTS[0]['score'] * $n2rate) + ( (int)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)
+                        ],[
+                            'id_final_score'=>$m['id_final_score']
+                        ]);
+                        $nilaiAkhir = '<p data-idUser="'.$m['id_final_score'].'" id="NA">'.ceil(($n1 * $n1rate) + ((int)$examUTS[0]['score'] * $n2rate) + ((int)$examUAS[0]['score'] * $n3rate) + ($kehadiranSum * $nAbsrate)).'</p>';
                     }break;
                     default: break;
                 }
@@ -1118,14 +1206,16 @@ class ExamController
                 $datas['nama'] = '<p data-idUser="'.$m['id_final_score'].'">'.$m['first_name'].' '.$m['last_name'].'</p>';
                 $datas['kehadiran'] = $AbsencePercent;
                 $datas['tugas'] = $scoreAverage;
-                $datas['uts'] = '<input data-idUser="'.$m['id_final_score'].'"  value="'.$m['nilai_2'].'" type="number" id="NA2" min="1" max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" >';
-                $datas['uas'] = '<input data-idUser="'.$m['id_final_score'].'"  value="'.$m['nilai_3'].'" type="number" id="NA3" min="1"  max="100" onkeypress="return isNumeric(event)" onkeyup="rateFinalScore('.$m['id_final_score'].')" oninput="maxLengthCheck(this)" >';
-                $datas['akhir'] = '<p data-idUser="'.$m['id_final_score'].'" id="NA"></p>';
+                $datas['uts'] = $n2;
+                $datas['uas'] = $n3;
+                $datas['akhir'] = $nilaiAkhir;
                 
                 $data[] = $datas;
                 $no++;
+                
             }
         }
+        
         // return var_dump($grade);
         // return var_dump($grade);
 
@@ -1138,5 +1228,30 @@ class ExamController
         // return var_dump($data);
         // return var_dump($json_data);
         echo json_encode($json_data);
+    }
+    public static function getExamBasedOnStudent($app, $req, $rsp, $args){
+        $id = $req->getParam('id');
+        $class = $app->db->select('tbl_users', 'id_class', [
+            'id_user' => $id
+        ]);
+        $examData = $app->db->select('tbl_exams',[
+            '[><]tbl_classes' => ["tbl_exams.id_class" => 'id_class'],
+            '[><]tbl_subjects' => ["tbl_exams.id_subject" => 'id_subject'],
+            '[>]tbl_sections' => 'id_section'
+        ],
+        '*',[
+            'tbl_exams.id_class'=>$class[0]
+        ]);
+        $grade = $app->db->select(
+            'tbl_exam_grades',
+            '*'
+        );
+        // return die(var_dump($examData));
+        $data = array(
+            'examData'=> $examData,
+            'grade'=>$grade,
+        );
+        return $rsp->withJson($data);
+
     }
 }
