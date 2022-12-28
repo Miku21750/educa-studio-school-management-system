@@ -23,6 +23,8 @@
   - [CSS](#css)
   - [JavaScript](#javascript)
 - [Route, Api, And Functionality](#route-api-and-functionality)
+  - [Default Password  User (Student,Teacher,Parent)](#default-password--user-studentteacherparent)
+  - [Menambah User Admin](#menambah-user-admin)
   - [Password Generator](#password-generator)
   - [User Role](#user-role)
   - [View Route](#view-route)
@@ -98,11 +100,40 @@ File ini terletak didalam folder ```src``` tepatnya ```src\.env```.
 file .env mungkin akan terhidden bila sudah ada didalam server, bila melalui hosting control panel dapat 
 memilih opsi lihat file tersembunyi, atau bila melalui cli bisa dilihat dengan ```ls -la```
 
-```
+```bash
+# Konfigurasi Midtrans
 MIDTRANS_MERCHANT_ID=
 MIDTRANS_CLIENT_KEY=
 MIDTRANS_SERVER_KEY=
+
+# Konfigurasi SMTP PHP Mailer
+SMTP_HOST=
+SMTP_PORT=
+SMTP_ENCRYPTION=
+SMTP_AUTH=
+EMAIL_SENDER=
+PASSWORD_OAUTH2=
+
+# SALT 
+# https://id.wikipedia.org/wiki/Salt_(kriptografi)
+# Ubah ini saat deploying. 
+# example : &o8vrl98rO^O2lv^R^&r
 SALT=
+
+# Hostname = Web Domain Name
+# Gunakan Port bila diperlukan
+# example : localhost:8200
+HOSTNAME=
+# Host Protocol
+HOST_PROTOCOL=
+
+# Konfigurasi DB
+DB_TYPE=
+DB_HOST=
+DB_NAME=
+DB_USER=
+DB_PASS=
+DB_PORT=
 ```
 
 ## Requirement
@@ -196,8 +227,44 @@ Development Purpose Server
 
 ```
 
-
 # Route, Api, And Functionality
+
+## Default Password  User (Student,Teacher,Parent)
+Password default untuk semua tipe user adalah tanggal lahir, ketika admin menambah user,
+admin diharuskan mengisi tanggal lahir, tanggal tersebut akan menjadi default password.  
+Format password berdasarkan format tanggal yang tersimpan didatabase. ```yyyy-mm-dd```.  
+
+## Menambah User Admin
+
+Untuk menambahkan user admin dapat langung menambah user didatabase dengan querry insert.  
+```sql 
+INSERT INTO tbl_users (username, password, id_user_type, status) 
+VALUES ({username}, {encrypted_password}, 3, 1);
+```
+
+3 adalah id_user_type untuk admin Lihat [User Role](#user-role).  
+1 adalah status yang menandakan user sudah tervertifikasi [Dokumentasi Database],
+jika tidak diisi maka admin tidak akan bisa login.
+
+example :  
+```sql 
+INSERT INTO tbl_users (username, password, id_user_type, status) 
+VALUES 
+(
+	"sukiyaki",
+	"95e670696fa927d3:4b3a1d1edd8381f098f0f41f5fe6bcab5a1dc411:igyyZQK7rdKOVNTfW87G3g==",
+	3, 
+	1
+);
+```
+
+![insert](./doc/img/insertAdmin.png)
+
+karena login menggunakan mekanisme mendekripsi password,
+maka password yang diinputkan kedatabase juga harus sudah dienkripsi.
+Untuk menggenerate password dapat menggenerate dengan
+menggunakan password generator yang sudah di sertakan.
+Lihat [Password Generator](#password-generator).
 
 ## Password Generator
 
@@ -206,13 +273,12 @@ File nya ada di ```doc\passwordGenerator\passwordGenerator.php```
 Jalankan di terminal dengan perintah  
  ```php-cgi -f .\passwordGenerator.php pass={Masukan_Password} salt={Masukan_Salt_disini} email={Masukan_Email}```  
   
-Catatan : Email Bersifat Opsional.  
+Catatan : <strong> Email Bersifat Opsional </strong>. Email digunakan hanya untuk menggenerate querry update.
   
 Contohnya :
 ![Infra](./doc/img/passwordGenerator.png)
 Lalu segera masukan password kedalam user setelah digenerate.  
 catatan : harap sesuaikan salt dengan yang ada di file .env
-
 
 ## User Role  
 
@@ -222,8 +288,6 @@ catatan : harap sesuaikan salt dengan yang ada di file .env
 | Teacher |    2    | Sebagian fungsi/action yang dikhususkan saja. |
 | Admin   |    3    | Semua fungsi/action terbuka                   |
 | Parent  |    4    | Sebagian fungsi/action yang dikhususkan saja. |  
-
-
 
 ## View Route
 
