@@ -75,7 +75,7 @@ class StudentController
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], '*', [
             'id_user_type' => $type,
-            'tbl_users.id_class[!]' => 99,
+            'tbl_users.id_class[!]' => [99, 100, 101],
         ]);
 
 
@@ -96,7 +96,7 @@ class StudentController
         $conditions = [
             "LIMIT" => [$start, $limit],
             'id_user_type' => $type,
-            'tbl_users.id_class[!]' => 99,
+            'tbl_users.id_class[!]' => [99, 100, 101],
 
         ];
 
@@ -114,7 +114,7 @@ class StudentController
             $limit = [
                 "LIMIT" => [$start, $limit],
                 'id_user_type' => $type,
-                'tbl_users.id_class[!]' => 99,
+                'tbl_users.id_class[!]' => [99, 100, 101],
 
             ];
 
@@ -251,7 +251,7 @@ class StudentController
             '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
         ], '*', [
             'id_user_type' => $type,
-            'tbl_users.id_class' => [99, 100],
+            'tbl_users.id_class' => [99, 100, 101],
         ]);
 
 
@@ -272,7 +272,7 @@ class StudentController
         $conditions = [
             "LIMIT" => [$start, $limit],
             'id_user_type' => $type,
-            'tbl_users.id_class' => [99, 100],
+            'tbl_users.id_class' => [99, 100, 101],
 
         ];
 
@@ -290,7 +290,7 @@ class StudentController
             $limit = [
                 "LIMIT" => [$start, $limit],
                 'id_user_type' => $type,
-                'tbl_users.id_class' => 99,
+                'tbl_users.id_class' => [99, 100, 101],
 
             ];
 

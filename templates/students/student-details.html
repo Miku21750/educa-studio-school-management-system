@@ -241,13 +241,13 @@
                 </div>
               </div>
 
-              <div class="row form-group col-12 my-3 ">
-                <p>Bio : <br>
-                  <textarea name="data_short_bio" cols="200" rows="5"
-                    class="form-control textarea">{{ data.short_bio }}</textarea>
+              <p>Bio : <br>
+              <div class="form-group">
+                <textarea name="data_short_bio" cols="200" rows="5"
+                  class="form-control textarea">{{ data.short_bio }}</textarea>
 
-                </p>
               </div>
+              </p>
               <div class="row form-group">
 
                 <input type="text" name="id_user" value="{{ data.id_user }}" hidden>
@@ -325,8 +325,19 @@
                 </div>
                 <div class="col-6 my-3">
                   <label>Status :</label>
-                  <input type="text" name="occupation" placeholder="Silahkan Masukan Data" class="form-control"
-                    value="{{data.occupation}}">
+                  <!-- <input type="text" name="occupation" placeholder="Silahkan Masukan Data" class="form-control"
+                    value="{{data.occupation}}"> -->
+                  <select name="occupation" class="select2" id="occupation">
+                    <option value="">Silahkan Pilih</option>
+                    <option value="Belum/ Tidak Bekerja">Belum/ Tidak Bekerja</option>
+                    <option value="Mahasiswa">Mahasiswa</option>
+                    <option value="Pewagai Negeri Sipil">Pewagai Negeri Sipil</option>
+                    <option value="Tentara Nasional Indonesia">Tentara Nasional Indonesia</option>
+                    <option value="Kepolisisan RI">Kepolisisan RI</option>
+                    <option value="Karyawan Swasta">Karyawan Swasta</option>
+                    <option value="Wiraswasta">Wiraswasta</option>
+                    <option value="Lainnya">Lainnya</option>
+                  </select>
                 </div>
                 <div class="col-6 my-3">
                   <label>Tempat :</label>
