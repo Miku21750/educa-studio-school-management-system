@@ -1662,6 +1662,7 @@ return function (App $app) {
                     if($f['absence'] == 1){
                         $absenceChecklist = '<input type="checkbox" data-idCallDate="'.$dataRequest['date'].'" data-idUser="'.$f['id_user'].'" checked></input>';
                     }
+                    
                     $datas['no'] = $no . '.';
                     $datas['nisn'] = $f['NISN'];
                     $datas['nama'] = $f['first_name'] . ' ' . $f['last_name'];
