@@ -13,6 +13,7 @@ use App\Controller\HostelController;
 use App\Controller\indexApiController;
 use App\Controller\indexViewController;
 use App\Controller\LibraryController;
+use App\Controller\MessageController;
 use App\Controller\ParentController;
 use App\Controller\PrintPDFController;
 use App\Controller\StudentController;
@@ -54,23 +55,7 @@ return function (App $app) {
             return indexApiController::logout($this, $request, $response, $args);
         }
     );
-
-    // All Student
-    // $app->get(
-    //     '/all-students',
-    //     function (Request $request, Response $response, array $args) use ($container) {
-    //         return DashboardStudentController::allStudent($this, $request, $response, $args);
-    //     }
-    // )->add(new Auth());
-
-    // // admit form student
-    // $app->get(
-    //     '/admit-form',
-    //     function (Request $request, Response $response, array $args) use ($container) {
-    //         return DashboardStudentController::admitForm($this, $request, $response, $args);
-    //     }
-    // )->add(new Auth());
-
+    
     $app->group(
         '/api',
         function () use ($app) {
@@ -2534,143 +2519,32 @@ return function (App $app) {
             return $response->withJson($data);
         }
     );
+
     $app->post(
         '/messageSend',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $data = $request->getParsedBody();
-            // return var_dump($data);
-            $dataSender = $container->db->select('tbl_users', [
-                'email',
-                'first_name',
-                'last_name',
-                'username',
-            ], [
-                'id_user' => $data['id_sender'],
-            ]);
-            $dataReceipent = $container->db->select('tbl_users', 'email', [
-                'id_user' => $data['id_user'],
-            ]);
-            // return die(var_dump($dataSender[0]['email']));
-            // return die(var_dump($dataSender[0]));
-            $insert = $container->db->insert('tbl_messages', [
-                'id_user' => $data['id_user'],
-                'receiver_email' => $dataReceipent[0],
-                'sender_email' => $dataSender[0]['email'],
-                'title' => $data['title'],
-                'message' => $data['message'],
-                'readed' => 0,
-            ]);
-            $addressSender = $dataSender[0]['email'];
-            //$mail->addAddress($dataSender[0]['email']);
-            ////Subject email
-            $subject = $data['title'];
-            //$mail->Subject = 'PHPMailer GMail SMTP test';
-            $dataName = '';
-            if ($dataSender[0]['first_name'] == '') {
-                $dataName = $dataSender[0]['username'];
-            } else {
-                $dataName = $dataSender[0]['first_name'] . ' ' . $dataSender[0]['last_name'];
-            }
-            ;
-            ////Replace plain text body dengan cara manual
-            $bodyEmail = '<h3>You got message from ' . $dataName . '</h3><br><h1>' . $data['title'] . '</h1><br><br><p>' . $data['message'] . '</p>';
-            //$mail->Body = '<h3>You got message from ' . $dataName . '</h3><br><h1>' . $data['title'] . '</h1><br><br><p>' . $data['message'] . '</p>';
-            $altBody = 'This is a plain-text message body';
-            ////mengirim pesan, mengecek error
-            return EmailController::emailConfig($container, $request, $response, [
-                'addressEmail' => $addressSender,
-                'subjectEmail' => $subject,
-                'bodyEmail' => $bodyEmail,
-                'altBody' => $altBody,
-            ]);
-            //if (!$mail->send()) {
-            //    echo "Email Error: " . $mail->ErrorInfo;
-            //}
-            //return;
-            // kirim email end here
-
-            // $container->view->render($response, 'others/messaging.html', $args);
+            return MessageController::sendMessage($this, $request, $response, $args);
         }
     )->add(new Auth());
+    
     $app->post(
         '/readedMessage',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view
-            $data = $request->getParsedBody();
-            // return var_dump($data);
-            $dataSender = $container->db->update('tbl_messages', [
-                'readed' => 1,
-            ], [
-                'id_message' => $data['id_message'],
-            ]);
-            // return var_dump($dataSender);
-            // $container->view->render($response, 'others/messaging.html', $args);
-            return $response->withJson(array('success' => true));
+        return MessageController::readMessage($this, $request, $response, $args);
         }
     )->add(new Auth());
+
     $app->get(
         '/getMessageDetails',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view'
-            // return var_dump($request->getParam('id'));
-            $id = $request->getParam('id_message');
-            $dataNotice = $container->db->select('tbl_messages(m)', [
-                '[>]tbl_users' => 'id_user',
-            ], [
-                'id_message',
-                'totalMessage' => Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '" . $_SESSION['username'] . "')"),
-                'id_user',
-                'receiver_email',
-                'sender_email',
-                'title',
-                'message',
-                'readed',
-                'photo_sender' => Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
-                'first_name_sender' => Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
-                'last_name_sender' => Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
-                'time_sended',
-            ], [
-                'username' => $_SESSION['username'],
-                'id_message' => $id,
-            ]);
-            //return var_dump($dataNotice);
-            return $response->withJson($dataNotice);
+        return MessageController::getMessageDetail($this, $request, $response, $args);
         }
     )->add(new Auth());
+
     $app->get(
         '/getMessageReply',
         function (Request $request, Response $response, array $args) use ($container) {
-            // Render index view'
-            // return var_dump($request->getParam('id'));
-            $id = $request->getParam('id_message');
-            // return die(var_dump($request->getParams()));
-            $dataNotice = $container->db->select('tbl_messages(m)', [
-                '[>]tbl_users' => 'id_user',
-            ], [
-                'id_message',
-                'totalMessage' => Medoo::raw("(SELECT COUNT(id_message) FROM `tbl_messages` AS `m` LEFT JOIN `tbl_users` USING (`id_user`) WHERE username = '" . $_SESSION['username'] . "')"),
-                'id_user',
-                'receiver_email',
-                'sender_email',
-                'title',
-                'message',
-                'readed',
-                'photo_sender' => Medoo::raw('(SELECT photo_user FROM tbl_users WHERE email = m.sender_email)'),
-                'first_name_sender' => Medoo::raw('(SELECT first_name FROM tbl_users WHERE email = m.sender_email)'),
-                'last_name_sender' => Medoo::raw('(SELECT last_name FROM tbl_users WHERE email = m.sender_email)'),
-                'time_sended',
-            ], [
-                'username' => $_SESSION['username'],
-                'id_message' => $id,
-            ]);
-            // return var_dump($dataNotice);
-            // return $response->withJson($dataNotice);
-            $_SESSION['dataMessage'] = $dataNotice;
-            // return die(var_dump($_SESSION));
-            return $response->withJson(array('success' => true));
-            // return array(Success);
-            // return $response->withRedirect('/messaging');
+        return MessageController::getMessageReply($this, $request, $response, $args);
         }
     )->add(new Auth());
     // End Message
@@ -2780,47 +2654,8 @@ return function (App $app) {
     $app->get(
         '/getAllAccount',
         function (Request $request, Response $response, array $args) use ($container) {
-            $search = $request->getParam('search') ?? '';
-            $account = $container->db->select('tbl_users', '*');
-            // return var_dump($search);
-            // die();
-
-            $totaldata = count($account);
-            $totalfiltered = $totaldata;
-            $conditions = [
-                'id_user[!]' => 0,
-            ];
-            if (!empty($request->getParam('search'))) {
-                $search = $request->getParam('search');
-                $conditions['OR'] = [
-                    'tbl_users.first_name[~]' => '%' . $search . '%',
-                    'tbl_users.last_name[~]' => '%' . $search . '%',
-                    'tbl_users.username[~]' => '%' . $search . '%',
-                    'tbl_user_types.user_type[~]' => '%' . $search . '%',
-
-                ];
-                $account = $container->db->select(
-                    'tbl_users',
-                    [
-                        '[><]tbl_user_types' => 'id_user_type',
-                    ],
-                    '*',
-                    $conditions
-                );
-                $totaldata = count($account);
-                $totalfiltered = $totaldata;
-            }
-
-            $account = $container->db->select('tbl_users', [
-                '[><]tbl_user_types' => 'id_user_type',
-            ], '*', $conditions);
-            $data = array();
-            // return var_dump($account);
-            if (!empty($account)) {
-
-                return $response->withJson(array('account' => $account, 'totalData' => $totalfiltered));
-            }
-            // return var_dump($data);
+            // Render index view
+            return indexApiController::getAllAccount($this, $request, $response, $args);
         }
     )->add(new Auth());
     $app->get(
@@ -2838,39 +2673,7 @@ return function (App $app) {
     $app->post(
         '/editAccount',
         function (Request $request, Response $response, array $args) use ($container) {
-            $data = $request->getParsedBody();
-            // return var_dump($data);
-            // get image
-            $directory = $container->get('upload_directory');
-            $uploadedFiles = $request->getUploadedFiles();
-            // handle single input with single file upload
-            $uploadedFile = $uploadedFiles['profileImage'];
-            if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
-                $filename = moveUploadedFile($directory, $uploadedFile);
-                $response->write('uploaded ' . $filename . '<br/>');
-            }
-            // return var_dump(isset($filename));
-            $addUpdate = $filename;
-            if (!isset($filename)) {
-                $addUpdate = $data['imageDefault'];
-            }
-
-            // return var_dump($uploadedFiles);
-            $update = $container->db->update('tbl_users', [
-                "first_name" => $data['first_name'],
-                "last_name" => $data['last_name'],
-                "gender" => $data['gender'],
-                "date_of_birth" => $data['date_of_birth'],
-                "religion" => $data['religion'],
-                "phone_user" => $data['phone_user'],
-                "address_user" => $data['address_user'],
-                "short_bio" => $data['data_short_bio'],
-                "photo_user" => $addUpdate,
-            ], [
-                "id_user" => $data['id_user'],
-            ]);
-            // return var_dump($update);
-            return $response->withRedirect('/all-account');
+            return indexApiController::editAccount($this, $request, $response, $args);
         }
     );
     $app->post(
@@ -2888,7 +2691,6 @@ return function (App $app) {
     $app->get(
         '/verifEmailChange/{key}/{email}',
         function (Request $request, Response $response, array $args) use ($container) {
-            // return die(var_dump($args));
             return UserCredentialController::ubahEmail($this, $request, $response, $args);
         }
     );

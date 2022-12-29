@@ -329,9 +329,29 @@ Berikut ini adalalah daftar api yang digunakan :
 untuk pengujian harus ditambahkan parameter input yang dibutuhkan.
 
 Misal :  
-Url :  ```{{baseUrl}}/api/kelas/add-kelas```  
-Parameter : ```json { "kelas": 1, "bagian": 1, "idTeacher": 23, }```  
-Hasil :  ```json { "status": "success", "details": { "inserted to class": "17", "updated to users": "23"} }```  
+Url :  
+```text 
+{{baseUrl}}/api/kelas/add-kelas
+```  
+Parameter :  
+```json 
+{
+        "kelas": 1,
+        "bagian": 1,
+        "idTeacher": 23, 
+}
+```  
+Hasil :  
+```json
+{ 
+        "status": "success", 
+        "details": 
+        { 
+                "inserted to class": "17", 
+                "updated to users": "23"
+        } 
+}
+```  
 
 *Untuk api yang telah diberi auth harus ditambahkan konfigurasi manual.  
 **Untuk Parameter input sedang didokumentasikan.
