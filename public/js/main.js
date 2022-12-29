@@ -219,9 +219,7 @@
           data.out[i] = 0;
         }
       }
-      // console.log(earningChart == undefined)
       if (earningChart != null) {
-        // console.log(earningChart);
         earningChart.destroy();
       }
       var lineChartData = {
@@ -452,11 +450,9 @@
           success: function (total) {
 
             let a = total;
-            console.log(total)
             siswaPerempuan = a['totalSiswaFemale']
             siswaLaki = a['totalSiswaMale']
 
-            // console.log(siswaPerempuan)
             var doughnutChartData = {
               labels: ["Siswa Perempuan", "Siswa Laki-laki"],
               datasets: [{
@@ -502,10 +498,8 @@
       url: "/getNotice",
       dataType: "JSON",
       success: function (response) {
-        // console.log(response)
         var dataEventCalendar = response;
         var event = [];
-        // console.log(dataEventCalendar);
         for (var i = 0; i < dataEventCalendar.length; i++) {
           var dAwal = new Date(dataEventCalendar[i].date_notice);
           var bulan = months[dAwal.getMonth()];
@@ -556,7 +550,6 @@
             }
           })
         }
-        // console.log(dataEventCalendar)
         if ($.fn.fullCalendar !== undefined) {
           calendarEvent(event);
         }
@@ -590,12 +583,12 @@ function calendarEvent(event) {
 
       $("#noticeModal").modal();
       $("#noticeDetailModal").html(`<div class="notice-list noticeBoardToModal" data-id="` +
-      modal.data.id_notification + 
-      `" data-toggle="modal" data-target="#noticeModal"><div class="post-date ` + 
-      modal.colorModal + `">` +
-      modal.day + ` ` + modal.bulan + ` ` + modal.tahun + 
-      `</div><h6 class="notice-title"><a href="#">` + modal.title +
-      `</a></h6> <p>` + modal.data.details + `</p> <div class="entry-meta">` + modal.data.posted_by + `</div></div>`)
+        modal.data.id_notification +
+        `" data-toggle="modal" data-target="#noticeModal"><div class="post-date ` +
+        modal.colorModal + `">` +
+        modal.day + ` ` + modal.bulan + ` ` + modal.tahun +
+        `</div><h6 class="notice-title"><a href="#">` + modal.title +
+        `</a></h6> <p>` + modal.data.details + `</p> <div class="entry-meta">` + modal.data.posted_by + `</div></div>`)
     }
   });
 }
@@ -607,10 +600,8 @@ $(document).ready(function () {
   libary = function () {
     Libtable = $("#data_book").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -660,10 +651,8 @@ $(document).ready(function () {
   libary = function () {
     Libtable1 = $("#data_bookS").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -783,7 +772,6 @@ $(document).ready(function () {
     var class_book = $('#eclass_book').val();
     var publish_date = $('#epublish_date').val();
     var upload_date = $('#eupload_date').val();
-    console.log($('#eclass_book').html());
     $.ajax({
       type: "POST",
       url: "/api/library/update-book-detail",
@@ -844,8 +832,6 @@ $('#show_book').on('click', '.book_detail', function () {
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
-      // $.each(data, function (key, val) {
-      // console.log(data);
       $('#detail-book').on('shown.bs.modal', function () {
         $('#ebook_name').focus();
       });
@@ -871,10 +857,8 @@ $(document).ready(function () {
   transport = function () {
     transTable = $("#data_transport").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -921,10 +905,8 @@ $(document).ready(function () {
   transportS = function () {
     transTable1 = $("#data_transportS").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -1051,12 +1033,6 @@ $(document).ready(function () {
     var license_number = $('#elicense_number_edit').val();
     var phone_number = $('#ephone_number_edit').val();
     var id_driver = $('#eid_driver_edit').val();
-    console.log(id_transport)
-    // console.log(driver_name)
-    // console.log(license_number)
-    // console.log(phone_number)
-    // console.log(route_name)
-    // console.log(id_driver)
     $.ajax({
       type: "POST",
       url: "/api/transport/update-transport-detail",
@@ -1122,7 +1098,6 @@ $(document).ready(function () {
     var license_number = $('#elicense_number').val();
     var phone_number = $('#ephone_number').val();
     var id_driver = $('#eid_driver').val();
-    // console.log($('#eroute_name').val())
     if (route_name == "" ||
       vehicle_number == "" ||
       driver_name == "" ||
@@ -1143,7 +1118,6 @@ $(document).ready(function () {
         data: { route_name: route_name, vehicle_number: vehicle_number, driver_name: driver_name, license_number: license_number, phone_number: phone_number, id_driver: id_driver },
         success: function (data) {
           if (data) {
-            console.log(data)
             let timerInterval
             Swal.fire({
               title: 'Memuat Data...',
@@ -1162,11 +1136,11 @@ $(document).ready(function () {
               }
             }).then((result) => {
               $('#eroute_name').val('');
-            $('#evehicle_number').val('');
-            $('#edriver_name').val('');
-            $('#elicense_number').val('');
-            $('#ephone_number').val('');
-            $('#eid_driver').val('');
+              $('#evehicle_number').val('');
+              $('#edriver_name').val('');
+              $('#elicense_number').val('');
+              $('#ephone_number').val('');
+              $('#eid_driver').val('');
               transTable.draw(false)
               Swal.fire(
                 {
@@ -1206,7 +1180,6 @@ $('#show_transport').on('click', '.transport_detail', function () {
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
-      // console.log(data.id_transport);
       $('#detail-transport').on('shown.bs.modal', function () {
         $('#eroute_name_edit').focus();
       });
@@ -1232,10 +1205,8 @@ $(document).ready(function () {
   hostel = function () {
     hostelTable = $("#data_hostell").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -1282,10 +1253,8 @@ $(document).ready(function () {
   hostelS = function () {
     hostelTable1 = $("#data_hostellS").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -1408,7 +1377,6 @@ $(document).ready(function () {
     var room_type = $('#eroom_type_edit').val();
     var number_of_bed = $('#enumber_of_bed_edit').val();
     var cost_per_bed = $('#ecost_per_bed_edit').val();
-    // console.log(id_hostel)
     $.ajax({
       type: "POST",
       url: "/api/hostel/update-hostel-detail",
@@ -1467,7 +1435,6 @@ $(document).ready(function () {
     var room_type = $('#eroom_type').val();
     var number_of_bed = $('#enumber_of_bed').val();
     var cost_per_bed = $('#ecost_per_bed').val();
-    console.log(hostel_name)
     if (hostel_name == ""
       || room_number == ""
       || room_type == ""
@@ -1492,7 +1459,6 @@ $(document).ready(function () {
         data: { hostel_name: hostel_name, room_number: room_number, room_type: room_type, number_of_bed: number_of_bed, cost_per_bed: cost_per_bed },
         success: function (data) {
           if (data) {
-            console.log(data)
             let timerInterval
             Swal.fire({
               title: 'Memuat Data...',
@@ -1554,7 +1520,6 @@ $('#show_hostel').on('click', '.hostel_detail', function () {
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
-      // console.log(data.id_hostel);
       $('#detail-hostel').on('shown.bs.modal', function () {
         $('#ehostel_name_edit').focus();
       });
@@ -1578,10 +1543,8 @@ $(document).ready(function () {
   exam = function () {
     examTable = $("#data_exam").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -1596,7 +1559,7 @@ $(document).ready(function () {
         { "width": "10%", "targets": 3, className: "text-start", "orderable": false },
         { "width": "5%", "targets": 4, className: "text-start", "orderable": false },
         { "width": "5%", "targets": 5, className: "text-start", "orderable": false },
-        { "width": "10%", "targets":6, className: "text-center", "orderable": false },
+        { "width": "10%", "targets": 6, className: "text-center", "orderable": false },
         { "width": "5%", "targets": 7, className: "text-center", "orderable": false }
 
       ],
@@ -1630,10 +1593,8 @@ $(document).ready(function () {
   examS = function () {
     examTable1 = $("#data_examS").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -1764,7 +1725,7 @@ $(document).ready(function () {
       type: "POST",
       url: "/api/exam/update-exam-detail",
       dataType: "JSON",
-      data: { id_exam: id_exam, exam_type: exam_type,semester: semester,session: session, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
+      data: { id_exam: id_exam, exam_type: exam_type, semester: semester, session: session, id_subject: id_subject, id_class: id_class, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
       success: function (data) {
         if (data) {
           $('#detail-exam').modal('hide');
@@ -1821,8 +1782,6 @@ $(document).ready(function () {
     var exam_date = $('#eexam_date').val();
     var exam_start = $('#eexam_start').val();
     var exam_end = $('#eexam_end').val();
-    // console.log(id_class);
-    // console.log(id_subject);
     if (exam_type == "" ||
       semester == "" ||
       session == "" ||
@@ -1842,10 +1801,9 @@ $(document).ready(function () {
         type: "POST",
         url: "/api/exam/add-exam",
         dataType: "JSON",
-        data: { exam_type : exam_type, semester : semester, session : session, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
+        data: { exam_type: exam_type, semester: semester, session: session, id_class: id_class, id_subject: id_subject, exam_date: exam_date, exam_start: exam_start, exam_end: exam_end },
         success: function (data) {
           if (data) {
-            console.log(data)
             let timerInterval
             Swal.fire({
               title: 'Memuat Data...',
@@ -1910,7 +1868,6 @@ $('#show_exam').on('click', '.exam_detail', function () {
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
-      // console.log(data);
       $('#detail-exam').on('shown.bs.modal', function () {
         $('#eexam_type').focus();
       });
@@ -1937,10 +1894,8 @@ $(document).ready(function () {
   grade = function () {
     gradeTable = $("#data_grade").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -1986,10 +1941,8 @@ $(document).ready(function () {
   grade = function () {
     gradeTable = $("#data_gradeS").on('preXhr.dt', function (e, settings, data) {
 
-      console.log('loading ....');
 
     }).on('draw.dt', function () {
-      console.log('dapat data ....');
 
     }).DataTable({
       responsive: {
@@ -2099,7 +2052,6 @@ $('#show_grade').on('click', '.grade_detail', function () {
     dataType: "JSON",
     data: { id: id },
     success: function (data) {
-      console.log(data);
       $('#detail-grade').on('shown.bs.modal', function () {
         $('#egrade_name').focus();
       });
@@ -2167,7 +2119,6 @@ $(document).ready(function () {
   }
 
   function drawNotice(s) {
-    //console.log(s);
     const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
       "September", "Oktober", "November", "Desember"
     ];
@@ -2177,7 +2128,6 @@ $(document).ready(function () {
       url: "/getNotice",
       dataType: "JSON",
       success: function (response) {
-        //console.log(response[0])
         $('#notice-list').empty();
         $.each(response, function (i, data) {
           data += data[i]
@@ -2186,8 +2136,6 @@ $(document).ready(function () {
           var tanggal = dAwal.getDate();
           var tahun = dAwal.getFullYear();
           var minus = untilXMas(dAwal);
-          //console.log(minus)
-          //console.log(minus.minutesTotal);
           var difference;
           if (minus.minutesTotal <= 60) {
             difference = minus.minutesTotal + ' menit lalu';
@@ -2197,7 +2145,6 @@ $(document).ready(function () {
             difference = minus.days + ' hari lalu';
           }
 
-          // console.log('response[i].category')
           var classCategory;
           switch (response[i].category) {
             case 'Exam': {
@@ -2245,7 +2192,6 @@ $(document).ready(function () {
     const months = ["Januari", "Febuari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus",
       "September", "Oktober", "November", "Desember"
     ];
-    // console.log(recipient);
     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
     $.ajax({
       type: "GET",
@@ -2255,14 +2201,11 @@ $(document).ready(function () {
       },
       dataType: "JSON",
       success: function (response) {
-        //console.log(response)
         var dAwal = new Date(response[0].date_notice)
         var bulan = months[dAwal.getMonth()];
         var tanggal = dAwal.getDate();
         var tahun = dAwal.getFullYear();
         var minus = untilXMas(dAwal);
-        //console.log(minus)
-        //console.log(minus.minutesTotal);
         var difference;
         if (minus.minutesTotal <= 60) {
           difference = minus.minutesTotal + ' menit lalu';
@@ -2272,7 +2215,6 @@ $(document).ready(function () {
           difference = minus.days + ' hari lalu';
         }
 
-        //console.log(response[i].category)
         var classCategory;
         switch (response[0].category) {
           case 'Exam': {
@@ -2298,7 +2240,6 @@ $(document).ready(function () {
         }
         var modal = $(this)
         $('#noticeDetailModal').empty()
-        console.log($('#noticeDetailModal').html())
         $('#noticeDetailModal').append('<div class="notice-list noticeBoardToModal" data-id="' +
           response[0].id_notification +
           '" data-toggle="modal" data-target="#noticeModal"><div class="post-date ' +
@@ -2380,10 +2321,8 @@ $('document').ready(function () {
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
-        // console.log(data)
         var results = [];
         $.each(data, function (k, v) {
-          // console.log(v.id_user);
           results.push({
             id: v.id_user,
             text: v.first_name + ' ' + v.last_name,
@@ -2421,10 +2360,8 @@ $('document').ready(function () {
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
-        console.log(data)
         var results = [];
         $.each(data, function (k, v) {
-          // console.log(v.id_user);
           results.push({
             id: v.id_user,
             text: v.first_name + ' ' + v.last_name,
@@ -2449,7 +2386,7 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
-  
+
   $("#get-siswa").select2({
     ajax: {
       url: "/api/get-siswa",
@@ -2462,10 +2399,8 @@ $('document').ready(function () {
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
-        console.log(data)
         var results = [];
         $.each(data, function (k, v) {
-          // console.log(v.id_user);
           results.push({
             id: v.id_user,
             text: v.first_name + ' ' + v.last_name,
@@ -2490,7 +2425,7 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
-  
+
   //Midtrans start here
   setInterval(ajaxCalll, 30000); //300000 MS == 5 minutes
 
@@ -2500,32 +2435,30 @@ $('document').ready(function () {
       url: "/api/cek-all",
       dataType: "JSON",
       success: function (data) {
-        console.log(data)
         $.ajax({
           type: "POST",
           url: "/api/update-pay-midtrans",
           data: {
-              data : data
+            data: data
           },
           dataType: "JSON",
           success: function (data) {
-          console.log(data)
-          table1.draw(false)
-          table.draw(false)
-        }
-      })
+            table1.draw(false)
+            table.draw(false)
+          }
+        })
 
 
 
-    }
-  });
+      }
+    });
 
 
   }
   function ajaxCall() {
     table1.draw(false)
 
-    $('.item_cek').each((e,el)=>{
+    $('.item_cek').each((e, el) => {
       var id_finance = $(el).attr('data-cek');
       var id = $(el).attr('data-idFinance');
 
@@ -2534,43 +2467,38 @@ $('document').ready(function () {
         type: "GET",
         url: "/api/cek-midtrans",
         data: {
-            id: id_finance
+          id: id_finance
         },
         dataType: "JSON",
         success: function (data) {
-          console.log(data)
           $.ajax({
             type: "POST",
             url: "/api/update-midtrans",
             data: {
-                id: id,
-                status_code : data[0].status_code,
-                order_id: data[0].order_id,
-                time: data[0].transaction_time,
+              id: id,
+              status_code: data[0].status_code,
+              order_id: data[0].order_id,
+              time: data[0].transaction_time,
             },
             dataType: "JSON",
             success: function (data) {
-            console.log(data)
-          }
-        })
+            }
+          })
 
 
 
-      }
-    });
+        }
+      });
 
-   })
-   
-    
+    })
+
+
   }
-  
+
 
   $('.dropdown').on('click', '.btn-refresh', function (e) {
-    // console.log('itemkeklik')
     e.preventDefault();
-    // return console.log(this);
-    
-    $('.item_cek').each((e,el)=>{
+    $('.item_cek').each((e, el) => {
       var id_finance = $(el).attr('data-cek');
       var id = $(el).attr('data-idFinance');
 
@@ -2579,137 +2507,133 @@ $('document').ready(function () {
         type: "GET",
         url: "/api/cek-midtrans",
         data: {
-            id: id_finance
+          id: id_finance
         },
         dataType: "JSON",
         success: function (data) {
-          console.log(data)
           $.ajax({
             type: "POST",
             url: "/api/update-midtrans",
             data: {
-                id: id,
-                status_code : data[0].status_code,
-                order_id: data[0].order_id,
-                time: data[0].transaction_time,
+              id: id,
+              status_code: data[0].status_code,
+              order_id: data[0].order_id,
+              time: data[0].transaction_time,
             },
             dataType: "JSON",
             success: function (data) {
               if (data) {
-                  
+
                 table1.draw(false)
 
               } else {
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Oops...',
-                      text: 'Ada yang eror!',
-                      //footer: '<a href="">Why do I have this issue?</a>'
-                  })
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Ada yang eror!',
+                  //footer: '<a href="">Why do I have this issue?</a>'
+                })
               }
-          }
-        })
+            }
+          })
 
 
 
+        }
+      });
+
+    })
+    let timerInterval
+    Swal.fire({
+      title: 'Memuat Data...',
+      html: 'Tunggu  <b></b>  Detik.',
+      timer: 300,
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading()
+        const b = Swal.getHtmlContainer().querySelector('b')
+        timerInterval = setInterval(() => {
+          b.textContent = Swal.getTimerLeft()
+        }, 100)
+      },
+      willClose: () => {
+        clearInterval(timerInterval)
       }
-    });
+    }).then((result) => {
+      table1.draw(false)
+      Swal.fire(
+        {
+          icon: 'success',
+          title: 'Berhasil',
+          text: 'Pengecekan Berhasil.',
+          //footer: '<a href="">Why do I have this issue?</a>'
+        }
 
-   })
-   let timerInterval
-                  Swal.fire({
-                      title: 'Memuat Data...',
-                      html: 'Tunggu  <b></b>  Detik.',
-                      timer: 300,
-                      timerProgressBar: true,
-                      didOpen: () => {
-                          Swal.showLoading()
-                          const b = Swal.getHtmlContainer().querySelector('b')
-                          timerInterval = setInterval(() => {
-                              b.textContent = Swal.getTimerLeft()
-                          }, 100)
-                      },
-                      willClose: () => {
-                          clearInterval(timerInterval)
-                      }
-                  }).then((result) => {
-                      table1.draw(false)
-                      Swal.fire(
-                          {
-                              icon: 'success',
-                              title: 'Berhasil',
-                              text: 'Pengecekan Berhasil.',
-                              //footer: '<a href="">Why do I have this issue?</a>'
-                          }
+      )
+    })
 
-                      )
-                  })
-    
   });
   $('#payment').on('click', '.item_cek', function (e) {
-    // console.log('itemkeklik')
     e.preventDefault();
-    // return console.log(this);
     var id_finance = $(this).attr('data-cek');
     var id = $(this).attr('data-idFinance');
     $.ajax({
-        type: "GET",
-        url: "/api/cek-midtrans",
-        data: {
-            id: id_finance
-        },
-        dataType: "JSON",
-        success: function (data) {
-          console.log(data)
-          $.ajax({
-            type: "POST",
-            url: "/api/update-midtrans",
-            data: {
-                id: id,
-                status_code : data[0].status_code,
-                order_id: data[0].order_id,
-                time: data[0].transaction_time,
-            },
-            dataType: "JSON",
-            success: function (data) {
-              if (data) {
-                  let timerInterval
-                  Swal.fire({
-                      title: 'Memuat Data...',
-                      html: 'Tunggu  <b></b>  Detik.',
-                      timer: 300,
-                      timerProgressBar: true,
-                      didOpen: () => {
-                          Swal.showLoading()
-                          const b = Swal.getHtmlContainer().querySelector('b')
-                          timerInterval = setInterval(() => {
-                              b.textContent = Swal.getTimerLeft()
-                          }, 100)
-                      },
-                      willClose: () => {
-                          clearInterval(timerInterval)
-                      }
-                  }).then((result) => {
-                      table1.draw(false)
-                      Swal.fire(
-                          {
-                              icon: 'success',
-                              title: 'Berhasil',
-                              text: 'Pembayaran Berhasil.',
-                              //footer: '<a href="">Why do I have this issue?</a>'
-                          }
+      type: "GET",
+      url: "/api/cek-midtrans",
+      data: {
+        id: id_finance
+      },
+      dataType: "JSON",
+      success: function (data) {
+        $.ajax({
+          type: "POST",
+          url: "/api/update-midtrans",
+          data: {
+            id: id,
+            status_code: data[0].status_code,
+            order_id: data[0].order_id,
+            time: data[0].transaction_time,
+          },
+          dataType: "JSON",
+          success: function (data) {
+            if (data) {
+              let timerInterval
+              Swal.fire({
+                title: 'Memuat Data...',
+                html: 'Tunggu  <b></b>  Detik.',
+                timer: 300,
+                timerProgressBar: true,
+                didOpen: () => {
+                  Swal.showLoading()
+                  const b = Swal.getHtmlContainer().querySelector('b')
+                  timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft()
+                  }, 100)
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                table1.draw(false)
+                Swal.fire(
+                  {
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Pembayaran Berhasil.',
+                    //footer: '<a href="">Why do I have this issue?</a>'
+                  }
 
-                      )
-                  })
+                )
+              })
 
-              } else {
-                  Swal.fire({
-                      icon: 'error',
-                      title: 'Oops...',
-                      text: 'Ada yang eror!',
-                      //footer: '<a href="">Why do I have this issue?</a>'
-                  })
-              }
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Ada yang eror!',
+                //footer: '<a href="">Why do I have this issue?</a>'
+              })
+            }
           }
         })
 
@@ -2719,186 +2643,180 @@ $('document').ready(function () {
     });
   });
   $('#payment').on('click', '.item_bayar', function (e) {
-    // console.log('itemkeklik')
     e.preventDefault();
-    // return console.log(this);
     var id_finance = $(this).attr('data-idFinance');
     $.ajax({
-        type: "GET",
-        url: "/api/get-midtrans",
-        data: {
-            id: id_finance
-        },
-        dataType: "JSON",
-        success: function (response) {
-          // console.log(response);
-          window.snap.pay(response.token,{
-            onSuccess: function(result){
-              console.log(result);
-              $.ajax({
-                type: "POST",
-                url: "/api/update-midtrans",
-                data: {
-                    id: id_finance,
-                    status_code : result.status_code,
-                    time: result.transaction_time,
-                    order_id: result.order_id,
-                },
-                dataType: "JSON",
-                success: function (data) {
-                  if (data) {
-                      let timerInterval
-                      Swal.fire({
-                          title: 'Memuat Data...',
-                          html: 'Tunggu  <b></b>  Detik.',
-                          timer: 300,
-                          timerProgressBar: true,
-                          didOpen: () => {
-                              Swal.showLoading()
-                              const b = Swal.getHtmlContainer().querySelector('b')
-                              timerInterval = setInterval(() => {
-                                  b.textContent = Swal.getTimerLeft()
-                              }, 100)
-                          },
-                          willClose: () => {
-                              clearInterval(timerInterval)
-                          }
-                      }).then((result) => {
-                          table1.draw(false)
-                          Swal.fire(
-                              {
-                                  icon: 'success',
-                                  title: 'Berhasil',
-                                  text: 'Pembayaran Berhasil.',
-                                  //footer: '<a href="">Why do I have this issue?</a>'
-                              }
+      type: "GET",
+      url: "/api/get-midtrans",
+      data: {
+        id: id_finance
+      },
+      dataType: "JSON",
+      success: function (response) {
+        window.snap.pay(response.token, {
+          onSuccess: function (result) {
+            $.ajax({
+              type: "POST",
+              url: "/api/update-midtrans",
+              data: {
+                id: id_finance,
+                status_code: result.status_code,
+                time: result.transaction_time,
+                order_id: result.order_id,
+              },
+              dataType: "JSON",
+              success: function (data) {
+                if (data) {
+                  let timerInterval
+                  Swal.fire({
+                    title: 'Memuat Data...',
+                    html: 'Tunggu  <b></b>  Detik.',
+                    timer: 300,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                      Swal.showLoading()
+                      const b = Swal.getHtmlContainer().querySelector('b')
+                      timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                      }, 100)
+                    },
+                    willClose: () => {
+                      clearInterval(timerInterval)
+                    }
+                  }).then((result) => {
+                    table1.draw(false)
+                    Swal.fire(
+                      {
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Pembayaran Berhasil.',
+                        //footer: '<a href="">Why do I have this issue?</a>'
+                      }
 
-                          )
-                      })
+                    )
+                  })
 
-                  } else {
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: 'Ada yang eror!',
-                          //footer: '<a href="">Why do I have this issue?</a>'
-                      })
-                  }
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Ada yang eror!',
+                    //footer: '<a href="">Why do I have this issue?</a>'
+                  })
+                }
               }
             })
-            },
-            onPending: function(result){
-              console.log(result);
-              $.ajax({
-                type: "POST",
-                url: "/api/update-midtrans",
-                data: {
-                    id: id_finance,
-                    status_code : result.status_code,
-                    time: result.transaction_time,
-                    order_id: result.order_id,
+          },
+          onPending: function (result) {
+            $.ajax({
+              type: "POST",
+              url: "/api/update-midtrans",
+              data: {
+                id: id_finance,
+                status_code: result.status_code,
+                time: result.transaction_time,
+                order_id: result.order_id,
 
-                },
-                dataType: "JSON",
-                success: function (data) {
-                  if (data) {
-                      let timerInterval
-                      Swal.fire({
-                          title: 'Memuat Data...',
-                          html: 'Tunggu  <b></b>  Detik.',
-                          timer: 300,
-                          timerProgressBar: true,
-                          didOpen: () => {
-                              Swal.showLoading()
-                              const b = Swal.getHtmlContainer().querySelector('b')
-                              timerInterval = setInterval(() => {
-                                  b.textContent = Swal.getTimerLeft()
-                              }, 100)
-                          },
-                          willClose: () => {
-                              clearInterval(timerInterval)
-                          }
-                      }).then((result) => {
-                          table1.draw(false)
-                          Swal.fire(
-                              {
-                                  icon: 'success',
-                                  title: 'Berhasil',
-                                  text: 'Transaksi Sedang Diproses',
-                                  //footer: '<a href="">Why do I have this issue?</a>'
-                              }
+              },
+              dataType: "JSON",
+              success: function (data) {
+                if (data) {
+                  let timerInterval
+                  Swal.fire({
+                    title: 'Memuat Data...',
+                    html: 'Tunggu  <b></b>  Detik.',
+                    timer: 300,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                      Swal.showLoading()
+                      const b = Swal.getHtmlContainer().querySelector('b')
+                      timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                      }, 100)
+                    },
+                    willClose: () => {
+                      clearInterval(timerInterval)
+                    }
+                  }).then((result) => {
+                    table1.draw(false)
+                    Swal.fire(
+                      {
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: 'Transaksi Sedang Diproses',
+                        //footer: '<a href="">Why do I have this issue?</a>'
+                      }
 
-                          )
-                      })
+                    )
+                  })
 
-                  } else {
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: 'Ada yang eror!',
-                          //footer: '<a href="">Why do I have this issue?</a>'
-                      })
-                  }
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Ada yang eror!',
+                    //footer: '<a href="">Why do I have this issue?</a>'
+                  })
+                }
               }
             })
-            },
-            onError: function(result){
-              console.log(result);
-              $.ajax({
-                type: "POST",
-                url: "/api/update-midtrans",
-                data: {
-                    id: id_finance,
-                    status_code : result.status_code,
-                    time: result.transaction_time,
-                    order_id: result.order_id,
+          },
+          onError: function (result) {
+            $.ajax({
+              type: "POST",
+              url: "/api/update-midtrans",
+              data: {
+                id: id_finance,
+                status_code: result.status_code,
+                time: result.transaction_time,
+                order_id: result.order_id,
 
-                },
-                dataType: "JSON",
-                success: function (data) {
-                  if (data) {
-                      let timerInterval
-                      Swal.fire({
-                          title: 'Memuat Data...',
-                          html: 'Tunggu  <b></b>  Detik.',
-                          timer: 300,
-                          timerProgressBar: true,
-                          didOpen: () => {
-                              Swal.showLoading()
-                              const b = Swal.getHtmlContainer().querySelector('b')
-                              timerInterval = setInterval(() => {
-                                  b.textContent = Swal.getTimerLeft()
-                              }, 100)
-                          },
-                          willClose: () => {
-                              clearInterval(timerInterval)
-                          }
-                      }).then((result) => {
-                          table1.draw(false)
-                          Swal.fire(
-                              {
-                                  icon: 'error',
-                                  title: 'Gagal',
-                                  text: 'Error.',
-                                  //footer: '<a href="">Why do I have this issue?</a>'
-                              }
+              },
+              dataType: "JSON",
+              success: function (data) {
+                if (data) {
+                  let timerInterval
+                  Swal.fire({
+                    title: 'Memuat Data...',
+                    html: 'Tunggu  <b></b>  Detik.',
+                    timer: 300,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                      Swal.showLoading()
+                      const b = Swal.getHtmlContainer().querySelector('b')
+                      timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                      }, 100)
+                    },
+                    willClose: () => {
+                      clearInterval(timerInterval)
+                    }
+                  }).then((result) => {
+                    table1.draw(false)
+                    Swal.fire(
+                      {
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Error.',
+                        //footer: '<a href="">Why do I have this issue?</a>'
+                      }
 
-                          )
-                      })
+                    )
+                  })
 
-                  } else {
-                      Swal.fire({
-                          icon: 'error',
-                          title: 'Oops...',
-                          text: 'Ada yang eror!',
-                          //footer: '<a href="">Why do I have this issue?</a>'
-                      })
-                  }
+                } else {
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Ada yang eror!',
+                    //footer: '<a href="">Why do I have this issue?</a>'
+                  })
+                }
               }
             })
-            },
-          });
-        }
+          },
+        });
+      }
     });
   });
   //Midtrans end here
@@ -2914,10 +2832,8 @@ $('document').ready(function () {
       },
       processResults: function (data, params) {
         params.page = params.page || 1;
-        console.log(data)
         var results = [];
         $.each(data, function (k, v) {
-          // console.log(v.id_user);
           results.push({
             id: v.id_user,
             text: v.first_name + ' ' + v.last_name,
@@ -2962,10 +2878,8 @@ $('document').ready(function () {
         },
         processResults: function (data, params) {
           params.page = params.page || 1;
-          console.log(data)
           var results = [];
           $.each(data, function (k, v) {
-            // console.log(v.id_user);
             results.push({
               id: v.id_user,
               text: v.first_name + ' ' + v.last_name,
