@@ -91,7 +91,7 @@ class PrintPDFController
         ]);
         
         // die(var_dump($id));
-        // if (!empty($rapor)) {
+        if (!empty($rapor)) {
             $jumlahData = count($rapor);
             $jumlahNilai = 0;
     
@@ -103,11 +103,11 @@ class PrintPDFController
             }
     
             $rata2 = round($jumlahNilai/$jumlahData, 2);
-        // }
-        // else{
-        //     $jumlahNilai = 0;
-        //     $rata2 = 0;
-        // }
+        }
+        else{
+            $jumlahNilai = 0;
+            $rata2 = 0;
+        }
 
         // return $rsp->withJson($jumlahNilai);
 

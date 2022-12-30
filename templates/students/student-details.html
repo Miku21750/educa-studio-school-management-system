@@ -80,7 +80,6 @@
                 {% endif %}</h3>
               <div class="header-elements">
                 <ul>
-
                   <li id="printPdfMyProfile">
                     <a href="#"><i class="fas fa-print"></i></a>
                   </li>
@@ -419,10 +418,10 @@
     $('#selectBloodGroupEditProfile').val(BlGroup).change();
     $('#id_class_detail').val(id_class).change();
     $('#printPdfMyProfile').click(function (e) {
-  
+
       const id = $('#id_user_kode').val();
       window.open('/cetakPDF/' + id, '_blank');
-  
+
     });
   });
 
