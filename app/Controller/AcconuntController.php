@@ -229,7 +229,7 @@ class AcconuntController
                     </a>
                    
                 </div>
-            </div>';
+                </div>';
 
                 $data[] = $datas;
                 $no++;
@@ -572,8 +572,8 @@ class AcconuntController
     //     }
     //     $cek[] = $getStatus;
     // }
-    return $response->withJSON(array($cek));
     // die(var_dump($cek));
+    return $response->withJSON($cek);
     
 
         
@@ -632,23 +632,24 @@ class AcconuntController
     }
     public static function update_pay_data_midtrans($app, $request, $response, $args)
     {
-        $data = $args['data'];
+        $data = $args['data']['data'];
+        // die(var_dump($data));
         $i = 0;
-        foreach ($data['data'] as $m) {
+        foreach ($data as $m) {
         
-        if ($m[$i]['status_code'] == 200) {
+        if ($m['status_code'] == 200) {
             $status = 'Dibayar';
-            $tgl = $m[$i]['transaction_time'];
+            $tgl = $m['transaction_time'];
             
-        }elseif ($m[$i]['status_code'] == 201) {
+        }elseif ($m['status_code'] == 201) {
             $status = 'Transaksi sedang diproses';
-            $tgl = $m[$i]['transaction_time'];
-        }elseif ($m[$i]['status_code'] == 407)  {
+            $tgl = $m['transaction_time'];
+        }elseif ($m['status_code'] == 407)  {
             $status = 'Kadaluarsa';
-            $tgl = $m[$i]['transaction_time'];
+            $tgl = $m['transaction_time'];
         }else{
             $status = 'Belum Bayar';
-            $tgl = $m[$i]['transaction_time'];
+            $tgl = $m['transaction_time'];
         }
         
         
@@ -660,50 +661,19 @@ class AcconuntController
             "date_payment" => $tgl,            
         ], [
             
-            "order_id" => $m[$i]['order_id'],
+            "order_id" => $m['order_id'],
             
         ]);
         // return  die(var_dump($update));
         $i++;
-    }
-        $json_data = array(
-            "draw"            => intval($request->getParam('draw')),
-        );
-
-        echo json_encode($json_data);
-    }
-    public static function notice_midtrans($app, $request, $response, $args)
-    {
-        
-        $data = $args['data'];
-        if ($data['status_code'] == 200) {
-            $status = 'Dibayar';
-        }elseif ($data['status_code'] == 201) {
-            $status = 'Transaksi sedang diproses';
-        }else {
-            $status = 'Erorr';
         }
-
-
-
-        // return var_dump($uploadedFiles);
-        $update = $app->db->update('tbl_finances', [
-           
-            "status_pembayaran" => $status,
-            "date_payment" => $data['time'],
-            
-        ], [
-
-            "id_finance" => $data['id'],
-
-        ]);
-        // return var_dump($update);
         $json_data = array(
             "draw"            => intval($request->getParam('draw')),
         );
 
         echo json_encode($json_data);
     }
+   
 
     public static function tgl_indo($tanggal){
 	$bulan = array (

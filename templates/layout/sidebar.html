@@ -32,7 +32,8 @@
             >
           </li>
           {% endif %}
-         
+          {% if session.type == 3  %}
+
           <li class="nav-item">
             <a href="/student-acc" class="nav-link"
               ><i class="fas fa-angle-right"></i>Acc Students</a
@@ -43,6 +44,8 @@
               ><i class="fas fa-angle-right"></i>Admission Form</a
             >
           </li>
+          {% endif %}
+
           {# <li class="nav-item">
             <a href="/student-promotion" class="nav-link"
               ><i class="fas fa-angle-right"></i>Student Promotion</a
@@ -132,11 +135,15 @@
             >
           </li>
           {% endif %}
+
+          {% if session.type == 3 or  session.type == 1  %}
           <li class="nav-item">
             <a href="/all-peminjaman" class="nav-link"
               ><i class="fas fa-angle-right"></i>Peminjaman Buku</a
             >
           </li>
+          {% endif %}
+
         </ul>
       </li>
       {% endif %} 

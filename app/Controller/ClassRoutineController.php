@@ -486,6 +486,7 @@ class ClassRoutineController
             ]
         );
         // return var_dump($result);
+        // die();
 
         $columns = array(
             0 => 'id',

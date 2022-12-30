@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\SMTP;
 class indexApiController
 {
 
+    // fungsi untuk mengenkripsi password
     public static function encrypt($data, $password){
         $iv = substr(sha1(mt_rand()), 0, 16);
         $password = sha1($password);
@@ -26,7 +27,7 @@ class indexApiController
         return $msg_encrypted_bundle;
     }
     
-    
+    // fungsi untuk mendekripsi password
     public static function decrypt($msg_encrypted_bundle, $password){
         $password = sha1($password);
     
@@ -46,6 +47,89 @@ class indexApiController
     }
 
 
+    // digunakan di route /all-account
+    public static function getAllAccount($app, $request, $response, $args) {
+        $search = $request->getParam('search') ?? '';
+        $account = $app->db->select('tbl_users', '*');
+        // return var_dump($search);
+        // die();
+
+        $totaldata = count($account);
+        $totalfiltered = $totaldata;
+        $conditions = [
+            'id_user[!]' => 0,
+        ];
+        if (!empty($request->getParam('search'))) {
+            $search = $request->getParam('search');
+            $conditions['OR'] = [
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+                'tbl_users.username[~]' => '%' . $search . '%',
+                'tbl_user_types.user_type[~]' => '%' . $search . '%',
+
+            ];
+            $account = $app->db->select(
+                'tbl_users',
+                [
+                    '[><]tbl_user_types' => 'id_user_type',
+                ],
+                '*',
+                $conditions
+            );
+            $totaldata = count($account);
+            $totalfiltered = $totaldata;
+        }
+
+        $account = $app->db->select('tbl_users', [
+            '[><]tbl_user_types' => 'id_user_type',
+        ], '*', $conditions);
+        $data = array();
+        // return var_dump($account);
+        if (!empty($account)) {
+
+            return $response->withJson(array('account' => $account, 'totalData' => $totalfiltered));
+        }
+        // return var_dump($data);
+    }
+
+    // digunakan di route /all-account
+    public static function editAccount($app, $request,  $response,  $args) {
+        $data = $request->getParsedBody();
+        // return var_dump($data);
+        // get image
+        $directory = $app->get('upload_directory');
+        $uploadedFiles = $request->getUploadedFiles();
+        // handle single input with single file upload
+        $uploadedFile = $uploadedFiles['profileImage'];
+        if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
+            $filename = moveUploadedFile($directory, $uploadedFile);
+            $response->write('uploaded ' . $filename . '<br/>');
+        }
+        // return var_dump(isset($filename));
+        $addUpdate = $filename;
+        if (!isset($filename)) {
+            $addUpdate = $data['imageDefault'];
+        }
+
+        // return var_dump($uploadedFiles);
+        $update = $app->db->update('tbl_users', [
+            "first_name" => $data['first_name'],
+            "last_name" => $data['last_name'],
+            "gender" => $data['gender'],
+            "date_of_birth" => $data['date_of_birth'],
+            "religion" => $data['religion'],
+            "phone_user" => $data['phone_user'],
+            "address_user" => $data['address_user'],
+            "short_bio" => $data['data_short_bio'],
+            "photo_user" => $addUpdate,
+        ], [
+            "id_user" => $data['id_user'],
+        ]);
+        // return var_dump($update);
+        return $response->withRedirect('/all-account');
+    }
+
+    // fungsi login
     public static function Login($app, $request, $response, $args)
     {
         $data = $request->getParsedBody();
@@ -60,13 +144,12 @@ class indexApiController
             ]
         );
 
-
+        // medapatkan input password
         $storedPassword = $verAwal[0]['password'];
-
+        // mendapatkan password tersimpan
         $decryptPassword = indexApiController::decrypt($storedPassword, $_ENV['SALT']);
-        
+        // membandingkan input password dengan password yang tersimpan 
         if ($data['pass'] == $decryptPassword) {
-            // return var_dump($verAwal[0]['username']);
             $_SESSION['user'] = $verAwal[0]['first_name'] . ' ' . $verAwal[0]['last_name'];
             $_SESSION['username'] = $verAwal[0]['username'];
             $_SESSION['type'] = $verAwal[0]['id_user_type'];
@@ -80,7 +163,6 @@ class indexApiController
                 setcookie("user", $data['user'], time() + (86400 * 30), "/");
                 setcookie("pass", $data['pass'], time() + (86400 * 30), "/");
             }
-            
             return $response->withRedirect('/');
         } //Else if not exist, can't login
         else {
@@ -92,9 +174,6 @@ class indexApiController
 
     public static function register($app, $request, $response, $args)
     {
-        // 
-        // return var_dump($request->getParsedBody());
-
         // get the requested data
         $data = $request->getParsedBody();
         // select the user db 
@@ -122,9 +201,6 @@ class indexApiController
                 "status" => 0
             ]);
             $id_inserted = $app->db->id();
-            // return var_dump($insert);
-            // $_SESSION['user'] = $data['user'];
-            
             $mail = new PHPMailer;
             //Memberi tahu PHPMailer untuk menggunakan SMTP
             $mail->isSMTP();
@@ -154,7 +230,7 @@ class indexApiController
             $mail->setFrom($_ENV['EMAIL_SENDER'], 'Educa Vertif - Noreply');
             //  //Alamat email alternatif balasan
             //  $mail->addReplyTo('balasemailke@example.com', 'First Last');
-            //Email tujuan
+            //  Email tujuan
             $mail->addAddress($data['email']);
             //Subject email
             $mail->Subject = 'Educa Email Vertification';

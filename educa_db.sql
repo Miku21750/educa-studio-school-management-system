@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Des 2022 pada 09.47
--- Versi server: 10.1.37-MariaDB
--- Versi PHP: 7.0.33
+-- Generation Time: Dec 28, 2022 at 04:08 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -25,17 +24,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_admissions`
+-- Table structure for table `tbl_admissions`
 --
 
 CREATE TABLE `tbl_admissions` (
   `id_admission` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `admission_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_admissions`
+-- Dumping data for table `tbl_admissions`
 --
 
 INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUES
@@ -74,12 +73,18 @@ INSERT INTO `tbl_admissions` (`id_admission`, `id_user`, `admission_date`) VALUE
 (33, 15, '2022-12-19'),
 (34, 77, '2022-12-19'),
 (35, 139, '2022-12-19'),
-(36, 138, '2022-12-20');
+(36, 138, '2022-12-20'),
+(37, 140, '2022-12-23'),
+(40, 141, '2022-12-26'),
+(41, 96, '2022-12-26'),
+(42, 16, '2022-12-26'),
+(43, 27, '2022-12-26'),
+(44, 90, '2022-12-26');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_attendances`
+-- Table structure for table `tbl_attendances`
 --
 
 CREATE TABLE `tbl_attendances` (
@@ -89,84 +94,123 @@ CREATE TABLE `tbl_attendances` (
   `id_subject` int(6) NOT NULL,
   `tanggal` date NOT NULL,
   `absence` tinyint(2) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `update_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_attendances`
+-- Dumping data for table `tbl_attendances`
 --
 
 INSERT INTO `tbl_attendances` (`id_attendance`, `id_user`, `id_class`, `id_subject`, `tanggal`, `absence`, `created_at`, `update_at`) VALUES
-(56, 0, 2, 1, '2022-12-19', 0, '2022-12-18 21:13:20', '2022-12-18 21:13:20'),
-(57, 0, 1, 1, '2022-12-19', 0, '2022-12-18 21:13:29', '2022-12-18 21:13:29'),
-(58, 5, 1, 1, '2022-12-19', 0, '2022-12-18 21:13:43', '2022-12-18 21:13:43'),
-(59, 77, 1, 1, '2022-12-19', 1, '2022-12-18 21:13:43', '2022-12-18 21:13:43'),
-(60, 92, 1, 1, '2022-12-19', 1, '2022-12-18 21:13:43', '2022-12-18 21:13:43'),
-(61, 0, 8, 1, '2022-12-19', 0, '2022-12-18 21:29:41', '2022-12-18 21:29:41'),
-(62, 0, 2, 1, '2022-12-20', 0, '2022-12-19 21:50:58', '2022-12-19 21:50:58'),
-(63, 0, 8, 1, '2022-12-20', 0, '2022-12-19 21:51:14', '2022-12-19 21:51:14'),
-(64, 6, 8, 1, '2022-12-20', 0, '2022-12-19 21:51:21', '2022-12-19 21:51:21'),
-(65, 7, 8, 1, '2022-12-20', 1, '2022-12-19 21:51:21', '2022-12-19 21:51:21'),
-(66, 10, 8, 1, '2022-12-20', 0, '2022-12-19 21:51:21', '2022-12-19 21:51:21'),
-(67, 17, 8, 1, '2022-12-20', 0, '2022-12-19 21:51:21', '2022-12-19 21:51:21'),
-(68, 19, 8, 1, '2022-12-20', 0, '2022-12-19 21:51:21', '2022-12-19 21:51:21'),
-(69, 112, 8, 1, '2022-12-20', 1, '2022-12-19 21:51:21', '2022-12-19 21:51:21'),
-(70, 4, 2, 1, '2022-12-20', 0, '2022-12-19 21:52:13', '2022-12-19 21:52:13'),
-(71, 11, 2, 1, '2022-12-20', 1, '2022-12-19 21:52:13', '2022-12-19 21:53:14'),
-(72, 26, 2, 1, '2022-12-20', 1, '2022-12-19 21:52:13', '2022-12-19 23:11:27'),
-(73, 86, 2, 1, '2022-12-20', 1, '2022-12-19 21:52:13', '2022-12-19 21:52:13'),
-(74, 136, 2, 1, '2022-12-20', 1, '2022-12-19 21:52:13', '2022-12-19 21:52:13'),
-(75, 4, 2, 1, '2022-12-19', 0, '2022-12-19 23:10:34', '2022-12-19 23:10:34'),
-(76, 11, 2, 1, '2022-12-19', 1, '2022-12-19 23:10:34', '2022-12-19 23:10:34'),
-(77, 26, 2, 1, '2022-12-19', 0, '2022-12-19 23:10:34', '2022-12-19 23:10:34'),
-(78, 86, 2, 1, '2022-12-19', 1, '2022-12-19 23:10:34', '2022-12-19 23:10:34'),
-(79, 136, 2, 1, '2022-12-19', 0, '2022-12-19 23:10:34', '2022-12-19 23:10:34');
+(56, 0, 2, 1, '2022-12-19', 0, '2022-12-19 04:13:20', '2022-12-19 04:13:20'),
+(57, 0, 1, 1, '2022-12-19', 0, '2022-12-19 04:13:29', '2022-12-19 04:13:29'),
+(58, 5, 1, 1, '2022-12-19', 0, '2022-12-19 04:13:43', '2022-12-19 04:13:43'),
+(59, 77, 1, 1, '2022-12-19', 1, '2022-12-19 04:13:43', '2022-12-19 04:13:43'),
+(60, 92, 1, 1, '2022-12-19', 1, '2022-12-19 04:13:43', '2022-12-19 04:13:43'),
+(61, 0, 8, 1, '2022-12-19', 0, '2022-12-19 04:29:41', '2022-12-19 04:29:41'),
+(62, 0, 2, 1, '2022-12-20', 0, '2022-12-20 04:50:58', '2022-12-20 04:50:58'),
+(63, 0, 8, 1, '2022-12-20', 0, '2022-12-20 04:51:14', '2022-12-20 04:51:14'),
+(64, 6, 8, 1, '2022-12-20', 0, '2022-12-20 04:51:21', '2022-12-20 04:51:21'),
+(65, 7, 8, 1, '2022-12-20', 1, '2022-12-20 04:51:21', '2022-12-20 04:51:21'),
+(66, 10, 8, 1, '2022-12-20', 0, '2022-12-20 04:51:21', '2022-12-20 04:51:21'),
+(67, 17, 8, 1, '2022-12-20', 0, '2022-12-20 04:51:21', '2022-12-20 04:51:21'),
+(68, 19, 8, 1, '2022-12-20', 0, '2022-12-20 04:51:21', '2022-12-20 04:51:21'),
+(69, 112, 8, 1, '2022-12-20', 1, '2022-12-20 04:51:21', '2022-12-20 04:51:21'),
+(70, 4, 2, 1, '2022-12-20', 0, '2022-12-20 04:52:13', '2022-12-20 04:52:13'),
+(71, 11, 2, 1, '2022-12-20', 1, '2022-12-20 04:52:13', '2022-12-20 04:53:14'),
+(72, 26, 2, 1, '2022-12-20', 1, '2022-12-20 04:52:13', '2022-12-20 06:11:27'),
+(73, 86, 2, 1, '2022-12-20', 1, '2022-12-20 04:52:13', '2022-12-20 04:52:13'),
+(74, 136, 2, 1, '2022-12-20', 1, '2022-12-20 04:52:13', '2022-12-20 04:52:13'),
+(75, 4, 2, 1, '2022-12-19', 0, '2022-12-20 06:10:34', '2022-12-20 06:10:34'),
+(76, 11, 2, 1, '2022-12-19', 1, '2022-12-20 06:10:34', '2022-12-20 06:10:34'),
+(77, 26, 2, 1, '2022-12-19', 0, '2022-12-20 06:10:34', '2022-12-20 06:10:34'),
+(78, 86, 2, 1, '2022-12-19', 1, '2022-12-20 06:10:34', '2022-12-20 06:10:34'),
+(79, 136, 2, 1, '2022-12-19', 0, '2022-12-20 06:10:34', '2022-12-20 06:10:34'),
+(80, 0, 2, 1, '2022-12-23', 0, '2022-12-23 03:58:02', '2022-12-23 03:58:02'),
+(81, 4, 2, 1, '2022-12-23', 1, '2022-12-23 03:58:08', '2022-12-23 03:58:08'),
+(82, 11, 2, 1, '2022-12-23', 0, '2022-12-23 03:58:08', '2022-12-23 03:58:08'),
+(83, 26, 2, 1, '2022-12-23', 0, '2022-12-23 03:58:08', '2022-12-23 03:58:08'),
+(84, 86, 2, 1, '2022-12-23', 0, '2022-12-23 03:58:08', '2022-12-23 03:58:08'),
+(85, 136, 2, 1, '2022-12-23', 0, '2022-12-23 03:58:08', '2022-12-23 03:58:08'),
+(86, 0, 0, 0, '2022-12-23', 0, '2022-12-23 07:29:34', '2022-12-23 07:29:34'),
+(87, 0, 1, 1, '2022-12-26', 0, '2022-12-26 03:53:38', '2022-12-26 03:53:38'),
+(88, 2, 4, 1, '2022-12-27', 1, '2022-12-27 08:20:55', '2022-12-27 08:21:01'),
+(89, 55, 4, 1, '2022-12-27', 1, '2022-12-27 08:20:55', '2022-12-27 08:21:01'),
+(90, 2, 4, 1, '2022-12-20', 1, '2022-12-27 08:21:09', '2022-12-27 08:21:21'),
+(91, 55, 4, 1, '2022-12-20', 1, '2022-12-27 08:21:09', '2022-12-27 08:21:21'),
+(92, 2, 4, 1, '2022-12-13', 0, '2022-12-27 08:21:26', '2022-12-27 08:21:26'),
+(93, 55, 4, 1, '2022-12-13', 1, '2022-12-27 08:21:26', '2022-12-27 08:21:36'),
+(94, 2, 4, 1, '2022-12-06', 1, '2022-12-27 08:21:42', '2022-12-27 08:21:51'),
+(95, 55, 4, 1, '2022-12-06', 1, '2022-12-27 08:21:42', '2022-12-27 08:21:51'),
+(96, 2, 4, 2, '2022-12-06', 1, '2022-12-27 08:22:22', '2022-12-27 08:22:31'),
+(97, 55, 4, 2, '2022-12-06', 1, '2022-12-27 08:22:22', '2022-12-27 08:22:31'),
+(98, 2, 4, 2, '2022-12-13', 1, '2022-12-27 08:22:43', '2022-12-27 08:22:52'),
+(99, 55, 4, 2, '2022-12-13', 1, '2022-12-27 08:22:43', '2022-12-27 08:22:52'),
+(100, 2, 4, 2, '2022-12-20', 1, '2022-12-27 08:22:59', '2022-12-27 08:23:05'),
+(101, 55, 4, 2, '2022-12-20', 1, '2022-12-27 08:22:59', '2022-12-27 08:23:05'),
+(102, 2, 4, 2, '2022-12-27', 1, '2022-12-27 08:23:12', '2022-12-27 08:23:17'),
+(103, 55, 4, 2, '2022-12-27', 1, '2022-12-27 08:23:12', '2022-12-27 08:23:17'),
+(104, 2, 4, 3, '2022-12-27', 1, '2022-12-27 08:23:32', '2022-12-27 08:23:39'),
+(105, 55, 4, 3, '2022-12-27', 1, '2022-12-27 08:23:32', '2022-12-27 08:23:39'),
+(106, 2, 4, 3, '2022-12-20', 0, '2022-12-27 08:23:44', '2022-12-27 08:23:44'),
+(107, 55, 4, 3, '2022-12-20', 1, '2022-12-27 08:23:44', '2022-12-27 08:23:49'),
+(108, 2, 4, 3, '2022-12-06', 1, '2022-12-27 08:23:57', '2022-12-27 08:24:03'),
+(109, 55, 4, 3, '2022-12-06', 0, '2022-12-27 08:23:57', '2022-12-27 08:23:57');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_books`
+-- Table structure for table `tbl_books`
 --
 
 CREATE TABLE `tbl_books` (
   `id_book` int(11) NOT NULL,
   `name_book` varchar(50) NOT NULL,
-  `id_subject` int(11) NOT NULL,
+  `kategori` varchar(25) DEFAULT NULL,
   `writer_book` varchar(50) NOT NULL,
-  `id_class` int(5) NOT NULL,
   `publish_date` date NOT NULL,
   `upload_date` date NOT NULL,
   `code_book` varchar(15) DEFAULT NULL,
-  `status_buku` enum('Ada','Dipinjam','','') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `status_buku` enum('Ada','Dipinjam','','') NOT NULL,
+  `create_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_books`
+-- Dumping data for table `tbl_books`
 --
 
-INSERT INTO `tbl_books` (`id_book`, `name_book`, `id_subject`, `writer_book`, `id_class`, `publish_date`, `upload_date`, `code_book`, `status_buku`) VALUES
-(2, 'Matahari', 2, 'Tereliye', 1, '2005-02-18', '2022-12-09', '20221209002', 'Ada'),
-(3, 'Hujan', 5, 'Tereliye', 2, '2016-05-30', '2022-12-09', '20221209003', 'Ada'),
-(6, 'Setelah Gelap Terbitlah Terang', 6, 'RA Kartini', 1, '2022-12-07', '2022-12-04', '20221214001', 'Dipinjam'),
-(10, 'Hujan', 8, 'Tereliye', 3, '2022-12-01', '2022-12-14', '20221214002', 'Ada'),
-(11, 'Bumi', 9, 'Tere', 2, '2022-12-01', '2022-12-14', '20221214008', 'Ada'),
-(13, 'Bintang', 10, 'Fulan', 2, '2016-02-10', '2022-12-15', '20221215001', 'Ada');
+INSERT INTO `tbl_books` (`id_book`, `name_book`, `kategori`, `writer_book`, `publish_date`, `upload_date`, `code_book`, `status_buku`, `create_at`) VALUES
+(2, 'Matahari', NULL, 'Tereliye', '2005-02-18', '2022-12-09', '20221209002', 'Dipinjam', '2022-12-25 21:14:46'),
+(3, 'Hujan', 'Umum', 'Tereliye', '2016-05-30', '2022-12-09', '20221209003', 'Dipinjam', '2022-12-25 21:14:46'),
+(6, 'Setelah Gelap Terbitlah Terang', NULL, 'RA Kartini', '2022-12-07', '2022-12-04', '20221214001', 'Ada', '2022-12-25 21:14:46'),
+(10, 'Hujan', NULL, 'Tereliye', '2022-12-01', '2022-12-14', '20221214002', 'Ada', '2022-12-25 21:14:46'),
+(11, 'Bumi', NULL, 'Tere', '2022-12-01', '2022-12-14', '20221214002', 'Ada', '2022-12-25 21:14:46'),
+(13, 'Bintang', NULL, 'Fulan', '2016-02-10', '2022-12-15', '20221215001', 'Ada', '2022-12-25 21:14:46'),
+(149, 'Buku Bahasa Spanyol', NULL, 'Freguso', '2022-12-30', '2022-12-23', NULL, 'Ada', '2022-12-25 21:16:28'),
+(150, 'awdwad', NULL, 'awdwdw', '2022-12-14', '2022-12-05', 'WDW-3-0150', 'Ada', '2022-12-25 21:29:26'),
+(151, 'wadwa;23423dx', NULL, '3fwef;\'wsdf', '2022-12-06', '2022-12-29', 'WDW-1-0151', 'Ada', '2022-12-25 21:29:49'),
+(152, 'Thunder Attack', NULL, 'Thunder Spirit', '2022-12-30', '2022-12-07', 'THNTTC-1-0152', 'Ada', '2022-12-25 21:31:11'),
+(153, 'Teori Olaharaga', NULL, 'Thunder Spirit', '2022-12-05', '2022-12-26', 'TRLH-1-0153', 'Ada', '2022-12-25 21:32:45'),
+(154, 'Bahasa Inggris XI', NULL, 'Thunder Spirit', '2022-12-08', '2022-12-21', 'BHNGX-1-0154', 'Ada', '2022-12-25 23:26:49'),
+(155, 'Saya Hiyama', NULL, 'wadwadwd', '2022-12-20', '2022-12-15', 'SHM--0155', 'Ada', '2022-12-25 23:44:09'),
+(156, 'wdawd', 'Buku Guru', 'awdwd', '2022-12-06', '2022-12-29', 'WD--0156', 'Ada', '2022-12-25 23:47:29'),
+(157, 'Hewan', 'Umum', 'anomin', '2022-12-20', '2022-12-27', 'HW-0157', 'Ada', '2022-12-27 02:20:48');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_classes`
+-- Table structure for table `tbl_classes`
 --
 
 CREATE TABLE `tbl_classes` (
   `id_class` int(11) NOT NULL,
   `id_section` int(11) NOT NULL,
   `class` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_classes`
+-- Dumping data for table `tbl_classes`
 --
 
 INSERT INTO `tbl_classes` (`id_class`, `id_section`, `class`) VALUES
@@ -180,13 +224,14 @@ INSERT INTO `tbl_classes` (`id_class`, `id_section`, `class`) VALUES
 (7, 3, 'X'),
 (8, 3, 'XI'),
 (9, 3, 'XII'),
-(10, 4, 'X'),
-(99, 0, 'Lulus');
+(99, 0, 'Lulus'),
+(100, 0, 'Pindah'),
+(101, 0, 'Keluar');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_class_routines`
+-- Table structure for table `tbl_class_routines`
 --
 
 CREATE TABLE `tbl_class_routines` (
@@ -197,10 +242,10 @@ CREATE TABLE `tbl_class_routines` (
   `school_day` enum('Senin','Selasa','Rabu','Kamis','Jumat') DEFAULT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_class_routines`
+-- Dumping data for table `tbl_class_routines`
 --
 
 INSERT INTO `tbl_class_routines` (`id_class_routine`, `id_class`, `id_subject`, `id_user`, `school_day`, `start_time`, `end_time`) VALUES
@@ -214,47 +259,53 @@ INSERT INTO `tbl_class_routines` (`id_class_routine`, `id_class`, `id_subject`, 
 (17, 9, 6, 39, 'Senin', '16:05:00', '17:05:00'),
 (19, 1, 6, 23, 'Selasa', '09:26:00', '10:26:00'),
 (20, 5, 1, 23, 'Senin', '11:11:00', '11:59:00'),
-(21, 2, 10, 84, 'Senin', '11:07:00', '12:07:00'),
+(21, 2, 17, 84, 'Senin', '11:07:00', '12:07:00'),
 (22, 1, 5, 30, 'Rabu', '11:10:00', '11:14:00'),
-(24, 6, 11, 71, 'Senin', '13:07:00', '14:07:00'),
-(25, 9, 9, 57, 'Senin', '11:01:00', '12:01:00'),
-(26, 6, 8, 132, 'Jumat', '00:00:00', '12:00:00'),
-(31, 1, 7, 132, 'Senin', '00:00:00', '00:00:00'),
-(39, 6, 6, 59, 'Senin', '15:13:00', '16:13:00'),
+(24, 6, 15, 71, 'Senin', '13:07:00', '14:07:00'),
+(25, 11, 12, 57, 'Senin', '11:01:00', '12:01:00'),
+(26, 11, 19, 132, 'Jumat', '00:00:00', '12:00:00'),
+(31, 13, 23, 132, 'Senin', '00:00:00', '00:00:00'),
+(39, 10, 6, 59, 'Senin', '15:13:00', '16:13:00'),
 (40, 2, 1, 74, 'Rabu', '15:15:00', '17:15:00'),
-(41, 4, 4, 132, 'Senin', '13:17:00', '14:17:00'),
-(42, 8, 3, 59, 'Senin', '07:30:00', '08:30:00'),
-(43, 4, 1, 35, 'Selasa', '18:54:00', '17:54:00');
+(41, 4, 12, 132, 'Senin', '13:17:00', '14:17:00'),
+(42, 8, 18, 59, 'Senin', '07:30:00', '08:30:00');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_exams`
+-- Table structure for table `tbl_exams`
 --
 
 CREATE TABLE `tbl_exams` (
   `id_exam` int(11) NOT NULL,
   `id_class` int(11) NOT NULL,
-  `exam_type` varchar(50) NOT NULL,
+  `exam_type` enum('UTS','UAS') NOT NULL,
+  `semester` enum('Semester 1','Semester 2') NOT NULL,
+  `session` varchar(255) NOT NULL,
   `exam_date` date DEFAULT NULL,
   `exam_start` time DEFAULT NULL,
   `exam_end` time NOT NULL,
   `id_subject` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_exams`
+-- Dumping data for table `tbl_exams`
 --
 
-INSERT INTO `tbl_exams` (`id_exam`, `id_class`, `exam_type`, `exam_date`, `exam_start`, `exam_end`, `id_subject`) VALUES
-(1, 1, 'Ujian Semester 1 ', '2022-12-01', '10:00:00', '11:00:00', 1),
-(2, 2, 'Ujian Semester 1', '2020-10-24', '14:59:00', '15:59:00', 2),
-(3, 4, 'Ujian Khusus', '2022-12-20', '03:00:00', '04:00:00', 1);
+INSERT INTO `tbl_exams` (`id_exam`, `id_class`, `exam_type`, `semester`, `session`, `exam_date`, `exam_start`, `exam_end`, `id_subject`) VALUES
+(1, 1, '', 'Semester 1', '', '2022-12-01', '10:00:00', '11:00:00', 1),
+(2, 2, '', 'Semester 1', '', '2020-10-24', '14:59:00', '15:59:00', 2),
+(3, 4, 'UTS', 'Semester 1', '2023-2024', '2022-12-27', '13:00:00', '14:00:00', 1),
+(4, 4, 'UTS', 'Semester 1', '2023-2024', '2022-12-28', '07:00:00', '08:00:00', 2),
+(5, 4, 'UTS', 'Semester 1', '2023-2024', '2022-12-28', '08:00:00', '09:00:00', 3),
+(6, 4, 'UAS', 'Semester 1', '2023-2024', '2023-01-04', '08:00:00', '09:00:00', 1),
+(7, 4, 'UAS', 'Semester 1', '2023-2024', '2023-01-04', '08:00:00', '09:00:00', 2),
+(8, 4, 'UAS', 'Semester 1', '2023-2024', '2023-01-04', '08:00:00', '09:00:00', 3);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_exam_grades`
+-- Table structure for table `tbl_exam_grades`
 --
 
 CREATE TABLE `tbl_exam_grades` (
@@ -264,10 +315,10 @@ CREATE TABLE `tbl_exam_grades` (
   `percent_upto` int(11) NOT NULL,
   `grade_desc` varchar(255) NOT NULL,
   `grade_point` float NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_exam_grades`
+-- Dumping data for table `tbl_exam_grades`
 --
 
 INSERT INTO `tbl_exam_grades` (`id_exam_grade`, `grade_name`, `percent_from`, `percent_upto`, `grade_desc`, `grade_point`) VALUES
@@ -284,7 +335,7 @@ INSERT INTO `tbl_exam_grades` (`id_exam_grade`, `grade_name`, `percent_from`, `p
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_exam_results`
+-- Table structure for table `tbl_exam_results`
 --
 
 CREATE TABLE `tbl_exam_results` (
@@ -294,10 +345,10 @@ CREATE TABLE `tbl_exam_results` (
   `id_exam_grade` int(11) NOT NULL,
   `score` int(11) NOT NULL,
   `date_result` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_exam_results`
+-- Dumping data for table `tbl_exam_results`
 --
 
 INSERT INTO `tbl_exam_results` (`id_result`, `id_user`, `id_exam`, `id_exam_grade`, `score`, `date_result`) VALUES
@@ -317,12 +368,17 @@ INSERT INTO `tbl_exam_results` (`id_result`, `id_user`, `id_exam`, `id_exam_grad
 (26, 16, 1, 1, 100, '2022-12-13'),
 (27, 20, 1, 4, 80, '2022-12-13'),
 (29, 61, 2, 1, 100, '2022-12-13'),
-(30, 138, 1, 1, 100, '2022-12-20');
+(30, 2, 3, 3, 85, '2022-12-27'),
+(31, 2, 4, 2, 90, '2022-12-27'),
+(32, 2, 5, 1, 98, '2022-12-27'),
+(33, 2, 6, 5, 78, '2022-12-27'),
+(34, 2, 7, 3, 89, '2022-12-27'),
+(35, 2, 8, 2, 93, '2022-12-27');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_final_scores`
+-- Table structure for table `tbl_final_scores`
 --
 
 CREATE TABLE `tbl_final_scores` (
@@ -335,36 +391,24 @@ CREATE TABLE `tbl_final_scores` (
   `nilai_2` decimal(5,0) NOT NULL,
   `nilai_3` decimal(5,0) NOT NULL,
   `nilai_akhir` decimal(5,0) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_final_scores`
+-- Dumping data for table `tbl_final_scores`
 --
 
 INSERT INTO `tbl_final_scores` (`id_final_score`, `id_user`, `id_class`, `id_subject`, `nilai_abs`, `nilai_1`, `nilai_2`, `nilai_3`, `nilai_akhir`) VALUES
-(9, 4, 2, 1, '0', '10', '10', '0', '8'),
-(10, 5, 2, 1, '0', '20', '20', '0', '16'),
-(11, 11, 2, 1, '100', '50', '50', '50', '50'),
-(12, 26, 2, 1, '50', '90', '90', '90', '90'),
-(13, 86, 2, 1, '100', '0', '10', '90', '40'),
-(14, 136, 2, 1, '50', '100', '90', '90', '96'),
-(21, 4, 2, 2, '0', '0', '0', '0', '0'),
-(22, 5, 2, 2, '0', '0', '0', '0', '0'),
-(23, 11, 2, 2, '0', '0', '0', '0', '0'),
-(24, 26, 2, 2, '0', '0', '0', '0', '0'),
-(25, 86, 2, 2, '0', '0', '0', '0', '0'),
-(26, 136, 2, 2, '0', '0', '0', '0', '0'),
-(27, 6, 8, 1, '0', '0', '0', '0', '0'),
-(28, 7, 8, 1, '0', '0', '0', '0', '0'),
-(29, 10, 8, 1, '0', '0', '0', '0', '0'),
-(30, 17, 8, 1, '0', '0', '0', '0', '0'),
-(31, 19, 8, 1, '0', '0', '0', '0', '0'),
-(32, 112, 8, 1, '0', '0', '0', '0', '0');
+(1, 2, 4, 1, '75', '0', '85', '78', '56'),
+(2, 55, 4, 1, '100', '0', '0', '0', '10'),
+(3, 2, 4, 2, '100', '0', '90', '89', '64'),
+(4, 55, 4, 2, '100', '0', '0', '0', '10'),
+(5, 2, 4, 3, '67', '0', '98', '93', '64'),
+(6, 55, 4, 3, '67', '0', '0', '0', '7');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_finances`
+-- Table structure for table `tbl_finances`
 --
 
 CREATE TABLE `tbl_finances` (
@@ -376,25 +420,24 @@ CREATE TABLE `tbl_finances` (
   `status_pembayaran` enum('Dibayar','Belum Bayar','Transaksi sedang diproses','Erorr','Kadaluarsa','Dibatalkan','Ditolak') NOT NULL,
   `date_payment` date NOT NULL,
   `order_id` int(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_finances`
+-- Dumping data for table `tbl_finances`
 --
 
 INSERT INTO `tbl_finances` (`id_finance`, `id_payment_type`, `id_user`, `tipe_finance`, `amount_payment`, `status_pembayaran`, `date_payment`, `order_id`) VALUES
 (1, 1, 12, 'Pemasukan', 2000000, 'Dibayar', '2019-06-07', 0),
-(2, 1, 5, 'Pemasukan', 2000000, 'Belum Bayar', '2022-12-22', 0),
 (3, 1, 10, 'Pemasukan', 2000000, 'Belum Bayar', '2019-12-13', 0),
 (4, 1, 6, 'Pemasukan', 2000000, 'Dibayar', '2019-02-19', 0),
 (5, 1, 11, 'Pemasukan', 2000000, 'Dibayar', '2019-08-10', 0),
-(6, 1, 2, 'Pemasukan', 2000000, 'Dibayar', '2019-10-27', 0),
+(6, 1, 2, 'Pemasukan', 2000000, 'Belum Bayar', '2019-10-27', 0),
 (7, 1, 9, 'Pemasukan', 2000000, 'Dibayar', '2019-09-19', 0),
 (8, 1, 13, 'Pemasukan', 2000000, 'Dibayar', '2019-12-18', 0),
 (9, 1, 7, 'Pemasukan', 2000000, 'Dibayar', '2019-05-16', 0),
-(10, 1, 3, 'Pemasukan', 2000000, 'Belum Bayar', '2022-12-22', 0),
+(10, 1, 3, 'Pemasukan', 2000000, 'Dibayar', '2022-12-27', 31839),
 (11, 1, 8, 'Pemasukan', 2000000, 'Dibayar', '2019-01-16', 0),
-(12, 1, 4, 'Pemasukan', 2000000, 'Belum Bayar', '2022-12-22', 0),
+(12, 1, 4, 'Pemasukan', 2000000, 'Dibayar', '2022-12-27', 29080),
 (13, 3, 56, 'Pengeluaran', 1500000, 'Dibayar', '2022-12-21', 0),
 (14, 3, 59, 'Pengeluaran', 1500000, 'Belum Bayar', '2019-08-06', 0),
 (15, 3, 41, 'Pengeluaran', 1500000, 'Dibayar', '2019-02-19', 0),
@@ -410,12 +453,18 @@ INSERT INTO `tbl_finances` (`id_finance`, `id_payment_type`, `id_user`, `tipe_fi
 (102, 4, 46, 'Pengeluaran', 100000, 'Dibayar', '2022-12-06', 0),
 (103, 1, 138, 'Pemasukan', 1000000, 'Dibayar', '2022-12-20', 0),
 (104, 2, 138, 'Pemasukan', 100000, 'Belum Bayar', '2022-12-06', 0),
-(105, 1, 112, 'Pemasukan', 100000, 'Dibayar', '2022-12-23', 18921);
+(105, 1, 112, 'Pemasukan', 100000, 'Dibayar', '2022-12-23', 18921),
+(106, 1, 5, 'Pemasukan', 1000000, 'Dibayar', '2022-12-27', 5565),
+(107, 1, 4, 'Pemasukan', 2000000, 'Dibayar', '2022-12-27', 23306),
+(108, 2, 4, 'Pemasukan', 1000000, 'Belum Bayar', '2022-12-26', 0),
+(109, 1, 5, 'Pemasukan', 2000000, 'Dibayar', '2022-12-27', 0),
+(110, 1, 5, 'Pemasukan', 1000000, 'Dibayar', '2022-12-27', 24049),
+(111, 1, 3, 'Pemasukan', 250000, 'Transaksi sedang diproses', '2022-12-27', 7638);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_hostels`
+-- Table structure for table `tbl_hostels`
 --
 
 CREATE TABLE `tbl_hostels` (
@@ -425,10 +474,10 @@ CREATE TABLE `tbl_hostels` (
   `room_type` varchar(10) NOT NULL,
   `number_of_bed` int(11) NOT NULL,
   `cost_per_bed` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_hostels`
+-- Dumping data for table `tbl_hostels`
 --
 
 INSERT INTO `tbl_hostels` (`id_hostel`, `hostel_name`, `room_number`, `room_type`, `number_of_bed`, `cost_per_bed`) VALUES
@@ -442,7 +491,7 @@ INSERT INTO `tbl_hostels` (`id_hostel`, `hostel_name`, `room_number`, `room_type
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_messages`
+-- Table structure for table `tbl_messages`
 --
 
 CREATE TABLE `tbl_messages` (
@@ -452,12 +501,12 @@ CREATE TABLE `tbl_messages` (
   `sender_email` varchar(50) NOT NULL,
   `title` varchar(255) NOT NULL,
   `message` varchar(255) NOT NULL,
-  `time_sended` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `time_sended` timestamp NOT NULL DEFAULT current_timestamp(),
   `readed` tinyint(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_messages`
+-- Dumping data for table `tbl_messages`
 --
 
 INSERT INTO `tbl_messages` (`id_message`, `id_user`, `receiver_email`, `sender_email`, `title`, `message`, `time_sended`, `readed`) VALUES
@@ -478,12 +527,13 @@ INSERT INTO `tbl_messages` (`id_message`, `id_user`, `receiver_email`, `sender_e
 (18, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'Miku21 Under Arrest', 'AAAAAAAAAAAAAAAAAAA', '2022-12-22 08:42:05', 0),
 (19, 3, 'moore.eveline@example.net', 'rafaelfarizi1@gmail.com', 'Miku21 Under Arrest', 'aaaa', '2022-12-22 08:42:30', 0),
 (20, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'Miku21 has taken child fr', 'WEEEEEEE', '2022-12-22 08:47:21', 1),
-(21, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'Miku21 has taken child fr', 'nyeh', '2022-12-23 08:31:43', 0);
+(21, 103, 'rafaelfarizi1@gmail.com', 'rafaelfarizi1@gmail.com', 'Miku21 has taken child fr', 'nyeh', '2022-12-23 08:31:43', 0),
+(22, 112, 'laruthm02@gmail.com', 'admin@example.com', 'Bayar SPP', 'Spp akan jatuh tempo pada tanggal 23 januari 2023', '2022-12-23 09:47:24', 0);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_notifications`
+-- Table structure for table `tbl_notifications`
 --
 
 CREATE TABLE `tbl_notifications` (
@@ -491,34 +541,35 @@ CREATE TABLE `tbl_notifications` (
   `title` varchar(50) NOT NULL,
   `details` varchar(100) NOT NULL,
   `posted_by` varchar(50) NOT NULL,
-  `date_notice` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_notice` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `date_event` datetime NOT NULL,
   `category` enum('Pengumuman_Sekolah','Event','Pembayaran_Gaji','Exam','Pembayaran_SPP') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_notifications`
+-- Dumping data for table `tbl_notifications`
 --
 
 INSERT INTO `tbl_notifications` (`id_notification`, `title`, `details`, `posted_by`, `date_notice`, `date_event`, `category`) VALUES
 (1, 'Upacara Akan diadakan Segera', 'Mohon Menunggu dilapangan lebih lanjut', 'Miku21 Margareth', '2022-12-16 02:50:07', '0000-00-00 00:00:00', 'Pengumuman_Sekolah'),
 (2, 'Miku21 Under Arrest', 'Miku21 Under Arrest for doing child predator', 'Admin', '2022-12-16 02:50:55', '2022-12-20 09:50:00', 'Event'),
 (3, 'Get your payment at next month', 'AAAA RIP MONEY', 'Miku21 Margareth', '2022-12-16 03:21:10', '2023-01-16 10:01:00', 'Pembayaran_Gaji'),
-(4, 'SPP payment deadline at April 2023', 'Please pay ASAP', 'Miku21 Margareth', '2022-12-16 03:20:32', '2023-04-10 10:02:00', 'Pembayaran_SPP');
+(4, 'SPP payment deadline at April 2023', 'Please pay ASAP', 'Miku21 Margareth', '2022-12-16 03:20:32', '2023-04-10 10:02:00', 'Pembayaran_SPP'),
+(5, 'Ujian Semester 2', 'Akan dilaksanakan. segera belajar', 'Admin', '2022-12-23 09:49:57', '2022-12-26 07:22:00', 'Exam');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_payment_types`
+-- Table structure for table `tbl_payment_types`
 --
 
 CREATE TABLE `tbl_payment_types` (
   `id_payment_type` int(11) NOT NULL,
   `payment_type_name` varchar(25) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_payment_types`
+-- Dumping data for table `tbl_payment_types`
 --
 
 INSERT INTO `tbl_payment_types` (`id_payment_type`, `payment_type_name`) VALUES
@@ -530,7 +581,7 @@ INSERT INTO `tbl_payment_types` (`id_payment_type`, `payment_type_name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_peminjaman`
+-- Table structure for table `tbl_peminjaman`
 --
 
 CREATE TABLE `tbl_peminjaman` (
@@ -540,10 +591,10 @@ CREATE TABLE `tbl_peminjaman` (
   `tgl_pinjam` date NOT NULL,
   `tgl_kembali` date NOT NULL,
   `ket` enum('Proses','Dipinjam','Dikembalikan','Denda','Proses Pengembalian') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_peminjaman`
+-- Dumping data for table `tbl_peminjaman`
 --
 
 INSERT INTO `tbl_peminjaman` (`id_peminjaman`, `id_book`, `id_user`, `tgl_pinjam`, `tgl_kembali`, `ket`) VALUES
@@ -553,21 +604,24 @@ INSERT INTO `tbl_peminjaman` (`id_peminjaman`, `id_book`, `id_user`, `tgl_pinjam
 (15, 3, 2, '2022-12-19', '2022-12-26', 'Dikembalikan'),
 (16, 2, 112, '2022-12-19', '2022-12-26', 'Dikembalikan'),
 (18, 3, 2, '2022-12-19', '2022-12-26', 'Dikembalikan'),
-(19, 2, 2, '2022-12-19', '2022-12-26', 'Dikembalikan');
+(19, 2, 2, '2022-12-19', '2022-12-26', 'Dikembalikan'),
+(20, 3, 2, '2022-12-23', '2022-12-30', 'Dikembalikan'),
+(21, 2, 2, '2022-12-26', '2023-01-02', 'Dipinjam'),
+(22, 3, 4, '2022-12-26', '2023-01-02', 'Dipinjam');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_sections`
+-- Table structure for table `tbl_sections`
 --
 
 CREATE TABLE `tbl_sections` (
   `id_section` int(11) NOT NULL,
   `section` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_sections`
+-- Dumping data for table `tbl_sections`
 --
 
 INSERT INTO `tbl_sections` (`id_section`, `section`) VALUES
@@ -580,17 +634,17 @@ INSERT INTO `tbl_sections` (`id_section`, `section`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_subjects`
+-- Table structure for table `tbl_subjects`
 --
 
 CREATE TABLE `tbl_subjects` (
   `id_subject` int(11) NOT NULL,
   `subject_name` varchar(25) NOT NULL,
   `subject_type` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_subjects`
+-- Dumping data for table `tbl_subjects`
 --
 
 INSERT INTO `tbl_subjects` (`id_subject`, `subject_name`, `subject_type`) VALUES
@@ -605,12 +659,13 @@ INSERT INTO `tbl_subjects` (`id_subject`, `subject_name`, `subject_type`) VALUES
 (8, 'Japan', 'Theory'),
 (9, 'German', 'Practice'),
 (10, 'Ekonomi', 'Mathematic'),
-(11, 'Aksara Jawa Kuno', 'Theory');
+(11, 'Aksara Jawa Kuno', 'Theory'),
+(12, 'Olahraga', 'Practice');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_tasks`
+-- Table structure for table `tbl_tasks`
 --
 
 CREATE TABLE `tbl_tasks` (
@@ -621,17 +676,17 @@ CREATE TABLE `tbl_tasks` (
   `task_type` varchar(5) NOT NULL,
   `task_name` varchar(255) NOT NULL,
   `score` int(6) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_tasks`
+-- Dumping data for table `tbl_tasks`
 --
 
 INSERT INTO `tbl_tasks` (`id_task`, `id_class`, `id_subject`, `id_user`, `task_type`, `task_name`, `score`, `created_at`, `updated_at`) VALUES
-(26, 2, 1, 4, 'TGS', 'TUGAS 1', 80, '2022-12-18 21:48:44', '2022-12-21 21:24:23'),
-(27, 2, 1, 11, 'TGS', 'TUGAS 1', 90, '2022-12-18 21:48:44', '2022-12-21 21:24:23'),
+(26, 2, 1, 4, 'TGS', 'TUGAS 1', 65, '2022-12-18 21:48:44', '2022-12-21 21:50:22'),
+(27, 2, 1, 11, 'TGS', 'TUGAS 1', 70, '2022-12-18 21:48:44', '2022-12-21 21:50:22'),
 (28, 2, 1, 26, 'TGS', 'TUGAS 1', 100, '2022-12-18 21:48:44', '2022-12-20 02:53:39'),
 (29, 2, 1, 86, 'TGS', 'TUGAS 1', 100, '2022-12-18 21:48:44', '2022-12-20 02:53:39'),
 (30, 2, 1, 136, 'TGS', 'TUGAS 1', 90, '2022-12-18 21:48:44', '2022-12-20 02:53:39'),
@@ -651,26 +706,39 @@ INSERT INTO `tbl_tasks` (`id_task`, `id_class`, `id_subject`, `id_user`, `task_t
 (119, 2, 1, 86, 'TGS', 'TUGAS 3', 100, '2022-12-20 03:07:24', '2022-12-20 03:08:24'),
 (120, 2, 1, 136, 'TGS', 'TUGAS 3', 0, '2022-12-20 03:07:24', '2022-12-20 03:08:24'),
 (121, 2, 1, 4, 'TGS', 'TUGAS 4', 100, '2022-12-20 03:07:28', '2022-12-20 03:08:24'),
-(122, 2, 1, 11, 'TGS', 'TUGAS 4', 0, '2022-12-20 03:07:28', '2022-12-20 03:08:24'),
+(122, 2, 1, 11, 'TGS', 'TUGAS 4', 100, '2022-12-20 03:07:28', '2022-12-21 21:50:22'),
 (123, 2, 1, 26, 'TGS', 'TUGAS 4', 100, '2022-12-20 03:07:28', '2022-12-20 03:08:24'),
 (124, 2, 1, 86, 'TGS', 'TUGAS 4', 0, '2022-12-20 03:07:28', '2022-12-20 03:08:24'),
 (125, 2, 1, 136, 'TGS', 'TUGAS 4', 100, '2022-12-20 03:07:28', '2022-12-20 03:08:24'),
-(126, 8, 1, 6, 'TGS', 'TUGAS 1', 0, '2022-12-21 21:23:53', '2022-12-21 21:23:53'),
-(127, 8, 1, 7, 'TGS', 'TUGAS 1', 0, '2022-12-21 21:23:53', '2022-12-21 21:23:53'),
-(128, 8, 1, 10, 'TGS', 'TUGAS 1', 0, '2022-12-21 21:23:53', '2022-12-21 21:23:53'),
-(129, 8, 1, 17, 'TGS', 'TUGAS 1', 0, '2022-12-21 21:23:53', '2022-12-21 21:23:53'),
-(130, 8, 1, 19, 'TGS', 'TUGAS 1', 0, '2022-12-21 21:23:53', '2022-12-21 21:23:53'),
-(131, 8, 1, 112, 'TGS', 'TUGAS 1', 0, '2022-12-21 21:23:53', '2022-12-21 21:23:53'),
-(132, 2, 1, 4, 'TGS', 'TUGAS 5', 90, '2022-12-21 21:24:06', '2022-12-21 21:24:23'),
-(133, 2, 1, 11, 'TGS', 'TUGAS 5', 0, '2022-12-21 21:24:06', '2022-12-21 21:24:06'),
-(134, 2, 1, 26, 'TGS', 'TUGAS 5', 90, '2022-12-21 21:24:06', '2022-12-21 21:24:23'),
-(135, 2, 1, 86, 'TGS', 'TUGAS 5', 0, '2022-12-21 21:24:06', '2022-12-21 21:24:06'),
-(136, 2, 1, 136, 'TGS', 'TUGAS 5', 90, '2022-12-21 21:24:06', '2022-12-21 21:24:23');
+(126, 1, 1, 5, 'TGS', 'TUGAS 1', 0, '2022-12-21 19:27:48', '2022-12-21 19:27:48'),
+(127, 1, 1, 77, 'TGS', 'TUGAS 1', 0, '2022-12-21 19:27:48', '2022-12-21 19:27:48'),
+(128, 1, 1, 92, 'TGS', 'TUGAS 1', 0, '2022-12-21 19:27:48', '2022-12-21 19:27:48'),
+(129, 2, 1, 4, 'TGS', 'TUGAS 5', 0, '2022-12-21 21:50:25', '2022-12-21 21:50:25'),
+(130, 2, 1, 11, 'TGS', 'TUGAS 5', 0, '2022-12-21 21:50:25', '2022-12-21 21:50:25'),
+(131, 2, 1, 26, 'TGS', 'TUGAS 5', 0, '2022-12-21 21:50:25', '2022-12-21 21:50:25'),
+(132, 2, 1, 86, 'TGS', 'TUGAS 5', 0, '2022-12-21 21:50:25', '2022-12-21 21:50:25'),
+(133, 2, 1, 136, 'TGS', 'TUGAS 5', 0, '2022-12-21 21:50:25', '2022-12-21 21:50:25'),
+(134, 9, 2, 8, 'UH', 'UH 1', 0, '2022-12-23 00:20:20', '2022-12-23 00:20:20'),
+(135, 9, 2, 9, 'UH', 'UH 1', 0, '2022-12-23 00:20:20', '2022-12-23 00:20:20'),
+(136, 9, 2, 13, 'UH', 'UH 1', 0, '2022-12-23 00:20:20', '2022-12-23 00:20:20'),
+(137, 9, 2, 15, 'UH', 'UH 1', 0, '2022-12-23 00:20:20', '2022-12-23 00:20:20'),
+(138, 9, 2, 16, 'UH', 'UH 1', 0, '2022-12-23 00:20:20', '2022-12-23 00:20:20'),
+(139, 9, 2, 27, 'UH', 'UH 1', 0, '2022-12-23 00:20:20', '2022-12-23 00:20:20'),
+(140, 9, 2, 90, 'UH', 'UH 1', 0, '2022-12-23 00:20:20', '2022-12-23 00:20:20'),
+(141, 9, 2, 8, 'UH', 'UH 2', 0, '2022-12-23 00:20:23', '2022-12-23 00:20:23'),
+(142, 9, 2, 9, 'UH', 'UH 2', 0, '2022-12-23 00:20:23', '2022-12-23 00:20:23'),
+(143, 9, 2, 13, 'UH', 'UH 2', 0, '2022-12-23 00:20:23', '2022-12-23 00:20:23'),
+(144, 9, 2, 15, 'UH', 'UH 2', 0, '2022-12-23 00:20:23', '2022-12-23 00:20:23'),
+(145, 9, 2, 16, 'UH', 'UH 2', 0, '2022-12-23 00:20:23', '2022-12-23 00:20:23'),
+(146, 9, 2, 27, 'UH', 'UH 2', 0, '2022-12-23 00:20:23', '2022-12-23 00:20:23'),
+(147, 9, 2, 90, 'UH', 'UH 2', 0, '2022-12-23 00:20:23', '2022-12-23 00:20:23'),
+(148, 1, 1, 5, 'UH', 'UH 1', 0, '2022-12-26 00:10:31', '2022-12-26 00:10:31'),
+(149, 1, 1, 92, 'UH', 'UH 1', 0, '2022-12-26 00:10:31', '2022-12-26 00:10:31');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_transports`
+-- Table structure for table `tbl_transports`
 --
 
 CREATE TABLE `tbl_transports` (
@@ -681,10 +749,10 @@ CREATE TABLE `tbl_transports` (
   `license_number` varchar(25) NOT NULL,
   `phone_number` varchar(25) NOT NULL,
   `id_driver` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_transports`
+-- Dumping data for table `tbl_transports`
 --
 
 INSERT INTO `tbl_transports` (`id_transport`, `route_name`, `vehicle_number`, `driver_name`, `license_number`, `phone_number`, `id_driver`) VALUES
@@ -701,7 +769,7 @@ INSERT INTO `tbl_transports` (`id_transport`, `route_name`, `vehicle_number`, `d
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_users`
+-- Table structure for table `tbl_users`
 --
 
 CREATE TABLE `tbl_users` (
@@ -727,18 +795,18 @@ CREATE TABLE `tbl_users` (
   `blood_group` char(5) DEFAULT NULL,
   `occupation` varchar(255) NOT NULL,
   `phone_user` varchar(25) NOT NULL,
-  `address_user` text,
+  `address_user` text DEFAULT NULL,
   `status` tinyint(2) NOT NULL,
-  `short_bio` text,
+  `short_bio` text DEFAULT NULL,
   `admission_status` varchar(11) DEFAULT NULL,
   `admission_date` date DEFAULT NULL,
-  `create_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `update_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `create_at` timestamp NULL DEFAULT current_timestamp(),
+  `update_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
   `delete_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_users`
+-- Dumping data for table `tbl_users`
 --
 
 INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_subject`, `id_hostel`, `id_trans`, `id_user_type`, `id_parent`, `id_student`, `session`, `first_name`, `last_name`, `gender`, `date_of_birth`, `username`, `password`, `religion`, `email`, `NISN`, `photo_user`, `blood_group`, `occupation`, `phone_user`, `address_user`, `status`, `short_bio`, `admission_status`, `admission_date`, `create_at`, `update_at`, `delete_at`) VALUES
@@ -747,7 +815,7 @@ INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_subject`, `id_hostel`, `id_t
 (3, 6, 0, 0, 1, 1, 48, 0, '2023-2024', 'Art', 'Ankunding', 'Perempuan', '0000-00-00', 'gaylord.schoen', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'hindu', 'moore.eveline@example.net', 10150, 'default.png', 'B', '', '793-284-4861', '5934 Jacinto Crossroad Apt. 364Olsonmouth, KS 30988', 0, 'Necessitatibus error atque delectus ipsa libero. Harum quasi assumenda quos illum. Maiores et ipsam iusto at ea qui quibusdam. Eligendi iure libero aut quia quia vero autem.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
 (4, 2, 0, 0, 1, 1, 48, 0, '2023-2024', 'Emily', 'Aufderhar', 'Perempuan', '0000-00-00', 'so\'keefe', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'kristen', 'briana.weimann@example.net', 10280, 'default.png', NULL, '', '1-688-563-2931x133', '1691 Rice Underpass\r\nNorth Valentinamouth, ID 91399', 0, 'Dolore inventore iure repudiandae qui consequatur accusamus. Recusandae dolorem quam est saepe sed unde soluta. Atque id qui deleniti aut repellat. Maxime quaerat ut corrupti et et enim sint.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
 (5, 2, 0, 0, 1, 1, 48, 0, '2023-2024', 'Ida', 'Roberts', 'Perempuan', '0000-00-00', 'swilderman', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'islam', 'clifford61@example.com', 11237, 'default.png', 'A', '', '1-357-343-0969x83055', '002 Connelly Canyon Apt. 917New Joyburgh, WA 46394', 0, 'Libero earum dolor possimus accusantium vitae fugiat ratione. Cumque cumque tempore et est dolore rerum voluptatem molestiae. Quas sunt omnis asperiores dolor provident culpa inventore.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
-(6, 8, 0, 0, 1, 1, 0, 0, '2023-2024', 'Eloisa', 'Langworth', 'Laki-laki', '0000-00-00', 'hyman77', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'hindu', 'rod.willms@example.org', 15632, 'default.png', 'o', '', '8833275468', '1265 Johns Valley Suite 874\r\nSamsonshire, OR 34497', 0, 'Porro ipsa nam harum. Perferendis similique voluptatem incidunt nisi facilis et ratione. Voluptatum tenetur qui sit rerum quam quasi similique. Impedit et corporis repellendus est.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
+(6, 8, 0, 0, 1, 1, 143, 0, '2023-2024', 'Eloisa', 'Langworth', 'Laki-laki', '0000-00-00', 'hyman77', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'hindu', 'rod.willms@example.org', 15632, 'default.png', 'o', '', '8833275468', '1265 Johns Valley Suite 874\r\nSamsonshire, OR 34497', 0, 'Porro ipsa nam harum. Perferendis similique voluptatem incidunt nisi facilis et ratione. Voluptatum tenetur qui sit rerum quam quasi similique. Impedit et corporis repellendus est.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-23 09:25:56', NULL),
 (7, 8, 0, 0, 1, 1, 0, 0, '2023-2024', 'Gail', 'Kris', 'Perempuan', '0000-00-00', 'lcarroll', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'buddha', 'nakia.greenfelder@example.net', 14941, 'default.png', NULL, '', '190-759-4362x6965', '63471 Kamren Ridge Apt. 498\r\nPollichstad, DC 10284-9138', 0, 'Sint nam aut quasi autem at. Fuga nesciunt aut dolorem numquam tempore autem. Quia sequi sapiente sunt minima. Et excepturi aut odio tempore.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
 (8, 9, 0, 0, 1, 1, 0, 0, '2023-2024', 'Frederik', 'Kunde', 'Perempuan', '0000-00-00', 'colleen24', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'konghucu', 'angelica.yundt@example.org', 18096, 'default.png', 'a', '', '+14(0)3210550981', '61488 Abbott Greens Suite 690\r\nNorth Rashad, AZ 41490-7600', 0, 'Dolor dolores sed tempore nesciunt id neque. Provident velit officiis error laudantium recusandae ipsam. Amet quod qui animi repudiandae. Nesciunt nulla omnis aut inventore impedit.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
 (9, 9, 0, 0, 1, 1, 0, 0, '2023-2024', 'Jean', 'Volkman', 'Perempuan', '0000-00-00', 'adan25', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'katholik', 'larry.greenfelder@example.com', 16146, 'default.png', 'a', '', '921-106-9611x9156', '584 Erik Freeway Suite 364\r\nLake Hollieshire, HI 68610-6011', 0, 'Quis omnis consequatur non mollitia. Eos quae inventore quia vero voluptates. Quia eos rerum sunt.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
@@ -845,7 +913,7 @@ INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_subject`, `id_hostel`, `id_t
 (100, 0, 0, 0, 1, 4, 0, 0, '0', 'Laverne', 'Morar', 'Perempuan', '0000-00-00', 'miller20', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'kristen', 'clittle@example.org', 0, 'default.png', 'o', 'Buruh', '5278137898', '40666 Katlyn Shore Suite 040\r\nEast Kelli, ID 28933-3389', 0, 'Quos voluptates ab et ut ipsa sequi. Iste reiciendis vitae illum id aperiam similique cupiditate. Saepe et incidunt est delectus sit rem vel nihil. Nam architecto eligendi vero possimus totam et.', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
 (101, 0, 0, 0, 1, 3, 0, 0, '0', 'Maida', 'Cummings', 'Laki-laki', '0000-00-00', 'xemmerich', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'kristen', 'pmosciski@example.net', 0, 'default.png', 'ab', '', '(264)015-2705', '8484 Reece Tunnel Suite 836\r\nNew Julianaview, GA 57745', 0, 'Odio non et eos qui dolor saepe est eum. Harum id explicabo quis exercitationem hic. Neque architecto cupiditate ullam voluptas. Quas cumque illo illum est harum. Corrupti facilis cumque earum quo', NULL, NULL, '2022-12-07 03:11:44', '2022-12-22 09:52:30', NULL),
 (103, 0, 0, 0, 0, 3, 0, 0, '0', 'Miku21', 'Margareth', 'Laki-laki', '2005-04-24', 'miku21', 'a234c0cb420fa51c:35a70955f3d3ddda00a55b0c0f8b2d5f1a4b4bb8:cNxvyEbEZtznYm2yvaIFnw==', 'Attack Helicopter', 'rafaelfarizi1@gmail.com', 0, '20221223093922-20221207041949-20220929-133008.jpg', 'AB', 'Pullstack Wengdev', '6287731137512', 'Indonesia', 1, 'Miku21 wengdev on Lorem Ipsum', NULL, NULL, '2022-12-07 03:13:24', '2022-12-23 08:39:22', NULL),
-(111, 0, 8, 0, 0, 2, 0, 0, '0', 'Miku', 'Margareth', 'Laki-laki', '0000-00-00', 'miku21comunity', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', '', 'mikucomunity21@gmail.com', 18365536, '20221207105642-794cdf8bd464220d70698e3af1179178.jpg', '', '', '', '', 1, '', NULL, NULL, '2022-12-07 09:32:10', '2022-12-23 08:47:06', NULL),
+(111, 0, 8, 0, 0, 2, 0, 0, '0', 'Miku', 'Margareth', 'Laki-laki', '0000-00-00', 'miku21comunity', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', '', 'aaaaa@aaaa.com', 18365536, '20221207105642-794cdf8bd464220d70698e3af1179178.jpg', '', '', '', '', 1, '', NULL, NULL, '2022-12-07 09:32:10', '2022-12-23 08:58:22', NULL),
 (112, 8, 0, 0, 0, 1, 48, 0, '2023-2024', 'Leute Ruth', 'Leciepent', 'Perempuan', '2004-07-24', 'ruth02', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'Flying Dutchman', 'laruthm02@gmail.com', 18606, '20221208093903-468944.jpg', 'B', '', '62877311375121', 'Cimahi', 1, 'Ora pro nobis, sancta Dei Genitrix', NULL, NULL, '2022-12-08 08:32:27', '2022-12-22 09:52:30', NULL),
 (132, 0, 11, 0, 0, 2, 0, 0, '0', 'Guru besar', '', 'Laki-laki', '0000-00-00', 'guru', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', '', 'karyawan@gmail.com', 18647975, 'default.png', '', '', '', '', 1, '', NULL, NULL, '2022-12-15 06:51:40', '2022-12-22 09:52:30', NULL),
 (133, 3, 0, 0, 0, 1, 25, 0, '2023-2024', 'Uji', 'Coba', 'Laki-laki', '2022-12-19', '', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'Hindu', 'lani4@gmail.com', 13846, 'default.png', 'B', '', '213123', 'salatiga', 1, NULL, NULL, NULL, '2022-12-15 08:04:09', '2022-12-22 09:52:30', NULL),
@@ -853,21 +921,27 @@ INSERT INTO `tbl_users` (`id_user`, `id_class`, `id_subject`, `id_hostel`, `id_t
 (136, 2, 0, 0, 0, 1, 137, 0, '2023-2024', 'Lil', 'Lil', 'Laki-laki', '2022-12-16', '', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'Others', 'lil_lil@example.com', 240405, '20221216031135-download.jfif', 'AB', '', '083834685279', 'Universe', 1, NULL, NULL, NULL, '2022-12-16 02:11:35', '2022-12-22 09:52:30', NULL),
 (137, 0, 0, 0, 0, 4, 0, 0, '0', 'Frisk', 'Leciepent', 'Perempuan', '2003-09-27', '240405', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'Buddish', 'miku217500@gmail.com', 0, '20221216031347-download.jfif', 'AB', 'Pullstack Wengdev', '083834685279', 'Dukuh Cenang Desa Cenggini RT 03 RW 04', 1, 'AAAAAAAAAAAAAAAA', NULL, NULL, '2022-12-16 02:13:47', '2022-12-22 09:52:30', NULL),
 (138, 1, 0, 0, 0, 1, 139, 0, '2023-2024', 'Anonim', 'Bro', 'Perempuan', '2022-12-15', '', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'Islam', 'anonim@example.com', 11111, 'default.png', 'A', '', '123213', 'saD', 1, NULL, NULL, NULL, '2022-12-20 08:55:05', '2022-12-22 09:52:30', NULL),
-(139, 0, 0, 0, 0, 4, 0, 0, '', 'Anonim ', 'Ortu', 'Laki-laki', '2022-12-20', '11111', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'Christian', 'Ortu@gmail.com', 0, 'default.png', 'B', 'ONS', '123213', 'sdaf', 1, 'asdasd', NULL, NULL, '2022-12-20 09:48:34', '2022-12-22 09:52:30', NULL);
+(139, 0, 0, 0, 0, 4, 0, 0, '', 'Anonim ', 'Ortu', 'Laki-laki', '2022-12-20', '11111', 'f958a1795386020d:7417ed7a19f2ab6e970cc798fd331d6793485aec:H4pa2hpa3/jrXFPVd9w4Jg==', 'Christian', 'Ortu@gmail.com', 0, 'default.png', 'B', 'ONS', '123213', 'sdaf', 1, 'asdasd', NULL, NULL, '2022-12-20 09:48:34', '2022-12-22 09:52:30', NULL),
+(140, 99, 0, 0, 0, 1, 0, 0, '2023-2024', 'Najib', 'Dani', 'Laki-laki', '0000-00-00', 'Najib', 'fe77383011c9e35d:821a5053a8638ed3ad99a6851b7bd03e854fcab2:q61gLxFykMetQ4eq7ibOMA==', '', 'mikucomunity21@gmail.com', 0, '20221223101415-20221215090653-baldi.png', '', '', '', '', 1, 'A}BLABLABL', NULL, NULL, '2022-12-23 09:12:47', '2022-12-23 09:19:13', NULL),
+(141, 1, 0, 0, 0, 1, 32, 0, '2023-2024', 'Iwan', 'Janang', 'Laki-laki', '2010-10-10', '', '99090', 'Islam', 'lani@gmail.com', 99090, '20221223102054-20221207042841-naruto aaaaa.jpg', 'B', '', '0890989098', 'salatiga', 1, NULL, NULL, NULL, '2022-12-23 09:20:54', '2022-12-26 04:32:16', NULL),
+(142, 0, 1, 0, 0, 2, 0, 0, '', 'Ahmad', 'Catur', 'Laki-laki', '1998-01-23', '11111', '11111', 'Islam', 'lani4@gmail.com', 11111, '20221223102345-20221206041916-profil.jpeg', 'B', '', '1231314124', 'salatiga', 1, 'Guru IPA', NULL, NULL, '2022-12-23 09:23:45', NULL, NULL),
+(143, 0, 0, 0, 0, 4, 0, 0, '', 'Miku', '23', 'Laki-laki', '2022-12-23', '15632', '15632', 'Islam', 'lani@gmail.com', 0, 'default.png', 'A', 'PNS', '1231314124', 'dassad', 1, 'bioo', NULL, NULL, '2022-12-23 09:25:56', NULL, NULL),
+(144, 0, 0, 0, 0, 1, 0, 0, '2023-2024', 'Coba', 'Siswa', 'Laki-laki', '2022-12-26', '', '91231', 'Islam', 'adaa@example.com', 91231, 'default.png', 'A', '', '123123123', 'Salatiga', 1, NULL, NULL, NULL, '2022-12-26 03:46:53', NULL, NULL),
+(145, 0, 0, 0, 0, 1, 48, 0, '2023-2024', 'Andik', 'Udang', 'Laki-laki', '2022-12-11', '', '91312', 'Islam', 'andi@example.com', 91312, 'default.png', 'A', '', '12312312', 'Salatiga', 1, '', NULL, NULL, '2022-12-26 04:33:34', '2022-12-26 05:00:31', NULL);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_user_types`
+-- Table structure for table `tbl_user_types`
 --
 
 CREATE TABLE `tbl_user_types` (
   `id_user_type` int(11) NOT NULL,
   `user_type` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_user_types`
+-- Dumping data for table `tbl_user_types`
 --
 
 INSERT INTO `tbl_user_types` (`id_user_type`, `user_type`) VALUES
@@ -881,34 +955,34 @@ INSERT INTO `tbl_user_types` (`id_user_type`, `user_type`) VALUES
 --
 
 --
--- Indeks untuk tabel `tbl_admissions`
+-- Indexes for table `tbl_admissions`
 --
 ALTER TABLE `tbl_admissions`
   ADD PRIMARY KEY (`id_admission`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `tbl_attendances`
+-- Indexes for table `tbl_attendances`
 --
 ALTER TABLE `tbl_attendances`
   ADD PRIMARY KEY (`id_attendance`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `tbl_books`
+-- Indexes for table `tbl_books`
 --
 ALTER TABLE `tbl_books`
   ADD PRIMARY KEY (`id_book`);
 
 --
--- Indeks untuk tabel `tbl_classes`
+-- Indexes for table `tbl_classes`
 --
 ALTER TABLE `tbl_classes`
   ADD PRIMARY KEY (`id_class`),
   ADD KEY `id_section_2` (`id_section`);
 
 --
--- Indeks untuk tabel `tbl_class_routines`
+-- Indexes for table `tbl_class_routines`
 --
 ALTER TABLE `tbl_class_routines`
   ADD PRIMARY KEY (`id_class_routine`),
@@ -916,20 +990,20 @@ ALTER TABLE `tbl_class_routines`
   ADD KEY `id_subject` (`id_subject`);
 
 --
--- Indeks untuk tabel `tbl_exams`
+-- Indexes for table `tbl_exams`
 --
 ALTER TABLE `tbl_exams`
   ADD PRIMARY KEY (`id_exam`),
   ADD KEY `id_class` (`id_class`);
 
 --
--- Indeks untuk tabel `tbl_exam_grades`
+-- Indexes for table `tbl_exam_grades`
 --
 ALTER TABLE `tbl_exam_grades`
   ADD PRIMARY KEY (`id_exam_grade`);
 
 --
--- Indeks untuk tabel `tbl_exam_results`
+-- Indexes for table `tbl_exam_results`
 --
 ALTER TABLE `tbl_exam_results`
   ADD PRIMARY KEY (`id_result`),
@@ -937,13 +1011,13 @@ ALTER TABLE `tbl_exam_results`
   ADD KEY `id_exam` (`id_exam`);
 
 --
--- Indeks untuk tabel `tbl_final_scores`
+-- Indexes for table `tbl_final_scores`
 --
 ALTER TABLE `tbl_final_scores`
   ADD PRIMARY KEY (`id_final_score`);
 
 --
--- Indeks untuk tabel `tbl_finances`
+-- Indexes for table `tbl_finances`
 --
 ALTER TABLE `tbl_finances`
   ADD PRIMARY KEY (`id_finance`),
@@ -951,61 +1025,61 @@ ALTER TABLE `tbl_finances`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `tbl_hostels`
+-- Indexes for table `tbl_hostels`
 --
 ALTER TABLE `tbl_hostels`
   ADD PRIMARY KEY (`id_hostel`);
 
 --
--- Indeks untuk tabel `tbl_messages`
+-- Indexes for table `tbl_messages`
 --
 ALTER TABLE `tbl_messages`
   ADD PRIMARY KEY (`id_message`);
 
 --
--- Indeks untuk tabel `tbl_notifications`
+-- Indexes for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
   ADD PRIMARY KEY (`id_notification`);
 
 --
--- Indeks untuk tabel `tbl_payment_types`
+-- Indexes for table `tbl_payment_types`
 --
 ALTER TABLE `tbl_payment_types`
   ADD PRIMARY KEY (`id_payment_type`);
 
 --
--- Indeks untuk tabel `tbl_peminjaman`
+-- Indexes for table `tbl_peminjaman`
 --
 ALTER TABLE `tbl_peminjaman`
   ADD PRIMARY KEY (`id_peminjaman`);
 
 --
--- Indeks untuk tabel `tbl_sections`
+-- Indexes for table `tbl_sections`
 --
 ALTER TABLE `tbl_sections`
   ADD PRIMARY KEY (`id_section`);
 
 --
--- Indeks untuk tabel `tbl_subjects`
+-- Indexes for table `tbl_subjects`
 --
 ALTER TABLE `tbl_subjects`
   ADD PRIMARY KEY (`id_subject`);
 
 --
--- Indeks untuk tabel `tbl_tasks`
+-- Indexes for table `tbl_tasks`
 --
 ALTER TABLE `tbl_tasks`
   ADD PRIMARY KEY (`id_task`);
 
 --
--- Indeks untuk tabel `tbl_transports`
+-- Indexes for table `tbl_transports`
 --
 ALTER TABLE `tbl_transports`
   ADD PRIMARY KEY (`id_transport`);
 
 --
--- Indeks untuk tabel `tbl_users`
+-- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
   ADD PRIMARY KEY (`id_user`),
@@ -1015,137 +1089,137 @@ ALTER TABLE `tbl_users`
   ADD KEY `id_trans` (`id_trans`);
 
 --
--- Indeks untuk tabel `tbl_user_types`
+-- Indexes for table `tbl_user_types`
 --
 ALTER TABLE `tbl_user_types`
   ADD PRIMARY KEY (`id_user_type`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_admissions`
+-- AUTO_INCREMENT for table `tbl_admissions`
 --
 ALTER TABLE `tbl_admissions`
-  MODIFY `id_admission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_admission` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_attendances`
+-- AUTO_INCREMENT for table `tbl_attendances`
 --
 ALTER TABLE `tbl_attendances`
-  MODIFY `id_attendance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
+  MODIFY `id_attendance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_books`
+-- AUTO_INCREMENT for table `tbl_books`
 --
 ALTER TABLE `tbl_books`
-  MODIFY `id_book` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_book` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=158;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_classes`
+-- AUTO_INCREMENT for table `tbl_classes`
 --
 ALTER TABLE `tbl_classes`
-  MODIFY `id_class` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+  MODIFY `id_class` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_class_routines`
+-- AUTO_INCREMENT for table `tbl_class_routines`
 --
 ALTER TABLE `tbl_class_routines`
-  MODIFY `id_class_routine` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id_class_routine` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_exams`
+-- AUTO_INCREMENT for table `tbl_exams`
 --
 ALTER TABLE `tbl_exams`
-  MODIFY `id_exam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_exam` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_exam_grades`
+-- AUTO_INCREMENT for table `tbl_exam_grades`
 --
 ALTER TABLE `tbl_exam_grades`
   MODIFY `id_exam_grade` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_exam_results`
+-- AUTO_INCREMENT for table `tbl_exam_results`
 --
 ALTER TABLE `tbl_exam_results`
-  MODIFY `id_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_result` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_final_scores`
+-- AUTO_INCREMENT for table `tbl_final_scores`
 --
 ALTER TABLE `tbl_final_scores`
-  MODIFY `id_final_score` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_final_score` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_finances`
+-- AUTO_INCREMENT for table `tbl_finances`
 --
 ALTER TABLE `tbl_finances`
-  MODIFY `id_finance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `id_finance` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_hostels`
+-- AUTO_INCREMENT for table `tbl_hostels`
 --
 ALTER TABLE `tbl_hostels`
   MODIFY `id_hostel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_messages`
+-- AUTO_INCREMENT for table `tbl_messages`
 --
 ALTER TABLE `tbl_messages`
-  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_message` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_notifications`
+-- AUTO_INCREMENT for table `tbl_notifications`
 --
 ALTER TABLE `tbl_notifications`
-  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_notification` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_payment_types`
+-- AUTO_INCREMENT for table `tbl_payment_types`
 --
 ALTER TABLE `tbl_payment_types`
   MODIFY `id_payment_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_peminjaman`
+-- AUTO_INCREMENT for table `tbl_peminjaman`
 --
 ALTER TABLE `tbl_peminjaman`
-  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_peminjaman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_sections`
+-- AUTO_INCREMENT for table `tbl_sections`
 --
 ALTER TABLE `tbl_sections`
   MODIFY `id_section` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_subjects`
+-- AUTO_INCREMENT for table `tbl_subjects`
 --
 ALTER TABLE `tbl_subjects`
-  MODIFY `id_subject` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_subject` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_tasks`
+-- AUTO_INCREMENT for table `tbl_tasks`
 --
 ALTER TABLE `tbl_tasks`
-  MODIFY `id_task` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id_task` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_transports`
+-- AUTO_INCREMENT for table `tbl_transports`
 --
 ALTER TABLE `tbl_transports`
   MODIFY `id_transport` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_users`
+-- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=146;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_user_types`
+-- AUTO_INCREMENT for table `tbl_user_types`
 --
 ALTER TABLE `tbl_user_types`
   MODIFY `id_user_type` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
