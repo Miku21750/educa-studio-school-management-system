@@ -136,7 +136,7 @@
                         </div>
                         <div class="col-xl-3 col-lg-6 col-12 form-group">
                             <label>Tanggal</label>
-                            <input type="date" name="dateAttendType" id="dateAttendType" class="form-control">
+                            <input type="date" name="dateAttendType" id="dateAttendType" class="form-control" required>
                         </div>
                         <div class="col-12 form-group mg-t-8">
                             <button type="submit" id="viewAttendSheetButton"
@@ -228,9 +228,9 @@
                     }
                 },
                 "columnDefs": [
-                    { "targets": 0, className: "text-center", "orderable": false },
-                    { "targets": 1, className: "text-center", "orderable": false },
-                    { "targets": 2, className: "text-center", "orderable": false },
+                    { "width": "1%", "targets": 0, className: "text-center", "orderable": false },
+                    { "width": "10%", "targets": 1, className: "text-center", "orderable": false },
+                    { "targets": 2, className: "text-start", "orderable": false },
                     { "targets": 3, className: "text-center", "orderable": false },
 
                 ],

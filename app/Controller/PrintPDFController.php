@@ -91,14 +91,23 @@ class PrintPDFController
         ]);
         
         // die(var_dump($id));
-        $jumlahData = count($rapor);
+        if (!empty($rapor)) {
+            $jumlahData = count($rapor);
+            $jumlahNilai = 0;
+    
+            // $no = $req->getParam('start') + 1;
+            foreach ($rapor as $r) {
+                $jumlahNilai += $r['nilai_akhir'];
 
-        $jumlahNilai = 0;
-        foreach ($rapor as $r) {
-            $jumlahNilai += $r['nilai_akhir'];
+                // $no++;
+            }
+    
+            $rata2 = round($jumlahNilai/$jumlahData, 2);
         }
-
-        $rata2 = round($jumlahNilai/$jumlahData, 2);
+        else{
+            $jumlahNilai = 0;
+            $rata2 = 0;
+        }
 
         // return $rsp->withJson($jumlahNilai);
 
@@ -112,6 +121,7 @@ class PrintPDFController
             'foto' => $rapor[0]['photo_user'],
             'jmlNilai' => $jumlahNilai,
             'average' => $rata2,
+            // 'nomer' => $no,
         ]);
     }
 }

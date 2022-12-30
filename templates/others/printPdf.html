@@ -94,7 +94,7 @@
                     </tr> -->
                     {% for i in rapor %}
                     <tr>
-                        <td style="width: 5%;" class="text-center">1</td>
+                        <td style="width: 5%;" class="text-center">{{loop.index}}</td>
                         <td>{{ i.subject_name }}</td>
                         <td class="text-center">{{ i.nilai_1 }}</td>
                         <td class="text-center">{{ i.nilai_2 }}</td>
