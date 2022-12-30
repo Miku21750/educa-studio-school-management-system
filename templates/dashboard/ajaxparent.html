@@ -1,8 +1,13 @@
 {% block ajaxparent %}
 {# {{Tabel}} #}
 <script type="text/javascript">
-
+   
     $(document).ready(function () {
+
+        
+
+
+
         var id = $('#id').attr('data-id');
         Tabel1Show = function () {
 
@@ -328,6 +333,13 @@
             $('#detailsNoticeBoard').val('');
 
         });
+
+        $('.indo').each((i,el)=>{
+            console.log(el)
+            const x = $(el).text()
+            const date = new Intl.DateTimeFormat('id',{ dateStyle: 'full'}).format(new Date(x))
+            $(el).text(date)
+        })
     })
 
     </script>
