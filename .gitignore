@@ -3,3 +3,4 @@
 !/logs/README.md
 js/
 ngrok.exe
+/vendor/*

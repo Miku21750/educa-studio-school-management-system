@@ -17,7 +17,7 @@ class ClassRoutineController
                 "[>]tbl_classes" => ["id_subject" => "id_class"]
             ],
             [
-                'id_subject',
+                'tbl_subjects.id_subject',
                 'subject_name',
                 'subject_type',
                 'tbl_classes.id_class',

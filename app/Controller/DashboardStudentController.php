@@ -145,12 +145,13 @@ class DashboardStudentController
         // return var_dump($presentaseAbsen1);
 
         $data_student_exam = $app->db->select('tbl_exams', [
-            "[><]tbl_exam_results" => ["id_exam" => "id_exam"]
+            "[><]tbl_exam_results" => ["id_exam" => "id_exam"],
+            "[><]tbl.subjects" 
         ], [
             "tbl_exams.id_exam",
             "tbl_exams.exam_type",
             "tbl_exams.exam_date",
-            "tbl_exam_results.id_subject",
+            "tbl_exams.id_subject",
             "tbl_exam_results.score"
         ], [
             "id_user" => $student_array['id_user']
