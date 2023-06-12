@@ -649,7 +649,7 @@ class StudentController
             'b.first_name(first_name_ortu)',
             'b.last_name(last_name_ortu)',
             'a.occupation',
-            'a.occupation_place'
+            // 'a.occupation_place'
         ], [
             'a.id_user' => $id
 
@@ -749,7 +749,7 @@ class StudentController
             "short_bio" => $data['data_short_bio'],
             "photo_user" => $addUpdate,
             "occupation" => $data['occupation'],
-            "occupation_place" => $data['occupation_place'],
+            // "occupation_place" => $data['occupation_place'],
         ], [
             "id_user" => $data['id_user']
         ]);
