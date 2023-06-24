@@ -620,11 +620,11 @@ class StudentController
         $id = $args['data'];
         $tbl_classes = 'tbl_classes';
 
-
+        // return var_dump($id);
         $data = $app->db->select('tbl_users(a)', [
-            '[><]tbl_classes' => ['a.id_class' => 'id_class'],
-            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
-            '[><]tbl_users(b)' => ['a.id_parent' => 'id_user'],
+            '[>]tbl_classes' => ['a.id_class' => 'id_class'],
+            '[>]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+            '[>]tbl_users(b)' => ['a.id_parent' => 'id_user'],
         ], [
             'a.id_user(id_user)',
             'a.NISN(nisn)',

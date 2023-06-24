@@ -116,6 +116,7 @@
                         <div class="info-table table-responsive">
                             <table class="table ">
                                 <tbody>
+                                    <input type="text" name="id_user" id="id_user_view_account" hidden>
                                     <tr>
                                         <td>Bio:</td>
                                         <td id="bioUserAccount" class="font-medium text-dark-medium"></td>
@@ -626,10 +627,10 @@
             $('#dataDetailsAccount').show();
             $('#dataEditAccount').hide();
         });
-        var id_userAccount;
         $('#deleteUserAccount').click(function (e) {
             e.preventDefault();
-            console.log(id_userAccount)
+            var id_userAccount = $('#id_user_view_account').val();
+            // console.log(id_userAccount)
             const swalWithBootstrapButtons = Swal.mixin({
                 customClass: {
                     confirmButton: 'btn btn-success mx-3',
@@ -656,7 +657,7 @@
                         },
                         dataType: "JSON",
                         success: function (response) {
-                            console.log(response)
+                            // console.log(response)
                             swalWithBootstrapButtons.fire(
                                 'Deleted!',
                                 'Your file has been deleted.',
@@ -750,8 +751,9 @@
             },
             dataType: "JSON",
             success: function (response) {
-                //console.log(response)
-                id_userAccount = response.id_user
+                // console.log(response.id_user)
+                $('#id_user_view_account').val(response.id_user)
+                // id_userAccount = response.id_user
                 $('html, body').animate({
                     scrollTop: $('#dataDetailsAccount').offset().top
                 }, 'fast');
@@ -769,16 +771,16 @@
                 $('#usernameUserAccount').html(response.username)
                 var type = '';
                 switch (response.id_user_type) {
-                    case '1':
+                    case 1:
                         type = 'Student';
                         break;
-                    case '2':
+                    case 2:
                         type = 'Teacher';
                         break;
-                    case '3':
+                    case 3:
                         type = 'Admin';
                         break;
-                    case '4':
+                    case 4:
                         type = 'Parent'
                         break;
                     default:
@@ -804,23 +806,23 @@
                 $('#usernameUserEditAccount').val(response.username)
                 var type = '';
                 switch (response.id_user_type) {
-                    case '1':
+                    case 1:
                         type = 'Student';
                         break;
-                    case '2':
+                    case 2:
                         type = 'Teacher';
                         break;
-                    case '3':
+                    case 3:
                         type = 'Admin';
                         break;
-                    case '4':
+                    case 4:
                         type = 'Parent'
                         break;
                     default:
                         break;
                 }
                 $('#userTypeEditAccount').val(type)
-                $('#selectGenderUserEditAccount').val(response.gender)
+                $('#selectGenderUserEditAccount').val(response.gender).change()
                 $('#dateBirthUserEditAccount').val(response.date_of_birth)
                 $('#religionUserEditAccount').val(response.religion)
                 $('#emailUserEditAccount').val(response.email)

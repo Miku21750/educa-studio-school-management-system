@@ -2555,7 +2555,9 @@ return function (App $app) {
         '/map',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
-            $container->view->render($response, 'others/map.html', $args);
+            $container->view->render($response, 'others/map.html',  [
+                'map' => $_ENV["LOCATION"],
+            ]);
         }
     )->add(new Auth());
     // End Map

@@ -418,7 +418,7 @@
                 // $('#detail_subject').modal('show');
                 $('[name="id_subject"]').val(data.id_subject);
                 $('[name="subjectnameU"]').val(data.subject_name);
-                $('[name="subjecttypeU"]').val(data.subject_type);
+                $('[name="subjecttypeU"]').val(data.subject_type).change();
             }
         });
         return false;

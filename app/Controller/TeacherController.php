@@ -228,11 +228,11 @@ class TeacherController
         $id = $args['data'];
 
 
-        $del = $app->db->delete('tbl_users', [
+        $del = $app->db->debug()->delete('tbl_users', [
             "id_user" => $id
         ]);
 
-        // return var_dump($del);
+        return var_dump($del);
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
         );

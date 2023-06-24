@@ -99,6 +99,7 @@ class indexApiController
         // get image
         $directory = $app->get('upload_directory');
         $uploadedFiles = $request->getUploadedFiles();
+        $filename = '';
         // handle single input with single file upload
         $uploadedFile = $uploadedFiles['profileImage'];
         if ($uploadedFile->getError() === UPLOAD_ERR_OK) {
@@ -107,8 +108,16 @@ class indexApiController
         }
         // return var_dump(isset($filename));
         $addUpdate = $filename;
-        if (!isset($filename)) {
-            $addUpdate = $data['imageDefault'];
+        $a = $app->db->select('tbl_users', '*', [
+            'id_user' => $data['id_user'],
+        ]);
+        // return var_dump($filename == '' && $a[0]['photo_user'] == 'default.png');
+        if ($filename == '') {
+            if($a[0]['photo_user'] != 'default.png'){
+                $addUpdate = $a[0]['photo_user'];
+            }else{
+                $addUpdate = 'default.png';
+            }
         }
 
         // return var_dump($uploadedFiles);

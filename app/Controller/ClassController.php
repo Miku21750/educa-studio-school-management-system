@@ -26,17 +26,21 @@ class ClassController
             'id_user' => $_SESSION['id_user'],
             'id_user_type' => 1
         ]);
-        $kls = $app->db->debug()->select('tbl_users','id_class', [
+        
+        $kls = $app->db->select('tbl_users','id_class', [
             'id_user' => $_SESSION['id_user'],
             'id_user_type' => 1
         ]);
-        $guru = $app->db->select('tbl_users', [
-            '[><]tbl_classes' => 'id_class'
-        ], '*',[
-            'id_class' => $kls, 
-            'id_user_type' => 2
-        ]);
-
+        $type = $_SESSION['type'];
+        if($type == 1 || $type == 2){
+            $guru = $app->db->select('tbl_users', [
+                '[><]tbl_classes' => 'id_class'
+            ], '*',[
+                'id_class' => $kls, 
+                'id_user_type' => 2
+            ]);
+            // return var_dump($guru);
+        }
         $berhasil = isset($_SESSION['berhasil']);
         unset($_SESSION['berhasil']);
 

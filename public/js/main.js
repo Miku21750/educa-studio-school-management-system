@@ -2427,7 +2427,7 @@ $('document').ready(function () {
   })
 
   //Midtrans start here
-  setInterval(ajaxCalll, 30000); //300000 MS == 5 minutes
+  // setInterval(ajaxCalll, 30000); //300000 MS == 5 minutes
 
   function ajaxCalll() {
     $.ajax({

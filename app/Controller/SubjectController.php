@@ -13,9 +13,11 @@ class SubjectController
     public static function index($app, $response, $request, $args)
     {
 
-        $result = $app->db->select('tbl_subjects', [
-            "[><]tbl_classes" => "id_class"
-        ], '*');
+        $result = $app->db->select('tbl_subjects', 
+        // [
+        //     "[><]tbl_classes" => "id_class"
+        // ], 
+        '*');
 
         // $section = $app->db->select('tbl_sections', '*');
 
@@ -69,9 +71,9 @@ class SubjectController
             ];
             $result = $app->db->select(
                 'tbl_subjects',
-                [
-                    "[><]tbl_classes" => "id_class"
-                ],
+                // [
+                //     "[><]tbl_classes" => "id_class"
+                // ],
                 '*',
                 // $limit
                 $conditions
@@ -153,6 +155,7 @@ class SubjectController
         $json_data = array(
             'data' => $data
         );
+        // return var_dump($data);
         return $response->withJson($data);
     }
 
