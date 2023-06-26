@@ -497,7 +497,7 @@ class ExamController
     {
         $data = $args['data'];
 
-        $data = $app->db->insert('tbl_exams', [
+        $e = $app->db->insert('tbl_exams', [
             "exam_type" => $data['exam_type'],
             "semester" => $data['semester'],
             "session" => $data['session'],
@@ -507,7 +507,23 @@ class ExamController
             "exam_start" => $data['exam_start'],
             "exam_end" => $data['exam_end']
         ]);
+        $tbl_classes = 'tbl_classes';
+        $class = $app->db->select('tbl_classes',[
+            '[><]tbl_sections' => 'id_section'
+        ],'*',[
+            'id_class' => $data['id_class']
+        ]);
+        return die(var_dump($class));
 
+        // // $titleNotice = $data['exam_type'] . ' '. $data['semester'] . ' Tahun Ajaran ' . $data['session'];
+        // $titleNotice = $data['exam_type'] . ' '. $data['semester'] . ' ' . $class;
+        // $sendNotice = $app->db->insert('tbl_notifications', [
+        //     'title' => $titleNotice,
+        //     'details' => $data['details'],
+        //     'posted_by' => $data['UserType'],
+        //     'date_event' => $data['exam_date'],
+        //     'category' => $data['category'],
+        // ]);
         return $rsp->withJson(array('success' => true));
     }
     public static function add_exam_result($app, $req, $rsp, $args)

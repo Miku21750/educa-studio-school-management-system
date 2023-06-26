@@ -62,6 +62,7 @@
                     { 'data': 'date' },
                     { 'data': 'email' },
                     { 'data': 'telepon' },
+                    { 'data': 'ket' },
                     { 'data': 'aksi' }
 
                 ]
@@ -162,6 +163,7 @@
                     $('[name="status_pembayaran"]').val(data.status_pembayaran).change();
                     $('[name="date_payment"]').val(data.date_payment);
                     $('[name="tipe_finance"]').val(data.tipe_finance).change();
+                    $('[name="ket"]').html(data.ket);
 
                     // });
                 }
@@ -177,11 +179,12 @@
             var status_pembayaran = $('#status_pembayaran').val();
             var date_payment = $('#date_payment').val();
             var tipe_finance = $('#tipe_finance').val();
+            var ket = $('#ket').val();
             $.ajax({
                 type: "POST",
                 url: "/api/update-payment-detail",
                 dataType: "JSON",
-                data: { id_finance: id_finance, payment_type_name: payment_type_name, amount_payment: amount_payment, status_pembayaran: status_pembayaran, date_payment: date_payment, tipe_finance: tipe_finance },
+                data: { id_finance: id_finance, payment_type_name: payment_type_name, amount_payment: amount_payment, status_pembayaran: status_pembayaran, date_payment: date_payment, tipe_finance: tipe_finance, ket: ket },
                 success: function (data) {
                     if (data) {
                         $('#detail-payment').modal('hide');
@@ -276,6 +279,7 @@
                     { 'data': 'date' },
                     { 'data': 'telepon' },
                     { 'data': 'email' },
+                    { 'data': 'ket' },
                     { 'data': 'aksi' },
 
                 ]
@@ -315,6 +319,7 @@
                     $('[name="status_pembayaran"]').val(data.status_pembayaran).change();
                     $('[name="date_payment"]').val(data.date_payment);
                     $('[name="tipe_finance"]').val(data.tipe_finance).change();
+                    $('[name="ket"]').html(data.ket);
 
                     // });
                 }
@@ -367,6 +372,7 @@
                     { 'data': 'amount_payment' },
                     { 'data': 'status_pembayaran' },
                     { 'data': 'email' },
+                    { 'data': 'ket' },
                     { 'data': 'date_payment' },
                     { 'data': 'aksi' }
 

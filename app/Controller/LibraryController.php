@@ -492,7 +492,7 @@ class LibraryController
                 $datas['id_buku'] = $m['code_book'];
                 $datas['judul'] = $m['name_book'];
                 $datas['penulis'] = $m['writer_book'];
-                $tanggal_pinjam = AcconuntController::tgl_indo($m['tgl_kembali']);
+                $tanggal_pinjam = AcconuntController::tgl_indo($m['tgl_pinjam']);
                 $tanggal_pengembalian = AcconuntController::tgl_indo($m['tgl_kembali']);
 
                 $datas['tanggal_pinjam'] = $tanggal_pinjam;
@@ -651,7 +651,8 @@ class LibraryController
                 $datas['id_buku'] = $m['code_book'];
                 $datas['judul'] = $m['name_book'];
                 $datas['penulis'] = $m['writer_book'];
-                $tanggal_pinjam = AcconuntController::tgl_indo($m['tgl_kembali']);
+                // return die(var_dump($m));
+                $tanggal_pinjam = AcconuntController::tgl_indo($m['tgl_pinjam']);
                 $tanggal_pengembalian = AcconuntController::tgl_indo($m['tgl_kembali']);
 
                 $datas['tanggal_pinjam'] = $tanggal_pinjam;
@@ -696,9 +697,10 @@ class LibraryController
     {
         $data = $args['data'];
         $id_user = $data['id_user'];
-        $tgl_pinjam = $data['tgl_pinjam'];
-        $tujuh_hari = mktime(0, 0, 0, date("n"), date("j") + 7, date("Y"));
-        $kembali        = date("Y-m-d", $tujuh_hari);
+        $tgl_kembali = $data['tgl_pinjam'];
+        // $tujuh_hari = mktime(0, 0, 0, date("n"), date("j") + 7, date("Y"));
+        // $tujuh_hari = mktime(0, 0, 0, date("n"), date("j"), date("Y"));
+        $tgl_pinjam      = date("Y-m-d");
         
         // die(var_dump($kembali));
         $update = $app->db->update('tbl_books', [
@@ -712,7 +714,7 @@ class LibraryController
             "id_book" => $data['id_book'],
             "id_user" => $id_user,
             "tgl_pinjam" => $tgl_pinjam,
-            "tgl_kembali" => $kembali,
+            "tgl_kembali" => $tgl_kembali,
             "ket" => "Dipinjam",
         ]);
 
@@ -811,8 +813,9 @@ class LibraryController
     public static function update_peminjaman($app, $request, $response, $args)
     {
         $data = $args['data'];
-        $tgl = $data['tgl_pinjam'];
-        $tujuh_hari = date("Y-m-d", strtotime("$tgl +7 day"));
+        $tgl_kembali = $data['tgl_pinjam'];
+        // $tujuh_hari = date("Y-m-d", strtotime("$tgl +7 day"));
+        $tgl_now = date("Y-m-d");
         // $tgl_pinjam = date_format(date_create($data['tgl_pinjam']), 'Y-m-d');
         // $kembali    = date("Y-m-d", $tujuh_hari);
 
@@ -827,8 +830,8 @@ class LibraryController
         }
 
         $update = $app->db->update('tbl_peminjaman', [
-            "tgl_pinjam" => $tgl,
-            "tgl_kembali" => $tujuh_hari,
+            "tgl_pinjam" => $tgl_now,
+            "tgl_kembali" => $tgl_kembali,
             "ket" => $data['ket'],
         ], [
             "id_peminjaman" => $data['id_peminjaman'],

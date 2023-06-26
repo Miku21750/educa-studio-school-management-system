@@ -76,6 +76,7 @@ class AcconuntController
             'status_pembayaran',
             'tipe_finance',
             'email',
+            'ket',
             'phone_user',
             'date_payment',
 
@@ -142,6 +143,7 @@ class AcconuntController
                 'status_pembayaran',
                 'tipe_finance',
                 'email',
+                'ket',
                 'phone_user',
                 'date_payment',
 
@@ -172,6 +174,7 @@ class AcconuntController
             'status_pembayaran',
             'tipe_finance',
             'email',
+            'ket',
             'phone_user',
             'date_payment',
 
@@ -204,6 +207,7 @@ class AcconuntController
                 }
 
                 $datas['email'] = $m['email'];
+                $datas['ket'] = $m['ket'];
                 $datas['telepon'] = $m['phone_user'];
                 $tanggal = AcconuntController::tgl_indo($m['date_payment']);
 
@@ -275,6 +279,7 @@ class AcconuntController
             'status_pembayaran',
             'tipe_finance',
             'email',
+            'ket',
             'phone_user',
             'date_payment',
 
@@ -319,6 +324,7 @@ class AcconuntController
             "status_pembayaran" => $data['status_pembayaran'],
             "date_payment" => $data['date_payment'],
             "tipe_finance" => $data['tipe_finance'],
+            "ket" => $data['ket'],
         ], [
 
             "id_finance" => $data['id_finance'],
@@ -453,6 +459,7 @@ class AcconuntController
                 $datas['telepon'] = $m['phone_user'];
                 $tanggal = AcconuntController::tgl_indo($m['date_payment']);
                 $datas['date'] = $tanggal;
+                $datas['ket'] = $m['ket'];
                 $datas['aksi'] = '<div class="dropdown">
 
                 <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
@@ -501,6 +508,7 @@ class AcconuntController
             "amount_payment" => $data['biaya'],
             "status_pembayaran" => $data['status'],
             "date_payment" => $date,
+            "ket" => $data['ket'],
             "tipe_finance" => $data['tipe'],
         ]);
 
@@ -677,7 +685,8 @@ class AcconuntController
 
     public static function tgl_indo($tanggal){
 	$bulan = array (
-		1 =>   'Januari',
+        '00',
+		'Januari',
 		'Februari',
 		'Maret',
 		'April',

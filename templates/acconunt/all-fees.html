@@ -12,7 +12,11 @@
   <div class="card-body">
     <div class="heading-layout1">
       <div class="item-title">
+        {% if session.type == 4 %}
+        <h3>Semua Biaya Pengeluaran </h3>
+        {% elseif session.type == 3 %}
         <h3>Semua Biaya Pemasukan</h3>
+        {% endif %}
       </div>
       <div class="dropdown">
         <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
@@ -37,6 +41,8 @@
                   <th>Jumlah</th>
                   <th>Status</th>
                   <th>E-Mail</th>
+                  <th>Keterangan</th>
+                  <th>ket</th>
                   <th>Tanggal</th>
                   <th></th>
               </tr>
@@ -66,6 +72,7 @@
             <th>Tanggal</th>
             <th>Email</th>
             <th>Telepon</th>
+            <th>Keterangan</th>
             <th></th>
           </tr>
         </thead>
@@ -196,6 +203,10 @@
                 <div class="form-group">
                   <label>Tanggal </label>
                   <input type="date" name="date_payment" id="date_payment" class="form-control">
+                </div>
+                <div class="col-xl-3 col-lg-6 col-12 form-group">
+                  <label>Keterangan</label>
+                  <textarea name="ket" cols="60" rows="10" id="ket" class="form-control"></textarea>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>

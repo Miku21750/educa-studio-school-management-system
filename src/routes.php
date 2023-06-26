@@ -1252,7 +1252,10 @@ return function (App $app) {
     $app->get(
         '/all-students',
         function (Request $request, Response $response, array $args) use ($container) {
-
+            // return die(var_dump($_SESSION));
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             return StudentController::index($this, $request, $response, [
                 'user' => $_SESSION['username'],
                 'id_user' => $_SESSION['id_user'],
@@ -1264,7 +1267,9 @@ return function (App $app) {
 
     $app->get('/admit-form', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
-
+        if($_SESSION['type'] != 3) {
+            return $container->view->render($response, 'others/403.html', $args);
+        }
         return StudentController::page_add_student($this, $request, $response, $args);
     }
     );
@@ -1287,7 +1292,9 @@ return function (App $app) {
     $app->get(
         '/all-teacher',
         function (Request $request, Response $response, array $args) use ($container) {
-
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             return TeacherController::index($this, $request, $response, [
                 'user' => $_SESSION['username'],
                 'id_user' => $_SESSION['id_user'],
@@ -1299,6 +1306,9 @@ return function (App $app) {
     $app->get(
         '/add-teacher',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return TeacherController::page_add_teacher($this, $request, $response, $args);
         }
@@ -1306,6 +1316,9 @@ return function (App $app) {
     $app->get(
         '/teacher-payment',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return TeacherController::page_payment($this, $request, $response, $args);
         }
@@ -1316,6 +1329,9 @@ return function (App $app) {
     $app->get(
         '/all-parents',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             return ParentController::index($this, $request, $response, [
                 'user' => $_SESSION['username'],
                 'id_parent' => $_SESSION['id_user'],
@@ -1334,6 +1350,9 @@ return function (App $app) {
     $app->get(
         '/add-parents',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return ParentController::page_add_parent($this, $request, $response, $args);
         }
@@ -1345,6 +1364,9 @@ return function (App $app) {
         '/all-book',
         function (Request $request, Response $response, array $args) use ($container) {
             // Render index view
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             return LibraryController::option_book_detail($this, $request, $response, $args);
         }
     )->add(new Auth());
@@ -1358,6 +1380,9 @@ return function (App $app) {
     $app->get(
         '/add-book',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return LibraryController::option_book($this, $request, $response, $args);
         }
@@ -1368,6 +1393,9 @@ return function (App $app) {
     $app->get(
         '/all-fees',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 2 || $_SESSION['type'] == 1) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return AcconuntController::index($this, $request, $response, $args);
         }
@@ -1376,6 +1404,9 @@ return function (App $app) {
     $app->get(
         '/all-expense',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return AcconuntController::pengeluaran($this, $request, $response, $args);
         }
@@ -1383,6 +1414,9 @@ return function (App $app) {
     $app->get(
         '/add-expense',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return AcconuntController::page_add_payment($this, $request, $response, $args);
         }
@@ -1393,6 +1427,9 @@ return function (App $app) {
     $app->get(
         '/all-class',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return ClassController::index($this, $request, $response, $args);
 
@@ -1402,7 +1439,11 @@ return function (App $app) {
     $app->get(
         '/add-class',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
+            
             return ClassController::viewAddClass($this, $request, $response, $args);
         }
     )->add(new Auth());
@@ -1412,6 +1453,9 @@ return function (App $app) {
     $app->get(
         '/all-subject',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 1 || $_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return SubjectController::index($this, $response, $request, $args);
         }
@@ -1422,6 +1466,9 @@ return function (App $app) {
     $app->get(
         '/class-routine',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             // $container->view->render($response, 'others/class-routine.html', $args);
             return ClassRoutineController::index($this, $response, $request, $args);
@@ -1433,6 +1480,9 @@ return function (App $app) {
     $app->get(
         '/student-attendence',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 1 || $_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             // $class = $container->db->query("SELECT * FROM tbl_classes c LEFT JOIN tbl_sections s ON c.id_section = s.id_section");
             $class = $container->db->select('tbl_classes', [
@@ -1727,6 +1777,10 @@ return function (App $app) {
     $app->get(
         '/exam-schedule',
         function (Request $request, Response $response, array $args) use ($container) {
+            // return die(var_dump($_SESSION));
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return ExamController::option_exam($this, $request, $response, $args);
         }
@@ -1734,6 +1788,9 @@ return function (App $app) {
     $app->get(
         '/exam-grade',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             $container->view->render($response, 'exam/exam-grade.html', $args);
         }
@@ -1742,6 +1799,9 @@ return function (App $app) {
     $app->get(
         '/exam-result',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             return ExamController::exam_result($this, $request, $response, $args);
         }
@@ -1756,6 +1816,9 @@ return function (App $app) {
     $app->get(
         '/tugas',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 4 || $_SESSION['type'] == 1) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             $class = $container->db->select('tbl_classes', [
                 '[>]tbl_sections' => 'id_section',
@@ -2090,6 +2153,9 @@ return function (App $app) {
     $app->get(
         '/final-score',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] == 1 || $_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             $class = $container->db->select('tbl_classes', [
                 '[>]tbl_sections' => 'id_section',
@@ -2266,15 +2332,15 @@ return function (App $app) {
                 ],
             ];
 
-            if ($_SESSION['type'] == 1) {
+            if ($_SESSION['type'] === 1) {
                 $category = [
                     'category[!]' => ['Pembayaran_Gaji', 'Pembayaran_SPP'],
                 ];
-            } elseif ($_SESSION['type'] == 4) {
+            } elseif ($_SESSION['type'] === 4) {
                 $category = [
                     'category' => ['Pembayaran_SPP', 'Exam'],
                 ];
-            } elseif ($_SESSION['type'] == 3) {
+            } elseif ($_SESSION['type'] === 3) {
                 $category = [
                     'category' => ['Pembayaran_SPP', 'Pembayaran_Gaji', 'Exam', 'Event', 'Pengumuman_Sekolah'],
                 ];
@@ -2600,6 +2666,9 @@ return function (App $app) {
     $app->get(
         '/add-account',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // Render index view
             $isAddAccount = isset($_SESSION['successAddingAccount']);
             unset($_SESSION['successAddingAccount']);
@@ -2611,6 +2680,7 @@ return function (App $app) {
     $app->post(
         '/add-account',
         function (Request $request, Response $response, array $args) use ($container) {
+            
             // Render index view
             $data = $request->getParsedBody();
             $addPhoto = 'default.png';
@@ -2633,6 +2703,7 @@ return function (App $app) {
                 "id_user_type" => 3,
                 "status" => 1,
                 "email" => $data['email'],
+                "username" => $data['username'],
                 "password" => $encryptedPassword,
                 "photo_user" => $addPhoto,
             ]);
@@ -2644,6 +2715,9 @@ return function (App $app) {
     $app->get(
         '/all-account',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
 
             // $data = $container->db->select('tbl_users', '*');
             // return var_dump($data);
@@ -2664,6 +2738,9 @@ return function (App $app) {
     $app->get(
         '/account-data',
         function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
             // return var_dump($request->getParams());
             $id = $request->getParam('id_user');
             $data = $container->db->select('tbl_users', '*', [

@@ -141,6 +141,7 @@ class DashbordParentController
                     $datas['status_pembayaran'] = '<p class="badge badge-pill badge-danger d-block my-2 py-3 px-4">'.$m['status_pembayaran'].'</p>';
                 }
                 $datas['email'] = $m['email'];
+                $datas['ket'] = $m['ket'];
                 $tgl = AcconuntController::tgl_indo($m['date_payment']);
 
                 $datas['date_payment'] = $tgl;

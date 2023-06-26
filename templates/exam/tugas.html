@@ -418,19 +418,19 @@
                 let resultTbl = '';
                 let typeUser = response.typeUser;
                 let limitAllStudent = 0;
-                console.log(response)
+                // console.log(response)
                 for (let i = 0; i < response.dataTaskAvailable.length; i++) {
                     var h = 0;
                     resultTbl += '<tr><th>' + response.dataTaskAvailable[i].task_name + '</th>';
                     h += limitAllStudent;
                     for (let j = 0; j < response.dataStudentTaskSuccess.length; j++) {
                         if (response.totalTask.length !== 0) {
-                            resultTbl += '<td><input type="text" data-idStudent="' + response.totalTask[h].id_user + '" data-idTask="' + response.dataTaskAvailable[i].task_name + '"  class="form-control attendCheckbox" value="' + response.totalTask[h].score + '"></td>'
+                            resultTbl += '<td><input type="text" data-idStudent="' + response.totalTask[h+j].id_user + '" data-idTask="' + response.dataTaskAvailable[i].task_name + '"  class="form-control attendCheckbox" value="' + response.totalTask[h+j].score + '"></td>'
                         } else {
-                            resultTbl += '<td><input type="text" data-idStudent="' + response.totalTask[h].id_user + '" data-idTask="' + response.dataTaskAvailable[i].task_name + '" class="form-control attendCheckbox"></td>'
+                            resultTbl += '<td><input type="text" data-idStudent="' + response.totalTask[h+j].id_user + '" data-idTask="' + response.dataTaskAvailable[i].task_name + '" class="form-control attendCheckbox"></td>'
                         }
-                        console.log(response.totalTask[h])
-                        
+                        // h += j;
+                        console.log(h, j)
                     }
                     resultTbl += '</tr>';
                     limitAllStudent += response.dataStudentTaskSuccess.length;
@@ -444,7 +444,8 @@
                 today = yyyy + '-' + mm + '-' + dd;
                 console.log(today)
                 //if date != now && userType != admin, disabled
-                if (typeUser !== '3') {
+                console.log(typeUser)
+                if (typeUser !== 3) {
                     $('#taskSheetView input[type="text"]').not($('input[value="0"]')).attr('readonly', true)
                     $('#taskSheetView input[type="text"]').not($('input[value="0"]')).addClass('bg-secondary text-light')
                 }

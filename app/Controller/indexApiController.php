@@ -267,8 +267,8 @@ class indexApiController
 
     public static function logout($app, $request, $response, $args)
     {
-        // session_destroy();
         $_SESSION['logout'] = true;
+        session_destroy();
         return $response->withRedirect('/login');
     }
 }

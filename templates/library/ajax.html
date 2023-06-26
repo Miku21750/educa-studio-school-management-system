@@ -319,7 +319,7 @@
         $('#btn_pinjam').on('click', function () {
             var id_user = $('#get-siswa').val();
             var id_book = $('#id_book').val();
-            var tanggal_pinjam = $('#get_tgl_pinjam').val();
+            var tanggal_pinjam = $('#get_tgl_kembali').val();
             $.ajax({
                 type: "POST",
                 url: "/api/pinjam",
@@ -405,7 +405,7 @@
                     $('[name="nama"]').val(data.first_name + ' ' + data.last_name);
                     $('[name="penulis"]').val(data.writer_book);
                     $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
-                    $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
+                    $('[name="tgl_kembali"]').val(data.tgl_kembali);
                     $('[name="ket"]').val(data.ket).change();
                     $('[name="id_book"]').val(data.id_book).change();
 
@@ -436,7 +436,7 @@
                     $('[name="nama"]').val(data.first_name + ' ' + data.last_name);
                     $('[name="penulis"]').val(data.writer_book);
                     $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
-                    $('[name="tgl_pinjam"]').val(data.tgl_pinjam);
+                    $('[name="tgl_kembali"]').val(data.tgl_kembali);
                     $('[name="ket"]').val(data.ket).change();
                     $('[name="id_book"]').val(data.id_book).change();
 
