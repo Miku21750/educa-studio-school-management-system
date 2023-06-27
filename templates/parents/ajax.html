@@ -56,6 +56,7 @@
         Tabel1Show();
         //GET HAPUS
         $('#show_data').on('click', '.item_hapus', function () {
+            console.log(this)
             var id = $(this).attr('data');
             $('#confirmation-modal').modal('show');
             $('[name="kode"]').val(id);

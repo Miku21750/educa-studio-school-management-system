@@ -57,14 +57,15 @@
         //GET HAPUS
         $('#show_data').on('click', '.item_hapus', function () {
             var id = $(this).attr('data');
-            console.log($(this).html())
+            console.log($(this).attr('data'))
             $('#confirmation-modal').modal('show');
             $('[name="kode"]').val(id);
         });
 
         //Hapus Data
         $('#btn_hapus').on('click', function () {
-            var kode = $('#textkode').attr('data');
+            // console.log($('#textkodeT').html())
+            var kode = $('#textkodeT').val();
             $.ajax({
                 type: "POST",
                 url: "/api/delete-teacher",

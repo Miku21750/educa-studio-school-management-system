@@ -140,8 +140,8 @@ class TeacherController
                     aria-expanded="false">
                     <span class="flaticon-more-button-of-three-dots"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right" data="' . $m['id_user'] . '">
-                    <a class="dropdown-item btn btn-light item_hapus"  >
+                <div class="dropdown-menu dropdown-menu-right" >
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
                         <i class="fas fa-trash text-orange-red"></i>
                         Hapus
                     </a>
@@ -228,11 +228,11 @@ class TeacherController
         $id = $args['data'];
 
 
-        $del = $app->db->debug()->delete('tbl_users', [
+        $del = $app->db->delete('tbl_users', [
             "id_user" => $id
         ]);
 
-        return var_dump($del);
+        // return var_dump($del);
         $json_data = array(
             "draw"            => intval($req->getParam('draw')),
         );
