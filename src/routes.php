@@ -12,6 +12,7 @@ use App\Controller\ExamController; //Pindahkan ke conroller nanti
 use App\Controller\HostelController;
 use App\Controller\indexApiController;
 use App\Controller\indexViewController;
+use App\Controller\InventarisController;
 use App\Controller\LibraryController;
 use App\Controller\MessageController;
 use App\Controller\ParentController;
@@ -838,12 +839,32 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->post(
+                '/delete-inventory',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return InventarisController::delete($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
             $app->get(
                 '/{id}/payment-detail',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $args['id'];
                     // return var_dump($data);
                     return AcconuntController::payment_detail($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
+            $app->get(
+                '/{id}/inventory-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $args['id'];
+                    // return var_dump($data);
+                    return InventarisController::inventory_detail($this, $request, $response, [
                         'data' => $data,
                     ]);
                 }
@@ -858,11 +879,28 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->post(
+                '/update-inventory-detail',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return InventarisController::update_inventory_detail($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
             $app->get(
                 '/allexpense',
                 function (Request $request, Response $response, array $args) use ($app) {
 
                     return AcconuntController::tampil_data_expense($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/allinventory',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return InventarisController::tampil_data($this, $request, $response, $args);
                 }
             );
             $app->post(
@@ -871,6 +909,16 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return AcconuntController::add_payment($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
+            $app->post(
+                '/add-inventory',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return InventarisController::add_inventory($this, $request, $response, [
                         'data' => $data,
                     ]);
                 }
@@ -1422,6 +1470,32 @@ return function (App $app) {
         }
     )->add(new Auth());
     //end Acconunt
+
+    //inv
+    $app->get(
+        '/all-inventory',
+        function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
+            // Render index view
+            return InventarisController::index($this, $request, $response, $args);
+
+            // $container->view->render($response, 'class/all-class.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/add-inventory',
+        function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
+            // Render index view
+            
+            return InventarisController::viewAddInventory($this, $request, $response, $args);
+        }
+    )->add(new Auth());
+    //end inv
 
     //Class
     $app->get(
@@ -2756,6 +2830,7 @@ return function (App $app) {
             return indexApiController::editAccount($this, $request, $response, $args);
         }
     );
+    
     $app->post(
         '/ubah-password',
         function (Request $request, Response $response, array $args) use ($container) {

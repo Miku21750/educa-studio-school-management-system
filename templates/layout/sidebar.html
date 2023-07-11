@@ -16,14 +16,14 @@
       {% if  session.type == 3 or session.type == 2 or session.type == 4 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
-          ><i class="flaticon-classmates"></i><span>Students</span></a
+          ><i class="flaticon-classmates"></i><span>Siswa</span></a
         >
         <ul class="nav sub-group-menu">
           {% if session.type == 3 or session.type == 2  %}
 
           <li class="nav-item">
             <a href="/all-students" class="nav-link"
-              ><i class="fas fa-angle-right"></i>All Students</a
+              ><i class="fas fa-angle-right"></i>Semua Data Siswa</a
             >
           </li>
           <li class="nav-item">
@@ -36,19 +36,19 @@
 
           <li class="nav-item">
             <a href="/student-acc" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Acc Students</a
+              ><i class="fas fa-angle-right"></i>Terima Murid</a
             >
           </li>
           <li class="nav-item">
             <a href="/admit-form" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Admission Form</a
+              ><i class="fas fa-angle-right"></i>Tambah Data Murid</a
             >
           </li>
           {% endif %}
 
           {# <li class="nav-item">
             <a href="/student-promotion" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Student Promotion</a
+              ><i class="fas fa-angle-right"></i>Promosi Murid</a
             >
           </li> #}
         </ul>
@@ -62,25 +62,25 @@
         <ul class="nav sub-group-menu">
           <li class="nav-item">
             <a href="/all-teacher" class="nav-link"
-              ><i class="fas fa-angle-right"></i>All Teachers</a
+              ><i class="fas fa-angle-right"></i>Semua Data Guru</a
             >
           </li>
           {# <li class="nav-item">
             <a href="/teacher-details" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Teacher Details</a
+              ><i class="fas fa-angle-right"></i>Detail guru</a
             >
           </li> #}
           {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/add-teacher" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Add Teacher</a
+              ><i class="fas fa-angle-right"></i>Tambah Data Guru</a
             >
           </li>
           {% endif %}
 
           <li class="nav-item">
             <a href="/teacher-payment" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Payment</a
+              ><i class="fas fa-angle-right"></i>Pembayaran</a
             >
           </li>
         </ul>
@@ -89,27 +89,27 @@
       
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
-          ><i class="flaticon-couple"></i><span>Parents</span></a>
+          ><i class="flaticon-couple"></i><span>Orang Tua</span></a>
           <ul class="nav sub-group-menu">
 
         {% if session.type == 4 %}
 
           <li class="nav-item">
             <a href="api/parent-detail/{{session.id_user}}" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Parents Details</a
+              ><i class="fas fa-angle-right"></i>Detail Orang Tua</a
             >
           </li>
           {% endif %}
           {% if session.type == 3 or session.type == 2  %}
           <li class="nav-item">
             <a href="/all-parents" class="nav-link"
-              ><i class="fas fa-angle-right"></i>All Parents</a
+              ><i class="fas fa-angle-right"></i>Semua Data Orang Tua</a
             >
           </li>
           
           <li class="nav-item">
             <a href="/add-parents" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Add Parent</a
+              ><i class="fas fa-angle-right"></i>Tambahkan Orang Tua</a
             >
           </li>
           {% endif %}
@@ -119,19 +119,19 @@
       3 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
-          ><i class="flaticon-books"></i><span>Library</span></a
+          ><i class="flaticon-books"></i><span>Perpustakaan</span></a
         >
         <ul class="nav sub-group-menu">
           <li class="nav-item">
             <a href="/all-book" class="nav-link"
-              ><i class="fas fa-angle-right"></i>All Book</a
+              ><i class="fas fa-angle-right"></i>Semua Buku</a
             >
           </li>
           {% if session.type == 3 %}
 
           <li class="nav-item">
             <a href="/add-book" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Add New Book</a
+              ><i class="fas fa-angle-right"></i>Tambah Buku Baru</a
             >
           </li>
           {% endif %}
@@ -150,26 +150,57 @@
       {% if session.type == 3 or session.type == 4 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
-          ><i class="flaticon-technological"></i><span>Acconunt</span></a
+          ><i class="flaticon-technological"></i><span>Keuangan</span></a
         >
         <ul class="nav sub-group-menu">
           <li class="nav-item">
             <a href="/all-fees" class="nav-link"
-              ><i class="fas fa-angle-right"></i>All Fees Collection</a
+              ><i class="fas fa-angle-right"></i>Semua Pemasukan</a
             >
           </li>
           {% if session.type == 3  %}
           <li class="nav-item">
             <a href="/all-expense" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Expenses</a
+              ><i class="fas fa-angle-right"></i>Pengeluaran</a
             >
           </li>
           <li class="nav-item">
             <a href="/add-expense" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Add Expenses</a
+              ><i class="fas fa-angle-right"></i>Tambahkan Transaksi</a
             >
           </li>
           {% endif %} 
+
+        </ul>
+      </li>
+      {% endif %} 
+      {% if session.type == 3 or session.type == 2 %}
+      <li class="nav-item sidebar-nav-item">
+        <a href="#" class="nav-link"
+          ><i class="flaticon-technological"></i><span>Inventaris</span></a
+        >
+        <ul class="nav sub-group-menu">
+          <li class="nav-item">
+            <a href="/all-inventory" class="nav-link"
+              ><i class="fas fa-angle-right"></i>Data Barang</a
+            >
+          {% if session.type == 3  %}
+          <li class="nav-item">
+            <a href="/add-inventory" class="nav-link"
+              ><i class="fas fa-angle-right"></i>Tambah Data Barang</a
+            >
+          </li>
+          {% endif %} 
+          <!-- <li class="nav-item">
+            <a href="/all-fees" class="nav-link"
+              ><i class="fas fa-angle-right"></i>Semua Barang Masuk</a
+            >
+          </li>
+          <li class="nav-item">
+            <a href="/all-fees" class="nav-link"
+              ><i class="fas fa-angle-right"></i>Semua Barang Keluar</a
+            >
+          </li> -->
 
         </ul>
       </li>
@@ -180,13 +211,13 @@
           ><i
             class="flaticon-maths-class-materials-cross-of-a-pencil-and-a-ruler"
           ></i
-          ><span>Class</span></a
+          ><span>Kelas</span></a
         >
         <ul class="nav sub-group-menu">
           {% if session.type == 3 or session.type == 1 %}
           <li class="nav-item">
             <a href="/all-class" class="nav-link"
-              ><i class="fas fa-angle-right"></i>All Classes</a
+              ><i class="fas fa-angle-right"></i>Semua Data Kelas</a
             >
           </li>
         {% endif %}
@@ -195,7 +226,7 @@
           {% if session.type == 1 or session.type == 3 or session.type == 2 %}
           <li class="nav-item">
             <a href="/class-routine" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Class Routine</a
+              ><i class="fas fa-angle-right"></i>Jadwal Kelas</a
             >
           </li>
           {% endif %}
@@ -203,12 +234,12 @@
           {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/add-class" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Add New Class</a
+              ><i class="fas fa-angle-right"></i>Tambahkan Kelas Baru</a
             >
           </li>
           <li class="nav-item">
             <a href="/all-subject" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Subject</a
+              ><i class="fas fa-angle-right"></i>Mata Pelajaran</a
             >
           </li>
           {% endif %}
@@ -235,7 +266,7 @@
       {% if session.type == 3 or session.type == 2 %}
       <li class="nav-item">
         <a href="/student-attendence" class="nav-link"
-          ><i class="flaticon-checklist"></i><span>Attendence</span></a
+          ><i class="flaticon-checklist"></i><span>Absensi</span></a
         >
       </li>
       {% endif %}
@@ -243,26 +274,26 @@
       {% if  session.type == "1" or session.type == 3 or session.type == 2 or session.type == 4 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
-          ><i class="flaticon-shopping-list"></i><span>Evaluation</span></a
+          ><i class="flaticon-shopping-list"></i><span>Evaluasi</span></a
         >
 
         <ul class="nav sub-group-menu">
           {% if  session.type == 1 or session.type == 3 or session.type == 2  %}
           <li class="nav-item">
             <a href="/exam-schedule" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Exam Schedule</a>
+              ><i class="fas fa-angle-right"></i>Jadwal Ujian</a>
           </li>
           {% endif %}
           {% if session.type == 3 %}
           <li class="nav-item">
             <a href="/exam-grade" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Exam Grades</a>
+              ><i class="fas fa-angle-right"></i>Peringkat Ujian</a>
           </li>
           {% endif %}
           {% if  session.type == 1 or session.type == 3 or session.type == 2 or session.type == 4 %}
           <li class="nav-item">
             <a href="/exam-result" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Exam Result</a>
+              ><i class="fas fa-angle-right"></i>Hasil Ujian</a>
           </li>
          
           {% endif %}
@@ -270,11 +301,11 @@
           {% if session.type == 3 or session.type == 2 %}
           <li class="nav-item">
             <a href="/tugas" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Task</a>
+              ><i class="fas fa-angle-right"></i>Tugas</a>
           </li>
           <li class="nav-item">
             <a href="/final-score" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Final Score</a>
+              ><i class="fas fa-angle-right"></i>Nilai Akhir</a>
           </li>
           {% endif %}
 
@@ -291,7 +322,7 @@
       </li>
       <li class="nav-item">
         <a href="/hostel" class="nav-link"
-          ><i class="flaticon-bed"></i><span>Hostel</span></a
+          ><i class="flaticon-bed"></i><span>Asrama</span></a
         >
       </li>
       {% endif %}
@@ -299,7 +330,7 @@
       {% if  session.type == "1" or session.type == 3 or session.type == 2 %}
       <li class="nav-item">
         <a href="/messaging" class="nav-link"
-          ><i class="flaticon-chat"></i><span>Message</span></a
+          ><i class="flaticon-chat"></i><span>Pesan</span></a
         >
       </li>
       {% endif %}
@@ -308,7 +339,7 @@
       {% if session.type == '3' or session.type == 'Teacher' %}
       <li class="nav-item">
         <a href="/notice-board" class="nav-link"
-          ><i class="flaticon-script"></i><span>Notice</span></a
+          ><i class="flaticon-script"></i><span>Notifikasi</span></a
         >
       </li>
       {% endif %}
@@ -365,17 +396,17 @@
       {% if session.type == 3 %}
       <li class="nav-item sidebar-nav-item">
         <a href="#" class="nav-link"
-          ><i class="flaticon-settings"></i><span>Account</span></a
+          ><i class="flaticon-settings"></i><span>Akun</span></a
         >
         <ul class="nav sub-group-menu">
           <li class="nav-item">
             <a href="/all-account" class="nav-link"
-              ><i class="fas fa-angle-right"></i>All Account</a
+              ><i class="fas fa-angle-right"></i>Semua Data Akun</a
             >
           </li>
           <li class="nav-item">
             <a href="/add-account" class="nav-link"
-              ><i class="fas fa-angle-right"></i>Add Account</a
+              ><i class="fas fa-angle-right"></i>Tambah Akun Baru</a
             >
           </li>
         </ul>

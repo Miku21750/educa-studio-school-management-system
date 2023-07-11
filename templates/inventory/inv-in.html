@@ -1,0 +1,324 @@
+{% extends "/layout/master.html" %}
+{% set title = "All Inventory" %}
+{% set typeFrontEnd = "Inventory" %}
+{% set section_type = "All Inventory" %}
+{% block content %}
+<!-- Expanse Table Area Start Here -->
+<div class="card height-auto">
+    <div class="card-body">
+      <div class="heading-layout1">
+        <div class="item-title">
+          <h3>Data Barang Masuk</h3>
+        </div>
+        <!-- <div class="dropdown">
+          <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">...</a>
+  
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="#"><i class="fas fa-times text-orange-red"></i>Close</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-cogs text-dark-pastel-green"></i>Edit</a>
+            <a class="dropdown-item" href="#"><i class="fas fa-redo-alt text-orange-peel"></i>Refresh</a>
+          </div>
+        </div> -->
+      </div>
+  
+      <div class="table-responsive">
+        <table class="table text-nowrap" id="allinventory">
+          <thead class="text-center">
+            <tr>
+              <th>No</th>
+              <th>Tanggal</th>
+              <th>Kode</th>
+              <th>Nama</th>
+              <th>Kondisi</th>
+              <th>Jumlah</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="show_inventory">
+  
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Expanse Table Area End Here -->
+  
+  
+  <!-- Modal -->
+  <!-- MODAL DELETE -->
+  <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog success-modal-content" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="success-message">
+            <input type="hidden" name="kode" id="textkode" value="" hidden>
+            <h3 class="item-title">Apa kamu ingin menghapus data ini ?</h3>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="footer-btn bg-linkedin" id="btn_hapus">Ok</button>
+          <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MODAL UPDATE -->
+  <div class="modal fade" id="detail-inventory" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Detail Barang</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="card ui-tab-card">
+          <div class="card-body">
+            <div class="single-info-details">
+              <div class="item-content">
+                <div class="header-inline item-header">
+                  <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
+  
+                </div>
+                <div>
+                  <form>
+                    <input type="text" name="id_inventory" id="id_inventory" hidden>
+                    <div class="form-group">
+                      <label>Kode Barang</label>
+                      <input type="text" name="kode" class="form-control" readonly id="kode"/>
+                    </div>
+                    <div class="form-group">
+                      <label>Nama Barang</label>
+                      <input type="text" name="nama" placeholder="" class="form-control" id="nama">
+  
+  
+                      <div class="form-group">
+                        <label>Kondisi *</label>
+                        <select class="select2 form-control form-control-lg" name="kondisi"
+                          id="kondisi">
+                          <option>Silahkan Pilih *</option>
+                          <option value="sangatbaik">Sangat Baik</option>
+                          <option value="baik">Baik</option>
+                          <option value="cukup">Cukup</option>
+                          <option value="buruk">Buruk</option>
+                          <option value="sangatburuk">Sangat Buruk</option>
+                        </select>
+                      </div>
+  
+                      <div class="form-group">
+                        <label>Jumlah </label>
+                        <input type="text" name="jumlah" id="jumlah" class="form-control">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="footer-btn bg-linkedin" id="btn_update_inventory_edit">Simpan</button>
+                      </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        inventory = function(){
+            table = $('#allinventory').on('preXhr.dt',function (e, settings, data){
+                console.log('loading ....')
+            }).on('draw.dt',function(e, settings, data){
+                console.log('dapat data .....')
+            }).DataTable({
+                responsive:{
+                    details:{
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    { "targets": 0, className: "text-center", "orderable": false },
+                    { "targets": 1, className: "text-start", "orderable": false },
+                    { "targets": 2, className: "text-center", "orderable": false },
+                    { "targets": 3, className: "text-start", "orderable": false },
+                    { "targets": 4, className: "text-start", "orderable": false },
+                ],
+                'pageLength': 10,
+                'responsive': true,
+                'processing': true,
+                'serverSide': true,
+                'ajax': {
+                    'url': "/api/allinventory",
+                    'dataType:': 'json',
+                    'type': 'get',
+
+                },
+                'columns': [
+                    { 'data': 'kode' },
+                    { 'data': 'nama' },
+                    { 'data': 'kondisi' },
+                    { 'data': 'jumlah' },
+                    { 'data': 'aksi' },
+                ]
+            })
+        }
+        inventory();
+
+        //GET HAPUS
+        $('#show_inventory').on('click', '.item_hapus', function () {
+            var id = $(this).attr('data');
+            $('#confirmation-modal').modal('show');
+            $('[name="kode"]').val(id);
+        });
+        //Hapus Data
+        $('#btn_hapus').on('click', function () {
+            var kode = $('#textkode').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/delete-inventory",
+                dataType: "JSON",
+                data: { kode: kode },
+                success: function (data) {
+                    if (data) {
+                        $('#confirmation-modal').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+
+                        }).then((result) => {
+                            table.draw(false)
+                            pengeluaran.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah dihapus.',
+                                }
+
+                            )
+                        })
+
+
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+
+
+
+                }
+            });
+            return false;
+        });
+
+        //Show_Inventory
+        $('#show_inventory').on('click', '.inventory_detail', function () {
+            var id = $(this).attr('data');
+            $.ajax({
+                type: "GET",
+                url: "/" + "api" + "/" + id + "/inventory-detail",
+                dataType: "JSON",
+                data: { id: id },
+                success: function (data) {
+
+                    // $.each(data, function (key, val) {
+                    console.log(data);
+                    $('#detail-inventory').on('shown.bs.modal', function (e) {
+                        $('#jumlah').focus();
+                    }).modal('show');
+                    $('[name="id_inventory"]').val(data.id_inventory);
+                    $('[name="kode"]').val(data.kode_produk);
+                    $('[name="nama"]').val(data.nama_produk);
+                    $('[name="kondisi"]').val(data.kondisi).change();
+                    $('[name="jumlah"]').val(data.jumlah);
+                    // });
+                }
+            });
+            return false;
+        });
+        //Update Payment
+        $('#btn_update_inventory_edit').click(function (e) {
+            var id_inventory = $('#id_inventory').val();
+            var kode = $('#kode').val();
+            var nama = $('#nama').val();
+            var kondisi = $('#kondisi').val();
+            var jumlah = $('#jumlah').val();
+            $.ajax({
+                type: "POST",
+                url: "/api/update-inventory-detail",
+                dataType: "JSON",
+                data: { id: id_inventory, nama_produk: nama, kode_produk:kode, kondisi: kondisi, jumlah: jumlah },
+                success: function (data) {
+                    if (data) {
+                        $('#detail-inventory').modal('hide');
+                        let timerInterval
+                        Swal.fire({
+                            title: 'Memuat Data...',
+                            html: 'Tunggu  <b></b>  Detik.',
+                            timer: 300,
+                            timerProgressBar: true,
+                            didOpen: () => {
+                                Swal.showLoading()
+                                const b = Swal.getHtmlContainer().querySelector('b')
+                                timerInterval = setInterval(() => {
+                                    b.textContent = Swal.getTimerLeft()
+                                }, 100)
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval)
+                            }
+                        }).then((result) => {
+                            table.draw(false)
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah diubah.',
+                                    //footer: '<a href="">Why do I have this issue?</a>'
+                                }
+
+                            )
+                        })
+                        transTable.draw(false)
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Ada yang eror!',
+                            //footer: '<a href="">Why do I have this issue?</a>'
+                        })
+                    }
+                }
+            });
+            return false;
+        });
+    })
+  </script>
+  <!-- {% include "acconunt/ajax.html" %}
+  {% block ajax %}
+  {% endblock ajax %} -->
+{% endblock content %}

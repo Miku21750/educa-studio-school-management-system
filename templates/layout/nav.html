@@ -65,16 +65,16 @@
           <div class="item-content">
             <ul class="settings-list">
               <li>
-                <a href="/profile-setting"><i class="flaticon-user"></i>My Profile</a>
+                <a href="/profile-setting"><i class="flaticon-user"></i>Profil</a>
               </li>
               {# <li>
                 <a href="#"><i class="flaticon-list"></i>Task</a>
               </li> #}
               <li>
-                <a href="/messaging"><i class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"></i>Message</a>
+                <a href="/messaging"><i class="flaticon-chat-comment-oval-speech-bubble-with-text-lines"></i>Pesan</a>
               </li>
               {# <li>
-                <a href="/account-settings"><i class="flaticon-gear-loading"></i>Account Settings</a>
+                <a href="/account-settings"><i class="flaticon-gear-loading"></i>Pengaturan Akun</a>
               </li> #}
               <li>
                 <a href="/logout"><i class="flaticon-turn-off"></i>Log Out</a>
@@ -87,12 +87,12 @@
         {% if (auth is empty) or (auth[0].totalMessage == 0) %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-envelope"></i>
-          <div class="item-title d-md-none text-16 mg-l-10">Message</div>
+          <div class="item-title d-md-none text-16 mg-l-10">Pesan</div>
         </a>
         {% else %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-envelope"></i>
-          <div class="item-title d-md-none text-16 mg-l-10">Message </div>
+          <div class="item-title d-md-none text-16 mg-l-10">Pesan </div>
           {# Jumlah total message #}
           <span id="iconCountMessage"></span>
         </a>
@@ -103,7 +103,7 @@
           <div class="item-header">
             {# Jumlah total message #}
             {# {{auth|json_encode()}} #}
-            <h6 class="item-title" id="countMessage">Message </h6>
+            <h6 class="item-title" id="countMessage">Pesan </h6>
           </div>
           <div class="item-content">
             {# message start here #}
@@ -149,12 +149,12 @@
         {% if notif is empty %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-bell"></i>
-          <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
+          <div class="item-title d-md-none text-16 mg-l-10">Notifikasi</div>
         </a>
         {% else %}
         <a class="navbar-nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
           <i class="far fa-bell"></i>
-          <div class="item-title d-md-none text-16 mg-l-10">Notification</div>
+          <div class="item-title d-md-none text-16 mg-l-10">Notifikasi</div>
           <span id="iconTotalNotification">{{notif[0].totalNotif}}</span>
         </a>
         {# {{notif|json_encode()|raw}} #}
@@ -168,7 +168,7 @@
 
         <div class="dropdown-menu dropdown-menu-right ">
           <div class="item-header">
-            <h6 class="item-title" id="headerTotalNotification"> Notifications</h6>
+            <h6 class="item-title" id="headerTotalNotification"> Notifikasi</h6>
           </div>
           <div class="item-content" id="notification-nav">
 
@@ -241,17 +241,17 @@
     console.log(notifCount)
     if (countMessage == null || countMessage == 0) {
       $('#iconCountMessage').html(countMessage);
-      $('#countMessage').html('0 New Message');
+      $('#countMessage').html('0 Pesan Baru');
     } else {
       $('#iconCountMessage').html(countMessage);
-      $('#countMessage').html('' + countMessage + ' New Message');
+      $('#countMessage').html('' + countMessage + ' Pesan Baru');
     }
     if (notifCount == null || countMessage == 0) {
       $('#iconTotalNotification').html(notifCount);
-      $('#headerTotalNotifications').html('0 New Notifications');
+      $('#headerTotalNotifications').html('0 Notifikasi Baru');
     } else {
       $('#iconTotalNotification').html(notifCount);
-      $('#headerTotalNotification').html('' + notifCount + ' New Notifications');
+      $('#headerTotalNotification').html('' + notifCount + ' Notifikasi Baru');
     }
     $('.message_Class').click(function (e) {
       e.preventDefault();
@@ -271,7 +271,7 @@
           countMessage = parseInt(countMessage);
           //countMessage -= 1;
           $('#iconCountMessage').html(countMessage);
-          $('#countMessage').html('' + countMessage + ' New Message');
+          $('#countMessage').html('' + countMessage + ' Pesan Baru');
         }
       });
     });
