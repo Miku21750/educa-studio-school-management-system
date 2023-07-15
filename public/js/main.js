@@ -2347,7 +2347,45 @@ $('document').ready(function () {
   }).ready(function () {
     // $(".select2-selection__placeholder").text("Enter a User ID or Name")
   })
+  // $("#nama_produk").select2({
+  //   ajax: {
+  //     url: "/api/get-inventory",
+  //     method: "get",
+  //     data: function (params) {
+  //       return {
+  //         q: params.term,
+  //         page: params.page
+  //       };
+  //     },
+  //     processResults: function (data, params) {
+  //       params.page = params.page || 1;
+  //       var results = [];
+  //       $.each(data, function (k, v) {
+  //         console.log(v,k)
+  //         results.push({
+  //           id: v.id_user,
+  //           text: v.nama_produk,
 
+  //         });
+  //       });
+
+  //       return {
+  //         results: results,
+  //         // pagination:
+  //         // {
+  //         //     more: true
+  //         // }
+  //       };
+  //       // return {
+  //       //     results: data
+  //       // };
+  //     },
+  //     cache: true
+  //   },
+  //   placeholder: "Pilih barang",
+  // }).ready(function () {
+  //   // $(".select2-selection__placeholder").text("Enter a User ID or Name")
+  // })
   $("#get-ortu").select2({
     ajax: {
       url: "/api/get-ortu",

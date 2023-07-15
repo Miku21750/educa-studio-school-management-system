@@ -840,6 +840,15 @@ return function (App $app) {
                 }
             );
             $app->post(
+                '/addinvin',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $tambah = $request->getParsedBody();
+                    return InventarisController::add_invin($this, $request, $response, [
+                        'tambah' => $tambah,
+                    ]);
+                }
+            );
+            $app->post(
                 '/delete-inventory',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $request->getParsedBody();
@@ -901,6 +910,13 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
 
                     return InventarisController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/allinvin',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return InventarisController::tampil_data_inv_in($this, $request, $response, $args);
                 }
             );
             $app->post(
@@ -1051,6 +1067,13 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
 
                     return ClassRoutineController::get_data_guru($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/get-inventory',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return InventarisController::get_data_inventory($this, $request, $response, $args);
                 }
             );
             $app->get(
@@ -1493,6 +1516,17 @@ return function (App $app) {
             // Render index view
             
             return InventarisController::viewAddInventory($this, $request, $response, $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/inventory-in',
+        function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
+            // Render index view
+            
+            return InventarisController::add_inv_in($this, $request, $response, $args);
         }
     )->add(new Auth());
     //end inv
