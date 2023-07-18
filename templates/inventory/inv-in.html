@@ -28,7 +28,7 @@
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Tanggal</label>
               <input type="date" name="dateInvIn" id="dateInvIn" class="form-control" required>
-          </div>
+            </div>
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Nama Barang</label>
               <select class="select2" id="nama_produk" style="width: 100%;">
@@ -42,10 +42,10 @@
             <div class="col-12-xxxl col-lg-6 col-12 form-group">
               <label>Kode Barang</label>
               <select class="select2" id="kode" style="width: 100%;" name="kode">
-                <option value="">Silahkan pilih</option>    
-              {% for i in data_barang %}
+                <option value="">Silahkan pilih</option>
+                {% for i in data_barang %}
                 <option value="{{i.id_inventory}}">{{i.kode_produk}}</option>
-              {% endfor %}
+                {% endfor %}
               </select>
               <!-- <input type="text" name="kode" placeholder="" class="form-control" id="kode" readonly> -->
             </div>
@@ -115,55 +115,6 @@
 
 
 <!-- Modal -->
-<!-- Modal Add -->
-<div class="modal fade" id="add-inv-in" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Tambah Barang Masuk</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="card ui-tab-card">
-        <div class="card-body">
-          <div class="single-info-details">
-            <div class="item-content">
-              <div class="header-inline item-header">
-                <!-- <h3 class="text-dark-medium font-medium" name="first_name"></h3> -->
-              </div>
-              <div>
-                <form>
-                  <div class="form-group">
-                    <label>Kode Barang</label>
-                    <input type="text" name="kode" class="form-control" readonly id="kode" />
-                  </div>
-                  <div class="form-group">
-                    <label>Nama Barang</label>
-                    <input type="text" name="nama" placeholder="" class="form-control" id="nama">
-                  </div>
-                  <div class="form-group">
-                    <label>Jumlah </label>
-                    <input type="text" name="jumlah" id="jumlah" class="form-control">
-                  </div>
-                  <div class="form-group">
-                    <label>Keterangan </label>
-                    <input type="text" name="ket" id="ket" class="form-control">
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="footer-btn bg-linkedin" id="btn_update_inventory_edit">Simpan</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
 <!-- MODAL DELETE -->
 <div class="modal fade" id="confirmation-modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog success-modal-content" role="document">
@@ -207,26 +158,42 @@
               </div>
               <div>
                 <form>
-                  <input type="text" name="id_inventory" id="id_inventory" hidden>
+                  <input type="text" name="id_inv_inEdit" id="id_inv_inEdit" hidden>
                   <div class="form-group">
-                    <label>Kode Barang</label>
-                    <input type="text" name="kode" class="form-control" readonly id="kode" />
+                    <label>Tanggal</label>
+                    <input type="date" name="dateInvInEdit" id="dateInvInEdit" class="form-control" required>
                   </div>
                   <div class="form-group">
                     <label>Nama Barang</label>
-                    <input type="text" name="nama" placeholder="" class="form-control" id="nama">
+                    <select class="select2" id="nama_produkEdit" style="width: 100%;">
+                      <option value="">Silahkan pilih</option>
+                      {% for i in data_barang %}
+                      <option value="{{i.id_inventory}}">{{i.nama_produk}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <input type="text" name="id_inventoryEdit" id="id_inventoryEdit" hidden>
+                  <div class="form-group">
+                    <label>Kode Barang</label>
+                    <select class="select2" id="kodeEdit" style="width: 100%;" name="kodeEdit">
+                      <option value="">Silahkan pilih</option>
+                      {% for i in data_barang %}
+                      <option value="{{i.id_inventory}}">{{i.kode_produk}}</option>
+                      {% endfor %}
+                    </select>
+                    <!-- <input type="text" name="kode" placeholder="" class="form-control" id="kode" readonly> -->
                   </div>
                   <div class="form-group">
                     <label>Jumlah </label>
-                    <input type="text" name="jumlah" id="jumlah" class="form-control">
+                    <input type="number" name="jumlahEdit" id="jumlahEdit" class="form-control">
                   </div>
                   <div class="form-group">
                     <label>Keterangan </label>
-                    <input type="text" name="ket" id="ket" class="form-control">
+                    <input type="text" name="ketEdit" id="ketEdit" class="form-control">
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="footer-btn bg-dark-low" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="footer-btn bg-linkedin" id="btn_update_inventory_edit">Simpan</button>
+                    <button type="submit" class="footer-btn bg-linkedin" id="btn_update_inv_in_edit">Simpan</button>
                   </div>
                 </form>
               </div>
@@ -241,19 +208,20 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
+
+    var kode_produk = $('#kode')
+    var id_inventory = $('#id_inventory')
+    var nama = $('#nama_produk')
+    $("#nama_produk").on('change', function () {
+      // console.log(nama.val() != kode_produk.val())
+      if (nama.val() != kode_produk.val()) {
+        $("#kode").val(nama.val()).change();
+        $('#id_inventory').val(nama.val());
+        $("#kode").attr('readonly', true)
+        $("#kode").attr('disabled', true)
+      }
+    });
     
-  var kode_produk = $('#kode')
-  var id_inventory = $('#id_inventory')
-  var nama = $('#nama_produk')
-  $("#nama_produk").on('change' ,function () {
-    // console.log(nama.val() != kode_produk.val())
-    if (nama.val() != kode_produk.val()) {
-      $("#kode").val(nama.val()).change();
-      $('#id_inventory').val(nama.val());
-      $("#kode").attr('readonly', true)
-      $("#kode").attr('disabled', true)
-    }
-  });
     inventory = function () {
       table = $('#allinvin').on('preXhr.dt', function (e, settings, data) {
         console.log('loading ....')
@@ -361,7 +329,7 @@
       return false;
     });
 
-    //Show_Inventory
+    //Show_Inventory In
     $('#show_inventory').on('click', '.inventory_detail', function () {
       var id = $(this).attr('data');
       $.ajax({
@@ -387,7 +355,7 @@
       });
       return false;
     });
-    //Update Payment
+    //Update Inventory In
     $('#btn_update_inventory_edit').click(function (e) {
       var id_inventory = $('#id_inventory').val();
       var kode = $('#kode').val();
@@ -445,82 +413,245 @@
     });
     //ADD INV IN 
     $('#add_inv_in').on('click', function () {
-        var id_inventory = $('#id_inventory').val();
-        var jumlah = $('#jumlah').val();
-        var ket = $('#ket').val();
-        if (id_inventory == ""
-            || jumlah == ""
-            || ket == ""
-        ) {
-            Swal.fire({
+      var id_inventory = $('#id_inventory').val();
+      var jumlah = $('#jumlah').val();
+      var ket = $('#ket').val();
+      var date = $('#dateInvIn').val();
+      if (id_inventory == ""
+        || jumlah == ""
+        || ket == ""
+        || date == ""
+      ) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Data harus diisi semua!'
+        })
+      } else {
+        $.ajax({
+          type: "POST",
+          url: "/api" + "/addinvin",
+          dataType: "JSON",
+          data: { id_inventory: id_inventory, jumlah: jumlah, ket: ket, date: date },
+          success: function (data) {
+            if (data) {
+              let timerInterval
+              Swal.fire({
+                title: 'Memuat Data...',
+                html: 'Tunggu  <b></b>  Detik.',
+                timer: 300,
+                timerProgressBar: true,
+                didOpen: () => {
+                  Swal.showLoading()
+                  const b = Swal.getHtmlContainer().querySelector('b')
+                  timerInterval = setInterval(() => {
+                    b.textContent = Swal.getTimerLeft()
+                  }, 100)
+                },
+                willClose: () => {
+                  clearInterval(timerInterval)
+                }
+              }).then((result) => {
+                $('#kode_produk').val('').change();
+                $('#nama_produk').val('').change();
+                $('#id_inventory').val('');
+                $('#jumlah').val('')
+                $('#ket').val('');
+                Swal.fire(
+                  {
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: 'Data telah ditambahkan.',
+                    //footer: '<a href="">Why do I have this issue?</a>'
+                  }
+
+                )
+                $('#addModal').modal('hide');
+              });
+
+              table.draw(false)
+            } else {
+              Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Data harus diisi semua!'
-            })
-        } else {
-            $.ajax({
-                type: "POST",
-                url: "/api" + "/addinvin",
-                dataType: "JSON",
-                data: { id_inventory: id_inventory, jumlah: jumlah, ket: ket },
-                success: function (data) {
-                    if (data) {
-                        let timerInterval
-                        Swal.fire({
-                            title: 'Memuat Data...',
-                            html: 'Tunggu  <b></b>  Detik.',
-                            timer: 300,
-                            timerProgressBar: true,
-                            didOpen: () => {
-                                Swal.showLoading()
-                                const b = Swal.getHtmlContainer().querySelector('b')
-                                timerInterval = setInterval(() => {
-                                    b.textContent = Swal.getTimerLeft()
-                                }, 100)
-                            },
-                            willClose: () => {
-                                clearInterval(timerInterval)
-                            }
-                        }).then((result) => {
-                            $('#kode_produk').val('').change();
-                            $('#nama_produk').val('').change();
-                            $('#id_inventory').val('');
-                            $('#jumlah').val('')
-                            $('#ket').val('');
-                            Swal.fire(
-                                {
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: 'Data telah ditambahkan.',
-                                    //footer: '<a href="">Why do I have this issue?</a>'
-                                }
+                text: 'Ada yang eror!'
+              })
+            }
 
-                            )
-                            $('#addModal').modal('hide');
-                        });
-
-                        table.draw(false)
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Ada yang eror!'
-                        })
-                    }
-
-                }
-            });
-            return false;
-        }
+          }
+        });
+        return false;
+      }
     });
 
     // RESET BUTTON
     $('#reset').click(function (e) {
-        e.preventDefault();
-        $('#subject_type').val('').change();
-        $('#subject_name').val('');
+      e.preventDefault();
+      // console.log('reset')
+      $('#dateInvIn')[0].value = 0;
+      $('#nama_produk').val('').change();
+      $('#kode').val('').change();
+      $('#jumlah').val('');
+      $('#ket').val('');
 
     });
+    // DELETE INV IN
+    // GET
+    $('#show_inventory_in').on('click', '.item_hapus', function () {
+      var id = $(this).attr('data');
+      $('#confirmation-modal').modal('show');
+      $('[name="kode"]').val(id);
+      // console.log(id);
+    });
+
+    // DELETE
+    $('#btn_hapus').on('click', function () {
+      var kode = $('#textkode').val();
+
+      $.ajax({
+        type: "POST",
+        url: "/api" + "/deleteinvin",
+        dataType: "JSON",
+        data: { kode: kode },
+        success: function (data) {
+          if (data) {
+            $('#confirmation-modal').modal('hide');
+            let timerInterval
+            Swal.fire({
+              title: 'Memuat Data...',
+              html: 'Tunggu  <b></b>  Detik.',
+              timer: 300,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
+              }
+            }).then((result) => {
+              Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: 'Data telah dihapus.',
+                }
+              )
+            });
+            table.draw(false);
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ada yang eror!',
+            })
+          }
+        }
+      });
+      return false;
+    });
+
+    //UPDATE
+    $('#show_inventory_in').on('click', '.inv_in_detail', function () {
+      var id = $(this).attr('data');
+      // $('#detail_subject').modal('show');
+      $.ajax({
+        type: "GET",
+        url: "/api/" + id + "/detailinvin",
+        dataType: "JSON",
+        data: { id: id },
+        success: function (data) {
+          $('#detail-inv-in').on('shown.bs.modal', function () {
+            $('#ketEdit').focus();
+          }).modal('show');
+          // $('#detail_subject').modal('show');
+          $('[name="id_inv_inEdit"]').val(data.id_inv_in);
+          $('[name="dateInvInEdit"]').val(data.tanggal);
+          $('#nama_produkEdit').val(data.id_inventory).change();
+          $('[name="kodeEdit"]').val(data.id_inventory).change();
+          $('[name="jumlahEdit"]').val(data.jumlah);
+          $('[name="ketEdit"]').val(data.ket);
+        }
+      });
+      return false;
+      console.log(id);
+    });
+    $("#nama_produkEdit").on('change', function () {
+      // console.log(nama.val() != kode_produk.val())
+      var kode_produkEdit = $('#kodeEdit')
+      // var id_inventory = $('#id_inventoryEdit')
+      var namaEdit = $('#nama_produkEdit')
+      if (namaEdit.val() != kode_produkEdit.val()) {
+        $("#kodeEdit").val(namaEdit.val()).change();
+        $('#id_inventoryEdit').val(namaEdit.val());
+        $("#kodeEdit").attr('readonly', true)
+        $("#kodeEdit").attr('disabled', true)
+      }
+    });
+    $('#btn_update_inv_in_edit').click(function (e) {
+      var id_inv_in = $('#id_inv_inEdit').val();
+      var date = $('#dateInvInEdit').val();
+      var id_inventory = $('#id_inventoryEdit').val();
+      var jumlah = $('#jumlahEdit').val();
+      var ket = $('#ketEdit').val();
+      
+
+      $.ajax({
+        type: "POST",
+        url: "/api" + "/updateinvin",
+        dataType: "JSON",
+        data: { 
+          id : id_inv_in,
+          date : date,
+          id_inventory : id_inventory,
+          jumlah : jumlah,
+          ket : ket
+        },
+        success: function (data) {
+          if (data) {
+            $('#detail-inv-in').modal('hide');
+            let timerInterval
+            Swal.fire({
+              title: 'Memuat Data...',
+              html: 'Tunggu  <b></b>  Detik.',
+              timer: 300,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading()
+                const b = Swal.getHtmlContainer().querySelector('b')
+                timerInterval = setInterval(() => {
+                  b.textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              willClose: () => {
+                clearInterval(timerInterval)
+              }
+            }).then((result) => {
+              Swal.fire(
+                {
+                  icon: 'success',
+                  title: 'Berhasil',
+                  text: 'Data telah diubah.',
+                  //footer: '<a href="">Why do I have this issue?</a>'
+                }
+              )
+            });
+            table.draw(false);
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Ada yang eror!',
+            })
+          }
+        }
+      });
+      return false;
+    });
+
   })
 </script>
 <!-- {% include "acconunt/ajax.html" %}

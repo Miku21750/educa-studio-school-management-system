@@ -13,6 +13,7 @@ use App\Controller\HostelController;
 use App\Controller\indexApiController;
 use App\Controller\indexViewController;
 use App\Controller\InventarisController;
+use App\Controller\InventarisController2;
 use App\Controller\LibraryController;
 use App\Controller\MessageController;
 use App\Controller\ParentController;
@@ -561,6 +562,36 @@ return function (App $app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return SubjectController::delete_subject($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
+            $app->post(
+                '/deleteinvin',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return InventarisController::delete_inv_in($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
+            $app->get(
+                '/{id}/detailinvin',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($args);
+                    return InventarisController::detail_inv_in($this, $request, $response, [
+                        'data' => $args['id'],
+                    ]);
+                }
+            );
+            $app->post(
+                '/updateinvin',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return InventarisController::update_inv_in($this, $request, $response, [
                         'data' => $data,
                     ]);
                 }
@@ -1176,7 +1207,8 @@ return function (App $app) {
            
         }
     );
-
+    //group api end here
+    
     // verification email start here
     $app->get(
         '/verifEmail',
@@ -1503,6 +1535,18 @@ return function (App $app) {
             }
             // Render index view
             return InventarisController::index($this, $request, $response, $args);
+
+            // $container->view->render($response, 'class/all-class.html', $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/all-inventory-second',
+        function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
+            // Render index view
+            return InventarisController2::index($this, $request, $response, $args);
 
             // $container->view->render($response, 'class/all-class.html', $args);
         }
