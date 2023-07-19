@@ -1539,18 +1539,7 @@ return function (App $app) {
             // $container->view->render($response, 'class/all-class.html', $args);
         }
     )->add(new Auth());
-    $app->get(
-        '/all-inventory-second',
-        function (Request $request, Response $response, array $args) use ($container) {
-            if($_SESSION['type'] != 3) {
-                return $container->view->render($response, 'others/403.html', $args);
-            }
-            // Render index view
-            return InventarisController2::index($this, $request, $response, $args);
-
-            // $container->view->render($response, 'class/all-class.html', $args);
-        }
-    )->add(new Auth());
+    
     $app->get(
         '/add-inventory',
         function (Request $request, Response $response, array $args) use ($container) {
@@ -1574,6 +1563,34 @@ return function (App $app) {
         }
     )->add(new Auth());
     //end inv
+
+    //inv2
+    $app->get(
+        '/all-inventory-second',
+        function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
+            // Render index view
+            return InventarisController2::index($this, $request, $response, $args);
+
+            // $container->view->render($response, 'class/all-class.html', $args);
+        }
+    )->add(new Auth());
+    $app->post(
+        '/getInventoryFile',
+        function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
+            // return die(var_dump($request->getUploadedFiles()));
+            // Render index view
+            return InventarisController2::getFile($this, $request, $response, $args);
+
+            // $container->view->render($response, 'class/all-class.html', $args);
+        }
+    )->add(new Auth());
+    //end inv2
 
     //Class
     $app->get(

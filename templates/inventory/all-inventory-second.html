@@ -8,12 +8,77 @@
         <div class="card">
             <div class="card-body">
                 <h3>Pilih Data Inventory</h3>
-                <form>
-                    <input type="date" name="dateInventory" id="dateInventory" class="form-group">
-                    <button></button>
+                <form class="new-added-form" id="getInventoryFile" action="/getInventoryFile" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-12-xxxl col-lg-6 col-12 form-group">
+                            <label>Tanggal</label>
+                            <input type="date" name="dateInvIn" id="dateInvIn" class="form-control" required>
+                        </div>
+                        <!-- <input type='file' name="excelInventory" id="excelInventory" accept=".xls, .xlsx, .xlsm. xlsb, .csv" />
+                        <label for="excelInventory"></label> -->
+                        <div class="form-group">
+
+                            <input type="file" id="file" name="file" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="col-12 form-group mg-t-8">
+                        <button id="submit" type="submit" class="btn-fill-lg btn-gradient-yellow btn-hover-bluedark">
+                            Open
+                        </button>
+                        <a id="enableUploadFiles" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
+                            Upload Files
+                        </a>
+                        <!-- <button type="reset" class="btn-fill-lg bg-blue-dark btn-hover-yellow">
+                            Reset
+                        </button> -->
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $('#enableUploadFiles').click(function (e){
+            // e.preventDefault();
+            if($('#dateInvIn').val() !== ''){
+                $('#file').click();
+            }else{
+                Swal.fire({
+                    type: 'warning',
+                    title: 'Oops...',
+                    text: 'Isi Tanggal terlebih dahulu'
+                });
+            }
+        })
+        $('#file').on('change', function(e){
+            var file_data = $('#file').prop('files')[0];   
+            var form_data = new FormData();                  
+            form_data.append('file', file_data);
+            alert(form_data);                  
+            $.ajax({
+                url: '/getInventoryFile',
+                type: 'POST',
+                data: form_data,
+                success: function (response) {
+                    if (response) {
+                        // Do whatever you want to do with response 
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+            // $('#getInventoryFile').submit();
+        })
+    })
+    // function getFileName(elm) {
+    //     var fn = $(elm).val();
+    //     console.log(fn)
+    //     $('#getInventoryFile').trigger( "submit" );
+    // }   
+</script>
 {% endblock content %}

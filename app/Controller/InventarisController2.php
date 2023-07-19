@@ -24,5 +24,36 @@ class InventarisController2{
 
         ]);
     }
+    public static function getFile($app, $request, $response, $args)
+    {
+        //get sended data from post method
+        $data = $request->getParsedBody();
+        return die(var_dump($data));
+        //get directory upload
+        $directory = $app->get('upload_directory');
+
+        // return var_dump('Inventaris_'.$data['dateInvIn'] . '.xls');
+        //check if date excel exist
+        if(file_exists('../public/uploads/Profile/' . 'Inventaris_'.$data['dateInvIn'] . '.xls')){
+            $file = '../public/uploads/Profile/' . 'Inventaris_'.$data['dateInvIn'] . '.xls';
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header('Content-Disposition: attachment; filename='.basename($file));
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file));
+            ob_clean();
+            flush();
+            readfile($file);
+            exit;
+        }else{
+            header("Content-Type: application/vnd.ms-excel");
+            echo 'Kode Produk' . "\t" . 'Nama Produk' . "\t" . 'Kondisi' . "\t" . 'Jumlah' . "\t" . 'Keterangan' . "\n";
+            echo 'K000001' . "\t" . 'Kursi' . "\t" . 'Sangat Baik' . "\t" . '5'  . "\t" . '' . "\n";
+            header("Content-disposition: attachment; filename=" . 'Inventaris_'.$data['dateInvIn'] . '.xls');
+        }
+
+    }
 }
 ?>
