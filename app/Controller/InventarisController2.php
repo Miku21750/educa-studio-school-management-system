@@ -28,9 +28,9 @@ class InventarisController2{
     {
         //get sended data from post method
         $data = $request->getParsedBody();
-        return die(var_dump($data));
+        // return die(var_dump($data));
         //get directory upload
-        $directory = $app->get('upload_directory');
+        // $directory = $app->get('upload_directory');
 
         // return var_dump('Inventaris_'.$data['dateInvIn'] . '.xls');
         //check if date excel exist
