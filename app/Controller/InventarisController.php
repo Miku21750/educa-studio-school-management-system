@@ -221,6 +221,26 @@ class InventarisController{
             'berhasil' => $berhasil
         ]);
     }
+    public static function add_inv_out($app, $req, $rsp, $args){
+        $user = $app->db->select('tbl_users', '*', [
+            'id_user_type[!]' => '4'
+        ]);
+        $type = $app->db->select('tbl_user_types', '*');
+
+        $data_barang = $app->db->select('tbl_inventorys','*');
+        $data_barang_masuk = $app->db->select('tbl_inv_outs','*');
+        // return var_dump($data_barang);
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
+        $app->view->render($rsp, 'inventory/inv-out.html', [
+            'user' =>  $user,
+            'typei' =>  $type,
+            'data_barang' =>  $data_barang,
+            'data_barang_masuk' =>  $data_barang_masuk,
+            'type' => $_SESSION['type'],
+            'berhasil' => $berhasil
+        ]);
+    }
     public static function get_data_inventory($app, $req, $rsp, $args)
     {
         $param = $req->getParams();
@@ -259,6 +279,33 @@ class InventarisController{
             'id_inventory' =>$data['id_inventory']
         ]);
         $jumlah = $juml_db[0] + (int)$data['jumlah'];
+        // return var_dump($jumlah);
+        $app->db->update('tbl_inventorys',[
+            'jumlah' => $jumlah
+        ],[
+            'id_inventory' =>$data['id_inventory']
+        ]);
+        $json_data = array(
+            "draw" => intval($req->getParam('draw')),
+        );
+
+        echo json_encode($json_data);
+    }
+    public static function add_invout($app, $req, $rsp, $args)
+    {
+        // return var_dump($args);
+        $data = $args['tambah'];
+
+        $app->db->insert('tbl_inv_outs',[
+            'id_inventory'=>$data['id_inventory'],
+            'jumlah'=>$data ['jumlah'],
+            'tanggal'=>$data['date'],
+            'ket'=>$data['ket']
+        ]);
+        $juml_db = $app->db->select('tbl_inventorys','jumlah',[
+            'id_inventory' =>$data['id_inventory']
+        ]);
+        $jumlah = $juml_db[0] - (int)$data['jumlah'];
         // return var_dump($jumlah);
         $app->db->update('tbl_inventorys',[
             'jumlah' => $jumlah
@@ -375,10 +422,125 @@ class InventarisController{
         // return var_dump($data);
         echo json_encode($json_data);
     }
+    public static function tampil_data_inv_out($app, $req, $rsp, $args)
+    {
+        $inventory = $app->db->select('tbl_inv_outs',[
+            '[><]tbl_inventorys'=>'id_inventory'
+        ],[
+            'tbl_inv_outs.tanggal',
+            'tbl_inv_outs.id_inv_out',
+            'tbl_inventorys.kode_produk',
+            'tbl_inventorys.nama_produk',
+            'tbl_inv_outs.jumlah',
+            'tbl_inv_outs.ket'
+        ]);
+        // return var_dump($inventory);
+        $columns = array(
+            0 => 'id',
+        );
+        $totaldata = count($inventory);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+        $order = $req->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $req->getParam('order');
+        $dir = $dir[0]['dir'];
+        $conditions = [
+            "LIMIT" => [$start, $limit],
+        ];
+        if (!empty($req->getParam('search')['value'])){
+            $search = $req->getParam('search')['value'];
+
+            $conditions['OR'] = [
+                'kode_produk[~]' => '%' . $search . '%',
+                'nama_produk[~]' => '%' . $search . '%',
+                'jumlah[~]' => '%' . $search . '%',
+                'ket[~]' => '%' . $search . '%',
+            ];
+            $limit = [
+                "LIMIT" => [$start, $limit],
+            ];
+            $inventory = $app->db->select('tbl_inv_outs',[
+                '[><]tbl_inventorys'=>'id_inventory'
+            ],[
+                'tbl_inv_outs.tanggal',
+                'tbl_inv_outs.id_inv_out',
+                'tbl_inventorys.kode_produk',
+                'tbl_inventorys.nama_produk',
+                'tbl_inv_outs.jumlah',
+                'tbl_inv_outs.ket'
+            ],$limit);
+            $totaldata = count($inventory);
+            $totalfiltered = $totaldata;
+        }
+        $inventory = $app->db->select('tbl_inv_outs',[
+            '[><]tbl_inventorys'=>'id_inventory'
+        ],[
+            'tbl_inv_outs.tanggal',
+            'tbl_inv_outs.id_inv_out',
+            'tbl_inventorys.kode_produk',
+            'tbl_inventorys.nama_produk',
+            'tbl_inv_outs.jumlah',
+            'tbl_inv_outs.ket'
+        ],$conditions);
+        $data = array();
+        if(!empty($inventory)){
+            $no = $req->getParam('start') + 1;
+            foreach ($inventory as $inv){
+                $datas['no'] = $no;
+                $datas['tgl'] = $inv['tanggal'];
+                $datas['kode'] = $inv['kode_produk'];
+                $datas['nama'] = $inv['nama_produk'];
+                $datas['jumlah'] = $inv['jumlah'];
+                $datas['ket'] = $inv['ket'];
+                $datas['aksi'] = '<div class="dropdown">
+
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right item_cek" data-idInvIn="' . $inv['id_inv_out'] . '">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $inv['id_inv_out'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light inv_out_detail" data="' . $inv['id_inv_out'] . '">
+                        <i class="fas fa-edit text-dark-pastel-green"></i>
+                        Ubah
+                    </a>
+                   
+                </div>
+                </div>';
+
+                $data[] = $datas;
+                $no++;
+            }
+        }
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        echo json_encode($json_data);
+    }
     public static function detail_inv_in($app, $request, $response, $id_inventory_in)
     {
         $data = $app->db->get('tbl_inv_ins','*', [
             "id_inv_in" => $id_inventory_in
+        ]);
+        $json_data = array(
+            'data' => $data
+        );
+        // return var_dump($data);
+        return $response->withJson($data);
+    }
+    public static function detail_inv_out($app, $request, $response, $id_inventory_out)
+    {
+        $data = $app->db->get('tbl_inv_outs','*', [
+            "id_inv_out" => $id_inventory_out
         ]);
         $json_data = array(
             'data' => $data
@@ -437,6 +599,56 @@ class InventarisController{
         //get back to json
         echo json_encode($json_data);
     }
+    public static function update_inv_out($app, $request, $response, $args)
+    {
+
+        //get args
+        $data = $args['data'];
+        //get based value inv in
+        $inv_out_based = $app->db->select('tbl_inv_outs','jumlah',[
+            'id_inv_out'=>$data['id']
+        ]);
+        //check if current value != value based
+        if($inv_out_based[0] != (int)$data['jumlah']){
+            //get data inventory value
+            $inv = $app->db->select('tbl_inventorys','jumlah',[
+                'id_inventory'=>$data['id_inventory']
+            ]);
+            $jumlah = $inv[0];
+            //if based more small than input value, add
+            if($jumlah < (int)$data['jumlah']){
+                $jumlah = $jumlah - ((int)$data['jumlah'] - $inv_out_based[0]);
+            }
+            //if based more big than input value, sub
+            else if($jumlah > (int)$data['jumlah']){
+                $jumlah = $jumlah + ($inv_out_based[0] - (int)$data['jumlah']);
+            }
+            
+            //update inventory
+            $app->db->update('tbl_inventorys', [
+                'jumlah' => $jumlah,
+            ], [
+                "id_inventory" => $data['id_inventory']
+            ]);
+            // return die (var_dump($jumlah));
+        }
+        //update inv in
+        $app->db->update('tbl_inv_outs', [
+            'id_inventory' => $data['id_inventory'],
+            'jumlah' => $data['jumlah'],
+            'tanggal' => $data['date'],
+            'ket' => $data['ket'],
+        ], [
+            "id_inv_out" => $data['id']
+        ]);
+
+        $json_data = array(
+            "draw" => intval($request->getParam('draw')),
+        );
+
+        //get back to json
+        echo json_encode($json_data);
+    }
     public static function delete_inv_in($app, $request, $response, $args)
     {
         //Get value id inventory in
@@ -464,6 +676,45 @@ class InventarisController{
         
         //sub the current value with deleted value
         $jumlah_fix = $jumlah_inv - $jumlah;
+        // return var_dump($jumlah_fix);
+        $app->db->update('tbl_inventorys',[
+            'jumlah' => $jumlah_fix
+        ],[
+            'id_inventory'=>$id_inv
+        ]);
+
+        $json_data = array(
+            "draw" => intval($request->getParam('draw')),
+        );
+        echo json_encode($json_data);
+    }
+    public static function delete_inv_out($app, $request, $response, $args)
+    {
+        //Get value id inventory in
+        $id = $args['data'];
+
+        //get inventory in for getting id inventory
+        $inv_ins = $app->db->select('tbl_inv_outs',['id_inventory','jumlah'],[
+            "id_inv_out" => $id
+        ]);
+
+        // set value
+        $id_inv = $inv_ins[0]['id_inventory'];
+        $jumlah = $inv_ins[0]['jumlah'];
+
+        //get value in id inventory
+        $inv = $app->db->select('tbl_inventorys','jumlah',[
+            'id_inventory'=>$id_inv
+        ]);
+        $jumlah_inv = $inv[0];
+        
+        //remove data in tbl inventory in
+        $app->db->delete('tbl_inv_outs', [
+            "id_inv_out" => $id
+        ]);
+        
+        //sub the current value with deleted value
+        $jumlah_fix = $jumlah_inv + $jumlah;
         // return var_dump($jumlah_fix);
         $app->db->update('tbl_inventorys',[
             'jumlah' => $jumlah_fix

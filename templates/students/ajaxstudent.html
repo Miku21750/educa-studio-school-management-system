@@ -19,18 +19,40 @@
                 },
                 "columnDefs": [
                     { "targets": 0, className: "text-center", "orderable": false },
-                    {  "targets": 1, className: "text-center", "orderable": false },
-                    {  "targets": 2, className: "text-center", "orderable": false },
-                    {  "targets": 3, className: "text-center", "orderable": false },
-                    {  "targets": 4, className: "text-center", "orderable": false },
-                    {  "targets": 5, className: "text-center", "orderable": false },
-                    {  "targets": 6, className: "text-center", "orderable": false },
-                  
+                    { "targets": 1, className: "text-center", "orderable": false },
+                    { "targets": 2, className: "text-center", "orderable": false },
+                    { "targets": 3, className: "text-center", "orderable": false },
+                    { "targets": 4, className: "text-center", "orderable": false },
+                    { "targets": 5, className: "text-center", "orderable": false },
+                    { "targets": 6, className: "text-center", "orderable": false },
+
                 ],
                 'pageLength': 10,
                 'responsive': true,
                 'processing': true,
                 'serverSide': true,
+                'dom': 'Bfrltip',
+                'buttons': [
+                    // 'copy', 'csv', 'excel', 'pdf', 'print'
+                    {
+                        "extend": 'excel',
+                        "text": '<button class="btn"><i class="fa fa-table" style="color: green;"></i>  Excel</button>',
+                        "titleAttr": 'Excel',
+                        "action": newexportaction
+                    },
+                    {
+                        "extend": 'pdf',
+                        "text": '<button class="btn"><i class="fa fa-file-pdf-o" style="color: red;"></i>  PDF</button>',
+                        "titleAttr": 'PDF',
+                        "action": newexportaction
+                    },
+                    {
+                        "extend": 'print',
+                        "text": '<button class="btn"><i class="fa fa-print" style="color: green;"></i>  PRINT</button>',
+                        "titleAttr": 'PRINT',
+                        "action": newexportaction
+                    },
+                ],
                 'ajax': {
                     'url': "/api/studentacc",
                     'dataType:': 'json',
@@ -53,7 +75,7 @@
 
         }
         calon();
-        
+
         student = function () {
 
             table = $("#student-viewx").on('preXhr.dt', function (e, settings, data) {
@@ -83,6 +105,28 @@
                 'responsive': true,
                 'processing': true,
                 'serverSide': true,
+                'dom': 'Bfrltip',
+                'buttons': [
+                    // 'copy', 'csv', 'excel', 'pdf', 'print'
+                    {
+                        "extend": 'excel',
+                        "text": '<button class="btn"><i class="fa fa-table" style="color: green;"></i>  Excel</button>',
+                        "titleAttr": 'Excel',
+                        "action": newexportaction
+                    },
+                    {
+                        "extend": 'pdf',
+                        "text": '<button class="btn"><i class="fa fa-file-pdf-o" style="color: red;"></i>  PDF</button>',
+                        "titleAttr": 'PDF',
+                        "action": newexportaction
+                    },
+                    {
+                        "extend": 'print',
+                        "text": '<button class="btn"><i class="fa fa-print" style="color: green;"></i>  PRINT</button>',
+                        "titleAttr": 'PRINT',
+                        "action": newexportaction
+                    },
+                ],
                 'ajax': {
                     'url': "/api/allstudents",
                     'dataType:': 'json',
@@ -105,7 +149,47 @@
 
         }
         student();
-
+        function newexportaction(e, dt, button, config) {
+            var self = this;
+            var oldStart = dt.settings()[0]._iDisplayStart;
+            dt.one('preXhr', function (e, s, data) {
+                // Just this once, load all data from the server...
+                data.start = 0;
+                data.length = 2147483647;
+                dt.one('preDraw', function (e, settings) {
+                    // Call the original action function
+                    if (button[0].className.indexOf('buttons-copy') >= 0) {
+                        $.fn.dataTable.ext.buttons.copyHtml5.action.call(self, e, dt, button, config);
+                    } else if (button[0].className.indexOf('buttons-excel') >= 0) {
+                        $.fn.dataTable.ext.buttons.excelHtml5.available(dt, config) ?
+                            $.fn.dataTable.ext.buttons.excelHtml5.action.call(self, e, dt, button, config) :
+                            $.fn.dataTable.ext.buttons.excelFlash.action.call(self, e, dt, button, config);
+                    } else if (button[0].className.indexOf('buttons-csv') >= 0) {
+                        $.fn.dataTable.ext.buttons.csvHtml5.available(dt, config) ?
+                            $.fn.dataTable.ext.buttons.csvHtml5.action.call(self, e, dt, button, config) :
+                            $.fn.dataTable.ext.buttons.csvFlash.action.call(self, e, dt, button, config);
+                    } else if (button[0].className.indexOf('buttons-pdf') >= 0) {
+                        $.fn.dataTable.ext.buttons.pdfHtml5.available(dt, config) ?
+                            $.fn.dataTable.ext.buttons.pdfHtml5.action.call(self, e, dt, button, config) :
+                            $.fn.dataTable.ext.buttons.pdfFlash.action.call(self, e, dt, button, config);
+                    } else if (button[0].className.indexOf('buttons-print') >= 0) {
+                        $.fn.dataTable.ext.buttons.print.action(e, dt, button, config);
+                    }
+                    dt.one('preXhr', function (e, s, data) {
+                        // DataTables thinks the first item displayed is index 0, but we're not drawing that.
+                        // Set the property to what it was before exporting.
+                        settings._iDisplayStart = oldStart;
+                        data.start = oldStart;
+                    });
+                    // Reload the grid with the original page. Otherwise, API functions like table.cell(this) don't work properly.
+                    setTimeout(dt.ajax.reload, 0);
+                    // Prevent rendering of the full data to the DOM
+                    return false;
+                });
+            });
+            // Requery the server with the new one-time export settings
+            dt.ajax.reload();
+        }
         alumni = function () {
 
             alumni = $("#alumni").on('preXhr.dt', function (e, settings, data) {
@@ -130,7 +214,7 @@
                     { "targets": 5, className: "text-center", "orderable": false },
                     { "targets": 6, className: "text-center", "orderable": false },
                     { "targets": 7, className: "text-start", "orderable": false },
-                    {  "targets": 8, className: "text-end", "orderable": false },
+                    { "targets": 8, className: "text-end", "orderable": false },
                     /* {  "targets": 9, className: "text-end", "orderable": false },
                     {  "targets": 10, className: "text-end", "orderable": false },
                     {  "targets": 11, className: "text-end", "orderable": false },*/
@@ -139,6 +223,28 @@
                 'responsive': true,
                 'processing': true,
                 'serverSide': true,
+                'dom': 'Bfrltip',
+                'buttons': [
+                    // 'copy', 'csv', 'excel', 'pdf', 'print'
+                    {
+                        "extend": 'excel',
+                        "text": '<button class="btn"><i class="fa fa-table" style="color: green;"></i>  Excel</button>',
+                        "titleAttr": 'Excel',
+                        "action": newexportaction
+                    },
+                    {
+                        "extend": 'pdf',
+                        "text": '<button class="btn"><i class="fa fa-file-pdf-o" style="color: red;"></i>  PDF</button>',
+                        "titleAttr": 'PDF',
+                        "action": newexportaction
+                    },
+                    {
+                        "extend": 'print',
+                        "text": '<button class="btn"><i class="fa fa-print" style="color: green;"></i>  PRINT</button>',
+                        "titleAttr": 'PRINT',
+                        "action": newexportaction
+                    },
+                ],
                 'ajax': {
                     'url': "/api/all-alumni",
                     'dataType:': 'json',
@@ -167,7 +273,7 @@
         }
         alumni();
 
-        
+
 
         //GET HAPUS
         $('#show_data').on('click', '.item_hapus', function () {
@@ -234,49 +340,39 @@
             return false;
         });
 
-
+        
     });
 
-   //Pengembalian Buku
-   $('#show_data').on('click', '.btn_terima_siswa', function () {
-    var id = $(this).attr('data');
-    $.ajax({
-        type: "POST",
-        url: "/api/admission/" + id ,
-        dataType: "JSON",
-        data: { id: id },
-        success: function (data) {
-            if (data) {
-                let timerInterval
-                Swal.fire({
-                    title: 'Memuat Data...',
-                    html: 'Tunggu  <b></b>  Detik.',
-                    timer: 300,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                        const b = Swal.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                            b.textContent = Swal.getTimerLeft()
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    }
-
-                }).then((result) => {
-                    table.draw(false)
-                    calonmurid.draw(false)
-                    
-                    Swal.fire(
-                        {
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: 'Data telah ditambahkan.',
+    //Pengembalian Buku
+    $('#show_data').on('click', '.btn_terima_siswa', function () {
+        var id = $(this).attr('data');
+        $.ajax({
+            type: "POST",
+            url: "/api/admission/" + id,
+            dataType: "JSON",
+            data: { id: id },
+            success: function (data) {
+                if (data) {
+                    let timerInterval
+                    Swal.fire({
+                        title: 'Memuat Data...',
+                        html: 'Tunggu  <b></b>  Detik.',
+                        timer: 300,
+                        timerProgressBar: true,
+                        didOpen: () => {
+                            Swal.showLoading()
+                            const b = Swal.getHtmlContainer().querySelector('b')
+                            timerInterval = setInterval(() => {
+                                b.textContent = Swal.getTimerLeft()
+                            }, 100)
+                        },
+                        willClose: () => {
+                            clearInterval(timerInterval)
                         }
 
-                    ).then((result) => {
+                    }).then((result) => {
                         table.draw(false)
+                        calonmurid.draw(false)
 
                         Swal.fire(
                             {
@@ -285,13 +381,24 @@
                                 text: 'Data telah ditambahkan.',
                             }
 
-                        )
-                        Buku.draw(false)
+                        ).then((result) => {
+                            table.draw(false)
+
+                            Swal.fire(
+                                {
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: 'Data telah ditambahkan.',
+                                }
+
+                            )
+                            Buku.draw(false)
+
+                        })
+
 
                     })
-
-
-                })}else {
+                } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',

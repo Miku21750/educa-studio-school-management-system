@@ -35,6 +35,29 @@ class StudentController
 
         ]);
     }
+    public static function index_print($app, $request, $response, $args)
+    {
+        $user = $args['user'];
+        $type = $args['type'];
+        $id_user = $args['id_user'];
+        // return var_dump($id_student);
+
+
+
+        // $data = $app->db->select('tbl_users', '*');
+        $berhasil = isset($_SESSION['berhasil']);
+        unset($_SESSION['berhasil']);
+        // var_dump($data);
+
+        $app->view->render($response, 'students/print-student.html', [
+            'user' => $user,
+            'type' => $type,
+            'id_user' => $id_user,
+            'type_user' => $_SESSION['type_user'],
+            'berhasil' => $berhasil
+
+        ]);
+    }
 
     public static function all_alumni($app, $request, $response, $args)
     {
@@ -114,6 +137,185 @@ class StudentController
 
             $limit = [
                 "LIMIT" => [$start, $limit],
+                'id_user_type' => $type,
+                'tbl_users.id_class[!]' => [99, 100, 101],
+
+            ];
+
+            $student = $app->db->select(
+                'tbl_users',
+                [
+                    '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+                    '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+                    '[><]tbl_admissions' => ["tbl_users.id_user" => 'id_user'],
+                    '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+                ],
+                '*',
+                $limit
+            );
+            $totaldata = count($student);
+            $totalfiltered = $totaldata;
+            // return var_dump($totaldata);
+        }
+
+        $student = $app->db->select('tbl_users', [
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_admissions' => ["tbl_users.id_user" => 'id_user'],
+            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+        ], '*', $conditions);
+
+        $data = array();
+
+
+        if (!empty($student)) {
+            $no = $req->getParam('start') + 1;
+
+            foreach ($student as $m) {
+
+                $datas['no'] = $no . '.';
+                $datas['nisn'] = $m['NISN'];
+                $datas['foto'] = '<img src="/uploads/Profile/' . $m['photo_user'] . '" style="width:30px;"  alt="student">';
+                $datas['gender'] = $m['gender'];
+                $datas['class'] = $m['class'] . ' ' . $m['section'];
+
+                $username = $app->db->select('tbl_users', 'first_name', [
+                    'id_user' => $m['id_user']
+                ]);
+                if ($username[0] == '') {
+                    $datas['nama'] = $m['username'];
+                } else {
+                    $datas['nama'] = $m['first_name'] . ' ' . $m['last_name'];
+                }
+
+
+                $admission = $app->db->select('tbl_admissions', '*', [
+                    'id_user' => $m['id_user']
+                ]);
+
+
+
+                if ($admission != null && $_SESSION['type'] == 3) {
+
+                    $datas['aksi'] = '<div class="dropdown">
+
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        Detail
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'student-promotion' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i>
+                        Student Promotion
+                    </a>   
+                </div>
+            </div>';
+                } else if ($_SESSION['type'] != 3) {
+                    $datas['aksi'] = ' ';
+                } else {
+                    $datas['aksi'] = '<div class="dropdown">
+
+                <a href="#" class="dropdown-toggle p-3" data-toggle="dropdown"
+                    aria-expanded="false">
+                    <span class="flaticon-more-button-of-three-dots"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right p-3">
+                    <a class="dropdown-item btn btn-light item_hapus" data="' . $m['id_user'] . '">
+                        <i class="fas fa-trash text-orange-red"></i>
+                        Hapus
+                    </a>
+                    <a class="dropdown-item btn btn-light" href="' . 'api' . '/' . 'student-detail' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-solid fa-bars text-orange-peel"></i>
+                        Detail
+                    </a>
+                    <a class="dropdown-item btn btn-light"  data="' . $m['id_user'] . '" href="' . 'student-promotion' . '/' . $m['id_user']  . '">
+                        <i class="fas fa-sharp fa-solid fa-graduation-cap text-success"></i>
+                        Student Promotion
+                    </a>
+                    <a class="dropdown-item btn btn-light btn_terima_siswa" id="btn_terima_siswa" data="' . $m['id_user'] . '">
+                        <i class="fas fa-sharp fa-solid fa-school text-primary"></i>
+                        Terima Siswa
+                    </a>
+
+                </div>
+            </div>';
+                }
+                $data[] = $datas;
+                $no++;
+            }
+        }
+        // return var_dump($student);
+
+        $json_data = array(
+            "draw"            => intval($req->getParam('draw')),
+            "recordsTotal"    => intval($totaldata),
+            "recordsFiltered" => intval($totalfiltered),
+            "data"            => $data
+        );
+        // return var_dump($data);
+        echo json_encode($json_data);
+    }
+    public static function tampil_data_print($app, $req, $rsp, $args)
+    {
+        $type = 1;
+        $tbl_classes = 'tbl_classes';
+
+
+
+
+        $student = $app->db->select('tbl_users', [
+            '[><]tbl_subjects' => ['tbl_users.id_subject' => 'id_subject'],
+            '[><]tbl_classes' => ["tbl_users.id_class" => 'id_class'],
+            '[><]tbl_admissions' => ["tbl_users.id_user" => 'id_user'],
+            '[><]tbl_sections' => ["$tbl_classes.id_section" => 'id_section'],
+        ], '*', [
+            'id_user_type' => $type,
+            'tbl_users.id_class[!]' => [99, 100, 101],
+        ]);
+
+
+        $columns = array(
+            0 => 'id',
+        );
+
+        $totaldata = count($student);
+        $totalfiltered = $totaldata;
+        $limit = $req->getParam('length');
+        $start = $req->getParam('start');
+        $order = $req->getParam('order');
+        $order = $columns[$order[0]['column']];
+        $dir = $req->getParam('order');
+        $dir = $dir[0]['dir'];
+
+
+        $conditions = [
+            // "LIMIT" => [$start, $limit],
+            'id_user_type' => $type,
+            'tbl_users.id_class[!]' => [99, 100, 101],
+
+        ];
+
+        if (!empty($req->getParam('search')['value'])) {
+            $search = $req->getParam('search')['value'];
+
+            $conditions['OR'] = [
+                'tbl_users.first_name[~]' => '%' . $search . '%',
+                'tbl_users.last_name[~]' => '%' . $search . '%',
+                'tbl_users.NISN[~]' => '%' . $search . '%',
+                'tbl_users.gender[~]' => '%' . $search . '%',
+
+            ];
+
+            $limit = [
+                // "LIMIT" => [$start, $limit],
                 'id_user_type' => $type,
                 'tbl_users.id_class[!]' => [99, 100, 101],
 

@@ -576,6 +576,16 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->post(
+                '/deleteinvout',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return InventarisController::delete_inv_out($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
             $app->get(
                 '/{id}/detailinvin',
                 function (Request $request, Response $response, array $args) use ($app) {
@@ -586,12 +596,32 @@ return function (App $app) {
                     ]);
                 }
             );
+            $app->get(
+                '/{id}/detailinvout',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($args);
+                    return InventarisController::detail_inv_out($this, $request, $response, [
+                        'data' => $args['id'],
+                    ]);
+                }
+            );
             $app->post(
                 '/updateinvin',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $request->getParsedBody();
                     // return var_dump($data);
                     return InventarisController::update_inv_in($this, $request, $response, [
+                        'data' => $data,
+                    ]);
+                }
+            );
+            $app->post(
+                '/updateinvout',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $data = $request->getParsedBody();
+                    // return var_dump($data);
+                    return InventarisController::update_inv_out($this, $request, $response, [
                         'data' => $data,
                     ]);
                 }
@@ -714,6 +744,12 @@ return function (App $app) {
                 '/allstudents',
                 function (Request $request, Response $response, array $args) use ($app) {
                     return StudentController::tampil_data($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/allstudentsprint',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    return StudentController::tampil_data_print($this, $request, $response, $args);
                 }
             );
             $app->get(
@@ -880,6 +916,15 @@ return function (App $app) {
                 }
             );
             $app->post(
+                '/addinvout',
+                function (Request $request, Response $response, array $args) use ($app) {
+                    $tambah = $request->getParsedBody();
+                    return InventarisController::add_invout($this, $request, $response, [
+                        'tambah' => $tambah,
+                    ]);
+                }
+            );
+            $app->post(
                 '/delete-inventory',
                 function (Request $request, Response $response, array $args) use ($app) {
                     $data = $request->getParsedBody();
@@ -948,6 +993,13 @@ return function (App $app) {
                 function (Request $request, Response $response, array $args) use ($app) {
 
                     return InventarisController::tampil_data_inv_in($this, $request, $response, $args);
+                }
+            );
+            $app->get(
+                '/allinvout',
+                function (Request $request, Response $response, array $args) use ($app) {
+
+                    return InventarisController::tampil_data_inv_out($this, $request, $response, $args);
                 }
             );
             $app->post(
@@ -1367,6 +1419,21 @@ return function (App $app) {
             ]);
         }
     )->add(new Auth());
+    $app->get(
+        '/print-all-students',
+        function (Request $request, Response $response, array $args) use ($container) {
+            // return die(var_dump($_SESSION));
+            if($_SESSION['type'] == 4) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
+            return StudentController::index_print($this, $request, $response, [
+                'user' => $_SESSION['username'],
+                'id_user' => $_SESSION['id_user'],
+                'type' => $_SESSION['type'],
+                'type_user' => $_SESSION['type_user'],
+            ]);
+        }
+    )->add(new Auth());
 
     $app->get('/admit-form', function (Request $request, Response $response, array $args) use ($container) {
         // Render index view
@@ -1560,6 +1627,17 @@ return function (App $app) {
             // Render index view
             
             return InventarisController::add_inv_in($this, $request, $response, $args);
+        }
+    )->add(new Auth());
+    $app->get(
+        '/inventory-out',
+        function (Request $request, Response $response, array $args) use ($container) {
+            if($_SESSION['type'] != 3) {
+                return $container->view->render($response, 'others/403.html', $args);
+            }
+            // Render index view
+            
+            return InventarisController::add_inv_out($this, $request, $response, $args);
         }
     )->add(new Auth());
     //end inv
